@@ -1,13 +1,16 @@
 {
   "name": "min-sb-frontend-vite",
   "version": "0.0.0",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.2.6"
+    "vue": "^3.2.6",
+    "vue-router": "4",
+    "vuex": "4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.6.1",
