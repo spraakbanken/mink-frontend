@@ -6,6 +6,7 @@ export default createStore({
   state() {
     return {
       auth: null,
+      corpora: [],
     };
   },
   mutations: {
@@ -14,6 +15,9 @@ export default createStore({
     },
     logout(state) {
       state.auth = null;
+    },
+    setCorpora(state, corpora) {
+      state.corpora = corpora;
     },
   },
 });

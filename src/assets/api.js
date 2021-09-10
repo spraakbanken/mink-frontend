@@ -31,5 +31,7 @@ export async function authenticate(username, password) {
 }
 
 export async function listCorpora() {
-  return await axios.get("list-corpora");
+  return await axios
+    .get("list-corpora")
+    .then((response) => response.data.corpora);
 }
