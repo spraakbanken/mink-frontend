@@ -7,6 +7,7 @@ export default createStore({
     return {
       auth: null,
       corpora: [],
+      sources: {},
     };
   },
   mutations: {
@@ -18,6 +19,9 @@ export default createStore({
     },
     setCorpora(state, corpora) {
       state.corpora = corpora;
+    },
+    setSources(state, { corpusId, sources }) {
+      state.sources[corpusId] = sources;
     },
   },
 });

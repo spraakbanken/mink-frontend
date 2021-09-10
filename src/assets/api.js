@@ -35,3 +35,9 @@ export async function listCorpora() {
     .get("list-corpora")
     .then((response) => response.data.corpora);
 }
+
+export async function getCorpus(corpusId) {
+  return await axios
+    .get("list-sources", { params: { corpus_id: corpusId } })
+    .then((response) => response.data.contents);
+}
