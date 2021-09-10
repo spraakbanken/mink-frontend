@@ -5,12 +5,15 @@ export default createStore({
   plugins: [new VuexPersistence().plugin],
   state() {
     return {
-      user: null,
+      auth: null,
     };
   },
   mutations: {
-    setUser(state, username) {
-      state.user = username;
+    login(state, { username, password }) {
+      state.auth = { username, password };
+    },
+    logout(state) {
+      state.auth = null;
     },
   },
 });

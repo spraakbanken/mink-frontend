@@ -3,10 +3,10 @@ import { computed } from "@vue/reactivity";
 import router from "./router";
 import store from "./store";
 
-const user = computed(() => store.state.user);
+const auth = computed(() => store.state.auth);
 
 function logout() {
-  store.commit("setUser", null);
+  store.commit("logout");
   router.push("/login");
 }
 </script>
@@ -16,7 +16,7 @@ function logout() {
     <router-view></router-view>
   </div>
   <footer>
-    <button v-if="user" @click="logout">Logga ut</button>
+    <button v-if="auth" @click="logout">Logga ut</button>
   </footer>
 </template>
 

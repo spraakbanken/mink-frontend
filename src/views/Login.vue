@@ -29,12 +29,13 @@ const store = useStore();
 
 async function submitLogin() {
   message.value = "Authenticating...";
+  const auth = { username: username.value, password: password.value };
   axios
     .post("https://ws.spraakbanken.gu.se/ws/min-sb/init", null, {
-      auth: { username: username.value, password: password.value },
+      auth,
     })
     .then((response) => {
-      store.commit("setUser", username.value);
+      store.commit("login", auth);
       router.push("/");
     })
     .catch((reason) => {

@@ -15,7 +15,7 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
   // If not authenticated, redirect to login page.
-  if (to.path != "/login" && !store.state.user) return "/login";
+  if (to.path != "/login" && !store.state.auth) return "/login";
 });
 
 export default router;
