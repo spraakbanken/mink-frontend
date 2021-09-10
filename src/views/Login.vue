@@ -10,7 +10,9 @@
   <div>
     <input type="submit" @click="submitLogin" />
   </div>
-  {{ user }}
+  <div>
+    {{ message }}
+  </div>
 </template>
 
 <script setup>
@@ -21,10 +23,12 @@ import router from "@/router";
 
 const username = ref("");
 const password = ref("");
+const message = ref(null);
 
 const store = useStore();
 
 async function submitLogin() {
+  message.value = "Authenticating...";
   axios
     .post("https://ws.spraakbanken.gu.se/ws/min-sb/init", null, {
       auth: { username: username.value, password: password.value },
@@ -33,8 +37,8 @@ async function submitLogin() {
       store.commit("setUser", username.value);
       router.push("/");
     })
-    .catch((response) => {
-      console.log("catch", response);
+    .catch((reason) => {
+      message.value = "Authentication failed";
     });
 }
 </script>
