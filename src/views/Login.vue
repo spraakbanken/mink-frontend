@@ -18,8 +18,8 @@
 <script setup>
 import { ref } from "vue";
 import { useStore } from "vuex";
-import axios from "axios";
 import router from "@/router";
+import { authenticate } from "@/assets/api";
 
 const username = ref("");
 const password = ref("");
@@ -29,18 +29,16 @@ const store = useStore();
 
 async function submitLogin() {
   message.value = "Authenticating...";
-  const auth = { username: username.value, password: password.value };
-  axios
-    .post("https://ws.spraakbanken.gu.se/ws/min-sb/init", null, {
-      auth,
-    })
-    .then((response) => {
-      store.commit("login", auth);
-      router.push("/");
-    })
-    .catch((reason) => {
-      message.value = "Authentication failed";
+  const success = await authenticate(username.value, password.value);
+  if (success) {
+    store.commit("login", {
+      username: username.value,
+      password: password.value,
     });
+    router.push("/");
+  } else {
+    message.value = "Authentication failed";
+  }
 }
 </script>
 
