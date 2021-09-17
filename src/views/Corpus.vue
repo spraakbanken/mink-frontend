@@ -18,26 +18,30 @@
     </tr>
   </table>
   <div>+ <input type="file" @change="upload" /></div>
+  <h2>Analys</h2>
+  <button @click="createJob">+ Ny analys</button>
   <Spinner v-if="isSpinning" />
 </template>
 
 <script setup>
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { getCorpus, putSources } from "@/assets/api";
 import { computed } from "@vue/reactivity";
 import useSpin from "@/composables/spin";
 
 const route = useRoute();
+const router = useRouter();
 const store = useStore();
 const { spin, isSpinning, Spinner } = useSpin();
 
-const sources = computed(() => store.state.sources[route.params.corpusId]);
+const corpusId = computed(() => route.params.corpusId);
+const sources = computed(() => store.state.sources[corpusId.value]);
 
 function loadCorpus() {
-  spin(getCorpus(route.params.corpusId)).then((sourcesFetched) =>
+  spin(getCorpus(corpusId.value)).then((sourcesFetched) =>
     store.commit("setSources", {
-      corpusId: route.params.corpusId,
+      corpusId: corpusId.value,
       sources: sourcesFetched,
     })
   );
@@ -47,9 +51,13 @@ loadCorpus();
 
 async function upload(event) {
   console.log(event.target.files[0]);
-  await spin(putSources(route.params.corpusId, event.target.files));
+  await spin(putSources(corpusId.value, event.target.files));
   console.log("awaited");
   loadCorpus();
+}
+
+async function createJob() {
+  router.push(`/corpus/${corpusId.value}/config`);
 }
 </script>
 

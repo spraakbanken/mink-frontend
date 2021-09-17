@@ -53,3 +53,28 @@ export function putSources(corpusId, files) {
     params: { corpus_id: corpusId },
   });
 }
+
+export async function runSparv(corpusId) {
+  const configFile = new File([configSample(corpusId)], "config.yaml", {
+    type: "text/yaml",
+  });
+  const formData = new FormData();
+  formData.append("files[]", configFile);
+  await axios.put("upload-config", formData, {
+    params: { corpus_id: corpusId },
+  });
+  return await axios.put("run-sparv", null, {
+    params: { corpus_id: corpusId },
+  });
+}
+
+const configSample = (corpusId) => `
+metadata:
+  id: ${corpusId}
+export:
+  annotations:
+    - <sentence>:misc.id
+    - <token>:saldo.baseform
+    - <token>:hunpos.pos
+    - <token>:sensaldo.sentiment_label
+`;

@@ -22,6 +22,7 @@ function logout() {
     <router-view></router-view>
   </div>
   <footer>
+    <hr />
     <button v-if="auth" @click="logout">Logga ut</button>
   </footer>
 </template>

@@ -2,6 +2,7 @@ import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
 import Corpus from "@/views/Corpus.vue";
 import CreateCorpus from "@/views/CreateCorpus.vue";
+import ConfigureJob from "@/views/ConfigureJob.vue";
 import { createRouter, createWebHistory } from "vue-router";
 import store from "./store";
 
@@ -10,6 +11,7 @@ const routes = [
   { path: "/login", component: Login },
   { path: "/corpus", component: CreateCorpus },
   { path: "/corpus/:corpusId", component: Corpus },
+  { path: "/corpus/:corpusId/config", component: ConfigureJob },
 ];
 
 const router = createRouter({

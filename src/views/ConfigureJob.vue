@@ -1,0 +1,29 @@
+<template>
+  <h2>Ny analys</h2>
+  <div>Korpus: {{ corpusId }}</div>
+  <div>
+    <input type="submit" @click="submit" value="Starta" />
+  </div>
+  <Spinner v-if="isSpinning" />
+</template>
+
+<script setup>
+import { computed } from "@vue/reactivity";
+import { useRoute, useRouter } from "vue-router";
+import { runSparv } from "@/assets/api";
+import useSpin from "@/composables/spin";
+
+const route = useRoute();
+const router = useRouter();
+const { spin, isSpinning, Spinner } = useSpin();
+
+const corpusId = computed(() => route.params.corpusId);
+
+async function submit() {
+  await spin(runSparv(corpusId.value));
+  router.push(`/corpus/${corpusId.value}`);
+}
+</script>
+
+<style>
+</style>
