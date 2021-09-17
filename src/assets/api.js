@@ -41,3 +41,9 @@ export async function getCorpus(corpusId) {
     .get("list-sources", { params: { corpus_id: corpusId } })
     .then((response) => response.data.contents);
 }
+
+export async function createCorpus(corpusId) {
+  return await axios.post("create-corpus", null, {
+    params: { corpus_id: corpusId },
+  });
+}

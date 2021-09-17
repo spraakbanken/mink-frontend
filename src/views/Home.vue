@@ -5,6 +5,9 @@
     <div v-for="corpusId in corpora" :key="corpusId">
       <router-link :to="`/corpus/${corpusId}`">{{ corpusId }}</router-link>
     </div>
+    <div>
+      <router-link to="/corpus">+ Ny korpus</router-link>
+    </div>
     <Spinner v-if="isSpinning" />
   </div>
 </template>
