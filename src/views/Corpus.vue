@@ -17,6 +17,7 @@
       <td>{{ source.last_modified }}</td>
     </tr>
   </table>
+  <Spinner v-if="isSpinning" />
 </template>
 
 <script setup>
@@ -24,13 +25,15 @@ import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import { getCorpus } from "@/assets/api";
 import { computed } from "@vue/reactivity";
+import useSpin from "@/composables/spin";
 
 const route = useRoute();
 const store = useStore();
+const { spin, isSpinning, Spinner } = useSpin();
 
 const sources = computed(() => store.state.sources[route.params.corpusId]);
 
-getCorpus(route.params.corpusId).then((sourcesFetched) =>
+spin(getCorpus(route.params.corpusId)).then((sourcesFetched) =>
   store.commit("setSources", {
     corpusId: route.params.corpusId,
     sources: sourcesFetched,
