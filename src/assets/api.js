@@ -30,20 +30,26 @@ export async function authenticate(username, password) {
     .catch((error) => (error.response.status == 401 ? false : error));
 }
 
-export async function listCorpora() {
-  return await axios
-    .get("list-corpora")
-    .then((response) => response.data.corpora);
+export function listCorpora() {
+  return axios.get("list-corpora").then((response) => response.data.corpora);
 }
 
-export async function getCorpus(corpusId) {
-  return await axios
+export function getCorpus(corpusId) {
+  return axios
     .get("list-sources", { params: { corpus_id: corpusId } })
     .then((response) => response.data.contents);
 }
 
-export async function createCorpus(corpusId) {
-  return await axios.post("create-corpus", null, {
+export function createCorpus(corpusId) {
+  return axios.post("create-corpus", null, {
+    params: { corpus_id: corpusId },
+  });
+}
+
+export function putSources(corpusId, files) {
+  const formData = new FormData();
+  [...files].forEach((file) => formData.append("files[]", file));
+  return axios.put("upload-sources", formData, {
     params: { corpus_id: corpusId },
   });
 }
