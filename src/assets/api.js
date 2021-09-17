@@ -54,7 +54,7 @@ export function putSources(corpusId, files) {
   });
 }
 
-export async function runSparv(corpusId) {
+export async function queueJob(corpusId) {
   const configFile = new File([configSample(corpusId)], "config.yaml", {
     type: "text/yaml",
   });
@@ -66,6 +66,16 @@ export async function runSparv(corpusId) {
   return await axios.put("run-sparv", null, {
     params: { corpus_id: corpusId },
   });
+}
+
+export async function getJob(corpusId) {
+  return (
+    axios
+      .get("check-status", { params: { corpus_id: corpusId } })
+      // Errors are okay.
+      .catch((reason) => reason.response)
+      .then((response) => response.data)
+  );
 }
 
 const configSample = (corpusId) => `

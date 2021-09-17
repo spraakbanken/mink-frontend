@@ -10,7 +10,7 @@
 <script setup>
 import { computed } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
-import { runSparv } from "@/assets/api";
+import { queueJob } from "@/assets/api";
 import useSpin from "@/composables/spin";
 
 const route = useRoute();
@@ -20,7 +20,7 @@ const { spin, isSpinning, Spinner } = useSpin();
 const corpusId = computed(() => route.params.corpusId);
 
 async function submit() {
-  await spin(runSparv(corpusId.value));
+  await spin(queueJob(corpusId.value));
   router.push(`/corpus/${corpusId.value}`);
 }
 </script>
