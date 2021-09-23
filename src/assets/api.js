@@ -54,15 +54,25 @@ export function putSources(corpusId, files) {
   });
 }
 
-export async function queueJob(corpusId) {
-  const configFile = new File([configSampleTxt(corpusId)], "config.yaml", {
+export async function queueJob(corpusId, options) {
+  const config = {
+    txt: configSampleTxt(corpusId),
+    xml: configSampleXml(corpusId),
+  }[options.format];
+  if (!config) {
+    throw new RangeError(`Format not recognized: "${options.format}"`);
+  }
+
+  const configFile = new File([config], "config.yaml", {
     type: "text/yaml",
   });
   const formData = new FormData();
   formData.append("files[]", configFile);
+
   await axios.put("upload-config", formData, {
     params: { corpus_id: corpusId },
   });
+
   return await axios.put("run-sparv", null, {
     params: { corpus_id: corpusId },
   });
