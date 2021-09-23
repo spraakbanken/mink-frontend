@@ -61,8 +61,8 @@ const corpusId = computed(() => route.params.corpusId);
 const sources = computed(
   () => store.state.corpora[corpusId.value].sources || []
 );
-const jobStatus = ref(null);
-const exports = ref(null);
+const jobStatus = computed(() => store.state.corpora[corpusId.value].status);
+const exports = computed(() => store.state.corpora[corpusId.value].exports);
 
 function loadSources() {
   spin(getCorpus(corpusId.value)).then((sourcesFetched) =>
@@ -76,13 +76,13 @@ function loadSources() {
 let loadJobTimer = null;
 async function loadJob() {
   spin(getJob(corpusId.value)).then((status) => {
-    jobStatus.value = status;
+    store.commit("setStatus", { corpusId: corpusId.value, status });
     if (status.job_status != "done")
       // Refresh automatically.
       loadJobTimer = setTimeout(loadJob, 10_000);
   });
-  spin(getExports(corpusId.value)).then(
-    (contents) => (exports.value = contents)
+  spin(getExports(corpusId.value)).then((exports) =>
+    store.commit("setExports", { corpusId: corpusId.value, exports })
   );
 }
 

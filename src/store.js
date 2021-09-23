@@ -25,6 +25,12 @@ export default createStore({
     setSources(state, { corpusId, sources }) {
       state.corpora[corpusId].sources = sources;
     },
+    setStatus(state, { corpusId, status }) {
+      state.corpora[corpusId].status = status;
+    },
+    setExports(state, { corpusId, exports }) {
+      state.corpora[corpusId].exports = exports;
+    },
     removeCorpus(state, corpusId) {
       delete state.corpora[corpusId];
     },
