@@ -11,15 +11,16 @@
         <th>Funktioner</th>
       </tr>
     </thead>
-    <tbody></tbody>
-    <tr v-for="source in sources" :key="source">
-      <td>{{ source.name }}</td>
-      <td>{{ source.type }}</td>
-      <td>{{ source.last_modified }}</td>
-      <td>
-        <button @click="remove(source)">ta bort</button>
-      </td>
-    </tr>
+    <tbody>
+      <tr v-for="source in sources" :key="source">
+        <td>{{ source.name }}</td>
+        <td>{{ source.type }}</td>
+        <td>{{ source.last_modified }}</td>
+        <td>
+          <button @click="remove(source)">ta bort</button>
+        </td>
+      </tr>
+    </tbody>
   </table>
   <div>+ <input type="file" @change="upload" /></div>
   <div><button @click="deleteCorpus">Radera korpus</button></div>
