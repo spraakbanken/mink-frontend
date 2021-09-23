@@ -32,4 +32,8 @@ function logout() {
   font-family: Helvetica, Arial, sans-serif;
   text-align: center;
 }
+
+pre {
+  text-align: left;
+}
 </style>

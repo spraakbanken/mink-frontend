@@ -55,7 +55,7 @@ export function putSources(corpusId, files) {
 }
 
 export async function queueJob(corpusId) {
-  const configFile = new File([configSample(corpusId)], "config.yaml", {
+  const configFile = new File([configSampleTxt(corpusId)], "config.yaml", {
     type: "text/yaml",
   });
   const formData = new FormData();
@@ -78,9 +78,28 @@ export async function getJob(corpusId) {
   );
 }
 
-const configSample = (corpusId) => `
+export async function getExports(corpusId) {
+  return axios
+    .get("list-exports", { params: { corpus_id: corpusId } })
+    .then((response) => response.data.contents);
+}
+
+const configSampleXml = (corpusId) => `
 metadata:
   id: ${corpusId}
+export:
+  annotations:
+    - <sentence>:misc.id
+    - <token>:saldo.baseform
+    - <token>:hunpos.pos
+    - <token>:sensaldo.sentiment_label
+`;
+
+const configSampleTxt = (corpusId) => `
+metadata:
+  id: ${corpusId}
+import:
+    importer: text_import:parse
 export:
   annotations:
     - <sentence>:misc.id

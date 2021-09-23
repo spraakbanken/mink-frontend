@@ -19,18 +19,23 @@
   </table>
   <div>+ <input type="file" @change="upload" /></div>
   <h2>Analys</h2>
-  <div v-if="jobStatus">
-    <div>{{ jobStatus.message }}</div>
-    <div>{{ jobStatus.sparv_output }}</div>
-  </div>
   <router-link :to="`/corpus/${corpusId}/config`">+ Ny analys</router-link>
+  <div v-if="jobStatus">
+    <h3>Status</h3>
+    <div>{{ jobStatus.message }}</div>
+    <pre>{{ jobStatus.sparv_output }}</pre>
+  </div>
+  <div v-if="exports">
+    <h3>Resultat</h3>
+    <div v-for="file in exports" :key="file.name">{{ file.name }}</div>
+  </div>
   <Spinner v-if="isSpinning" />
 </template>
 
 <script setup>
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { getCorpus, getJob, putSources } from "@/assets/api";
+import { getCorpus, getJob, getExports, putSources } from "@/assets/api";
 import { computed, ref } from "@vue/reactivity";
 import useSpin from "@/composables/spin";
 
@@ -42,6 +47,7 @@ const { spin, isSpinning, Spinner } = useSpin();
 const corpusId = computed(() => route.params.corpusId);
 const sources = computed(() => store.state.sources[corpusId.value]);
 const jobStatus = ref(null);
+const exports = ref(null);
 
 function loadCorpus() {
   spin(getCorpus(corpusId.value)).then((sourcesFetched) =>
@@ -51,6 +57,9 @@ function loadCorpus() {
     })
   );
   spin(getJob(corpusId.value)).then((status) => (jobStatus.value = status));
+  spin(getExports(corpusId.value)).then(
+    (contents) => (exports.value = contents)
+  );
 }
 
 loadCorpus();
