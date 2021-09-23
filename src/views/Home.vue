@@ -22,7 +22,7 @@ const store = useStore();
 const { spin, isSpinning, Spinner } = useSpin();
 
 const name = computed(() => store.state.auth?.username);
-const corpora = computed(() => store.state.corpora);
+const corpora = computed(() => Object.keys(store.state.corpora));
 
 spin(listCorpora()).then((corporaFetched) =>
   store.commit("setCorpora", corporaFetched)

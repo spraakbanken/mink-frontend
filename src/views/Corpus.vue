@@ -58,7 +58,9 @@ const store = useStore();
 const { spin, isSpinning, Spinner } = useSpin();
 
 const corpusId = computed(() => route.params.corpusId);
-const sources = computed(() => store.state.sources[corpusId.value]);
+const sources = computed(
+  () => store.state.corpora[corpusId.value].sources || []
+);
 const jobStatus = ref(null);
 const exports = ref(null);
 

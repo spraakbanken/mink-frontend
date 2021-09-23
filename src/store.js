@@ -6,8 +6,7 @@ export default createStore({
   state() {
     return {
       auth: null,
-      corpora: [],
-      sources: {},
+      corpora: {},
     };
   },
   mutations: {
@@ -18,14 +17,16 @@ export default createStore({
       state.auth = null;
     },
     setCorpora(state, corpora) {
-      state.corpora = corpora;
+      // Add id as a key, empty object as value (if not already present)
+      corpora.forEach(
+        (corpusId) => (state.corpora[corpusId] = state.corpora[corpusId] || {})
+      );
     },
     setSources(state, { corpusId, sources }) {
-      state.sources[corpusId] = sources;
+      state.corpora[corpusId].sources = sources;
     },
     removeCorpus(state, corpusId) {
-      state.corpora = state.corpora.filter((id) => id != corpusId);
-      delete state.sources[corpusId];
+      delete state.corpora[corpusId];
     },
   },
 });
