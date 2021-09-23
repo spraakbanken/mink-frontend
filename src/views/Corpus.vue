@@ -8,6 +8,7 @@
         <th>Namn</th>
         <th>Typ</th>
         <th>Ändrad</th>
+        <th>Funktioner</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -15,6 +16,9 @@
       <td>{{ source.name }}</td>
       <td>{{ source.type }}</td>
       <td>{{ source.last_modified }}</td>
+      <td>
+        <button @click="remove(source)">ta bort</button>
+      </td>
     </tr>
   </table>
   <div>+ <input type="file" @change="upload" /></div>
@@ -35,7 +39,13 @@
 <script setup>
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { getCorpus, getJob, getExports, putSources } from "@/assets/api";
+import {
+  getCorpus,
+  getJob,
+  getExports,
+  putSources,
+  removeSource,
+} from "@/assets/api";
 import { computed, ref } from "@vue/reactivity";
 import useSpin from "@/composables/spin";
 
@@ -49,24 +59,33 @@ const sources = computed(() => store.state.sources[corpusId.value]);
 const jobStatus = ref(null);
 const exports = ref(null);
 
-function loadCorpus() {
+function loadSources() {
   spin(getCorpus(corpusId.value)).then((sourcesFetched) =>
     store.commit("setSources", {
       corpusId: corpusId.value,
       sources: sourcesFetched,
     })
   );
+}
+
+function loadJob() {
   spin(getJob(corpusId.value)).then((status) => (jobStatus.value = status));
   spin(getExports(corpusId.value)).then(
     (contents) => (exports.value = contents)
   );
 }
 
-loadCorpus();
+loadSources();
+loadJob();
 
 async function upload(event) {
   await spin(putSources(corpusId.value, event.target.files));
-  loadCorpus();
+  loadSources();
+}
+
+async function remove(source) {
+  await spin(removeSource(corpusId.value, source.name));
+  loadSources();
 }
 </script>
 

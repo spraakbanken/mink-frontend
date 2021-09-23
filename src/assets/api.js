@@ -54,6 +54,12 @@ export function putSources(corpusId, files) {
   });
 }
 
+export function removeSource(corpusId, name) {
+  return axios.delete("remove-sources", {
+    params: { corpus_id: corpusId, remove: name },
+  });
+}
+
 export async function queueJob(corpusId, options) {
   const config = {
     txt: configSampleTxt(corpusId),
