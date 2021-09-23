@@ -22,6 +22,7 @@
     </tr>
   </table>
   <div>+ <input type="file" @change="upload" /></div>
+  <div><button @click="deleteCorpus">Radera korpus</button></div>
   <h2>Analys</h2>
   <router-link :to="`/corpus/${corpusId}/config`">+ Ny analys</router-link>
   <div v-if="jobStatus">
@@ -45,6 +46,7 @@ import {
   getExports,
   putSources,
   removeSource,
+  removeCorpus,
 } from "@/assets/api";
 import { computed, ref } from "@vue/reactivity";
 import useSpin from "@/composables/spin";
@@ -68,8 +70,14 @@ function loadSources() {
   );
 }
 
-function loadJob() {
-  spin(getJob(corpusId.value)).then((status) => (jobStatus.value = status));
+let loadJobTimer = null;
+async function loadJob() {
+  spin(getJob(corpusId.value)).then((status) => {
+    jobStatus.value = status;
+    if (status.job_status != "done")
+      // Refresh automatically.
+      loadJobTimer = setTimeout(loadJob, 10_000);
+  });
   spin(getExports(corpusId.value)).then(
     (contents) => (exports.value = contents)
   );
@@ -86,6 +94,12 @@ async function upload(event) {
 async function remove(source) {
   await spin(removeSource(corpusId.value, source.name));
   loadSources();
+}
+
+async function deleteCorpus() {
+  await spin(removeCorpus(corpusId.value));
+  store.commit("removeCorpus", corpusId.value);
+  router.push("/");
 }
 </script>
 

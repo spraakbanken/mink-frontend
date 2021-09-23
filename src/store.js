@@ -23,5 +23,9 @@ export default createStore({
     setSources(state, { corpusId, sources }) {
       state.sources[corpusId] = sources;
     },
+    removeCorpus(state, corpusId) {
+      state.corpora = state.corpora.filter((id) => id != corpusId);
+      delete state.sources[corpusId];
+    },
   },
 });

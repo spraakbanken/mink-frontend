@@ -100,6 +100,10 @@ export async function getExports(corpusId) {
     .then((response) => response.data.contents);
 }
 
+export async function removeCorpus(corpusId) {
+  return axios.delete("remove-corpus", { params: { corpus_id: corpusId } });
+}
+
 const configSampleXml = (corpusId) => `
 metadata:
   id: ${corpusId}
