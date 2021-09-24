@@ -2,27 +2,7 @@
   <h1>Korpus: {{ route.params.corpusId }}</h1>
   <router-link to="/">Startsida</router-link>
   <h2>Texter</h2>
-  <table border>
-    <thead>
-      <tr>
-        <th>Namn</th>
-        <th>Typ</th>
-        <th>Ändrad</th>
-        <th>Funktioner</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="source in sources" :key="source">
-        <td>{{ source.name }}</td>
-        <td>{{ source.type }}</td>
-        <td>{{ source.last_modified }}</td>
-        <td>
-          <button @click="remove(source)">ta bort</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div>+ <input type="file" @change="upload" /></div>
+  <Sources :corpusId="corpusId" />
   <div><button @click="deleteCorpus">Radera korpus</button></div>
   <h2>Analys</h2>
   <router-link :to="`/corpus/${corpusId}/config`">+ Ny analys</router-link>
@@ -39,18 +19,13 @@
 </template>
 
 <script setup>
+import { onUnmounted } from "@vue/runtime-core";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
-import {
-  getCorpus,
-  getJob,
-  getExports,
-  putSources,
-  removeSource,
-  removeCorpus,
-} from "@/assets/api";
+import { getJob, getExports, removeCorpus } from "@/assets/api";
 import { computed, ref } from "@vue/reactivity";
 import useSpin from "@/composables/spin";
+import Sources from "@/components/Sources.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -58,20 +33,8 @@ const store = useStore();
 const { spin, isSpinning, Spinner } = useSpin();
 
 const corpusId = computed(() => route.params.corpusId);
-const sources = computed(
-  () => store.state.corpora[corpusId.value].sources || []
-);
 const jobStatus = computed(() => store.state.corpora[corpusId.value].status);
 const exports = computed(() => store.state.corpora[corpusId.value].exports);
-
-function loadSources() {
-  spin(getCorpus(corpusId.value)).then((sourcesFetched) =>
-    store.commit("setSources", {
-      corpusId: corpusId.value,
-      sources: sourcesFetched,
-    })
-  );
-}
 
 let loadJobTimer = null;
 async function loadJob() {
@@ -86,24 +49,15 @@ async function loadJob() {
   );
 }
 
-loadSources();
 loadJob();
-
-async function upload(event) {
-  await spin(putSources(corpusId.value, event.target.files));
-  loadSources();
-}
-
-async function remove(source) {
-  await spin(removeSource(corpusId.value, source.name));
-  loadSources();
-}
 
 async function deleteCorpus() {
   await spin(removeCorpus(corpusId.value));
   store.commit("removeCorpus", corpusId.value);
   router.push("/");
 }
+
+onUnmounted(() => clearTimeout(loadJobTimer));
 </script>
 
 <style>
