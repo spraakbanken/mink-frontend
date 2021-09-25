@@ -3,7 +3,7 @@
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
-      style="margin: auto; display: block; shape-rendering: auto"
+      style="margin: auto; display: block; shape-rendering: auto; height: 100%"
       width="40px"
       height="40px"
       viewBox="0 0 100 100"
