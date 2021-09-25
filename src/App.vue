@@ -53,7 +53,6 @@ function logout() {
 <style>
 #app {
   font-family: Helvetica, Arial, sans-serif;
-  text-align: center;
 }
 
 pre {
@@ -77,7 +76,6 @@ pre {
 }
 
 .menu {
-  height: 100%;
   display: flex;
   align-items: center;
 }

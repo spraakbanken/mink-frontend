@@ -2,11 +2,21 @@
   <h1>Hej {{ name }}</h1>
   <div v-if="corpora.length">
     <h2>Mina korpusar</h2>
-    <div v-for="corpusId in corpora" :key="corpusId">
-      <router-link :to="`/corpus/${corpusId}`">{{ corpusId }}</router-link>
-    </div>
-    <div>
-      <router-link to="/corpus">+ Ny korpus</router-link>
+    <div class="corpus-list">
+      <router-link
+        v-for="corpusId in corpora"
+        :key="corpusId"
+        :to="`/corpus/${corpusId}`"
+        custom
+        v-slot="{ navigate }"
+      >
+        <PadButton @click="navigate">{{ corpusId }}</PadButton>
+      </router-link>
+      <router-link to="/corpus" custom v-slot="{ navigate }">
+        <PadButton @click="navigate" class="create">
+          + Ny korpus
+        </PadButton></router-link
+      >
     </div>
   </div>
 </template>
@@ -16,6 +26,7 @@ import { useStore } from "vuex";
 import { computed } from "@vue/reactivity";
 import { listCorpora } from "@/assets/api";
 import { spin } from "@/assets/spin";
+import PadButton from "@/components/layout/PadButton.vue";
 
 const store = useStore();
 
@@ -28,4 +39,12 @@ spin(listCorpora(), "Hämtar korpusar").then((corporaFetched) =>
 </script>
 
 <style>
+.corpus-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.pad-button.create {
+  background-color: #bee;
+}
 </style>
