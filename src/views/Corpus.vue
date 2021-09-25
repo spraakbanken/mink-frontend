@@ -15,6 +15,9 @@
   <div v-if="exports">
     <h3>Resultat</h3>
     <div v-for="file in exports" :key="file.name">{{ file.name }}</div>
+    <ActionButton @click="downloadResult" class="confirm">
+      Ladda ner
+    </ActionButton>
   </div>
   <div>
     <ActionButton @click="deleteCorpus" class="delete">
@@ -27,7 +30,12 @@
 import { onUnmounted } from "@vue/runtime-core";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { getJob, getExports, removeCorpus } from "@/assets/api";
+import {
+  getJob,
+  getExports,
+  removeCorpus,
+  downloadExports,
+} from "@/assets/api";
 import { computed, ref } from "@vue/reactivity";
 import { spin } from "@/assets/spin";
 import Sources from "@/components/Sources.vue";
@@ -56,6 +64,10 @@ async function loadJob() {
 }
 
 loadJob();
+
+async function downloadResult() {
+  spin(downloadExports(route.params.corpusId), "Laddar ner analysresultat");
+}
 
 async function deleteCorpus() {
   await spin(removeCorpus(corpusId.value), "Raderar korpus");

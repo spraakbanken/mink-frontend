@@ -87,7 +87,7 @@ pre {
 .spinner-messages {
   align-self: flex-start;
   height: 100%;
-  overflow: hidden;
+  overflow: scroll;
   text-align: right;
   font-size: smaller;
 }

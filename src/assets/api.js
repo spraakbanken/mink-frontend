@@ -100,6 +100,23 @@ export async function getExports(corpusId) {
     .then((response) => response.data.contents);
 }
 
+export async function downloadExports(corpusId) {
+  return axios
+    .get("download-exports", {
+      params: { corpus_id: corpusId },
+      responseType: "blob",
+    })
+    .then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${corpusId}.zip`);
+      document.body.appendChild(link);
+      link.click();
+      window.URL.revokeObjectURL(url);
+    });
+}
+
 export async function removeCorpus(corpusId) {
   return axios.delete("remove-corpus", { params: { corpus_id: corpusId } });
 }
