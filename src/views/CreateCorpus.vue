@@ -4,7 +4,9 @@
     <div class="label">Namn</div>
     <div><input v-model="name" /></div>
   </div>
-  <div><input type="submit" @click="submit" :disabled="!name" /></div>
+  <div>
+    <ActionButton @click="submit" class="confirm">Spara</ActionButton>
+  </div>
   <div>{{ message }}</div>
 </template>
 
@@ -13,6 +15,7 @@ import { ref } from "@vue/reactivity";
 import { createCorpus } from "@/assets/api";
 import { useRouter } from "vue-router";
 import { spin } from "@/assets/spin";
+import ActionButton from "@/components/layout/ActionButton.vue";
 
 const router = useRouter();
 

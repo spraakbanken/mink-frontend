@@ -1,11 +1,12 @@
 <template>
   <h1>Korpus: {{ route.params.corpusId }}</h1>
-  <router-link to="/">Startsida</router-link>
+  <router-link to="/">Hem</router-link>
   <h2>Texter</h2>
   <Sources :corpusId="corpusId" />
-  <div><button @click="deleteCorpus">Radera korpus</button></div>
   <h2>Analys</h2>
-  <router-link :to="`/corpus/${corpusId}/config`">+ Ny analys</router-link>
+  <router-link :to="`/corpus/${corpusId}/config`" custom v-slot="{ navigate }">
+    <ActionButton @click="navigate" class="create">Ny analys</ActionButton>
+  </router-link>
   <div v-if="jobStatus">
     <h3>Status</h3>
     <div>{{ jobStatus.message }}</div>
@@ -14,6 +15,11 @@
   <div v-if="exports">
     <h3>Resultat</h3>
     <div v-for="file in exports" :key="file.name">{{ file.name }}</div>
+  </div>
+  <div>
+    <ActionButton @click="deleteCorpus" class="delete">
+      Radera korpus
+    </ActionButton>
   </div>
 </template>
 
@@ -25,6 +31,7 @@ import { getJob, getExports, removeCorpus } from "@/assets/api";
 import { computed, ref } from "@vue/reactivity";
 import { spin } from "@/assets/spin";
 import Sources from "@/components/Sources.vue";
+import ActionButton from "@/components/layout/ActionButton.vue";
 
 const route = useRoute();
 const router = useRouter();

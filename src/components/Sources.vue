@@ -14,7 +14,9 @@
         <td>{{ source.type }}</td>
         <td>{{ source.last_modified }}</td>
         <td>
-          <button @click="remove(source)">ta bort</button>
+          <ActionButton @click="remove(source)" class="delete mute slim">
+            ta bort
+          </ActionButton>
         </td>
       </tr>
     </tbody>
@@ -27,6 +29,7 @@ import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 import { spin } from "@/assets/spin";
 import { getCorpus, putSources, removeSource } from "@/assets/api";
+import ActionButton from "./layout/ActionButton.vue";
 
 const store = useStore();
 

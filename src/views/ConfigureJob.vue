@@ -1,5 +1,9 @@
 <template>
-  <h2>Ny analys</h2>
+  <h1>Ny analys</h1>
+  <div>
+    <router-link to="/">Hem</router-link> /
+    <router-link :to="`/corpus/${corpusId}`">{{ corpusId }}</router-link>
+  </div>
   <div>Korpus: {{ corpusId }}</div>
   <div>
     <label for="format">Format:</label>
@@ -9,7 +13,7 @@
     </select>
   </div>
   <div>
-    <input type="submit" @click="submit" value="Starta" />
+    <ActionButton @click="submit" class="confirm">Starta</ActionButton>
   </div>
 </template>
 
@@ -18,6 +22,7 @@ import { computed, ref } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
 import { queueJob } from "@/assets/api";
 import { spin } from "@/assets/spin";
+import ActionButton from "@/components/layout/ActionButton.vue";
 
 const route = useRoute();
 const router = useRouter();

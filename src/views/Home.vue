@@ -43,8 +43,4 @@ spin(listCorpora(), "Hämtar korpusar").then((corporaFetched) =>
   display: flex;
   flex-wrap: wrap;
 }
-
-.pad-button.create {
-  background-color: #bee;
-}
 </style>
