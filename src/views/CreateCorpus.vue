@@ -6,23 +6,21 @@
   </div>
   <div><input type="submit" @click="submit" :disabled="!name" /></div>
   <div>{{ message }}</div>
-  <Spinner v-if="isSpinning" />
 </template>
 
 <script setup>
 import { ref } from "@vue/reactivity";
 import { createCorpus } from "@/assets/api";
-import useSpin from "@/composables/spin";
 import { useRouter } from "vue-router";
+import { spin } from "@/assets/spin";
 
 const router = useRouter();
-const { spin, isSpinning, Spinner } = useSpin();
 
 const name = ref("");
 const message = ref(null);
 
 async function submit() {
-  spin(createCorpus(name.value))
+  spin(createCorpus(name.value), "Skapar korpus")
     .catch((reason) => (message.value = reason.response.data.message))
     .then(() => router.push(`/corpus/${name.value}`));
 }

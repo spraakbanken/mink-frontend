@@ -8,7 +8,6 @@
     <div>
       <router-link to="/corpus">+ Ny korpus</router-link>
     </div>
-    <Spinner v-if="isSpinning" />
   </div>
 </template>
 
@@ -16,15 +15,14 @@
 import { useStore } from "vuex";
 import { computed } from "@vue/reactivity";
 import { listCorpora } from "@/assets/api";
-import useSpin from "@/composables/spin";
+import { spin } from "@/assets/spin";
 
 const store = useStore();
-const { spin, isSpinning, Spinner } = useSpin();
 
 const name = computed(() => store.state.auth?.username);
 const corpora = computed(() => Object.keys(store.state.corpora));
 
-spin(listCorpora()).then((corporaFetched) =>
+spin(listCorpora(), "Hämtar korpusar").then((corporaFetched) =>
   store.commit("setCorpora", corporaFetched)
 );
 </script>

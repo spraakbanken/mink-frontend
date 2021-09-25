@@ -15,7 +15,6 @@
     <h3>Resultat</h3>
     <div v-for="file in exports" :key="file.name">{{ file.name }}</div>
   </div>
-  <Spinner v-if="isSpinning" />
 </template>
 
 <script setup>
@@ -24,13 +23,12 @@ import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { getJob, getExports, removeCorpus } from "@/assets/api";
 import { computed, ref } from "@vue/reactivity";
-import useSpin from "@/composables/spin";
+import { spin } from "@/assets/spin";
 import Sources from "@/components/Sources.vue";
 
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
-const { spin, isSpinning, Spinner } = useSpin();
 
 const corpusId = computed(() => route.params.corpusId);
 const jobStatus = computed(() => store.state.corpora[corpusId.value].status);
@@ -38,13 +36,13 @@ const exports = computed(() => store.state.corpora[corpusId.value].exports);
 
 let loadJobTimer = null;
 async function loadJob() {
-  spin(getJob(corpusId.value)).then((status) => {
+  spin(getJob(corpusId.value), "Kollar analysstatus").then((status) => {
     store.commit("setStatus", { corpusId: corpusId.value, status });
     if (status.job_status != "done")
       // Refresh automatically.
       loadJobTimer = setTimeout(loadJob, 10_000);
   });
-  spin(getExports(corpusId.value)).then((exports) =>
+  spin(getExports(corpusId.value), "Listar resultatfiler").then((exports) =>
     store.commit("setExports", { corpusId: corpusId.value, exports })
   );
 }
@@ -52,7 +50,7 @@ async function loadJob() {
 loadJob();
 
 async function deleteCorpus() {
-  await spin(removeCorpus(corpusId.value));
+  await spin(removeCorpus(corpusId.value), "Raderar korpus");
   store.commit("removeCorpus", corpusId.value);
   router.push("/");
 }

@@ -4,7 +4,6 @@
   <div><input v-model="username" /></div>
   <div><input type="password" v-model="password" /></div>
   <div><input type="submit" @click="submitLogin" /></div>
-  <Spinner v-if="isSpinning" />
   <div>{{ message }}</div>
 </template>
 
@@ -13,16 +12,18 @@ import { ref } from "vue";
 import { useStore } from "vuex";
 import router from "@/router";
 import { authenticate } from "@/assets/api";
-import useSpin from "@/composables/spin";
+import { spin } from "@/assets/spin";
 
 const store = useStore();
-const { spin, isSpinning, Spinner } = useSpin();
 const username = ref("");
 const password = ref("");
 const message = ref(null);
 
 async function submitLogin() {
-  const success = await spin(authenticate(username.value, password.value));
+  const success = await spin(
+    authenticate(username.value, password.value),
+    "Loggar in"
+  );
   if (success) {
     store.commit("login", {
       username: username.value,

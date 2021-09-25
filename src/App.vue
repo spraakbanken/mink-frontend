@@ -1,10 +1,15 @@
 <script setup>
-import { computed } from "@vue/reactivity";
+import { computed, ref } from "@vue/reactivity";
 import { initialize } from "./assets/api";
 import router from "./router";
 import store from "./store";
+import { listen } from "@/assets/spin";
+import Spinner from "@/components/Spinner.vue";
 
 const auth = computed(() => store.state.auth);
+const spinning = ref(null);
+
+listen((messages) => (spinning.value = messages));
 
 // Initialize API client.
 if (auth.value) {
@@ -24,6 +29,10 @@ function logout() {
   <footer>
     <hr />
     <button v-if="auth" @click="logout">Logga ut</button>
+    <div v-if="spinning">
+      <Spinner />
+      <div v-for="message in spinning" :key="message">{{ message }}</div>
+    </div>
   </footer>
 </template>
 
