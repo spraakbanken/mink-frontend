@@ -1,9 +1,6 @@
 <template>
   <h1>Ny analys</h1>
-  <div>
-    <router-link to="/">Hem</router-link> /
-    <router-link :to="`/corpus/${corpusId}`">{{ corpusId }}</router-link>
-  </div>
+  <Breadcrumbs :links="[{ route: `/corpus/${corpusId}`, label: corpusId }]" />
   <div>Korpus: {{ corpusId }}</div>
   <div>
     <label for="format">Format:</label>
@@ -22,6 +19,7 @@ import { computed, ref } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
 import { queueJob } from "@/assets/api";
 import { spin } from "@/assets/spin";
+import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 
 const route = useRoute();

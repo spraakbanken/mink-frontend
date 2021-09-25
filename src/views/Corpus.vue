@@ -1,6 +1,6 @@
 <template>
   <h1>Korpus: {{ route.params.corpusId }}</h1>
-  <router-link to="/">Hem</router-link>
+  <Breadcrumbs />
   <h2>Texter</h2>
   <Sources :corpusId="corpusId" />
   <h2>Analys</h2>
@@ -32,6 +32,7 @@ import { computed, ref } from "@vue/reactivity";
 import { spin } from "@/assets/spin";
 import Sources from "@/components/Sources.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
+import Breadcrumbs from "@/components/Breadcrumbs.vue";
 
 const route = useRoute();
 const router = useRouter();

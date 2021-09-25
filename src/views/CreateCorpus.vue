@@ -1,5 +1,6 @@
 <template>
-  <h2>Ny korpus</h2>
+  <h1>Ny korpus</h1>
+  <Breadcrumbs />
   <div>
     <div class="label">Namn</div>
     <div><input v-model="name" /></div>
@@ -16,6 +17,7 @@ import { createCorpus } from "@/assets/api";
 import { useRouter } from "vue-router";
 import { spin } from "@/assets/spin";
 import ActionButton from "@/components/layout/ActionButton.vue";
+import Breadcrumbs from "@/components/Breadcrumbs.vue";
 
 const router = useRouter();
 
