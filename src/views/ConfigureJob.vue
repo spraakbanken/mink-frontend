@@ -21,14 +21,17 @@ import { queueJob } from "@/assets/api";
 import { spin } from "@/assets/spin";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
+import { useStore } from "vuex";
 
 const route = useRoute();
 const router = useRouter();
+const store = useStore();
 
 const corpusId = computed(() => route.params.corpusId);
 const format = ref("txt");
 
 async function submit() {
+  store.commit("setStatus", { corpusId: corpusId.value, status: null });
   await spin(
     queueJob(corpusId.value, { format: format.value }),
     "Lägger analys i kö"
