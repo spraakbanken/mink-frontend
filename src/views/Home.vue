@@ -15,7 +15,9 @@
         <PadButton @click="navigate">{{ corpusId }}</PadButton>
       </router-link>
       <router-link to="/corpus" custom v-slot="{ navigate }">
-        <PadButton @click="navigate" class="create"> + Ny korpus </PadButton>
+        <PadButton @click="navigate" class="bg-blue-100 border-blue-200">
+          + Ny korpus
+        </PadButton>
       </router-link>
     </div>
   </Section>

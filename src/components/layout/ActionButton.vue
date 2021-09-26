@@ -1,5 +1,8 @@
 <template>
-  <div class="action-button" :class="{ clickable }">
+  <div
+    class="inline-block p-2 border bg-gray-100 rounded"
+    :class="{ 'cursor-pointer': clickable }"
+  >
     <slot />
   </div>
 </template>
@@ -14,44 +17,14 @@ const clickable = computed(() => !!attrs.onClick);
 </script>
 
 <style scoped>
-.action-button {
-  display: inline-block;
-  padding: 0.5rem;
-  text-align: left;
-  border: thin solid darkgray;
-  background: #eee;
-  border-radius: 0.5rem;
-  /* If we are a link. */
-  color: inherit;
-  text-decoration: inherit;
-}
-
-.clickable {
-  cursor: pointer;
-}
-
-.create {
-  background-color: #bee;
-}
-
-.confirm {
-  background-color: #beb;
-}
-
-.delete {
-  background-color: #ebc;
-}
-
 .mute {
-  border-width: 0;
+  @apply border-0 bg-transparent;
 }
 .mute:not(:hover) {
-  border-width: 0;
-  background-color: transparent;
+  @apply bg-transparent;
 }
 
 .slim {
-  padding: 0 0.2em;
-  border-radius: 0.2em;
+  @apply p-0 px-1;
 }
 </style>

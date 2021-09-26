@@ -10,7 +10,9 @@
     </select>
   </div>
   <div>
-    <ActionButton @click="submit" class="confirm">Starta</ActionButton>
+    <ActionButton @click="submit" class="bg-green-200 border-green-300"
+      >Starta</ActionButton
+    >
   </div>
 </template>
 

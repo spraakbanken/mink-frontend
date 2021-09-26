@@ -6,7 +6,9 @@
     <input id="name" v-model="name" class="border" />
   </Section>
   <div>
-    <ActionButton @click="submit" class="confirm">Spara</ActionButton>
+    <ActionButton @click="submit" class="bg-green-200 border-green-300">
+      Spara
+    </ActionButton>
   </div>
   <div>{{ message }}</div>
 </template>

@@ -1,5 +1,19 @@
 <template>
-  <div class="pad-button" :class="{ clickable }">
+  <div
+    class="
+      m-2
+      w-40
+      h-40
+      flex flex-column
+      justify-center
+      items-center
+      text-center
+      border
+      bg-gray-100
+      rounded-xl
+    "
+    :class="{ 'cursor-pointer': clickable }"
+  >
     <slot />
   </div>
 </template>
@@ -12,30 +26,3 @@ const attrs = useAttrs();
 
 const clickable = computed(() => !!attrs.onClick);
 </script>
-
-<style scoped>
-.pad-button {
-  margin: 0.5rem;
-  width: 10rem;
-  height: 10rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  text-align: center;
-  border: thin solid darkgray;
-  background: #eee;
-  border-radius: 1rem;
-  /* If we are a link. */
-  color: inherit;
-  text-decoration: inherit;
-}
-
-.clickable {
-  cursor: pointer;
-}
-
-.create {
-  background-color: #bee;
-}
-</style>

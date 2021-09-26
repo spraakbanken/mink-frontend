@@ -13,7 +13,7 @@
       <ActionButton
         v-if="exports && exports.length"
         @click="downloadResult"
-        class="mr-2 confirm"
+        class="mr-2 bg-green-200 border-green-300"
       >
         Ladda ner resultat
       </ActionButton>
@@ -22,12 +22,14 @@
         custom
         v-slot="{ navigate }"
       >
-        <ActionButton @click="navigate" class="create">Ny analys</ActionButton>
+        <ActionButton @click="navigate" class="bg-blue-100 border-blue-200">
+          Ny analys
+        </ActionButton>
       </router-link>
     </Section>
   </div>
   <div>
-    <ActionButton @click="deleteCorpus" class="delete">
+    <ActionButton @click="deleteCorpus" class="bg-red-200 border-red-300">
       Radera korpus
     </ActionButton>
   </div>

@@ -10,7 +10,10 @@
       <tr v-for="source in sources" :key="source">
         <td>{{ source.name }}</td>
         <td>
-          <ActionButton @click="remove(source)" class="delete mute slim">
+          <ActionButton
+            @click="remove(source)"
+            class="mute slim hover:bg-red-200"
+          >
             ta bort
           </ActionButton>
         </td>
