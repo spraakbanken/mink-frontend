@@ -1,7 +1,12 @@
-# Vue 3 + Vite
+# Min språkbank frontend
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Frontend for Min språkbank.
 
-## Recommended IDE Setup
+[Vue 3](https://v3.vuejs.org/) app using [Vite](https://vitejs.dev/).
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+Recommended IDE Setup: [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+
+Design patterns used:
+
+- Single-file components with `<script setup>` ([Vue doc](https://v3.vuejs.org/api/sfc-script-setup.html))
+- Utility-first styling with [Tailwind CSS](https://tailwindcss.com/)
