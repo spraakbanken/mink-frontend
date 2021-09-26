@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+a {
+  color: #f2581a;
+}
+
+h1 {
+  @apply text-5xl;
+}
+
+h2 {
+  @apply text-2xl;
+}
+
+th {
+  text-align: left;
+}
+
+pre {
+  overflow: scroll;
+}
