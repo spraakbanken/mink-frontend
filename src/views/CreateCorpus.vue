@@ -1,10 +1,10 @@
 <template>
   <h1>Ny korpus</h1>
   <Breadcrumbs />
-  <div>
-    <div class="label">Namn</div>
-    <div><input v-model="name" /></div>
-  </div>
+  <Section>
+    <label for="name">Namn:</label>
+    <input id="name" v-model="name" class="border" />
+  </Section>
   <div>
     <ActionButton @click="submit" class="confirm">Spara</ActionButton>
   </div>
@@ -18,6 +18,7 @@ import { useRouter } from "vue-router";
 import { spin } from "@/assets/spin";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
+import Section from "@/components/layout/Section.vue";
 
 const router = useRouter();
 

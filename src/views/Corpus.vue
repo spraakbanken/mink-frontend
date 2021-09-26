@@ -1,23 +1,30 @@
 <template>
   <h1>Korpus: {{ route.params.corpusId }}</h1>
   <Breadcrumbs />
-  <h2>Texter</h2>
-  <Sources :corpusId="corpusId" />
-  <h2>Analys</h2>
-  <router-link :to="`/corpus/${corpusId}/config`" custom v-slot="{ navigate }">
-    <ActionButton @click="navigate" class="create">Ny analys</ActionButton>
-  </router-link>
-  <div v-if="jobStatus">
-    <h3>Status</h3>
-    <div>{{ jobStatus.message }}</div>
-    <pre>{{ jobStatus.sparv_output }}</pre>
-  </div>
-  <div v-if="exports">
-    <h3>Resultat</h3>
-    <div v-for="file in exports" :key="file.name">{{ file.name }}</div>
-    <ActionButton @click="downloadResult" class="confirm">
-      Ladda ner
-    </ActionButton>
+  <div class="flex flex-wrap">
+    <Section title="Texter" class="lg:w-2/3 lg:pr-4">
+      <Sources :corpusId="corpusId" />
+    </Section>
+    <Section title="Analys" class="lg:w-1/3">
+      <Section v-if="jobStatus">
+        <div>{{ jobStatus.message }}</div>
+        <pre class="text-sm">{{ jobStatus.sparv_output }}</pre>
+      </Section>
+      <ActionButton
+        v-if="exports && exports.length"
+        @click="downloadResult"
+        class="mr-2 confirm"
+      >
+        Ladda ner resultat
+      </ActionButton>
+      <router-link
+        :to="`/corpus/${corpusId}/config`"
+        custom
+        v-slot="{ navigate }"
+      >
+        <ActionButton @click="navigate" class="create">Ny analys</ActionButton>
+      </router-link>
+    </Section>
   </div>
   <div>
     <ActionButton @click="deleteCorpus" class="delete">
@@ -41,6 +48,7 @@ import { spin } from "@/assets/spin";
 import Sources from "@/components/Sources.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
+import Section from "@/components/layout/Section.vue";
 
 const route = useRoute();
 const router = useRouter();

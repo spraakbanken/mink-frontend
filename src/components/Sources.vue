@@ -1,18 +1,14 @@
 <template>
-  <table border>
+  <table class="w-full my-4">
     <thead>
       <tr>
-        <th>Namn</th>
-        <th>Typ</th>
-        <th>Ändrad</th>
-        <th>Funktioner</th>
+        <th>Filnamn</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="source in sources" :key="source">
         <td>{{ source.name }}</td>
-        <td>{{ source.type }}</td>
-        <td>{{ source.last_modified }}</td>
         <td>
           <ActionButton @click="remove(source)" class="delete mute slim">
             ta bort
