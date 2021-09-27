@@ -24,7 +24,7 @@ if (auth.value) {
     <div class="h-12 flex items-center">
       <div
         v-if="spinning"
-        class="mx-2 self-start h-full overflow-scroll text-right text-xs"
+        class="messages mx-2 self-start h-full overflow-auto text-right text-xs"
       >
         <div v-for="message in spinning" :key="message">{{ message }}</div>
       </div>
@@ -42,3 +42,12 @@ if (auth.value) {
     <router-view />
   </div>
 </template>
+
+<style scoped>
+.messages {
+  scrollbar-width: none;
+}
+.messages::-webkit-scrollbar {
+  width: 0;
+}
+</style>

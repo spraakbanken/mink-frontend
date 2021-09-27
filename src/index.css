@@ -19,5 +19,5 @@ th {
 }
 
 pre {
-  overflow: scroll;
+  overflow: auto;
 }

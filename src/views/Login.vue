@@ -1,9 +1,21 @@
 <template>
-  <h1>Min språkbank</h1>
-  <h2>Logga in</h2>
-  <div><input v-model="username" /></div>
-  <div><input type="password" v-model="password" /></div>
-  <div><input type="submit" @click="submitLogin" /></div>
+  <h1>Logga in</h1>
+  <Section>
+    <div>
+      <label for="username">Username:</label>
+      <input id="username" v-model="username" class="border" />
+    </div>
+
+    <div>
+      <label for="password">Password:</label>
+      <input id="password" type="password" v-model="password" class="border" />
+    </div>
+  </Section>
+  <div>
+    <ActionButton @click="submitLogin" class="bg-green-200 border-green-300"
+      >Logga in</ActionButton
+    >
+  </div>
   <div>{{ message }}</div>
 </template>
 
@@ -13,6 +25,8 @@ import { useStore } from "vuex";
 import router from "@/router";
 import { authenticate } from "@/assets/api";
 import { spin } from "@/assets/spin";
+import ActionButton from "@/components/layout/ActionButton.vue";
+import Section from "@/components/layout/Section.vue";
 
 const store = useStore();
 const username = ref("");
