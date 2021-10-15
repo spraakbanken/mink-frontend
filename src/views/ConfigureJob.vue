@@ -1,6 +1,6 @@
 <template>
-  <h1>Ny analys</h1>
   <Breadcrumbs :links="[{ route: `/corpus/${corpusId}`, label: corpusId }]" />
+  <PageTitle>Ny analys</PageTitle>
   <div>Korpus: {{ corpusId }}</div>
   <div>
     <label for="format">Format:</label>
@@ -24,6 +24,7 @@ import { spin } from "@/assets/spin";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import { useStore } from "vuex";
+import PageTitle from "@/components/PageTitle.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -42,5 +43,4 @@ async function submit() {
 }
 </script>
 
-<style>
-</style>
+<style></style>

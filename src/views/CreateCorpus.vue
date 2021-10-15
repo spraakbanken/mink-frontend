@@ -1,6 +1,6 @@
 <template>
-  <h1>Ny korpus</h1>
   <Breadcrumbs />
+  <PageTitle>Ny korpus</PageTitle>
   <Section>
     <label for="name">Namn:</label>
     <input id="name" v-model="name" class="border" />
@@ -18,6 +18,7 @@ import { ref } from "@vue/reactivity";
 import { createCorpus } from "@/assets/api";
 import { useRouter } from "vue-router";
 import { spin } from "@/assets/spin";
+import PageTitle from "@/components/PageTitle.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import Section from "@/components/layout/Section.vue";

@@ -1,6 +1,6 @@
 <template>
-  <h1>Korpus: {{ corpusId }}</h1>
   <Breadcrumbs />
+  <PageTitle subtitle="Korpus">{{ corpusId }}</PageTitle>
   <div class="flex flex-wrap">
     <Section title="Texter" class="lg:w-2/3 lg:pr-4">
       <Sources :corpusId="corpusId" />
@@ -22,6 +22,7 @@ import { useStore } from "vuex";
 import { removeCorpus } from "@/assets/api";
 import { computed, ref } from "@vue/reactivity";
 import { spin } from "@/assets/spin";
+import PageTitle from "@/components/PageTitle.vue";
 import Sources from "@/components/Sources.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
@@ -41,5 +42,4 @@ async function deleteCorpus() {
 }
 </script>
 
-<style>
-</style>
+<style></style>

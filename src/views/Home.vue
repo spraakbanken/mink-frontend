@@ -1,5 +1,4 @@
 <template>
-  <h1>Hej {{ name }}!</h1>
   <div class="my-4">
     <ActionButton @click="logout">Logga ut</ActionButton>
   </div>
@@ -36,7 +35,6 @@ import Section from "@/components/layout/Section.vue";
 const store = useStore();
 const router = useRouter();
 
-const name = computed(() => store.state.auth?.username);
 const corpora = computed(() => Object.keys(store.state.corpora));
 
 spin(listCorpora(), "Hämtar korpusar").then((corporaFetched) =>

@@ -1,5 +1,5 @@
 <template>
-  <h1>Logga in</h1>
+  <PageTitle>Logga in</PageTitle>
   <Section>
     <div>
       <label for="username">Username:</label>
@@ -25,6 +25,7 @@ import { useStore } from "vuex";
 import router from "@/router";
 import { authenticate } from "@/assets/api";
 import { spin } from "@/assets/spin";
+import PageTitle from "@/components/PageTitle.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
 
@@ -50,5 +51,4 @@ async function submitLogin() {
 }
 </script>
 
-<style>
-</style>
+<style></style>
