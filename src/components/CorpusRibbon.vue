@@ -26,7 +26,7 @@
     <div class="mx-2 text-4xl self-center">〉</div>
 
     <div class="flex-1 text-sm p-2">
-      <h4 class="uppercase text-gray-600 text-base">Export</h4>
+      <h4 class="uppercase text-gray-600 text-base">Resultat</h4>
     </div>
   </div>
 </template>

@@ -1,33 +1,38 @@
 <template>
   <PageTitle subtitle="Korpus">{{ corpusId }}</PageTitle>
   <CorpusRibbon />
-  <table>
-    <thead></thead>
-    <tbody>
-      <tr>
-        <th class="text-right">
-          <label for="format">Format:</label>
-        </th>
-        <td>
-          <select id="format" v-model="format">
-            <option>txt</option>
-            <option>xml</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <th />
-        <td>
-          <ActionButton @click="save" class="mr-2 bg-blue-100 border-blue-200">
-            Spara konfiguration
-          </ActionButton>
-          <ActionButton @click="run" class="bg-green-200 border-green-300">
-            Starta analys
-          </ActionButton>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <Section title="Konfiguration">
+    <table class="my-4">
+      <thead></thead>
+      <tbody>
+        <tr>
+          <th class="text-right">
+            <label for="format">Format:</label>
+          </th>
+          <td>
+            <select id="format" v-model="format">
+              <option>txt</option>
+              <option>xml</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th />
+          <td class="py-4">
+            <ActionButton
+              @click="save"
+              class="mr-2 bg-blue-100 border-blue-200"
+            >
+              Spara konfiguration
+            </ActionButton>
+            <ActionButton @click="run" class="bg-green-200 border-green-300">
+              Starta analys
+            </ActionButton>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </Section>
 </template>
 
 <script setup>
@@ -39,6 +44,7 @@ import ActionButton from "@/components/layout/ActionButton.vue";
 import { useStore } from "vuex";
 import PageTitle from "@/components/PageTitle.vue";
 import CorpusRibbon from "@/components/CorpusRibbon.vue";
+import Section from "@/components/layout/Section.vue";
 
 const route = useRoute();
 const router = useRouter();

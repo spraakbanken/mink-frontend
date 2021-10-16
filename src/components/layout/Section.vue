@@ -1,6 +1,6 @@
 <template>
   <div class="my-4">
-    <h2 v-if="props.title" class="text-xl uppercase">{{ props.title }}</h2>
+    <h2 v-if="props" class="text-xl uppercase">{{ title }}</h2>
     <slot />
   </div>
 </template>
@@ -11,5 +11,4 @@ const props = defineProps({
 });
 </script>
 
-<style>
-</style>
+<style></style>

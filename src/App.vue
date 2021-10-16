@@ -40,6 +40,18 @@
   <div class="container py-2">
     <router-view />
   </div>
+  <div
+    class="
+      container
+      py-20
+      flex
+      justify-center
+      items-center
+      text-sm text-gray-700
+    "
+  >
+    Kontakt: sb-info@svenska.gu.se
+  </div>
 </template>
 
 <script setup>
