@@ -1,7 +1,4 @@
 <template>
-  <div class="my-4">
-    <ActionButton @click="logout">Logga ut</ActionButton>
-  </div>
   <Section v-if="corpora.length" title="Korpusar">
     <div class="flex flex-wrap -mx-2">
       <router-link

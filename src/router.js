@@ -1,10 +1,11 @@
-import Home from "./views/Home.vue";
-import Login from "./views/Login.vue";
+import { createRouter, createWebHistory } from "vue-router";
+import store from "./store";
+import Home from "@/views/Home.vue";
+import Login from "@/views/Login.vue";
 import Corpus from "@/views/Corpus.vue";
 import CreateCorpus from "@/views/CreateCorpus.vue";
 import ConfigureJob from "@/views/ConfigureJob.vue";
-import { createRouter, createWebHistory } from "vue-router";
-import store from "./store";
+import User from "@/views/User.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -12,6 +13,7 @@ const routes = [
   { path: "/corpus", component: CreateCorpus },
   { path: "/corpus/:corpusId", component: Corpus },
   { path: "/corpus/:corpusId/config", component: ConfigureJob },
+  { path: "/user", component: User },
 ];
 
 const router = createRouter({

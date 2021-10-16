@@ -18,8 +18,17 @@ h2 {
   @apply text-2xl;
 }
 
+thead {
+  @apply border-b-2 uppercase text-sm;
+}
+
 th {
   text-align: left;
+}
+
+th,
+td {
+  @apply py-1 px-2;
 }
 
 pre {

@@ -1,15 +1,19 @@
 <template>
   <table class="w-full my-4">
-    <thead>
+    <thead class="border-b-2 uppercase text-sm">
       <tr>
         <th>Filnamn</th>
         <th></th>
       </tr>
     </thead>
-    <tbody>
-      <tr v-for="source in sources" :key="source">
+    <tbody class="border-b-2">
+      <tr
+        v-for="(source, i) in sources"
+        :key="source"
+        :class="i % 2 || 'bg-gray-100'"
+      >
         <td>{{ source.name }}</td>
-        <td>
+        <td class="text-right">
           <ActionButton
             @click="remove(source)"
             class="mute slim hover:bg-red-200"
@@ -60,5 +64,4 @@ async function upload(event) {
 }
 </script>
 
-<style>
-</style>
+<style></style>

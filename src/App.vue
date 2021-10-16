@@ -33,7 +33,9 @@
     <div class="flex">
       <router-link to="/" class="text-gray-600">Korpusar</router-link>
     </div>
-    <div class="flex">{{ name }}</div>
+    <div class="flex">
+      <router-link to="/user" class="text-gray-600">{{ name }}</router-link>
+    </div>
   </div>
   <div class="container py-2">
     <router-view />
