@@ -1,17 +1,13 @@
 <template>
   <table class="w-full my-4">
-    <thead class="border-b-2 uppercase text-sm">
+    <thead>
       <tr>
         <th>Filnamn</th>
         <th></th>
       </tr>
     </thead>
-    <tbody class="border-b-2">
-      <tr
-        v-for="(source, i) in sources"
-        :key="source"
-        :class="i % 2 || 'bg-gray-100'"
-      >
+    <tbody>
+      <tr v-for="source in sources" :key="source">
         <td>{{ source.name }}</td>
         <td class="text-right">
           <ActionButton

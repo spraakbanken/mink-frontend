@@ -5,6 +5,7 @@ import Login from "@/views/Login.vue";
 import Corpus from "@/views/Corpus.vue";
 import CreateCorpus from "@/views/CreateCorpus.vue";
 import ConfigureJob from "@/views/ConfigureJob.vue";
+import Job from "@/views/Job.vue";
 import User from "@/views/User.vue";
 
 const routes = [
@@ -13,6 +14,7 @@ const routes = [
   { path: "/corpus", component: CreateCorpus },
   { path: "/corpus/:corpusId", component: Corpus },
   { path: "/corpus/:corpusId/config", component: ConfigureJob },
+  { path: "/corpus/:corpusId/status", component: Job },
   { path: "/user", component: User },
 ];
 

@@ -19,7 +19,15 @@ h2 {
 }
 
 thead {
-  @apply border-b-2 uppercase text-sm;
+  @apply uppercase text-sm;
+}
+
+tbody {
+  @apply border-t-2 border-b-2;
+}
+
+tbody tr:nth-child(2n + 1) {
+  @apply bg-gray-100;
 }
 
 th {

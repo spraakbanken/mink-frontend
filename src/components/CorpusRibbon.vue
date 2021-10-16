@@ -15,13 +15,13 @@
 
     <div class="mx-2 text-4xl self-center">〉</div>
 
-    <div class="flex-1 text-sm p-2">
+    <RibbonLink :to="`/corpus/${corpusId}/status`" :disabled="!isJobStarted">
       <h4 class="uppercase text-gray-600 text-base">Analys</h4>
       <div v-if="isJobRunning">{{ jobStatusMessage }}</div>
       <div v-else-if="configSummary" class="flex justify-center items-center">
         <ActionButton class="bg-blue-100 border-blue-200">Kör</ActionButton>
       </div>
-    </div>
+    </RibbonLink>
 
     <div class="mx-2 text-4xl self-center">〉</div>
 
@@ -44,8 +44,8 @@ import RibbonLink from "./RibbonLink.vue";
 
 const route = useRoute();
 const store = useStore();
-const { loadJob, loadJobTimer, isJobRunning, jobStatusMessage } =
-  useCheckStatus(store, route.params.corpusId);
+const { loadJob, loadJobTimer, isJobStarted, isJobRunning, jobStatusMessage } =
+  useCheckStatus();
 
 const corpusId = computed(() => route.params.corpusId);
 const configSummary = computed(
