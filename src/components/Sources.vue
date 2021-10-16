@@ -40,7 +40,7 @@ const { corpusId } = defineProps({
   corpusId: String,
 });
 
-const sources = computed(() => store.state.corpora[corpusId].sources || []);
+const sources = computed(() => store.state.corpora[corpusId]?.sources || []);
 
 function loadSources() {
   spin(getCorpus(corpusId), "Hämtar textlista").then((sourcesFetched) =>

@@ -1,25 +1,39 @@
 <template>
-  <PageTitle>Ny analys</PageTitle>
+  <PageTitle subtitle="Korpus">{{ corpusId }}</PageTitle>
   <CorpusRibbon />
-  <div>Korpus: {{ corpusId }}</div>
-  <div>
-    <label for="format">Format:</label>
-    <select id="format" v-model="format">
-      <option>txt</option>
-      <option>xml</option>
-    </select>
-  </div>
-  <div>
-    <ActionButton @click="submit" class="bg-green-200 border-green-300">
-      Starta
-    </ActionButton>
-  </div>
+  <table>
+    <thead></thead>
+    <tbody>
+      <tr>
+        <th class="text-right">
+          <label for="format">Format:</label>
+        </th>
+        <td>
+          <select id="format" v-model="format">
+            <option>txt</option>
+            <option>xml</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <th />
+        <td>
+          <ActionButton @click="save" class="mr-2 bg-blue-100 border-blue-200">
+            Spara konfiguration
+          </ActionButton>
+          <ActionButton @click="run" class="bg-green-200 border-green-300">
+            Starta analys
+          </ActionButton>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <script setup>
 import { computed, ref } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
-import { queueJob } from "@/assets/api";
+import { putConfig, queueJob } from "@/assets/api";
 import { spin } from "@/assets/spin";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import { useStore } from "vuex";
@@ -33,12 +47,21 @@ const store = useStore();
 const corpusId = computed(() => route.params.corpusId);
 const format = ref("txt");
 
-async function submit() {
+async function save() {
+  await spin(
+    putConfig(corpusId.value, { format: format.value }),
+    "Sparar konfiguration"
+  );
+  router.push(`/corpus/${corpusId.value}`);
+}
+
+async function run() {
   store.commit("setStatus", { corpusId: corpusId.value, status: null });
   await spin(
-    queueJob(corpusId.value, { format: format.value }),
-    "Lägger analys i kö"
+    putConfig(corpusId.value, { format: format.value }),
+    "Sparar konfiguration"
   );
+  await spin(queueJob(corpusId.value), "Lägger analys i kö");
   router.push(`/corpus/${corpusId.value}`);
 }
 </script>

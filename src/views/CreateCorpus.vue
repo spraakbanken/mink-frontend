@@ -22,8 +22,10 @@ import PageTitle from "@/components/PageTitle.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import Section from "@/components/layout/Section.vue";
+import { useStore } from "vuex";
 
 const router = useRouter();
+const store = useStore();
 
 const name = ref("");
 const message = ref(null);
@@ -31,6 +33,9 @@ const message = ref(null);
 async function submit() {
   spin(createCorpus(name.value), "Skapar korpus")
     .catch((reason) => (message.value = reason.response.data.message))
-    .then(() => router.push(`/corpus/${name.value}`));
+    .then(() => {
+      store.commit("addCorpus", name.value);
+      router.push(`/corpus/${name.value}`);
+    });
 }
 </script>

@@ -60,7 +60,14 @@ export function removeSource(corpusId, name) {
   });
 }
 
-export async function queueJob(corpusId, options) {
+export function getConfig(corpusId) {
+  return axios
+    .get("download-config", { params: { corpus_id: corpusId } })
+    .then((response) => response.data)
+    .catch((error) => (error.response.status == 404 ? null : error));
+}
+
+export async function putConfig(corpusId, options) {
   const config = {
     txt: configSampleTxt(corpusId),
     xml: configSampleXml(corpusId),
@@ -78,12 +85,18 @@ export async function queueJob(corpusId, options) {
   await axios.put("upload-config", formData, {
     params: { corpus_id: corpusId },
   });
+}
 
+export async function queueJob(corpusId) {
   return await axios.put("run-sparv", null, {
     params: { corpus_id: corpusId },
   });
 }
 
+/**
+ * @returns {job_status, message, status} job_status can be: none, syncing_corpus,
+ *   waiting, annotating, done_annotating, syncing_results, done, error, aborted.
+ */
 export async function getJob(corpusId) {
   return (
     axios

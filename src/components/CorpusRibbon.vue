@@ -1,41 +1,30 @@
 <template>
   <div class="my-4 flex">
-    <component
-      :is="isRouteTexts ? 'div' : 'router-link'"
-      :to="isRouteTexts || `/corpus/${corpusId}`"
-      class="flex-1 text-sm p-2 rounded-xl border"
-      :class="
-        isRouteTexts
-          ? 'bg-gray-100 border-transparent'
-          : 'bg-white hover:bg-gray-100 border-gray-200 shadow-sm text-current'
-      "
-    >
+    <RibbonLink :to="`/corpus/${corpusId}`">
       <h4 class="uppercase text-gray-600 text-base">Texter</h4>
       <div>6 MB</div>
       <div>20 dokument</div>
-    </component>
+    </RibbonLink>
+
     <div class="mx-2 text-4xl self-center">〉</div>
-    <component
-      :is="isRouteConfig ? 'div' : 'router-link'"
-      :to="isRouteConfig || `/corpus/${corpusId}/config`"
-      class="flex-1 text-sm p-2 rounded-xl border"
-      :class="
-        isRouteConfig
-          ? 'bg-gray-100 border-transparent'
-          : 'bg-white hover:bg-gray-100 border-gray-200 shadow-sm text-current'
-      "
-    >
+
+    <RibbonLink :to="`/corpus/${corpusId}/config`">
       <h4 class="uppercase text-gray-600 text-base">Konfiguration</h4>
-      <div>Saldo, namntaggning, CONLL-output</div>
-    </component>
+      <div v-if="configSummary">{{ configSummary }}</div>
+    </RibbonLink>
+
     <div class="mx-2 text-4xl self-center">〉</div>
+
     <div class="flex-1 text-sm p-2">
       <h4 class="uppercase text-gray-600 text-base">Analys</h4>
-      <div class="flex justify-center items-center">
+      <div v-if="isJobRunning">{{ jobStatusMessage }}</div>
+      <div v-else-if="configSummary" class="flex justify-center items-center">
         <ActionButton class="bg-blue-100 border-blue-200">Kör</ActionButton>
       </div>
     </div>
+
     <div class="mx-2 text-4xl self-center">〉</div>
+
     <div class="flex-1 text-sm p-2">
       <h4 class="uppercase text-gray-600 text-base">Export</h4>
     </div>
@@ -43,31 +32,38 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
+import { getConfig } from "@/assets/api";
+import { spin } from "@/assets/spin";
+import useCheckStatus from "@/composables/checkStatus";
+import { computed, ref } from "@vue/reactivity";
+import { onUnmounted } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
+import { useStore } from "vuex";
 import ActionButton from "./layout/ActionButton.vue";
+import RibbonLink from "./RibbonLink.vue";
 
 const route = useRoute();
+const store = useStore();
+const { loadJob, loadJobTimer, isJobRunning, jobStatusMessage } =
+  useCheckStatus(store, route.params.corpusId);
 
 const corpusId = computed(() => route.params.corpusId);
-const currentPath = route.matched.pop()?.path;
-const isRouteTexts = currentPath == "/corpus/:corpusId";
-const isRouteConfig = currentPath == "/corpus/:corpusId/config";
+const configSummary = computed(
+  () => store.state.corpora[corpusId.value].configSummary
+);
 
-const buttonMaybe = (isButton, to) =>
-  isButton
-    ? {
-        name: "router-link",
-        component: {
-          to,
-          attrs: {
-            class: "bg-white border hover:bg-gray-100 shadow-sm text-current",
-          },
-        },
-      }
-    : {
-        template: '<div class="bg-gray-100"><slot /></div>',
-      };
+spin(getConfig(corpusId.value), "Hämtar konfiguration").then((config) =>
+  store.commit("setConfigSummary", {
+    corpusId: corpusId.value,
+    summary: config ? summarizeConfig(config) : null,
+  })
+);
+
+loadJob();
+onUnmounted(() => clearTimeout(loadJobTimer));
+
+const summarizeConfig = (config) =>
+  config.indexOf("text_import:parse") > 0 ? "Plain text" : "XML";
 </script>
 
 <style></style>

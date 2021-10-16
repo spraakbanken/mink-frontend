@@ -22,8 +22,14 @@ export default createStore({
         (corpusId) => (state.corpora[corpusId] = state.corpora[corpusId] || {})
       );
     },
+    addCorpus(state, corpusId) {
+      state.corpora[corpusId] = state.corpora[corpusId] || {};
+    },
     setSources(state, { corpusId, sources }) {
       state.corpora[corpusId].sources = sources;
+    },
+    setConfigSummary(state, { corpusId, summary }) {
+      state.corpora[corpusId].configSummary = summary;
     },
     setStatus(state, { corpusId, status }) {
       state.corpora[corpusId].status = status;

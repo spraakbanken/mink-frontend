@@ -10,11 +10,6 @@
   >
     Ladda ner resultat
   </ActionButton>
-  <router-link :to="`/corpus/${corpusId}/config`" custom v-slot="{ navigate }">
-    <ActionButton @click="navigate" class="bg-blue-100 border-blue-200">
-      Ny analys
-    </ActionButton>
-  </router-link>
 </template>
 
 <script setup>
@@ -35,27 +30,9 @@ const { corpusId } = defineProps({
 const jobStatus = computed(() => store.state.corpora[corpusId].status);
 const exports = computed(() => store.state.corpora[corpusId].exports);
 
-let loadJobTimer = null;
-function loadJob() {
-  spin(getJob(corpusId), "Kollar analysstatus").then((status) => {
-    store.commit("setStatus", { corpusId, status });
-    if (status.job_status != "done")
-      // Refresh automatically.
-      loadJobTimer = setTimeout(loadJob, 10_000);
-  });
-  spin(getExports(corpusId), "Listar resultatfiler").then((exports) =>
-    store.commit("setExports", { corpusId, exports })
-  );
-}
-
-loadJob();
-
-onUnmounted(() => clearTimeout(loadJobTimer));
-
 function downloadResult() {
   spin(downloadExports(corpusId), "Laddar ner analysresultat");
 }
 </script>
 
-<style>
-</style>
+<style></style>
