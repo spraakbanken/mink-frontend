@@ -1,6 +1,6 @@
 <template>
-  <Breadcrumbs :links="[{ route: `/corpus/${corpusId}`, label: corpusId }]" />
   <PageTitle>Ny analys</PageTitle>
+  <CorpusRibbon />
   <div>Korpus: {{ corpusId }}</div>
   <div>
     <label for="format">Format:</label>
@@ -10,9 +10,9 @@
     </select>
   </div>
   <div>
-    <ActionButton @click="submit" class="bg-green-200 border-green-300"
-      >Starta</ActionButton
-    >
+    <ActionButton @click="submit" class="bg-green-200 border-green-300">
+      Starta
+    </ActionButton>
   </div>
 </template>
 
@@ -21,10 +21,10 @@ import { computed, ref } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
 import { queueJob } from "@/assets/api";
 import { spin } from "@/assets/spin";
-import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import { useStore } from "vuex";
 import PageTitle from "@/components/PageTitle.vue";
+import CorpusRibbon from "@/components/CorpusRibbon.vue";
 
 const route = useRoute();
 const router = useRouter();
