@@ -1,5 +1,5 @@
 <template>
-  <Filedrop @drop="upload" ref="refSources">
+  <Filedrop @drop="uploadDrop" ref="refSources">
     <table class="w-full mt-4">
       <thead>
         <tr>
@@ -46,8 +46,12 @@ const refSources = ref(null);
 
 onMounted(() => loadSources(refSources.value.$el));
 
+function uploadDrop(files) {
+  upload(files, refSources.value.$el);
+}
+
 function uploadSingle(event) {
-  upload(event.target.files);
+  upload(event.target.files, refSources.value.$el);
 }
 </script>
 
