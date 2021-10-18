@@ -6,7 +6,7 @@
       </div>
       <div class="h-12 flex items-center">
         <div
-          v-if="spinning"
+          v-if="messages"
           class="
             messages
             mx-2
@@ -16,9 +16,9 @@
             text-right text-xs
           "
         >
-          <div v-for="message in spinning" :key="message">{{ message }}</div>
+          <div v-for="message in messages" :key="message">{{ message }}</div>
         </div>
-        <div class="mx-2" v-if="spinning">
+        <div class="mx-2" v-if="messages">
           <Spinner />
         </div>
         <div class="ml-2 -mr-3 w-56">
@@ -58,14 +58,11 @@
 import { computed, ref } from "@vue/reactivity";
 import { initialize } from "./assets/api";
 import store from "./store";
-import { listen } from "@/assets/spin";
+import { messages } from "@/assets/spin";
 import Spinner from "@/components/Spinner.vue";
 
 const auth = computed(() => store.state.auth);
-const spinning = ref(null);
 const name = computed(() => store.state.auth?.username);
-
-listen((messages) => (spinning.value = messages));
 
 // Initialize API client.
 if (auth.value) {
