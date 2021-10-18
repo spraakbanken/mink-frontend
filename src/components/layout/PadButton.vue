@@ -1,6 +1,7 @@
 <template>
   <div
     class="
+      minsb-button
       m-2
       w-40
       h-40
@@ -8,9 +9,6 @@
       justify-center
       items-center
       text-center
-      border
-      bg-gray-100
-      rounded-xl
     "
     :class="{ 'cursor-pointer': clickable }"
   >

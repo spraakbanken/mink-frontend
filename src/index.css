@@ -42,3 +42,9 @@ td {
 pre {
   overflow: auto;
 }
+
+@layer components {
+  .minsb-button {
+    @apply p-2 rounded-xl border bg-white hover:bg-opacity-75 border-gray-200 shadow-sm;
+  }
+}

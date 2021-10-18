@@ -1,6 +1,6 @@
 <template>
   <div
-    class="inline-block p-2 border bg-gray-100 rounded"
+    class="inline-block minsb-button"
     :class="{ 'cursor-pointer': clickable }"
   >
     <slot />
@@ -18,7 +18,7 @@ const clickable = computed(() => !!attrs.onClick);
 
 <style scoped>
 .mute {
-  @apply border-0 bg-transparent;
+  @apply border-0 bg-transparent shadow-none;
 }
 .mute:not(:hover) {
   @apply bg-transparent;

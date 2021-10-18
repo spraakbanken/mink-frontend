@@ -8,7 +8,9 @@
         custom
         v-slot="{ navigate }"
       >
-        <PadButton @click="navigate">{{ corpusId }}</PadButton>
+        <PadButton @click="navigate" class="hover:bg-gray-50">{{
+          corpusId
+        }}</PadButton>
       </router-link>
       <router-link to="/corpus" custom v-slot="{ navigate }">
         <PadButton @click="navigate" class="bg-blue-100 border-blue-200">

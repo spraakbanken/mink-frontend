@@ -2,18 +2,7 @@
   <router-link
     v-if="isLink && !disabled"
     :to="to"
-    class="
-      flex-1
-      text-sm
-      p-2
-      rounded-xl
-      border
-      bg-white
-      hover:bg-gray-100
-      border-gray-200
-      shadow-sm
-      text-current
-    "
+    class="flex-1 minsb-button text-sm text-current hover:bg-gray-50"
   >
     <slot />
   </router-link>
