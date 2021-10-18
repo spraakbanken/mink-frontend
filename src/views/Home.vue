@@ -10,7 +10,7 @@
       >
         <PadButton @click="navigate" class="hover:bg-gray-50 flex flex-col">
           <strong>{{ corpusId }}</strong>
-          <span>{{ corpus.sources.length }} filer</span>
+          <span v-if="corpus.sources">{{ corpus.sources.length }} filer</span>
           <span>{{ useCheckStatus(corpusId).jobStatusMessage.value }}</span>
         </PadButton>
       </router-link>

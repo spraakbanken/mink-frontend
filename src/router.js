@@ -3,6 +3,7 @@ import store from "./store";
 import Home from "@/views/Home.vue";
 import Login from "@/views/Login.vue";
 import Corpus from "@/views/Corpus.vue";
+import SourcesView from "@/views/SourcesView.vue";
 import CreateCorpus from "@/views/CreateCorpus.vue";
 import ConfigureJob from "@/views/ConfigureJob.vue";
 import Job from "@/views/Job.vue";
@@ -13,6 +14,7 @@ const routes = [
   { path: "/login", component: Login },
   { path: "/corpus", component: CreateCorpus },
   { path: "/corpus/:corpusId", component: Corpus },
+  { path: "/corpus/:corpusId/sources", component: SourcesView },
   { path: "/corpus/:corpusId/config", component: ConfigureJob },
   { path: "/corpus/:corpusId/status", component: Job },
   { path: "/user", component: User },

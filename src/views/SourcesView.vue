@@ -1,29 +1,17 @@
 <template>
+  <Breadcrumbs />
   <PageTitle subtitle="Korpus">{{ corpusId }}</PageTitle>
+
   <CorpusRibbon />
 
-  <Section title="Metadata" ref="refForm">
-    <table class="w-full my-4">
-      <tbody>
-        <tr>
-          <th class="text-right">Identifierare:</th>
-          <td>{{ corpusId }}</td>
-        </tr>
-        <tr>
-          <th />
-          <td>
-            <ActionButton
-              @click="deleteCorpus"
-              class="bg-red-200 border-red-300"
-            >
-              Radera korpus
-            </ActionButton>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <Section title="Texter">
+    <Sources />
   </Section>
-  <div></div>
+  <div>
+    <ActionButton @click="deleteCorpus" class="bg-red-200 border-red-300">
+      Radera korpus
+    </ActionButton>
+  </div>
 </template>
 
 <script setup>
@@ -33,7 +21,9 @@ import { removeCorpus } from "@/assets/api";
 import { computed, ref } from "@vue/reactivity";
 import { spin } from "@/assets/spin";
 import PageTitle from "@/components/PageTitle.vue";
+import Sources from "@/components/Sources.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
+import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import Section from "@/components/layout/Section.vue";
 import CorpusRibbon from "@/components/CorpusRibbon.vue";
 
@@ -42,10 +32,9 @@ const router = useRouter();
 const store = useStore();
 
 const corpusId = computed(() => route.params.corpusId);
-const refForm = ref(null);
 
 async function deleteCorpus() {
-  await spin(removeCorpus(corpusId.value), "Raderar korpus", refForm.value.$el);
+  await spin(removeCorpus(corpusId.value), "Raderar korpus");
   store.commit("removeCorpus", corpusId.value);
   router.push("/");
 }

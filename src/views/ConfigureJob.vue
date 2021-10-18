@@ -57,7 +57,6 @@ async function save() {
     "Sparar konfiguration",
     refSubmit.value
   );
-  router.push(`/corpus/${corpusId.value}`);
 }
 </script>
 
