@@ -25,8 +25,10 @@ export default function useSources() {
     loadSources();
   }
 
-  async function upload(event) {
-    await spin(putSources(corpusId, event.target.files), "Laddar upp textfil");
+  async function upload(files) {
+    const message =
+      files.length > 1 ? "Laddar upp textfiler" : "Laddar upp textfil";
+    await spin(putSources(corpusId, files), message);
     loadSources();
   }
 

@@ -1,12 +1,12 @@
 <template>
-  <table class="w-full my-4">
+  <table class="w-full mt-4">
     <thead>
       <tr>
         <th>Filnamn</th>
         <th></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="border-b-0">
       <tr v-for="source in sources" :key="source">
         <td>{{ source.name }}</td>
         <td class="text-right">
@@ -20,14 +20,15 @@
       </tr>
     </tbody>
   </table>
-  <div>+ <input type="file" @change="upload" /></div>
+  <Filedrop />
 </template>
 
 <script setup>
 import useSources from "@/composables/sources";
 import ActionButton from "./layout/ActionButton.vue";
+import Filedrop from "./Filedrop.vue";
 
-const { sources, loadSources, remove, upload } = useSources();
+const { sources, loadSources, remove } = useSources();
 
 loadSources();
 </script>
