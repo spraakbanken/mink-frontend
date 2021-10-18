@@ -93,6 +93,10 @@ export async function queueJob(corpusId) {
   });
 }
 
+export function abortJob(corpusId) {
+  return axios.post("abort-job", null, { params: { corpus_id: corpusId } });
+}
+
 /**
  * @returns {job_status, message, status} job_status can be: none, syncing_corpus,
  *   waiting, annotating, done_annotating, syncing_results, done, error, aborted.

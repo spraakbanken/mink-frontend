@@ -25,9 +25,6 @@
             >
               Spara konfiguration
             </ActionButton>
-            <ActionButton @click="run" class="bg-green-200 border-green-300">
-              Starta analys
-            </ActionButton>
           </td>
         </tr>
       </tbody>
@@ -38,7 +35,7 @@
 <script setup>
 import { computed, ref } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
-import { putConfig, queueJob } from "@/assets/api";
+import { putConfig } from "@/assets/api";
 import { spin } from "@/assets/spin";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import { useStore } from "vuex";
@@ -58,16 +55,6 @@ async function save() {
     putConfig(corpusId.value, { format: format.value }),
     "Sparar konfiguration"
   );
-  router.push(`/corpus/${corpusId.value}`);
-}
-
-async function run() {
-  store.commit("setStatus", { corpusId: corpusId.value, status: null });
-  await spin(
-    putConfig(corpusId.value, { format: format.value }),
-    "Sparar konfiguration"
-  );
-  await spin(queueJob(corpusId.value), "Lägger analys i kö");
   router.push(`/corpus/${corpusId.value}`);
 }
 </script>

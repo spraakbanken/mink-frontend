@@ -18,7 +18,9 @@
       <h4 class="uppercase text-gray-600 text-base">Analys</h4>
       <div v-if="isJobRunning">{{ jobStatusMessage }}</div>
       <div v-else-if="configSummary" class="flex justify-center items-center">
-        <ActionButton class="bg-blue-100 border-blue-200">Kör</ActionButton>
+        <ActionButton class="bg-blue-100 border-blue-200" @click="run"
+          >Kör</ActionButton
+        >
       </div>
     </RibbonLink>
 
@@ -45,12 +47,13 @@ import useSources from "@/composables/sources";
 import useExports from "@/composables/exports";
 import { computed, ref } from "@vue/reactivity";
 import { onUnmounted } from "@vue/runtime-core";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import ActionButton from "./layout/ActionButton.vue";
 import RibbonLink from "./RibbonLink.vue";
 
 const route = useRoute();
+const router = useRouter();
 const store = useStore();
 const { loadJob, loadJobTimer, isJobStarted, isJobRunning, jobStatusMessage } =
   useCheckStatus();
@@ -75,6 +78,11 @@ loadExports();
 
 const summarizeConfig = (config) =>
   config.indexOf("text_import:parse") > 0 ? "Plain text" : "XML";
+
+async function run() {
+  await spin(queueJob(corpusId.value), "Lägger analys i kö");
+  router.push(`/corpus/${corpusId.value}/status`);
+}
 </script>
 
 <style></style>
