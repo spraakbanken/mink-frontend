@@ -1,16 +1,18 @@
 <template>
-  <Section v-if="corpora.length" title="Korpusar">
+  <Section title="Korpusar">
     <div class="flex flex-wrap -mx-2">
       <router-link
-        v-for="corpusId in corpora"
+        v-for="(corpus, corpusId) of corpora"
         :key="corpusId"
         :to="`/corpus/${corpusId}`"
         custom
         v-slot="{ navigate }"
       >
-        <PadButton @click="navigate" class="hover:bg-gray-50">{{
-          corpusId
-        }}</PadButton>
+        <PadButton @click="navigate" class="hover:bg-gray-50 flex flex-col">
+          <strong>{{ corpusId }}</strong>
+          <span>{{ corpus.sources.length }} filer</span>
+          <span>{{ useCheckStatus(corpusId).jobStatusMessage.value }}</span>
+        </PadButton>
       </router-link>
       <router-link to="/corpus" custom v-slot="{ navigate }">
         <PadButton @click="navigate" class="bg-blue-100 border-blue-200">
@@ -30,18 +32,13 @@ import { spin } from "@/assets/spin";
 import PadButton from "@/components/layout/PadButton.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
+import useCheckStatus from "@/composables/checkStatus";
 
 const store = useStore();
-const router = useRouter();
 
-const corpora = computed(() => Object.keys(store.state.corpora));
+const corpora = computed(() => store.state.corpora);
 
 spin(listCorpora(), "Hämtar korpusar").then((corporaFetched) =>
   store.commit("setCorpora", corporaFetched)
 );
-
-function logout() {
-  store.commit("logout");
-  router.push("/login");
-}
 </script>

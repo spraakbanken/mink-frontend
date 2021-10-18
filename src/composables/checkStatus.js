@@ -4,10 +4,10 @@ import { spin } from "@/assets/spin";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 
-export default function useCheckStatus() {
+export default function useCheckStatus(corpusId) {
   const store = useStore();
   const route = useRoute();
-  const corpusId = route.params.corpusId;
+  corpusId = corpusId || route.params.corpusId;
 
   let loadJobTimer = null;
 

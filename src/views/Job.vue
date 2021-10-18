@@ -2,7 +2,7 @@
   <PageTitle subtitle="Korpus">{{ corpusId }}</PageTitle>
   <CorpusRibbon />
   <Section title="Analys">
-    <table class="w-full my-2">
+    <table class="w-full my-4">
       <thead></thead>
       <tbody>
         <tr>
