@@ -11,8 +11,8 @@ export default function useSources() {
   const corpusId = route.params.corpusId;
   const sources = computed(() => store.state.corpora[corpusId]?.sources || []);
 
-  function loadSources() {
-    spin(getCorpus(corpusId), "Hämtar textlista").then((sourcesFetched) =>
+  function loadSources(el = null) {
+    spin(getCorpus(corpusId), "Hämtar textlista", el).then((sourcesFetched) =>
       store.commit("setSources", {
         corpusId: corpusId,
         sources: sourcesFetched,
@@ -20,16 +20,16 @@ export default function useSources() {
     );
   }
 
-  async function remove(source) {
-    await spin(removeSource(corpusId, source.name), "Raderar textfil");
-    loadSources();
+  async function remove(source, el = null) {
+    await spin(removeSource(corpusId, source.name), "Raderar textfil", el);
+    loadSources(el);
   }
 
-  async function upload(files) {
+  async function upload(files, el = null) {
     const message =
       files.length > 1 ? "Laddar upp textfiler" : "Laddar upp textfil";
-    await spin(putSources(corpusId, files), message);
-    loadSources();
+    await spin(putSources(corpusId, files), message, el);
+    loadSources(el);
   }
 
   return {

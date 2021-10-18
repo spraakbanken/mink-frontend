@@ -1,5 +1,5 @@
 <template>
-  <Filedrop @drop="upload">
+  <Filedrop @drop="upload" ref="refSources">
     <table class="w-full mt-4">
       <thead>
         <tr>
@@ -37,10 +37,14 @@
 import useSources from "@/composables/sources";
 import ActionButton from "./layout/ActionButton.vue";
 import Filedrop from "./Filedrop.vue";
+import { ref } from "@vue/reactivity";
+import { onMounted } from "@vue/runtime-core";
 
 const { sources, loadSources, remove, upload } = useSources();
 
-loadSources();
+const refSources = ref(null);
+
+onMounted(() => loadSources(refSources.value.$el));
 
 function uploadSingle(event) {
   upload(event.target.files);

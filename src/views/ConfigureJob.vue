@@ -18,7 +18,7 @@
         </tr>
         <tr>
           <th />
-          <td class="py-4">
+          <td class="py-4" ref="refSubmit">
             <ActionButton
               @click="save"
               class="mr-2 bg-blue-100 border-blue-200"
@@ -49,11 +49,13 @@ const store = useStore();
 
 const corpusId = computed(() => route.params.corpusId);
 const format = ref("txt");
+const refSubmit = ref(null);
 
 async function save() {
   await spin(
     putConfig(corpusId.value, { format: format.value }),
-    "Sparar konfiguration"
+    "Sparar konfiguration",
+    refSubmit.value
   );
   router.push(`/corpus/${corpusId.value}`);
 }

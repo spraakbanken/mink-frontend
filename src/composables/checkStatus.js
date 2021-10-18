@@ -11,11 +11,12 @@ export default function useCheckStatus(corpusId) {
 
   let loadJobTimer = null;
 
-  function loadJob() {
-    spin(getJob(corpusId), "Kollar analysstatus").then((status) => {
+  function loadJob(el = null) {
+    spin(getJob(corpusId), "Kollar analysstatus", el).then((status) => {
       store.commit("setStatus", { corpusId, status });
       // Refresh automatically.
-      if (isJobRunning.value) loadJobTimer = setTimeout(loadJob, 10_000);
+      if (isJobRunning.value)
+        loadJobTimer = setTimeout(() => loadJob(el), 10_000);
     });
   }
 

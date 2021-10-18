@@ -1,7 +1,7 @@
 <template>
   <PageTitle subtitle="Korpus">{{ corpusId }}</PageTitle>
   <CorpusRibbon />
-  <Section title="Analys">
+  <Section title="Analys" ref="refForm">
     <table class="w-full my-4">
       <thead></thead>
       <tbody>
@@ -29,27 +29,28 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
+import { computed, ref } from "@vue/reactivity";
 import { useRoute, useRouter } from "vue-router";
 import CorpusRibbon from "@/components/CorpusRibbon.vue";
 import Section from "@/components/layout/Section.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import useCheckStatus from "@/composables/checkStatus";
-import { onUnmounted } from "@vue/runtime-core";
+import { onMounted, onUnmounted } from "@vue/runtime-core";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import { abortJob } from "@/assets/api";
 
 const route = useRoute();
 const router = useRouter();
 const { loadJob, loadJobTimer, jobStatus, isJobRunning } = useCheckStatus();
+const refForm = ref(null);
 
-loadJob();
+onMounted(() => loadJob(refForm.value.$el));
 onUnmounted(() => clearTimeout(loadJobTimer));
 
 const corpusId = computed(() => route.params.corpusId);
 
 async function abort() {
-  await spin(abortJob(corpusId.value), "Avbryter analys");
+  await spin(abortJob(corpusId.value), "Avbryter analys", refForm.value.$el);
   await loadJob();
 }
 </script>

@@ -5,7 +5,7 @@
     <label for="name">Namn:</label>
     <input id="name" v-model="name" class="border" />
   </Section>
-  <div>
+  <div ref="refSubmit">
     <ActionButton @click="submit" class="bg-green-200 border-green-300">
       Spara
     </ActionButton>
@@ -29,9 +29,10 @@ const store = useStore();
 
 const name = ref("");
 const message = ref(null);
+const refSubmit = ref(null);
 
 async function submit() {
-  spin(createCorpus(name.value), "Skapar korpus")
+  spin(createCorpus(name.value), "Skapar korpus", refSubmit.value)
     .catch((reason) => (message.value = reason.response.data.message))
     .then(() => {
       store.commit("addCorpus", name.value);

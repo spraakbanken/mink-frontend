@@ -5,16 +5,20 @@
       <div v-if="sources">{{ sources.length }} filer</div>
     </RibbonLink>
 
-    <div class="mx-2 text-4xl self-center">〉</div>
+    <div class="mx-2 text-4xl self-center" ref="drefConfig">〉</div>
 
-    <RibbonLink :to="`/corpus/${corpusId}/config`">
+    <RibbonLink :to="`/corpus/${corpusId}/config`" ref="refConfig">
       <h4 class="uppercase text-gray-600 text-base">Konfiguration</h4>
       <div>{{ configSummary || "Ej konfigurerad" }}</div>
     </RibbonLink>
 
     <div class="mx-2 text-4xl self-center">〉</div>
 
-    <RibbonLink :to="`/corpus/${corpusId}/status`" :disabled="!isJobStarted">
+    <RibbonLink
+      :to="`/corpus/${corpusId}/status`"
+      :disabled="!isJobStarted"
+      ref="refStatus"
+    >
       <h4 class="uppercase text-gray-600 text-base">Analys</h4>
       <div v-if="isJobRunning">{{ jobStatusMessage }}</div>
       <div v-else-if="configSummary" class="flex justify-center items-center">
@@ -26,7 +30,7 @@
 
     <div class="mx-2 text-4xl self-center">〉</div>
 
-    <div class="flex-1 text-sm p-2">
+    <div class="flex-1 text-sm p-2" ref="refExports">
       <h4 class="uppercase text-gray-600 text-base">Resultat</h4>
       <ActionButton
         v-if="exports && exports.length"
@@ -46,7 +50,7 @@ import useCheckStatus from "@/composables/checkStatus";
 import useSources from "@/composables/sources";
 import useExports from "@/composables/exports";
 import { computed, ref } from "@vue/reactivity";
-import { onUnmounted } from "@vue/runtime-core";
+import { onMounted, onUnmounted } from "@vue/runtime-core";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import ActionButton from "./layout/ActionButton.vue";
@@ -64,23 +68,36 @@ const corpusId = computed(() => route.params.corpusId);
 const configSummary = computed(
   () => store.state.corpora[corpusId.value].configSummary
 );
+const refConfig = ref(null);
+const refStatus = ref(null);
+const refExports = ref(null);
 
-spin(getConfig(corpusId.value), "Hämtar konfiguration").then((config) =>
-  store.commit("setConfigSummary", {
-    corpusId: corpusId.value,
-    summary: config ? summarizeConfig(config) : null,
-  })
-);
+onMounted(() => {
+  spin(
+    getConfig(corpusId.value),
+    "Hämtar konfiguration",
+    refConfig.value.$el
+  ).then((config) =>
+    store.commit("setConfigSummary", {
+      corpusId: corpusId.value,
+      summary: config ? summarizeConfig(config) : null,
+    })
+  );
+  loadJob(refStatus.value.$el);
+  loadExports(refExports.value);
+});
 
-loadJob();
 onUnmounted(() => clearTimeout(loadJobTimer));
-loadExports();
 
 const summarizeConfig = (config) =>
   config.indexOf("text_import:parse") > 0 ? "Plain text" : "XML";
 
 async function run() {
-  await spin(queueJob(corpusId.value), "Lägger analys i kö");
+  await spin(
+    queueJob(corpusId.value),
+    "Lägger analys i kö",
+    refStatus.value.$el
+  );
   router.push(`/corpus/${corpusId.value}/status`);
 }
 </script>

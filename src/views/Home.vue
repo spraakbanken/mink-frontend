@@ -1,6 +1,6 @@
 <template>
   <Section title="Korpusar">
-    <div class="flex flex-wrap -mx-2">
+    <div class="flex flex-wrap -mx-2" ref="refCorpusList">
       <router-link
         v-for="(corpus, corpusId) of corpora"
         :key="corpusId"
@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
+import { computed, ref } from "@vue/reactivity";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { listCorpora } from "@/assets/api";
@@ -33,12 +33,16 @@ import PadButton from "@/components/layout/PadButton.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
 import useCheckStatus from "@/composables/checkStatus";
+import { onMounted } from "@vue/runtime-core";
 
 const store = useStore();
 
 const corpora = computed(() => store.state.corpora);
+const refCorpusList = ref(null);
 
-spin(listCorpora(), "Hämtar korpusar").then((corporaFetched) =>
-  store.commit("setCorpora", corporaFetched)
-);
+onMounted(() => {
+  spin(listCorpora(), "Hämtar korpusar", refCorpusList.value).then(
+    (corporaFetched) => store.commit("setCorpora", corporaFetched)
+  );
+});
 </script>

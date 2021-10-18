@@ -10,14 +10,14 @@ export default function useExports() {
   const corpusId = route.params.corpusId;
   const exports = computed(() => store.state.corpora[corpusId]?.exports);
 
-  function loadExports() {
-    spin(getExports(corpusId), "Listar resultatfiler").then((exports) =>
+  function loadExports(el = null) {
+    spin(getExports(corpusId), "Listar resultatfiler", el).then((exports) =>
       store.commit("setExports", { corpusId, exports })
     );
   }
 
-  function downloadResult() {
-    spin(downloadExports(corpusId), "Laddar ner analysresultat");
+  function downloadResult(el = null) {
+    spin(downloadExports(corpusId), "Laddar ner analysresultat", el);
   }
 
   return {
