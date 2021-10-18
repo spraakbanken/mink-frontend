@@ -24,40 +24,12 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
-import { useStore } from "vuex";
-import { spin } from "@/assets/spin";
-import { getCorpus, putSources, removeSource } from "@/assets/api";
+import useSources from "@/composables/sources";
 import ActionButton from "./layout/ActionButton.vue";
 
-const store = useStore();
-
-const { corpusId } = defineProps({
-  corpusId: String,
-});
-
-const sources = computed(() => store.state.corpora[corpusId]?.sources || []);
-
-function loadSources() {
-  spin(getCorpus(corpusId), "Hämtar textlista").then((sourcesFetched) =>
-    store.commit("setSources", {
-      corpusId: corpusId,
-      sources: sourcesFetched,
-    })
-  );
-}
+const { sources, loadSources, remove, upload } = useSources();
 
 loadSources();
-
-async function remove(source) {
-  await spin(removeSource(corpusId, source.name), "Raderar textfil");
-  loadSources();
-}
-
-async function upload(event) {
-  await spin(putSources(corpusId, event.target.files), "Laddar upp textfil");
-  loadSources();
-}
 </script>
 
 <style></style>

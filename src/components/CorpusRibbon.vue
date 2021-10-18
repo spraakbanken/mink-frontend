@@ -2,15 +2,14 @@
   <div class="my-4 flex">
     <RibbonLink :to="`/corpus/${corpusId}`">
       <h4 class="uppercase text-gray-600 text-base">Texter</h4>
-      <div>6 MB</div>
-      <div>20 dokument</div>
+      <div v-if="sources">{{ sources.length }} filer</div>
     </RibbonLink>
 
     <div class="mx-2 text-4xl self-center">〉</div>
 
     <RibbonLink :to="`/corpus/${corpusId}/config`">
       <h4 class="uppercase text-gray-600 text-base">Konfiguration</h4>
-      <div v-if="configSummary">{{ configSummary }}</div>
+      <div>{{ configSummary || "Ej konfigurerad" }}</div>
     </RibbonLink>
 
     <div class="mx-2 text-4xl self-center">〉</div>
@@ -27,6 +26,13 @@
 
     <div class="flex-1 text-sm p-2">
       <h4 class="uppercase text-gray-600 text-base">Resultat</h4>
+      <ActionButton
+        v-if="exports && exports.length"
+        @click="downloadResult"
+        class="mr-2 bg-green-200 border-green-300"
+      >
+        Ladda ner
+      </ActionButton>
     </div>
   </div>
 </template>
@@ -35,6 +41,8 @@
 import { getConfig } from "@/assets/api";
 import { spin } from "@/assets/spin";
 import useCheckStatus from "@/composables/checkStatus";
+import useSources from "@/composables/sources";
+import useExports from "@/composables/exports";
 import { computed, ref } from "@vue/reactivity";
 import { onUnmounted } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
@@ -46,6 +54,8 @@ const route = useRoute();
 const store = useStore();
 const { loadJob, loadJobTimer, isJobStarted, isJobRunning, jobStatusMessage } =
   useCheckStatus();
+const { sources } = useSources();
+const { loadExports, exports, downloadResult } = useExports();
 
 const corpusId = computed(() => route.params.corpusId);
 const configSummary = computed(
@@ -61,6 +71,7 @@ spin(getConfig(corpusId.value), "Hämtar konfiguration").then((config) =>
 
 loadJob();
 onUnmounted(() => clearTimeout(loadJobTimer));
+loadExports();
 
 const summarizeConfig = (config) =>
   config.indexOf("text_import:parse") > 0 ? "Plain text" : "XML";

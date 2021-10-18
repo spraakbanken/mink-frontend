@@ -27,9 +27,13 @@ import CorpusRibbon from "@/components/CorpusRibbon.vue";
 import Section from "@/components/layout/Section.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import useCheckStatus from "@/composables/checkStatus";
+import { onUnmounted } from "@vue/runtime-core";
 
 const route = useRoute();
-const { jobStatus } = useCheckStatus();
+const { loadJob, loadJobTimer, jobStatus } = useCheckStatus();
+
+loadJob();
+onUnmounted(() => clearTimeout(loadJobTimer));
 
 const corpusId = computed(() => route.params.corpusId);
 </script>

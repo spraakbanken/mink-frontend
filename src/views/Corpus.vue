@@ -4,14 +4,9 @@
 
   <CorpusRibbon />
 
-  <div class="flex flex-wrap">
-    <Section title="Texter" class="lg:w-2/3 lg:pr-4">
-      <Sources :corpusId="corpusId" />
-    </Section>
-    <Section title="Analys" class="lg:w-1/3">
-      <Job :corpusId="corpusId" />
-    </Section>
-  </div>
+  <Section title="Texter">
+    <Sources />
+  </Section>
   <div>
     <ActionButton @click="deleteCorpus" class="bg-red-200 border-red-300">
       Radera korpus
@@ -30,7 +25,6 @@ import Sources from "@/components/Sources.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import Section from "@/components/layout/Section.vue";
-import Job from "@/components/Job.vue";
 import CorpusRibbon from "@/components/CorpusRibbon.vue";
 
 const route = useRoute();

@@ -1,5 +1,5 @@
 import { computed } from "@vue/reactivity";
-import { getExports, getJob } from "@/assets/api";
+import { getJob } from "@/assets/api";
 import { spin } from "@/assets/spin";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
@@ -17,9 +17,6 @@ export default function useCheckStatus() {
       // Refresh automatically.
       if (isJobRunning.value) loadJobTimer = setTimeout(loadJob, 10_000);
     });
-    spin(getExports(corpusId), "Listar resultatfiler").then((exports) =>
-      store.commit("setExports", { corpusId, exports })
-    );
   }
 
   const jobStatus = computed(() => store.state.corpora[corpusId].status);
