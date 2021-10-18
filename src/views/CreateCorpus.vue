@@ -1,5 +1,4 @@
 <template>
-  <Breadcrumbs />
   <PageTitle>Ny korpus</PageTitle>
   <Section ref="refForm">
     <table class="w-full my-4">
@@ -33,7 +32,6 @@ import { useRouter } from "vue-router";
 import { spin } from "@/assets/spin";
 import PageTitle from "@/components/PageTitle.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
-import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import Section from "@/components/layout/Section.vue";
 import { useStore } from "vuex";
 

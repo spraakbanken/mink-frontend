@@ -1,7 +1,5 @@
 <template>
-  <Breadcrumbs />
   <PageTitle subtitle="Korpus">{{ corpusId }}</PageTitle>
-
   <CorpusRibbon />
 
   <Section title="Texter">
@@ -23,7 +21,6 @@ import { spin } from "@/assets/spin";
 import PageTitle from "@/components/PageTitle.vue";
 import Sources from "@/components/Sources.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
-import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import Section from "@/components/layout/Section.vue";
 import CorpusRibbon from "@/components/CorpusRibbon.vue";
 
