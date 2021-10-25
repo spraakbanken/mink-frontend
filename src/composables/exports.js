@@ -1,13 +1,12 @@
 import { computed } from "@vue/reactivity";
 import { downloadExports, getExports } from "@/assets/api";
 import { spin } from "@/assets/spin";
-import { useRoute } from "vue-router";
 import { useStore } from "vuex";
+import useCorpusIdParam from '@/composables/corpusIdParam'
 
 export default function useExports() {
   const store = useStore();
-  const route = useRoute();
-  const corpusId = route.params.corpusId;
+  const { corpusId } = useCorpusIdParam();
   const exports = computed(() => store.state.corpora[corpusId]?.exports);
 
   function loadExports(el = null) {

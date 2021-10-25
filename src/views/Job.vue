@@ -29,8 +29,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "@vue/reactivity";
-import { useRoute, useRouter } from "vue-router";
+import { ref } from "@vue/reactivity";
 import CorpusRibbon from "@/components/CorpusRibbon.vue";
 import Section from "@/components/layout/Section.vue";
 import PageTitle from "@/components/PageTitle.vue";
@@ -38,16 +37,15 @@ import useCheckStatus from "@/composables/checkStatus";
 import { onMounted, onUnmounted } from "@vue/runtime-core";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import { abortJob } from "@/assets/api";
+import useCorpusIdParam from "@/composables/corpusIdParam";
 
-const route = useRoute();
-const router = useRouter();
 const { loadJob, loadJobTimer, jobStatus, isJobRunning } = useCheckStatus();
 const refForm = ref(null);
 
 onMounted(() => loadJob(refForm.value.$el));
 onUnmounted(() => clearTimeout(loadJobTimer));
 
-const corpusId = computed(() => route.params.corpusId);
+const { corpusId } = useCorpusIdParam();
 
 async function abort() {
   await spin(abortJob(corpusId.value), "Avbryter analys", refForm.value.$el);

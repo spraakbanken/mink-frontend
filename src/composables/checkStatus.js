@@ -11,13 +11,12 @@ export default function useCheckStatus(corpusId) {
 
   let loadJobTimer = null;
 
-  function loadJob(el = null) {
-    spin(getJob(corpusId), "Kollar analysstatus", el).then((status) => {
-      store.commit("setStatus", { corpusId, status });
-      // Refresh automatically.
-      if (isJobRunning.value)
-        loadJobTimer = setTimeout(() => loadJob(el), 10_000);
-    });
+  async function loadJob(el = null) {
+    const status = await spin(getJob(corpusId), "Kollar analysstatus", el);
+    store.commit("setStatus", { corpusId, status });
+    // Refresh automatically.
+    if (isJobRunning.value)
+      loadJobTimer = setTimeout(() => loadJob(el), 10_000);
   }
 
   const jobStatus = computed(() => store.state.corpora[corpusId].status);

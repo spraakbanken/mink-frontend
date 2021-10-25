@@ -60,17 +60,17 @@
 <script setup>
 import { getConfig } from "@/assets/api";
 import { spin } from "@/assets/spin";
+import useCorpusIdParam from "@/composables/corpusIdParam";
 import useCheckStatus from "@/composables/checkStatus";
 import useSources from "@/composables/sources";
 import useExports from "@/composables/exports";
 import { computed, ref } from "@vue/reactivity";
 import { onMounted, onUnmounted } from "@vue/runtime-core";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import ActionButton from "./layout/ActionButton.vue";
 import RibbonLink from "./RibbonLink.vue";
 
-const route = useRoute();
 const router = useRouter();
 const store = useStore();
 const { loadJob, loadJobTimer, isJobStarted, isJobRunning, jobStatusMessage } =
@@ -78,7 +78,7 @@ const { loadJob, loadJobTimer, isJobStarted, isJobRunning, jobStatusMessage } =
 const { sources } = useSources();
 const { loadExports, exports, downloadResult } = useExports();
 
-const corpusId = computed(() => route.params.corpusId);
+const { corpusId } = useCorpusIdParam();
 const configSummary = computed(
   () => store.state.corpora[corpusId.value].configSummary
 );

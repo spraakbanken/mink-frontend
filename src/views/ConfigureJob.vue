@@ -33,21 +33,16 @@
 </template>
 
 <script setup>
-import { computed, ref } from "@vue/reactivity";
-import { useRoute, useRouter } from "vue-router";
+import { ref } from "@vue/reactivity";
 import { putConfig } from "@/assets/api";
 import { spin } from "@/assets/spin";
+import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "@/components/layout/ActionButton.vue";
-import { useStore } from "vuex";
 import PageTitle from "@/components/PageTitle.vue";
 import CorpusRibbon from "@/components/CorpusRibbon.vue";
 import Section from "@/components/layout/Section.vue";
 
-const route = useRoute();
-const router = useRouter();
-const store = useStore();
-
-const corpusId = computed(() => route.params.corpusId);
+const { corpusId } = useCorpusIdParam();
 const format = ref("txt");
 const refSubmit = ref(null);
 
