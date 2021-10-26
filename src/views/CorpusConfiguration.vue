@@ -1,6 +1,4 @@
 <template>
-  <PageTitle subtitle="Korpus">{{ corpusId }}</PageTitle>
-  <CorpusRibbon />
   <Section title="Konfiguration">
     <table class="w-full my-4">
       <thead></thead>
@@ -38,8 +36,6 @@ import { putConfig } from "@/assets/api";
 import { spin } from "@/assets/spin";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "@/components/layout/ActionButton.vue";
-import PageTitle from "@/components/PageTitle.vue";
-import CorpusRibbon from "@/components/CorpusRibbon.vue";
 import Section from "@/components/layout/Section.vue";
 
 const { corpusId } = useCorpusIdParam();

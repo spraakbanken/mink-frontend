@@ -1,6 +1,4 @@
 <template>
-  <PageTitle subtitle="Korpus">{{ corpusId }}</PageTitle>
-  <CorpusRibbon />
   <Section title="Analys" ref="refForm">
     <table class="w-full my-4">
       <thead></thead>
@@ -18,6 +16,14 @@
         <tr v-if="isJobRunning">
           <th />
           <td>
+            <ActionButton
+              v-if="hasConfig && !isJobRunning"
+              class="mr-2 bg-blue-100 border-blue-200"
+              @click="run"
+            >
+              Starta analys
+            </ActionButton>
+
             <ActionButton @click="abort" class="bg-red-200 border-red-300">
               Avbryt analys
             </ActionButton>
@@ -29,23 +35,28 @@
 </template>
 
 <script setup>
-import { ref } from "@vue/reactivity";
-import CorpusRibbon from "@/components/CorpusRibbon.vue";
+import { computed, ref } from "@vue/reactivity";
 import Section from "@/components/layout/Section.vue";
-import PageTitle from "@/components/PageTitle.vue";
 import useCheckStatus from "@/composables/checkStatus";
-import { onMounted, onUnmounted } from "@vue/runtime-core";
+import { onMounted } from "@vue/runtime-core";
 import ActionButton from "@/components/layout/ActionButton.vue";
-import { abortJob } from "@/assets/api";
+import { abortJob, queueJob } from "@/assets/api";
 import useCorpusIdParam from "@/composables/corpusIdParam";
+import { useStore } from "vuex";
 
-const { loadJob, loadJobTimer, jobStatus, isJobRunning } = useCheckStatus();
+const store = useStore();
+const { loadJob, jobStatus, isJobRunning } = useCheckStatus();
+const { corpusId } = useCorpusIdParam();
 const refForm = ref(null);
+const hasConfig = computed(
+  () => store.state.corpora[corpusId.value].configSummary
+);
 
 onMounted(() => loadJob(refForm.value.$el));
-onUnmounted(() => clearTimeout(loadJobTimer));
 
-const { corpusId } = useCorpusIdParam();
+async function run() {
+  await spin(queueJob(corpusId.value), "Lägger analys i kö", refForm.value.$el);
+}
 
 async function abort() {
   await spin(abortJob(corpusId.value), "Avbryter analys", refForm.value.$el);

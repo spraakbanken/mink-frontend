@@ -2,21 +2,31 @@ import { createRouter, createWebHistory } from "vue-router";
 import store from "./store";
 import Home from "@/views/Home.vue";
 import Login from "@/views/Login.vue";
-import Corpus from "@/views/Corpus.vue";
-import SourcesView from "@/views/SourcesView.vue";
 import CreateCorpus from "@/views/CreateCorpus.vue";
-import ConfigureJob from "@/views/ConfigureJob.vue";
-import Job from "@/views/Job.vue";
+import Corpus from "@/views/Corpus.vue";
+import CorpusMetadata from "@/views/CorpusMetadata.vue";
+import CorpusSources from "@/views/CorpusSources.vue";
+import CorpusConfiguration from "@/views/CorpusConfiguration.vue";
+import CorpusJob from "@/views/CorpusJob.vue";
 import User from "@/views/User.vue";
 
 const routes = [
   { path: "/", component: Home },
   { path: "/login", component: Login },
   { path: "/corpus", component: CreateCorpus },
-  { path: "/corpus/:corpusId", component: Corpus },
-  { path: "/corpus/:corpusId/sources", component: SourcesView },
-  { path: "/corpus/:corpusId/config", component: ConfigureJob },
-  { path: "/corpus/:corpusId/status", component: Job },
+  {
+    path: "/corpus/:corpusId",
+    component: Corpus,
+    children: [
+      {
+        path: "",
+        component: CorpusMetadata,
+      },
+      { path: "sources", component: CorpusSources },
+      { path: "config", component: CorpusConfiguration },
+      { path: "status", component: CorpusJob },
+    ],
+  },
   { path: "/user", component: User },
 ];
 
