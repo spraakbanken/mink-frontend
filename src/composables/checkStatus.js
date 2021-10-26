@@ -1,5 +1,11 @@
+import { onUnmounted } from "@vue/runtime-core";
 import { computed } from "@vue/reactivity";
-import { getJob } from "@/assets/api";
+import {
+  getJob,
+  isStatusRunning,
+  isStatusStarted,
+  statusMessage,
+} from "@/assets/api";
 import { spin } from "@/assets/spin";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
@@ -19,17 +25,13 @@ export default function useCheckStatus(corpusId) {
       loadJobTimer = setTimeout(() => loadJob(el), 10_000);
   }
 
+  onUnmounted(() => clearTimeout(loadJobTimer));
+
   const jobStatus = computed(() => store.state.corpora[corpusId].status);
-  const isJobStarted = computed(() => jobStatus.value?.job_status != "none");
-  const isJobRunning = computed(
-    () =>
-      !["none", "done", "error", "aborted"].includes(
-        jobStatus.value?.job_status
-      )
-  );
-  const jobStatusMessage = computed(
-    () => STATUSES[jobStatus.value?.job_status]?.message
-  );
+  const jobStatusId = computed(() => jobStatus.value?.job_status);
+  const isJobStarted = computed(() => isStatusStarted(jobStatusId.value));
+  const isJobRunning = computed(() => isStatusRunning(jobStatusId.value));
+  const jobStatusMessage = computed(() => statusMessage(jobStatusId.value));
   const exports = computed(() => store.state.corpora[corpusId].exports);
 
   return {
@@ -42,15 +44,3 @@ export default function useCheckStatus(corpusId) {
     exports,
   };
 }
-
-const STATUSES = {
-  none: { state: 0, message: "" },
-  syncing_corpus: { state: 1, message: "Syncar korpus" },
-  waiting: { state: 1, message: "Väntar" },
-  annotating: { state: 1, message: "Annoterar" },
-  done_annotating: { state: 1, message: "Annotering färdig" },
-  syncing_results: { state: 1, message: "Syncar resultat" },
-  done: { state: 2, message: "Färdig" },
-  error: { state: 2, message: "Fel" },
-  aborted: { state: 2, message: "Avbruten" },
-};

@@ -32,7 +32,7 @@
       ref="refStatus"
     >
       <h4 class="uppercase text-gray-600 text-base">Analys</h4>
-      <div v-if="isJobRunning">{{ jobStatusMessage }}</div>
+      <div v-if="isJobStarted">{{ jobStatusMessage }}</div>
       <div v-else-if="configSummary" class="flex justify-center items-center">
         <ActionButton class="bg-blue-100 border-blue-200" @click="run"
           >Kör</ActionButton
@@ -73,7 +73,7 @@ import RibbonLink from "./RibbonLink.vue";
 
 const router = useRouter();
 const store = useStore();
-const { loadJob, loadJobTimer, isJobStarted, isJobRunning, jobStatusMessage } =
+const { loadJob, isJobStarted, isJobRunning, jobStatusMessage } =
   useCheckStatus();
 const { sources } = useSources();
 const { loadExports, exports, downloadResult } = useExports();
@@ -100,8 +100,6 @@ onMounted(() => {
   loadJob(refStatus.value.$el);
   loadExports(refExports.value);
 });
-
-onUnmounted(() => clearTimeout(loadJobTimer));
 
 const summarizeConfig = (config) =>
   config.indexOf("text_import:parse") > 0 ? "Plain text" : "XML";

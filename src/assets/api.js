@@ -138,6 +138,23 @@ export async function removeCorpus(corpusId) {
   return axios.delete("remove-corpus", { params: { corpus_id: corpusId } });
 }
 
+export const isStatusStarted = (status) => STATUSES[status]?.started;
+export const isStatusRunning = (status) => STATUSES[status]?.running;
+export const statusMessage = (status) => STATUSES[status]?.message;
+
+// prettier-ignore
+const STATUSES = {
+  none:             { started: false, running: false, message: "" },
+  syncing_corpus:   { started:  true, running:  true, message: "Syncar korpus" },
+  waiting:          { started:  true, running:  true, message: "Väntar" },
+  annotating:       { started:  true, running:  true, message: "Annoterar" },
+  done_annotating:  { started:  true, running:  true, message: "Annotering färdig" },
+  syncing_results:  { started:  true, running:  true, message: "Syncar resultat" },
+  done:             { started:  true, running: false, message: "Färdig" },
+  error:            { started:  true, running: false, message: "Fel" },
+  aborted:          { started:  true, running: false, message: "Avbruten" },
+};
+
 const configSampleXml = (corpusId) => `
 metadata:
   id: ${corpusId}
