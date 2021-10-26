@@ -13,7 +13,7 @@
             <pre class="text-sm">{{ jobStatus.sparv_output }}</pre>
           </td>
         </tr>
-        <tr v-if="isJobRunning">
+        <tr>
           <th />
           <td>
             <ActionButton
@@ -24,7 +24,11 @@
               Starta analys
             </ActionButton>
 
-            <ActionButton @click="abort" class="bg-red-200 border-red-300">
+            <ActionButton
+              v-if="isJobRunning"
+              @click="abort"
+              class="bg-red-200 border-red-300"
+            >
               Avbryt analys
             </ActionButton>
           </td>
@@ -35,17 +39,18 @@
 </template>
 
 <script setup>
-import { computed, ref } from "@vue/reactivity";
-import Section from "@/components/layout/Section.vue";
-import useCheckStatus from "@/composables/checkStatus";
 import { onMounted } from "@vue/runtime-core";
-import ActionButton from "@/components/layout/ActionButton.vue";
-import { abortJob, queueJob } from "@/assets/api";
-import useCorpusIdParam from "@/composables/corpusIdParam";
+import { computed, ref } from "@vue/reactivity";
 import { useStore } from "vuex";
+import { abortJob, queueJob } from "@/assets/api";
+import { spin } from "@/assets/spin";
+import useCheckStatus from "@/composables/checkStatus";
+import useCorpusIdParam from "@/composables/corpusIdParam";
+import Section from "@/components/layout/Section.vue";
+import ActionButton from "@/components/layout/ActionButton.vue";
 
 const store = useStore();
-const { loadJob, jobStatus, isJobRunning } = useCheckStatus();
+const { loadJob, runJob, jobStatus, isJobRunning } = useCheckStatus();
 const { corpusId } = useCorpusIdParam();
 const refForm = ref(null);
 const hasConfig = computed(
@@ -54,9 +59,7 @@ const hasConfig = computed(
 
 onMounted(() => loadJob(refForm.value.$el));
 
-async function run() {
-  await spin(queueJob(corpusId.value), "Lägger analys i kö", refForm.value.$el);
-}
+const run = () => runJob(refForm.value.$el);
 
 async function abort() {
   await spin(abortJob(corpusId.value), "Avbryter analys", refForm.value.$el);

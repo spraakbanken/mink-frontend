@@ -4,6 +4,7 @@ import {
   getJob,
   isStatusRunning,
   isStatusStarted,
+  queueJob,
   statusMessage,
 } from "@/assets/api";
 import { spin } from "@/assets/spin";
@@ -19,6 +20,15 @@ export default function useCheckStatus(corpusId) {
 
   async function loadJob(el = null) {
     const status = await spin(getJob(corpusId), "Kollar analysstatus", el);
+    recordJobStatus(status, el);
+  }
+
+  async function runJob(el = null) {
+    const status = await spin(queueJob(corpusId), "Lägger analys i kö", el);
+    recordJobStatus(status, el);
+  }
+
+  function recordJobStatus(status, el) {
     store.commit("setStatus", { corpusId, status });
     // Refresh automatically.
     if (isJobRunning.value)
@@ -36,7 +46,7 @@ export default function useCheckStatus(corpusId) {
 
   return {
     loadJob,
-    loadJobTimer,
+    runJob,
     jobStatus,
     isJobStarted,
     isJobRunning,

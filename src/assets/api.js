@@ -88,9 +88,11 @@ export async function putConfig(corpusId, options) {
 }
 
 export async function queueJob(corpusId) {
-  return await axios.put("run-sparv", null, {
-    params: { corpus_id: corpusId },
-  });
+  return await axios
+    .put("run-sparv", null, { params: { corpus_id: corpusId } })
+    // Errors are okay.
+    .catch((reason) => reason.response)
+    .then((response) => response.data);
 }
 
 export function abortJob(corpusId) {
