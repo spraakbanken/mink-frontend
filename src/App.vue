@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "@vue/reactivity";
+import { computed } from "@vue/reactivity";
 import { initialize } from "./assets/api";
 import store from "./store";
 import { messages } from "@/assets/spin";

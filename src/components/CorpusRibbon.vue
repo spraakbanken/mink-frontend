@@ -19,7 +19,7 @@
 
     <RibbonLink :to="`/corpus/${corpusId}/config`" ref="refConfig">
       <h4 class="uppercase text-gray-600 text-base">Konfiguration</h4>
-      <div>{{ configSummary || "Ej konfigurerad" }}</div>
+      <div>{{ config ? "Konfigurerad" : "Ej konfigurerad" }}</div>
     </RibbonLink>
 
     <div class="mx-2 self-center">
@@ -33,10 +33,10 @@
     >
       <h4 class="uppercase text-gray-600 text-base">Analys</h4>
       <div v-if="isJobStarted">{{ jobStatusMessage }}</div>
-      <div v-else-if="configSummary" class="flex justify-center items-center">
-        <ActionButton class="bg-blue-100 border-blue-200" @click="run"
-          >Kör</ActionButton
-        >
+      <div v-else-if="config" class="flex justify-center items-center">
+        <ActionButton class="bg-blue-100 border-blue-200" @click.stop="run">
+          Kör
+        </ActionButton>
       </div>
     </RibbonLink>
 
@@ -58,7 +58,7 @@
 </template>
 
 <script setup>
-import { getConfig } from "@/assets/api";
+import { getConfig, queueJob } from "@/assets/api";
 import { spin } from "@/assets/spin";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import useCheckStatus from "@/composables/checkStatus";
@@ -79,9 +79,7 @@ const { sources } = useSources();
 const { loadExports, exports, downloadResult } = useExports();
 
 const { corpusId } = useCorpusIdParam();
-const configSummary = computed(
-  () => store.state.corpora[corpusId.value].configSummary
-);
+const config = computed(() => store.state.corpora[corpusId.value].config);
 const refConfig = ref(null);
 const refStatus = ref(null);
 const refExports = ref(null);
@@ -92,17 +90,11 @@ onMounted(() => {
     "Hämtar konfiguration",
     refConfig.value.$el
   ).then((config) =>
-    store.commit("setConfigSummary", {
-      corpusId: corpusId.value,
-      summary: config ? summarizeConfig(config) : null,
-    })
+    store.commit("setConfig", { corpusId: corpusId.value, config })
   );
   loadJob(refStatus.value.$el);
   loadExports(refExports.value);
 });
-
-const summarizeConfig = (config) =>
-  config.indexOf("text_import:parse") > 0 ? "Plain text" : "XML";
 
 async function run() {
   await spin(

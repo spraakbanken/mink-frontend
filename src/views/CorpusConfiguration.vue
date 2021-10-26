@@ -48,6 +48,7 @@ async function save() {
     "Sparar konfiguration",
     refSubmit.value
   );
+  // TODO Set the config in store.
 }
 </script>
 

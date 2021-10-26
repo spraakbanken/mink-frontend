@@ -5,8 +5,10 @@ export default createStore({
   plugins: [new VuexPersistence().plugin],
   state() {
     return {
-      auth: null,
-      corpora: {},
+      auth: null, // or {username, password}
+      corpora: {
+        // [corpusId]: {source, config, status, exports}
+      },
     };
   },
   mutations: {
@@ -28,8 +30,8 @@ export default createStore({
     setSources(state, { corpusId, sources }) {
       state.corpora[corpusId].sources = sources;
     },
-    setConfigSummary(state, { corpusId, summary }) {
-      state.corpora[corpusId].configSummary = summary;
+    setConfig(state, { corpusId, config }) {
+      state.corpora[corpusId].config = config;
     },
     setStatus(state, { corpusId, status }) {
       state.corpora[corpusId].status = status;
