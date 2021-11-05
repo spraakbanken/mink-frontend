@@ -48,7 +48,7 @@
       <h4 class="uppercase text-gray-600 text-base">Resultat</h4>
       <ActionButton
         v-if="exports && exports.length"
-        @click="downloadResult"
+        @click="download"
         class="mr-2 bg-green-200 border-green-300"
       >
         Ladda ner
@@ -103,6 +103,10 @@ async function run() {
     refStatus.value.$el
   );
   router.push(`/corpus/${corpusId.value}/status`);
+}
+
+async function download() {
+  downloadResult(refExports.value);
 }
 </script>
 

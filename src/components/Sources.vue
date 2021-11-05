@@ -9,7 +9,11 @@
       </thead>
       <tbody class="border-b-0">
         <tr v-for="source in sources" :key="source">
-          <td>{{ source.name }}</td>
+          <td>
+            <router-link :to="`/corpus/${corpusId}/sources/${source.name}`">
+              {{ source.name }}
+            </router-link>
+          </td>
           <td class="text-right">
             <ActionButton
               @click="remove(source)"
@@ -35,12 +39,14 @@
 
 <script setup>
 import useSources from "@/composables/sources";
+import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "./layout/ActionButton.vue";
 import Filedrop from "./Filedrop.vue";
 import { ref } from "@vue/reactivity";
 import { onMounted } from "@vue/runtime-core";
 
 const { sources, loadSources, remove, upload } = useSources();
+const { corpusId } = useCorpusIdParam();
 
 const refSources = ref(null);
 

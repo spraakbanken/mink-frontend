@@ -35,6 +35,7 @@ export default function useCheckStatus(corpusId) {
       loadJobTimer = setTimeout(() => loadJob(el), 10_000);
   }
 
+  // TODO This gives a warning: "onUnmounted is called when there is no active component instance to be associated with."
   onUnmounted(() => clearTimeout(loadJobTimer));
 
   const jobStatus = computed(() => store.state.corpora[corpusId].status);
