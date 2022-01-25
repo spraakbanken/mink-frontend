@@ -35,6 +35,7 @@ const store = useStore();
 const username = ref("");
 const password = ref("");
 const message = ref(null);
+const refForm = ref(null);
 
 async function submitLogin() {
   const success = await spin(
