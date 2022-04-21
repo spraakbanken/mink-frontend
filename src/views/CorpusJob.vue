@@ -53,9 +53,7 @@ import PendingContent from "@/components/PendingContent.vue";
 const store = useStore();
 const { loadJob, runJob, abortJob, jobStatus, isJobRunning } = useJob();
 const { corpusId } = useCorpusIdParam();
-const hasConfig = computed(
-  () => store.state.corpora[corpusId.value].configSummary
-);
+const hasConfig = computed(() => store.state.corpora[corpusId.value].config);
 
 onMounted(() => loadJob());
 </script>

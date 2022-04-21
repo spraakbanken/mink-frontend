@@ -31,7 +31,7 @@
     </div>
 
     <RibbonLink :to="`/corpus/${corpusId}/status`" :disabled="!isJobStarted">
-      <PendingContent :on="`corpus/${corpusId}/status`">
+      <PendingContent :on="`corpus/${corpusId}/job`">
         <h4 class="uppercase text-gray-600 text-base">Analys</h4>
         <div v-if="isJobStarted">{{ jobStatusMessage }}</div>
         <div v-else-if="config" class="flex justify-center items-center">

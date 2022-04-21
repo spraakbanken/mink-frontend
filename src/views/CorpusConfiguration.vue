@@ -39,6 +39,7 @@ import useSpin from "@/assets/spin";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
+import PendingContent from "@/components/PendingContent.vue";
 
 const { spin } = useSpin();
 const { corpusId } = useCorpusIdParam();

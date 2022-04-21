@@ -17,7 +17,7 @@ export default function useJob(corpusIdArg) {
   const { spin } = useSpin();
   const { corpusId: corpusIdParam } = useCorpusIdParam();
   const corpusId = corpusIdArg ? computed(() => corpusIdArg) : corpusIdParam;
-  const token = `corpus/${corpusId.value}/job`;
+  const token = computed(() => `corpus/${corpusId.value}/job`);
 
   let loadJobTimer = null;
 
