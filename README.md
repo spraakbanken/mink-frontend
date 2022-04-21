@@ -8,9 +8,18 @@ Frontend for Min språkbank.
 
 Design patterns used:
 
-- Single-file components with `<script setup>` ([Vue doc](https://v3.vuejs.org/api/sfc-script-setup.html))
+- Single-file components with [`<script setup>`](https://v3.vuejs.org/api/sfc-script-setup.html)
+- [Composables](https://vuejs.org/guide/reusability/composables.html) to group state+logic for distinct features
 - Utility-first styling with [Tailwind CSS](https://tailwindcss.com/)
-- Wrap async calls in a homegrown [`spin`](src/assets/spin.js) decorator to visualize loading state
+- Visualization of API calls:
+  1. Wrap async calls in [`spin`](src/assets/spin.js):
+     ```js
+     spin(loadCorpora(), "Loading corpora", "corpora");
+     ```
+  2. For markup that might change after the call, wrap it in [`<PendingContent>`](src/components/PendingContent.vue) to apply animation:
+     ```html
+     <PendingContent on="corpora"> {{ corpora.length }} </PendingContent>
+     ```
 
 See:
 
