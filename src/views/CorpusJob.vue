@@ -44,13 +44,13 @@ import { computed, ref } from "@vue/reactivity";
 import { useStore } from "vuex";
 import { abortJob, queueJob } from "@/assets/api";
 import { spin } from "@/assets/spin";
-import useCheckStatus from "@/composables/checkStatus";
+import useJob from "@/composables/job";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import Section from "@/components/layout/Section.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 
 const store = useStore();
-const { loadJob, runJob, jobStatus, isJobRunning } = useCheckStatus();
+const { loadJob, runJob, jobStatus, isJobRunning } = useJob();
 const { corpusId } = useCorpusIdParam();
 const refForm = ref(null);
 const hasConfig = computed(

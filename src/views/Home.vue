@@ -11,7 +11,7 @@
         <PadButton @click="navigate" class="hover:bg-gray-50 flex flex-col">
           <strong>{{ corpusId }}</strong>
           <span v-if="corpus.sources">{{ corpus.sources.length }} filer</span>
-          <span>{{ useCheckStatus(corpusId).jobStatusMessage.value }}</span>
+          <span>{{ useJob(corpusId).jobStatusMessage.value }}</span>
         </PadButton>
       </router-link>
       <router-link to="/corpus" custom v-slot="{ navigate }">
@@ -32,7 +32,7 @@ import { spin } from "@/assets/spin";
 import PadButton from "@/components/layout/PadButton.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
-import useCheckStatus from "@/composables/checkStatus";
+import useJob from "@/composables/job";
 import { onMounted } from "@vue/runtime-core";
 
 const store = useStore();

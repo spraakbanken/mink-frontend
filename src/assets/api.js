@@ -1,12 +1,11 @@
 import Axios from "axios";
-import base64 from "base-64";
 
 const axios = Axios.create({
   baseURL: "https://ws.spraakbanken.gu.se/ws/min-sb/",
 });
 
 export function initialize(username, password) {
-  const token = base64.encode(`${username}:${password}`);
+  const token = btoa(`${username}:${password}`);
   axios.defaults.headers["Authorization"] = `Basic ${token}`;
 }
 

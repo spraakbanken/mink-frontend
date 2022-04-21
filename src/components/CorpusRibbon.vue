@@ -8,7 +8,7 @@
       <img src="@/assets/right.svg" class="h-10 opacity-75" />
     </div>
 
-    <RibbonLink :to="`/corpus/${corpusId}/sources`">
+    <RibbonLink :to="`/corpus/${corpusId}/sources`" ref="refSources">
       <h4 class="uppercase text-gray-600 text-base">Texter</h4>
       <div v-if="sources">{{ sources.length }} filer</div>
     </RibbonLink>
@@ -58,50 +58,41 @@
 </template>
 
 <script setup>
-import { getConfig, queueJob } from "@/assets/api";
+import { queueJob } from "@/assets/api";
 import { spin } from "@/assets/spin";
 import useCorpusIdParam from "@/composables/corpusIdParam";
-import useCheckStatus from "@/composables/checkStatus";
 import useSources from "@/composables/sources";
+import useConfig from "@/composables/config";
+import useJob from "@/composables/job";
 import useExports from "@/composables/exports";
 import { computed, ref } from "@vue/reactivity";
 import { onMounted, onUnmounted } from "@vue/runtime-core";
 import { useRouter } from "vue-router";
-import { useStore } from "vuex";
 import ActionButton from "./layout/ActionButton.vue";
 import RibbonLink from "./RibbonLink.vue";
 
 const router = useRouter();
-const store = useStore();
-const { loadJob, isJobStarted, isJobRunning, jobStatusMessage } =
-  useCheckStatus();
-const { sources } = useSources();
+const { runJob, loadJob, isJobStarted, isJobRunning, jobStatusMessage } =
+  useJob();
+const { sources, loadSources } = useSources();
+const { config, loadConfig } = useConfig();
 const { loadExports, exports, downloadResult } = useExports();
 
 const { corpusId } = useCorpusIdParam();
-const config = computed(() => store.state.corpora[corpusId.value].config);
+const refSources = ref(null);
 const refConfig = ref(null);
 const refStatus = ref(null);
 const refExports = ref(null);
 
 onMounted(() => {
-  spin(
-    getConfig(corpusId.value),
-    "Hämtar konfiguration",
-    refConfig.value.$el
-  ).then((config) =>
-    store.commit("setConfig", { corpusId: corpusId.value, config })
-  );
+  loadSources(refSources.value.$el);
+  loadConfig(refConfig.value.$el);
   loadJob(refStatus.value.$el);
   loadExports(refExports.value);
 });
 
 async function run() {
-  await spin(
-    queueJob(corpusId.value),
-    "Lägger analys i kö",
-    refStatus.value.$el
-  );
+  await runJob(refStatus.value.$el);
   router.push(`/corpus/${corpusId.value}/status`);
 }
 

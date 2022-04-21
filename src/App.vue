@@ -1,6 +1,6 @@
 <template>
-  <header class="bg-white border-b p-4 mb-2">
-    <div class="container flex justify-between items-center flex-wrap">
+  <header class="bg-white border-b mb-2">
+    <div class="container py-4 flex justify-between items-center flex-wrap">
       <div class="text-4xl">
         <router-link to="/" class="text-current">Min språkbank</router-link>
       </div>
