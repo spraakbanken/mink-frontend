@@ -9,6 +9,7 @@ export default createStore({
       corpora: {
         // [corpusId]: {source, config, status, exports}
       },
+      pending: [],
     };
   },
   mutations: {
@@ -17,6 +18,16 @@ export default createStore({
     },
     logout(state) {
       state.auth = null;
+    },
+    setPending(state, token) {
+      if (!state.pending.includes(token)) {
+        state.pending.push(token);
+      }
+    },
+    clearPending(state, token) {
+      if (state.pending.includes(token)) {
+        state.pending.splice(state.pending.indexOf(token), 1);
+      }
     },
     setCorpora(state, corpora) {
       // Add id as a key, empty object as value (if not already present)

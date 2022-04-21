@@ -5,42 +5,50 @@ import {
   isStatusRunning,
   isStatusStarted,
   queueJob,
+  abortJob as apiAbortJob,
   statusMessage,
 } from "@/assets/api";
-import { spin } from "@/assets/spin";
+import useSpin from "@/assets/spin";
 import useCorpusIdParam from "./corpusIdParam";
 import { useStore } from "vuex";
 
 export default function useJob(corpusIdArg) {
   const store = useStore();
+  const { spin } = useSpin();
   const { corpusId: corpusIdParam } = useCorpusIdParam();
   const corpusId = corpusIdArg ? computed(() => corpusIdArg) : corpusIdParam;
+  const token = `corpus/${corpusId.value}/job`;
 
   let loadJobTimer = null;
 
-  async function loadJob(el = null) {
+  async function loadJob() {
     const status = await spin(
       getJob(corpusId.value),
       "Kollar analysstatus",
-      el
+      token.value
     );
-    recordJobStatus(status, el);
+    recordJobStatus(status);
   }
 
-  async function runJob(el = null) {
+  async function runJob() {
     const status = await spin(
       queueJob(corpusId.value),
       "Lägger analys i kö",
-      el
+      token.value
     );
-    recordJobStatus(status, el);
+    recordJobStatus(status);
   }
 
-  function recordJobStatus(status, el) {
+  async function abortJob() {
+    await spin(apiAbortJob(corpusId.value), "Avbryter analys", token.value);
+    await loadJob();
+  }
+
+  function recordJobStatus(status) {
     store.commit("setStatus", { corpusId: corpusId.value, status });
     // Refresh automatically.
     if (isJobRunning.value)
-      loadJobTimer = setTimeout(() => loadJob(el), 10_000);
+      loadJobTimer = setTimeout(() => loadJob(token.value), 10_000);
   }
 
   // TODO This gives a warning: "onUnmounted is called when there is no active component instance to be associated with."

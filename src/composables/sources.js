@@ -1,19 +1,20 @@
 import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
-import { spin } from "@/assets/spin";
+import useSpin from "@/assets/spin";
 import useCorpusIdParam from "./corpusIdParam";
 import { getCorpus, putSources, removeSource } from "@/assets/api";
 
 export default function useSources() {
   const store = useStore();
+  const { spin } = useSpin();
   const { corpusId } = useCorpusIdParam();
-
   const sources = computed(
     () => store.state.corpora[corpusId.value]?.sources || []
   );
+  const token = computed(() => `corpus/${corpusId.value}/sources`);
 
-  function loadSources(el = null) {
-    spin(getCorpus(corpusId.value), "Hämtar textlista", el).then(
+  function loadSources() {
+    spin(getCorpus(corpusId.value), "Hämtar textlista", token.value).then(
       (sourcesFetched) =>
         store.commit("setSources", {
           corpusId: corpusId.value,
@@ -22,20 +23,20 @@ export default function useSources() {
     );
   }
 
-  async function remove(source, el = null) {
+  async function remove(source) {
     await spin(
       removeSource(corpusId.value, source.name),
       "Raderar textfil",
-      el
+      token.value
     );
-    loadSources(el);
+    loadSources();
   }
 
-  async function upload(files, el = null) {
+  async function upload(files) {
     const message =
       files.length > 1 ? "Laddar upp textfiler" : "Laddar upp textfil";
-    await spin(putSources(corpusId.value, files), message, el);
-    loadSources(el);
+    await spin(putSources(corpusId.value, files), message, token.value);
+    loadSources();
   }
 
   return {

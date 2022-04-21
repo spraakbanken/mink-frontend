@@ -58,9 +58,10 @@
 import { computed } from "@vue/reactivity";
 import { initialize } from "./assets/api";
 import store from "./store";
-import { messages } from "@/assets/spin";
+import useSpin from "@/assets/spin";
 import Spinner from "@/components/Spinner.vue";
 
+const { messages } = useSpin();
 const auth = computed(() => store.state.auth);
 const name = computed(() => store.state.auth?.username);
 

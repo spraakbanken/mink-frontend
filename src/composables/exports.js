@@ -1,23 +1,29 @@
 import { computed } from "@vue/reactivity";
 import { downloadExports, getExports } from "@/assets/api";
-import { spin } from "@/assets/spin";
+import useSpin from "@/assets/spin";
 import { useStore } from "vuex";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 
 export default function useExports() {
   const store = useStore();
+  const { spin } = useSpin();
   const { corpusId } = useCorpusIdParam();
   const exports = computed(() => store.state.corpora[corpusId.value]?.exports);
+  const token = computed(() => `corpus/${corpusId.value}/exports`);
 
-  function loadExports(el = null) {
-    spin(getExports(corpusId.value), "Listar resultatfiler", el).then(
+  function loadExports() {
+    spin(getExports(corpusId.value), "Listar resultatfiler", token.value).then(
       (exports) =>
         store.commit("setExports", { corpusId: corpusId.value, exports })
     );
   }
 
-  function downloadResult(el = null) {
-    spin(downloadExports(corpusId.value), "Laddar ner analysresultat", el);
+  function downloadResult() {
+    spin(
+      downloadExports(corpusId.value),
+      "Laddar ner analysresultat",
+      token.value
+    );
   }
 
   return {

@@ -1,6 +1,6 @@
 <template>
   <Section title="Korpusar">
-    <div class="flex flex-wrap -mx-2" ref="refCorpusList">
+    <PendingContent on="corpora" class="flex flex-wrap -mx-2">
       <router-link
         v-for="(corpus, corpusId) of corpora"
         :key="corpusId"
@@ -19,30 +19,29 @@
           + Ny korpus
         </PadButton>
       </router-link>
-    </div>
+    </PendingContent>
   </Section>
 </template>
 
 <script setup>
-import { computed, ref } from "@vue/reactivity";
+import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
 import { listCorpora } from "@/assets/api";
-import { spin } from "@/assets/spin";
+import useSpin from "@/assets/spin";
 import PadButton from "@/components/layout/PadButton.vue";
-import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
 import useJob from "@/composables/job";
 import { onMounted } from "@vue/runtime-core";
+import PendingContent from "@/components/PendingContent.vue";
 
 const store = useStore();
+const { spin } = useSpin();
 
 const corpora = computed(() => store.state.corpora);
-const refCorpusList = ref(null);
 
 onMounted(() => {
-  spin(listCorpora(), "Hämtar korpusar", refCorpusList.value).then(
-    (corporaFetched) => store.commit("setCorpora", corporaFetched)
+  spin(listCorpora(), "Hämtar korpusar", "corpora").then((corporaFetched) =>
+    store.commit("setCorpora", corporaFetched)
   );
 });
 </script>

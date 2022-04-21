@@ -1,17 +1,20 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { getConfig } from "@/assets/api";
-import { spin } from "@/assets/spin";
+import useSpin from "@/assets/spin";
 import useCorpusIdParam from "./corpusIdParam";
 
 export default function useConfig() {
   const store = useStore();
+  const { spin } = useSpin();
   const { corpusId } = useCorpusIdParam();
   const config = computed(() => store.state.corpora[corpusId.value].config);
+  const token = computed(() => `corpus/${corpusId.value}/config`);
 
-  function loadConfig(el = null) {
-    spin(getConfig(corpusId.value), "Hämtar konfiguration", el).then((config) =>
-      store.commit("setConfig", { corpusId: corpusId.value, config })
+  function loadConfig() {
+    spin(getConfig(corpusId.value), "Hämtar konfiguration", token.value).then(
+      (config) =>
+        store.commit("setConfig", { corpusId: corpusId.value, config })
     );
   }
 

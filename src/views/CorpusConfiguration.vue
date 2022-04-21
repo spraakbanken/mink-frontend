@@ -16,13 +16,15 @@
         </tr>
         <tr>
           <th />
-          <td class="py-4" ref="refSubmit">
-            <ActionButton
-              @click="save"
-              class="mr-2 bg-blue-100 border-blue-200"
-            >
-              Spara konfiguration
-            </ActionButton>
+          <td class="py-4">
+            <PendingContent :on="`corpus/${corpusId}/config`">
+              <ActionButton
+                @click="save"
+                class="mr-2 bg-blue-100 border-blue-200"
+              >
+                Spara konfiguration
+              </ActionButton>
+            </PendingContent>
           </td>
         </tr>
       </tbody>
@@ -33,20 +35,20 @@
 <script setup>
 import { ref } from "@vue/reactivity";
 import { putConfig } from "@/assets/api";
-import { spin } from "@/assets/spin";
+import useSpin from "@/assets/spin";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
 
+const { spin } = useSpin();
 const { corpusId } = useCorpusIdParam();
 const format = ref("txt");
-const refSubmit = ref(null);
 
 async function save() {
   await spin(
     putConfig(corpusId.value, { format: format.value }),
     "Sparar konfiguration",
-    refSubmit.value
+    `corpus/${corpusId.value}/config`
   );
   // TODO Set the config in store.
 }
