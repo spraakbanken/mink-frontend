@@ -1,26 +1,38 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}/sources`">
     <Filedrop @drop="uploadDrop">
-      <table class="w-full mt-4">
+      <table v-if="sources.length" class="w-full mt-4">
         <thead>
           <tr>
-            <th>Filnamn</th>
-            <th></th>
+            <th>{{ $t("fileName") }}</th>
+            <th>{{ $t("fileType") }}</th>
+            <th>{{ $t("lastModify") }}</th>
+            <th>{{ $t("fileSize") }}</th>
+            <th>{{ $t("deleteFile") }}</th>
           </tr>
         </thead>
         <tbody class="border-b-0">
           <tr v-for="source in sources" :key="source">
             <td>
               <router-link :to="`/corpus/${corpusId}/sources/${source.name}`">
-                {{ source.name }}
+                <a v-on:click="changeShowText(source.name)">{{ source.name }}</a>
               </router-link>
             </td>
-            <td class="text-right">
+            <td>
+              {{ source.type }}
+            </td>
+            <td>
+              {{  source.last_modified.split('T')[0] + ' ' + source.last_modified.split('T')[1].split('+')[0] }}
+            </td>
+            <td>
+              {{ (source.size/1000).toFixed(1) }} {{ "KB" }}
+            </td>
+            <td> <!--class="text-right"-->
               <ActionButton
                 @click="remove(source)"
                 class="mute slim hover:bg-red-200"
               >
-                ta bort
+                <img src="@/assets/trash-can.svg" class="h-7 opacity-75">
               </ActionButton>
             </td>
           </tr>
@@ -28,10 +40,10 @@
       </table>
       <div class="bg-blue-50 border-blue-100 border-dashed border-4">
         <label class="absolute uppercase opacity-75 text-sm font-bold p-1">
-          Lägg till textfil
+          {{ $t("addFile") }}
         </label>
         <div class="p-8 flex justify-center items-center">
-          Dra och släpp, eller:
+          {{ $t("dragANDdrop") }}:
           <input type="file" @change="uploadSingle" class="ml-2" />
         </div>
       </div>
@@ -46,11 +58,17 @@ import ActionButton from "./layout/ActionButton.vue";
 import Filedrop from "./Filedrop.vue";
 import { onMounted } from "@vue/runtime-core";
 import PendingContent from "./PendingContent.vue";
+import { useStore } from "vuex";
+import useExports from "@/composables/exports"; 
 
 const { sources, loadSources, remove, upload } = useSources();
 const { corpusId } = useCorpusIdParam();
+const store = useStore();
+const { contentViewX } = useExports();
 
-onMounted(() => loadSources());
+onMounted(() => {
+  loadSources();
+});
 
 function uploadDrop(files) {
   upload(files);
@@ -58,6 +76,11 @@ function uploadDrop(files) {
 
 function uploadSingle(event) {
   upload(event.target.files);
+}
+
+function changeShowText(fileName) {
+  store.commit('removeText');
+  contentViewX(fileName)
 }
 </script>
 

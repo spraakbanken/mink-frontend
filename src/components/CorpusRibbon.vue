@@ -1,7 +1,7 @@
 <template>
   <div class="my-4 flex">
     <RibbonLink :to="`/corpus/${corpusId}`">
-      <h4 class="uppercase text-gray-600 text-base">Metadata</h4>
+      <h4 class="uppercase text-gray-600 text-base">{{ $t("metadata") }}</h4>
     </RibbonLink>
 
     <div class="mx-2 self-center">
@@ -10,8 +10,9 @@
 
     <RibbonLink :to="`/corpus/${corpusId}/sources`">
       <PendingContent :on="`corpus/${corpusId}/sources`">
-        <h4 class="uppercase text-gray-600 text-base">Texter</h4>
-        <div v-if="sources">{{ sources.length }} filer</div>
+        <h4 class="uppercase text-gray-600 text-base">{{ $t("text") }}</h4>
+        <div v-if="sources && sources.length > 1">{{ sources.length }} {{ $t("files") }}</div>
+        <div v-else-if="sources && sources.length < 2">{{ sources.length }} {{ $t("file") }}</div>
       </PendingContent>
     </RibbonLink>
 
@@ -21,7 +22,7 @@
 
     <RibbonLink :to="`/corpus/${corpusId}/config`">
       <PendingContent :on="`corpus/${corpusId}/config`">
-        <h4 class="uppercase text-gray-600 text-base">Konfiguration</h4>
+        <h4 class="uppercase text-gray-600 text-base">{{ $t("configuration") }}</h4>
         <div>{{ config ? "Konfigurerad" : "Ej konfigurerad" }}</div>
       </PendingContent>
     </RibbonLink>
@@ -32,8 +33,8 @@
 
     <RibbonLink :to="`/corpus/${corpusId}/status`" :disabled="!isJobStarted">
       <PendingContent :on="`corpus/${corpusId}/job`">
-        <h4 class="uppercase text-gray-600 text-base">Analys</h4>
-        <div v-if="isJobStarted">{{ jobStatusMessage }}</div>
+        <h4 class="uppercase text-gray-600 text-base">{{ $t("analysis") }}</h4>
+        <div v-if="isJobStarted">{{ $t(jobStatusMessage) }}</div>
         <div v-else-if="config" class="flex justify-center items-center">
           <ActionButton class="bg-blue-100 border-blue-200" @click.stop="run">
             Kör
@@ -46,18 +47,11 @@
       <img src="@/assets/right.svg" class="h-10 opacity-75" />
     </div>
 
-    <div class="flex-1 text-sm p-2">
+    <RibbonLink :to="`/corpus/${corpusId}/exports`">
       <PendingContent :on="`corpus/${corpusId}/exports`">
-        <h4 class="uppercase text-gray-600 text-base">Resultat</h4>
-        <ActionButton
-          v-if="exports && exports.length"
-          @click="download"
-          class="mr-2 bg-green-200 border-green-300"
-        >
-          Ladda ner
-        </ActionButton>
+        <h4 class="uppercase text-gray-600 text-base">{{ $t("result") }}</h4>
       </PendingContent>
-    </div>
+    </RibbonLink>
   </div>
 </template>
 
@@ -84,7 +78,7 @@ const { corpusId } = useCorpusIdParam();
 
 onMounted(() => {
   loadSources();
-  loadConfig();
+  // loadConfig();
   loadJob();
   loadExports();
 });
@@ -94,9 +88,9 @@ async function run() {
   router.push(`/corpus/${corpusId.value}/status`);
 }
 
-async function download() {
-  downloadResult();
-}
+// async function download() {
+//   downloadResult();
+// }
 </script>
 
 <style></style>

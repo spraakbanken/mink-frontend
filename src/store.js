@@ -9,7 +9,7 @@ export default createStore({
       corpora: {
         // [corpusId]: {source, config, status, exports}
       },
-      pending: [],
+      pending: [], txtshow: null,
     };
   },
   mutations: {
@@ -52,6 +52,12 @@ export default createStore({
     },
     removeCorpus(state, corpusId) {
       delete state.corpora[corpusId];
+    },
+    showText(state, { content }) {
+      state.txtshow = { content };
+    },
+    removeText(state) {
+      state.txtshow = null;
     },
   },
 });

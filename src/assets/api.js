@@ -135,6 +135,46 @@ export async function downloadExports(corpusId) {
     });
 }
 
+export async function downloadExportFileXML(corpusId, fileName) {
+  return axios
+    .get("download-exports", {
+      params: { corpus_id: corpusId, file: "/Min Språkbank/" + corpusId + "/export/xml_pretty/" + fileName, zip: false},
+      responseType: "blob",
+    })
+    .then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${fileName.replace('_export', '')}`);
+      document.body.appendChild(link);
+      link.click();
+      window.URL.revokeObjectURL(url);
+    });
+}
+
+export async function downloadExportFileTxt(corpusId, fileName) {
+  return axios
+    .get("download-source-text", {
+      params: { corpus_id: corpusId, file: fileName},
+      responseType: "blob",
+    })
+    .then((response) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${fileName}`);
+      document.body.appendChild(link);
+      link.click();
+      window.URL.revokeObjectURL(url);
+    });
+}
+
+export async function getContentViewX(corpusId, fileName) {
+  return axios
+    .get("download-sources", {params: { corpus_id: corpusId, file: fileName, zip: false},
+  }).then((response) => response.data);
+}
+
 export async function removeCorpus(corpusId) {
   return axios.delete("remove-corpus", { params: { corpus_id: corpusId } });
 }
@@ -146,14 +186,14 @@ export const statusMessage = (status) => STATUSES[status]?.message;
 // prettier-ignore
 const STATUSES = {
   none:             { started: false, running: false, message: "" },
-  syncing_corpus:   { started:  true, running:  true, message: "Syncar korpus" },
-  waiting:          { started:  true, running:  true, message: "Väntar" },
-  annotating:       { started:  true, running:  true, message: "Annoterar" },
-  done_annotating:  { started:  true, running:  true, message: "Annotering färdig" },
-  syncing_results:  { started:  true, running:  true, message: "Syncar resultat" },
-  done:             { started:  true, running: false, message: "Färdig" },
-  error:            { started:  true, running: false, message: "Fel" },
-  aborted:          { started:  true, running: false, message: "Avbruten" },
+  syncing_corpus:   { started:  true, running:  true, message: "syncing_corpus" },
+  waiting:          { started:  true, running:  true, message: "waiting" },
+  annotating:       { started:  true, running:  true, message: "annotating" },
+  done_annotating:  { started:  true, running:  true, message: "done_annotating" },
+  syncing_results:  { started:  true, running:  true, message: "syncing_results" },
+  done:             { started:  true, running: false, message: "done" },
+  error:            { started:  true, running: false, message: "error" },
+  aborted:          { started:  true, running: false, message: "aborted" },
 };
 
 const configSampleXml = (corpusId) => `

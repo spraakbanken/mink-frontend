@@ -1,7 +1,7 @@
 <template>
   <PageTitle>{{ name }}</PageTitle>
   <div class="my-4">
-    <ActionButton @click="logout">Logga ut</ActionButton>
+    <ActionButton @click="logout">{{ $t("logout") }}</ActionButton>
   </div>
 </template>
 

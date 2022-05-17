@@ -1,15 +1,15 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}/job`">
-    <Section title="Analys">
+    <Section title="analysis">
       <table class="w-full my-4">
         <thead></thead>
         <tbody>
           <tr>
-            <th class="text-right">Meddelande:</th>
+            <th class="text-right">{{ $t("message") }}:</th>
             <td>{{ jobStatus.message }}</td>
           </tr>
           <tr>
-            <th class="text-right">Sparv-output:</th>
+            <th class="text-right">{{ $t("sparvOutput") }}:</th>
             <td>
               <pre class="text-sm">{{ jobStatus.sparv_output }}</pre>
             </td>

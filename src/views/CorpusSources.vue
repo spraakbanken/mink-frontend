@@ -1,5 +1,5 @@
 <template>
-  <Section title="Texter">
+  <Section title="text">
     <Sources />
   </Section>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <Section title="Konfiguration">
+  <Section title="configuration">
     <table class="w-full my-4">
       <thead></thead>
       <tbody>
@@ -22,7 +22,7 @@
                 @click="save"
                 class="mr-2 bg-blue-100 border-blue-200"
               >
-                Spara konfiguration
+                {{ $t("saveConfig") }}
               </ActionButton>
             </PendingContent>
           </td>
@@ -40,12 +40,16 @@ import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
 import PendingContent from "@/components/PendingContent.vue";
+import { useStore } from "vuex";
 
+const store = useStore();
 const { spin } = useSpin();
 const { corpusId } = useCorpusIdParam();
 const format = ref("txt");
+const configS = "Temp string"
 
 async function save() {
+  store.commit("setConfig", { corpusId: corpusId.value, config: configS})
   await spin(
     putConfig(corpusId.value, { format: format.value }),
     "Sparar konfiguration",

@@ -1,14 +1,14 @@
 <template>
-  <PageTitle>Logga in</PageTitle>
-  <Section>
+  <PageTitle>{{ $t("login") }}</PageTitle>
+  <Section title="none">
     <PendingContent on="login">
-      <div>
-        <label for="username">Username:</label>
+      <div class="inline-grid">
+        <label for="username">{{ $t("username") }}</label>
         <input id="username" v-model="username" class="border" />
       </div>
-
-      <div>
-        <label for="password">Password:</label>
+      <br>
+      <div  class="inline-grid">
+        <label for="password">{{ $t("password") }}</label>
         <input
           id="password"
           type="password"
@@ -16,13 +16,13 @@
           class="border"
         />
       </div>
-
+      <br><br>
       <div>
         <ActionButton
           @click="submitLogin"
           class="bg-green-200 border-green-300"
         >
-          Logga in
+          {{ $t("login") }}
         </ActionButton>
       </div>
     </PendingContent>

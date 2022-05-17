@@ -1,25 +1,8 @@
 <template>
-  <Section :title="filename">
-    <table class="w-full mt-4">
-      <tbody>
-        <tr>
-          <th>Filnamn</th>
-          <td>{{ filename }}</td>
-        </tr>
-        <tr>
-          <th>Filtyp</th>
-          <td>
-            <code>{{ metadata.type }}</code>
-          </td>
-        </tr>
-        <tr>
-          <th>Uppladdad</th>
-          <td>
-            {{ new Date(metadata.last_modified).toLocaleString() }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <Section title="none">
+    <h2>{{ filename }}</h2>
+    <br>
+    <span>{{ showText }}</span>
   </Section>
 </template>
 
@@ -27,6 +10,10 @@
 import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 import Section from "@/components/layout/Section.vue";
+import useExports from "@/composables/exports";
+import useSpin from "@/assets/spin";
+
+const { spin } = useSpin();
 
 const props = defineProps({
   corpusId: { type: String, required: true },
@@ -34,6 +21,7 @@ const props = defineProps({
 });
 
 const store = useStore();
+const showText = computed(() => store.state.txtshow?.content);
 const metadata = computed(() =>
   store.state.corpora[props.corpusId].sources.find(
     (source) => source.name === props.filename

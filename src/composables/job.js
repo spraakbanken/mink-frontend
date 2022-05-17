@@ -1,4 +1,4 @@
-import { onUnmounted } from "@vue/runtime-core";
+// import { onUnmounted } from "@vue/runtime-core";
 import { computed } from "@vue/reactivity";
 import {
   getJob,
@@ -53,7 +53,7 @@ export default function useJob(corpusIdArg) {
 
   // TODO This gives a warning: "onUnmounted is called when there is no active component instance to be associated with."
   //      ^ Maybe because of abhorrent useJob usage in template in Home.vue?
-  onUnmounted(() => clearTimeout(loadJobTimer));
+  // onUnmounted(() => clearTimeout(loadJobTimer));
 
   const jobStatus = computed(() => store.state.corpora[corpusId.value].status);
   const jobStatusId = computed(() => jobStatus.value?.job_status);

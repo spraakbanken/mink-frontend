@@ -1,5 +1,5 @@
 <template>
-  <PageTitle subtitle="Korpus">{{ corpusId }}</PageTitle>
+  <PageTitle subtitle="corpus">{{ corpusId }}</PageTitle>
   <CorpusRibbon />
   <router-view />
 </template>

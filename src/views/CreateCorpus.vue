@@ -1,15 +1,34 @@
 <template>
-  <PageTitle>Ny korpus</PageTitle>
-  <Section>
+  <PageTitle>{{ $t("new") }} {{ $t("corpus") }}</PageTitle>
+  <Section title="none">
     <PendingContent on="create">
       <table class="w-full my-4">
         <tbody>
           <tr>
             <th class="text-right">
-              <label for="name">Namn:</label>
+              <label for="name">{{ $t("name") }}:</label>
             </th>
             <td>
-              <input id="name" v-model="name" class="border" />
+              <input id="name" v-model="name" class="border w-70" />
+            </td>
+          </tr>
+          <tr>
+            <th class="text-right">
+              <label for="description">{{ $t("description") }}:</label>
+            </th>
+            <td>
+              <input id="description" v-model="description" class="border" />
+            </td>
+          </tr>
+          <tr>
+            <th class="text-right">
+              <label for="fileFormat">{{ $t("fileFormat") }}:</label>
+            </th>
+            <td>
+              <select id="fileFormat" v-model="fileFormat">
+                <option>txt</option>
+                <option>xml</option>
+              </select>
             </td>
           </tr>
           <tr>
@@ -45,6 +64,8 @@ const store = useStore();
 const { spin } = useSpin();
 
 const name = ref("");
+const description = ref("");
+const fileFormat = ref("");
 const message = ref(null);
 
 async function submit() {

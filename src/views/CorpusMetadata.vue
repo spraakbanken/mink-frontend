@@ -1,25 +1,28 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}`">
-    <Section title="Metadata">
-      <table class="w-full my-4">
+    <Section title="metadata">
+      <table class="table-fixed w-full my-4">
         <tbody>
           <tr>
-            <th class="text-right">Identifierare:</th>
-            <td>{{ corpusId }}</td>
+            <th class="w-1/6">{{ $t("corpus") }} {{ $t("name") }}</th>
+            <td class="w-1/2"><i>{{ corpusId }}</i></td>
           </tr>
           <tr>
-            <th />
-            <td>
-              <ActionButton
-                @click="deleteCorpus"
-                class="bg-red-200 border-red-300"
-              >
-                Radera korpus
-              </ActionButton>
-            </td>
+            <th class="w-1/6">{{ $t("description") }}</th>
+            <td class="w-1/2"><i>None</i></td>
+          </tr>
+          <tr>
+            <th class="w-1/6">{{ $t("fileFormat") }}</th>
+            <td class="w-1/2"><i>None</i></td>
           </tr>
         </tbody>
       </table>
+      <ActionButton
+                @click="deleteCorpus"
+                class="bg-red-200 border-red-300"
+              >
+                {{ $t("deleteCorpus") }}
+              </ActionButton>
     </Section>
   </PendingContent>
 </template>
@@ -42,9 +45,9 @@ const { corpusId } = useCorpusIdParam();
 
 async function deleteCorpus() {
   const token = `corpus/${corpusId.value}`;
-  await spin(removeCorpus(corpusId.value), "Raderar korpus", token);
   store.commit("removeCorpus", corpusId.value);
   router.push("/");
+  await spin(removeCorpus(corpusId.value), "Raderar korpus", token);
 }
 </script>
 

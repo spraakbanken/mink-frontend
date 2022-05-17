@@ -31,10 +31,12 @@
   </header>
   <div class="container flex justify-between mb-4 text-gray-600">
     <div class="flex">
-      <router-link to="/" class="text-gray-600">Korpusar</router-link>
+      <router-link to="/" class="text-gray-600 pt-1">{{ $t("corpuses") }}</router-link>
     </div>
     <div class="flex">
-      <router-link to="/user" class="text-gray-600">{{ name }}</router-link>
+      <router-link to="/user" class="text-gray-600 pt-0.5">{{ name }}</router-link>
+      <h4 class="pr-2 pl-2 text-xl">|</h4>
+      <LocaleSwitcher />
     </div>
   </div>
   <div class="container py-2">
@@ -50,7 +52,7 @@
       text-sm text-gray-700
     "
   >
-    Kontakt: sb-info@svenska.gu.se
+    {{ $t("contact") }}: sb-info@svenska.gu.se
   </div>
 </template>
 
@@ -60,6 +62,7 @@ import { initialize } from "./assets/api";
 import store from "./store";
 import useSpin from "@/assets/spin";
 import Spinner from "@/components/Spinner.vue";
+import LocaleSwitcher from "@/components/LocaleSwitcher.vue";
 
 const { messages } = useSpin();
 const auth = computed(() => store.state.auth);
