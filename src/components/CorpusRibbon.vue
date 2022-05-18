@@ -82,11 +82,11 @@ const { loadExports, exports, downloadResult } = useExports();
 
 const { corpusId } = useCorpusIdParam();
 
-onMounted(() => {
-  loadSources();
-  // loadConfig();
-  loadJob();
-  loadExports();
+onMounted(async () => {
+  await loadSources();
+  await loadConfig();
+  await loadJob();
+  await loadExports();
 });
 
 async function run() {

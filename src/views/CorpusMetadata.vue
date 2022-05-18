@@ -19,7 +19,7 @@
           </tr>
         </tbody>
       </table>
-      <ActionButton class="bg-red-200 border-red-300" @click="deleteCorpus">
+      <ActionButton @click="deleteCorpus" class="bg-red-200 border-red-300">
         {{ $t("deleteCorpus") }}
       </ActionButton>
     </Section>

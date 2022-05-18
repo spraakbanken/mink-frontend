@@ -43,6 +43,7 @@
   "xml": "XML",
   "txt": "Text",
   "name": "Name",
+  "identifier": "Identifier",
   "description": "Description",
   "fileFormat": "File Format"
 }

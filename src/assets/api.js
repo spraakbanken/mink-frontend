@@ -1,4 +1,5 @@
 import Axios from "axios";
+import { makeConfig } from "./corpusConfig";
 
 const axios = Axios.create({
   baseURL: "https://ws.spraakbanken.gu.se/ws/min-sb/",
@@ -39,10 +40,11 @@ export function getCorpus(corpusId) {
     .then((response) => response.data.contents);
 }
 
-export function createCorpus(corpusId) {
-  return axios.post("create-corpus", null, {
+export async function createCorpus(corpusId, name, description, format) {
+  await axios.post("create-corpus", null, {
     params: { corpus_id: corpusId },
   });
+  await putConfig(corpusId, { name, description, format });
 }
 
 export function putSources(corpusId, files) {
@@ -67,13 +69,7 @@ export function getConfig(corpusId) {
 }
 
 export async function putConfig(corpusId, options) {
-  const config = {
-    txt: configSampleTxt(corpusId),
-    xml: configSampleXml(corpusId),
-  }[options.format];
-  if (!config) {
-    throw new RangeError(`Format not recognized: "${options.format}"`);
-  }
+  const config = makeConfig(corpusId, options);
 
   const configFile = new File([config], "config.yaml", {
     type: "text/yaml",
@@ -201,27 +197,3 @@ const STATUSES = {
   error:            { started:  true, running: false, message: "error" },
   aborted:          { started:  true, running: false, message: "aborted" },
 };
-
-const configSampleXml = (corpusId) => `
-metadata:
-  id: ${corpusId}
-export:
-  annotations:
-    - <sentence>:misc.id
-    - <token>:saldo.baseform
-    - <token>:hunpos.pos
-    - <token>:sensaldo.sentiment_label
-`;
-
-const configSampleTxt = (corpusId) => `
-metadata:
-  id: ${corpusId}
-import:
-    importer: text_import:parse
-export:
-  annotations:
-    - <sentence>:misc.id
-    - <token>:saldo.baseform
-    - <token>:hunpos.pos
-    - <token>:sensaldo.sentiment_label
-`;

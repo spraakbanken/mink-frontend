@@ -42,7 +42,8 @@
   "password": "Lösenord",
   "xml": "XML",
   "txt": "Text",
-  "name": "Namn",
+  "name": "Name",
+  "identifier": "Identifierare",
   "description": "Beskrivning",
   "fileFormat": "Format"
 }

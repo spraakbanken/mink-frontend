@@ -14,6 +14,14 @@
           </tr>
           <tr>
             <th class="text-right">
+              <label for="id">{{ $t("identifier") }}:</label>
+            </th>
+            <td>
+              <input id="id" v-model="id" class="border w-70" />
+            </td>
+          </tr>
+          <tr>
+            <th class="text-right">
               <label for="description">{{ $t("description") }}:</label>
             </th>
             <td>
@@ -35,8 +43,8 @@
             <th />
             <td>
               <ActionButton
-                class="bg-green-200 border-green-300"
                 @click="submit"
+                class="bg-green-200 border-green-300"
               >
                 Spara
               </ActionButton>
@@ -58,22 +66,33 @@ import PageTitle from "@/components/PageTitle.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
 import { useStore } from "vuex";
+import PendingContent from "@/components/PendingContent.vue";
 
 const router = useRouter();
 const store = useStore();
 const { spin } = useSpin();
 
 const name = ref("");
+const id = ref("");
 const description = ref("");
-const fileFormat = ref("");
+const fileFormat = ref("txt");
 const message = ref(null);
 
 async function submit() {
-  spin(createCorpus(name.value), "Skapar korpus", "create")
-    .catch((reason) => (message.value = reason.response.data.message))
+  spin(
+    createCorpus(id.value, name.value, description.value, fileFormat.value),
+    "Skapar korpus",
+    "create"
+  )
     .then(() => {
-      store.commit("addCorpus", name.value);
-      router.push(`/corpus/${name.value}`);
-    });
+      store.commit("addCorpus", id.value);
+      router.push(`/corpus/${id.value}`);
+    })
+    .catch(
+      (reason) =>
+        (message.value = reason.response
+          ? reason.response.data.message
+          : reason)
+    );
 }
 </script>
