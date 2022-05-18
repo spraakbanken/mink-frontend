@@ -14,7 +14,8 @@
   "deleteCorpus": "Delete corpus",
   "fileName": "File name",
   "fileType": "File type",
-  "lastModify": "Uploaded",
+  "uploaded": "Uploaded",
+  "lastModify": "Last modified",
   "fileSize": "File size",
   "deleteFile": "Delete",
   "addFile": "Add file",
@@ -44,5 +45,7 @@
   "identifier": "Identifier",
   "description": "Description",
   "fileFormat": "File Format",
-  "edit": "Edit"
+  "edit": "Edit",
+  "job_run": "Run analysis",
+  "job_abort": "Abort analysis"
 }

@@ -7,6 +7,7 @@ import {
   queueJob,
   abortJob as apiAbortJob,
   statusMessage,
+  isStatusDone,
 } from "@/assets/api";
 import useSpin from "@/assets/spin";
 import useCorpusIdParam from "./corpusIdParam";
@@ -59,6 +60,7 @@ export default function useJob(corpusIdArg) {
   const jobStatusId = computed(() => jobStatus.value?.job_status);
   const isJobStarted = computed(() => isStatusStarted(jobStatusId.value));
   const isJobRunning = computed(() => isStatusRunning(jobStatusId.value));
+  const isJobDone = computed(() => isStatusDone(jobStatusId.value));
   const jobStatusMessage = computed(() => statusMessage(jobStatusId.value));
   const exports = computed(() => store.state.corpora[corpusId.value].exports);
 
@@ -68,6 +70,7 @@ export default function useJob(corpusIdArg) {
     jobStatus,
     isJobStarted,
     isJobRunning,
+    isJobDone,
     jobStatusMessage,
     exports,
   };

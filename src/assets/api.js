@@ -182,6 +182,7 @@ export async function removeCorpus(corpusId) {
 
 export const isStatusStarted = (status) => STATUSES[status]?.started;
 export const isStatusRunning = (status) => STATUSES[status]?.running;
+export const isStatusDone = (status) => status == "done";
 export const statusMessage = (status) => STATUSES[status]?.message;
 
 // prettier-ignore

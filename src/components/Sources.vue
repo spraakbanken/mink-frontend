@@ -6,7 +6,7 @@
           <tr>
             <th>{{ $t("fileName") }}</th>
             <th>{{ $t("fileType") }}</th>
-            <th>{{ $t("lastModify") }}</th>
+            <th>{{ $t("uploaded") }}</th>
             <th>{{ $t("fileSize") }}</th>
             <th>{{ $t("deleteFile") }}</th>
           </tr>

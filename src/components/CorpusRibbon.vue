@@ -37,10 +37,7 @@
       <img src="@/assets/right.svg" alt="" class="h-10 opacity-75" />
     </div>
 
-    <RibbonLink
-      :to="`/corpus/${corpusId}/exports`"
-      :disabled="!exports || !exports.length"
-    >
+    <RibbonLink :to="`/corpus/${corpusId}/exports`" :disabled="!isJobDone">
       <PendingContent :on="`corpus/${corpusId}/exports`">
         <h4 class="uppercase text-gray-600 text-base">{{ $t("result") }}</h4>
       </PendingContent>
@@ -61,8 +58,7 @@ import RibbonLink from "./RibbonLink.vue";
 import PendingContent from "./PendingContent.vue";
 
 const router = useRouter();
-const { runJob, loadJob, isJobStarted, isJobRunning, jobStatusMessage } =
-  useJob();
+const { runJob, loadJob, isJobStarted, isJobDone, jobStatusMessage } = useJob();
 const { sources, loadSources } = useSources();
 const { config } = useConfig();
 const { loadExports, exports, downloadResult } = useExports();

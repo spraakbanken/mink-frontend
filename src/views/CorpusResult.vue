@@ -1,50 +1,46 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}/exports`">
     <Section :title="$t('result')">
-      <div v-if="result.length === 0">
+      <div v-if="exports.length === 0">
         Waiting for the annotation to complete.
       </div>
       <div v-else>
         <table class="w-full mt-4">
           <thead>
             <tr>
-              <!--<th v-for="(value, source) in result[0]" :key="source">{{ source ? source : 'Download' }}</th>-->
               <th>{{ $t("fileName") }}</th>
               <th>{{ $t("fileType") }}</th>
               <th>{{ $t("lastModify") }}</th>
               <th>{{ $t("fileSize") }}</th>
-              <th>{{ $t("xml") }} {{ $t("file") }}</th>
-              <th>{{ $t("txt") }} {{ $t("file") }}</th>
+              <th>{{ $t("download") }}</th>
             </tr>
           </thead>
           <tbody class="border-b-0">
-            <tr v-for="source in result" :key="source">
+            <tr v-for="file in exports" :key="file.name">
               <td>
-                {{ source.name.replace("_export.xml", "") }}
+                {{ file.name }}
               </td>
               <td>
-                {{ source.type }}
+                {{ file.type }}
               </td>
               <td>
                 {{
-                  source.last_modified.split("T")[0] +
+                  file.last_modified.split("T")[0] +
                   " " +
-                  source.last_modified.split("T")[1].split("+")[0]
+                  file.last_modified.split("T")[1].split("+")[0]
                 }}
               </td>
-              <td>{{ (source.size / 1000).toFixed(1) }} {{ "KB" }}</td>
+              <td>{{ (file.size / 1000).toFixed(1) }} {{ "KB" }}</td>
               <td>
                 <ActionButton
                   class="mute slim hover:bg-green-200"
-                  @click="downloadSingleFileXML(source.name)"
+                  @click="downloadSingleFileXML(file.name)"
                 >
                   <img src="@/assets/xml-file.svg" class="h-7 opacity-75" />
                 </ActionButton>
-              </td>
-              <td>
                 <ActionButton
                   class="mute slim hover:bg-green-200"
-                  @click="downloadSingleFileTxt(source.name)"
+                  @click="downloadSingleFileTxt(file.name)"
                 >
                   <img src="@/assets/download.svg" class="h-7 opacity-75" />
                 </ActionButton>
@@ -80,7 +76,6 @@ import useExports from "@/composables/exports";
 
 const store = useStore();
 const { corpusId } = useCorpusIdParam();
-const result = computed(() => store.state.corpora[corpusId.value]?.exports);
 const {
   loadExports,
   exports,

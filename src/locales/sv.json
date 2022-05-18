@@ -14,7 +14,8 @@
   "deleteCorpus": "Radera korpus",
   "fileName": "Filnamn",
   "fileType": "Filtyp",
-  "lastModify": "Uppladdad",
+  "uploaded": "Uppladdad",
+  "lastModify": "Senast ändrad",
   "fileSize": "Filstorlek",
   "deleteFile": "Ta bort",
   "addFile": "Lägg till fil",
@@ -44,5 +45,7 @@
   "identifier": "Identifierare",
   "description": "Beskrivning",
   "fileFormat": "Format",
-  "edit": "Redigera"
+  "edit": "Redigera",
+  "job_run": "Starta analys",
+  "job_abort": "Avbryt analys"
 }

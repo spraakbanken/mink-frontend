@@ -22,7 +22,7 @@
                 class="mr-2 bg-blue-100 border-blue-200"
                 @click="runJob"
               >
-                Starta analys
+                {{ $t("job_run") }}
               </ActionButton>
 
               <ActionButton
@@ -30,7 +30,7 @@
                 class="bg-red-200 border-red-300"
                 @click="abortJob"
               >
-                Avbryt analys
+                {{ $t("job_abort") }}
               </ActionButton>
             </td>
           </tr>
