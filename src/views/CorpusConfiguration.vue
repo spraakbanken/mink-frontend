@@ -19,8 +19,8 @@
           <td class="py-4">
             <PendingContent :on="`corpus/${corpusId}/config`">
               <ActionButton
-                @click="save"
                 class="mr-2 bg-blue-100 border-blue-200"
+                @click="save"
               >
                 {{ $t("saveConfig") }}
               </ActionButton>
@@ -46,10 +46,10 @@ const store = useStore();
 const { spin } = useSpin();
 const { corpusId } = useCorpusIdParam();
 const format = ref("txt");
-const configS = "Temp string"
+const configS = "Temp string";
 
 async function save() {
-  store.commit("setConfig", { corpusId: corpusId.value, config: configS})
+  store.commit("setConfig", { corpusId: corpusId.value, config: configS });
   await spin(
     putConfig(corpusId.value, { format: format.value }),
     "Sparar konfiguration",

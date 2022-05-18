@@ -1,5 +1,11 @@
 import { computed } from "@vue/reactivity";
-import { downloadExports, getExports, getContentViewX, downloadExportFileXML, downloadExportFileTxt } from "@/assets/api";
+import {
+  downloadExports,
+  getExports,
+  getContentViewX,
+  downloadExportFileXML,
+  downloadExportFileTxt,
+} from "@/assets/api";
 import useSpin from "@/assets/spin";
 import { useStore } from "vuex";
 import useCorpusIdParam from "@/composables/corpusIdParam";
@@ -48,10 +54,9 @@ export default function useExports() {
       "Laddar ner text",
       token.value
     ).then((data) => {
-      store.commit('showText', { content: data});
+      store.commit("showText", { content: data });
     });
   }
-
 
   return {
     loadExports,

@@ -1,9 +1,9 @@
 <template>
   <div
+    :class="{ dragover: isDragover }"
     @drop.prevent="drop"
     @dragover.prevent="isDragover = true"
     @dragleave.prevent="isDragover = false"
-    :class="{ dragover: isDragover }"
   >
     <slot />
   </div>

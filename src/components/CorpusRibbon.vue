@@ -11,8 +11,12 @@
     <RibbonLink :to="`/corpus/${corpusId}/sources`">
       <PendingContent :on="`corpus/${corpusId}/sources`">
         <h4 class="uppercase text-gray-600 text-base">{{ $t("text") }}</h4>
-        <div v-if="sources && sources.length > 1">{{ sources.length }} {{ $t("files") }}</div>
-        <div v-else-if="sources && sources.length < 2">{{ sources.length }} {{ $t("file") }}</div>
+        <div v-if="sources && sources.length > 1">
+          {{ sources.length }} {{ $t("files") }}
+        </div>
+        <div v-else-if="sources && sources.length < 2">
+          {{ sources.length }} {{ $t("file") }}
+        </div>
       </PendingContent>
     </RibbonLink>
 
@@ -22,7 +26,9 @@
 
     <RibbonLink :to="`/corpus/${corpusId}/config`">
       <PendingContent :on="`corpus/${corpusId}/config`">
-        <h4 class="uppercase text-gray-600 text-base">{{ $t("configuration") }}</h4>
+        <h4 class="uppercase text-gray-600 text-base">
+          {{ $t("configuration") }}
+        </h4>
         <div>{{ config ? "Konfigurerad" : "Ej konfigurerad" }}</div>
       </PendingContent>
     </RibbonLink>

@@ -35,8 +35,8 @@
             <th />
             <td>
               <ActionButton
-                @click="submit"
                 class="bg-green-200 border-green-300"
+                @click="submit"
               >
                 Spara
               </ActionButton>

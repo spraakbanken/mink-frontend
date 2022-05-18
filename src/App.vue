@@ -7,18 +7,11 @@
       <div class="h-12 flex items-center">
         <div
           v-if="messages"
-          class="
-            messages
-            mx-2
-            self-start
-            h-full
-            overflow-auto
-            text-right text-xs
-          "
+          class="messages mx-2 self-start h-full overflow-auto text-right text-xs"
         >
           <div v-for="message in messages" :key="message">{{ message }}</div>
         </div>
-        <div class="mx-2" v-if="messages">
+        <div v-if="messages" class="mx-2">
           <Spinner />
         </div>
         <div class="ml-2 -mr-3 w-56">
@@ -31,10 +24,14 @@
   </header>
   <div class="container flex justify-between mb-4 text-gray-600">
     <div class="flex">
-      <router-link to="/" class="text-gray-600 pt-1">{{ $t("corpuses") }}</router-link>
+      <router-link to="/" class="text-gray-600 pt-1">{{
+        $t("corpuses")
+      }}</router-link>
     </div>
     <div class="flex">
-      <router-link to="/user" class="text-gray-600 pt-0.5">{{ name }}</router-link>
+      <router-link to="/user" class="text-gray-600 pt-0.5">{{
+        name
+      }}</router-link>
       <h4 class="pr-2 pl-2 text-xl">|</h4>
       <LocaleSwitcher />
     </div>
@@ -43,14 +40,7 @@
     <router-view />
   </div>
   <div
-    class="
-      container
-      py-20
-      flex
-      justify-center
-      items-center
-      text-sm text-gray-700
-    "
+    class="container py-20 flex justify-center items-center text-sm text-gray-700"
   >
     {{ $t("contact") }}: sb-info@svenska.gu.se
   </div>

@@ -1,31 +1,50 @@
 <template>
-  <Section title="corpuses">    
+  <Section title="corpuses">
     <PendingContent on="corpora" class="flex flex-wrap -mx-2">
       <router-link
         v-for="(corpus, corpusId) of corpora"
         :key="corpusId"
+        v-slot="{ navigate }"
         :to="`/corpus/${corpusId}`"
         custom
-        v-slot="{ navigate }"
       >
-        <PadButton @click="navigate" class="hover:bg-gray-50 flex flex-col">
+        <PadButton class="hover:bg-gray-50 flex flex-col" @click="navigate">
           <strong>{{ corpusId }}</strong>
-          <span v-if="corpus.sources && corpus.sources.length > 1">{{ corpus.sources.length }} {{ $t("files") }}</span>
-          <span v-else-if="corpus.sources">{{ corpus.sources.length }} {{ $t("file") }}</span>
+          <span v-if="corpus.sources && corpus.sources.length > 1"
+            >{{ corpus.sources.length }} {{ $t("files") }}</span
+          >
+          <span v-else-if="corpus.sources"
+            >{{ corpus.sources.length }} {{ $t("file") }}</span
+          >
           <!--<span>{{ useJob(corpusId).jobStatusMessage.value }}</span>-->
-          <div v-if="useJob(corpusId).jobStatusMessage.value === 'done'" class="flex">
-             Sparv <img src="@/assets/tick-mark.svg" class="h-4 opacity-75 mt-1 ml-2">
+          <div
+            v-if="useJob(corpusId).jobStatusMessage.value === 'done'"
+            class="flex"
+          >
+            Sparv
+            <img
+              src="@/assets/tick-mark.svg"
+              class="h-4 opacity-75 mt-1 ml-2"
+            />
           </div>
           <div v-else class="flex">
-             Sparv <img src="@/assets/incorrect.svg" class="h-4 opacity-75 mt-1 ml-2">
+            Sparv
+            <img
+              src="@/assets/incorrect.svg"
+              class="h-4 opacity-75 mt-1 ml-2"
+            />
           </div>
           <div class="flex">
-             Korp <img src="@/assets/incorrect.svg" class="h-4 opacity-75 mt-1 ml-2">
+            Korp
+            <img
+              src="@/assets/incorrect.svg"
+              class="h-4 opacity-75 mt-1 ml-2"
+            />
           </div>
         </PadButton>
       </router-link>
-      <router-link to="/corpus" custom v-slot="{ navigate }">
-        <PadButton @click="navigate" class="bg-blue-100 border-blue-200">
+      <router-link v-slot="{ navigate }" to="/corpus" custom>
+        <PadButton class="bg-blue-100 border-blue-200" @click="navigate">
           + {{ $t("new") }} {{ $t("corpus") }}
         </PadButton>
       </router-link>
@@ -52,6 +71,6 @@ const corpora = computed(() => store.state.corpora);
 onMounted(() => {
   spin(listCorpora(), "Hämtar korpusar", "corpora").then((corporaFetched) => {
     store.commit("setCorpora", corporaFetched);
-    })
+  });
 });
 </script>

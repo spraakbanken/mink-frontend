@@ -9,7 +9,8 @@ export default createStore({
       corpora: {
         // [corpusId]: {source, config, status, exports}
       },
-      pending: [], txtshow: null,
+      pending: [],
+      txtshow: null,
     };
   },
   mutations: {

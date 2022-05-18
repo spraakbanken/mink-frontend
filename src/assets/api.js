@@ -138,14 +138,18 @@ export async function downloadExports(corpusId) {
 export async function downloadExportFileXML(corpusId, fileName) {
   return axios
     .get("download-exports", {
-      params: { corpus_id: corpusId, file: "/Min Språkbank/" + corpusId + "/export/xml_pretty/" + fileName, zip: false},
+      params: {
+        corpus_id: corpusId,
+        file: "/Min Språkbank/" + corpusId + "/export/xml_pretty/" + fileName,
+        zip: false,
+      },
       responseType: "blob",
     })
     .then((response) => {
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", `${fileName.replace('_export', '')}`);
+      link.setAttribute("download", `${fileName.replace("_export", "")}`);
       document.body.appendChild(link);
       link.click();
       window.URL.revokeObjectURL(url);
@@ -155,7 +159,7 @@ export async function downloadExportFileXML(corpusId, fileName) {
 export async function downloadExportFileTxt(corpusId, fileName) {
   return axios
     .get("download-source-text", {
-      params: { corpus_id: corpusId, file: fileName},
+      params: { corpus_id: corpusId, file: fileName },
       responseType: "blob",
     })
     .then((response) => {
@@ -171,8 +175,10 @@ export async function downloadExportFileTxt(corpusId, fileName) {
 
 export async function getContentViewX(corpusId, fileName) {
   return axios
-    .get("download-sources", {params: { corpus_id: corpusId, file: fileName, zip: false},
-  }).then((response) => response.data);
+    .get("download-sources", {
+      params: { corpus_id: corpusId, file: fileName, zip: false },
+    })
+    .then((response) => response.data);
 }
 
 export async function removeCorpus(corpusId) {

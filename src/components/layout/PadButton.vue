@@ -1,15 +1,6 @@
 <template>
   <div
-    class="
-      minsb-button
-      m-2
-      w-40
-      h-40
-      flex flex-column
-      justify-center
-      items-center
-      text-center
-    "
+    class="minsb-button m-2 w-40 h-40 flex flex-column justify-center items-center text-center"
     :class="{ 'cursor-pointer': clickable }"
   >
     <slot />

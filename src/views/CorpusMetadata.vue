@@ -5,7 +5,9 @@
         <tbody>
           <tr>
             <th class="w-1/6">{{ $t("corpus") }} {{ $t("name") }}</th>
-            <td class="w-1/2"><i>{{ corpusId }}</i></td>
+            <td class="w-1/2">
+              <i>{{ corpusId }}</i>
+            </td>
           </tr>
           <tr>
             <th class="w-1/6">{{ $t("description") }}</th>
@@ -17,12 +19,9 @@
           </tr>
         </tbody>
       </table>
-      <ActionButton
-                @click="deleteCorpus"
-                class="bg-red-200 border-red-300"
-              >
-                {{ $t("deleteCorpus") }}
-              </ActionButton>
+      <ActionButton class="bg-red-200 border-red-300" @click="deleteCorpus">
+        {{ $t("deleteCorpus") }}
+      </ActionButton>
     </Section>
   </PendingContent>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <Section title="none">
     <h2>{{ filename }}</h2>
-    <br>
+    <br />
     <span>{{ showText }}</span>
   </Section>
 </template>

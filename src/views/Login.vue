@@ -6,21 +6,21 @@
         <label for="username">{{ $t("username") }}</label>
         <input id="username" v-model="username" class="border" />
       </div>
-      <br>
-      <div  class="inline-grid">
+      <br />
+      <div class="inline-grid">
         <label for="password">{{ $t("password") }}</label>
         <input
           id="password"
-          type="password"
           v-model="password"
+          type="password"
           class="border"
         />
       </div>
-      <br><br>
+      <br /><br />
       <div>
         <ActionButton
-          @click="submitLogin"
           class="bg-green-200 border-green-300"
+          @click="submitLogin"
         >
           {{ $t("login") }}
         </ActionButton>

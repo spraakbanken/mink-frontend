@@ -27,8 +27,8 @@
 
               <ActionButton
                 v-if="isJobRunning"
-                @click="abortJob"
                 class="bg-red-200 border-red-300"
+                @click="abortJob"
               >
                 Avbryt analys
               </ActionButton>

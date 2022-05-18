@@ -15,24 +15,27 @@
           <tr v-for="source in sources" :key="source">
             <td>
               <router-link :to="`/corpus/${corpusId}/sources/${source.name}`">
-                <a v-on:click="changeShowText(source.name)">{{ source.name }}</a>
+                <a @click="changeShowText(source.name)">{{ source.name }}</a>
               </router-link>
             </td>
             <td>
               {{ source.type }}
             </td>
             <td>
-              {{  source.last_modified.split('T')[0] + ' ' + source.last_modified.split('T')[1].split('+')[0] }}
+              {{
+                source.last_modified.split("T")[0] +
+                " " +
+                source.last_modified.split("T")[1].split("+")[0]
+              }}
             </td>
+            <td>{{ (source.size / 1000).toFixed(1) }} {{ "KB" }}</td>
             <td>
-              {{ (source.size/1000).toFixed(1) }} {{ "KB" }}
-            </td>
-            <td> <!--class="text-right"-->
+              <!--class="text-right"-->
               <ActionButton
-                @click="remove(source)"
                 class="mute slim hover:bg-red-200"
+                @click="remove(source)"
               >
-                <img src="@/assets/trash-can.svg" class="h-7 opacity-75">
+                <img src="@/assets/trash-can.svg" class="h-7 opacity-75" />
               </ActionButton>
             </td>
           </tr>
@@ -44,7 +47,7 @@
         </label>
         <div class="p-8 flex justify-center items-center">
           {{ $t("dragANDdrop") }}:
-          <input type="file" @change="uploadSingle" class="ml-2" />
+          <input type="file" class="ml-2" @change="uploadSingle" />
         </div>
       </div>
     </Filedrop>
@@ -59,7 +62,7 @@ import Filedrop from "./Filedrop.vue";
 import { onMounted } from "@vue/runtime-core";
 import PendingContent from "./PendingContent.vue";
 import { useStore } from "vuex";
-import useExports from "@/composables/exports"; 
+import useExports from "@/composables/exports";
 
 const { sources, loadSources, remove, upload } = useSources();
 const { corpusId } = useCorpusIdParam();
@@ -79,8 +82,8 @@ function uploadSingle(event) {
 }
 
 function changeShowText(fileName) {
-  store.commit('removeText');
-  contentViewX(fileName)
+  store.commit("removeText");
+  contentViewX(fileName);
 }
 </script>
 
