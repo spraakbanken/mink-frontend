@@ -5,7 +5,7 @@
     </RibbonLink>
 
     <div class="mx-2 self-center">
-      <img src="@/assets/right.svg" class="h-10 opacity-75" />
+      <img src="@/assets/right.svg" alt="" class="h-10 opacity-75" />
     </div>
 
     <RibbonLink :to="`/corpus/${corpusId}/sources`">
@@ -21,7 +21,7 @@
     </RibbonLink>
 
     <div class="mx-2 self-center">
-      <img src="@/assets/right.svg" class="h-10 opacity-75" />
+      <img src="@/assets/right.svg" alt="" class="h-10 opacity-75" />
     </div>
 
     <RibbonLink :to="`/corpus/${corpusId}/config`">
@@ -34,7 +34,7 @@
     </RibbonLink>
 
     <div class="mx-2 self-center">
-      <img src="@/assets/right.svg" class="h-10 opacity-75" />
+      <img src="@/assets/right.svg" alt="" class="h-10 opacity-75" />
     </div>
 
     <RibbonLink :to="`/corpus/${corpusId}/status`" :disabled="!isJobStarted">
@@ -50,7 +50,7 @@
     </RibbonLink>
 
     <div class="mx-2 self-center">
-      <img src="@/assets/right.svg" class="h-10 opacity-75" />
+      <img src="@/assets/right.svg" alt="" class="h-10 opacity-75" />
     </div>
 
     <RibbonLink :to="`/corpus/${corpusId}/exports`">

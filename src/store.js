@@ -35,6 +35,10 @@ export default createStore({
       corpora.forEach(
         (corpusId) => (state.corpora[corpusId] = state.corpora[corpusId] || {})
       );
+      Object.keys(state.corpora).forEach(
+        (corpusId) =>
+          corpora.includes(corpusId) || delete state.corpora[corpusId]
+      );
     },
     addCorpus(state, corpusId) {
       state.corpora[corpusId] = state.corpora[corpusId] || {};

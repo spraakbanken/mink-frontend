@@ -1,21 +1,27 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}`">
-    <Section title="metadata">
+    <Section v-if="config" title="metadata">
       <table class="table-fixed w-full my-4">
         <tbody>
           <tr>
-            <th class="w-1/6">{{ $t("corpus") }} {{ $t("name") }}</th>
-            <td class="w-1/2">
-              <i>{{ corpusId }}</i>
+            <th class="lg:w-1/6">{{ $t("name") }}</th>
+            <td>
+              {{ th(config.name) }}
             </td>
           </tr>
           <tr>
-            <th class="w-1/6">{{ $t("description") }}</th>
-            <td class="w-1/2"><i>None</i></td>
+            <th class="lg:w-1/6">{{ $t("identifier") }}</th>
+            <td>
+              {{ corpusId }}
+            </td>
           </tr>
           <tr>
-            <th class="w-1/6">{{ $t("fileFormat") }}</th>
-            <td class="w-1/2"><i>None</i></td>
+            <th class="lg:w-1/6">{{ $t("description") }}</th>
+            <td>{{ th(config.description) }}</td>
+          </tr>
+          <tr>
+            <th class="lg:w-1/6">{{ $t("fileFormat") }}</th>
+            <td>{{ config.format }}</td>
           </tr>
         </tbody>
       </table>
@@ -35,12 +41,17 @@ import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
 import PendingContent from "@/components/PendingContent.vue";
+import useTh from "@/composables/th";
+import useConfig from "@/composables/config";
 
 const router = useRouter();
 const store = useStore();
 const { spin } = useSpin();
-
 const { corpusId } = useCorpusIdParam();
+const { config, loadConfig } = useConfig();
+const { th } = useTh();
+
+loadConfig();
 
 async function deleteCorpus() {
   const token = `corpus/${corpusId.value}`;

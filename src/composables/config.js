@@ -3,6 +3,7 @@ import { useStore } from "vuex";
 import { getConfig } from "@/assets/api";
 import useSpin from "@/assets/spin";
 import useCorpusIdParam from "./corpusIdParam";
+import { parseConfig } from "@/assets/corpusConfig";
 
 export default function useConfig() {
   const store = useStore();
@@ -13,8 +14,10 @@ export default function useConfig() {
 
   function loadConfig() {
     spin(getConfig(corpusId.value), "Hämtar konfiguration", token.value).then(
-      (config) =>
-        store.commit("setConfig", { corpusId: corpusId.value, config })
+      (configYaml) => {
+        const config = parseConfig(configYaml);
+        store.commit("setConfig", { corpusId: corpusId.value, config });
+      }
     );
   }
 

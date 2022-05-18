@@ -49,6 +49,7 @@
 <script setup>
 import { computed } from "@vue/reactivity";
 import { initialize } from "./assets/api";
+import * as api from "./assets/api";
 import store from "./store";
 import useSpin from "@/assets/spin";
 import Spinner from "@/components/Spinner.vue";
@@ -61,6 +62,11 @@ const name = computed(() => store.state.auth?.username);
 // Initialize API client.
 if (auth.value) {
   initialize(auth.value.username, auth.value.password);
+}
+
+if (import.meta.env.DEV) {
+  window.state = store.state;
+  window.api = api;
 }
 </script>
 

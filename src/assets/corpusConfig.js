@@ -25,3 +25,15 @@ export function makeConfig(id, options) {
 
   return stringify(config);
 }
+
+export function parseConfig(yaml) {
+  const config = parse(yaml);
+  return {
+    name: config["metadata"]["name"],
+    description: config["metadata"]["description"],
+    format:
+      config["import"] && config["import"]["importer"] == "text_import:parse"
+        ? "txt"
+        : "xml",
+  };
+}

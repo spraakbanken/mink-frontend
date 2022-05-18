@@ -64,8 +64,7 @@ export function removeSource(corpusId, name) {
 export function getConfig(corpusId) {
   return axios
     .get("download-config", { params: { corpus_id: corpusId } })
-    .then((response) => response.data)
-    .catch((error) => (error.response.status == 404 ? null : error));
+    .then((response) => response.data);
 }
 
 export async function putConfig(corpusId, options) {
