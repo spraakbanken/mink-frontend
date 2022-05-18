@@ -1,6 +1,6 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}/job`">
-    <Section title="analysis">
+    <Section :title="$t('analysis')">
       <table class="w-full my-4">
         <thead></thead>
         <tbody>

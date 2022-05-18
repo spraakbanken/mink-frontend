@@ -1,5 +1,5 @@
 <template>
-  <Section title="corpuses">
+  <Section :title="$t('corpuses')">
     <PendingContent on="corpora" class="flex flex-wrap -mx-2">
       <router-link
         v-for="(corpus, corpusId) of corpora"
@@ -10,13 +10,9 @@
       >
         <PadButton class="hover:bg-gray-50 flex flex-col" @click="navigate">
           <strong>{{ corpusId }}</strong>
-          <span v-if="corpus.sources && corpus.sources.length > 1"
-            >{{ corpus.sources.length }} {{ $t("files") }}</span
-          >
-          <span v-else-if="corpus.sources"
-            >{{ corpus.sources.length }} {{ $t("file") }}</span
-          >
-          <!--<span>{{ useJob(corpusId).jobStatusMessage.value }}</span>-->
+          <span v-if="corpus.sources">
+            {{ $t("files", corpus.sources.length) }}
+          </span>
           <div
             v-if="useJob(corpusId).jobStatusMessage.value === 'done'"
             class="flex"

@@ -1,6 +1,6 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}`">
-    <Section v-if="config" title="metadata">
+    <Section v-if="config" :title="$t('metadata')">
       <table class="table-fixed w-full my-4">
         <tbody>
           <tr>
@@ -25,6 +25,13 @@
           </tr>
         </tbody>
       </table>
+
+      <router-link :to="`/corpus/${corpusId}/config`">
+        <ActionButton class="bg-blue-100 border-blue-200 mr-4">
+          {{ $t("edit") }}
+        </ActionButton>
+      </router-link>
+
       <ActionButton @click="deleteCorpus" class="bg-red-200 border-red-300">
         {{ $t("deleteCorpus") }}
       </ActionButton>

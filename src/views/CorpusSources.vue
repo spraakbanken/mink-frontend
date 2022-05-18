@@ -1,5 +1,5 @@
 <template>
-  <Section title="text">
+  <Section :title="$t('texts')">
     <Sources />
   </Section>
 </template>

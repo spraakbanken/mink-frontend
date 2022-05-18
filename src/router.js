@@ -23,6 +23,7 @@ const routes = [
         path: "",
         component: CorpusMetadata,
       },
+      { path: "config", component: CorpusConfiguration },
       { path: "sources", component: CorpusSources },
       {
         path: "sources/:filename",
@@ -30,7 +31,6 @@ const routes = [
           import(/* webpackChunkName: source */ "@/views/Source.vue"),
         props: true,
       },
-      { path: "config", component: CorpusConfiguration },
       { path: "status", component: CorpusJob },
       { path: "exports", component: CorpusResult },
     ],

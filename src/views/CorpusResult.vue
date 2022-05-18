@@ -1,6 +1,6 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}/exports`">
-    <Section title="result">
+    <Section :title="$t('result')">
       <div v-if="result.length === 0">
         Waiting for the annotation to complete.
       </div>

@@ -10,26 +10,10 @@
 
     <RibbonLink :to="`/corpus/${corpusId}/sources`">
       <PendingContent :on="`corpus/${corpusId}/sources`">
-        <h4 class="uppercase text-gray-600 text-base">{{ $t("text") }}</h4>
-        <div v-if="sources && sources.length > 1">
-          {{ sources.length }} {{ $t("files") }}
+        <h4 class="uppercase text-gray-600 text-base">{{ $t("texts") }}</h4>
+        <div v-if="sources">
+          {{ $t("files", sources.length) }}
         </div>
-        <div v-else-if="sources && sources.length < 2">
-          {{ sources.length }} {{ $t("file") }}
-        </div>
-      </PendingContent>
-    </RibbonLink>
-
-    <div class="mx-2 self-center">
-      <img src="@/assets/right.svg" alt="" class="h-10 opacity-75" />
-    </div>
-
-    <RibbonLink :to="`/corpus/${corpusId}/config`">
-      <PendingContent :on="`corpus/${corpusId}/config`">
-        <h4 class="uppercase text-gray-600 text-base">
-          {{ $t("configuration") }}
-        </h4>
-        <div>{{ config ? "Konfigurerad" : "Ej konfigurerad" }}</div>
       </PendingContent>
     </RibbonLink>
 
@@ -53,7 +37,10 @@
       <img src="@/assets/right.svg" alt="" class="h-10 opacity-75" />
     </div>
 
-    <RibbonLink :to="`/corpus/${corpusId}/exports`">
+    <RibbonLink
+      :to="`/corpus/${corpusId}/exports`"
+      :disabled="!exports || !exports.length"
+    >
       <PendingContent :on="`corpus/${corpusId}/exports`">
         <h4 class="uppercase text-gray-600 text-base">{{ $t("result") }}</h4>
       </PendingContent>
@@ -77,14 +64,13 @@ const router = useRouter();
 const { runJob, loadJob, isJobStarted, isJobRunning, jobStatusMessage } =
   useJob();
 const { sources, loadSources } = useSources();
-const { config, loadConfig } = useConfig();
+const { config } = useConfig();
 const { loadExports, exports, downloadResult } = useExports();
 
 const { corpusId } = useCorpusIdParam();
 
 onMounted(async () => {
   await loadSources();
-  await loadConfig();
   await loadJob();
   await loadExports();
 });

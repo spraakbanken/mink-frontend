@@ -13,12 +13,14 @@ export default function useConfig() {
   const token = computed(() => `corpus/${corpusId.value}/config`);
 
   function loadConfig() {
-    spin(getConfig(corpusId.value), "Hämtar konfiguration", token.value).then(
-      (configYaml) => {
-        const config = parseConfig(configYaml);
-        store.commit("setConfig", { corpusId: corpusId.value, config });
-      }
-    );
+    return spin(
+      getConfig(corpusId.value),
+      "Hämtar konfiguration",
+      token.value
+    ).then((configYaml) => {
+      const config = parseConfig(configYaml);
+      store.commit("setConfig", { corpusId: corpusId.value, config });
+    });
   }
 
   return {

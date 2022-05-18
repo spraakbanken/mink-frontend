@@ -47,4 +47,8 @@ pre {
   .minsb-button {
     @apply p-2 rounded-xl border bg-white hover:bg-opacity-75 border-gray-200 shadow-sm;
   }
+
+  a .minsb-button {
+    @apply text-black
+  }
 }

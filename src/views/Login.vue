@@ -1,6 +1,6 @@
 <template>
   <PageTitle>{{ $t("login") }}</PageTitle>
-  <Section title="none">
+  <Section :title="$t('none')">
     <PendingContent on="login">
       <div class="inline-grid">
         <label for="username">{{ $t("username") }}</label>

@@ -1,6 +1,6 @@
 <template>
   <PageTitle>{{ $t("new") }} {{ $t("corpus") }}</PageTitle>
-  <Section title="none">
+  <Section>
     <PendingContent on="create">
       <table class="w-full my-4">
         <tbody>

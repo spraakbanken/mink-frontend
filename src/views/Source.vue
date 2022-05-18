@@ -1,5 +1,5 @@
 <template>
-  <Section title="none">
+  <Section>
     <h2>{{ filename }}</h2>
     <br />
     <span>{{ showText }}</span>
