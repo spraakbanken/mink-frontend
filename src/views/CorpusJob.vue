@@ -5,13 +5,19 @@
         <thead></thead>
         <tbody>
           <tr>
-            <th class="text-right">{{ $t("message") }}:</th>
+            <th class="lg:w-1/6">{{ $t("message") }}:</th>
             <td>{{ jobStatus.message }}</td>
           </tr>
           <tr>
-            <th class="text-right">{{ $t("sparvOutput") }}:</th>
+            <th class="lg:w-1/6">{{ $t("sparvOutput") }}:</th>
             <td>
               <pre class="text-sm">{{ jobStatus.sparv_output }}</pre>
+            </td>
+          </tr>
+          <tr v-if="jobStatus.errors">
+            <th class="lg:w-1/6">{{ $t("errors") }}:</th>
+            <td>
+              <pre class="text-sm">{{ jobStatus.errors }}</pre>
             </td>
           </tr>
           <tr>

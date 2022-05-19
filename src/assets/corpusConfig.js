@@ -1,5 +1,14 @@
 import { parse, stringify } from "yaml";
 
+const FORMATS = {
+  txt: "text_import:parse",
+  xml: "xml_import:parse",
+  odt: "odt_import:parse",
+  docx: "docx_import:parse",
+};
+
+export const FORMATS_EXT = Object.keys(FORMATS);
+
 export function makeConfig(id, options) {
   const { format, name, description } = options;
   const config = {
@@ -10,11 +19,11 @@ export function makeConfig(id, options) {
     },
   };
 
-  if (format == "txt") {
-    config["import"] = { importer: "text_import:parse" };
-  }
+  config.import = {
+    importer: FORMATS[format],
+  };
 
-  config["export"] = {
+  config.export = {
     annotations: [
       "<sentence>:misc.id",
       "<token>:saldo.baseform",
@@ -29,11 +38,10 @@ export function makeConfig(id, options) {
 export function parseConfig(yaml) {
   const config = parse(yaml);
   return {
-    name: config["metadata"]["name"],
-    description: config["metadata"]["description"],
-    format:
-      config["import"] && config["import"]["importer"] == "text_import:parse"
-        ? "txt"
-        : "xml",
+    name: config.metadata.name,
+    description: config.metadata.description,
+    format: Object.keys(FORMATS).find(
+      (ext) => FORMATS[ext] == config.import.importer
+    ),
   };
 }

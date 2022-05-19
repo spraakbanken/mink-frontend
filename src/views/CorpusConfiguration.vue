@@ -41,8 +41,9 @@
             <th class="lg:w-1/6">{{ $t("fileFormat") }}</th>
             <td>
               <select id="format" v-model="format">
-                <option>txt</option>
-                <option>xml</option>
+                <option v-for="ext in FORMATS_EXT" :value="ext">
+                  {{ $t(ext) }} (.{{ ext }})
+                </option>
               </select>
             </td>
           </tr>
@@ -73,6 +74,7 @@ import { useStore } from "vuex";
 import useConfig from "@/composables/config";
 import { useRouter } from "vue-router";
 import ValuesByKey from "@/components/ValuesByKey.vue";
+import { FORMATS_EXT } from "@/assets/corpusConfig";
 
 const router = useRouter();
 const store = useStore();

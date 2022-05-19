@@ -34,8 +34,9 @@
             </th>
             <td>
               <select id="fileFormat" v-model="fileFormat">
-                <option>txt</option>
-                <option>xml</option>
+                <option v-for="ext in FORMATS_EXT" :value="ext">
+                  {{ $t(ext) }} (.{{ ext }})
+                </option>
               </select>
             </td>
           </tr>
@@ -67,6 +68,7 @@ import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
 import { useStore } from "vuex";
 import PendingContent from "@/components/PendingContent.vue";
+import { FORMATS_EXT } from "@/assets/corpusConfig";
 
 const router = useRouter();
 const store = useStore();

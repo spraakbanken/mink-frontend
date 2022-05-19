@@ -10,7 +10,7 @@
           <tr>
             <th class="lg:w-1/6">{{ $t("identifier") }}</th>
             <td>
-              <span class="font-mono">{{ corpusId }}</span>
+              <code>{{ corpusId }}</code>
             </td>
           </tr>
           <tr>
@@ -20,7 +20,8 @@
           <tr>
             <th class="lg:w-1/6">{{ $t("fileFormat") }}</th>
             <td>
-              <span class="font-mono">{{ config.format }}</span>
+              {{ $t(config.format) }} (<code>.{{ config.format }}</code
+              >)
             </td>
           </tr>
         </tbody>
