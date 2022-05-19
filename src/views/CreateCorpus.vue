@@ -6,7 +6,7 @@
         <tbody>
           <tr>
             <th class="lg:w-1/6">
-              <label for="name">{{ $t("name") }}:</label>
+              <label for="name">{{ $t("name") }}</label>
             </th>
             <td>
               <input id="name" v-model="name" class="border w-72 p-1" />
@@ -14,7 +14,7 @@
           </tr>
           <tr>
             <th class="lg:w-1/6">
-              <label for="id">{{ $t("identifier") }}:</label>
+              <label for="id">{{ $t("identifier") }}</label>
             </th>
             <td>
               <input
@@ -27,7 +27,7 @@
           </tr>
           <tr>
             <th class="lg:w-1/6">
-              <label for="description">{{ $t("description") }}:</label>
+              <label for="description">{{ $t("description") }}</label>
             </th>
             <td class="">
               <textarea
@@ -38,7 +38,7 @@
           </tr>
           <tr>
             <th class="lg:w-1/6">
-              <label for="fileFormat">{{ $t("fileFormat") }}:</label>
+              <label for="fileFormat">{{ $t("fileFormat") }}</label>
             </th>
             <td>
               <select
@@ -68,19 +68,13 @@
               </div>
             </td>
           </tr>
-          <tr>
-            <th />
-            <td>
-              <ActionButton
-                @click="submit"
-                class="bg-green-200 border-green-300"
-              >
-                Spara
-              </ActionButton>
-            </td>
-          </tr>
         </tbody>
       </table>
+      <div class="flex justify-center">
+        <ActionButton @click="submit" class="bg-green-200 border-green-300">
+          Spara
+        </ActionButton>
+      </div>
     </PendingContent>
   </Section>
   <div>{{ message }}</div>

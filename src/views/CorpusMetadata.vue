@@ -8,19 +8,26 @@
             <td><ValuesByKey :values="config.name" /></td>
           </tr>
           <tr>
+            <th class="lg:w-1/6">{{ $t("description") }}</th>
+            <td><ValuesByKey :values="config.description" /></td>
+          </tr>
+          <tr>
             <th class="lg:w-1/6">{{ $t("identifier") }}</th>
             <td>
               <code>{{ corpusId }}</code>
             </td>
           </tr>
-          <tr>
-            <th class="lg:w-1/6">{{ $t("description") }}</th>
-            <td><ValuesByKey :values="config.description" /></td>
-          </tr>
+        </tbody>
+      </table>
+    </Section>
+    <Section :title="$t('configuration')">
+      <table v-if="config" class="table-fixed w-full my-4">
+        <tbody>
           <tr>
             <th class="lg:w-1/6">{{ $t("fileFormat") }}</th>
-            <td>
-              {{ $t(config.format) }} (<code>.{{ config.format }}</code
+            <td v-if="config.format">
+              {{ $t(config.format) }}
+              (<code>.{{ config.format }}</code
               >)
             </td>
           </tr>
@@ -33,15 +40,16 @@
         </tbody>
       </table>
 
-      <router-link :to="`/corpus/${corpusId}/config`">
-        <ActionButton class="bg-blue-100 border-blue-200 mr-4">
-          {{ $t("edit") }}
+      <div class="flex justify-center">
+        <router-link :to="`/corpus/${corpusId}/config`">
+          <ActionButton class="bg-blue-100 border-blue-200 mr-4">
+            {{ $t("edit") }}
+          </ActionButton>
+        </router-link>
+        <ActionButton @click="deleteCorpus" class="bg-red-200 border-red-300">
+          {{ $t("deleteCorpus") }}
         </ActionButton>
-      </router-link>
-
-      <ActionButton @click="deleteCorpus" class="bg-red-200 border-red-300">
-        {{ $t("deleteCorpus") }}
-      </ActionButton>
+      </div>
     </Section>
   </PendingContent>
 </template>

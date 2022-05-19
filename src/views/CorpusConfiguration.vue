@@ -36,6 +36,12 @@
               </ValuesByKey>
             </td>
           </tr>
+          <tr>
+            <th class="lg:w-1/6">{{ $t("identifier") }}</th>
+            <td>
+              <code>{{ corpusId }}</code>
+            </td>
+          </tr>
         </tbody>
       </table>
     </Section>
@@ -55,7 +61,7 @@
           </tr>
           <tr v-show="format === 'xml'">
             <th class="lg:w-1/6">
-              <label for="textAnnotation">{{ $t("text_annotation") }}:</label>
+              <label for="textAnnotation">{{ $t("text_annotation") }}</label>
             </th>
             <td class="">
               <input
@@ -73,7 +79,7 @@
       </table>
     </Section>
     <Section>
-      <div class="flex justify-around">
+      <div class="flex justify-center">
         <PendingContent :on="`corpus/${corpusId}/config`">
           <ActionButton class="mr-2 bg-blue-100 border-blue-200" @click="save">
             {{ $t("saveConfig") }}

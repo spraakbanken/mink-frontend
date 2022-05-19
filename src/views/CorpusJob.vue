@@ -20,28 +20,26 @@
               <pre class="text-sm">{{ jobStatus.errors }}</pre>
             </td>
           </tr>
-          <tr>
-            <th />
-            <td>
-              <ActionButton
-                v-if="hasConfig && !isJobRunning"
-                class="mr-2 bg-blue-100 border-blue-200"
-                @click="runJob"
-              >
-                {{ $t("job_run") }}
-              </ActionButton>
-
-              <ActionButton
-                v-if="isJobRunning"
-                class="bg-red-200 border-red-300"
-                @click="abortJob"
-              >
-                {{ $t("job_abort") }}
-              </ActionButton>
-            </td>
-          </tr>
         </tbody>
       </table>
+
+      <div class="flex justify-center">
+        <ActionButton
+          v-if="hasConfig && !isJobRunning"
+          class="mr-2 bg-blue-100 border-blue-200"
+          @click="runJob"
+        >
+          {{ $t("job_run") }}
+        </ActionButton>
+
+        <ActionButton
+          v-if="isJobRunning"
+          class="bg-red-200 border-red-300"
+          @click="abortJob"
+        >
+          {{ $t("job_abort") }}
+        </ActionButton>
+      </div>
     </Section>
   </PendingContent>
 </template>

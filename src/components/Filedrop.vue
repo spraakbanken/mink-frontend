@@ -18,6 +18,7 @@ const isDragover = ref(false);
 
 function drop(event) {
   emit("drop", event.dataTransfer.files);
+  isDragover.value = false;
 }
 </script>
 
