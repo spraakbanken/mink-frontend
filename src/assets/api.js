@@ -1,5 +1,4 @@
 import Axios from "axios";
-import { makeConfig } from "./corpusConfig";
 
 const axios = Axios.create({
   baseURL: "https://ws.spraakbanken.gu.se/ws/min-sb/",
@@ -40,15 +39,9 @@ export function getCorpus(corpusId) {
     .then((response) => response.data.contents);
 }
 
-export async function createCorpus(corpusId, name, description, format) {
+export async function createCorpus(corpusId) {
   await axios.post("create-corpus", null, {
     params: { corpus_id: corpusId },
-  });
-  const langify = (str) => ({ swe: str, eng: str });
-  await putConfig(corpusId, {
-    name: langify(name),
-    description: langify(description),
-    format,
   });
 }
 
@@ -72,9 +65,7 @@ export function getConfig(corpusId) {
     .then((response) => response.data);
 }
 
-export async function putConfig(corpusId, options) {
-  const config = makeConfig(corpusId, options);
-
+export async function putConfig(corpusId, config) {
   const configFile = new File([config], "config.yaml", {
     type: "text/yaml",
   });

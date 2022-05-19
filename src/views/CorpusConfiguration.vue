@@ -9,10 +9,10 @@
             <td>
               <ValuesByKey :values="name">
                 <template v-slot:swe>
-                  <input v-model="name.swe" />
+                  <input v-model="name.swe" class="border w-72 p-1" />
                 </template>
                 <template v-slot:eng>
-                  <input v-model="name.eng" />
+                  <input v-model="name.eng" class="border w-72 p-1" />
                 </template>
               </ValuesByKey>
             </td>
@@ -22,10 +22,16 @@
             <td>
               <ValuesByKey :values="description">
                 <template v-slot:swe>
-                  <textarea v-model="description.swe" class="w-full p-1 h-20" />
+                  <textarea
+                    v-model="description.swe"
+                    class="border w-full p-1 h-20"
+                  />
                 </template>
                 <template v-slot:eng>
-                  <textarea v-model="description.eng" class="w-full p-1 h-20" />
+                  <textarea
+                    v-model="description.eng"
+                    class="border w-full p-1 h-20"
+                  />
                 </template>
               </ValuesByKey>
             </td>
@@ -40,11 +46,27 @@
           <tr>
             <th class="lg:w-1/6">{{ $t("fileFormat") }}</th>
             <td>
-              <select id="format" v-model="format">
+              <select id="format" v-model="format" class="border w-72 p-1">
                 <option v-for="ext in FORMATS_EXT" :value="ext">
                   {{ $t(ext) }} (.{{ ext }})
                 </option>
               </select>
+            </td>
+          </tr>
+          <tr v-show="format === 'xml'">
+            <th class="lg:w-1/6">
+              <label for="textAnnotation">{{ $t("text_annotation") }}:</label>
+            </th>
+            <td class="">
+              <input
+                id="textAnnotation"
+                v-model="textAnnotation"
+                :required="format === 'xml'"
+                class="border w-72 p-1"
+              />
+              <div class="text-sm py-1">
+                {{ $t("text_annotation_help") }}
+              </div>
             </td>
           </tr>
         </tbody>
@@ -74,16 +96,17 @@ import { useStore } from "vuex";
 import useConfig from "@/composables/config";
 import { useRouter } from "vue-router";
 import ValuesByKey from "@/components/ValuesByKey.vue";
-import { FORMATS_EXT } from "@/assets/corpusConfig";
+import { FORMATS_EXT, makeConfig } from "@/assets/corpusConfig";
 
 const router = useRouter();
 const store = useStore();
 const { spin } = useSpin();
 const { corpusId } = useCorpusIdParam();
 const { config, loadConfig } = useConfig();
-const name = ref(config.value.name);
-const description = ref(config.value.description);
-const format = ref(config.value.format);
+const name = ref(config.value?.name);
+const description = ref(config.value?.description);
+const format = ref(config.value?.format);
+const textAnnotation = ref("");
 
 if (!config.value) {
   loadConfig();
@@ -94,9 +117,11 @@ async function save() {
     name: name.value,
     description: description.value,
     format: format.value,
+    textAnnotation: textAnnotation.value,
   };
+  const configYaml = makeConfig(corpusId.value, configNew);
   await spin(
-    putConfig(corpusId.value, configNew),
+    putConfig(corpusId.value, configYaml),
     "Sparar konfiguration",
     `corpus/${corpusId.value}/config`
   );

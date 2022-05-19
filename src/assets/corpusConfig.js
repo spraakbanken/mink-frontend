@@ -10,7 +10,7 @@ const FORMATS = {
 export const FORMATS_EXT = Object.keys(FORMATS);
 
 export function makeConfig(id, options) {
-  const { format, name, description } = options;
+  const { format, name, description, textAnnotation } = options;
   const config = {
     metadata: {
       id,
@@ -22,6 +22,13 @@ export function makeConfig(id, options) {
   config.import = {
     importer: FORMATS[format],
   };
+
+  if (format === "xml") {
+    if (!textAnnotation) {
+      throw new TypeError("Text annotation setting is required for XML");
+    }
+    config.import.document_annotation = textAnnotation;
+  }
 
   config.export = {
     annotations: [
@@ -38,10 +45,11 @@ export function makeConfig(id, options) {
 export function parseConfig(yaml) {
   const config = parse(yaml);
   return {
-    name: config.metadata.name,
-    description: config.metadata.description,
+    name: config.metadata?.name,
+    description: config.metadata?.description,
     format: Object.keys(FORMATS).find(
-      (ext) => FORMATS[ext] == config.import.importer
+      (ext) => FORMATS[ext] == config.import?.importer
     ),
+    textAnnotation: config.import?.document_annotation,
   };
 }

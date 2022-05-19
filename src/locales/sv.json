@@ -47,6 +47,8 @@
   "identifier": "Identifierare",
   "description": "Beskrivning",
   "fileFormat": "Format",
+  "text_annotation": "Element för dokument",
+  "text_annotation_help": "Namnet på ett XML-element som representerar ett enskilt textdokument. Eventuella annotationer på textnivå kommer att sättas på det elementet.",
   "edit": "Redigera",
   "job_run": "Starta analys",
   "job_abort": "Avbryt analys"

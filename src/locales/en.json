@@ -47,6 +47,8 @@
   "identifier": "Identifier",
   "description": "Description",
   "fileFormat": "File Format",
+  "text_annotation": "Document-level element",
+  "text_annotation_help": "The XML element name representing one text document. Any text-level annotations will be attached to this element.",
   "edit": "Edit",
   "job_run": "Run analysis",
   "job_abort": "Abort analysis"

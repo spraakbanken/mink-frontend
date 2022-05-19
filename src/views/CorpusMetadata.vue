@@ -1,7 +1,7 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}`">
-    <Section v-if="config" :title="$t('metadata')">
-      <table class="table-fixed w-full my-4">
+    <Section :title="$t('metadata')">
+      <table v-if="config" class="table-fixed w-full my-4">
         <tbody>
           <tr>
             <th class="lg:w-1/6">{{ $t("name") }}</th>
@@ -22,6 +22,12 @@
             <td>
               {{ $t(config.format) }} (<code>.{{ config.format }}</code
               >)
+            </td>
+          </tr>
+          <tr v-if="config.textAnnotation">
+            <th class="lg:w-1/6">{{ $t("text_annotation") }}</th>
+            <td>
+              <code>{{ config.textAnnotation }}</code>
             </td>
           </tr>
         </tbody>
