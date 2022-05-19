@@ -63,7 +63,7 @@
             <th class="lg:w-1/6">
               <label for="textAnnotation">{{ $t("text_annotation") }}</label>
             </th>
-            <td class="">
+            <td>
               <input
                 id="textAnnotation"
                 v-model="textAnnotation"
@@ -73,6 +73,31 @@
               <div class="text-sm py-1">
                 {{ $t("text_annotation_help") }}
               </div>
+            </td>
+          </tr>
+          <tr v-show="format != 'xml'">
+            <th class="lg:w-1/6">
+              {{ $t("segmenter_sentence") }}
+            </th>
+            <td>
+              <label class="mr-4">
+                <input
+                  type="radio"
+                  id="sentenceSegmenter"
+                  v-model="sentenceSegmenter"
+                  value=""
+                />
+                {{ $t("none") }}
+              </label>
+              <label v-for="segmenter in SEGMENTERS" class="mr-4">
+                <input
+                  type="radio"
+                  id="sentenceSegmenter"
+                  v-model="sentenceSegmenter"
+                  :value="segmenter"
+                />
+                {{ $t(`segmenter_${segmenter}`) }}
+              </label>
             </td>
           </tr>
         </tbody>
@@ -102,7 +127,7 @@ import { useStore } from "vuex";
 import useConfig from "@/composables/config";
 import { useRouter } from "vue-router";
 import ValuesByKey from "@/components/ValuesByKey.vue";
-import { FORMATS_EXT, makeConfig } from "@/assets/corpusConfig";
+import { FORMATS_EXT, SEGMENTERS, makeConfig } from "@/assets/corpusConfig";
 
 const router = useRouter();
 const store = useStore();
@@ -112,7 +137,8 @@ const { config, loadConfig } = useConfig();
 const name = ref(config.value?.name);
 const description = ref(config.value?.description);
 const format = ref(config.value?.format);
-const textAnnotation = ref("");
+const textAnnotation = ref(config.value?.textAnnotation);
+const sentenceSegmenter = ref(config.value?.sentenceSegmenter || "");
 
 if (!config.value) {
   loadConfig();
@@ -124,6 +150,7 @@ async function save() {
     description: description.value,
     format: format.value,
     textAnnotation: textAnnotation.value,
+    sentenceSegmenter: sentenceSegmenter.value,
   };
   const configYaml = makeConfig(corpusId.value, configNew);
   await spin(

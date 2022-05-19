@@ -9,8 +9,11 @@ const FORMATS = {
 
 export const FORMATS_EXT = Object.keys(FORMATS);
 
+export const SEGMENTERS = ["linebreaks"];
+
 export function makeConfig(id, options) {
-  const { format, name, description, textAnnotation } = options;
+  const { format, name, description, textAnnotation, sentenceSegmenter } =
+    options;
   const config = {
     metadata: {
       id,
@@ -28,6 +31,10 @@ export function makeConfig(id, options) {
       throw new TypeError("Text annotation setting is required for XML");
     }
     config.import.document_annotation = textAnnotation;
+  }
+
+  if (sentenceSegmenter) {
+    config.segment = { sentence_segmenter: sentenceSegmenter };
   }
 
   config.export = {
@@ -51,5 +58,6 @@ export function parseConfig(yaml) {
       (ext) => FORMATS[ext] == config.import?.importer
     ),
     textAnnotation: config.import?.document_annotation,
+    sentenceSegmenter: config.segment?.sentence_segmenter,
   };
 }

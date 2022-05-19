@@ -29,7 +29,7 @@
             <th class="lg:w-1/6">
               <label for="description">{{ $t("description") }}</label>
             </th>
-            <td class="">
+            <td>
               <textarea
                 v-model="description"
                 class="block border w-full p-1 h-20"
@@ -56,7 +56,7 @@
             <th class="lg:w-1/6">
               <label for="textAnnotation">{{ $t("text_annotation") }}:</label>
             </th>
-            <td class="">
+            <td>
               <input
                 id="textAnnotation"
                 v-model="textAnnotation"

@@ -10,6 +10,7 @@
   "corpus": "Corpus",
   "corpuses": "Corpora",
   "files": "No files | 1 file | {count} files",
+  "none": "None",
   "new": "New",
   "deleteCorpus": "Delete corpus",
   "fileName": "File name",
@@ -49,6 +50,8 @@
   "fileFormat": "File Format",
   "text_annotation": "Document-level element",
   "text_annotation_help": "The XML element name representing one text document. Any text-level annotations will be attached to this element.",
+  "segmenter_sentence": "Existing sentence segmentation",
+  "segmenter_linebreaks": "One per line",
   "edit": "Edit",
   "job_run": "Run analysis",
   "job_abort": "Abort analysis"

@@ -37,6 +37,16 @@
               <code>{{ config.textAnnotation }}</code>
             </td>
           </tr>
+          <tr v-if="config.format != 'xml'">
+            <th class="lg:w-1/6">{{ $t("segmenter_sentence") }}</th>
+            <td>
+              {{
+                config.sentenceSegmenter
+                  ? $t(`segmenter_${config.sentenceSegmenter}`)
+                  : $t("none")
+              }}
+            </td>
+          </tr>
         </tbody>
       </table>
 
