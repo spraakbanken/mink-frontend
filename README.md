@@ -4,7 +4,7 @@ Frontend for Min språkbank.
 
 ## Architecture
 
-[Vue 3](https://v3.vuejs.org/) app using [Vite](https://vitejs.dev/). Recommended IDE Setup: [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar).
+[Vue 3](https://v3.vuejs.org/) app using [Vite](https://vitejs.dev/).
 
 Design patterns used:
 
@@ -25,3 +25,25 @@ See:
 
 - [Min SB API documentation](https://ws.spraakbanken.gu.se/ws/min-sb/api-doc)
 - [Min SB project board](https://github.com/orgs/spraakbanken/projects/10)
+
+## Recommended IDE setup
+
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar).
+
+VSCode settings:
+
+```json
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "vetur.validation.template": false,
+  "editor.formatOnSave": true,
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
+```
