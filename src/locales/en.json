@@ -51,6 +51,7 @@
   "text_annotation": "Document-level element",
   "text_annotation_help": "The XML element name representing one text document. Any text-level annotations will be attached to this element.",
   "segmenter_sentence": "Existing sentence segmentation",
+  "segmenter_sentence_help": "Are source files already formatted such that sentences are separated by linebreaks?",
   "segmenter_linebreaks": "One per line",
   "edit": "Edit",
   "job_run": "Run analysis",

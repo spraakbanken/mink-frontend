@@ -98,6 +98,9 @@
                 />
                 {{ $t(`segmenter_${segmenter}`) }}
               </label>
+              <div class="text-sm py-1">
+                {{ $t("segmenter_sentence_help") }}
+              </div>
             </td>
           </tr>
         </tbody>

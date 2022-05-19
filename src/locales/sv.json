@@ -51,6 +51,7 @@
   "text_annotation": "Element för dokument",
   "text_annotation_help": "Namnet på ett XML-element som representerar ett enskilt textdokument. Eventuella annotationer på textnivå kommer att sättas på det elementet.",
   "segmenter_sentence": "Existerande meningssegmentering",
+  "segmenter_sentence_help": "Är källfilerna redan formaterade så att varje mening börjar på en ny rad?",
   "segmenter_linebreaks": "En per rad",
   "edit": "Redigera",
   "job_run": "Starta analys",
