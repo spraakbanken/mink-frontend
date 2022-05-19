@@ -7,12 +7,28 @@
           <tr>
             <th class="lg:w-1/6">{{ $t("name") }}</th>
             <td>
-              <input v-model="name" />
+              <ValuesByKey :values="name">
+                <template v-slot:swe>
+                  <input v-model="name.swe" />
+                </template>
+                <template v-slot:eng>
+                  <input v-model="name.eng" />
+                </template>
+              </ValuesByKey>
             </td>
           </tr>
           <tr>
             <th class="lg:w-1/6">{{ $t("description") }}</th>
-            <td><input v-model="description" /></td>
+            <td>
+              <ValuesByKey :values="description">
+                <template v-slot:swe>
+                  <textarea v-model="description.swe" class="w-full p-1 h-20" />
+                </template>
+                <template v-slot:eng>
+                  <textarea v-model="description.eng" class="w-full p-1 h-20" />
+                </template>
+              </ValuesByKey>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -55,18 +71,16 @@ import Section from "@/components/layout/Section.vue";
 import PendingContent from "@/components/PendingContent.vue";
 import { useStore } from "vuex";
 import useConfig from "@/composables/config";
-import useTh from "@/composables/th";
-import { parseConfig } from "@/assets/corpusConfig";
 import { useRouter } from "vue-router";
+import ValuesByKey from "@/components/ValuesByKey.vue";
 
 const router = useRouter();
 const store = useStore();
 const { spin } = useSpin();
 const { corpusId } = useCorpusIdParam();
 const { config, loadConfig } = useConfig();
-const { th } = useTh();
-const name = ref(th(config.value.name));
-const description = ref(th(config.value.description));
+const name = ref(config.value.name);
+const description = ref(config.value.description);
 const format = ref(config.value.format);
 
 if (!config.value) {

@@ -44,7 +44,12 @@ export async function createCorpus(corpusId, name, description, format) {
   await axios.post("create-corpus", null, {
     params: { corpus_id: corpusId },
   });
-  await putConfig(corpusId, { name, description, format });
+  const langify = (str) => ({ swe: str, eng: str });
+  await putConfig(corpusId, {
+    name: langify(name),
+    description: langify(description),
+    format,
+  });
 }
 
 export function putSources(corpusId, files) {

@@ -5,8 +5,8 @@ export function makeConfig(id, options) {
   const config = {
     metadata: {
       id,
-      name: { eng: name, swe: name },
-      description: { eng: description, swe: description },
+      name,
+      description,
     },
   };
 

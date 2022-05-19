@@ -5,23 +5,23 @@
         <tbody>
           <tr>
             <th class="lg:w-1/6">{{ $t("name") }}</th>
-            <td>
-              {{ th(config.name) }}
-            </td>
+            <td><ValuesByKey :values="config.name" /></td>
           </tr>
           <tr>
             <th class="lg:w-1/6">{{ $t("identifier") }}</th>
             <td>
-              {{ corpusId }}
+              <span class="font-mono">{{ corpusId }}</span>
             </td>
           </tr>
           <tr>
             <th class="lg:w-1/6">{{ $t("description") }}</th>
-            <td>{{ th(config.description) }}</td>
+            <td><ValuesByKey :values="config.description" /></td>
           </tr>
           <tr>
             <th class="lg:w-1/6">{{ $t("fileFormat") }}</th>
-            <td>{{ config.format }}</td>
+            <td>
+              <span class="font-mono">{{ config.format }}</span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -48,15 +48,14 @@ import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
 import PendingContent from "@/components/PendingContent.vue";
-import useTh from "@/composables/th";
 import useConfig from "@/composables/config";
+import ValuesByKey from "@/components/ValuesByKey.vue";
 
 const router = useRouter();
 const store = useStore();
 const { spin } = useSpin();
 const { corpusId } = useCorpusIdParam();
 const { config, loadConfig } = useConfig();
-const { th } = useTh();
 
 loadConfig();
 
