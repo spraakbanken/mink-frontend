@@ -6,6 +6,7 @@ export default createStore({
   state() {
     return {
       auth: null, // or {username, password}
+      locale: "en",
       corpora: {
         // [corpusId]: {source, config, status, exports}
       },
@@ -29,6 +30,9 @@ export default createStore({
       if (state.pending.includes(token)) {
         state.pending.splice(state.pending.indexOf(token), 1);
       }
+    },
+    setLocale(state, locale) {
+      state.locale = locale;
     },
     setCorpora(state, corpora) {
       // Add id as a key, empty object as value (if not already present)
