@@ -103,6 +103,20 @@
               </div>
             </td>
           </tr>
+          <tr>
+            <th>
+              {{ $t("timespan") }}
+            </th>
+            <td>
+              {{ $t("timespan_from") }}:
+              <input type="date" v-model="datetimeFrom" class="mr-4" />
+              {{ $t("timespan_to") }}:
+              <input type="date" v-model="datetimeTo" />
+              <div class="text-sm py-1">
+                {{ $t("timespan_help") }}
+              </div>
+            </td>
+          </tr>
         </tbody>
       </table>
     </Section>
@@ -142,6 +156,8 @@ const description = ref(config.value?.description);
 const format = ref(config.value?.format);
 const textAnnotation = ref(config.value?.textAnnotation);
 const sentenceSegmenter = ref(config.value?.sentenceSegmenter || "");
+const datetimeFrom = ref(config.value?.datetimeFrom);
+const datetimeTo = ref(config.value?.datetimeTo);
 
 if (!config.value) {
   loadConfig();
@@ -154,6 +170,8 @@ async function save() {
     format: format.value,
     textAnnotation: textAnnotation.value,
     sentenceSegmenter: sentenceSegmenter.value,
+    datetimeFrom: datetimeFrom.value,
+    datetimeTo: datetimeTo.value,
   };
   const configYaml = makeConfig(corpusId.value, configNew);
   await spin(

@@ -53,6 +53,10 @@
   "segmenter_sentence": "Existing sentence segmentation",
   "segmenter_sentence_help": "Are source files already formatted such that sentences are separated by linebreaks?",
   "segmenter_linebreaks": "One per line",
+  "timespan": "Time span",
+  "timespan_help": "Dates of the oldest and newest content in the collection.",
+  "timespan_from": "From",
+  "timespan_to": "To",
   "edit": "Edit",
   "job_run": "Run analysis",
   "job_abort": "Abort analysis"

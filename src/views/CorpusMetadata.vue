@@ -47,6 +47,14 @@
               }}
             </td>
           </tr>
+          <tr>
+            <th>{{ $t("timespan") }}</th>
+            <td>
+              <span v-if="config.datetimeFrom || config.datetimeTo">
+                {{ config.datetimeFrom }} – {{ config.datetimeTo }}
+              </span>
+            </td>
+          </tr>
         </tbody>
       </table>
 

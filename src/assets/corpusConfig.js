@@ -12,8 +12,15 @@ export const FORMATS_EXT = Object.keys(FORMATS);
 export const SEGMENTERS = ["linebreaks"];
 
 export function makeConfig(id, options) {
-  const { format, name, description, textAnnotation, sentenceSegmenter } =
-    options;
+  const {
+    format,
+    name,
+    description,
+    textAnnotation,
+    sentenceSegmenter,
+    datetimeFrom,
+    datetimeTo,
+  } = options;
   const config = {
     metadata: {
       id,
@@ -43,8 +50,32 @@ export function makeConfig(id, options) {
       "<token>:saldo.baseform",
       "<token>:hunpos.pos",
       "<token>:sensaldo.sentiment_label",
+      // Korp needs the document annotation to be called "text"
+      "<text> as text",
     ],
   };
+
+  if (datetimeFrom || datetimeTo) {
+    if (!datetimeFrom && datetimeTo) {
+      throw new TypeError("Both or none of the dates must be set.");
+    }
+    config.dateformat = {
+      datetime_from: "<text>:misc.date",
+      datetime_to: "<text>:misc.date",
+    };
+    // TODO What about datetime_to?
+    config.custom_annotations = [
+      {
+        annotator: "misc:constant",
+        params: {
+          out: "<text>:misc.date",
+          chunk: "<text>",
+          value: datetimeFrom,
+        },
+      },
+    ];
+    config.export.annotations.push("<text>:misc.date");
+  }
 
   return stringify(config);
 }
@@ -59,5 +90,7 @@ export function parseConfig(yaml) {
     ),
     textAnnotation: config.import?.document_annotation,
     sentenceSegmenter: config.segment?.sentence_segmenter,
+    datetimeFrom: config.custom_annotations?.[0].params.value,
+    datetimeTo: config.custom_annotations?.[0].params.value,
   };
 }

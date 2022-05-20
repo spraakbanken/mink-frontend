@@ -53,6 +53,10 @@
   "segmenter_sentence": "Existerande meningssegmentering",
   "segmenter_sentence_help": "Är källfilerna redan formaterade så att varje mening börjar på en ny rad?",
   "segmenter_linebreaks": "En per rad",
+  "timespan": "Tidsutsträckning",
+  "timespan_help": "Datum för tidigaste och senaste innehållet i samlingen.",
+  "timespan_from": "Från",
+  "timespan_to": "Till",
   "edit": "Redigera",
   "job_run": "Starta analys",
   "job_abort": "Avbryt analys"
