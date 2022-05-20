@@ -60,17 +60,25 @@ export function makeConfig(id, options) {
       throw new TypeError("Both or none of the dates must be set.");
     }
     config.dateformat = {
-      datetime_from: "<text>:misc.date",
-      datetime_to: "<text>:misc.date",
+      datetime_from: "<text>:misc.datefrom",
+      datetime_to: "<text>:misc.dateto",
     };
     // TODO What about datetime_to?
     config.custom_annotations = [
       {
         annotator: "misc:constant",
         params: {
-          out: "<text>:misc.date",
+          out: "<text>:misc.datefrom",
           chunk: "<text>",
           value: datetimeFrom,
+        },
+      },
+      {
+        annotator: "misc:constant",
+        params: {
+          out: "<text>:misc.dateto",
+          chunk: "<text>",
+          value: datetimeTo,
         },
       },
     ];
@@ -90,7 +98,11 @@ export function parseConfig(yaml) {
     ),
     textAnnotation: config.import?.document_annotation,
     sentenceSegmenter: config.segment?.sentence_segmenter,
-    datetimeFrom: config.custom_annotations?.[0].params.value,
-    datetimeTo: config.custom_annotations?.[0].params.value,
+    datetimeFrom: config.custom_annotations?.find(
+      (a) => a.params.out == "<text>:misc.datefrom"
+    ).params.value,
+    datetimeTo: config.custom_annotations?.find(
+      (a) => a.params.out == "<text>:misc.dateto"
+    ).params.value,
   };
 }
