@@ -27,7 +27,7 @@
         <div v-if="isJobStarted">{{ $t(jobStatusMessage) }}</div>
         <div v-else-if="config" class="flex justify-center items-center">
           <ActionButton class="bg-blue-100 border-blue-200" @click.stop="run">
-            Kör
+            {{ $t("run") }}
           </ActionButton>
         </div>
       </PendingContent>

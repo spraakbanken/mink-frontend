@@ -1,8 +1,12 @@
 <template>
   <Section>
     <h2>{{ filename }}</h2>
-    <br />
-    <span>{{ showText }}</span>
+    <div
+      v-if="showText"
+      class="whitespace-pre-wrap border bg-white p-4 my-4 text-gray-600"
+    >
+      {{ showText }}
+    </div>
   </Section>
 </template>
 
@@ -13,20 +17,22 @@ import Section from "@/components/layout/Section.vue";
 import useExports from "@/composables/exports";
 import useSpin from "@/assets/spin";
 
-const { spin } = useSpin();
-
 const props = defineProps({
   corpusId: { type: String, required: true },
   filename: { type: String, required: true },
 });
 
 const store = useStore();
+const { contentViewX } = useExports();
 const showText = computed(() => store.state.txtshow?.content);
 const metadata = computed(() =>
   store.state.corpora[props.corpusId].sources.find(
     (source) => source.name === props.filename
   )
 );
+
+store.commit("removeText");
+contentViewX(props.filename);
 </script>
 
 <style></style>

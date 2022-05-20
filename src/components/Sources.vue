@@ -15,7 +15,7 @@
           <tr v-for="source in sources" :key="source">
             <td>
               <router-link :to="`/corpus/${corpusId}/sources/${source.name}`">
-                <a @click="changeShowText(source.name)">{{ source.name }}</a>
+                {{ source.name }}
               </router-link>
             </td>
             <td>
@@ -61,13 +61,10 @@ import ActionButton from "./layout/ActionButton.vue";
 import Filedrop from "./Filedrop.vue";
 import { onMounted } from "@vue/runtime-core";
 import PendingContent from "./PendingContent.vue";
-import { useStore } from "vuex";
 import useExports from "@/composables/exports";
 
 const { sources, loadSources, remove, upload } = useSources();
 const { corpusId } = useCorpusIdParam();
-const store = useStore();
-const { contentViewX } = useExports();
 
 onMounted(() => {
   loadSources();
@@ -79,11 +76,6 @@ function uploadDrop(files) {
 
 function uploadSingle(event) {
   upload(event.target.files);
-}
-
-function changeShowText(fileName) {
-  store.commit("removeText");
-  contentViewX(fileName);
 }
 </script>
 
