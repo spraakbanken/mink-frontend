@@ -44,11 +44,11 @@ pre {
 }
 
 @layer components {
-  .minsb-button {
+  .mink-button {
     @apply p-2 rounded-xl border bg-white hover:bg-opacity-75 border-gray-200 shadow-sm;
   }
 
-  a .minsb-button {
+  a .mink-button {
     @apply text-black
   }
 }

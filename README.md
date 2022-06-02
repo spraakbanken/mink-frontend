@@ -1,6 +1,6 @@
-# Min språkbank frontend
+# Mink frontend
 
-Frontend for Min språkbank.
+Frontend for Mink.
 
 ## Architecture
 
@@ -24,7 +24,7 @@ Design patterns used:
 See:
 
 - [Min SB API documentation](https://ws.spraakbanken.gu.se/ws/min-sb/api-doc)
-- [Min SB project board](https://github.com/orgs/spraakbanken/projects/10)
+- [Mink project board](https://github.com/orgs/spraakbanken/projects/10)
 
 ## Recommended IDE setup
 

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="inline-block minsb-button"
+    class="inline-block mink-button"
     :class="{ 'cursor-pointer': clickable }"
   >
     <slot />

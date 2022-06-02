@@ -2,7 +2,7 @@
   <header class="bg-white border-b mb-2">
     <div class="container py-4 flex justify-between items-center flex-wrap">
       <div class="text-4xl">
-        <router-link to="/" class="text-current">Min språkbank</router-link>
+        <router-link to="/" class="text-current">Mink</router-link>
       </div>
       <div class="h-12 flex items-center">
         <div
