@@ -39,13 +39,13 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 
 router.beforeEach((to, from) => {
   // If not authenticated, redirect to login page.
-  if (to.path != "/login" && !store.state.auth) return "/login";
+  // if (to.path != "/login" && !store.state.auth) return "/login";
 });
 
 export default router;

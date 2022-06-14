@@ -4,9 +4,8 @@ const axios = Axios.create({
   baseURL: "https://ws.spraakbanken.gu.se/ws/min-sb/",
 });
 
-export function initialize(username, password) {
-  const token = btoa(`${username}:${password}`);
-  axios.defaults.headers["Authorization"] = `Basic ${token}`;
+export function initialize(jwt) {
+  axios.defaults.headers["Authorization"] = `Bearer ${jwt}`;
 }
 
 /**

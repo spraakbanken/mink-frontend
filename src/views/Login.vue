@@ -35,18 +35,27 @@
 import { ref } from "vue";
 import { useStore } from "vuex";
 import router from "@/router";
-import { authenticate } from "@/assets/api";
+import { authenticate, initialize } from "@/assets/api";
 import useSpin from "@/assets/spin";
 import PageTitle from "@/components/PageTitle.vue";
 import PendingContent from "@/components/PendingContent.vue";
 import Section from "@/components/layout/Section.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
+import { getLoginUrl } from "@/auth";
 
 const store = useStore();
 const username = ref("");
 const password = ref("");
 const message = ref(null);
 const { spin } = useSpin();
+
+if (store.state.auth) {
+  // Add JWT to requests.
+  initialize(store.state.auth);
+} else {
+  // Send user to federated authentication service.
+  window.location.href = getLoginUrl();
+}
 
 async function submitLogin() {
   const success = await spin(

@@ -54,15 +54,20 @@ import store from "./store";
 import useSpin from "@/assets/spin";
 import Spinner from "@/components/Spinner.vue";
 import LocaleSwitcher from "@/components/LocaleSwitcher.vue";
+import { checkLogin } from "./auth";
 
 const { messages } = useSpin();
 const auth = computed(() => store.state.auth);
 const name = computed(() => store.state.auth?.username);
 
 // Initialize API client.
-if (auth.value) {
-  initialize(auth.value.username, auth.value.password);
-}
+(async () => {
+  if (!auth.value) {
+    const jwt = await checkLogin();
+    // setAut;
+    // initialize(auth.value.username, auth.value.password);
+  }
+})();
 
 if (import.meta.env.DEV) {
   window.state = store.state;
