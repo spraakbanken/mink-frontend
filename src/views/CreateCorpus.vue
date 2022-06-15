@@ -78,10 +78,13 @@ import Section from "@/components/layout/Section.vue";
 import { useStore } from "vuex";
 import PendingContent from "@/components/PendingContent.vue";
 import { FORMATS_EXT, makeConfig } from "@/assets/corpusConfig";
+import { checkLogin } from "@/auth";
+import { useJwt } from "@/composables/jwt";
 
 const router = useRouter();
 const store = useStore();
 const { spin } = useSpin();
+const { payload } = useJwt();
 
 const name = ref("");
 const description = ref("");
@@ -102,6 +105,13 @@ async function submit() {
     const corpusId = await spin(createCorpus(), "Skapar korpus", "create");
     store.commit("addCorpus", corpusId);
 
+    // Wait until JWT is updated to include the new corpus...
+    await sleep(2000);
+    const jwt = await checkLogin();
+    store.commit("setJwt", jwt);
+    // Wait until the watcher in App.vue has configured Axios requests...
+    await sleep(100);
+
     const configYaml = makeConfig(corpusId, config);
     await spin(
       putConfig(corpusId, configYaml),
@@ -114,6 +124,8 @@ async function submit() {
     message.value = reason.response ? reason.response.data.message : reason;
   }
 }
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 </script>
 
 <style scoped>
