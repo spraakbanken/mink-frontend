@@ -14,19 +14,6 @@
           </tr>
           <tr>
             <th class="lg:w-1/6">
-              <label for="id">{{ $t("identifier") }}</label>
-            </th>
-            <td>
-              <input
-                id="id"
-                v-model="id"
-                class="border w-72 p-1 font-mono text-sm"
-                required="required"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th class="lg:w-1/6">
               <label for="description">{{ $t("description") }}</label>
             </th>
             <td>
@@ -71,7 +58,7 @@
         </tbody>
       </table>
       <div class="flex justify-center">
-        <ActionButton @click="submit" class="bg-green-200 border-green-300">
+        <ActionButton class="bg-green-200 border-green-300" @click="submit">
           Spara
         </ActionButton>
       </div>
@@ -97,18 +84,12 @@ const store = useStore();
 const { spin } = useSpin();
 
 const name = ref("");
-const id = ref("");
 const description = ref("");
 const fileFormat = ref("txt");
 const textAnnotation = ref("");
 const message = ref(null);
 
 async function submit() {
-  if (!id.value) {
-    message.value = "Identifier is required";
-    return;
-  }
-
   const langify = (str) => ({ swe: str, eng: str });
   const config = {
     name: langify(name.value),
@@ -116,18 +97,19 @@ async function submit() {
     format: fileFormat.value,
     textAnnotation: textAnnotation.value,
   };
-  const configYaml = makeConfig(id.value, config);
 
   try {
-    await spin(createCorpus(id.value), "Skapar korpus", "create");
-    store.commit("addCorpus", id.value);
+    const corpusId = await spin(createCorpus(), "Skapar korpus", "create");
+    store.commit("addCorpus", corpusId);
+
+    const configYaml = makeConfig(corpusId, config);
     await spin(
-      putConfig(id.value, configYaml),
+      putConfig(corpusId, configYaml),
       "Konfigurerar korpus",
-      `corpus/${id.value}/config`
+      `corpus/${corpusId}/config`
     );
-    store.commit("setConfig", { corpusId: id.value, config });
-    router.push(`/corpus/${id.value}`);
+    store.commit("setConfig", { corpusId, config });
+    router.push(`/corpus/${corpusId}`);
   } catch (reason) {
     message.value = reason.response ? reason.response.data.message : reason;
   }

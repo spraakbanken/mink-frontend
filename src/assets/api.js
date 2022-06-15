@@ -18,10 +18,9 @@ export function getCorpus(corpusId) {
     .then((response) => response.data.contents);
 }
 
-export async function createCorpus(corpusId) {
-  await axios.post("create-corpus", null, {
-    params: { corpus_id: corpusId },
-  });
+export async function createCorpus() {
+  const response = await axios.post("create-corpus", null, {});
+  return response.data.corpus_id;
 }
 
 export function putSources(corpusId, files) {
