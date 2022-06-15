@@ -1,6 +1,6 @@
 <template>
   <PageTitle>{{ name }}</PageTitle>
-  <div class="my-4">
+  <div v-if="enableLogout" class="my-4">
     <ActionButton @click="logout">{{ $t("logout") }}</ActionButton>
   </div>
 </template>
@@ -21,6 +21,8 @@ function logout() {
   store.commit("logout");
   router.push("/login");
 }
+
+const enableLogout = false; // For now.
 </script>
 
 <style></style>

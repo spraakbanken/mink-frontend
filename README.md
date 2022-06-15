@@ -47,3 +47,7 @@ VSCode settings:
   }
 }
 ```
+
+## SSL in development
+
+For SB-Auth to allow authentication requests, the dev server must use a hostname matching `*.spraakbanken.gu.se`, and HTTPS must be enabled. See the `server` section in [vite.config.js](vite.config.js).

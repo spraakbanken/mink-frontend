@@ -1,11 +1,16 @@
+import { omit } from "lodash";
 import { createStore } from "vuex";
 import VuexPersistence from "vuex-persist";
 
 export default createStore({
-  plugins: [new VuexPersistence().plugin],
+  plugins: [
+    new VuexPersistence({
+      reducer: (state) => omit(state, ["jwt"]),
+    }).plugin,
+  ],
   state() {
     return {
-      auth: null, // or {username, password}
+      jwt: null, // or a string
       locale: "en",
       corpora: {
         // [corpusId]: {source, config, status, exports}
@@ -15,11 +20,8 @@ export default createStore({
     };
   },
   mutations: {
-    login(state, { username, password }) {
-      state.auth = { username, password };
-    },
-    logout(state) {
-      state.auth = null;
+    setJwt(state, jwt) {
+      state.jwt = jwt;
     },
     setPending(state, token) {
       if (!state.pending.includes(token)) {

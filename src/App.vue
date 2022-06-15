@@ -29,10 +29,8 @@
       }}</router-link>
     </div>
     <div class="flex">
-      <router-link to="/user" class="text-gray-600 pt-0.5">{{
-        name
-      }}</router-link>
-      <h4 class="pr-2 pl-2 text-xl">|</h4>
+      <!-- <router-link to="/user" class="text-gray-600 pt-0.5">Profile</router-link>
+      <h4 class="pr-2 pl-2 text-xl">|</h4> -->
       <LocaleSwitcher />
     </div>
   </div>
@@ -47,22 +45,22 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
+import { watchEffect } from "@vue/runtime-core";
 import { initialize } from "./assets/api";
 import * as api from "./assets/api";
-import store from "./store";
+import { useStore } from "vuex";
 import useSpin from "@/assets/spin";
 import Spinner from "@/components/Spinner.vue";
 import LocaleSwitcher from "@/components/LocaleSwitcher.vue";
 
+const store = useStore();
 const { messages } = useSpin();
-const auth = computed(() => store.state.auth);
-const name = computed(() => store.state.auth?.username);
 
-// Initialize API client.
-if (auth.value) {
-  initialize(auth.value.username, auth.value.password);
-}
+// Use the token for all API requests.
+// Fetching JWT happens in router.beforeEach, see router.js.
+watchEffect(() => {
+  initialize(store.state.jwt);
+});
 
 if (import.meta.env.DEV) {
   window.state = store.state;
