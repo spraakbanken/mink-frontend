@@ -27,18 +27,15 @@ export default defineConfig({
     },
   },
   base: process.env.BASE,
-  server:
-    process.env.NODE_ENV === "development"
-      ? {
-          // Remap hostname and enable HTTPS, in order for authentication to work.
-          // Map this hostname to 127.0.0.1 in /etc/hosts.
-          host: "minkdev.spraakbanken.gu.se",
-          https: {
-            // Make these certs with mkcert, see https://github.com/FiloSottile/mkcert
-            // I used: mkcert spraakbanken.gu.se '*.spraakbanken.gu.se'
-            key: fs.readFileSync("./local/spraakbanken.gu.se+1-key.pem"),
-            cert: fs.readFileSync("./local/spraakbanken.gu.se+1.pem"),
-          },
-        }
-      : {},
+  server: {
+    // Remap hostname and enable HTTPS, in order for authentication to work.
+    // Map this hostname to 127.0.0.1 in /etc/hosts.
+    host: "minkdev.spraakbanken.gu.se",
+    https: {
+      // Make these certs with mkcert, see https://github.com/FiloSottile/mkcert
+      // I used: mkcert spraakbanken.gu.se '*.spraakbanken.gu.se'
+      key: fs.readFileSync("./local/spraakbanken.gu.se+1-key.pem"),
+      cert: fs.readFileSync("./local/spraakbanken.gu.se+1.pem"),
+    },
+  },
 });
