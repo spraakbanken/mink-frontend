@@ -25,10 +25,12 @@
         <tbody>
           <tr>
             <th class="lg:w-1/6">{{ $t("fileFormat") }}</th>
-            <td v-if="config.format">
-              {{ $t(config.format) }}
-              (<code>.{{ config.format }}</code
-              >)
+            <td>
+              <span v-if="config.format">
+                {{ $t(config.format) }}
+                (<code>.{{ config.format }}</code
+                >)
+              </span>
             </td>
           </tr>
           <tr v-if="config.textAnnotation">
@@ -64,7 +66,7 @@
             {{ $t("edit") }}
           </ActionButton>
         </router-link>
-        <ActionButton @click="deleteCorpus" class="bg-red-200 border-red-300">
+        <ActionButton class="bg-red-200 border-red-300" @click="deleteCorpus">
           {{ $t("deleteCorpus") }}
         </ActionButton>
       </div>

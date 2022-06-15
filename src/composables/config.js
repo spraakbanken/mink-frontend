@@ -3,7 +3,7 @@ import { useStore } from "vuex";
 import { getConfig } from "@/assets/api";
 import useSpin from "@/assets/spin";
 import useCorpusIdParam from "./corpusIdParam";
-import { parseConfig } from "@/assets/corpusConfig";
+import { makeConfig, parseConfig } from "@/assets/corpusConfig";
 import useTh from "./th";
 
 export default function useConfig(corpusIdArg) {
@@ -21,14 +21,25 @@ export default function useConfig(corpusIdArg) {
   );
 
   function loadConfig() {
-    return spin(
-      getConfig(corpusId.value),
-      "Hämtar konfiguration",
-      token.value
-    ).then((configYaml) => {
-      const config = parseConfig(configYaml);
-      store.commit("setConfig", { corpusId: corpusId.value, config });
-    });
+    return spin(getConfig(corpusId.value), "Hämtar konfiguration", token.value)
+      .then((configYaml) => {
+        const config = parseConfig(configYaml);
+        store.commit("setConfig", { corpusId: corpusId.value, config });
+      })
+      .catch((error) => {
+        // Save empty config.
+        if (error.response?.status == 404) {
+          store.commit("setConfig", {
+            corpusId: corpusId.value,
+            config: parseConfig(
+              makeConfig(corpusId.value, {
+                name: { swe: "", eng: "" },
+                description: { swe: "", eng: "" },
+              })
+            ),
+          });
+        }
+      });
   }
 
   return {

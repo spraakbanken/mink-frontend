@@ -8,10 +8,10 @@
             <th class="lg:w-1/6">{{ $t("name") }}</th>
             <td>
               <ValuesByKey :values="name">
-                <template v-slot:swe>
+                <template #swe>
                   <input v-model="name.swe" class="border w-72 p-1" />
                 </template>
-                <template v-slot:eng>
+                <template #eng>
                   <input v-model="name.eng" class="border w-72 p-1" />
                 </template>
               </ValuesByKey>
@@ -21,13 +21,13 @@
             <th class="lg:w-1/6">{{ $t("description") }}</th>
             <td>
               <ValuesByKey :values="description">
-                <template v-slot:swe>
+                <template #swe>
                   <textarea
                     v-model="description.swe"
                     class="border w-full p-1 h-20"
                   />
                 </template>
-                <template v-slot:eng>
+                <template #eng>
                   <textarea
                     v-model="description.eng"
                     class="border w-full p-1 h-20"
@@ -82,18 +82,18 @@
             <td>
               <label class="mr-4">
                 <input
-                  type="radio"
                   id="sentenceSegmenter"
                   v-model="sentenceSegmenter"
+                  type="radio"
                   value=""
                 />
                 {{ $t("none") }}
               </label>
               <label v-for="segmenter in SEGMENTERS" class="mr-4">
                 <input
-                  type="radio"
                   id="sentenceSegmenter"
                   v-model="sentenceSegmenter"
+                  type="radio"
                   :value="segmenter"
                 />
                 {{ $t(`segmenter_${segmenter}`) }}
@@ -109,9 +109,9 @@
             </th>
             <td>
               {{ $t("timespan_from") }}:
-              <input type="date" v-model="datetimeFrom" class="mr-4" />
+              <input v-model="datetimeFrom" type="date" class="mr-4" />
               {{ $t("timespan_to") }}:
-              <input type="date" v-model="datetimeTo" />
+              <input v-model="datetimeTo" type="date" />
               <div class="text-sm py-1">
                 {{ $t("timespan_help") }}
               </div>
