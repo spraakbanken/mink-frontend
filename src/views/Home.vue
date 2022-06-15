@@ -8,36 +8,7 @@
         :to="`/corpus/${corpusId}`"
         custom
       >
-        <PadButton class="hover:bg-gray-50 flex flex-col" @click="navigate">
-          <strong>{{ corpusId }}</strong>
-          <span v-if="corpus.sources">
-            {{ $t("files", corpus.sources.length) }}
-          </span>
-          <div
-            v-if="useJob(corpusId).jobStatusMessage.value === 'done'"
-            class="flex"
-          >
-            Sparv
-            <img
-              src="@/assets/tick-mark.svg"
-              class="h-4 opacity-75 mt-1 ml-2"
-            />
-          </div>
-          <div v-else class="flex">
-            Sparv
-            <img
-              src="@/assets/incorrect.svg"
-              class="h-4 opacity-75 mt-1 ml-2"
-            />
-          </div>
-          <div class="flex">
-            Korp
-            <img
-              src="@/assets/incorrect.svg"
-              class="h-4 opacity-75 mt-1 ml-2"
-            />
-          </div>
-        </PadButton>
+        <CorpusButton :id="corpusId" @click="navigate" />
       </router-link>
       <router-link v-slot="{ navigate }" to="/corpus" custom>
         <PadButton class="bg-blue-100 border-blue-200" @click="navigate">
@@ -58,6 +29,7 @@ import Section from "@/components/layout/Section.vue";
 import useJob from "@/composables/job";
 import { onMounted, resolveComponent } from "@vue/runtime-core";
 import PendingContent from "@/components/PendingContent.vue";
+import CorpusButton from "@/components/CorpusButton.vue";
 
 const store = useStore();
 const { spin } = useSpin();
