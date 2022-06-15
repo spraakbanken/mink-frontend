@@ -12,3 +12,7 @@ export async function checkLogin() {
   if (response.ok) return await response.text();
   return false;
 }
+
+export function getLogoutUrl() {
+  return "https://sp.spraakbanken.gu.se/Shibboleth.sso/Logout";
+}

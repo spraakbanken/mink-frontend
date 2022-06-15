@@ -1,28 +1,21 @@
 <template>
-  <PageTitle>{{ name }}</PageTitle>
-  <div v-if="enableLogout" class="my-4">
-    <ActionButton @click="logout">{{ $t("logout") }}</ActionButton>
+  <PageTitle>{{ payload.name }}</PageTitle>
+  <div class="my-4">
+    <a :href="logoutUrl">
+      <ActionButton>{{ $t("logout") }}</ActionButton>
+    </a>
   </div>
 </template>
 
 <script setup>
 import PageTitle from "@/components/PageTitle.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
-import { computed } from "@vue/reactivity";
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import { getLogoutUrl } from "@/auth";
+import { useJwt } from "@/composables/jwt";
 
-const store = useStore();
-const router = useRouter();
+const { payload } = useJwt();
 
-const name = computed(() => store.state.auth?.username);
-
-function logout() {
-  store.commit("logout");
-  router.push("/login");
-}
-
-const enableLogout = false; // For now.
+const logoutUrl = getLogoutUrl();
 </script>
 
 <style></style>

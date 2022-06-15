@@ -29,8 +29,12 @@
       }}</router-link>
     </div>
     <div class="flex">
-      <!-- <router-link to="/user" class="text-gray-600 pt-0.5">Profile</router-link>
-      <h4 class="pr-2 pl-2 text-xl">|</h4> -->
+      <template v-if="payload">
+        <router-link to="/user" class="text-gray-600 pt-0.5">
+          {{ payload.name }}
+        </router-link>
+        <span class="pr-2 pl-2 text-xl">|</span>
+      </template>
       <LocaleSwitcher />
     </div>
   </div>
@@ -52,14 +56,16 @@ import { useStore } from "vuex";
 import useSpin from "@/assets/spin";
 import Spinner from "@/components/Spinner.vue";
 import LocaleSwitcher from "@/components/LocaleSwitcher.vue";
+import { useJwt } from "./composables/jwt";
 
 const store = useStore();
 const { messages } = useSpin();
+const { jwt, payload } = useJwt();
 
 // Use the token for all API requests.
 // Fetching JWT happens in router.beforeEach, see router.js.
 watchEffect(() => {
-  initialize(store.state.jwt);
+  initialize(jwt.value);
 });
 
 if (import.meta.env.DEV) {
