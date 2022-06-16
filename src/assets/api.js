@@ -156,7 +156,7 @@ export async function removeCorpus(corpusId) {
 
 export const isStatusStarted = (status) => STATUSES[status]?.started;
 export const isStatusRunning = (status) => STATUSES[status]?.running;
-export const isStatusDone = (status) => status == "done";
+export const isStatusDone = (status) => status == "done_syncing";
 export const statusMessage = (status) => STATUSES[status]?.message;
 
 // prettier-ignore
@@ -167,7 +167,7 @@ const STATUSES = {
   annotating:       { started:  true, running:  true, message: "annotating" },
   done_annotating:  { started:  true, running:  true, message: "done_annotating" },
   syncing_results:  { started:  true, running:  true, message: "syncing_results" },
-  done:             { started:  true, running: false, message: "done" },
+  done_syncing:     { started:  true, running: false, message: "done_syncing" },
   error:            { started:  true, running: false, message: "error" },
   aborted:          { started:  true, running: false, message: "aborted" },
 };
