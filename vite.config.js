@@ -18,10 +18,6 @@ export default defineConfig(({ command, mode }) => {
 
   return {
     plugins: [vue(), pluginRewriteAll()],
-    build: {
-      sourcemap: true,
-      minify: false,
-    },
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
