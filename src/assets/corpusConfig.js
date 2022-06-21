@@ -37,7 +37,7 @@ export function makeConfig(id, options) {
     if (!textAnnotation) {
       throw new TypeError("Text annotation setting is required for XML");
     }
-    config.import.document_annotation = textAnnotation;
+    config.import.text_annotation = textAnnotation;
   }
 
   if (sentenceSegmenter) {
@@ -63,7 +63,6 @@ export function makeConfig(id, options) {
       datetime_from: "<text>:misc.datefrom",
       datetime_to: "<text>:misc.dateto",
     };
-    // TODO What about datetime_to?
     config.custom_annotations = [
       {
         annotator: "misc:constant",
@@ -96,7 +95,7 @@ export function parseConfig(yaml) {
     format: Object.keys(FORMATS).find(
       (ext) => FORMATS[ext] == config.import?.importer
     ),
-    textAnnotation: config.import?.document_annotation,
+    textAnnotation: config.import?.text_annotation,
     sentenceSegmenter: config.segment?.sentence_segmenter,
     datetimeFrom: config.custom_annotations?.find(
       (a) => a.params.out == "<text>:misc.datefrom"
