@@ -20,7 +20,7 @@
   "deleteFile": "Ta bort",
   "addFile": "Lägg till fil",
   "dragANDdrop": "Dra och släpp, eller",
-  "source_raw": "Rå källfil",
+  "original": "Original",
   "source_text_help": "Efter en lyckad körning tillgängliggörs extraherad ren text här.",
   "contact": "Kontakt",
   "saveConfig": "Spara Konfiguration",

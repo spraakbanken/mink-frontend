@@ -21,7 +21,7 @@
   "deleteFile": "Delete",
   "addFile": "Add file",
   "dragANDdrop": "Drag and drop, or",
-  "source_raw": "Raw source file content",
+  "original": "Original",
   "source_text_help": "After successful processing, extracted plain text is available here.",
   "contact": "Contact",
   "saveConfig": "Save configuration",

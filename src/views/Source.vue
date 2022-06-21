@@ -13,8 +13,8 @@
             {{ formatDate(metadata.last_modified) }}
           </td>
         </tr>
-        <tr v-if="metadata.type == 'text/xml'">
-          <th>{{ $t("xml") }}</th>
+        <tr>
+          <th>{{ $t("original") }}</th>
           <td>
             <ActionButton @click="downloadRaw">
               <img
