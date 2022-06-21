@@ -5,7 +5,7 @@ const axios = Axios.create({
 });
 
 export function initialize(jwt) {
-  axios.defaults.headers["Authorization"] = `Bearer ${jwt}`;
+  axios.defaults.headers["Authorization"] = jwt ? `Bearer ${jwt}` : undefined;
 }
 
 export function listCorpora() {

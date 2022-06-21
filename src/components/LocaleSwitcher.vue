@@ -1,6 +1,10 @@
 <template>
   <select v-model="$i18n.locale" class="bg-transparent text-gray-600">
-    <option v-for="locale in $i18n.availableLocales" :value="locale">
+    <option
+      v-for="locale in $i18n.availableLocales"
+      :key="locale"
+      :value="locale"
+    >
       {{ $t(locale) }}
     </option>
   </select>
