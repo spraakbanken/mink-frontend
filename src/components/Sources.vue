@@ -4,10 +4,8 @@
       <table v-if="sources.length" class="w-full mt-4">
         <thead>
           <tr>
-            <th>{{ $t("fileName") }}</th>
-            <th>{{ $t("fileType") }}</th>
-            <th>{{ $t("uploaded") }}</th>
-            <th>{{ $t("fileSize") }}</th>
+            <th class="w-full">{{ $t("fileName") }}</th>
+            <th class="text-right">{{ $t("fileSize") }}</th>
             <th>{{ $t("deleteFile") }}</th>
           </tr>
         </thead>
@@ -18,17 +16,9 @@
                 {{ source.name }}
               </router-link>
             </td>
-            <td>
-              {{ source.type }}
+            <td class="text-right whitespace-nowrap">
+              {{ (source.size / 1000).toFixed(1) }} KB
             </td>
-            <td>
-              {{
-                source.last_modified.split("T")[0] +
-                " " +
-                source.last_modified.split("T")[1].split("+")[0]
-              }}
-            </td>
-            <td>{{ (source.size / 1000).toFixed(1) }} {{ "KB" }}</td>
             <td>
               <!--class="text-right"-->
               <ActionButton

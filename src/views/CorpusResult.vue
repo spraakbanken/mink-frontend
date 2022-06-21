@@ -8,10 +8,8 @@
         <table class="w-full mt-4">
           <thead>
             <tr>
-              <th>{{ $t("fileName") }}</th>
-              <th>{{ $t("fileType") }}</th>
-              <th>{{ $t("lastModify") }}</th>
-              <th>{{ $t("fileSize") }}</th>
+              <th class="w-full">{{ $t("fileName") }}</th>
+              <th class="text-right">{{ $t("fileSize") }}</th>
               <th>{{ $t("download") }}</th>
             </tr>
           </thead>
@@ -20,17 +18,9 @@
               <td>
                 {{ file.name }}
               </td>
-              <td>
-                {{ file.type }}
+              <td class="text-right whitespace-nowrap">
+                {{ (file.size / 1000).toFixed(1) }} KB
               </td>
-              <td>
-                {{
-                  file.last_modified.split("T")[0] +
-                  " " +
-                  file.last_modified.split("T")[1].split("+")[0]
-                }}
-              </td>
-              <td>{{ (file.size / 1000).toFixed(1) }} {{ "KB" }}</td>
               <td>
                 <ActionButton
                   class="mute slim hover:bg-green-200"
