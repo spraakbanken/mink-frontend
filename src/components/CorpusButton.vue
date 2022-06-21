@@ -1,25 +1,11 @@
 <template>
   <PadButton class="hover:bg-gray-50 flex flex-col">
-    <strong>{{ corpusName }}</strong>
-    <span v-if="corpus.sources">
+    <strong>{{ corpusName || id }}</strong>
+    <span v-if="corpus.sources && corpus.sources.length">
       {{ $t("files", corpus.sources.length) }}
     </span>
-    <div class="flex">
-      Sparv
-      <img
-        v-if="isJobDone"
-        src="@/assets/tick-mark.svg"
-        class="h-4 opacity-75 mt-1 ml-2"
-      />
-      <img
-        v-else
-        src="@/assets/incorrect.svg"
-        class="h-4 opacity-75 mt-1 ml-2"
-      />
-    </div>
-    <div class="flex">
-      Korp
-      <img src="@/assets/incorrect.svg" class="h-4 opacity-75 mt-1 ml-2" />
+    <div class="flex mt-4 text-sm text-gray-500">
+      <span v-if="isJobDone">Done</span>
     </div>
   </PadButton>
 </template>

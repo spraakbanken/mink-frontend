@@ -16,9 +16,7 @@ export default function useConfig(corpusIdArg) {
 
   const config = computed(() => store.state.corpora[corpusId.value].config);
   const token = computed(() => `corpus/${corpusId.value}/config`);
-  const corpusName = computed(() =>
-    config.value ? th(config.value.name) : corpusId.value
-  );
+  const corpusName = computed(() => config.value && th(config.value.name));
 
   function loadConfig() {
     return spin(getConfig(corpusId.value), "Hämtar konfiguration", token.value)
