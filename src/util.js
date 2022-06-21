@@ -1,3 +1,5 @@
+export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 export function downloadFile(data, filename) {
   const url = window.URL.createObjectURL(new Blob([data]));
   const link = document.createElement("a");

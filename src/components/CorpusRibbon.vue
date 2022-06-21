@@ -61,24 +61,20 @@ const router = useRouter();
 const { runJob, loadJob, isJobStarted, isJobDone, jobStatusMessage } = useJob();
 const { sources, loadSources } = useSources();
 const { config } = useConfig();
-const { loadExports, exports, downloadResult } = useExports();
+const { loadExports } = useExports();
 
 const { corpusId } = useCorpusIdParam();
 
-onMounted(async () => {
-  await loadSources();
-  await loadJob();
-  await loadExports();
+onMounted(() => {
+  loadSources();
+  loadJob();
+  loadExports();
 });
 
 async function run() {
   await runJob();
   router.push(`/corpus/${corpusId.value}/status`);
 }
-
-// async function download() {
-//   downloadResult();
-// }
 </script>
 
 <style></style>

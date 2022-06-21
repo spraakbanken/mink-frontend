@@ -80,6 +80,7 @@ import PendingContent from "@/components/PendingContent.vue";
 import { FORMATS_EXT, makeConfig } from "@/assets/corpusConfig";
 import { checkLogin } from "@/auth";
 import { useJwt } from "@/composables/jwt";
+import { sleep } from "@/util";
 
 const router = useRouter();
 const store = useStore();
@@ -124,8 +125,6 @@ async function submit() {
     message.value = reason.response ? reason.response.data.message : reason;
   }
 }
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 </script>
 
 <style scoped>

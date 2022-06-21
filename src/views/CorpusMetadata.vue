@@ -97,8 +97,8 @@ loadConfig();
 async function deleteCorpus() {
   const token = `corpus/${corpusId.value}`;
   store.commit("removeCorpus", corpusId.value);
-  router.push("/");
   await spin(removeCorpus(corpusId.value), "Raderar korpus", token);
+  router.push("/");
 }
 </script>
 
