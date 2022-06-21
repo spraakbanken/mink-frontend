@@ -56,13 +56,13 @@ export default function useJob(corpusIdArg) {
   //      ^ Maybe because of abhorrent useJob usage in template in Home.vue?
   // onUnmounted(() => clearTimeout(loadJobTimer));
 
-  const jobStatus = computed(() => store.state.corpora[corpusId.value].status);
+  const jobStatus = computed(() => store.state.corpora[corpusId.value]?.status);
   const jobStatusId = computed(() => jobStatus.value?.job_status);
   const isJobStarted = computed(() => isStatusStarted(jobStatusId.value));
   const isJobRunning = computed(() => isStatusRunning(jobStatusId.value));
   const isJobDone = computed(() => isStatusDone(jobStatusId.value));
   const jobStatusMessage = computed(() => statusMessage(jobStatusId.value));
-  const exports = computed(() => store.state.corpora[corpusId.value].exports);
+  const exports = computed(() => store.state.corpora[corpusId.value]?.exports);
 
   return {
     loadJob,

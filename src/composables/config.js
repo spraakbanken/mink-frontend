@@ -14,7 +14,7 @@ export default function useConfig(corpusIdArg) {
 
   const { th } = useTh();
 
-  const config = computed(() => store.state.corpora[corpusId.value].config);
+  const config = computed(() => store.state.corpora[corpusId.value]?.config);
   const token = computed(() => `corpus/${corpusId.value}/config`);
   const corpusName = computed(() => config.value && th(config.value.name));
 
