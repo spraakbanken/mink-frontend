@@ -7,3 +7,7 @@ export function downloadFile(data, filename) {
   link.click();
   window.URL.revokeObjectURL(url);
 }
+
+export function formatDate(dateStr) {
+  return dateStr.split("+")[0].replace("T", " ");
+}
