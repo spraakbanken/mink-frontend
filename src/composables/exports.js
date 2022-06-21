@@ -2,7 +2,7 @@ import { computed } from "@vue/reactivity";
 import {
   downloadExports,
   getExports,
-  getContentViewX,
+  downloadSource,
   downloadExportFileXML,
   downloadSourceText,
 } from "@/assets/api";
@@ -48,13 +48,14 @@ export default function useExports() {
     );
   }
 
-  function contentViewX(fileName) {
+  function activateSource(fileName) {
+    store.commit("clearSourceRaw");
     return spin(
-      getContentViewX(corpusId.value, fileName),
+      downloadSource(corpusId.value, fileName),
       "Laddar ner text",
       token.value
     ).then((data) => {
-      store.commit("showText", { content: data });
+      store.commit("setSourceRaw", data);
     });
   }
 
@@ -64,6 +65,6 @@ export default function useExports() {
     downloadResult,
     downloadFileXML,
     downloadFileTxt,
-    contentViewX,
+    activateSource,
   };
 }

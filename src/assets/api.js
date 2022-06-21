@@ -114,7 +114,7 @@ export async function downloadSourceText(corpusId, fileName) {
   return response.data;
 }
 
-export async function getContentViewX(corpusId, fileName) {
+export async function downloadSource(corpusId, fileName) {
   return axios
     .get("download-sources", {
       params: { corpus_id: corpusId, file: fileName, zip: false },

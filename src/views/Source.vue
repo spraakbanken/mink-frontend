@@ -1,12 +1,11 @@
 <template>
   <Section>
     <h2>{{ filename }}</h2>
-    <div
-      v-if="showText"
-      class="whitespace-pre-wrap border bg-white p-4 my-4 text-gray-600"
-    >
-      {{ showText }}
-    </div>
+    <Section v-if="sourceRaw" :title="$t('source_text')">
+      <div class="whitespace-pre-wrap border bg-white p-4 my-4 text-gray-600">
+        {{ sourceRaw }}
+      </div>
+    </Section>
   </Section>
 </template>
 
@@ -15,7 +14,6 @@ import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 import Section from "@/components/layout/Section.vue";
 import useExports from "@/composables/exports";
-import useSpin from "@/assets/spin";
 
 const props = defineProps({
   corpusId: { type: String, required: true },
@@ -23,16 +21,15 @@ const props = defineProps({
 });
 
 const store = useStore();
-const { contentViewX } = useExports();
-const showText = computed(() => store.state.txtshow?.content);
+const { activateSource } = useExports();
+const sourceRaw = computed(() => store.state.sourceRaw);
 const metadata = computed(() =>
   store.state.corpora[props.corpusId].sources.find(
     (source) => source.name === props.filename
   )
 );
 
-store.commit("removeText");
-contentViewX(props.filename);
+activateSource(props.filename);
 </script>
 
 <style></style>
