@@ -18,8 +18,6 @@ export default createStore({
         // [corpusId]: {source, config, status, exports}
       },
       pending: [],
-      sourceRaw: null, // Raw source content, e.g. XML markup.
-      sourceText: null, // Extracted plain text.
     };
   },
   mutations: {
@@ -70,12 +68,6 @@ export default createStore({
     },
     removeCorpus(state, corpusId) {
       delete state.corpora[corpusId];
-    },
-    setSourceRaw(state, content) {
-      state.sourceRaw = content;
-    },
-    clearSourceRaw(state) {
-      state.sourceRaw = null;
     },
   },
 });

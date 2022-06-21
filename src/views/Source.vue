@@ -13,13 +13,37 @@
             {{ formatDate(metadata.last_modified) }}
           </td>
         </tr>
+        <tr v-if="metadata.type == 'text/xml'">
+          <th>{{ $t("xml") }}</th>
+          <td>
+            <ActionButton @click="downloadRaw">
+              <img
+                src="@/assets/download.svg"
+                :alt="$t('download')"
+                class="inline h-5"
+              />
+              {{ $t("download") }}
+            </ActionButton>
+          </td>
+        </tr>
+        <tr v-if="metadata.type != 'text/plain' && isJobDone">
+          <th>{{ $t("txt") }}</th>
+          <td>
+            <ActionButton @click="downloadPlain">
+              <img
+                src="@/assets/download.svg"
+                :alt="$t('download')"
+                class="inline h-5"
+              />
+              {{ $t("download") }}
+            </ActionButton>
+            <div class="text-sm py-1">
+              {{ $t("source_text_help") }}
+            </div>
+          </td>
+        </tr>
       </tbody>
     </table>
-    <Section v-if="sourceRaw" :title="$t('source_raw')">
-      <div class="whitespace-pre-wrap border bg-white p-4 my-4 text-gray-600">
-        {{ sourceRaw }}
-      </div>
-    </Section>
   </Section>
 </template>
 
@@ -27,8 +51,10 @@
 import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 import Section from "@/components/layout/Section.vue";
-import useExports from "@/composables/exports";
-import { formatDate } from "@/util";
+import { downloadFile, ensureExtension, formatDate } from "@/util";
+import ActionButton from "@/components/layout/ActionButton.vue";
+import useJob from "@/composables/job";
+import useSources from "@/composables/sources";
 
 const props = defineProps({
   corpusId: { type: String, required: true },
@@ -36,16 +62,24 @@ const props = defineProps({
 });
 
 const store = useStore();
-const { activateSource } = useExports();
+const { downloadSource, downloadPlaintext } = useSources();
+const { isJobDone } = useJob();
 
-const sourceRaw = computed(() => store.state.sourceRaw);
 const metadata = computed(() =>
   store.state.corpora[props.corpusId].sources.find(
     (source) => source.name === props.filename
   )
 );
 
-activateSource(props.filename);
+async function downloadRaw() {
+  const data = await downloadSource(metadata.value);
+  downloadFile(data, metadata.value.name);
+}
+
+async function downloadPlain() {
+  const data = await downloadPlaintext(metadata.value);
+  downloadFile(data, ensureExtension(metadata.value.name, "txt"));
+}
 </script>
 
 <style></style>

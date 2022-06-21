@@ -2,9 +2,7 @@ import { computed } from "@vue/reactivity";
 import {
   downloadExports,
   getExports,
-  downloadSource,
   downloadExportFileXML,
-  downloadSourceText,
 } from "@/assets/api";
 import useSpin from "@/assets/spin";
 import { useStore } from "vuex";
@@ -40,31 +38,10 @@ export default function useExports() {
     );
   }
 
-  function downloadFileTxt(fileName) {
-    return spin(
-      downloadSourceText(corpusId.value, fileName),
-      "Laddar ner ren källtext",
-      token.value
-    );
-  }
-
-  function activateSource(fileName) {
-    store.commit("clearSourceRaw");
-    return spin(
-      downloadSource(corpusId.value, fileName),
-      "Laddar ner text",
-      token.value
-    ).then((data) => {
-      store.commit("setSourceRaw", data);
-    });
-  }
-
   return {
     loadExports,
     exports,
     downloadResult,
     downloadFileXML,
-    downloadFileTxt,
-    activateSource,
   };
 }

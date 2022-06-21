@@ -11,3 +11,7 @@ export function downloadFile(data, filename) {
 export function formatDate(dateStr) {
   return dateStr.split("+")[0].replace("T", " ");
 }
+
+export function ensureExtension(filename, ext) {
+  return filename.replace(/.[^.]*$/, "") + "." + ext;
+}

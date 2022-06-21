@@ -2,7 +2,13 @@ import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 import useSpin from "@/assets/spin";
 import useCorpusIdParam from "./corpusIdParam";
-import { getCorpus, putSources, removeSource } from "@/assets/api";
+import {
+  getCorpus,
+  putSources,
+  removeSource,
+  downloadSource as downloadSourceApi,
+  downloadSourceText,
+} from "@/assets/api";
 
 export default function useSources() {
   const store = useStore();
@@ -39,10 +45,28 @@ export default function useSources() {
     loadSources();
   }
 
+  async function downloadSource(source) {
+    return spin(
+      downloadSourceApi(corpusId.value, source.name),
+      "Laddar ner källtext",
+      token.value
+    );
+  }
+
+  async function downloadPlaintext(source) {
+    return spin(
+      downloadSourceText(corpusId.value, source.name),
+      "Laddar ner extraherad text",
+      token.value
+    );
+  }
+
   return {
     sources,
     loadSources,
     remove,
     upload,
+    downloadSource,
+    downloadPlaintext,
   };
 }

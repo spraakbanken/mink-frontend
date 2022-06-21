@@ -10,7 +10,7 @@
             <tr>
               <th class="w-full">{{ $t("fileName") }}</th>
               <th class="text-right">{{ $t("fileSize") }}</th>
-              <th>{{ $t("download") }}</th>
+              <th class="text-right">{{ $t("download") }}</th>
             </tr>
           </thead>
           <tbody class="border-b-0">
@@ -21,18 +21,12 @@
               <td class="text-right whitespace-nowrap">
                 {{ (file.size / 1000).toFixed(1) }} KB
               </td>
-              <td>
+              <td class="text-right">
                 <ActionButton
                   class="mute slim hover:bg-green-200"
-                  @click="downloadSingleFileXML(file.path)"
+                  @click="downloadSingle(file.path)"
                 >
                   <img src="@/assets/xml-file.svg" class="h-7 opacity-75" />
-                </ActionButton>
-                <ActionButton
-                  class="mute slim hover:bg-green-200"
-                  @click="downloadSingleFileTxt(file.name)"
-                >
-                  <img src="@/assets/download.svg" class="h-7 opacity-75" />
                 </ActionButton>
               </td>
             </tr>
@@ -55,8 +49,6 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
-import { useStore } from "vuex";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import { onMounted } from "@vue/runtime-core";
@@ -65,29 +57,15 @@ import Section from "@/components/layout/Section.vue";
 import useExports from "@/composables/exports";
 import { downloadFile } from "@/util";
 
-const store = useStore();
 const { corpusId } = useCorpusIdParam();
-const {
-  loadExports,
-  exports,
-  downloadResult,
-  downloadFileXML,
-  downloadFileTxt,
-} = useExports();
+const { loadExports, exports, downloadResult, downloadFileXML } = useExports();
 
 onMounted(() => loadExports());
 
-async function downloadSingleFileXML(path) {
+async function downloadSingle(path) {
   const data = await downloadFileXML(path);
   const filename = path.split("/").pop();
   downloadFile(data, filename);
-}
-
-async function downloadSingleFileTxt(fileName) {
-  // TODO Move to sources view? Should not assume .txt extension.
-  const filenameTxt = fileName.replace("_export.xml", ".txt");
-  const data = await downloadFileTxt(filenameTxt);
-  downloadFile(data, filenameTxt);
 }
 
 async function downloadFull() {

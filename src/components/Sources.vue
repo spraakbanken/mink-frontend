@@ -6,7 +6,7 @@
           <tr>
             <th class="w-full">{{ $t("fileName") }}</th>
             <th class="text-right">{{ $t("fileSize") }}</th>
-            <th>{{ $t("deleteFile") }}</th>
+            <th class="text-right">{{ $t("deleteFile") }}</th>
           </tr>
         </thead>
         <tbody class="border-b-0">
@@ -19,7 +19,7 @@
             <td class="text-right whitespace-nowrap">
               {{ (source.size / 1000).toFixed(1) }} KB
             </td>
-            <td>
+            <td class="text-right">
               <!--class="text-right"-->
               <ActionButton
                 class="mute slim hover:bg-red-200"
