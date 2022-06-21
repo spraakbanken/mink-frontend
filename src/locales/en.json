@@ -29,6 +29,7 @@
   "message": "Message",
   "sparvOutput": "Sparv output",
   "download": "Download",
+  "download_export": "Download full export",
   "syncing_corpus": "Synchronizing corpus",
   "waiting": "Waiting",
   "annotating": "Annotating",

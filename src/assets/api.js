@@ -88,58 +88,30 @@ export async function getExports(corpusId) {
 }
 
 export async function downloadExports(corpusId) {
-  return axios
-    .get("download-exports", {
-      params: { corpus_id: corpusId },
-      responseType: "blob",
-    })
-    .then((response) => {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `${corpusId}.zip`);
-      document.body.appendChild(link);
-      link.click();
-      window.URL.revokeObjectURL(url);
-    });
+  const response = await axios.get("download-exports", {
+    params: { corpus_id: corpusId },
+    responseType: "blob",
+  });
+  return response.data;
 }
 
-export async function downloadExportFileXML(corpusId, fileName) {
-  return axios
-    .get("download-exports", {
-      params: {
-        corpus_id: corpusId,
-        file: "/Min Språkbank/" + corpusId + "/export/xml_pretty/" + fileName,
-        zip: false,
-      },
-      responseType: "blob",
-    })
-    .then((response) => {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `${fileName.replace("_export", "")}`);
-      document.body.appendChild(link);
-      link.click();
-      window.URL.revokeObjectURL(url);
-    });
+export async function downloadExportFileXML(corpusId, path) {
+  const response = axios.get("download-exports", {
+    params: {
+      corpus_id: corpusId,
+      file: path,
+      zip: false,
+    },
+    responseType: "blob",
+  });
+  return response.data;
 }
 
-export async function downloadExportFileTxt(corpusId, fileName) {
-  return axios
-    .get("download-source-text", {
-      params: { corpus_id: corpusId, file: fileName },
-      responseType: "blob",
-    })
-    .then((response) => {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `${fileName}`);
-      document.body.appendChild(link);
-      link.click();
-      window.URL.revokeObjectURL(url);
-    });
+export async function downloadSourceText(corpusId, fileName) {
+  const response = await axios.get("download-source-text", {
+    params: { corpus_id: corpusId, file: fileName },
+  });
+  return response.data;
 }
 
 export async function getContentViewX(corpusId, fileName) {

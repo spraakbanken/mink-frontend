@@ -4,7 +4,7 @@ import {
   getExports,
   getContentViewX,
   downloadExportFileXML,
-  downloadExportFileTxt,
+  downloadSourceText,
 } from "@/assets/api";
 import useSpin from "@/assets/spin";
 import { useStore } from "vuex";
@@ -25,7 +25,7 @@ export default function useExports() {
   }
 
   function downloadResult() {
-    spin(
+    return spin(
       downloadExports(corpusId.value),
       "Laddar ner analysresultat",
       token.value
@@ -33,7 +33,7 @@ export default function useExports() {
   }
 
   function downloadFileXML(fileName) {
-    spin(
+    return spin(
       downloadExportFileXML(corpusId.value, fileName),
       "Laddar ner analysresultat",
       token.value
@@ -41,15 +41,15 @@ export default function useExports() {
   }
 
   function downloadFileTxt(fileName) {
-    spin(
-      downloadExportFileTxt(corpusId.value, fileName),
-      "Laddar ner analysresultat",
+    return spin(
+      downloadSourceText(corpusId.value, fileName),
+      "Laddar ner ren källtext",
       token.value
     );
   }
 
   function contentViewX(fileName) {
-    spin(
+    return spin(
       getContentViewX(corpusId.value, fileName),
       "Laddar ner text",
       token.value

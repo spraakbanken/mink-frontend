@@ -24,7 +24,7 @@
               <td>
                 <ActionButton
                   class="mute slim hover:bg-green-200"
-                  @click="downloadSingleFileXML(file.name)"
+                  @click="downloadSingleFileXML(file.path)"
                 >
                   <img src="@/assets/xml-file.svg" class="h-7 opacity-75" />
                 </ActionButton>
@@ -42,10 +42,10 @@
         <ActionButton
           v-if="exports && exports.length"
           class="mr-2 bg-green-200 border-green-300"
-          @click="download1"
+          @click="downloadFull"
         >
           <div class="flex">
-            {{ $t("download") }} {{ $t("corpus") }}
+            {{ $t("download_export") }}
             <img src="@/assets/zip.svg" class="h-5 opacity-75 pl-2" />
           </div>
         </ActionButton>
@@ -63,6 +63,7 @@ import { onMounted } from "@vue/runtime-core";
 import PendingContent from "@/components/PendingContent.vue";
 import Section from "@/components/layout/Section.vue";
 import useExports from "@/composables/exports";
+import { downloadFile } from "@/util";
 
 const store = useStore();
 const { corpusId } = useCorpusIdParam();
@@ -76,16 +77,22 @@ const {
 
 onMounted(() => loadExports());
 
-async function downloadSingleFileXML(fileName) {
-  downloadFileXML(fileName);
+async function downloadSingleFileXML(path) {
+  const data = await downloadFileXML(path);
+  const filename = path.split("/").pop();
+  downloadFile(data, filename);
 }
 
 async function downloadSingleFileTxt(fileName) {
-  downloadFileTxt(fileName.replace("_export.xml", ".txt"));
+  // TODO Move to sources view? Should not assume .txt extension.
+  const filenameTxt = fileName.replace("_export.xml", ".txt");
+  const data = await downloadFileTxt(filenameTxt);
+  downloadFile(data, filenameTxt);
 }
 
-async function download1() {
-  downloadResult();
+async function downloadFull() {
+  const data = await downloadResult();
+  downloadFile(data, corpusId.value + ".zip");
 }
 </script>
 

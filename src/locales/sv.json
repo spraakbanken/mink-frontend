@@ -28,6 +28,7 @@
   "message": "Meddelande",
   "sparvOutput": "Sparv output",
   "download": "Ladda ner",
+  "download_export": "Ladda ner hela exporten",
   "syncing_corpus": "Syncar korpus",
   "waiting": "Väntar",
   "annotating": "Annoterar",
