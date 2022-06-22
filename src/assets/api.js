@@ -95,8 +95,8 @@ export async function downloadExports(corpusId) {
   return response.data;
 }
 
-export async function downloadExportFileXML(corpusId, path) {
-  const response = axios.get("download-exports", {
+export async function downloadExportFile(corpusId, path) {
+  const response = await axios.get("download-exports", {
     params: {
       corpus_id: corpusId,
       file: path,

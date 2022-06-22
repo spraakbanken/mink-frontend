@@ -60,12 +60,13 @@ import useExports from "@/composables/exports";
 import { downloadFile } from "@/util";
 
 const { corpusId } = useCorpusIdParam();
-const { loadExports, exports, downloadResult, downloadFileXML } = useExports();
+const { loadExports, exports, downloadResult, downloadResultFile } =
+  useExports();
 
 onMounted(() => loadExports());
 
 async function downloadSingle(path) {
-  const data = await downloadFileXML(path);
+  const data = await downloadResultFile(path);
   const filename = path.split("/").pop();
   downloadFile(data, filename);
 }

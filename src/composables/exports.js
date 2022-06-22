@@ -1,9 +1,5 @@
 import { computed } from "@vue/reactivity";
-import {
-  downloadExports,
-  getExports,
-  downloadExportFileXML,
-} from "@/assets/api";
+import { downloadExports, getExports, downloadExportFile } from "@/assets/api";
 import useSpin from "@/assets/spin";
 import { useStore } from "vuex";
 import useCorpusIdParam from "@/composables/corpusIdParam";
@@ -33,9 +29,9 @@ export default function useExports() {
     );
   }
 
-  function downloadFileXML(fileName) {
+  function downloadResultFile(fileName) {
     return spin(
-      downloadExportFileXML(corpusId.value, fileName),
+      downloadExportFile(corpusId.value, fileName),
       "Laddar ner analysresultat",
       token.value
     );
@@ -45,6 +41,6 @@ export default function useExports() {
     loadExports,
     exports,
     downloadResult,
-    downloadFileXML,
+    downloadResultFile,
   };
 }
