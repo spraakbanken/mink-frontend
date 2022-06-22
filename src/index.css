@@ -45,7 +45,7 @@ pre {
 
 @layer components {
   .mink-button, a .mink-button {
-    @apply p-1 px-2 rounded bg-white hover:bg-opacity-75 shadow-sm text-gray-700;
+    @apply p-1 px-2 rounded bg-white shadow-sm text-gray-700 hover:drop-shadow-md hover:opacity-90 transition-all;
   }
   .mink-button.mink-primary {
     @apply bg-blue-400 text-white;
@@ -54,9 +54,9 @@ pre {
     @apply bg-red-400 text-white;
   }
   .mink-button.mink-success {
-    @apply bg-green-400;
+    @apply bg-green-400 text-green-900;
   }
   .mink-button.mink-warning {
-    @apply bg-yellow-200;
+    @apply bg-amber-300 text-amber-900;
   }
 }

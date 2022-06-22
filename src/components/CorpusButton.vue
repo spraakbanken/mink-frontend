@@ -1,5 +1,5 @@
 <template>
-  <PadButton class="hover:bg-gray-50 flex flex-col">
+  <PadButton class="flex flex-col">
     <strong>{{ corpusName || id }}</strong>
     <span v-if="corpus.sources && corpus.sources.length">
       {{ $t("files", corpus.sources.length) }}
