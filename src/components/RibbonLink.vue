@@ -7,12 +7,10 @@
     <slot />
   </router-link>
   <div
-    v-else-if="isCurrent"
-    class="flex-1 text-sm p-2 rounded border bg-gray-100 border-transparent"
+    v-else
+    class="flex-1 text-sm p-1 px-2 rounded"
+    :class="isCurrent ? 'bg-gray-200' : ''"
   >
-    <slot />
-  </div>
-  <div v-else class="flex-1 text-sm p-2 rounded border border-transparent">
     <slot />
   </div>
 </template>

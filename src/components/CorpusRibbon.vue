@@ -1,7 +1,9 @@
 <template>
   <div class="my-4 flex">
     <RibbonLink :to="`/corpus/${corpusId}`">
-      <h4 class="uppercase text-gray-600 text-base">{{ $t("metadata") }}</h4>
+      <h4 class="uppercase text-gray-600 text-base">
+        {{ $t("metadata") }}
+      </h4>
     </RibbonLink>
 
     <div class="mx-2 self-center">
@@ -23,7 +25,9 @@
 
     <RibbonLink :to="`/corpus/${corpusId}/status`" :disabled="!isJobStarted">
       <PendingContent :on="`corpus/${corpusId}/job`">
-        <h4 class="uppercase text-gray-600 text-base">{{ $t("analysis") }}</h4>
+        <h4 class="uppercase text-gray-600 text-base">
+          {{ $t("analysis") }}
+        </h4>
         <div v-if="isJobStarted">{{ $t(jobStatusMessage) }}</div>
         <div v-else-if="config" class="flex justify-center items-center">
           <ActionButton variant="primary" @click.stop="run">
@@ -40,7 +44,9 @@
 
     <RibbonLink :to="`/corpus/${corpusId}/exports`" :disabled="!isJobDone">
       <PendingContent :on="`corpus/${corpusId}/exports`">
-        <h4 class="uppercase text-gray-600 text-base">{{ $t("result") }}</h4>
+        <h4 class="uppercase text-gray-600 text-base">
+          {{ $t("result") }}
+        </h4>
       </PendingContent>
     </RibbonLink>
   </div>
