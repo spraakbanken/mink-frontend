@@ -36,7 +36,7 @@
         <br />
         <ActionButton
           v-if="exports && exports.length"
-          variant="success"
+          variant="primary"
           class="mr-2"
           @click="downloadFull"
         >
