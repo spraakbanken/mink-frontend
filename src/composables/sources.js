@@ -23,10 +23,11 @@ export default function useSources() {
   const token = computed(() => `corpus/${corpusId.value}/sources`);
 
   function loadSources() {
-    spin(getCorpus(corpusId.value), t("source.list.loading"), token.value).then(
+    const corpusIdFixed = corpusId.value;
+    spin(getCorpus(corpusIdFixed), t("source.list.loading"), token.value).then(
       (sourcesFetched) =>
         store.commit("setSources", {
-          corpusId: corpusId.value,
+          corpusId: corpusIdFixed,
           sources: sourcesFetched,
         })
     );

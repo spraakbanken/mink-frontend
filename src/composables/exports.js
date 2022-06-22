@@ -18,9 +18,10 @@ export default function useExports() {
   const token = computed(() => `corpus/${corpusId.value}/exports`);
 
   function loadExports() {
-    spin(getExports(corpusId.value), t("exports.loading"), token.value).then(
+    const corpusIdFixed = corpusId.value;
+    spin(getExports(corpusIdFixed), t("exports.loading"), token.value).then(
       (exports) =>
-        store.commit("setExports", { corpusId: corpusId.value, exports })
+        store.commit("setExports", { corpusId: corpusIdFixed, exports })
     );
   }
 

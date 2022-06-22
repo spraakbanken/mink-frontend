@@ -25,22 +25,24 @@ export default function useJob(corpusIdArg) {
 
   let loadJobTimer = null;
 
-  async function loadJob() {
+  async function loadJob(corpusIdArg) {
+    const corpusIdFixed = corpusIdArg || corpusId.value;
     const status = await spin(
-      getJob(corpusId.value),
+      getJob(corpusIdFixed),
       t("job.loading"),
       token.value
     );
-    recordJobStatus(status);
+    recordJobStatus(corpusIdFixed, status);
   }
 
   async function runJob() {
+    const corpusId = corpusId.value;
     const status = await spin(
-      queueJob(corpusId.value),
+      queueJob(corpusId),
       t("job.starting"),
       token.value
     );
-    recordJobStatus(status);
+    recordJobStatus(corpusId, status);
   }
 
   async function abortJob() {
@@ -48,11 +50,11 @@ export default function useJob(corpusIdArg) {
     await loadJob();
   }
 
-  function recordJobStatus(status) {
-    store.commit("setStatus", { corpusId: corpusId.value, status });
+  function recordJobStatus(corpusId, status) {
+    store.commit("setStatus", { corpusId, status });
     // Refresh automatically.
     if (isJobRunning.value)
-      loadJobTimer = setTimeout(() => loadJob(token.value), 10_000);
+      loadJobTimer = setTimeout(() => loadJob(corpusId, token.value), 10_000);
   }
 
   // Whichever component triggered loadJob, if it disappears, stop polling.

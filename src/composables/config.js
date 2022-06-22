@@ -20,18 +20,19 @@ export default function useConfig(corpusIdArg) {
   const corpusName = computed(() => config.value && th(config.value.name));
 
   function loadConfig() {
-    return spin(getConfig(corpusId.value), t("config.loading"), token.value)
+    const corpusIdFixed = corpusId.value;
+    return spin(getConfig(corpusIdFixed), t("config.loading"), token.value)
       .then((configYaml) => {
         const config = parseConfig(configYaml);
-        store.commit("setConfig", { corpusId: corpusId.value, config });
+        store.commit("setConfig", { corpusId: corpusIdFixed, config });
       })
       .catch((error) => {
         // Save empty config.
         if (error.response?.status == 404) {
           store.commit("setConfig", {
-            corpusId: corpusId.value,
+            corpusId: corpusIdFixed,
             config: parseConfig(
-              makeConfig(corpusId.value, {
+              makeConfig(corpusIdFixed, {
                 name: { swe: "", eng: "" },
                 description: { swe: "", eng: "" },
               })

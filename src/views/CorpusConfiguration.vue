@@ -168,6 +168,7 @@ if (!config.value) {
 }
 
 async function save() {
+  const corpusIdFixed = corpusId.value;
   const configNew = {
     name: name.value,
     description: description.value,
@@ -177,14 +178,14 @@ async function save() {
     datetimeFrom: datetimeFrom.value,
     datetimeTo: datetimeTo.value,
   };
-  const configYaml = makeConfig(corpusId.value, configNew);
+  const configYaml = makeConfig(corpusIdFixed, configNew);
   await spin(
-    putConfig(corpusId.value, configYaml),
+    putConfig(corpusIdFixed, configYaml),
     t("config.saving"),
-    `corpus/${corpusId.value}/config`
+    `corpus/${corpusIdFixed}/config`
   );
-  store.commit("setConfig", { corpusId: corpusId.value, config: configNew });
-  router.push(`/corpus/${corpusId.value}`);
+  store.commit("setConfig", { corpusId: corpusIdFixed, config: configNew });
+  router.push(`/corpus/${corpusIdFixed}`);
 }
 </script>
 
