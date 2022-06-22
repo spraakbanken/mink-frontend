@@ -30,15 +30,19 @@ import useJob from "@/composables/job";
 import { onMounted, resolveComponent } from "@vue/runtime-core";
 import PendingContent from "@/components/PendingContent.vue";
 import CorpusButton from "@/components/CorpusButton.vue";
+import { useI18n } from "vue-i18n";
 
 const store = useStore();
 const { spin } = useSpin();
+const { t } = useI18n();
 
 const corpora = computed(() => store.state.corpora);
 
 onMounted(() => {
-  spin(listCorpora(), "Hämtar korpusar", "corpora").then((corporaFetched) => {
-    store.commit("setCorpora", corporaFetched);
-  });
+  spin(listCorpora(), t("corpus.list.loading"), "corpora").then(
+    (corporaFetched) => {
+      store.commit("setCorpora", corporaFetched);
+    }
+  );
 });
 </script>

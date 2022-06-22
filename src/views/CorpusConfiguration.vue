@@ -145,12 +145,15 @@ import useConfig from "@/composables/config";
 import { useRouter } from "vue-router";
 import ValuesByKey from "@/components/ValuesByKey.vue";
 import { FORMATS_EXT, SEGMENTERS, makeConfig } from "@/assets/corpusConfig";
+import { useI18n } from "vue-i18n";
 
 const router = useRouter();
 const store = useStore();
 const { spin } = useSpin();
 const { corpusId } = useCorpusIdParam();
 const { config, loadConfig } = useConfig();
+const { t } = useI18n();
+
 const name = ref(config.value?.name);
 const description = ref(config.value?.description);
 const format = ref(config.value?.format);
@@ -176,7 +179,7 @@ async function save() {
   const configYaml = makeConfig(corpusId.value, configNew);
   await spin(
     putConfig(corpusId.value, configYaml),
-    "Sparar konfiguration",
+    t("config.saving"),
     `corpus/${corpusId.value}/config`
   );
   store.commit("setConfig", { corpusId: corpusId.value, config: configNew });

@@ -9,18 +9,21 @@ import {
   downloadSource as downloadSourceApi,
   downloadSourceText,
 } from "@/assets/api";
+import { useI18n } from "vue-i18n";
 
 export default function useSources() {
   const store = useStore();
   const { spin } = useSpin();
   const { corpusId } = useCorpusIdParam();
+  const { t } = useI18n();
+
   const sources = computed(
     () => store.state.corpora[corpusId.value]?.sources || []
   );
   const token = computed(() => `corpus/${corpusId.value}/sources`);
 
   function loadSources() {
-    spin(getCorpus(corpusId.value), "Hämtar textlista", token.value).then(
+    spin(getCorpus(corpusId.value), t("source.list.loading"), token.value).then(
       (sourcesFetched) =>
         store.commit("setSources", {
           corpusId: corpusId.value,
@@ -32,15 +35,14 @@ export default function useSources() {
   async function remove(source) {
     await spin(
       removeSource(corpusId.value, source.name),
-      "Raderar textfil",
+      t("source.deleting"),
       token.value
     );
     loadSources();
   }
 
   async function upload(files) {
-    const message =
-      files.length > 1 ? "Laddar upp textfiler" : "Laddar upp textfil";
+    const message = t("source.uploading", files.length);
     await spin(putSources(corpusId.value, files), message, token.value);
     loadSources();
   }
@@ -48,7 +50,7 @@ export default function useSources() {
   async function downloadSource(source) {
     return spin(
       downloadSourceApi(corpusId.value, source.name),
-      "Laddar ner källtext",
+      t("source.downloading"),
       token.value
     );
   }
@@ -56,7 +58,7 @@ export default function useSources() {
   async function downloadPlaintext(source) {
     return spin(
       downloadSourceText(corpusId.value, source.name),
-      "Laddar ner extraherad text",
+      t("source.downloading_plain"),
       token.value
     );
   }

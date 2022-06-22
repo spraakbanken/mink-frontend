@@ -13,10 +13,12 @@ import useSpin from "@/assets/spin";
 import useCorpusIdParam from "./corpusIdParam";
 import { useStore } from "vuex";
 import { onUnmounted } from "vue";
+import { useI18n } from "vue-i18n";
 
 export default function useJob(corpusIdArg) {
   const store = useStore();
   const { spin } = useSpin();
+  const { t } = useI18n();
   const { corpusId: corpusIdParam } = useCorpusIdParam();
   const corpusId = corpusIdArg ? computed(() => corpusIdArg) : corpusIdParam;
   const token = computed(() => `corpus/${corpusId.value}/job`);
@@ -26,7 +28,7 @@ export default function useJob(corpusIdArg) {
   async function loadJob() {
     const status = await spin(
       getJob(corpusId.value),
-      "Kollar analysstatus",
+      t("job.loading"),
       token.value
     );
     recordJobStatus(status);
@@ -35,14 +37,14 @@ export default function useJob(corpusIdArg) {
   async function runJob() {
     const status = await spin(
       queueJob(corpusId.value),
-      "Lägger analys i kö",
+      t("job.starting"),
       token.value
     );
     recordJobStatus(status);
   }
 
   async function abortJob() {
-    await spin(apiAbortJob(corpusId.value), "Avbryter analys", token.value);
+    await spin(apiAbortJob(corpusId.value), t("job.aborting"), token.value);
     await loadJob();
   }
 

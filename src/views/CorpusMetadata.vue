@@ -85,19 +85,21 @@ import Section from "@/components/layout/Section.vue";
 import PendingContent from "@/components/PendingContent.vue";
 import useConfig from "@/composables/config";
 import ValuesByKey from "@/components/ValuesByKey.vue";
+import { useI18n } from "vue-i18n";
 
 const router = useRouter();
 const store = useStore();
 const { spin } = useSpin();
 const { corpusId } = useCorpusIdParam();
 const { config, loadConfig } = useConfig();
+const { t } = useI18n();
 
 loadConfig();
 
 async function deleteCorpus() {
   const token = `corpus/${corpusId.value}`;
   store.commit("removeCorpus", corpusId.value);
-  await spin(removeCorpus(corpusId.value), "Raderar korpus", token);
+  await spin(removeCorpus(corpusId.value), t("corpus.deleting"), token);
   router.push("/");
 }
 </script>

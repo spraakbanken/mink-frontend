@@ -58,9 +58,7 @@
         </tbody>
       </table>
       <div class="flex justify-center">
-        <ActionButton variant="success" @click="submit">
-          Spara
-        </ActionButton>
+        <ActionButton variant="success" @click="submit">Spara</ActionButton>
       </div>
     </PendingContent>
   </Section>
@@ -81,11 +79,13 @@ import { FORMATS_EXT, makeConfig } from "@/assets/corpusConfig";
 import { checkLogin } from "@/auth";
 import { useJwt } from "@/composables/jwt";
 import { sleep } from "@/util";
+import { useI18n } from "vue-i18n";
 
 const router = useRouter();
 const store = useStore();
 const { spin } = useSpin();
 const { payload } = useJwt();
+const { t } = useI18n();
 
 const name = ref("");
 const description = ref("");
@@ -103,7 +103,7 @@ async function submit() {
   };
 
   try {
-    const corpusId = await spin(createCorpus(), "Skapar korpus", "create");
+    const corpusId = await spin(createCorpus(), t("corpus.creating"), "create");
     store.commit("addCorpus", corpusId);
 
     // Wait until JWT is updated to include the new corpus...

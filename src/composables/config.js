@@ -5,13 +5,14 @@ import useSpin from "@/assets/spin";
 import useCorpusIdParam from "./corpusIdParam";
 import { makeConfig, parseConfig } from "@/assets/corpusConfig";
 import useTh from "./th";
+import { useI18n } from "vue-i18n";
 
 export default function useConfig(corpusIdArg) {
   const store = useStore();
   const { spin } = useSpin();
   const { corpusId: corpusIdParam } = useCorpusIdParam();
   const corpusId = corpusIdArg ? computed(() => corpusIdArg) : corpusIdParam;
-
+  const { t } = useI18n();
   const { th } = useTh();
 
   const config = computed(() => store.state.corpora[corpusId.value]?.config);
@@ -19,7 +20,7 @@ export default function useConfig(corpusIdArg) {
   const corpusName = computed(() => config.value && th(config.value.name));
 
   function loadConfig() {
-    return spin(getConfig(corpusId.value), "Hämtar konfiguration", token.value)
+    return spin(getConfig(corpusId.value), t("config.loading"), token.value)
       .then((configYaml) => {
         const config = parseConfig(configYaml);
         store.commit("setConfig", { corpusId: corpusId.value, config });
