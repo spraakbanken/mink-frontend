@@ -22,10 +22,10 @@ const clickable = computed(() => !!attrs.onClick);
 
 <style scoped>
 .mute {
-  @apply border-0 bg-transparent shadow-none;
+  @apply text-inherit border-0 shadow-none;
 }
 .mute:not(:hover) {
-  @apply bg-transparent;
+  @apply bg-transparent text-inherit;
 }
 
 .slim {

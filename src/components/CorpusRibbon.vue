@@ -27,6 +27,7 @@
         <div v-if="isJobStarted">{{ $t(jobStatusMessage) }}</div>
         <div v-else-if="config" class="flex justify-center items-center">
           <ActionButton variant="primary" @click.stop="run">
+            <icon :icon="['fas', 'gears']" class="mr-1" />
             {{ $t("run") }}
           </ActionButton>
         </div>

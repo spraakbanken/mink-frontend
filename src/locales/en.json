@@ -38,7 +38,7 @@
   "original": "Original",
   "source_text_help": "After successful processing, extracted plain text is available here.",
   "contact": "Contact",
-  "saveConfig": "Save configuration",
+  "save": "Save",
   "run": "Run",
   "message": "Message",
   "sparvOutput": "Sparv output",

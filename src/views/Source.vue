@@ -17,11 +17,7 @@
           <th>{{ $t("original") }}</th>
           <td>
             <ActionButton @click="downloadRaw">
-              <img
-                src="@/assets/download.svg"
-                :alt="$t('download')"
-                class="inline h-5 -mt-1"
-              />
+              <icon :icon="['far', 'file']" class="mr-1" />
               {{ $t("download") }}
             </ActionButton>
           </td>
@@ -30,11 +26,7 @@
           <th>{{ $t("txt") }}</th>
           <td>
             <ActionButton @click="downloadPlain">
-              <img
-                src="@/assets/download.svg"
-                :alt="$t('download')"
-                class="inline h-5 -mt-1"
-              />
+              <icon :icon="['far', 'file-lines']" class="mr-1" />
               {{ $t("download") }}
             </ActionButton>
             <div class="text-sm py-1">

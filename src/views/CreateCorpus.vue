@@ -58,7 +58,10 @@
         </tbody>
       </table>
       <div class="flex justify-center">
-        <ActionButton variant="success" @click="submit">Spara</ActionButton>
+        <ActionButton variant="primary" @click="submit">
+          <icon :icon="['far', 'floppy-disk']" class="mr-1" />
+          {{ $t("save") }}
+        </ActionButton>
       </div>
     </PendingContent>
   </Section>

@@ -63,10 +63,12 @@
       <div class="flex justify-center">
         <router-link :to="`/corpus/${corpusId}/config`">
           <ActionButton variant="primary" class="mr-4">
+            <icon :icon="['fas', 'pen']" class="mr-1" />
             {{ $t("edit") }}
           </ActionButton>
         </router-link>
         <ActionButton variant="danger" @click="deleteCorpus">
+          <icon :icon="['far', 'trash-can']" class="mr-1" />
           {{ $t("deleteCorpus") }}
         </ActionButton>
       </div>

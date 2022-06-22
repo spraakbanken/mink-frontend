@@ -37,7 +37,7 @@
   "original": "Original",
   "source_text_help": "Efter en lyckad körning tillgängliggörs extraherad ren text här.",
   "contact": "Kontakt",
-  "saveConfig": "Spara Konfiguration",
+  "save": "Spara",
   "run": "Kör",
   "message": "Meddelande",
   "sparvOutput": "Sparv output",

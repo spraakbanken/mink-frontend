@@ -30,6 +30,7 @@
           class="mr-2"
           @click="runJob"
         >
+          <icon :icon="['fas', 'gears']" class="mr-1" />
           {{ $t("job_run") }}
         </ActionButton>
 

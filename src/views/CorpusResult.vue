@@ -5,6 +5,18 @@
         Waiting for the annotation to complete.
       </div>
       <div v-else>
+        <Section>
+          <ActionButton
+            v-if="exports && exports.length"
+            variant="primary"
+            class="mr-2"
+            @click="downloadFull"
+          >
+            <icon :icon="['far', 'file-zipper']" class="mr-1" />
+            {{ $t("download_export") }}
+          </ActionButton>
+        </Section>
+
         <table class="w-full mt-4">
           <thead>
             <tr>
@@ -23,26 +35,16 @@
               </td>
               <td class="text-right">
                 <ActionButton
-                  variant="success"
+                  variant="primary"
                   class="mute slim"
                   @click="downloadSingle(file.path)"
                 >
-                  <img src="@/assets/xml-file.svg" class="h-7 opacity-75" />
+                  <icon :icon="['far', 'file-code']" />
                 </ActionButton>
               </td>
             </tr>
           </tbody>
         </table>
-        <br />
-        <ActionButton
-          v-if="exports && exports.length"
-          variant="primary"
-          class="mr-2"
-          @click="downloadFull"
-        >
-          <img src="@/assets/zip.svg" class="inline h-5 -mt-1" />
-          {{ $t("download_export") }}
-        </ActionButton>
       </div>
     </Section>
   </PendingContent>

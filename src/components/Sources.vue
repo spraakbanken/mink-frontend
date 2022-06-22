@@ -6,7 +6,7 @@
           <tr>
             <th class="w-full">{{ $t("fileName") }}</th>
             <th class="text-right">{{ $t("fileSize") }}</th>
-            <th class="text-right">{{ $t("deleteFile") }}</th>
+            <th />
           </tr>
         </thead>
         <tbody class="border-b-0">
@@ -20,13 +20,12 @@
               {{ (source.size / 1000).toFixed(1) }} KB
             </td>
             <td class="text-right">
-              <!--class="text-right"-->
               <ActionButton
                 variant="danger"
                 class="mute slim"
                 @click="remove(source)"
               >
-                <img src="@/assets/trash-can.svg" class="h-7 opacity-75" />
+                <icon :icon="['far', 'trash-can']" />
               </ActionButton>
             </td>
           </tr>
