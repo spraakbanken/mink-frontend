@@ -11,8 +11,8 @@
         <CorpusButton :id="corpusId" @click="navigate" />
       </router-link>
       <router-link v-slot="{ navigate }" to="/corpus" custom>
-        <PadButton class="bg-blue-100 border-blue-200" @click="navigate">
-          + {{ $t("new") }} {{ $t("corpus") }}
+        <PadButton variant="primary" @click="navigate">
+          + {{ $t("new_corpus") }}
         </PadButton>
       </router-link>
     </PendingContent>

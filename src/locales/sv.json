@@ -10,7 +10,7 @@
   "corpuses": "Korpusar",
   "files": "Inga filer | 1 fil | {count} filer",
   "none": "Inget",
-  "new": "Ny",
+  "new_corpus": "Ny korpus",
   "deleteCorpus": "Radera korpus",
   "fileName": "Filnamn",
   "fileType": "Typ",

@@ -23,7 +23,8 @@
               </td>
               <td class="text-right">
                 <ActionButton
-                  class="mute slim hover:bg-green-200"
+                  variant="success"
+                  class="mute slim"
                   @click="downloadSingle(file.path)"
                 >
                   <img src="@/assets/xml-file.svg" class="h-7 opacity-75" />
@@ -35,13 +36,12 @@
         <br />
         <ActionButton
           v-if="exports && exports.length"
-          class="mr-2 bg-green-200 border-green-300"
+          variant="success"
+          class="mr-2"
           @click="downloadFull"
         >
-          <div class="flex">
-            {{ $t("download_export") }}
-            <img src="@/assets/zip.svg" class="h-5 opacity-75 pl-2" />
-          </div>
+          <img src="@/assets/zip.svg" class="inline h-5 -mt-1" />
+          {{ $t("download_export") }}
         </ActionButton>
       </div>
     </Section>

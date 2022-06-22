@@ -123,7 +123,7 @@
     <Section>
       <div class="flex justify-center">
         <PendingContent :on="`corpus/${corpusId}/config`">
-          <ActionButton class="mr-2 bg-blue-100 border-blue-200" @click="save">
+          <ActionButton variant="primary" class="mr-2" @click="save">
             {{ $t("saveConfig") }}
           </ActionButton>
         </PendingContent>

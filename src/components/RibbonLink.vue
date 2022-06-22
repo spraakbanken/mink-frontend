@@ -8,11 +8,11 @@
   </router-link>
   <div
     v-else-if="isCurrent"
-    class="flex-1 text-sm p-2 rounded-xl border bg-gray-100 border-transparent"
+    class="flex-1 text-sm p-2 rounded border bg-gray-100 border-transparent"
   >
     <slot />
   </div>
-  <div v-else class="flex-1 text-sm p-2 rounded-xl border border-transparent">
+  <div v-else class="flex-1 text-sm p-2 rounded border border-transparent">
     <slot />
   </div>
 </template>

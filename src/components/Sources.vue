@@ -22,7 +22,8 @@
             <td class="text-right">
               <!--class="text-right"-->
               <ActionButton
-                class="mute slim hover:bg-red-200"
+                variant="danger"
+                class="mute slim"
                 @click="remove(source)"
               >
                 <img src="@/assets/trash-can.svg" class="h-7 opacity-75" />

@@ -26,17 +26,14 @@
       <div class="flex justify-center">
         <ActionButton
           v-if="hasConfig && !isJobRunning"
-          class="mr-2 bg-blue-100 border-blue-200"
+          variant="primary"
+          class="mr-2"
           @click="runJob"
         >
           {{ $t("job_run") }}
         </ActionButton>
 
-        <ActionButton
-          v-if="isJobRunning"
-          class="bg-red-200 border-red-300"
-          @click="abortJob"
-        >
+        <ActionButton v-if="isJobRunning" variant="danger" @click="abortJob">
           {{ $t("job_abort") }}
         </ActionButton>
       </div>

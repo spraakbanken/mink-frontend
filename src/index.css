@@ -44,11 +44,19 @@ pre {
 }
 
 @layer components {
-  .mink-button {
-    @apply p-2 rounded-xl border bg-white hover:bg-opacity-75 border-gray-200 shadow-sm;
+  .mink-button, a .mink-button {
+    @apply p-1 px-2 rounded bg-white hover:bg-opacity-75 shadow-sm text-gray-700;
   }
-
-  a .mink-button {
-    @apply text-black
+  .mink-button.mink-primary {
+    @apply bg-blue-400 text-white;
+  }
+  .mink-button.mink-danger {
+    @apply bg-red-400 text-white;
+  }
+  .mink-button.mink-success {
+    @apply bg-green-300;
+  }
+  .mink-button.mink-warning {
+    @apply bg-yellow-200;
   }
 }

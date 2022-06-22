@@ -2,7 +2,7 @@
   <PageTitle>{{ payload.name }}</PageTitle>
   <div class="my-4">
     <a :href="logoutUrl">
-      <ActionButton>{{ $t("logout") }}</ActionButton>
+      <ActionButton variant="warning">{{ $t("logout") }}</ActionButton>
     </a>
   </div>
 </template>

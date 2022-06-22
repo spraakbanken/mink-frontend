@@ -26,7 +26,7 @@
         <h4 class="uppercase text-gray-600 text-base">{{ $t("analysis") }}</h4>
         <div v-if="isJobStarted">{{ $t(jobStatusMessage) }}</div>
         <div v-else-if="config" class="flex justify-center items-center">
-          <ActionButton class="bg-blue-100 border-blue-200" @click.stop="run">
+          <ActionButton variant="primary" @click.stop="run">
             {{ $t("run") }}
           </ActionButton>
         </div>

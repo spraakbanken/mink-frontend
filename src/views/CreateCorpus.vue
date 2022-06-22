@@ -1,5 +1,5 @@
 <template>
-  <PageTitle>{{ $t("new") }} {{ $t("corpus") }}</PageTitle>
+  <PageTitle>{{ $t("new_corpus") }}</PageTitle>
   <Section>
     <PendingContent on="create">
       <table class="w-full my-4">
@@ -58,7 +58,7 @@
         </tbody>
       </table>
       <div class="flex justify-center">
-        <ActionButton class="bg-green-200 border-green-300" @click="submit">
+        <ActionButton variant="success" @click="submit">
           Spara
         </ActionButton>
       </div>

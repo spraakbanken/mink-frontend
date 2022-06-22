@@ -1,17 +1,21 @@
 <template>
   <div
     class="inline-block mink-button"
-    :class="{ 'cursor-pointer': clickable }"
+    :class="{ [variantClass]: true, 'cursor-pointer': clickable }"
   >
     <slot />
   </div>
 </template>
 
 <script setup>
+import { useVariant, variantProps } from "@/composables/variant";
 import { computed } from "@vue/reactivity";
 import { useAttrs } from "@vue/runtime-core";
 
+const props = defineProps({ ...variantProps });
+
 const attrs = useAttrs();
+const { variantClass } = useVariant(props.variant);
 
 const clickable = computed(() => !!attrs.onClick);
 </script>

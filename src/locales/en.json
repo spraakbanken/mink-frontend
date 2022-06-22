@@ -11,7 +11,7 @@
   "corpuses": "Corpora",
   "files": "No files | 1 file | {count} files",
   "none": "None",
-  "new": "New",
+  "new_corpus": "New corpus",
   "deleteCorpus": "Delete corpus",
   "fileName": "Name",
   "fileType": "Type",

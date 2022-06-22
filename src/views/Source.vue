@@ -20,7 +20,7 @@
               <img
                 src="@/assets/download.svg"
                 :alt="$t('download')"
-                class="inline h-5"
+                class="inline h-5 -mt-1"
               />
               {{ $t("download") }}
             </ActionButton>
@@ -33,7 +33,7 @@
               <img
                 src="@/assets/download.svg"
                 :alt="$t('download')"
-                class="inline h-5"
+                class="inline h-5 -mt-1"
               />
               {{ $t("download") }}
             </ActionButton>
