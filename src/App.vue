@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-white border-b mb-2">
+  <header class="bg-white mb-2 shadow-md">
     <div class="container py-4 flex justify-between items-center flex-wrap">
       <div class="text-4xl">
         <router-link to="/" class="text-current">Mink</router-link>

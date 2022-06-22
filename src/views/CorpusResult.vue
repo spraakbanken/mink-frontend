@@ -5,7 +5,7 @@
         Waiting for the annotation to complete.
       </div>
       <div v-else>
-        <Section>
+        <div class="my-4">
           <ActionButton
             v-if="exports && exports.length"
             variant="primary"
@@ -15,7 +15,7 @@
             <icon :icon="['far', 'file-zipper']" class="mr-1" />
             {{ $t("download_export") }}
           </ActionButton>
-        </Section>
+        </div>
 
         <table class="w-full mt-4">
           <thead>
