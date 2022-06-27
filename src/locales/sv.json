@@ -14,6 +14,7 @@
   "source.uploading": "Laddar upp källfil | Laddar upp källfiler",
   "source.list.loading": "Hämtar textlista",
   "jwt.refreshing": "Uppdaterar konto",
+  "error.message": "Ett fel hände",
   "en": "Engelska",
   "sv": "Svenska",
   "metadata": "Metadata",

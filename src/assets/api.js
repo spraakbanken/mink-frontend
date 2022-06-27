@@ -26,9 +26,13 @@ export async function createCorpus() {
 export function putSources(corpusId, files) {
   const formData = new FormData();
   [...files].forEach((file) => formData.append("files[]", file));
-  return axios.put("upload-sources", formData, {
-    params: { corpus_id: corpusId },
-  });
+  return axios
+    .put("upload-sources", formData, {
+      params: { corpus_id: corpusId },
+    })
+    .catch((error) => {
+      if (error.response) throw TypeError(error.response.data.info);
+    });
 }
 
 export function removeSource(corpusId, name) {

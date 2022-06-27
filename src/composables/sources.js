@@ -45,8 +45,11 @@ export default function useSources(corpusIdArg) {
 
   async function upload(files) {
     const message = t("source.uploading", files.length);
-    await spin(putSources(corpusId.value, files), message, token.value);
-    loadSources();
+    return spin(
+      putSources(corpusId.value, files).then(() => loadSources()),
+      message,
+      token.value
+    );
   }
 
   async function downloadSource(source) {

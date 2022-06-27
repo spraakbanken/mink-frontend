@@ -31,13 +31,25 @@
           </tr>
         </tbody>
       </table>
-      <div class="bg-blue-50 border-blue-100 border-dashed border-4">
+      <div
+        :class="
+          uploadMessage
+            ? ['bg-red-50', 'border-red-200']
+            : ['bg-blue-50', 'border-blue-100']
+        "
+        class="border-dashed border-4"
+      >
         <label class="absolute uppercase opacity-75 text-sm font-bold p-1">
           {{ $t("addFile") }}
         </label>
-        <div class="p-8 flex justify-center items-center">
-          {{ $t("dragANDdrop") }}:
-          <input type="file" class="ml-2" @change="uploadSingle" />
+        <div class="p-8">
+          <div class="flex justify-center items-center">
+            {{ $t("dragANDdrop") }}:
+            <input type="file" class="ml-2" @change="uploadSingle" />
+          </div>
+          <div v-if="uploadMessage" class="mt-4 text-center text-red-800">
+            {{ $t("error.message") }}: "{{ uploadMessage }}"
+          </div>
         </div>
       </div>
     </Filedrop>
@@ -49,23 +61,28 @@ import useSources from "@/composables/sources";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "./layout/ActionButton.vue";
 import Filedrop from "./Filedrop.vue";
-import { onMounted } from "@vue/runtime-core";
+import { onMounted, ref } from "@vue/runtime-core";
 import PendingContent from "./PendingContent.vue";
-import useExports from "@/composables/exports";
 
 const { sources, loadSources, remove, upload } = useSources();
 const { corpusId } = useCorpusIdParam();
+
+const uploadMessage = ref("");
 
 onMounted(() => {
   loadSources();
 });
 
-function uploadDrop(files) {
-  upload(files);
+async function uploadDrop(files) {
+  uploadMessage.value = null;
+  upload(files).catch((error) => (uploadMessage.value = error.message));
 }
 
 function uploadSingle(event) {
-  upload(event.target.files);
+  uploadMessage.value = null;
+  upload(event.target.files).catch(
+    (error) => (uploadMessage.value = error.message)
+  );
 }
 </script>
 
