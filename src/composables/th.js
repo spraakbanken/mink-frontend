@@ -7,7 +7,13 @@ export default function useTh() {
   function th(stringsByLang) {
     if (!stringsByLang) return undefined;
     const lang3 = { sv: "swe", en: "eng" }[locale.value];
-    return stringsByLang[locale.value] || stringsByLang[lang3];
+    return (
+      stringsByLang[locale.value] ||
+      stringsByLang[lang3] ||
+      stringsByLang.eng ||
+      stringsByLang.swe ||
+      Object.values(stringsByLang)[0]
+    );
   }
 
   return { locale, th };
