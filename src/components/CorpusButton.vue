@@ -16,12 +16,24 @@ import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
 import PadButton from "@/components/layout/PadButton.vue";
 import useConfig from "@/composables/config";
+import useSources from "@/composables/sources";
 
-const props = defineProps(["id"]);
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+    validator: (x) => x,
+  },
+});
 
 const store = useStore();
-const { isJobDone } = useJob(props.id);
-const { corpusName } = useConfig(props.id);
+const { loadConfig, corpusName } = useConfig(props.id);
+const { loadSources } = useSources(props.id);
+const { loadJob, isJobDone } = useJob(props.id);
 
 const corpus = computed(() => store.state.corpora[props.id]);
+
+loadConfig();
+loadSources();
+loadJob();
 </script>

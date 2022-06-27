@@ -11,10 +11,11 @@ import {
 } from "@/assets/api";
 import { useI18n } from "vue-i18n";
 
-export default function useSources() {
+export default function useSources(corpusIdArg) {
   const store = useStore();
   const { spin } = useSpin();
-  const { corpusId } = useCorpusIdParam();
+  const { corpusId: corpusIdParam } = useCorpusIdParam();
+  const corpusId = corpusIdArg ? computed(() => corpusIdArg) : corpusIdParam;
   const { t } = useI18n();
 
   const sources = computed(
