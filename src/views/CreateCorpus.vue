@@ -87,7 +87,7 @@ import { useI18n } from "vue-i18n";
 const router = useRouter();
 const store = useStore();
 const { spin } = useSpin();
-const { payload } = useJwt();
+const { refreshJwt } = useJwt();
 const { t } = useI18n();
 
 const name = ref("");
@@ -108,6 +108,9 @@ async function submit() {
   try {
     const corpusId = await spin(createCorpus(), t("corpus.creating"), "create");
     store.commit("addCorpus", corpusId);
+
+    // Update JWT
+    await refreshJwt();
 
     // Wait until JWT is updated to include the new corpus...
     await sleep(2000);

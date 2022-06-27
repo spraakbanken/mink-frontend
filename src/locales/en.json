@@ -13,6 +13,7 @@
   "source.downloading_plain": "Downloading extracted text",
   "source.uploading": "Uploading source file | Uploading source files",
   "source.list.loading": "Listing source files",
+  "jwt.refreshing": "Refreshing account",
   "en": "English",
   "sv": "Swedish",
   "language": "English",

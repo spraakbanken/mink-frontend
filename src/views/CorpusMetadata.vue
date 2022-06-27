@@ -88,6 +88,7 @@ import PendingContent from "@/components/PendingContent.vue";
 import useConfig from "@/composables/config";
 import ValuesByKey from "@/components/ValuesByKey.vue";
 import { useI18n } from "vue-i18n";
+import { useJwt } from "@/composables/jwt";
 
 const router = useRouter();
 const store = useStore();
@@ -95,13 +96,18 @@ const { spin } = useSpin();
 const { corpusId } = useCorpusIdParam();
 const { config, loadConfig } = useConfig();
 const { t } = useI18n();
+const { refreshJwt } = useJwt();
 
 loadConfig();
 
 async function deleteCorpus() {
   const token = `corpus/${corpusId.value}`;
   store.commit("removeCorpus", corpusId.value);
+  // Delete corpus.
   await spin(removeCorpus(corpusId.value), t("corpus.deleting"), token);
+  // Update JWT
+  await refreshJwt();
+
   router.push("/");
 }
 </script>
