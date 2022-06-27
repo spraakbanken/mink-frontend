@@ -29,12 +29,6 @@
           {{ $t("analysis") }}
         </h4>
         <div v-if="isJobStarted">{{ $t(jobStatusMessage) }}</div>
-        <div v-else-if="config" class="flex justify-center items-center">
-          <ActionButton variant="primary" @click.stop="run">
-            <icon :icon="['fas', 'gears']" class="mr-1" />
-            {{ $t("run") }}
-          </ActionButton>
-        </div>
       </PendingContent>
     </RibbonLink>
 
@@ -55,19 +49,14 @@
 <script setup>
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import useSources from "@/composables/sources";
-import useConfig from "@/composables/config";
 import useJob from "@/composables/job";
 import useExports from "@/composables/exports";
 import { onMounted } from "@vue/runtime-core";
-import { useRouter } from "vue-router";
-import ActionButton from "./layout/ActionButton.vue";
 import RibbonLink from "./RibbonLink.vue";
 import PendingContent from "./PendingContent.vue";
 
-const router = useRouter();
-const { runJob, loadJob, isJobStarted, isJobDone, jobStatusMessage } = useJob();
+const { loadJob, isJobStarted, isJobDone, jobStatusMessage } = useJob();
 const { sources, loadSources } = useSources();
-const { config } = useConfig();
 const { loadExports } = useExports();
 
 const { corpusId } = useCorpusIdParam();
@@ -77,11 +66,6 @@ onMounted(() => {
   loadJob();
   loadExports();
 });
-
-async function run() {
-  await runJob();
-  router.push(`/corpus/${corpusId.value}/status`);
-}
 </script>
 
 <style></style>
