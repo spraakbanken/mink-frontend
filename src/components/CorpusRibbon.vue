@@ -23,7 +23,10 @@
       <img src="@/assets/right.svg" alt="" class="h-10 opacity-75" />
     </div>
 
-    <RibbonLink :to="`/corpus/${corpusId}/status`" :disabled="!isJobStarted">
+    <RibbonLink
+      :to="`/corpus/${corpusId}/status`"
+      :disabled="!sources || !sources.length"
+    >
       <PendingContent :on="`corpus/${corpusId}/job`">
         <h4 class="uppercase text-gray-600 text-base">
           {{ $t("analysis") }}

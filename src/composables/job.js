@@ -36,13 +36,13 @@ export default function useJob(corpusIdArg) {
   }
 
   async function runJob() {
-    const corpusId = corpusId.value;
+    const corpusIdFixed = corpusId.value;
     const status = await spin(
-      queueJob(corpusId),
+      queueJob(corpusIdFixed),
       t("job.starting"),
       token.value
     );
-    recordJobStatus(corpusId, status);
+    recordJobStatus(corpusIdFixed, status);
   }
 
   async function abortJob() {
