@@ -135,7 +135,7 @@
 
 <script setup>
 import { ref } from "@vue/reactivity";
-import { putConfig } from "@/assets/api";
+import { api } from "@/assets/api";
 import useSpin from "@/assets/spin";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "@/components/layout/ActionButton.vue";
@@ -180,7 +180,7 @@ async function save() {
   };
   const configYaml = makeConfig(corpusIdFixed, configNew);
   await spin(
-    putConfig(corpusIdFixed, configYaml),
+    api.putConfig(corpusIdFixed, configYaml),
     t("config.saving"),
     `corpus/${corpusIdFixed}/config`
   );

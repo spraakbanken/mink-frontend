@@ -1,5 +1,5 @@
 import { computed } from "@vue/reactivity";
-import { downloadExports, getExports, downloadExportFile } from "@/assets/api";
+import { api } from "@/assets/api";
 import useSpin from "@/assets/spin";
 import { useStore } from "vuex";
 import useCorpusIdParam from "@/composables/corpusIdParam";
@@ -15,7 +15,7 @@ export default function useExports() {
 
   function loadExports() {
     const corpusIdFixed = corpusId.value;
-    spin(getExports(corpusIdFixed), t("exports.loading"), token.value).then(
+    spin(api.getExports(corpusIdFixed), t("exports.loading"), token.value).then(
       (exports) =>
         store.commit("setExports", { corpusId: corpusIdFixed, exports })
     );
@@ -23,7 +23,7 @@ export default function useExports() {
 
   function downloadResult() {
     return spin(
-      downloadExports(corpusId.value),
+      api.downloadExports(corpusId.value),
       "Laddar ner analysresultat",
       token.value
     );
@@ -31,7 +31,7 @@ export default function useExports() {
 
   function downloadResultFile(fileName) {
     return spin(
-      downloadExportFile(corpusId.value, fileName),
+      api.downloadExportFile(corpusId.value, fileName),
       "Laddar ner analysresultat",
       token.value
     );

@@ -79,7 +79,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { removeCorpus } from "@/assets/api";
+import { api } from "@/assets/api";
 import useSpin from "@/assets/spin";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "@/components/layout/ActionButton.vue";
@@ -104,7 +104,7 @@ async function deleteCorpus() {
   const token = `corpus/${corpusId.value}`;
   store.commit("removeCorpus", corpusId.value);
   // Delete corpus.
-  await spin(removeCorpus(corpusId.value), t("corpus.deleting"), token);
+  await spin(api.removeCorpus(corpusId.value), t("corpus.deleting"), token);
   // Update JWT
   await refreshJwt();
 

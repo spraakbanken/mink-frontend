@@ -23,12 +23,11 @@
 <script setup>
 import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
-import { listCorpora, getCorpus } from "@/assets/api";
+import { api } from "@/assets/api";
 import useSpin from "@/assets/spin";
 import PadButton from "@/components/layout/PadButton.vue";
 import Section from "@/components/layout/Section.vue";
-import useJob from "@/composables/job";
-import { onMounted, resolveComponent } from "@vue/runtime-core";
+import { onMounted } from "@vue/runtime-core";
 import PendingContent from "@/components/PendingContent.vue";
 import CorpusButton from "@/components/CorpusButton.vue";
 import { useI18n } from "vue-i18n";
@@ -40,7 +39,7 @@ const { t } = useI18n();
 const corpora = computed(() => store.state.corpora);
 
 onMounted(() => {
-  spin(listCorpora(), t("corpus.list.loading"), "corpora").then(
+  spin(api.listCorpora(), t("corpus.list.loading"), "corpora").then(
     (corporaFetched) => {
       store.commit("setCorpora", corporaFetched);
     }

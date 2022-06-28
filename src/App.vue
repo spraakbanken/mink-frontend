@@ -50,8 +50,7 @@
 
 <script setup>
 import { watchEffect } from "@vue/runtime-core";
-import { initialize } from "./assets/api";
-import * as api from "./assets/api";
+import { api } from "./assets/api";
 import { useStore } from "vuex";
 import useSpin from "@/assets/spin";
 import Spinner from "@/components/Spinner.vue";
@@ -65,7 +64,7 @@ const { jwt, payload } = useJwt();
 // Use the token for all API requests.
 // Fetching JWT happens in router.beforeEach, see router.js.
 watchEffect(() => {
-  initialize(jwt.value);
+  api.setJwt(jwt.value);
 });
 
 if (import.meta.env.DEV) {

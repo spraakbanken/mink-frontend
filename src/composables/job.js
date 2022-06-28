@@ -1,11 +1,9 @@
 // import { onUnmounted } from "@vue/runtime-core";
 import { computed } from "@vue/reactivity";
 import {
-  getJob,
+  api,
   isStatusRunning,
   isStatusStarted,
-  queueJob,
-  abortJob as apiAbortJob,
   statusMessage,
   isStatusDone,
 } from "@/assets/api";
@@ -28,7 +26,7 @@ export default function useJob(corpusIdArg) {
   async function loadJob(corpusIdArg) {
     const corpusIdFixed = corpusIdArg || corpusId.value;
     const status = await spin(
-      getJob(corpusIdFixed),
+      api.getJob(corpusIdFixed),
       t("job.loading"),
       token.value
     );
@@ -38,7 +36,7 @@ export default function useJob(corpusIdArg) {
   async function runJob() {
     const corpusIdFixed = corpusId.value;
     const status = await spin(
-      queueJob(corpusIdFixed),
+      api.queueJob(corpusIdFixed),
       t("job.starting"),
       token.value
     );
@@ -46,7 +44,7 @@ export default function useJob(corpusIdArg) {
   }
 
   async function abortJob() {
-    await spin(apiAbortJob(corpusId.value), t("job.aborting"), token.value);
+    await spin(api.abortJob(corpusId.value), t("job.aborting"), token.value);
     await loadJob();
   }
 
@@ -71,6 +69,7 @@ export default function useJob(corpusIdArg) {
   return {
     loadJob,
     runJob,
+    abortJob,
     jobStatus,
     isJobStarted,
     isJobRunning,

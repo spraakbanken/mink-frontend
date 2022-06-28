@@ -70,7 +70,7 @@
 
 <script setup>
 import { ref } from "@vue/reactivity";
-import { createCorpus, putConfig } from "@/assets/api";
+import { api } from "@/assets/api";
 import { useRouter } from "vue-router";
 import useSpin from "@/assets/spin";
 import PageTitle from "@/components/PageTitle.vue";
@@ -106,7 +106,11 @@ async function submit() {
   };
 
   try {
-    const corpusId = await spin(createCorpus(), t("corpus.creating"), "create");
+    const corpusId = await spin(
+      api.createCorpus(),
+      t("corpus.creating"),
+      "create"
+    );
     store.commit("addCorpus", corpusId);
 
     // Update JWT
@@ -121,7 +125,7 @@ async function submit() {
 
     const configYaml = makeConfig(corpusId, config);
     await spin(
-      putConfig(corpusId, configYaml),
+      api.putConfig(corpusId, configYaml),
       "Konfigurerar korpus",
       `corpus/${corpusId}/config`
     );

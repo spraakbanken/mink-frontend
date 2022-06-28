@@ -2,13 +2,7 @@ import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 import useSpin from "@/assets/spin";
 import useCorpusIdParam from "./corpusIdParam";
-import {
-  getCorpus,
-  putSources,
-  removeSource,
-  downloadSource as downloadSourceApi,
-  downloadSourceText,
-} from "@/assets/api";
+import { api } from "@/assets/api";
 import { useI18n } from "vue-i18n";
 
 export default function useSources(corpusIdArg) {
@@ -25,18 +19,21 @@ export default function useSources(corpusIdArg) {
 
   function loadSources() {
     const corpusIdFixed = corpusId.value;
-    spin(getCorpus(corpusIdFixed), t("source.list.loading"), token.value).then(
-      (sourcesFetched) =>
-        store.commit("setSources", {
-          corpusId: corpusIdFixed,
-          sources: sourcesFetched,
-        })
+    spin(
+      api.listSources(corpusIdFixed),
+      t("source.list.loading"),
+      token.value
+    ).then((sourcesFetched) =>
+      store.commit("setSources", {
+        corpusId: corpusIdFixed,
+        sources: sourcesFetched,
+      })
     );
   }
 
   async function remove(source) {
     await spin(
-      removeSource(corpusId.value, source.name),
+      api.removeSource(corpusId.value, source.name),
       t("source.deleting"),
       token.value
     );
@@ -46,7 +43,7 @@ export default function useSources(corpusIdArg) {
   async function upload(files) {
     const message = t("source.uploading", files.length);
     return spin(
-      putSources(corpusId.value, files).then(() => loadSources()),
+      api.putSources(corpusId.value, files).then(() => loadSources()),
       message,
       token.value
     );
@@ -54,7 +51,7 @@ export default function useSources(corpusIdArg) {
 
   async function downloadSource(source) {
     return spin(
-      downloadSourceApi(corpusId.value, source.name),
+      api.downloadSource(corpusId.value, source.name),
       t("source.downloading"),
       token.value
     );
@@ -62,7 +59,7 @@ export default function useSources(corpusIdArg) {
 
   async function downloadPlaintext(source) {
     return spin(
-      downloadSourceText(corpusId.value, source.name),
+      api.downloadSourceText(corpusId.value, source.name),
       t("source.downloading_plain"),
       token.value
     );
