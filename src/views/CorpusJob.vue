@@ -5,20 +5,34 @@
         <thead></thead>
         <tbody>
           <tr>
-            <th class="lg:w-1/6">{{ $t("message") }}:</th>
-            <td>{{ jobStatus.message }}</td>
-          </tr>
-          <tr>
-            <th class="lg:w-1/6">{{ $t("sparvOutput") }}:</th>
+            <th class="lg:w-1/6">{{ $t("job.status") }}</th>
             <td>
-              <pre class="text-sm">{{ jobStatus.sparv_output }}</pre>
+              {{ $t(jobStatusMessage) }}
             </td>
           </tr>
           <tr v-if="jobStatus.errors">
-            <th class="lg:w-1/6">{{ $t("errors") }}:</th>
+            <th>{{ $t("errors") }}</th>
             <td>
-              <pre class="text-sm">{{ jobStatus.errors }}</pre>
+              <TerminalOutput>{{ jobStatus.errors }}</TerminalOutput>
             </td>
+          </tr>
+          <tr>
+            <th>{{ $t("sparvOutput") }}</th>
+            <td>
+              <TerminalOutput>{{ jobStatus.sparv_output }}</TerminalOutput>
+            </td>
+          </tr>
+          <tr v-if="jobStatus.last_run_started">
+            <th>{{ $t("job.last_run_started") }}</th>
+            <td>{{ formatDate(jobStatus.last_run_started) }}</td>
+          </tr>
+          <tr v-if="jobStatus.last_run_completed">
+            <th>{{ $t("job.last_run_completed") }}</th>
+            <td>{{ formatDate(jobStatus.last_run_completed) }}</td>
+          </tr>
+          <tr v-if="jobStatus.time_taken">
+            <th>{{ $t("job.time_taken") }}</th>
+            <td>{{ formatDate(jobStatus.time_taken) }}</td>
           </tr>
         </tbody>
       </table>
@@ -43,7 +57,6 @@
 </template>
 
 <script setup>
-import { onMounted } from "@vue/runtime-core";
 import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 import useJob from "@/composables/job";
@@ -51,13 +64,16 @@ import useCorpusIdParam from "@/composables/corpusIdParam";
 import Section from "@/components/layout/Section.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import PendingContent from "@/components/PendingContent.vue";
+import TerminalOutput from "@/components/TerminalOutput.vue";
+import { formatDate } from "@/util";
 
 const store = useStore();
-const { loadJob, runJob, abortJob, jobStatus, isJobRunning } = useJob();
+const { loadJob, runJob, abortJob, jobStatus, isJobRunning, jobStatusMessage } =
+  useJob();
 const { corpusId } = useCorpusIdParam();
 const hasConfig = computed(() => store.state.corpora[corpusId.value].config);
 
-onMounted(() => loadJob());
+loadJob();
 </script>
 
 <style></style>

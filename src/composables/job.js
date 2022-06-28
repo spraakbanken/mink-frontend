@@ -52,7 +52,7 @@ export default function useJob(corpusIdArg) {
     store.commit("setStatus", { corpusId, status });
     // Refresh automatically.
     if (isJobRunning.value)
-      loadJobTimer = setTimeout(() => loadJob(corpusId, token.value), 10_000);
+      loadJobTimer = setTimeout(() => loadJob(corpusId, token.value), 2000);
   }
 
   // Whichever component triggered loadJob, if it disappears, stop polling.

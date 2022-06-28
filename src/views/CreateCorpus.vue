@@ -39,7 +39,7 @@
               </select>
             </td>
           </tr>
-          <tr v-show="fileFormat === 'xml'">
+          <tr v-if="fileFormat === 'xml'">
             <th class="lg:w-1/6">
               <label for="textAnnotation">{{ $t("text_annotation") }}:</label>
             </th>

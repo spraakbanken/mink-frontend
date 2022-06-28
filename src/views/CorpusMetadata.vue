@@ -14,7 +14,7 @@
           <tr>
             <th class="lg:w-1/6">{{ $t("identifier") }}</th>
             <td>
-              <code>{{ corpusId }}</code>
+              <TerminalOutput>{{ corpusId }}</TerminalOutput>
             </td>
           </tr>
         </tbody>
@@ -85,6 +85,7 @@ import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
 import PendingContent from "@/components/PendingContent.vue";
+import TerminalOutput from "@/components/TerminalOutput.vue";
 import useConfig from "@/composables/config";
 import ValuesByKey from "@/components/ValuesByKey.vue";
 import { useI18n } from "vue-i18n";

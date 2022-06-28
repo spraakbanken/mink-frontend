@@ -39,7 +39,7 @@
           <tr>
             <th class="lg:w-1/6">{{ $t("identifier") }}</th>
             <td>
-              <code>{{ corpusId }}</code>
+              <TerminalOutput>{{ corpusId }}</TerminalOutput>
             </td>
           </tr>
         </tbody>
@@ -59,7 +59,7 @@
               </select>
             </td>
           </tr>
-          <tr v-show="format === 'xml'">
+          <tr v-if="format === 'xml'">
             <th class="lg:w-1/6">
               <label for="textAnnotation">{{ $t("text_annotation") }}</label>
             </th>
@@ -75,7 +75,7 @@
               </div>
             </td>
           </tr>
-          <tr v-show="format != 'xml'">
+          <tr v-if="format != 'xml'">
             <th class="lg:w-1/6">
               {{ $t("segmenter_sentence") }}
             </th>
@@ -141,6 +141,7 @@ import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
 import PendingContent from "@/components/PendingContent.vue";
+import TerminalOutput from "@/components/TerminalOutput.vue";
 import { useStore } from "vuex";
 import useConfig from "@/composables/config";
 import { useRouter } from "vue-router";
@@ -155,8 +156,8 @@ const { corpusId } = useCorpusIdParam();
 const { config, loadConfig } = useConfig();
 const { t } = useI18n();
 
-const name = ref(config.value?.name);
-const description = ref(config.value?.description);
+const name = ref({ ...config.value?.name });
+const description = ref({ ...config.value?.description });
 const format = ref(config.value?.format);
 const textAnnotation = ref(config.value?.textAnnotation);
 const sentenceSegmenter = ref(config.value?.sentenceSegmenter || "");

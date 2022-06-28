@@ -54,7 +54,6 @@ import useCorpusIdParam from "@/composables/corpusIdParam";
 import useSources from "@/composables/sources";
 import useJob from "@/composables/job";
 import useExports from "@/composables/exports";
-import { onMounted } from "@vue/runtime-core";
 import RibbonLink from "./RibbonLink.vue";
 import PendingContent from "./PendingContent.vue";
 
@@ -64,11 +63,9 @@ const { loadExports } = useExports();
 
 const { corpusId } = useCorpusIdParam();
 
-onMounted(() => {
-  loadSources();
-  loadJob();
-  loadExports();
-});
+loadSources();
+loadJob();
+loadExports();
 </script>
 
 <style></style>
