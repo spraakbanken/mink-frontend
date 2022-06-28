@@ -54,6 +54,7 @@
   "error": "Fel",
   "aborted": "Avbruten",
   "login": "Logga in",
+  "login.required": "Den här sidan kräver autentisering.",
   "logout": "Logga ut",
   "username": "Användarnamn",
   "password": "Lösenord",

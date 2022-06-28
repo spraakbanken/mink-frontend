@@ -17,3 +17,13 @@ export function formatDate(dateStr) {
 export function ensureExtension(filename, ext) {
   return filename.replace(/.[^.]*$/, "") + "." + ext;
 }
+
+/** Join path segments and normalize.
+ *
+ * Similar to Node.js path.join but not as complete.
+ */
+export function pathJoin(...parts) {
+  return parts
+    .map((part) => part.replace(/^\/+/, "").replace(/\/+$/, ""))
+    .join("/");
+}

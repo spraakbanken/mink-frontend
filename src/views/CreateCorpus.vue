@@ -79,15 +79,13 @@ import Section from "@/components/layout/Section.vue";
 import { useStore } from "vuex";
 import PendingContent from "@/components/PendingContent.vue";
 import { FORMATS_EXT, makeConfig } from "@/assets/corpusConfig";
-import { checkLogin } from "@/auth";
 import { useJwt } from "@/composables/jwt";
-import { sleep } from "@/util";
 import { useI18n } from "vue-i18n";
 
 const router = useRouter();
 const store = useStore();
 const { spin } = useSpin();
-const { refreshJwt } = useJwt();
+const { requireAuthentication, refreshJwt } = useJwt();
 const { t } = useI18n();
 
 const name = ref("");
@@ -95,6 +93,8 @@ const description = ref("");
 const fileFormat = ref("txt");
 const textAnnotation = ref("");
 const message = ref(null);
+
+requireAuthentication();
 
 async function submit() {
   const langify = (str) => ({ swe: str, eng: str });
@@ -114,14 +114,7 @@ async function submit() {
     store.commit("addCorpus", corpusId);
 
     // Update JWT
-    await refreshJwt();
-
-    // Wait until JWT is updated to include the new corpus...
-    await sleep(2000);
-    const jwt = await checkLogin();
-    store.commit("setJwt", jwt);
-    // Wait until the watcher in App.vue has configured Axios requests...
-    await sleep(100);
+    await refreshJwt(true);
 
     const configYaml = makeConfig(corpusId, config);
     await spin(

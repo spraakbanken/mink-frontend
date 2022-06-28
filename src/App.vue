@@ -49,7 +49,6 @@
 </template>
 
 <script setup>
-import { watchEffect } from "@vue/runtime-core";
 import { api } from "./assets/api";
 import { useStore } from "vuex";
 import useSpin from "@/assets/spin";
@@ -59,17 +58,15 @@ import { useJwt } from "./composables/jwt";
 
 const store = useStore();
 const { messages } = useSpin();
-const { jwt, payload } = useJwt();
+const { refreshJwt, payload } = useJwt();
 
-// Use the token for all API requests.
-// Fetching JWT happens in router.beforeEach, see router.js.
-watchEffect(() => {
-  api.setJwt(jwt.value);
-});
+// Fetch JWT and use it for all API requests.
+refreshJwt();
 
 if (import.meta.env.DEV) {
   window.state = store.state;
   window.api = api;
+  import("@/util").then((m) => (window.util = m));
 }
 </script>
 
