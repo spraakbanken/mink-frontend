@@ -8,6 +8,7 @@ import CorpusSources from "@/views/CorpusSources.vue";
 import CorpusConfiguration from "@/views/CorpusConfiguration.vue";
 import CorpusResult from "@/views/CorpusResult.vue";
 import CorpusJob from "@/views/CorpusJob.vue";
+import Source from "@/views/Source.vue";
 import User from "@/views/User.vue";
 
 const routes = [
@@ -26,8 +27,7 @@ const routes = [
       { path: "sources", component: CorpusSources },
       {
         path: "sources/:filename",
-        component: () =>
-          import(/* webpackChunkName: source */ "@/views/Source.vue"),
+        component: Source,
         props: true,
       },
       { path: "status", component: CorpusJob },

@@ -1,4 +1,4 @@
-// import { onUnmounted } from "@vue/runtime-core";
+import { onUnmounted } from "@vue/runtime-core";
 import { computed } from "@vue/reactivity";
 import {
   api,
@@ -10,7 +10,6 @@ import {
 import useSpin from "@/assets/spin";
 import useCorpusIdParam from "./corpusIdParam";
 import { useStore } from "vuex";
-import { onUnmounted } from "vue";
 import { useI18n } from "vue-i18n";
 
 export default function useJob(corpusIdArg) {
