@@ -21,7 +21,11 @@ export default function useConfig(corpusIdArg) {
 
   function loadConfig() {
     const corpusIdFixed = corpusId.value;
-    return spin(api.getConfig(corpusIdFixed), t("config.loading"), token.value)
+    return spin(
+      api.downloadConfig(corpusIdFixed),
+      t("config.loading"),
+      token.value
+    )
       .catch((error) => {
         // Save empty config.
         if (error.response?.status == 404) {

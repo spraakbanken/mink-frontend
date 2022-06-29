@@ -7,7 +7,7 @@
           <tr>
             <th class="lg:w-1/6">{{ $t("job.status") }}</th>
             <td>
-              {{ $t(jobStatusMessage) }}
+              {{ jobStatusMessage }}
             </td>
           </tr>
           <tr v-if="jobStatus.errors">

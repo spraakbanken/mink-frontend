@@ -34,7 +34,7 @@ class MinkApi {
     });
   }
 
-  putConfig(corpusId, config) {
+  uploadConfig(corpusId, config) {
     const configFile = new File([config], "config.yaml", { type: "text/yaml" });
     const formData = new FormData();
     formData.append("files[]", configFile);
@@ -50,7 +50,7 @@ class MinkApi {
     return response.data.contents;
   }
 
-  async downloadSource(corpusId, filename) {
+  async downloadSourceFile(corpusId, filename) {
     const response = await this.axios.get("download-sources", {
       params: { corpus_id: corpusId, file: filename, zip: false },
     });
@@ -64,7 +64,7 @@ class MinkApi {
     return response.data;
   }
 
-  putSources(corpusId, files) {
+  uploadSources(corpusId, files) {
     const formData = new FormData();
     [...files].forEach((file) => formData.append("files[]", file));
     return this.axios
@@ -82,7 +82,7 @@ class MinkApi {
     });
   }
 
-  async getConfig(corpusId) {
+  async downloadConfig(corpusId) {
     const response = await this.axios.get("download-config", {
       params: { corpus_id: corpusId },
     });
@@ -93,7 +93,7 @@ class MinkApi {
    * @returns {job_status, message, status} job_status can be: none, syncing_corpus,
    *   waiting, annotating, done_annotating, syncing_results, done, error, aborted.
    */
-  async getJob(corpusId) {
+  async checkStatus(corpusId) {
     const response = await this.axios.get("check-status", {
       params: { corpus_id: corpusId },
       // Errors are okay, including 500.
@@ -102,7 +102,7 @@ class MinkApi {
     return response.data;
   }
 
-  async queueJob(corpusId) {
+  async runSparv(corpusId) {
     return await this.axios
       .put("run-sparv", null, { params: { corpus_id: corpusId } })
       // Errors are okay.
@@ -116,7 +116,7 @@ class MinkApi {
     });
   }
 
-  async getExports(corpusId) {
+  async listExports(corpusId) {
     const response = await this.axios.get("list-exports", {
       params: { corpus_id: corpusId },
     });
@@ -150,17 +150,16 @@ export const api = new MinkApi();
 export const isStatusStarted = (status) => STATUSES[status]?.started;
 export const isStatusRunning = (status) => STATUSES[status]?.running;
 export const isStatusDone = (status) => status == "done_syncing";
-export const statusMessage = (status) => STATUSES[status]?.message;
 
 // prettier-ignore
 const STATUSES = {
-  none:             { started: false, running: false, message: "" },
-  syncing_corpus:   { started:  true, running:  true, message: "syncing_corpus" },
-  waiting:          { started:  true, running:  true, message: "waiting" },
-  annotating:       { started:  true, running:  true, message: "annotating" },
-  done_annotating:  { started:  true, running:  true, message: "done_annotating" },
-  syncing_results:  { started:  true, running:  true, message: "syncing_results" },
-  done_syncing:     { started:  true, running: false, message: "done_syncing" },
-  error:            { started:  true, running: false, message: "error" },
-  aborted:          { started:  true, running: false, message: "aborted" },
+  none:             { started: false, running: false },
+  syncing_corpus:   { started:  true, running:  true },
+  waiting:          { started:  true, running:  true },
+  annotating:       { started:  true, running:  true },
+  done_annotating:  { started:  true, running:  true },
+  syncing_results:  { started:  true, running:  true },
+  done_syncing:     { started:  true, running: false },
+  error:            { started:  true, running: false },
+  aborted:          { started:  true, running: false },
 };

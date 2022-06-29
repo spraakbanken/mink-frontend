@@ -31,7 +31,7 @@
         <h4 class="uppercase text-gray-600 text-base">
           {{ $t("analysis") }}
         </h4>
-        <div v-if="isJobStarted">{{ $t(jobStatusMessage) }}</div>
+        <div v-if="isJobStarted">{{ jobStatusMessage }}</div>
       </PendingContent>
     </RibbonLink>
 

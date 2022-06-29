@@ -15,9 +15,12 @@ export default function useExports() {
 
   function loadExports() {
     const corpusIdFixed = corpusId.value;
-    spin(api.getExports(corpusIdFixed), t("exports.loading"), token.value).then(
-      (exports) =>
-        store.commit("setExports", { corpusId: corpusIdFixed, exports })
+    spin(
+      api.listExports(corpusIdFixed),
+      t("exports.loading"),
+      token.value
+    ).then((exports) =>
+      store.commit("setExports", { corpusId: corpusIdFixed, exports })
     );
   }
 

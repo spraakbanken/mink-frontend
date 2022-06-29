@@ -181,7 +181,7 @@ async function save() {
   };
   const configYaml = makeConfig(corpusIdFixed, configNew);
   await spin(
-    api.putConfig(corpusIdFixed, configYaml),
+    api.uploadConfig(corpusIdFixed, configYaml),
     t("config.saving"),
     `corpus/${corpusIdFixed}/config`
   );

@@ -4,7 +4,6 @@ import {
   api,
   isStatusRunning,
   isStatusStarted,
-  statusMessage,
   isStatusDone,
 } from "@/assets/api";
 import useSpin from "@/assets/spin";
@@ -25,7 +24,7 @@ export default function useJob(corpusIdArg) {
   async function loadJob(corpusIdArg) {
     const corpusIdFixed = corpusIdArg || corpusId.value;
     const status = await spin(
-      api.getJob(corpusIdFixed),
+      api.checkStatus(corpusIdFixed),
       t("job.loading"),
       token.value
     );
@@ -35,7 +34,7 @@ export default function useJob(corpusIdArg) {
   async function runJob() {
     const corpusIdFixed = corpusId.value;
     const status = await spin(
-      api.queueJob(corpusIdFixed),
+      api.runSparv(corpusIdFixed),
       t("job.starting"),
       token.value
     );
@@ -62,7 +61,7 @@ export default function useJob(corpusIdArg) {
   const isJobStarted = computed(() => isStatusStarted(jobStatusId.value));
   const isJobRunning = computed(() => isStatusRunning(jobStatusId.value));
   const isJobDone = computed(() => isStatusDone(jobStatusId.value));
-  const jobStatusMessage = computed(() => statusMessage(jobStatusId.value));
+  const jobStatusMessage = computed(() => t(`job.status.${jobStatusId.value}`));
   const exports = computed(() => store.state.corpora[corpusId.value]?.exports);
 
   return {

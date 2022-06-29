@@ -43,7 +43,7 @@ export default function useSources(corpusIdArg) {
   async function upload(files) {
     const message = t("source.uploading", files.length);
     return spin(
-      api.putSources(corpusId.value, files).then(() => loadSources()),
+      api.uploadSources(corpusId.value, files).then(() => loadSources()),
       message,
       token.value
     );
@@ -51,7 +51,7 @@ export default function useSources(corpusIdArg) {
 
   async function downloadSource(source) {
     return spin(
-      api.downloadSource(corpusId.value, source.name),
+      api.downloadSourceFile(corpusId.value, source.name),
       t("source.downloading"),
       token.value
     );
