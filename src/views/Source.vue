@@ -22,10 +22,10 @@
             </ActionButton>
           </td>
         </tr>
-        <tr v-if="metadata.type != 'text/plain' && isJobDone">
+        <tr v-if="metadata.type != 'text/plain'">
           <th>{{ $t("txt") }}</th>
           <td>
-            <ActionButton @click="downloadPlain">
+            <ActionButton v-if="isJobDone" @click="downloadPlain">
               <icon :icon="['far', 'file-lines']" class="mr-1" />
               {{ $t("download") }}
             </ActionButton>

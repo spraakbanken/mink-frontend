@@ -61,7 +61,7 @@ import useSources from "@/composables/sources";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "./layout/ActionButton.vue";
 import Filedrop from "./Filedrop.vue";
-import { onMounted, ref } from "@vue/runtime-core";
+import { ref } from "@vue/runtime-core";
 import PendingContent from "./PendingContent.vue";
 
 const { sources, loadSources, remove, upload } = useSources();
@@ -69,9 +69,7 @@ const { corpusId } = useCorpusIdParam();
 
 const uploadMessage = ref("");
 
-onMounted(() => {
-  loadSources();
-});
+loadSources();
 
 async function uploadDrop(files) {
   uploadMessage.value = null;

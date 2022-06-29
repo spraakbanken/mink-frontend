@@ -16,7 +16,7 @@
               <TerminalOutput>{{ jobStatus.errors }}</TerminalOutput>
             </td>
           </tr>
-          <tr>
+          <tr v-if="jobStatus.sparv_output">
             <th>{{ $t("sparvOutput") }}</th>
             <td>
               <TerminalOutput>{{ jobStatus.sparv_output }}</TerminalOutput>
