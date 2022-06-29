@@ -18,6 +18,7 @@
   "source.uploading": "Uploading source file | Uploading source files",
   "source.list.loading": "Listing source files",
   "jwt.refreshing": "Refreshing account",
+  "errors": "Errors",
   "error.message": "There was an error",
   "en": "English",
   "sv": "Swedish",

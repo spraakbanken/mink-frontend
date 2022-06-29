@@ -150,6 +150,7 @@ export const api = new MinkApi();
 export const isStatusStarted = (status) => STATUSES[status]?.started;
 export const isStatusRunning = (status) => STATUSES[status]?.running;
 export const isStatusDone = (status) => status == "done_syncing";
+export const isStatusError = status => status == 'error'
 
 // prettier-ignore
 const STATUSES = {
