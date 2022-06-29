@@ -22,10 +22,6 @@ export default function useConfig(corpusIdArg) {
   function loadConfig() {
     const corpusIdFixed = corpusId.value;
     return spin(api.getConfig(corpusIdFixed), t("config.loading"), token.value)
-      .then((configYaml) => {
-        const config = parseConfig(configYaml);
-        store.commit("setConfig", { corpusId: corpusIdFixed, config });
-      })
       .catch((error) => {
         // Save empty config.
         if (error.response?.status == 404) {
@@ -39,6 +35,10 @@ export default function useConfig(corpusIdArg) {
             ),
           });
         }
+      })
+      .then((configYaml) => {
+        const config = parseConfig(configYaml);
+        store.commit("setConfig", { corpusId: corpusIdFixed, config });
       });
   }
 

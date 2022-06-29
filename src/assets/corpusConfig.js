@@ -1,4 +1,4 @@
-import { parse, stringify } from "yaml";
+import yaml from "js-yaml";
 
 const FORMATS = {
   txt: "text_import:parse",
@@ -84,11 +84,11 @@ export function makeConfig(id, options) {
     config.export.annotations.push("<text>:misc.date");
   }
 
-  return stringify(config);
+  return yaml.dump(config);
 }
 
-export function parseConfig(yaml) {
-  const config = parse(yaml);
+export function parseConfig(configYaml) {
+  const config = yaml.load(configYaml);
   return {
     name: config.metadata?.name,
     description: config.metadata?.description,
