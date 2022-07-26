@@ -103,12 +103,13 @@ loadConfig();
 
 async function deleteCorpus() {
   const token = `corpus/${corpusId.value}`;
-  store.commit("removeCorpus", corpusId.value);
-  // Delete corpus.
+  // Delete corpus in the backend.
   await spin(api.removeCorpus(corpusId.value), t("corpus.deleting"), token);
-  // Update JWT
+  // The backend will have updated the remote JWT, so refresh our copy.
+  // The backend uses the corpus list within it when listing available corpora.
   await refreshJwt();
 
+  store.commit("removeCorpus", corpusId.value);
   router.push("/");
 }
 </script>
