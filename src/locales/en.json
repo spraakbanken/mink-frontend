@@ -1,5 +1,6 @@
 {
   "corpus.creating": "Creating corpus",
+  "corpus.configuring": "Configuring corpus",
   "corpus.deleting": "Deleting corpus",
   "corpus.list.loading": "Listing corpora",
   "config.loading": "Loading metadata",
@@ -22,7 +23,6 @@
   "error.message": "There was an error",
   "en": "English",
   "sv": "Swedish",
-  "language": "English",
   "metadata": "Metadata",
   "texts": "Texts",
   "configuration": "Installation",

@@ -1,6 +1,7 @@
 {
-  "corpus.creating": "Skapar corpus",
-  "corpus.deleting": "Raderar corpus",
+  "corpus.creating": "Skapar korpus",
+  "corpus.configuring": "Konfigurerar korpus",
+  "corpus.deleting": "Raderar korpus",
   "corpus.list.loading": "Hämtar korpusar",
   "config.loading": "Hämtar metadata",
   "config.saving": "Sparar metadata",

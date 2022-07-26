@@ -1,5 +1,6 @@
 <template>
   <span
+    v-if="jobStatusMessage"
     :class="{
       'text-lime-600': isJobDone,
       'text-yellow-500': isJobRunning,

@@ -64,7 +64,10 @@ export default function useJob(corpusIdArg) {
   const isJobDone = computed(() => isStatusDone(jobStatusId.value));
   const isJobError = computed(() => isStatusError(jobStatusId.value));
   const jobStatusMessage = computed(
-    () => jobStatusId.value && t(`job.status.${jobStatusId.value}`)
+    () =>
+      jobStatusId.value &&
+      jobStatusId.value != "none" &&
+      t(`job.status.${jobStatusId.value}`)
   );
   const exports = computed(() => store.state.corpora[corpusId.value]?.exports);
 

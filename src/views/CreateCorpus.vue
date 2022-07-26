@@ -119,7 +119,7 @@ async function submit() {
     const configYaml = makeConfig(corpusId, config);
     await spin(
       api.uploadConfig(corpusId, configYaml),
-      "Konfigurerar korpus",
+      t("corpus.configuring"),
       `corpus/${corpusId}/config`
     );
     store.commit("setConfig", { corpusId, config });
