@@ -61,7 +61,7 @@
   "job.status.done_syncing": "Done",
   "job.status.error": "Error",
   "job.status.aborted": "Aborted",
-  "login": "Log in",
+  "login": "Sign in",
   "login.required": "This page requires you to authenticate.",
   "logout": "Logout",
   "username": "Username",

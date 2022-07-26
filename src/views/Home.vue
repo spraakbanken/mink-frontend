@@ -24,27 +24,29 @@ watchEffect(() => {
       Språkbanken Text employees.
     </div>
 
-    <PageTitle>Create your corpus</PageTitle>
-
     <div class="flex flex-wrap -m-4">
       <div class="lg:w-1/2 p-4">
-        <p class="mb-2">
-          <strong>Språkbanken Text</strong> is a research infrastructure for
-          language resources. We create, maintain and host resources for the
-          disposal of researchers everywhere, and take pride in providing free
-          and open access where possible.
-        </p>
+        <div class="text-lg">
+          <PageTitle>Create your corpus</PageTitle>
 
-        <p class="mb-2">
-          <strong>Mink</strong> is our effort to bring the resource creation
-          toolchain into the hands of researchers. You can use Mink to run
-          automatic annotation models on texts that you have collected yourself.
-          The resulting resource can be downloaded, shared, and used directly
-          for concordance search in Korp.
-        </p>
+          <p class="mb-2">
+            <strong>Språkbanken Text</strong> is a research infrastructure for
+            language resources. We create, maintain and host resources for the
+            disposal of researchers everywhere, and take pride in providing free
+            and open access where possible.
+          </p>
 
-        <div class="text-center p-4 text-xl">
-          <LoginButton class="mr-4" />
+          <p class="mb-2">
+            <strong>Mink</strong> is our effort to bring the resource creation
+            toolchain into the hands of researchers. You can use Mink to run
+            automatic annotation models on texts that you have collected
+            yourself. The resulting resource can be downloaded, shared, and used
+            directly for concordance search in Korp.
+          </p>
+
+          <div class="text-center p-8 text-xl">
+            <LoginButton class="mr-4" />
+          </div>
         </div>
 
         <p class="mb-2">
