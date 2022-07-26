@@ -15,6 +15,13 @@ import { api } from "@/assets/api";
  */
 let jwtPromise = null;
 
+/**
+ * Timeout slot for refreshing on expiration.
+ *
+ * After fetching the JWT, the expiration time is read, and a timeout is set to refresh the JWT accordingly.
+ */
+let refreshTimer = null;
+
 export function useJwt() {
   const store = useStore();
   const router = useRouter();
@@ -47,6 +54,12 @@ export function useJwt() {
       store.commit("setJwt", jwt);
       // Register it with the API client.
       api.setJwt(jwt);
+
+      // Schedule next request 10s before expiration time.
+      const timeoutS = payload.value.exp - Date.now() / 1000 - 10;
+      if (refreshTimer) clearTimeout(refreshTimer);
+      refreshTimer = setTimeout(refreshJwt, timeoutS * 1000);
+
       return jwt;
     }
     // Reuse current JWT request or make a new one.
