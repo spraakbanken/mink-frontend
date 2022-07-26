@@ -8,6 +8,7 @@ import CorpusSources from "@/views/CorpusSources.vue";
 import CorpusConfiguration from "@/views/CorpusConfiguration.vue";
 import CorpusResult from "@/views/CorpusResult.vue";
 import CorpusJob from "@/views/CorpusJob.vue";
+import CorpusDelete from "@/views/CorpusDelete.vue";
 import Source from "@/views/Source.vue";
 import User from "@/views/User.vue";
 
@@ -32,6 +33,7 @@ const routes = [
       },
       { path: "status", component: CorpusJob },
       { path: "exports", component: CorpusResult },
+      { path: "delete", component: CorpusDelete },
     ],
   },
   { path: "/user", component: User },

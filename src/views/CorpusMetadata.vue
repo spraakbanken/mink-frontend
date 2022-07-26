@@ -67,20 +67,18 @@
             {{ $t("edit") }}
           </ActionButton>
         </router-link>
-        <ActionButton variant="danger" @click="deleteCorpus">
-          <icon :icon="['far', 'trash-can']" class="mr-1" />
-          {{ $t("deleteCorpus") }}
-        </ActionButton>
+        <router-link :to="`/corpus/${corpusId}/delete`">
+          <ActionButton variant="danger">
+            <icon :icon="['far', 'trash-can']" class="mr-1" />
+            {{ $t("corpus.delete") }}
+          </ActionButton>
+        </router-link>
       </div>
     </Section>
   </PendingContent>
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-import { api } from "@/assets/api";
-import useSpin from "@/assets/spin";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
@@ -88,30 +86,11 @@ import PendingContent from "@/components/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import useConfig from "@/composables/config";
 import ValuesByKey from "@/components/ValuesByKey.vue";
-import { useI18n } from "vue-i18n";
-import { useJwt } from "@/composables/jwt";
 
-const router = useRouter();
-const store = useStore();
-const { spin } = useSpin();
 const { corpusId } = useCorpusIdParam();
 const { config, loadConfig } = useConfig();
-const { t } = useI18n();
-const { refreshJwt } = useJwt();
 
 loadConfig();
-
-async function deleteCorpus() {
-  const token = `corpus/${corpusId.value}`;
-  // Delete corpus in the backend.
-  await spin(api.removeCorpus(corpusId.value), t("corpus.deleting"), token);
-  // The backend will have updated the remote JWT, so refresh our copy.
-  // The backend uses the corpus list within it when listing available corpora.
-  await refreshJwt();
-
-  store.commit("removeCorpus", corpusId.value);
-  router.push("/");
-}
 </script>
 
 <style></style>
