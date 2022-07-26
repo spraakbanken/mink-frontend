@@ -4,7 +4,6 @@ import { watchEffect } from "@vue/runtime-core";
 import { useRouter } from "vue-router";
 import PageTitle from "@/components/PageTitle.vue";
 import Section from "@/components/layout/Section.vue";
-import ActionButton from "@/components/layout/ActionButton.vue";
 import LoginButton from "@/components/LoginButton.vue";
 
 const { isAuthenticated } = useJwt();
@@ -44,12 +43,6 @@ watchEffect(() => {
         </p>
         <div class="text-center p-4 text-xl">
           <LoginButton class="mr-4" />
-          <a href="https://spraakbanken.gu.se/auth/">
-            <ActionButton>
-              <icon :icon="['fas', 'user-plus']" />
-              {{ $t("account.create") }}
-            </ActionButton>
-          </a>
         </div>
       </div>
 

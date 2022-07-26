@@ -16,7 +16,6 @@ import {
   faPen,
   faPersonRunning,
   faRightToBracket,
-  faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -30,6 +29,5 @@ library.add(
   faPersonRunning,
   faRightToBracket,
   faSquarePlus,
-  faTrashCan,
-  faUserPlus
+  faTrashCan
 );
