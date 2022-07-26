@@ -24,7 +24,7 @@ watchEffect(() => {
       Språkbanken Text employees.
     </div>
 
-    <div class="flex flex-wrap -m-4">
+    <div class="flex flex-wrap -m-4 mb-4">
       <div class="lg:w-1/2 p-4">
         <div class="text-lg">
           <PageTitle>Create your corpus</PageTitle>
@@ -48,30 +48,13 @@ watchEffect(() => {
             <LoginButton class="mr-4" />
           </div>
         </div>
-
-        <p class="mb-2">
-          <strong>Mink or no Mink?</strong>
-          Make sure to first get acquainted to any existing resources related to
-          your interests! Språkbanken's growing collection of language resources
-          can be browsed on the
-          <a
-            href="https://spraakbanken.gu.se/en/resources"
-            title="Språkbanken Text: Resources"
-            >Resources</a
-          >
-          section of our website. At a larger scale, Språkbanken forms a part of
-          the CLARIN ERIC, whose collected assortment of resource can be browsed
-          in the
-          <a
-            href="https://vlo.clarin.eu/"
-            title="CLARIN Virtual Language Observatory"
-            >Virtual Language Observatory</a
-          >.
-        </p>
       </div>
 
-      <div class="lg:w-1/2 p-4">
-        <Section title="Configurable linguistic analysis" class="mt-0">
+      <div class="lg:w-1/2 flex flex-wrap content-start">
+        <Section
+          title="Configurable linguistic analysis"
+          class="w-1/2 p-4 mt-0"
+        >
           Text documents are analyzed by
           <a
             href="https://spraakbanken.gu.se/en/tools/sparv"
@@ -82,13 +65,13 @@ watchEffect(() => {
           Sparv.
         </Section>
 
-        <Section title="Deposit your text" class="mt-0">
+        <Section title="Deposit your text" class="w-1/2 p-4 mt-0">
           Upload your word-processor documents, plain <em>txt</em> files or XML
           data. When using XML, annotation output is added as attributes,
           keeping the structure intact.
         </Section>
 
-        <Section title="Explore in Korp" class="mt-0">
+        <Section title="Explore in Korp" class="w-1/2 p-4 mt-0">
           Use the resulting annotations for concordance search and statistical
           analysis in
           <a
@@ -98,11 +81,33 @@ watchEffect(() => {
           >.
         </Section>
 
-        <Section title="Share and collaborate" class="mt-0">
+        <Section title="Share and collaborate" class="w-1/2 p-4 mt-0">
           Invite fellow project members to manage the process. Share the
           finished resource to the research community.
         </Section>
       </div>
+    </div>
+
+    <div>
+      <p class="mb-2">
+        <strong>Mink or no Mink?</strong>
+        Make sure to first get acquainted to any existing resources related to
+        your interests! Språkbanken's growing collection of language resources
+        can be browsed on the
+        <a
+          href="https://spraakbanken.gu.se/en/resources"
+          title="Språkbanken Text: Resources"
+          >Resources</a
+        >
+        section of our website. At a larger scale, Språkbanken forms a part of
+        the CLARIN ERIC, whose collected assortment of resource can be browsed
+        in the
+        <a
+          href="https://vlo.clarin.eu/"
+          title="CLARIN Virtual Language Observatory"
+          >Virtual Language Observatory</a
+        >.
+      </p>
     </div>
   </div>
 </template>
