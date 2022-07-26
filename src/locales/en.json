@@ -1,4 +1,5 @@
 {
+  "account.create": "Create account",
   "corpus.creating": "Creating corpus",
   "corpus.configuring": "Configuring corpus",
   "corpus.delete": "Delete corpus",

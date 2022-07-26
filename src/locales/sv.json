@@ -1,4 +1,5 @@
 {
+  "account.create": "Skapa konto",
   "corpus.creating": "Skapar korpus",
   "corpus.configuring": "Konfigurerar korpus",
   "corpus.delete": "Radera korpus",

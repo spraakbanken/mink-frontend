@@ -1,0 +1,53 @@
+<template>
+  <Section :title="$t('corpuses')">
+    <PendingContent
+      v-if="isAuthenticated"
+      on="corpora"
+      class="flex flex-wrap -mx-2"
+    >
+      <router-link
+        v-for="(corpus, corpusId) of corpora"
+        :key="corpusId"
+        v-slot="{ navigate }"
+        :to="`/corpus/${corpusId}`"
+        custom
+      >
+        <CorpusButton :id="corpusId" @click="navigate" />
+      </router-link>
+      <router-link v-slot="{ navigate }" to="/corpus" custom>
+        <PadButton variant="primary" @click="navigate">
+          <icon :icon="['far', 'square-plus']" size="2xl" class="mb-2" />
+          {{ $t("new_corpus") }}
+        </PadButton>
+      </router-link>
+    </PendingContent>
+  </Section>
+</template>
+
+<script setup>
+import { computed } from "@vue/reactivity";
+import { useStore } from "vuex";
+import { api } from "@/assets/api";
+import useSpin from "@/assets/spin";
+import PadButton from "@/components/layout/PadButton.vue";
+import Section from "@/components/layout/Section.vue";
+import PendingContent from "@/components/PendingContent.vue";
+import CorpusButton from "@/components/CorpusButton.vue";
+import { useI18n } from "vue-i18n";
+import { useJwt } from "@/composables/jwt";
+
+const store = useStore();
+const { spin } = useSpin();
+const { t } = useI18n();
+const { requireAuthentication, isAuthenticated } = useJwt();
+
+const corpora = computed(() => store.state.corpora);
+
+requireAuthentication().then(() => {
+  spin(api.listCorpora(), t("corpus.list.loading"), "corpora").then(
+    (corporaFetched) => {
+      store.commit("setCorpora", corporaFetched);
+    }
+  );
+});
+</script>
