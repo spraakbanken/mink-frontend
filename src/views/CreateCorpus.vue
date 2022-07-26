@@ -114,7 +114,7 @@ async function submit() {
     store.commit("addCorpus", corpusId);
 
     // Update JWT
-    await refreshJwt(true);
+    await refreshJwt();
 
     const configYaml = makeConfig(corpusId, config);
     await spin(

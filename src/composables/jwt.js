@@ -39,23 +39,21 @@ export function useJwt() {
   }
 
   /** Fetch JWT, store it and use it for API client. */
-  async function refreshJwt(patiently = false) {
+  async function refreshJwt() {
     async function fetchAndStoreJwt() {
-      if (patiently) await sleep(2000);
       // Fetch JWT.
       const jwt = await checkLogin();
       // Store it to make username etc available to GUI.
       store.commit("setJwt", jwt);
       // Register it with the API client.
       api.setJwt(jwt);
-      await sleep(100);
-      // Free the slot for subsequent refreshes.
       return jwt;
     }
     // Reuse current JWT request or make a new one.
     jwtPromise =
       jwtPromise || spin(fetchAndStoreJwt(), t("jwt.refreshing"), "jwt");
     const jwt = await jwtPromise;
+    // Free the slot for subsequent refreshes.
     jwtPromise = null;
     return jwt;
   }

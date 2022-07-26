@@ -107,7 +107,7 @@ async function deleteCorpus() {
   // Delete corpus.
   await spin(api.removeCorpus(corpusId.value), t("corpus.deleting"), token);
   // Update JWT
-  await refreshJwt(true);
+  await refreshJwt();
 
   router.push("/");
 }
