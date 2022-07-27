@@ -14,7 +14,9 @@
           <tr>
             <th class="lg:w-1/6">{{ $t("identifier") }}</th>
             <td>
-              <TerminalOutput>{{ corpusId }}</TerminalOutput>
+              <TerminalOutput class="inline leading-loose">
+                {{ corpusId }}
+              </TerminalOutput>
             </td>
           </tr>
         </tbody>
