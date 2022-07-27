@@ -11,6 +11,7 @@ import CorpusJob from "@/views/CorpusJob.vue";
 import CorpusDelete from "@/views/CorpusDelete.vue";
 import Source from "@/views/Source.vue";
 import User from "@/views/User.vue";
+import NotFound from "@/views/NotFound.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -37,6 +38,7 @@ const routes = [
     ],
   },
   { path: "/user", component: User },
+  { path: "/:pathMatch(.*)*", component: NotFound },
 ];
 
 const router = createRouter({
