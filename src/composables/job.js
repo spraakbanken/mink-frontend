@@ -24,12 +24,13 @@ export default function useJob(corpusIdArg) {
 
   async function loadJob(corpusIdArg) {
     const corpusIdFixed = corpusIdArg || corpusId.value;
-    const status = await spin(
-      api.checkStatus(corpusIdFixed),
-      t("job.loading"),
-      token.value
-    );
-    recordJobStatus(corpusIdFixed, status);
+    return spin(api.checkStatus(corpusIdFixed), t("job.loading"), token.value)
+      .then((status) => recordJobStatus(corpusIdFixed, status))
+      .catch((error) => {
+        if (error?.response?.status == 404) {
+          store.commit("removeCorpus", corpusIdFixed);
+        }
+      });
   }
 
   async function runJob() {

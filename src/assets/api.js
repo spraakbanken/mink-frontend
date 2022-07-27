@@ -96,8 +96,6 @@ class MinkApi {
   async checkStatus(corpusId) {
     const response = await this.axios.get("check-status", {
       params: { corpus_id: corpusId },
-      // Errors are okay, including 500.
-      validateStatus: (status) => status < 501,
     });
     return response.data;
   }
@@ -150,7 +148,7 @@ export const api = new MinkApi();
 export const isStatusStarted = (status) => STATUSES[status]?.started;
 export const isStatusRunning = (status) => STATUSES[status]?.running;
 export const isStatusDone = (status) => status == "done_syncing";
-export const isStatusError = status => status == 'error'
+export const isStatusError = (status) => status == "error";
 
 // prettier-ignore
 const STATUSES = {
