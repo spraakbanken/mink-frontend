@@ -55,10 +55,12 @@ export function useJwt() {
       // Register it with the API client.
       api.setJwt(jwt);
 
-      // Schedule next request 10s before expiration time.
-      const timeoutS = payload.value.exp - Date.now() / 1000 - 10;
-      if (refreshTimer) clearTimeout(refreshTimer);
-      refreshTimer = setTimeout(refreshJwt, timeoutS * 1000);
+      // Schedule next request shortly before expiration time.
+      clearTimeout(refreshTimer);
+      if (jwt) {
+        const timeoutMs = (payload.value.exp - 10) * 1000 - Date.now();
+        refreshTimer = setTimeout(refreshJwt, timeoutMs);
+      }
 
       return jwt;
     }
