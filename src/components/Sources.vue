@@ -45,7 +45,7 @@
         <div class="p-8">
           <div class="flex justify-center items-center">
             {{ $t("dragANDdrop") }}:
-            <input type="file" class="ml-2" @change="uploadSingle" />
+            <input type="file" class="ml-2" multiple @change="uploadInput" />
           </div>
           <div v-if="uploadMessage" class="mt-4 text-center text-red-800">
             {{ $t("error.message") }}: "{{ uploadMessage }}"
@@ -76,7 +76,7 @@ async function uploadDrop(files) {
   upload(files).catch((error) => (uploadMessage.value = error.message));
 }
 
-function uploadSingle(event) {
+function uploadInput(event) {
   uploadMessage.value = null;
   upload(event.target.files).catch(
     (error) => (uploadMessage.value = error.message)
