@@ -53,6 +53,7 @@
   "sparvOutput": "Sparv output",
   "download": "Ladda ner",
   "download_export": "Ladda ner hela exporten",
+  "job.status.none": "Ingen analys har körts",
   "job.status.syncing_corpus": "Syncar korpus",
   "job.status.waiting": "Väntar",
   "job.status.annotating": "Annoterar",

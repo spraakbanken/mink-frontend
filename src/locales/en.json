@@ -53,6 +53,7 @@
   "sparvOutput": "Sparv output",
   "download": "Download",
   "download_export": "Download full export",
+  "job.status.none": "Analysis not started",
   "job.status.syncing_corpus": "Synchronizing corpus",
   "job.status.waiting": "Waiting",
   "job.status.annotating": "Annotating",
