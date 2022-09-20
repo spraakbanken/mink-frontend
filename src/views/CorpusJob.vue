@@ -7,7 +7,11 @@
           <tr>
             <th class="lg:w-1/6">{{ $t("job.status") }}</th>
             <td>
-              {{ jobStatusMessage }}
+              <div>{{ jobStatusMessage }}</div>
+              <ProgressBar
+                v-if="jobStatus.progress"
+                :percent="parseInt(jobStatus.progress)"
+              />
             </td>
           </tr>
           <tr v-if="jobStatus.errors">
@@ -16,7 +20,7 @@
               <TerminalOutput>{{ jobStatus.errors }}</TerminalOutput>
             </td>
           </tr>
-          <tr v-if="jobIsError && jobStatus.sparv_output">
+          <tr v-if="isJobError && jobStatus.sparv_output">
             <th>{{ $t("sparvOutput") }}</th>
             <td>
               <TerminalOutput>{{ jobStatus.sparv_output }}</TerminalOutput>
@@ -66,10 +70,18 @@ import ActionButton from "@/components/layout/ActionButton.vue";
 import PendingContent from "@/components/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import { formatDate } from "@/util";
+import ProgressBar from "@/components/ProgressBar.vue";
 
 const store = useStore();
-const { loadJob, runJob, abortJob, jobStatus, isJobRunning, jobStatusMessage } =
-  useJob();
+const {
+  loadJob,
+  runJob,
+  abortJob,
+  jobStatus,
+  isJobRunning,
+  isJobError,
+  jobStatusMessage,
+} = useJob();
 const { corpusId } = useCorpusIdParam();
 const hasConfig = computed(() => store.state.corpora[corpusId.value].config);
 
