@@ -30,13 +30,13 @@
             <th>{{ $t("job.last_run_started") }}</th>
             <td>{{ formatDate(jobStatus.last_run_started) }}</td>
           </tr>
-          <tr v-if="jobStatus.last_run_completed">
-            <th>{{ $t("job.last_run_completed") }}</th>
-            <td>{{ formatDate(jobStatus.last_run_completed) }}</td>
+          <tr v-if="jobStatus.last_run_ended">
+            <th>{{ $t("job.last_run_ended") }}</th>
+            <td>{{ formatDate(jobStatus.last_run_ended) }}</td>
           </tr>
-          <tr v-if="jobStatus.time_taken">
+          <tr v-if="jobStatus.seconds_taken">
             <th>{{ $t("job.time_taken") }}</th>
-            <td>{{ formatDate(jobStatus.time_taken) }}</td>
+            <td>{{ formatSeconds(jobStatus.seconds_taken) }}</td>
           </tr>
         </tbody>
       </table>
@@ -69,7 +69,7 @@ import Section from "@/components/layout/Section.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import PendingContent from "@/components/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
-import { formatDate } from "@/util";
+import { formatDate, formatSeconds } from "@/util";
 import ProgressBar from "@/components/ProgressBar.vue";
 
 const store = useStore();

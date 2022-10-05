@@ -1,3 +1,5 @@
+import round from "lodash/round";
+
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export function downloadFile(data, filename) {
@@ -11,7 +13,14 @@ export function downloadFile(data, filename) {
 }
 
 export function formatDate(dateStr) {
-  return dateStr.split("+")[0].replace("T", " ");
+  return dateStr.substr(0, 19).replace("T", " ");
+}
+
+export function formatSeconds(secs) {
+  secs = round(secs);
+  return secs < 60
+    ? `${secs} s`
+    : `${Math.floor(secs / 60)} min ${secs % 60} s`;
 }
 
 export function ensureExtension(filename, ext) {

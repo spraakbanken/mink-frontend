@@ -13,7 +13,7 @@
   "job.starting": "Queueing annotation job",
   "job.status": "Status",
   "job.last_run_started": "Last run started",
-  "job.last_run_completed": "Last run completed",
+  "job.last_run_ended": "Last run ended",
   "job.time_taken": "Time taken",
   "source.deleting": "Deleting source file",
   "source.downloading": "Downloading source file",

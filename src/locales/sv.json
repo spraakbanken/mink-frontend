@@ -13,7 +13,7 @@
   "job.starting": "Lägger annotering i kö",
   "job.status": "Status",
   "job.last_run_started": "Senaste körning startad",
-  "job.last_run_completed": "Senaste körning avslutad",
+  "job.last_run_ended": "Senaste körning avslutad",
   "job.time_taken": "Tidsåtgång",
   "source.deleting": "Raderar källfil",
   "source.downloading": "Laddar ner källfil",
