@@ -17,8 +17,8 @@ export default function useSources(corpusIdArg) {
   );
   const token = computed(() => `corpus/${corpusId.value}/sources`);
 
-  function loadSources() {
-    const corpusIdFixed = corpusId.value;
+  function loadSources(corpusIdArg) {
+    const corpusIdFixed = corpusIdArg || corpusId.value;
     spin(
       api.listSources(corpusIdFixed),
       t("source.list.loading"),
@@ -40,10 +40,13 @@ export default function useSources(corpusIdArg) {
     loadSources();
   }
 
-  async function upload(files) {
+  async function upload(files, corpusIdArg) {
+    const corpusIdFixed = corpusIdArg || corpusId.value;
     const message = t("source.uploading", files.length);
     return spin(
-      api.uploadSources(corpusId.value, files).then(() => loadSources()),
+      api
+        .uploadSources(corpusIdFixed, files)
+        .then(() => loadSources(corpusIdFixed)),
       message,
       token.value
     );

@@ -1,5 +1,5 @@
 <template>
-  <Section :title="$t('corpuses')">
+  <Section v-if="Object.keys(corpora).length" :title="$t('corpuses')">
     <PendingContent
       v-if="isAuthenticated"
       on="corpora"
@@ -22,6 +22,12 @@
       </router-link>
     </PendingContent>
   </Section>
+  <Section :title="$t('new_corpus')">
+    <SourceUpload :file-handler="createCorpusFromFiles" />
+    <Help>
+      <p>To start processing your text files, drop them in the area above.</p>
+    </Help>
+  </Section>
 </template>
 
 <script setup>
@@ -35,11 +41,18 @@ import PendingContent from "@/components/PendingContent.vue";
 import CorpusButton from "@/components/CorpusButton.vue";
 import { useI18n } from "vue-i18n";
 import { useJwt } from "@/composables/jwt";
+import SourceUpload from "@/components/SourceUpload.vue";
+import Help from "@/components/Help.vue";
+import useSources from "@/composables/sources";
+import { useRouter } from "vue-router";
 
 const store = useStore();
 const { spin } = useSpin();
 const { t } = useI18n();
 const { requireAuthentication, isAuthenticated } = useJwt();
+const { upload } = useSources();
+const router = useRouter();
+const { refreshJwt } = useJwt();
 
 const corpora = computed(() => store.state.corpora);
 
@@ -50,4 +63,11 @@ requireAuthentication().then(() => {
     }
   );
 });
+
+async function createCorpusFromFiles(files) {
+  const corpusId = await api.createCorpus();
+  await refreshJwt();
+  await upload(files, corpusId);
+  router.push(`/corpus/${corpusId}`);
+}
 </script>
