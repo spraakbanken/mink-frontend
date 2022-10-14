@@ -1,8 +1,10 @@
 <template>
-  <header class="bg-white mb-2 shadow-md">
+  <header class="bg-white mb-2 shadow">
     <div class="container py-4 flex justify-between items-center flex-wrap">
-      <div class="text-4xl">
-        <router-link to="/" class="text-current">Mink</router-link>
+      <div class="text-4xl w-40">
+        <router-link to="/" class="text-current">
+          <img src="@/assets/mink.svg" alt="Mink" />
+        </router-link>
       </div>
       <div class="h-12 flex items-center">
         <div
