@@ -3,7 +3,7 @@ import Home from "@/views/Home.vue";
 import Login from "@/views/Login.vue";
 import CreateCorpus from "@/views/CreateCorpus.vue";
 import Corpus from "@/views/Corpus.vue";
-import CorpusMetadata from "@/views/CorpusMetadata.vue";
+import Overview from "@/views/Overview.vue";
 import CorpusSources from "@/views/CorpusSources.vue";
 import CorpusConfiguration from "@/views/CorpusConfiguration.vue";
 import CorpusResult from "@/views/CorpusResult.vue";
@@ -21,10 +21,7 @@ const routes = [
     path: "/corpus/:corpusId",
     component: Corpus,
     children: [
-      {
-        path: "",
-        component: CorpusMetadata,
-      },
+      { path: "", component: Overview },
       { path: "config", component: CorpusConfiguration },
       { path: "sources", component: CorpusSources },
       {

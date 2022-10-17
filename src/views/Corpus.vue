@@ -2,7 +2,6 @@
   <div v-if="isAuthenticated">
     <template v-if="corpusExists">
       <PageTitle subtitle="corpus">{{ corpusName || corpusId }}</PageTitle>
-      <CorpusRibbon />
       <router-view />
     </template>
     <template v-else>
@@ -18,7 +17,6 @@
 
 <script setup>
 import PageTitle from "@/components/PageTitle.vue";
-import CorpusRibbon from "@/components/CorpusRibbon.vue";
 import useConfig from "@/composables/config";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import { useJwt } from "@/composables/jwt";

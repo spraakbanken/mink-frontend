@@ -129,6 +129,13 @@
             <icon :icon="['far', 'floppy-disk']" class="mr-1" />
             {{ $t("save") }}
           </ActionButton>
+
+          <router-link :to="`/corpus/${corpusId}/delete`">
+            <ActionButton variant="danger" class="ml-4">
+              <icon :icon="['far', 'trash-can']" class="mr-1" />
+              {{ $t("corpus.delete") }}
+            </ActionButton>
+          </router-link>
         </PendingContent>
       </div>
     </Section>
