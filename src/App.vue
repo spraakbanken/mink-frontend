@@ -6,43 +6,44 @@
           <img src="@/assets/mink.svg" alt="Mink" />
         </router-link>
       </div>
-      <div class="h-12 flex items-center">
+
+      <div class="flex items-center h-12 gap-4">
         <div
           v-if="messages"
-          class="messages mx-2 self-start h-full overflow-auto text-right text-xs"
+          class="messages self-start h-full overflow-auto text-right text-xs"
         >
           <div v-for="message in messages" :key="message">{{ message }}</div>
         </div>
-        <div v-if="messages" class="mx-2">
+
+        <div :class="{ 'opacity-0': !messages }">
           <Spinner />
         </div>
-        <div class="ml-2 -mr-3 w-56">
-          <a href="https://spraakbanken.gu.se/">
-            <img src="@/assets/sbx1r.svg" />
-          </a>
+
+        <div>
+          <div class="w-56">
+            <a href="https://spraakbanken.gu.se/">
+              <img src="@/assets/sbx1r.svg" />
+            </a>
+          </div>
+
+          <div class="mt-2 flex flex-wrap gap-4 items-baseline justify-end">
+            <template v-if="payload">
+              <router-link to="/user" class="text-gray-600 pt-0.5">
+                {{ payload.name }}
+              </router-link>
+            </template>
+
+            <LocaleSwitcher />
+          </div>
         </div>
       </div>
     </div>
   </header>
-  <div class="container flex justify-between mb-4 text-gray-600">
-    <div class="flex">
-      <router-link to="/" class="text-gray-600 pt-1">{{
-        $t("corpuses")
-      }}</router-link>
-    </div>
-    <div class="flex">
-      <template v-if="payload">
-        <router-link to="/user" class="text-gray-600 pt-0.5">
-          {{ payload.name }}
-        </router-link>
-        <span class="pr-2 pl-2 text-xl">|</span>
-      </template>
-      <LocaleSwitcher />
-    </div>
-  </div>
+
   <div class="container py-2">
     <router-view />
   </div>
+
   <div
     class="container py-20 flex justify-center items-center text-sm text-gray-700"
   >
