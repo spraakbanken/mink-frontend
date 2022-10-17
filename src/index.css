@@ -33,10 +33,16 @@ thead {
 }
 
 tbody {
+  @apply bg-gray-100;
+}
+tbody tr:nth-child(2n) {
   @apply bg-gray-50;
 }
 
-tbody tr:nth-child(2n) {
+.bg-white tbody {
+  @apply bg-gray-50;
+}
+.bg-white tbody tr:nth-child(2n) {
   @apply bg-gray-100;
 }
 
