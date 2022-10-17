@@ -1,6 +1,6 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}/config`">
-    <table v-if="config" class="w-full my-4">
+    <table v-if="config" class="w-full">
       <tbody>
         <tr>
           <th>{{ $t("name") }}</th>
