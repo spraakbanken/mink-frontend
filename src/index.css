@@ -46,6 +46,13 @@ tbody tr:nth-child(2n) {
   @apply bg-gray-100;
 }
 
+.bg-zinc-600 tbody {
+  @apply bg-zinc-500;
+}
+.bg-zinc-600 tbody tr:nth-child(2n) {
+  @apply bg-zinc-500;
+}
+
 th {
   @apply text-left font-medium
 }
