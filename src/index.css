@@ -33,7 +33,7 @@ thead {
 }
 
 tbody {
-  @apply border-t-2 border-b-2;
+  @apply border;
 }
 
 tbody tr:nth-child(2n + 1) {
