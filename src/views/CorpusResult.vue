@@ -13,7 +13,7 @@
         </ActionButton>
       </div>
 
-      <table class="w-full mt-4">
+      <table class="w-full mt-4 striped">
         <thead>
           <tr>
             <th class="w-full">{{ $t("fileName") }}</th>
@@ -21,7 +21,7 @@
             <th class="text-right">{{ $t("download") }}</th>
           </tr>
         </thead>
-        <tbody class="border-b-0">
+        <tbody>
           <tr v-for="file in exports" :key="file.name">
             <td>
               {{ file.name }}
@@ -54,6 +54,7 @@ import useExports from "@/composables/exports";
 import { downloadFile } from "@/util";
 
 const { corpusId } = useCorpusIdParam();
+
 const { loadExports, exports, downloadResult, downloadResultFile } =
   useExports();
 

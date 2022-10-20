@@ -52,7 +52,7 @@
   "message": "Message",
   "sparvOutput": "Sparv output",
   "download": "Download",
-  "download_export": "Download full export",
+  "download_export": "Download full output",
   "job.status.none": "Analysis not started",
   "job.status.syncing_corpus": "Synchronizing corpus",
   "job.status.waiting": "Waiting",

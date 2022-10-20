@@ -1,5 +1,5 @@
 <template>
-  <header class="flex items-end mt-2 mb-4">
+  <header class="flex flex-wrap items-end mt-2 mb-4">
     <h1>
       <slot />
     </h1>

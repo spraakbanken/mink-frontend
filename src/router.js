@@ -3,11 +3,10 @@ import Home from "@/views/Home.vue";
 import Login from "@/views/Login.vue";
 import CreateCorpus from "@/views/CreateCorpus.vue";
 import Corpus from "@/views/Corpus.vue";
-import CorpusMetadata from "@/views/CorpusMetadata.vue";
+import Overview from "@/views/Overview.vue";
 import CorpusSources from "@/views/CorpusSources.vue";
 import CorpusConfiguration from "@/views/CorpusConfiguration.vue";
 import CorpusResult from "@/views/CorpusResult.vue";
-import CorpusJob from "@/views/CorpusJob.vue";
 import CorpusDelete from "@/views/CorpusDelete.vue";
 import Source from "@/views/Source.vue";
 import User from "@/views/User.vue";
@@ -21,10 +20,7 @@ const routes = [
     path: "/corpus/:corpusId",
     component: Corpus,
     children: [
-      {
-        path: "",
-        component: CorpusMetadata,
-      },
+      { path: "", component: Overview },
       { path: "config", component: CorpusConfiguration },
       { path: "sources", component: CorpusSources },
       {
@@ -32,7 +28,6 @@ const routes = [
         component: Source,
         props: true,
       },
-      { path: "status", component: CorpusJob },
       { path: "exports", component: CorpusResult },
       { path: "delete", component: CorpusDelete },
     ],

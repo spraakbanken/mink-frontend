@@ -7,7 +7,7 @@ body {
 }
 
 a {
-  color: #f2581a;
+  @apply text-sborange hover:brightness-110;
 }
 
 h1 {
@@ -32,11 +32,17 @@ thead {
   @apply uppercase text-sm;
 }
 
-tbody {
-  @apply border-t-2 border-b-2;
+table.striped tbody {
+  @apply bg-gray-100;
+}
+table.striped tbody tr:nth-child(2n) {
+  @apply bg-gray-50;
 }
 
-tbody tr:nth-child(2n + 1) {
+.bg-white table.striped tbody {
+  @apply bg-gray-50;
+}
+.bg-white table.striped tbody tr:nth-child(2n) {
   @apply bg-gray-100;
 }
 
@@ -55,18 +61,21 @@ pre {
 
 @layer components {
   .mink-button, a .mink-button {
-    @apply p-1 px-2 rounded bg-white shadow-sm text-gray-700 hover:drop-shadow-md hover:opacity-90 transition-all;
+    @apply p-1 px-2 rounded bg-white shadow text-gray-700 cursor-pointer hover:drop-shadow-md hover:brightness-110 transition-all;
   }
   .mink-button.mink-primary {
-    @apply bg-blue-400 text-white;
+    @apply bg-blue-400 shadow-blue-700 text-white;
   }
   .mink-button.mink-danger {
-    @apply bg-red-400 text-white;
+    @apply bg-red-400 shadow-red-700 text-white;
   }
   .mink-button.mink-success {
-    @apply bg-green-400 text-green-900;
+    @apply bg-green-400 shadow-green-700 text-green-900;
   }
   .mink-button.mink-warning {
-    @apply bg-amber-300 text-amber-900;
+    @apply bg-amber-300 shadow-amber-600 text-amber-900;
+  }
+  .mink-button.disabled {
+    @apply bg-slate-100 text-slate-400 cursor-not-allowed hover:drop-shadow-none hover:brightness-100;
   }
 }
