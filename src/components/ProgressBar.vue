@@ -1,5 +1,5 @@
 <template>
-  <div class="inline-block bg-slate-700 rounded h-6 relative overflow-hidden">
+  <div class="inline-block bg-slate-500 rounded h-6 relative overflow-hidden">
     <div
       class="bg-orange-400 h-6 absolute"
       :style="{ width: percent + '%' }"

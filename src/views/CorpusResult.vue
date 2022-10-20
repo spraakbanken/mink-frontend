@@ -13,7 +13,7 @@
         </ActionButton>
       </div>
 
-      <table class="w-full mt-4">
+      <table class="w-full mt-4 striped">
         <thead>
           <tr>
             <th class="w-full">{{ $t("fileName") }}</th>

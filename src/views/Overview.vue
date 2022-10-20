@@ -27,7 +27,7 @@
     </div>
 
     <div class="w-full lg:w-2/5 lg:pl-2">
-      <Panel title="Status" class="mb-6 bg-zinc-600 text-white">
+      <Panel title="Status" class="mb-6 bg-zinc-700 text-white">
         <JobStatus />
       </Panel>
 

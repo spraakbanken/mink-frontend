@@ -32,25 +32,18 @@ thead {
   @apply uppercase text-sm;
 }
 
-tbody {
+table.striped tbody {
   @apply bg-gray-100;
 }
-tbody tr:nth-child(2n) {
+table.striped tbody tr:nth-child(2n) {
   @apply bg-gray-50;
 }
 
-.bg-white tbody {
+.bg-white table.striped tbody {
   @apply bg-gray-50;
 }
-.bg-white tbody tr:nth-child(2n) {
+.bg-white table.striped tbody tr:nth-child(2n) {
   @apply bg-gray-100;
-}
-
-.bg-zinc-600 tbody {
-  @apply bg-zinc-500;
-}
-.bg-zinc-600 tbody tr:nth-child(2n) {
-  @apply bg-zinc-500;
 }
 
 th {

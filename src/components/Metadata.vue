@@ -3,12 +3,10 @@
     <table v-if="config" class="w-full">
       <tbody>
         <tr>
-          <th>{{ $t("name") }}</th>
-          <td><ValuesByKey :values="config.name" /></td>
-        </tr>
-        <tr>
           <th>{{ $t("description") }}</th>
-          <td><ValuesByKey :values="config.description" /></td>
+          <td>
+            {{ th(config.description) }}
+          </td>
         </tr>
         <tr>
           <th>{{ $t("identifier") }}</th>
@@ -29,9 +27,11 @@ import useCorpusIdParam from "@/composables/corpusIdParam";
 import PendingContent from "./PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import ValuesByKey from "@/components/ValuesByKey.vue";
+import useTh from "@/composables/th";
 
 const { corpusId } = useCorpusIdParam();
 const { config, loadConfig } = useConfig();
+const { th } = useTh();
 
 loadConfig();
 </script>

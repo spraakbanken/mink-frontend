@@ -1,7 +1,7 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}/sources`">
     <SourceUpload>
-      <table v-if="sources.length" class="w-full mt-4">
+      <table v-if="sources.length" class="w-full mt-4 striped">
         <thead>
           <tr>
             <th class="w-full">{{ $t("fileName") }}</th>

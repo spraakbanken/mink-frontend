@@ -1,7 +1,7 @@
 <template>
   <div v-if="config">
     <Section :title="$t('metadata')">
-      <table class="w-full my-4">
+      <table class="w-full my-4 striped">
         <thead></thead>
         <tbody>
           <tr>
@@ -48,7 +48,7 @@
       </table>
     </Section>
     <Section :title="$t('configuration')">
-      <table class="w-full my-4">
+      <table class="w-full my-4 striped">
         <thead></thead>
         <tbody>
           <tr>
