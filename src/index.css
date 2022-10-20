@@ -68,7 +68,7 @@ pre {
 
 @layer components {
   .mink-button, a .mink-button {
-    @apply p-1 px-2 rounded bg-white shadow-sm text-gray-700 hover:drop-shadow-md hover:opacity-90 transition-all;
+    @apply p-1 px-2 rounded bg-white shadow-sm text-gray-700 cursor-pointer hover:drop-shadow-md hover:opacity-90 transition-all;
   }
   .mink-button.mink-primary {
     @apply bg-blue-400 text-white;
@@ -81,5 +81,8 @@ pre {
   }
   .mink-button.mink-warning {
     @apply bg-amber-300 text-amber-900;
+  }
+  .mink-button.disabled {
+    @apply bg-slate-100 text-slate-400 cursor-not-allowed hover:drop-shadow-none hover:opacity-100;
   }
 }

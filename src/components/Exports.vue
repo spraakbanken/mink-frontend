@@ -2,9 +2,12 @@
   <PendingContent :on="`corpus/${corpusId}/exports`">
     <h3 class="text-lg uppercase">Korp</h3>
     <p>Use this data in Språkbanken's corpus search tool.</p>
-    <a :href="`https://spraakbanken.gu.se/korp`" target="_blank">
-      <ActionButton variant="primary" class="mb-1"> View in Korp </ActionButton>
-    </a>
+    <div class="flex flex-wrap gap-2 mb-1">
+      <ActionButton variant="primary" @click="korpInstall">
+        Install in Korp
+      </ActionButton>
+      <ActionButton disabled> View in Korp </ActionButton>
+    </div>
 
     <h3 class="text-lg uppercase mt-4">Download</h3>
     <p>Output XML files can be processed by custom scripts etc.</p>
