@@ -1,26 +1,27 @@
 <template>
   <header class="bg-white mb-2 shadow">
-    <div class="container py-4 flex justify-between items-center flex-wrap">
-      <div class="text-4xl w-40">
+    <div class="container py-4 flex justify-between flex-wrap gap-4">
+      <div class="text-4xl">
         <router-link to="/" class="text-current">
-          <img src="@/assets/mink.svg" alt="Mink" />
+          <img src="@/assets/mink.svg" alt="Mink" class="h-16" />
         </router-link>
       </div>
 
-      <div class="flex items-center h-12 gap-4">
+      <div class="flex items-center gap-4">
         <div
           v-if="messages"
-          class="messages self-start h-full overflow-auto text-right text-xs"
+          class="messages hidden md:block h-12 overflow-auto text-right text-xs"
         >
           <div v-for="message in messages" :key="message">{{ message }}</div>
         </div>
 
-        <div :class="{ 'opacity-0': !messages }">
-          <Spinner />
-        </div>
+        <Spinner
+          class="hidden sm:block h-12"
+          :class="{ 'opacity-0': !messages }"
+        />
 
-        <div>
-          <div class="w-56">
+        <div class="self-stretch flex flex-col">
+          <div class="w-56 flex-1">
             <a href="https://spraakbanken.gu.se/">
               <img src="@/assets/sbx1r.svg" />
             </a>

@@ -7,7 +7,7 @@ body {
 }
 
 a {
-  color: #f2581a;
+  @apply text-sborange hover:brightness-110;
 }
 
 h1 {

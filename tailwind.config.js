@@ -5,7 +5,11 @@ module.exports = {
       center: true,
       padding: "2rem",
     },
-    extend: {},
+    extend: {
+      colors: {
+        sborange: "#f2581a",
+      },
+    },
   },
   variants: {
     extend: {},
