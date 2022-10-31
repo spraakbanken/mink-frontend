@@ -46,13 +46,17 @@ table.striped tbody tr:nth-child(2n) {
   @apply bg-gray-100;
 }
 
-th {
-  @apply text-left font-medium
+table.striped th,
+table.striped td {
+  @apply py-1 px-2;
 }
 
-th,
-td {
-  @apply py-1 px-2 align-baseline;
+tr {
+  @apply align-baseline;
+}
+
+th {
+  @apply text-left font-medium
 }
 
 pre {
