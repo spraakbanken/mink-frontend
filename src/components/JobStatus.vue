@@ -7,7 +7,7 @@
       <div class="text-sm">
         <ActionButton
           v-if="config && !isJobRunning && sources.length"
-          variant="primary"
+          :variant="isReady ? 'primary' : null"
           @click="runJob"
         >
           <icon :icon="['fas', 'gears']" class="mr-1" />
@@ -69,6 +69,7 @@ import useConfig from "@/composables/config";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import useJob from "@/composables/job";
 import useSources from "@/composables/sources";
+import { useCorpusState } from "@/composables/corpusState";
 import ActionButton from "./layout/ActionButton.vue";
 import JobStatusMessage from "./JobStatusMessage.vue";
 import PendingContent from "./PendingContent.vue";
@@ -80,6 +81,7 @@ const { config } = useConfig();
 const { loadSources, sources } = useSources();
 const { loadJob, runJob, abortJob, jobStatus, isJobRunning, isJobError } =
   useJob();
+const { isReady } = useCorpusState();
 
 loadSources();
 loadJob();

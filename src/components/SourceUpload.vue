@@ -5,7 +5,9 @@
       :class="
         uploadMessage
           ? ['bg-red-50', 'border-red-200']
-          : ['bg-blue-50', 'border-blue-100']
+          : variant == 'primary'
+          ? ['bg-blue-50', 'border-blue-100']
+          : ['bg-gray-50', 'border-gray-100']
       "
       class="border-dashed border-4"
     >
@@ -33,6 +35,10 @@ import Filedrop from "./Filedrop.vue";
 const props = defineProps({
   fileHandler: {
     type: Function,
+    default: null,
+  },
+  variant: {
+    type: String,
     default: null,
   },
 });

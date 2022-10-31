@@ -160,5 +160,5 @@ const STATUSES = {
   syncing_results:  { started:  true, running:  true },
   done_syncing:     { started:  true, running: false },
   error:            { started:  true, running: false },
-  aborted:          { started:  true, running: false },
+  aborted:          { started:  false, running: false },
 };

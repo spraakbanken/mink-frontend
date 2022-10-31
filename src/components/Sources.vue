@@ -1,6 +1,6 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}/sources`">
-    <SourceUpload>
+    <SourceUpload :variant="isEmpty ? 'primary' : null">
       <table v-if="sources.length" class="w-full mt-4 striped">
         <thead>
           <tr>
@@ -38,12 +38,14 @@
 <script setup>
 import useSources from "@/composables/sources";
 import useCorpusIdParam from "@/composables/corpusIdParam";
+import { useCorpusState } from "@/composables/corpusState";
 import ActionButton from "./layout/ActionButton.vue";
 import PendingContent from "./PendingContent.vue";
 import SourceUpload from "./SourceUpload.vue";
 
 const { sources, loadSources, remove } = useSources();
 const { corpusId } = useCorpusIdParam();
+const { isEmpty } = useCorpusState();
 
 loadSources();
 </script>

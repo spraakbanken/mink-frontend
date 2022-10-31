@@ -3,7 +3,7 @@
     <h3 class="text-lg uppercase">Korp</h3>
     <p>Use this data in Språkbanken's corpus search tool.</p>
     <div class="flex flex-wrap gap-2 mb-1">
-      <ActionButton variant="primary" @click="korpInstall">
+      <ActionButton :variant="isDone ? 'primary' : null" @click="korpInstall">
         Install in Korp
       </ActionButton>
       <ActionButton disabled> View in Korp </ActionButton>
@@ -32,11 +32,13 @@
 import { downloadFile } from "@/util";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import useExports from "@/composables/exports";
+import { useCorpusState } from "@/composables/corpusState";
 import ActionButton from "./layout/ActionButton.vue";
 import PendingContent from "./PendingContent.vue";
 
 const { corpusId } = useCorpusIdParam();
 const { loadExports, exports, downloadResult } = useExports();
+const { isDone } = useCorpusState();
 
 loadExports();
 
@@ -44,4 +46,6 @@ async function downloadFull() {
   const data = await downloadResult();
   downloadFile(data, corpusId.value + ".zip");
 }
+
+function korpInstall() {}
 </script>
