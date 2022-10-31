@@ -36,14 +36,16 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="bg-white shadow-inner monospace text-sm">{{ sourceRaw }}</div>
   </Section>
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
-import Section from "@/components/layout/Section.vue";
 import { downloadFile, ensureExtension, formatDate } from "@/util";
+import Section from "@/components/layout/Section.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import useJob from "@/composables/job";
 import useSources from "@/composables/sources";
@@ -62,9 +64,14 @@ const metadata = computed(() =>
     (source) => source.name === props.filename
   )
 );
+const sourceRaw = ref();
+
+const sourceRawPromise = downloadSource(metadata.value).then((data) => {
+  sourceRaw.value = data;
+});
 
 async function downloadRaw() {
-  const data = await downloadSource(metadata.value);
+  const data = await sourceRawPromise;
   downloadFile(data, metadata.value.name);
 }
 
