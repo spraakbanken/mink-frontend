@@ -1,5 +1,5 @@
 <template>
-  <Section v-if="Object.keys(corpora).length" :title="$t('corpuses')">
+  <Section v-if="hasCorpora" :title="$t('corpuses')">
     <PendingContent
       v-if="isAuthenticated"
       on="corpora"
@@ -23,7 +23,10 @@
     </PendingContent>
   </Section>
   <Section :title="$t('new_corpus')">
-    <SourceUpload :file-handler="createCorpusFromFiles" />
+    <SourceUpload
+      :file-handler="createCorpusFromFiles"
+      :variant="hasCorpora ? null : 'primary'"
+    />
     <Help>
       <p>To start processing your text files, drop them in the area above.</p>
     </Help>
@@ -55,6 +58,7 @@ const router = useRouter();
 const { refreshJwt } = useJwt();
 
 const corpora = computed(() => store.state.corpora);
+const hasCorpora = computed(() => !!Object.keys(store.state.corpora).length);
 
 requireAuthentication().then(() => {
   spin(api.listCorpora(), t("corpus.list.loading"), "corpora").then(
