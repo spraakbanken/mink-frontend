@@ -39,6 +39,8 @@
         </div>
       </div>
     </div>
+
+    <AdminModeBanner />
   </header>
 
   <div class="container py-2">
@@ -59,6 +61,7 @@ import useSpin from "@/assets/spin";
 import Spinner from "@/components/Spinner.vue";
 import LocaleSwitcher from "@/components/LocaleSwitcher.vue";
 import { useJwt } from "./composables/jwt";
+import AdminModeBanner from "./components/AdminModeBanner.vue";
 
 const store = useStore();
 const { messages } = useSpin();

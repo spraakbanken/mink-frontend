@@ -16,6 +16,7 @@ import {
   faPen,
   faPersonRunning,
   faRightToBracket,
+  faTriangleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -29,5 +30,6 @@ library.add(
   faPersonRunning,
   faRightToBracket,
   faSquarePlus,
-  faTrashCan
+  faTrashCan,
+  faTriangleExclamation
 );
