@@ -28,7 +28,6 @@
 
     <div class="w-full lg:w-2/5 lg:pl-2">
       <Panel title="Status" class="mb-6 bg-zinc-700 text-white">
-        {{ corpusState }}
         <JobStatus />
       </Panel>
 
@@ -51,10 +50,8 @@ import Config from "@/components/Config.vue";
 import Sources from "@/components/Sources.vue";
 import JobStatus from "@/components/JobStatus.vue";
 import Exports from "@/components/Exports.vue";
-import { useCorpusState } from "@/composables/corpusState";
 
 const { corpusId } = useCorpusIdParam();
-const { corpusState } = useCorpusState();
 </script>
 
 <style></style>

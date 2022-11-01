@@ -2,6 +2,7 @@
   <span
     v-if="jobStatusMessage"
     :class="{
+      'text-gray-400': !isJobStarted,
       'text-lime-600': isJobDone,
       'text-yellow-500': isJobRunning,
       'text-red-700': isJobError,
@@ -22,8 +23,14 @@ const props = defineProps({
   },
 });
 
-const { loadJob, jobStatusMessage, isJobDone, isJobRunning, isJobError } =
-  useJob(props.corpusId);
+const {
+  loadJob,
+  jobStatusMessage,
+  isJobStarted,
+  isJobDone,
+  isJobRunning,
+  isJobError,
+} = useJob(props.corpusId);
 
 loadJob();
 </script>
