@@ -5,7 +5,7 @@
         <Metadata />
         <template #controls>
           <router-link :to="`/corpus/${corpusId}/config`">
-            <ActionButton>
+            <ActionButton :variant="isUnconfigured ? 'primary' : null">
               <icon :icon="['fas', 'pen']" class="mr-1" />
               {{ $t("edit") }}
             </ActionButton>
@@ -17,7 +17,7 @@
         <Config />
         <template #controls>
           <router-link :to="`/corpus/${corpusId}/config`">
-            <ActionButton>
+            <ActionButton :variant="isUnconfigured ? 'primary' : null">
               <icon :icon="['fas', 'pen']" class="mr-1" />
               {{ $t("edit") }}
             </ActionButton>
@@ -43,6 +43,7 @@
 
 <script setup>
 import useCorpusIdParam from "@/composables/corpusIdParam";
+import { useCorpusState } from "@/composables/corpusState";
 import Metadata from "@/components/Metadata.vue";
 import Panel from "@/components/layout/Panel.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
@@ -52,6 +53,7 @@ import JobStatus from "@/components/JobStatus.vue";
 import Exports from "@/components/Exports.vue";
 
 const { corpusId } = useCorpusIdParam();
+const { isUnconfigured } = useCorpusState();
 </script>
 
 <style></style>

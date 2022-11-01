@@ -5,16 +5,13 @@ import useSources from "./sources";
 
 export function useCorpusState(corpusIdArg) {
   const { sources } = useSources(corpusIdArg);
-  const { config } = useConfig(corpusIdArg);
+  const { isConfigValid } = useConfig(corpusIdArg);
   const { isJobStarted, isJobRunning, isJobError, isJobDone } =
     useJob(corpusIdArg);
 
   const corpusState = computed(() => {
     if (!sources.value.length) return CorpusState.EMPTY;
-    // TODO Even if there's a config, it doesn't mean it's properly done. The
-    // UNCONFIGURED state should instead depend on whether the last
-    // `upload-config` or `upload-sources` failed.
-    if (!config.value) return CorpusState.UNCONFIGURED;
+    if (!isConfigValid.value) return CorpusState.UNCONFIGURED;
     if (!isJobStarted.value) return CorpusState.READY;
     if (isJobRunning.value) return CorpusState.RUNNING;
     if (isJobError.value) return CorpusState.FAILED;

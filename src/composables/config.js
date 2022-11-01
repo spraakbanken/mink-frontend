@@ -4,6 +4,7 @@ import { api } from "@/assets/api";
 import useSpin from "@/assets/spin";
 import useCorpusIdParam from "./corpusIdParam";
 import {
+  FORMATS_EXT,
   makeConfig,
   makeEmptyConfig,
   parseConfig,
@@ -56,10 +57,17 @@ export default function useConfig(corpusIdArg) {
     store.commit("setConfig", { corpusIdFixed, config });
   }
 
+  const isConfigValid = computed(
+    () =>
+      FORMATS_EXT.includes(config.value.format) &&
+      (config.value.name?.swe || config.value.name?.eng)
+  );
+
   return {
     config,
-    loadConfig,
     corpusName,
+    isConfigValid,
+    loadConfig,
     uploadConfig,
   };
 }
