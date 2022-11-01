@@ -5,7 +5,7 @@
       'text-gray-400': !isJobStarted,
       'text-lime-600': isJobDone,
       'text-yellow-500': isJobRunning,
-      'text-red-700': isJobError,
+      'text-red-500': isJobError,
     }"
   >
     {{ jobStatusMessage }}

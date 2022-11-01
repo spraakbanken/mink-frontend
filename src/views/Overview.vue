@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-wrap">
-    <div class="w-full lg:w-3/5 lg:pr-2">
+    <div class="w-full lg:w-1/2 lg:pr-2">
       <Panel title="Metadata" class="mb-6">
         <Metadata />
         <template #controls>
@@ -26,7 +26,7 @@
       </Panel>
     </div>
 
-    <div class="w-full lg:w-2/5 lg:pl-2">
+    <div class="w-full lg:w-1/2 lg:pl-2">
       <Panel title="Status" class="mb-6 bg-zinc-700 text-white">
         <JobStatus />
       </Panel>

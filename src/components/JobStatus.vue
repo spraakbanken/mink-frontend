@@ -8,7 +8,8 @@
         <ActionButton
           v-if="config && !isJobRunning && sources.length"
           :variant="isReady ? 'primary' : null"
-          @click="runJob"
+          :disabled="!isReady"
+          @click="isReady ? runJob : null"
         >
           <icon :icon="['fas', 'gears']" class="mr-1" />
           {{ $t("job_run") }}
@@ -35,15 +36,23 @@
       <thead></thead>
       <tbody>
         <tr v-if="jobStatus.errors">
-          <th>{{ $t("errors") }}</th>
-          <td>
-            <TerminalOutput>{{ jobStatus.errors }}</TerminalOutput>
+          <th colspan="2">{{ $t("errors") }}</th>
+        </tr>
+        <tr v-if="jobStatus.errors">
+          <td colspan="2">
+            <TerminalOutput class="whitespace-pre-wrap">{{
+              jobStatus.errors
+            }}</TerminalOutput>
           </td>
         </tr>
         <tr v-if="isJobError && jobStatus.sparv_output">
-          <th>{{ $t("sparvOutput") }}</th>
-          <td>
-            <TerminalOutput>{{ jobStatus.sparv_output }}</TerminalOutput>
+          <th colspan="2">{{ $t("sparvOutput") }}</th>
+        </tr>
+        <tr v-if="isJobError && jobStatus.sparv_output">
+          <td colspan="2">
+            <TerminalOutput class="whitespace-pre-wrap">{{
+              jobStatus.sparv_output
+            }}</TerminalOutput>
           </td>
         </tr>
         <tr v-if="jobStatus.last_run_started">
