@@ -4,10 +4,10 @@ import { useI18n } from "vue-i18n";
 import ActionButton from "./layout/ActionButton.vue";
 
 const { t } = useI18n();
-const { adminMode } = useAdmin();
+const { adminMode, disableAdminMode } = useAdmin();
 
 function disable() {
-  adminMode.value = false;
+  disableAdminMode();
 }
 </script>
 

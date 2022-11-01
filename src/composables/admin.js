@@ -3,7 +3,7 @@ import useSpin from "@/assets/spin";
 import { computed, ref } from "vue";
 import { useJwt } from "./jwt";
 
-const adminMode = ref(false);
+const adminModeRef = ref(false);
 
 export default function useAdmin() {
   const { payload } = useJwt();
@@ -11,13 +11,15 @@ export default function useAdmin() {
 
   async function enableAdminMode() {
     await spin(api.adminModeOn(), "Enabling admin mode", "admin-mode");
-    adminMode.value = true;
+    adminModeRef.value = true;
   }
 
   async function disableAdminMode() {
     await spin(api.adminModeOff(), "Disabling admin mode", "admin-mode");
-    adminMode.value = false;
+    adminModeRef.value = false;
   }
+
+  const adminMode = computed(() => adminModeRef.value);
 
   const isAdmin = computed(
     () =>
