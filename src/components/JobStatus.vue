@@ -1,6 +1,6 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}/job`">
-    <div class="flex flex-wrap gap-4 justify-between items-baseline mb-2">
+    <div class="flex flex-wrap gap-4 justify-between items-baseline">
       <div class="text-lg font-bold">
         <JobStatusMessage :corpus-id="corpusId" />
       </div>
@@ -28,10 +28,10 @@
     <ProgressBar
       v-if="jobStatus.progress"
       :percent="parseInt(jobStatus.progress)"
-      class="w-full"
+      class="w-full my-2"
     />
 
-    <table class="w-full mt-4">
+    <table v-if="jobStatus.last_run_started" class="w-full mt-4">
       <thead></thead>
       <tbody>
         <tr v-if="jobStatus.errors">

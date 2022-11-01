@@ -15,7 +15,7 @@
         <CorpusButton :id="corpusId" @click="navigate" />
       </router-link>
       <router-link v-slot="{ navigate }" to="/corpus" custom>
-        <PadButton variant="primary" @click="navigate">
+        <PadButton @click="navigate">
           <icon :icon="['far', 'square-plus']" size="2xl" class="mb-2" />
           {{ $t("new_corpus") }}
         </PadButton>
