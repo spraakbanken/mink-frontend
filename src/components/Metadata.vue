@@ -26,7 +26,6 @@ import useConfig from "@/composables/config";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import PendingContent from "./PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
-import ValuesByKey from "@/components/ValuesByKey.vue";
 import useTh from "@/composables/th";
 
 const { corpusId } = useCorpusIdParam();

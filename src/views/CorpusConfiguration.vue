@@ -7,33 +7,29 @@
           <tr>
             <th class="lg:w-1/6">{{ $t("name") }}</th>
             <td>
-              <ValuesByKey :values="name">
-                <template #swe>
-                  <input v-model="name.swe" class="border w-72 p-1" />
-                </template>
-                <template #eng>
-                  <input v-model="name.eng" class="border w-72 p-1" />
-                </template>
-              </ValuesByKey>
+              <TaggedInput tag="swe">
+                <input v-model="name.swe" class="border w-72 p-1" />
+              </TaggedInput>
+              <TaggedInput tag="eng">
+                <input v-model="name.eng" class="border w-72 p-1" />
+              </TaggedInput>
             </td>
           </tr>
           <tr>
             <th class="lg:w-1/6">{{ $t("description") }}</th>
             <td>
-              <ValuesByKey :values="description">
-                <template #swe>
-                  <textarea
-                    v-model="description.swe"
-                    class="border w-full p-1 h-20"
-                  />
-                </template>
-                <template #eng>
-                  <textarea
-                    v-model="description.eng"
-                    class="border w-full p-1 h-20"
-                  />
-                </template>
-              </ValuesByKey>
+              <TaggedInput tag="swe">
+                <textarea
+                  v-model="description.swe"
+                  class="border w-full p-1 h-20"
+                />
+              </TaggedInput>
+              <TaggedInput tag="eng">
+                <textarea
+                  v-model="description.eng"
+                  class="border w-full p-1 h-20"
+                />
+              </TaggedInput>
             </td>
           </tr>
           <tr>
@@ -154,9 +150,9 @@ import TerminalOutput from "@/components/TerminalOutput.vue";
 import { useStore } from "vuex";
 import useConfig from "@/composables/config";
 import { useRouter } from "vue-router";
-import ValuesByKey from "@/components/ValuesByKey.vue";
 import { FORMATS_EXT, SEGMENTERS, makeConfig } from "@/assets/corpusConfig";
 import { useI18n } from "vue-i18n";
+import TaggedInput from "@/components/TaggedInput.vue";
 
 const router = useRouter();
 const store = useStore();
