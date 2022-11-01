@@ -59,6 +59,7 @@ export default function useConfig(corpusIdArg) {
 
   const isConfigValid = computed(
     () =>
+      config.value &&
       FORMATS_EXT.includes(config.value.format) &&
       (config.value.name?.swe || config.value.name?.eng)
   );

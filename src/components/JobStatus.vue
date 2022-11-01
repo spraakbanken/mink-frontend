@@ -6,7 +6,6 @@
       </div>
       <div class="text-sm">
         <ActionButton
-          v-if="config && !isJobRunning && sources.length"
           :variant="isReady ? 'primary' : null"
           :disabled="!canRun"
           @click="canRun ? runJob() : null"
@@ -27,12 +26,12 @@
     </div>
 
     <ProgressBar
-      v-if="jobStatus.progress"
+      v-if="jobStatus?.progress"
       :percent="parseInt(jobStatus.progress)"
       class="w-full my-2"
     />
 
-    <table v-if="jobStatus.last_run_started" class="w-full mt-4">
+    <table v-if="jobStatus?.last_run_started" class="w-full mt-4">
       <thead></thead>
       <tbody>
         <tr v-if="jobStatus.errors">
@@ -73,8 +72,8 @@
 </template>
 
 <script setup>
+import { computed } from "@vue/reactivity";
 import { formatDate, formatSeconds } from "@/util";
-import useConfig from "@/composables/config";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import useJob from "@/composables/job";
 import useSources from "@/composables/sources";
@@ -84,15 +83,13 @@ import JobStatusMessage from "./JobStatusMessage.vue";
 import PendingContent from "./PendingContent.vue";
 import ProgressBar from "./ProgressBar.vue";
 import TerminalOutput from "./TerminalOutput.vue";
-import { computed } from "@vue/reactivity";
 
 const { corpusId } = useCorpusIdParam();
-const { config } = useConfig();
-const { loadSources, sources } = useSources();
+const { loadSources } = useSources();
 const { loadJob, runJob, abortJob, jobStatus, isJobRunning, isJobError } =
   useJob();
-const { isReady, isFailed, isDone } = useCorpusState();
-const canRun = computed(() => isReady || isFailed || isDone);
+const { corpusState, isReady, isFailed, isDone } = useCorpusState();
+const canRun = computed(() => isReady.value || isFailed.value || isDone.value);
 
 loadSources();
 loadJob();
