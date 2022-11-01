@@ -8,8 +8,8 @@
         <ActionButton
           v-if="config && !isJobRunning && sources.length"
           :variant="isReady ? 'primary' : null"
-          :disabled="!isReady"
-          @click="isReady ? runJob : null"
+          :disabled="!canRun"
+          @click="canRun ? runJob() : null"
         >
           <icon :icon="['fas', 'gears']" class="mr-1" />
           {{ $t("job_run") }}
@@ -84,13 +84,15 @@ import JobStatusMessage from "./JobStatusMessage.vue";
 import PendingContent from "./PendingContent.vue";
 import ProgressBar from "./ProgressBar.vue";
 import TerminalOutput from "./TerminalOutput.vue";
+import { computed } from "@vue/reactivity";
 
 const { corpusId } = useCorpusIdParam();
 const { config } = useConfig();
 const { loadSources, sources } = useSources();
 const { loadJob, runJob, abortJob, jobStatus, isJobRunning, isJobError } =
   useJob();
-const { isReady } = useCorpusState();
+const { isReady, isFailed, isDone } = useCorpusState();
+const canRun = computed(() => isReady || isFailed || isDone);
 
 loadSources();
 loadJob();
