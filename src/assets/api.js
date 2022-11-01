@@ -140,6 +140,13 @@ class MinkApi {
     });
     return response.data;
   }
+
+  async installCorpus(corpusId) {
+    const response = await this.axios.put("install-corpus", null, {
+      params: { corpus_id: corpusId },
+    });
+    return response.data;
+  }
 }
 
 /** API client singleton instance. */
@@ -147,7 +154,9 @@ export const api = new MinkApi();
 
 export const isStatusStarted = (status) => STATUSES[status]?.started;
 export const isStatusRunning = (status) => STATUSES[status]?.running;
-export const isStatusDone = (status) => status == "done_syncing";
+export const isStatusDone = (status) =>
+  ["done_syncing", "done_installing"].includes(status);
+export const isStatusInstalled = (status) => status == "done_installing";
 export const isStatusError = (status) => status == "error";
 
 // prettier-ignore
@@ -160,5 +169,8 @@ const STATUSES = {
   syncing_results:  { started:  true, running:  true },
   done_syncing:     { started:  true, running: false },
   error:            { started:  true, running: false },
-  aborted:          { started:  false, running: false },
+  aborted:          { started: false, running: false },
+  waiting_install:  { started:  true, running:  true },
+  installing:       { started:  true, running:  true },
+  done_installing:  { started:  true, running: false },
 };

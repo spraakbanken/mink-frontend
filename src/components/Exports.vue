@@ -3,10 +3,22 @@
     <h3 class="text-lg uppercase">Korp</h3>
     <p>Use this data in Språkbanken's corpus search tool.</p>
     <div class="flex flex-wrap gap-2 mb-1">
-      <ActionButton :variant="isDone ? 'primary' : null" @click="korpInstall">
+      <ActionButton
+        :variant="isDone && !isInstalled ? 'primary' : null"
+        :disabled="!isDone"
+        @click="isDone ? korpInstall() : null"
+      >
         Install in Korp
       </ActionButton>
-      <ActionButton disabled> View in Korp </ActionButton>
+
+      <a
+        v-if="isInstalled"
+        :href="`https://spraakbanken.gu.se/korplabb/?mode=mink&corpus=${corpusId}`"
+        target="_blank"
+      >
+        <ActionButton variant="primary"> View in Korp </ActionButton>
+      </a>
+      <ActionButton v-else disabled> View in Korp </ActionButton>
     </div>
 
     <h3 class="text-lg uppercase mt-4">Download</h3>
@@ -33,12 +45,14 @@ import { downloadFile } from "@/util";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import useExports from "@/composables/exports";
 import { useCorpusState } from "@/composables/corpusState";
+import useJob from "@/composables/job";
 import ActionButton from "./layout/ActionButton.vue";
 import PendingContent from "./PendingContent.vue";
 
 const { corpusId } = useCorpusIdParam();
 const { loadExports, exports, downloadResult } = useExports();
 const { isDone } = useCorpusState();
+const { install, isInstalled } = useJob();
 
 loadExports();
 
@@ -47,5 +61,7 @@ async function downloadFull() {
   downloadFile(data, corpusId.value + ".zip");
 }
 
-function korpInstall() {}
+function korpInstall() {
+  install();
+}
 </script>

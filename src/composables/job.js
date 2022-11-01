@@ -6,6 +6,7 @@ import {
   isStatusStarted,
   isStatusDone,
   isStatusError,
+  isStatusInstalled,
 } from "@/assets/api";
 import useSpin from "@/assets/spin";
 import useCorpusIdParam from "./corpusIdParam";
@@ -39,6 +40,16 @@ export default function useJob(corpusIdArg) {
     recordJobStatus(corpusIdFixed, status);
   }
 
+  async function install() {
+    const corpusIdFixed = corpusId.value;
+    const status = await spin(
+      api.installCorpus(corpusIdFixed),
+      t("job.installing"),
+      token.value
+    );
+    recordJobStatus(corpusIdFixed, status);
+  }
+
   async function abortJob() {
     await spin(api.abortJob(corpusId.value), t("job.aborting"), token.value);
     await loadJob();
@@ -59,6 +70,7 @@ export default function useJob(corpusIdArg) {
   const isJobStarted = computed(() => isStatusStarted(jobStatusId.value));
   const isJobRunning = computed(() => isStatusRunning(jobStatusId.value));
   const isJobDone = computed(() => isStatusDone(jobStatusId.value));
+  const isInstalled = computed(() => isStatusInstalled(jobStatusId.value));
   const isJobError = computed(() => isStatusError(jobStatusId.value));
   const jobStatusMessage = computed(
     () => jobStatusId.value && t(`job.status.${jobStatusId.value}`)
@@ -73,6 +85,7 @@ export default function useJob(corpusIdArg) {
     isJobStarted,
     isJobRunning,
     isJobDone,
+    isInstalled,
     isJobError,
     jobStatusMessage,
     exports,
