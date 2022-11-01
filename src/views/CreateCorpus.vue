@@ -81,11 +81,13 @@ import PendingContent from "@/components/PendingContent.vue";
 import { FORMATS_EXT, makeConfig } from "@/assets/corpusConfig";
 import { useJwt } from "@/composables/jwt";
 import { useI18n } from "vue-i18n";
+import useConfig from "@/composables/config";
 
 const router = useRouter();
 const store = useStore();
 const { spin } = useSpin();
 const { requireAuthentication, refreshJwt } = useJwt();
+const { uploadConfig } = useConfig();
 const { t } = useI18n();
 
 const name = ref("");
@@ -113,16 +115,9 @@ async function submit() {
     );
     store.commit("addCorpus", corpusId);
 
-    // Update JWT
+    // Have the new corpus included.
     await refreshJwt();
-
-    const configYaml = makeConfig(corpusId, config);
-    await spin(
-      api.uploadConfig(corpusId, configYaml),
-      t("corpus.configuring"),
-      `corpus/${corpusId}/config`
-    );
-    store.commit("setConfig", { corpusId, config });
+    await uploadConfig(config);
     router.push(`/corpus/${corpusId}`);
   } catch (reason) {
     message.value = reason.response ? reason.response.data.message : reason;

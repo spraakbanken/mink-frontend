@@ -3,7 +3,11 @@ import { useStore } from "vuex";
 import { api } from "@/assets/api";
 import useSpin from "@/assets/spin";
 import useCorpusIdParam from "./corpusIdParam";
-import { makeConfig, parseConfig } from "@/assets/corpusConfig";
+import {
+  makeConfig,
+  makeEmptyConfig,
+  parseConfig,
+} from "@/assets/corpusConfig";
 import useTh from "./th";
 import { useI18n } from "vue-i18n";
 
@@ -31,12 +35,7 @@ export default function useConfig(corpusIdArg) {
         if (error.response?.status == 404) {
           store.commit("setConfig", {
             corpusId: corpusIdFixed,
-            config: parseConfig(
-              makeConfig(corpusIdFixed, {
-                name: { swe: "", eng: "" },
-                description: { swe: "", eng: "" },
-              })
-            ),
+            config: parseConfig(makeEmptyConfig()),
           });
         }
       })
@@ -46,9 +45,21 @@ export default function useConfig(corpusIdArg) {
       });
   }
 
+  async function uploadConfig(config) {
+    const corpusIdFixed = corpusId.value;
+    const configYaml = makeConfig(corpusIdFixed, config);
+    await spin(
+      api.uploadConfig(corpusIdFixed, configYaml),
+      t("corpus.configuring"),
+      token.value
+    );
+    store.commit("setConfig", { corpusIdFixed, config });
+  }
+
   return {
     config,
     loadConfig,
     corpusName,
+    uploadConfig,
   };
 }

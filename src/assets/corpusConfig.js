@@ -87,6 +87,13 @@ export function makeConfig(id, options) {
   return yaml.dump(config);
 }
 
+export function makeEmptyConfig(corpusId) {
+  return makeConfig(corpusId, {
+    name: { swe: "", eng: "" },
+    description: { swe: "", eng: "" },
+  });
+}
+
 export function parseConfig(configYaml) {
   const config = yaml.load(configYaml);
   return {
