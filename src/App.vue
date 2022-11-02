@@ -43,6 +43,8 @@
     <AdminModeBanner />
   </header>
 
+  <MessageToasts :messages="messengerMessages" />
+
   <div class="container py-2">
     <router-view />
   </div>
@@ -55,20 +57,25 @@
 </template>
 
 <script setup>
-import { api } from "./assets/api";
 import { useStore } from "vuex";
+import { api } from "@/assets/api";
 import useSpin from "@/assets/spin";
+import { useJwt } from "@/composables/jwt";
+import useMessenger from "@/composables/messenger";
 import Spinner from "@/components/Spinner.vue";
 import LocaleSwitcher from "@/components/LocaleSwitcher.vue";
-import { useJwt } from "./composables/jwt";
-import AdminModeBanner from "./components/AdminModeBanner.vue";
+import AdminModeBanner from "@/components/AdminModeBanner.vue";
+import MessageToasts from "@/components/MessageToasts.vue";
 
 const store = useStore();
 const { messages } = useSpin();
 const { refreshJwt, payload } = useJwt();
+const { handleResponse, messages: messengerMessages } = useMessenger();
 
 // Fetch JWT and use it for all API requests.
 refreshJwt();
+
+api.setResponseHandler(handleResponse);
 
 if (import.meta.env.DEV) {
   window.state = store.state;
