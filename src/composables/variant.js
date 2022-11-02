@@ -9,8 +9,16 @@ export const variantProps = {
   },
 };
 
-export function useVariant(variantProp) {
-  const variantClass = computed(() => variantProp && `mink-${variantProp}`);
+/**
+ * The expected usage is to include `variantProps` in `defineProps`
+ * and then pass the `variant` prop to `useVariant`. For proper reactivity,
+ * pass a constant function instead of the direct value.
+ *
+ *     const props = defineProps({ ...variantProps });
+ *     const { variantClass } = useVariant(() => props.variant);
+ */
+export function useVariant(getVariant) {
+  const variantClass = computed(() => getVariant() && `mink-${getVariant()}`);
 
   return {
     variantClass,

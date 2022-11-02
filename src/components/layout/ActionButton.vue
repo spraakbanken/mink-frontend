@@ -12,7 +12,7 @@ import { useVariant, variantProps } from "@/composables/variant";
 
 const props = defineProps({ ...variantProps, disabled: Boolean });
 
-const { variantClass } = useVariant(props.variant);
+const { variantClass } = useVariant(() => props.variant);
 </script>
 
 <style scoped>
