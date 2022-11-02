@@ -6,6 +6,7 @@
       </div>
       <div class="text-sm">
         <ActionButton
+          v-if="!isJobRunning"
           :variant="isReady ? 'primary' : null"
           :disabled="!canRun"
           @click="canRun ? runJob() : null"

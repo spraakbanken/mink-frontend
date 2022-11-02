@@ -81,6 +81,7 @@ export default function useJob(corpusIdArg) {
     loadJob,
     runJob,
     abortJob,
+    install,
     jobStatus,
     isJobStarted,
     isJobRunning,
