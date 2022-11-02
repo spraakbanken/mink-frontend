@@ -6,6 +6,7 @@ class MinkApi {
   constructor(jwt) {
     this.axios = Axios.create({
       baseURL: "https://ws.spraakbanken.gu.se/ws/min-sb/",
+      withCredentials: true,
     });
     this.setJwt(jwt);
   }
@@ -145,6 +146,16 @@ class MinkApi {
     const response = await this.axios.put("install-corpus", null, {
       params: { corpus_id: corpusId },
     });
+    return response.data;
+  }
+
+  async adminModeOn() {
+    const response = await this.axios.post("admin-mode-on");
+    return response.data;
+  }
+
+  async adminModeOff() {
+    const response = await this.axios.post("admin-mode-off");
     return response.data;
   }
 }
