@@ -15,7 +15,7 @@ import { useAttrs } from "@vue/runtime-core";
 const props = defineProps({ ...variantProps });
 
 const attrs = useAttrs();
-const { variantClass } = useVariant(props.variant);
+const { variantClass } = useVariant(() => props.variant);
 
 const clickable = computed(() => !!attrs.onClick);
 </script>
