@@ -23,7 +23,7 @@ function toggleExpand() {
 
 <template>
   <div v-if="text" class="relative bg-zinc-700 rounded shadow-inner text-sm">
-    <div class="absolute z-10 top-2 right-2 flex gap-2">
+    <div class="absolute z-10 bottom-2 right-2 flex gap-2">
       <ActionButton @click="toggleExpand">
         <template v-if="expanded">
           <icon :icon="['far', 'square-minus']" class="mr-1" />
@@ -37,14 +37,14 @@ function toggleExpand() {
       </ActionButton>
       <ActionButton @click="download">
         <icon :icon="['far', 'file']" class="mr-1" />
-        Ladda ner
+        {{ t("download") }}
       </ActionButton>
     </div>
     <div
-      class="text-white overflow-hidden whitespace-pre-wrap font-mono text-xs p-2"
+      class="text-white overflow-hidden whitespace-pre-wrap font-mono text-xs p-2 pb-10"
       :class="{ 'h-20': !expanded }"
     >
-      {{ text }}
+      {{ expanded ? text : text.slice(0, 800) }}
     </div>
   </div>
 </template>

@@ -13,13 +13,13 @@
             {{ formatDate(metadata.last_modified) }}
           </td>
         </tr>
-        <tr>
-          <th>{{ $t("original") }}</th>
+        <tr v-if="isText">
+          <th>{{ $t("source.content") }}</th>
           <td>
             <SourceText :load="loadRaw" :filename="metadata.name" />
           </td>
         </tr>
-        <tr v-if="metadata.type != 'text/plain'">
+        <tr v-if="isText && !isPlaintext">
           <th>{{ $t("txt") }}</th>
           <td>
             <SourceText
@@ -60,6 +60,8 @@ const metadata = computed(() =>
     (source) => source.name === props.filename
   )
 );
+const isText = computed(() => metadata.value.type.indexOf("text/") === 0);
+const isPlaintext = computed(() => metadata.value.type == "text/plain");
 
 async function loadRaw() {
   return await downloadSource(metadata.value);
