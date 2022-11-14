@@ -23,6 +23,7 @@ function toggleExpand() {
 
 <template>
   <div
+    v-if="text"
     class="relative rounded shadow-inner overflow-hidden text-sm"
     :class="{ 'h-20': !expanded }"
   >
