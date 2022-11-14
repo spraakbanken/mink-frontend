@@ -27,6 +27,8 @@
   "user.admin_mode.warning": "Administrationsläget är aktiverat. Var försiktig!",
   "errors": "Fel",
   "error.message": "Ett fel hände",
+  "expand.open": "Visa mer",
+  "expand.close": "Visa mindre",
   "en": "Engelska",
   "sv": "Svenska",
   "metadata": "Metadata",

@@ -27,6 +27,8 @@
   "user.admin_mode.warning": "Administration mode is enabled. Please be careful!",
   "errors": "Errors",
   "error.message": "There was an error",
+  "expand.open": "Show more",
+  "expand.close": "Show less",
   "en": "English",
   "sv": "Swedish",
   "metadata": "Metadata",

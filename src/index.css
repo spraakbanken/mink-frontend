@@ -56,7 +56,7 @@ tr {
 }
 
 th {
-  @apply text-left font-medium
+  @apply text-left font-medium pr-2
 }
 
 pre {
