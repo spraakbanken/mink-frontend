@@ -1,7 +1,7 @@
 <script setup>
-import { downloadFile } from "@/util";
 import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { downloadFile } from "@/util";
 import ActionButton from "./layout/ActionButton.vue";
 
 const { t } = useI18n();
@@ -22,11 +22,7 @@ function toggleExpand() {
 </script>
 
 <template>
-  <div
-    v-if="text"
-    class="relative rounded shadow-inner overflow-hidden text-sm"
-    :class="{ 'h-20': !expanded }"
-  >
+  <div v-if="text" class="relative bg-zinc-700 rounded shadow-inner text-sm">
     <div class="absolute z-10 top-2 right-2 flex gap-2">
       <ActionButton @click="toggleExpand">
         <template v-if="expanded">
@@ -45,13 +41,16 @@ function toggleExpand() {
       </ActionButton>
     </div>
     <div
-      class="bg-zinc-700 text-white whitespace-pre-wrap font-mono text-xs p-2"
+      class="text-white overflow-hidden whitespace-pre-wrap font-mono text-xs p-2"
+      :class="{ 'h-20': !expanded }"
     >
       {{ text }}
     </div>
-    <div
-      v-if="!expanded"
-      class="absolute w-full h-20 bg-gradient-to-t from-zinc-700 bottom-0"
-    ></div>
   </div>
 </template>
+
+<style scoped>
+.h-20 {
+  mask-image: linear-gradient(black 50%, transparent);
+}
+</style>
