@@ -23,12 +23,20 @@ function toggleExpand() {
 
 <template>
   <div
-    class="relative rounded shadow-inner overflow-hidden"
+    class="relative rounded shadow-inner overflow-hidden text-sm"
     :class="{ 'h-20': !expanded }"
   >
     <div class="absolute z-10 top-2 right-2 flex gap-2">
       <ActionButton @click="toggleExpand">
-        {{ expanded ? t("expand.close") : t("expand.open") }}
+        <template v-if="expanded">
+          <icon :icon="['far', 'square-minus']" class="mr-1" />
+          {{ t("expand.close") }}
+        </template>
+        <template v-else>
+          <icon :icon="['far', 'square-plus']" class="mr-1" />
+
+          {{ t("expand.open") }}
+        </template>
       </ActionButton>
       <ActionButton @click="download">
         <icon :icon="['far', 'file']" class="mr-1" />
