@@ -16,19 +16,17 @@
         <tr>
           <th>{{ $t("original") }}</th>
           <td>
-            <ActionButton @click="downloadRaw">
-              <icon :icon="['far', 'file']" class="mr-1" />
-              {{ $t("download") }}
-            </ActionButton>
+            <SourceText :load="loadRaw" :filename="metadata.name" />
           </td>
         </tr>
         <tr v-if="metadata.type != 'text/plain'">
           <th>{{ $t("txt") }}</th>
           <td>
-            <ActionButton v-if="isJobDone" @click="downloadPlain">
-              <icon :icon="['far', 'file-lines']" class="mr-1" />
-              {{ $t("download") }}
-            </ActionButton>
+            <SourceText
+              v-if="isJobDone"
+              :load="loadPlain"
+              :filename="ensureExtension(metadata.name, 'txt')"
+            />
             <div class="text-sm py-1">
               {{ $t("source_text_help") }}
             </div>
@@ -40,13 +38,13 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
+import { computed } from "vue";
 import { useStore } from "vuex";
+import { ensureExtension, formatDate } from "@/util";
 import Section from "@/components/layout/Section.vue";
-import { downloadFile, ensureExtension, formatDate } from "@/util";
-import ActionButton from "@/components/layout/ActionButton.vue";
 import useJob from "@/composables/job";
 import useSources from "@/composables/sources";
+import SourceText from "@/components/SourceText.vue";
 
 const props = defineProps({
   corpusId: { type: String, required: true },
@@ -63,14 +61,12 @@ const metadata = computed(() =>
   )
 );
 
-async function downloadRaw() {
-  const data = await downloadSource(metadata.value);
-  downloadFile(data, metadata.value.name);
+async function loadRaw() {
+  return await downloadSource(metadata.value);
 }
 
-async function downloadPlain() {
-  const data = await downloadPlaintext(metadata.value);
-  downloadFile(data, ensureExtension(metadata.value.name, "txt"));
+async function loadPlain() {
+  return await downloadPlaintext(metadata.value);
 }
 </script>
 

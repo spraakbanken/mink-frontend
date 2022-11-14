@@ -8,6 +8,7 @@ import {
   faFileLines,
   faFileZipper,
   faFloppyDisk,
+  faSquareMinus,
   faSquarePlus,
   faTrashCan,
 } from "@fortawesome/free-regular-svg-icons";
@@ -29,6 +30,7 @@ library.add(
   faPen,
   faPersonRunning,
   faRightToBracket,
+  faSquareMinus,
   faSquarePlus,
   faTrashCan,
   faTriangleExclamation
