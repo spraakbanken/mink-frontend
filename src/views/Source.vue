@@ -13,10 +13,14 @@
             {{ formatDate(metadata.last_modified) }}
           </td>
         </tr>
-        <tr v-if="isText">
+        <tr>
           <th>{{ $t("source.content") }}</th>
           <td>
-            <SourceText :load="loadRaw" :filename="metadata.name" />
+            <SourceText
+              :load="loadRaw"
+              :filename="metadata.name"
+              :no-load="!isText"
+            />
           </td>
         </tr>
         <tr v-if="isText && !isPlaintext">

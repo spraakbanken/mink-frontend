@@ -6,14 +6,18 @@ import ActionButton from "./layout/ActionButton.vue";
 
 const { t } = useI18n();
 
-const props = defineProps(["load", "filename"]);
+const props = defineProps(["load", "filename", "noLoad"]);
 const text = ref();
 const expanded = ref(false);
+let loadPromise = null;
 
-onMounted(async () => (text.value = await props.load()));
+onMounted(async () => {
+  loadPromise = props.load();
+  if (!props.noLoad) text.value = await loadPromise;
+});
 
-function download() {
-  downloadFile(text.value, props.filename || "mink-source");
+async function download() {
+  downloadFile(await loadPromise, props.filename || "mink-source");
 }
 
 function toggleExpand() {
@@ -46,6 +50,12 @@ function toggleExpand() {
     >
       {{ expanded ? text : text.slice(0, 800) }}
     </div>
+  </div>
+  <div v-else>
+    <ActionButton @click="download">
+      <icon :icon="['far', 'file']" class="mr-1" />
+      {{ t("download") }}
+    </ActionButton>
   </div>
 </template>
 
