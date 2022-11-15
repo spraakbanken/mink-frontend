@@ -1,14 +1,14 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}/exports`">
     <h3 class="text-lg uppercase">Korp</h3>
-    <p>Use this data in Språkbanken's corpus search tool.</p>
+    <p>{{ t("exports.korp.help") }}</p>
     <div class="flex flex-wrap gap-2 mb-1">
       <ActionButton
         :variant="isDone && !isInstalled ? 'primary' : null"
         :disabled="!isDone"
         @click="isDone ? korpInstall() : null"
       >
-        Install in Korp
+        {{ t("exports.korp.install") }}
       </ActionButton>
 
       <a
@@ -16,13 +16,17 @@
         :href="`https://spraakbanken.gu.se/korplabb/?mode=mink&corpus=${corpusId}`"
         target="_blank"
       >
-        <ActionButton variant="primary"> View in Korp </ActionButton>
+        <ActionButton variant="primary">
+          {{ t("exports.korp.view") }}
+        </ActionButton>
       </a>
-      <ActionButton v-else disabled> View in Korp </ActionButton>
+      <ActionButton v-else disabled>
+        {{ t("exports.korp.view") }}
+      </ActionButton>
     </div>
 
-    <h3 class="text-lg uppercase mt-4">Download</h3>
-    <p>Output XML files can be processed by custom scripts etc.</p>
+    <h3 class="text-lg uppercase mt-4">{{ t("download") }}</h3>
+    <p>{{ t("exports.download.help") }}</p>
 
     <div class="flex flex-wrap items-baseline gap-4">
       <ActionButton v-if="exports && exports.length" @click="downloadFull">
@@ -34,13 +38,14 @@
         v-if="exports && exports.length"
         :to="`/corpus/${corpusId}/exports`"
       >
-        More files...
+        {{ t("exports.download.more") }}
       </router-link>
     </div>
   </PendingContent>
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
 import { downloadFile } from "@/util";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import useExports from "@/composables/exports";
@@ -49,6 +54,7 @@ import useJob from "@/composables/job";
 import ActionButton from "./layout/ActionButton.vue";
 import PendingContent from "./PendingContent.vue";
 
+const { t } = useI18n();
 const corpusId = useCorpusIdParam();
 const { loadExports, exports, downloadResult } = useExports(corpusId);
 const { isDone } = useCorpusState(corpusId);

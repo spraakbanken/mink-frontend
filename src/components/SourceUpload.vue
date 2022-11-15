@@ -13,11 +13,12 @@
         {{ $t("addFile") }}
       </label>
       <div class="p-8">
-        <div class="flex justify-center items-center">
-          {{ $t("dragANDdrop") }}:
+        <div class="flex flex-col justify-center items-center opacity-60">
+          <label for="file-input">{{ $t("dragANDdrop") }}</label>
           <input
+            id="file-input"
             type="file"
-            class="ml-2"
+            class="hidden"
             multiple
             @change="(event) => fileHandler(event.target.files)"
           />

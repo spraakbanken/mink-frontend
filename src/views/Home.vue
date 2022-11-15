@@ -28,7 +28,7 @@
       :variant="hasCorpora ? null : 'primary'"
     />
     <Help>
-      <p>To start processing your text files, drop them in the area above.</p>
+      <p>{{ t("home.help.upload") }}</p>
     </Help>
   </Section>
 </template>
@@ -36,6 +36,7 @@
 <script setup>
 import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
+import { useI18n } from "vue-i18n";
 import PadButton from "@/components/layout/PadButton.vue";
 import Section from "@/components/layout/Section.vue";
 import PendingContent from "@/components/PendingContent.vue";
@@ -45,6 +46,7 @@ import SourceUpload from "@/components/SourceUpload.vue";
 import Help from "@/components/Help.vue";
 import useCorpora from "@/composables/corpora";
 
+const { t } = useI18n();
 const store = useStore();
 const { requireAuthentication, isAuthenticated } = useJwt();
 const { loadCorpora, createFromUpload } = useCorpora();
