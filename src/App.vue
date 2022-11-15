@@ -43,7 +43,7 @@
     <AdminModeBanner />
   </header>
 
-  <MessageToasts :messages="messengerMessages" />
+  <MessageToasts />
 
   <div class="container py-2">
     <router-view />
@@ -70,7 +70,7 @@ import MessageToasts from "@/components/MessageToasts.vue";
 const store = useStore();
 const { messages } = useSpin();
 const { refreshJwt, payload } = useJwt();
-const { handleResponse, messages: messengerMessages } = useMessenger();
+const { handleResponse } = useMessenger();
 
 // Fetch JWT and use it for all API requests.
 refreshJwt();

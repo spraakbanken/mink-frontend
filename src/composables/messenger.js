@@ -1,19 +1,22 @@
 import { ref } from "vue";
 
-export default function useMessenger() {
-  const messages = ref([]);
+const alerts = ref([]); // {message, status}[]
 
-  function handleResponse({ message, status }) {
+export default function useMessenger() {
+  function handleResponse(response) {
+    if (!response.message) return;
+    const { message, status } = response;
     if (message && status !== "success") {
       // Add message.
-      messages.value.push({ message, status: status || "debug" });
+      console.log("add", message, status);
+      alerts.value.push({ message, status: status || "debug" });
       // Remove it after a while.
-      setTimeout(() => messages.value.shift(), 5000);
+      setTimeout(() => alerts.value.shift(), 5000);
     }
   }
 
   return {
     handleResponse,
-    messages,
+    alerts,
   };
 }

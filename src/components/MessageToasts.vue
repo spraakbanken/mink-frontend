@@ -1,11 +1,13 @@
 <script setup>
-defineProps({ messages: { type: Array, required: true } });
+import useMessenger from "@/composables/messenger";
+
+const { alerts } = useMessenger();
 </script>
 
 <template>
   <aside class="container max-w-3xl my-4 sticky top-2 z-50">
     <div
-      v-for="{ message, status } in messages"
+      v-for="{ message, status } in alerts"
       :key="message"
       class="opacity-80 rounded-lg my-2 text-white p-2 px-4 shadow-lg"
       :class="status == 'error' ? ['bg-red-500'] : ['bg-gray-400']"
