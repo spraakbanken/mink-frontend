@@ -8,7 +8,7 @@ export default function useMessenger() {
       // Add message.
       messages.value.push({ message, status: status || "debug" });
       // Remove it after a while.
-      setTimeout(() => messages.value.shift(), 3000);
+      setTimeout(() => messages.value.shift(), 5000);
     }
   }
 

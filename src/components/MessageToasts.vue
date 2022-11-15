@@ -3,7 +3,7 @@ defineProps({ messages: { type: Array, required: true } });
 </script>
 
 <template>
-  <aside class="container my-2">
+  <aside class="container max-w-3xl my-4 sticky top-2 z-50">
     <div
       v-for="{ message, status } in messages"
       :key="message"

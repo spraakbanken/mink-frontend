@@ -21,18 +21,39 @@ class MinkApi {
 
   /** Sets a function to handle all responses. */
   setResponseHandler(handleResponse) {
-    this.handleResponse = handleResponse;
+    // Remove any previous handler.
+    if (this.responseInterceptor) {
+      this.axios.interceptors.response.eject(this.responseInterceptor);
+    }
+    // Set new handler.
+    this.responseInterceptor = this.axios.interceptors.response.use(
+      (response) => {
+        handleResponse(response.data);
+        return response;
+      },
+      (error) => {
+        handleResponse(error.response.data);
+        throw error;
+      }
+    );
+  }
+
+  async request(method, path, ...args) {
+    return this.axios[method](path, ...args)
+      .then((response) => {
+        this.handleResponse(response.data);
+        return response;
+      })
+      .catch();
   }
 
   async listCorpora() {
     const response = await this.axios.get("list-corpora");
-    this.handleResponse(response.data);
     return response.data.corpora;
   }
 
   async createCorpus() {
     const response = await this.axios.post("create-corpus", null, {});
-    this.handleResponse(response.data);
     return response.data.corpus_id;
   }
 
@@ -40,7 +61,6 @@ class MinkApi {
     const response = await this.axios.delete("remove-corpus", {
       params: { corpus_id: corpusId },
     });
-    this.handleResponse(response.data);
     return response.data;
   }
 
@@ -51,7 +71,6 @@ class MinkApi {
     const response = await this.axios.put("upload-config", formData, {
       params: { corpus_id: corpusId },
     });
-    this.handleResponse(response.data);
     return response.data;
   }
 
@@ -59,7 +78,6 @@ class MinkApi {
     const response = await this.axios.get("list-sources", {
       params: { corpus_id: corpusId },
     });
-    this.handleResponse(response.data);
     return response.data.contents;
   }
 
@@ -67,7 +85,6 @@ class MinkApi {
     const response = await this.axios.get("download-sources", {
       params: { corpus_id: corpusId, file: filename, zip: false },
     });
-    this.handleResponse(response.data);
     return response.data;
   }
 
@@ -75,7 +92,6 @@ class MinkApi {
     const response = await this.axios.get("download-source-text", {
       params: { corpus_id: corpusId, file: filename },
     });
-    this.handleResponse(response.data);
     return response.data;
   }
 
@@ -89,7 +105,6 @@ class MinkApi {
       .catch((error) => {
         if (error.response) throw TypeError(error.response.data.info);
       });
-    this.handleResponse(response.data);
     return response.data;
   }
 
@@ -97,7 +112,6 @@ class MinkApi {
     const response = await this.axios.delete("remove-sources", {
       params: { corpus_id: corpusId, remove: name },
     });
-    this.handleResponse(response.data);
     return response.data;
   }
 
@@ -105,7 +119,6 @@ class MinkApi {
     const response = await this.axios.get("download-config", {
       params: { corpus_id: corpusId },
     });
-    this.handleResponse(response.data);
     return response.data;
   }
 
@@ -117,7 +130,6 @@ class MinkApi {
     const response = await this.axios.get("check-status", {
       params: { corpus_id: corpusId },
     });
-    this.handleResponse(response.data);
     return response.data;
   }
 
@@ -126,7 +138,6 @@ class MinkApi {
       .put("run-sparv", null, { params: { corpus_id: corpusId } })
       // Errors are okay.
       .catch((reason) => reason.response);
-    this.handleResponse(response.data);
     return response.data;
   }
 
@@ -134,7 +145,6 @@ class MinkApi {
     const response = await this.axios.post("abort-job", null, {
       params: { corpus_id: corpusId },
     });
-    this.handleResponse(response.data);
     return response.data;
   }
 
@@ -142,7 +152,6 @@ class MinkApi {
     const response = await this.axios.get("list-exports", {
       params: { corpus_id: corpusId },
     });
-    this.handleResponse(response.data);
     return response.data.contents;
   }
 
@@ -151,7 +160,6 @@ class MinkApi {
       params: { corpus_id: corpusId },
       responseType: "blob",
     });
-    this.handleResponse(response.data);
     return response.data;
   }
 
@@ -164,7 +172,6 @@ class MinkApi {
       },
       responseType: "blob",
     });
-    this.handleResponse(response.data);
     return response.data;
   }
 
@@ -172,19 +179,16 @@ class MinkApi {
     const response = await this.axios.put("install-corpus", null, {
       params: { corpus_id: corpusId },
     });
-    this.handleResponse(response.data);
     return response.data;
   }
 
   async adminModeOn() {
     const response = await this.axios.post("admin-mode-on");
-    this.handleResponse(response.data);
     return response.data;
   }
 
   async adminModeOff() {
     const response = await this.axios.post("admin-mode-off");
-    this.handleResponse(response.data);
     return response.data;
   }
 }
