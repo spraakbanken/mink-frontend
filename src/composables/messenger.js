@@ -3,9 +3,7 @@ import { ref } from "vue";
 const alerts = ref([]); // {message, status}[]
 
 export default function useMessenger() {
-  function handleResponse(response) {
-    if (!response.message) return;
-    const { message, status } = response;
+  function alert(message, status) {
     if (message && status !== "success") {
       // Add message.
       alerts.value.push({ message, status: status || "debug" });
@@ -15,7 +13,7 @@ export default function useMessenger() {
   }
 
   return {
-    handleResponse,
+    alert,
     alerts,
   };
 }

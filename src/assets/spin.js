@@ -19,7 +19,7 @@ export default function useSpin() {
    */
   function spin(promise, message = null, token = null) {
     // Add to watchlist.
-    unsettled.value.push({ promise, message: message });
+    unsettled.value.push({ promise, message });
     if (token) {
       store.commit("setPending", token);
     }

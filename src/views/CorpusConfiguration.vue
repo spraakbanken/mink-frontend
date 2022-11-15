@@ -153,6 +153,7 @@ import { useRouter } from "vue-router";
 import { FORMATS_EXT, SEGMENTERS, makeConfig } from "@/assets/corpusConfig";
 import { useI18n } from "vue-i18n";
 import TaggedInput from "@/components/TaggedInput.vue";
+import useMessenger from "@/composables/messenger";
 
 const router = useRouter();
 const store = useStore();
@@ -160,6 +161,7 @@ const { spin } = useSpin();
 const corpusId = useCorpusIdParam();
 const { config, loadConfig } = useConfig(corpusId);
 const { t } = useI18n();
+const { alert } = useMessenger();
 
 const name = ref({ ...config.value?.name });
 const description = ref({ ...config.value?.description });
@@ -184,14 +186,18 @@ async function save() {
     datetimeFrom: datetimeFrom.value,
     datetimeTo: datetimeTo.value,
   };
-  const configYaml = makeConfig(corpusIdFixed, configNew);
-  await spin(
-    api.uploadConfig(corpusIdFixed, configYaml),
-    t("config.saving"),
-    `corpus/${corpusIdFixed}/config`
-  );
-  store.commit("setConfig", { corpusId: corpusIdFixed, config: configNew });
-  router.push(`/corpus/${corpusIdFixed}`);
+  try {
+    const configYaml = makeConfig(corpusIdFixed, configNew);
+    await spin(
+      api.uploadConfig(corpusIdFixed, configYaml),
+      t("config.saving"),
+      `corpus/${corpusIdFixed}/config`
+    );
+    store.commit("setConfig", { corpusId: corpusIdFixed, config: configNew });
+    router.push(`/corpus/${corpusIdFixed}`);
+  } catch (e) {
+    alert(e, "error");
+  }
 }
 </script>
 

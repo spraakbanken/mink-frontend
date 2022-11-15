@@ -7,6 +7,7 @@ import { useJwt } from "./jwt";
 import { emptyConfig } from "@/assets/corpusConfig";
 import useConfig from "./config";
 import useSources from "./sources";
+import useMessenger from "./messenger";
 
 export default function useCorpora() {
   const store = useStore();
@@ -16,6 +17,7 @@ export default function useCorpora() {
   const { refreshJwt } = useJwt();
   const { uploadConfig } = useConfig();
   const { upload } = useSources();
+  const { alert } = useMessenger();
 
   async function loadCorpora() {
     return spin(api.listCorpora(), t("corpus.list.loading"), "corpora").then(
@@ -55,10 +57,17 @@ export default function useCorpora() {
     };
 
     const corpusId = await createCorpus();
-    await uploadConfig(config, corpusId);
-    store.commit("addCorpus", corpusId);
-    router.push(`/corpus/${corpusId}`);
-    return corpusId;
+    try {
+      await uploadConfig(config, corpusId);
+      store.commit("addCorpus", corpusId);
+      router.push(`/corpus/${corpusId}`);
+      return corpusId;
+    } catch (e) {
+      alert(e, "error");
+      await api.removeCorpus(corpusId);
+      store.commit("removeCorpus", corpusId);
+      await refreshJwt();
+    }
   }
 
   return {

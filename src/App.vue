@@ -70,12 +70,14 @@ import MessageToasts from "@/components/MessageToasts.vue";
 const store = useStore();
 const { messages } = useSpin();
 const { refreshJwt, payload } = useJwt();
-const { handleResponse } = useMessenger();
+const { alert } = useMessenger();
 
 // Fetch JWT and use it for all API requests.
 refreshJwt();
 
-api.setResponseHandler(handleResponse);
+api.setResponseHandler(
+  (data) => data.message && alert(data.message, data.status)
+);
 
 if (import.meta.env.DEV) {
   window.state = store.state;

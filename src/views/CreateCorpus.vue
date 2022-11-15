@@ -65,7 +65,6 @@
       </div>
     </PendingContent>
   </Section>
-  <div>{{ message }}</div>
 </template>
 
 <script setup>
@@ -85,7 +84,6 @@ const name = ref("");
 const description = ref("");
 const fileFormat = ref("txt");
 const textAnnotation = ref("");
-const message = ref(null);
 
 requireAuthentication();
 

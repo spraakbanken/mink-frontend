@@ -38,22 +38,13 @@ class MinkApi {
     );
   }
 
-  async request(method, path, ...args) {
-    return this.axios[method](path, ...args)
-      .then((response) => {
-        this.handleResponse(response.data);
-        return response;
-      })
-      .catch();
-  }
-
   async listCorpora() {
     const response = await this.axios.get("list-corpora");
     return response.data.corpora;
   }
 
   async createCorpus() {
-    const response = await this.axios.post("create-corpus", null, {});
+    const response = await this.axios.post("create-corpus");
     return response.data.corpus_id;
   }
 

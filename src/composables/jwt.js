@@ -1,6 +1,5 @@
 import useSpin from "@/assets/spin";
 import { checkLogin } from "@/auth";
-import { sleep } from "@/util";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter, useRoute } from "vue-router";
