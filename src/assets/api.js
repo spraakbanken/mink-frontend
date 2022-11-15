@@ -125,8 +125,7 @@ class MinkApi {
     const response = await this.axios
       .put("run-sparv", null, { params: { corpus_id: corpusId } })
       // Errors are okay.
-      .catch((reason) => reason.response)
-      .then((response) => response.data);
+      .catch((reason) => reason.response);
     this.handleResponse(response.data);
     return response.data;
   }
