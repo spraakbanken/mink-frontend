@@ -9,10 +9,10 @@ export default function useExports(corpusId) {
   const { spin } = useSpin();
   const { t } = useI18n();
   const exports = computed(() => store.state.corpora[corpusId]?.exports);
-  const token = computed(() => `corpus/${corpusId.value}/exports`);
+  const token = `corpus/${corpusId.value}/exports`;
 
   function loadExports() {
-    spin(api.listExports(corpusId), t("exports.loading"), token.value).then(
+    spin(api.listExports(corpusId), t("exports.loading"), token).then(
       (exports) => store.commit("setExports", { corpusId, exports })
     );
   }
@@ -21,7 +21,7 @@ export default function useExports(corpusId) {
     return spin(
       api.downloadExports(corpusId),
       "Laddar ner analysresultat",
-      token.value
+      token
     );
   }
 
@@ -29,7 +29,7 @@ export default function useExports(corpusId) {
     return spin(
       api.downloadExportFile(corpusId, fileName),
       "Laddar ner analysresultat",
-      token.value
+      token
     );
   }
 

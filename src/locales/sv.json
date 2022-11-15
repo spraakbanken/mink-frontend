@@ -8,7 +8,7 @@
   "corpus.state.empty": "Inga filer",
   "corpus.state.unconfigured": "Behöver konfigureras",
   "corpus.state.ready": "Klar att köra",
-  "corpus.state.running": "Kör...",
+  "corpus.state.running": "Jobbar",
   "corpus.state.failed": "Fel",
   "corpus.state.done": "Färdig",
   "corpus.state.help.empty": "There are no sources in this collection. Upload some text files below.",

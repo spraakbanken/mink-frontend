@@ -18,11 +18,11 @@ export default function useConfig(corpusId) {
   const { th } = useTh();
 
   const config = computed(() => store.state.corpora[corpusId]?.config);
-  const token = computed(() => `corpus/${corpusId}/config`);
+  const token = `corpus/${corpusId}/config`;
   const corpusName = computed(() => config.value && th(config.value.name));
 
   function loadConfig() {
-    return spin(api.downloadConfig(corpusId), t("config.loading"), token.value)
+    return spin(api.downloadConfig(corpusId), t("config.loading"), token)
       .catch((error) => {
         // Save empty config.
         if (error.response?.status == 404) {
@@ -44,7 +44,7 @@ export default function useConfig(corpusId) {
     await spin(
       api.uploadConfig(corpusIdFixed, configYaml),
       t("corpus.configuring"),
-      token.value
+      token
     );
     store.commit("setConfig", { corpusId: corpusIdFixed, config });
   }

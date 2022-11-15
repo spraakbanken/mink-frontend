@@ -10,19 +10,16 @@ export default function useSources(corpusId) {
   const { t } = useI18n();
 
   const sources = computed(() => store.state.corpora[corpusId]?.sources || []);
-  const token = computed(() => `corpus/${corpusId}/sources`);
+  const token = `corpus/${corpusId}/sources`;
 
   function loadSources(corpusIdArg) {
     const corpusIdFixed = corpusIdArg || corpusId;
-    spin(
-      api.listSources(corpusIdFixed),
-      t("source.list.loading"),
-      token.value
-    ).then((sourcesFetched) =>
-      store.commit("setSources", {
-        corpusId: corpusIdFixed,
-        sources: sourcesFetched,
-      })
+    spin(api.listSources(corpusIdFixed), t("source.list.loading"), token).then(
+      (sourcesFetched) =>
+        store.commit("setSources", {
+          corpusId: corpusIdFixed,
+          sources: sourcesFetched,
+        })
     );
   }
 
@@ -30,7 +27,7 @@ export default function useSources(corpusId) {
     await spin(
       api.removeSource(corpusId, source.name),
       t("source.deleting"),
-      token.value
+      token
     );
     loadSources();
   }
@@ -43,7 +40,7 @@ export default function useSources(corpusId) {
         .uploadSources(corpusIdFixed, files)
         .then(() => loadSources(corpusIdFixed)),
       message,
-      token.value
+      token
     );
   }
 
@@ -51,7 +48,7 @@ export default function useSources(corpusId) {
     return spin(
       api.downloadSourceFile(corpusId, source.name),
       t("source.downloading"),
-      token.value
+      token
     );
   }
 
@@ -59,7 +56,7 @@ export default function useSources(corpusId) {
     return spin(
       api.downloadSourceText(corpusId, source.name),
       t("source.downloading_plain"),
-      token.value
+      token
     );
   }
 

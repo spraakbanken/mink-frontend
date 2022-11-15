@@ -13,43 +13,42 @@ import { useStore } from "vuex";
 import { useI18n } from "vue-i18n";
 
 export default function useJob(corpusId) {
-  corpusId = { value: corpusId };
   const store = useStore();
   const { spin } = useSpin();
   const { t } = useI18n();
-  const token = computed(() => `corpus/${corpusId.value}/job`);
+  const token = `corpus/${corpusId}/job`;
 
   let loadJobTimer = null;
 
   async function loadJob(corpusIdArg) {
-    const corpusIdFixed = corpusIdArg || corpusId.value;
-    return spin(api.checkStatus(corpusIdFixed), t("job.loading"), token.value)
+    const corpusIdFixed = corpusIdArg || corpusId;
+    return spin(api.checkStatus(corpusIdFixed), t("job.loading"), token)
       .then((status) => recordJobStatus(corpusIdFixed, status))
       .catch(() => recordJobStatus(corpusIdFixed, {}));
   }
 
   async function runJob() {
-    const corpusIdFixed = corpusId.value;
+    const corpusIdFixed = corpusId;
     const status = await spin(
       api.runSparv(corpusIdFixed),
       t("job.starting"),
-      token.value
+      token
     );
     recordJobStatus(corpusIdFixed, status);
   }
 
   async function install() {
-    const corpusIdFixed = corpusId.value;
+    const corpusIdFixed = corpusId;
     const status = await spin(
       api.installCorpus(corpusIdFixed),
       t("job.installing"),
-      token.value
+      token
     );
     recordJobStatus(corpusIdFixed, status);
   }
 
   async function abortJob() {
-    await spin(api.abortJob(corpusId.value), t("job.aborting"), token.value);
+    await spin(api.abortJob(corpusId), t("job.aborting"), token);
     await loadJob();
   }
 
@@ -57,13 +56,13 @@ export default function useJob(corpusId) {
     store.commit("setStatus", { corpusId, status });
     // Refresh automatically.
     if (isJobRunning.value)
-      loadJobTimer = setTimeout(() => loadJob(corpusId, token.value), 2000);
+      loadJobTimer = setTimeout(() => loadJob(corpusId, token), 2000);
   }
 
   // Whichever component triggered loadJob, if it disappears, stop polling.
   onUnmounted(() => clearTimeout(loadJobTimer));
 
-  const jobStatus = computed(() => store.state.corpora[corpusId.value]?.status);
+  const jobStatus = computed(() => store.state.corpora[corpusId]?.status);
   const jobStatusId = computed(() => jobStatus.value?.job_status);
   const isJobStarted = computed(() => isStatusStarted(jobStatusId.value));
   const isJobRunning = computed(() => isStatusRunning(jobStatusId.value));
@@ -73,7 +72,7 @@ export default function useJob(corpusId) {
   const jobStatusMessage = computed(
     () => jobStatusId.value && t(`job.status.${jobStatusId.value}`)
   );
-  const exports = computed(() => store.state.corpora[corpusId.value]?.exports);
+  const exports = computed(() => store.state.corpora[corpusId]?.exports);
 
   return {
     loadJob,
