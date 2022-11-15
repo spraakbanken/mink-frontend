@@ -5,7 +5,7 @@
       {{ $t("files", corpus.sources.length) }}
     </span>
     <div class="flex mt-2 text-sm text-gray-500">
-      <JobStatusMessage :corpus-id="id" />
+      <CorpusStateMessage :corpus-id="id" />
     </div>
   </PadButton>
 </template>
@@ -14,7 +14,7 @@
 import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
 import PadButton from "@/components/layout/PadButton.vue";
-import JobStatusMessage from "@/components/JobStatusMessage.vue";
+import CorpusStateMessage from "./CorpusStateMessage.vue";
 import useConfig from "@/composables/config";
 import useSources from "@/composables/sources";
 

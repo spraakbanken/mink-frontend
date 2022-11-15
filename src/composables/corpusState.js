@@ -1,4 +1,5 @@
 import { computed } from "vue";
+import { useI18n } from "vue-i18n";
 import useConfig from "./config";
 import useJob from "./job";
 import useSources from "./sources";
@@ -8,6 +9,7 @@ export function useCorpusState(corpusIdArg) {
   const { isConfigValid } = useConfig(corpusIdArg);
   const { isJobStarted, isJobRunning, isJobError, isJobDone } =
     useJob(corpusIdArg);
+  const { t } = useI18n();
 
   const corpusState = computed(() => {
     if (!sources.value.length) return CorpusState.EMPTY;
@@ -28,6 +30,9 @@ export function useCorpusState(corpusIdArg) {
   const isFailed = computed(() => corpusState.value == CorpusState.FAILED);
   const isDone = computed(() => corpusState.value == CorpusState.DONE);
 
+  const stateMessage = computed(() => t(`corpus.state.${corpusState.value}`));
+  const stateHelp = computed(() => t(`corpus.state.help.${corpusState.value}`));
+
   return {
     corpusState,
     isEmpty,
@@ -36,6 +41,8 @@ export function useCorpusState(corpusIdArg) {
     isRunning,
     isFailed,
     isDone,
+    stateMessage,
+    stateHelp,
   };
 }
 

@@ -1,7 +1,11 @@
 <template>
   <div class="flex flex-wrap">
+    <div class="w-full">
+      <CorpusStateHelp />
+    </div>
+
     <div class="w-full lg:w-1/2 lg:pr-2">
-      <Panel title="Metadata" class="mb-6">
+      <Panel title="Metadata" class="mb-4">
         <Metadata />
         <template #controls>
           <router-link :to="`/corpus/${corpusId}/config`">
@@ -13,7 +17,7 @@
         </template>
       </Panel>
 
-      <Panel title="Settings" class="mb-6">
+      <Panel title="Settings" class="mb-4">
         <Config />
         <template #controls>
           <router-link :to="`/corpus/${corpusId}/config`">
@@ -27,11 +31,11 @@
     </div>
 
     <div class="w-full lg:w-1/2 lg:pl-2">
-      <Panel title="Status" class="mb-6 bg-zinc-700 text-white">
+      <Panel title="Status" class="mb-4 bg-zinc-700 text-white">
         <JobStatus />
       </Panel>
 
-      <Panel title="Output" class="mb-6">
+      <Panel title="Output" class="mb-4">
         <Exports />
       </Panel>
     </div>
@@ -51,6 +55,7 @@ import Config from "@/components/Config.vue";
 import Sources from "@/components/Sources.vue";
 import JobStatus from "@/components/JobStatus.vue";
 import Exports from "@/components/Exports.vue";
+import CorpusStateHelp from "@/components/CorpusStateHelp.vue";
 
 const { corpusId } = useCorpusIdParam();
 const { isUnconfigured } = useCorpusState();
