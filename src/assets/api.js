@@ -19,6 +19,34 @@ class MinkApi {
       : undefined;
   }
 
+  /** Sets a function to handle all responses. */
+  setResponseHandler(handleResponse) {
+    // Remove any previous handler.
+    if (this.responseInterceptor) {
+      this.axios.interceptors.response.eject(this.responseInterceptor);
+    }
+    // Set new handler.
+    this.responseInterceptor = this.axios.interceptors.response.use(
+      (response) => {
+        handleResponse(response.data);
+        return response;
+      },
+      (error) => {
+        handleResponse(error.response.data);
+        throw error;
+      }
+    );
+  }
+
+  async request(method, path, ...args) {
+    return this.axios[method](path, ...args)
+      .then((response) => {
+        this.handleResponse(response.data);
+        return response;
+      })
+      .catch();
+  }
+
   async listCorpora() {
     const response = await this.axios.get("list-corpora");
     return response.data.corpora;
@@ -29,19 +57,21 @@ class MinkApi {
     return response.data.corpus_id;
   }
 
-  removeCorpus(corpusId) {
-    return this.axios.delete("remove-corpus", {
+  async removeCorpus(corpusId) {
+    const response = await this.axios.delete("remove-corpus", {
       params: { corpus_id: corpusId },
     });
+    return response.data;
   }
 
-  uploadConfig(corpusId, config) {
+  async uploadConfig(corpusId, config) {
     const configFile = new File([config], "config.yaml", { type: "text/yaml" });
     const formData = new FormData();
     formData.append("files[]", configFile);
-    return this.axios.put("upload-config", formData, {
+    const response = await this.axios.put("upload-config", formData, {
       params: { corpus_id: corpusId },
     });
+    return response.data;
   }
 
   async listSources(corpusId) {
@@ -65,22 +95,24 @@ class MinkApi {
     return response.data;
   }
 
-  uploadSources(corpusId, files) {
+  async uploadSources(corpusId, files) {
     const formData = new FormData();
     [...files].forEach((file) => formData.append("files[]", file));
-    return this.axios
+    const response = await this.axios
       .put("upload-sources", formData, {
         params: { corpus_id: corpusId },
       })
       .catch((error) => {
         if (error.response) throw TypeError(error.response.data.info);
       });
+    return response.data;
   }
 
-  removeSource(corpusId, name) {
-    return this.axios.delete("remove-sources", {
+  async removeSource(corpusId, name) {
+    const response = await this.axios.delete("remove-sources", {
       params: { corpus_id: corpusId, remove: name },
     });
+    return response.data;
   }
 
   async downloadConfig(corpusId) {
@@ -102,17 +134,18 @@ class MinkApi {
   }
 
   async runSparv(corpusId) {
-    return await this.axios
+    const response = await this.axios
       .put("run-sparv", null, { params: { corpus_id: corpusId } })
       // Errors are okay.
-      .catch((reason) => reason.response)
-      .then((response) => response.data);
+      .catch((reason) => reason.response);
+    return response.data;
   }
 
-  abortJob(corpusId) {
-    return this.axios.post("abort-job", null, {
+  async abortJob(corpusId) {
+    const response = await this.axios.post("abort-job", null, {
       params: { corpus_id: corpusId },
     });
+    return response.data;
   }
 
   async listExports(corpusId) {
