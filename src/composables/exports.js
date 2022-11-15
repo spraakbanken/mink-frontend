@@ -9,7 +9,7 @@ export default function useExports(corpusId) {
   const { spin } = useSpin();
   const { t } = useI18n();
   const exports = computed(() => store.state.corpora[corpusId]?.exports);
-  const token = `corpus/${corpusId.value}/exports`;
+  const token = `corpus/${corpusId}/exports`;
 
   function loadExports() {
     spin(api.listExports(corpusId), t("exports.loading"), token).then(

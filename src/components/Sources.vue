@@ -44,8 +44,8 @@ import PendingContent from "./PendingContent.vue";
 import SourceUpload from "./SourceUpload.vue";
 
 const corpusId = useCorpusIdParam();
-const { sources, loadSources, remove } = useSources(corpusId.value);
-const { isEmpty } = useCorpusState(corpusId.value);
+const { sources, loadSources, remove } = useSources(corpusId);
+const { isEmpty } = useCorpusState(corpusId);
 
 loadSources();
 </script>

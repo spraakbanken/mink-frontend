@@ -50,15 +50,15 @@ import ActionButton from "./layout/ActionButton.vue";
 import PendingContent from "./PendingContent.vue";
 
 const corpusId = useCorpusIdParam();
-const { loadExports, exports, downloadResult } = useExports(corpusId.value);
-const { isDone } = useCorpusState(corpusId.value);
-const { install, isInstalled } = useJob(corpusId.value);
+const { loadExports, exports, downloadResult } = useExports(corpusId);
+const { isDone } = useCorpusState(corpusId);
+const { install, isInstalled } = useJob(corpusId);
 
 loadExports();
 
 async function downloadFull() {
   const data = await downloadResult();
-  downloadFile(data, corpusId.value + ".zip");
+  downloadFile(data, corpusId + ".zip");
 }
 
 function korpInstall() {

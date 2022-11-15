@@ -29,7 +29,7 @@ import TerminalOutput from "@/components/TerminalOutput.vue";
 import useTh from "@/composables/th";
 
 const corpusId = useCorpusIdParam();
-const { config, loadConfig } = useConfig(corpusId.value);
+const { config, loadConfig } = useConfig(corpusId);
 const { th } = useTh();
 
 loadConfig();

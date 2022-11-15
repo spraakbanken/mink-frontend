@@ -58,7 +58,7 @@ import Exports from "@/components/Exports.vue";
 import CorpusStateHelp from "@/components/CorpusStateHelp.vue";
 
 const corpusId = useCorpusIdParam();
-const { isUnconfigured } = useCorpusState(corpusId.value);
+const { isUnconfigured } = useCorpusState(corpusId);
 </script>
 
 <style></style>

@@ -18,14 +18,14 @@ const { refreshJwt } = useJwt();
 const corpusId = useCorpusIdParam();
 
 async function deleteCorpus() {
-  const token = `corpus/${corpusId.value}`;
+  const token = `corpus/${corpusId}`;
   // Delete corpus in the backend.
-  await spin(api.removeCorpus(corpusId.value), t("corpus.deleting"), token);
+  await spin(api.removeCorpus(corpusId), t("corpus.deleting"), token);
   // The backend will have updated the remote JWT, so refresh our copy.
   // The backend uses the corpus list within it when listing available corpora.
   await refreshJwt();
 
-  store.commit("removeCorpus", corpusId.value);
+  store.commit("removeCorpus", corpusId);
   router.push("/");
 }
 </script>

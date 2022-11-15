@@ -158,7 +158,7 @@ const router = useRouter();
 const store = useStore();
 const { spin } = useSpin();
 const corpusId = useCorpusIdParam();
-const { config, loadConfig } = useConfig(corpusId.value);
+const { config, loadConfig } = useConfig(corpusId);
 const { t } = useI18n();
 
 const name = ref({ ...config.value?.name });
@@ -174,7 +174,7 @@ if (!config.value) {
 }
 
 async function save() {
-  const corpusIdFixed = corpusId.value;
+  const corpusIdFixed = corpusId;
   const configNew = {
     name: name.value,
     description: description.value,

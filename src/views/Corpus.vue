@@ -30,9 +30,9 @@ import PageTitle from "@/components/PageTitle.vue";
 const store = useStore();
 const { requireAuthentication, isAuthenticated } = useJwt();
 const corpusId = useCorpusIdParam();
-const { corpusName } = useConfig(corpusId.value);
+const { corpusName } = useConfig(corpusId);
 
-const corpusExists = computed(() => !!store.state.corpora[corpusId.value]);
+const corpusExists = computed(() => !!store.state.corpora[corpusId]);
 
 requireAuthentication();
 </script>

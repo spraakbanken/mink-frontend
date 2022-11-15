@@ -55,9 +55,8 @@ import { downloadFile } from "@/util";
 
 const corpusId = useCorpusIdParam();
 
-const { loadExports, exports, downloadResult, downloadResultFile } = useExports(
-  corpusId.value
-);
+const { loadExports, exports, downloadResult, downloadResultFile } =
+  useExports(corpusId);
 
 loadExports();
 
@@ -69,7 +68,7 @@ async function downloadSingle(path) {
 
 async function downloadFull() {
   const data = await downloadResult();
-  downloadFile(data, corpusId.value + ".zip");
+  downloadFile(data, corpusId + ".zip");
 }
 </script>
 

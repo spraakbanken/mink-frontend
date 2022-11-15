@@ -4,7 +4,7 @@ import { useCorpusState } from "@/composables/corpusState";
 import Help from "./Help.vue";
 
 const corpusId = useCorpusIdParam();
-const { stateHelp } = useCorpusState(corpusId.value);
+const { stateHelp } = useCorpusState(corpusId);
 </script>
 
 <template>

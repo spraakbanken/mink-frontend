@@ -31,6 +31,7 @@
 import { ref } from "@vue/reactivity";
 import useSources from "@/composables/sources";
 import Filedrop from "./Filedrop.vue";
+import useCorpusIdParam from "@/composables/corpusIdParam";
 
 const props = defineProps({
   fileHandler: {
@@ -43,7 +44,8 @@ const props = defineProps({
   },
 });
 
-const { upload } = useSources();
+const corpusId = useCorpusIdParam();
+const { upload } = useSources(corpusId);
 const uploadMessage = ref("");
 
 function defaultFileHandler(files) {
