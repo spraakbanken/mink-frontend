@@ -4,11 +4,11 @@ import useConfig from "./config";
 import useJob from "./job";
 import useSources from "./sources";
 
-export function useCorpusState(corpusIdArg) {
-  const { sources } = useSources(corpusIdArg);
-  const { isConfigValid } = useConfig(corpusIdArg);
+export function useCorpusState(corpusId) {
+  const { sources } = useSources(corpusId);
+  const { isConfigValid } = useConfig(corpusId);
   const { isJobStarted, isJobRunning, isJobError, isJobDone } =
-    useJob(corpusIdArg);
+    useJob(corpusId);
   const { t } = useI18n();
 
   const corpusState = computed(() => {

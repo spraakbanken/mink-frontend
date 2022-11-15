@@ -8,7 +8,6 @@ export default function useMessenger() {
     const { message, status } = response;
     if (message && status !== "success") {
       // Add message.
-      console.log("add", message, status);
       alerts.value.push({ message, status: status || "debug" });
       // Remove it after a while.
       setTimeout(() => alerts.value.shift(), 5000);

@@ -81,6 +81,7 @@
   "job.status.done_syncing": "Färdig",
   "job.status.error": "Fel",
   "job.status.aborted": "Avbruten",
+  "job.status.waiting_install": "Väntar på att installeras",
   "job.status.installing": "Installerar",
   "job.status.done_installing": "Färdig",
   "login": "Logga in",
@@ -109,5 +110,5 @@
   "timespan_to": "Till",
   "edit": "Redigera",
   "job_run": "Starta analys",
-  "job_abort": "Avbryt analys"
+  "job_abort": "Avbryt"
 }

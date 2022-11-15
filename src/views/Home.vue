@@ -36,7 +36,6 @@
 <script setup>
 import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
-import { api } from "@/assets/api";
 import PadButton from "@/components/layout/PadButton.vue";
 import Section from "@/components/layout/Section.vue";
 import PendingContent from "@/components/PendingContent.vue";
@@ -44,16 +43,11 @@ import CorpusButton from "@/components/CorpusButton.vue";
 import { useJwt } from "@/composables/jwt";
 import SourceUpload from "@/components/SourceUpload.vue";
 import Help from "@/components/Help.vue";
-import useSources from "@/composables/sources";
-import { useRouter } from "vue-router";
 import useCorpora from "@/composables/corpora";
 
 const store = useStore();
 const { requireAuthentication, isAuthenticated } = useJwt();
-const { loadCorpora } = useCorpora();
-const { upload } = useSources();
-const router = useRouter();
-const { refreshJwt } = useJwt();
+const { loadCorpora, createFromUpload } = useCorpora();
 
 const corpora = computed(() => store.state.corpora);
 const hasCorpora = computed(() => !!Object.keys(store.state.corpora).length);
@@ -61,9 +55,6 @@ const hasCorpora = computed(() => !!Object.keys(store.state.corpora).length);
 requireAuthentication().then(() => loadCorpora());
 
 async function createCorpusFromFiles(files) {
-  const corpusId = await api.createCorpus();
-  await refreshJwt();
-  await upload(files, corpusId);
-  router.push(`/corpus/${corpusId}`);
+  createFromUpload(files);
 }
 </script>

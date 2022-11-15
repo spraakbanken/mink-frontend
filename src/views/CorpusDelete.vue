@@ -15,7 +15,7 @@ const store = useStore();
 const { spin } = useSpin();
 const { t } = useI18n();
 const { refreshJwt } = useJwt();
-const { corpusId } = useCorpusIdParam();
+const corpusId = useCorpusIdParam();
 
 async function deleteCorpus() {
   const token = `corpus/${corpusId.value}`;

@@ -2,31 +2,24 @@ import { computed } from "@vue/reactivity";
 import { api } from "@/assets/api";
 import useSpin from "@/assets/spin";
 import { useStore } from "vuex";
-import useCorpusIdParam from "@/composables/corpusIdParam";
 import { useI18n } from "vue-i18n";
 
-export default function useExports() {
+export default function useExports(corpusId) {
   const store = useStore();
   const { spin } = useSpin();
-  const { corpusId } = useCorpusIdParam();
   const { t } = useI18n();
-  const exports = computed(() => store.state.corpora[corpusId.value]?.exports);
+  const exports = computed(() => store.state.corpora[corpusId]?.exports);
   const token = computed(() => `corpus/${corpusId.value}/exports`);
 
   function loadExports() {
-    const corpusIdFixed = corpusId.value;
-    spin(
-      api.listExports(corpusIdFixed),
-      t("exports.loading"),
-      token.value
-    ).then((exports) =>
-      store.commit("setExports", { corpusId: corpusIdFixed, exports })
+    spin(api.listExports(corpusId), t("exports.loading"), token.value).then(
+      (exports) => store.commit("setExports", { corpusId, exports })
     );
   }
 
   function downloadResult() {
     return spin(
-      api.downloadExports(corpusId.value),
+      api.downloadExports(corpusId),
       "Laddar ner analysresultat",
       token.value
     );
@@ -34,7 +27,7 @@ export default function useExports() {
 
   function downloadResultFile(fileName) {
     return spin(
-      api.downloadExportFile(corpusId.value, fileName),
+      api.downloadExportFile(corpusId, fileName),
       "Laddar ner analysresultat",
       token.value
     );

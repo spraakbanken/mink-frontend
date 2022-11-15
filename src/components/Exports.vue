@@ -49,10 +49,10 @@ import useJob from "@/composables/job";
 import ActionButton from "./layout/ActionButton.vue";
 import PendingContent from "./PendingContent.vue";
 
-const { corpusId } = useCorpusIdParam();
-const { loadExports, exports, downloadResult } = useExports();
-const { isDone } = useCorpusState();
-const { install, isInstalled } = useJob();
+const corpusId = useCorpusIdParam();
+const { loadExports, exports, downloadResult } = useExports(corpusId.value);
+const { isDone } = useCorpusState(corpusId.value);
+const { install, isInstalled } = useJob(corpusId.value);
 
 loadExports();
 

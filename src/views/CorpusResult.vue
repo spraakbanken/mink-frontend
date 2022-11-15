@@ -53,10 +53,11 @@ import Section from "@/components/layout/Section.vue";
 import useExports from "@/composables/exports";
 import { downloadFile } from "@/util";
 
-const { corpusId } = useCorpusIdParam();
+const corpusId = useCorpusIdParam();
 
-const { loadExports, exports, downloadResult, downloadResultFile } =
-  useExports();
+const { loadExports, exports, downloadResult, downloadResultFile } = useExports(
+  corpusId.value
+);
 
 loadExports();
 

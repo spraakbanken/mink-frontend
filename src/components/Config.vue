@@ -46,8 +46,8 @@ import useConfig from "@/composables/config";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import PendingContent from "./PendingContent.vue";
 
-const { corpusId } = useCorpusIdParam();
-const { config, loadConfig } = useConfig();
+const corpusId = useCorpusIdParam();
+const { config, loadConfig } = useConfig(corpusId.value);
 
 loadConfig();
 </script>

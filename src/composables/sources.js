@@ -1,24 +1,19 @@
 import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
 import useSpin from "@/assets/spin";
-import useCorpusIdParam from "./corpusIdParam";
 import { api } from "@/assets/api";
 import { useI18n } from "vue-i18n";
 
-export default function useSources(corpusIdArg) {
+export default function useSources(corpusId) {
   const store = useStore();
   const { spin } = useSpin();
-  const { corpusId: corpusIdParam } = useCorpusIdParam();
-  const corpusId = corpusIdArg ? computed(() => corpusIdArg) : corpusIdParam;
   const { t } = useI18n();
 
-  const sources = computed(
-    () => store.state.corpora[corpusId.value]?.sources || []
-  );
-  const token = computed(() => `corpus/${corpusId.value}/sources`);
+  const sources = computed(() => store.state.corpora[corpusId]?.sources || []);
+  const token = computed(() => `corpus/${corpusId}/sources`);
 
   function loadSources(corpusIdArg) {
-    const corpusIdFixed = corpusIdArg || corpusId.value;
+    const corpusIdFixed = corpusIdArg || corpusId;
     spin(
       api.listSources(corpusIdFixed),
       t("source.list.loading"),
@@ -33,7 +28,7 @@ export default function useSources(corpusIdArg) {
 
   async function remove(source) {
     await spin(
-      api.removeSource(corpusId.value, source.name),
+      api.removeSource(corpusId, source.name),
       t("source.deleting"),
       token.value
     );
@@ -41,7 +36,7 @@ export default function useSources(corpusIdArg) {
   }
 
   async function upload(files, corpusIdArg) {
-    const corpusIdFixed = corpusIdArg || corpusId.value;
+    const corpusIdFixed = corpusIdArg || corpusId;
     const message = t("source.uploading", files.length);
     return spin(
       api
@@ -54,7 +49,7 @@ export default function useSources(corpusIdArg) {
 
   async function downloadSource(source) {
     return spin(
-      api.downloadSourceFile(corpusId.value, source.name),
+      api.downloadSourceFile(corpusId, source.name),
       t("source.downloading"),
       token.value
     );
@@ -62,7 +57,7 @@ export default function useSources(corpusIdArg) {
 
   async function downloadPlaintext(source) {
     return spin(
-      api.downloadSourceText(corpusId.value, source.name),
+      api.downloadSourceText(corpusId, source.name),
       t("source.downloading_plain"),
       token.value
     );

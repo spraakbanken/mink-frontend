@@ -85,11 +85,11 @@ import PendingContent from "./PendingContent.vue";
 import ProgressBar from "./ProgressBar.vue";
 import TerminalOutput from "./TerminalOutput.vue";
 
-const { corpusId } = useCorpusIdParam();
-const { loadSources } = useSources();
+const corpusId = useCorpusIdParam();
+const { loadSources } = useSources(corpusId.value);
 const { loadJob, runJob, abortJob, jobStatus, isJobRunning, isJobError } =
-  useJob();
-const { corpusState, isReady, isFailed, isDone } = useCorpusState();
+  useJob(corpusId.value);
+const { isReady, isFailed, isDone } = useCorpusState(corpusId.value);
 const canRun = computed(() => isReady.value || isFailed.value || isDone.value);
 
 loadSources();

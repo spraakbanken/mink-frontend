@@ -57,8 +57,8 @@ import JobStatus from "@/components/JobStatus.vue";
 import Exports from "@/components/Exports.vue";
 import CorpusStateHelp from "@/components/CorpusStateHelp.vue";
 
-const { corpusId } = useCorpusIdParam();
-const { isUnconfigured } = useCorpusState();
+const corpusId = useCorpusIdParam();
+const { isUnconfigured } = useCorpusState(corpusId.value);
 </script>
 
 <style></style>

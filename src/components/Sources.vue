@@ -43,9 +43,9 @@ import ActionButton from "./layout/ActionButton.vue";
 import PendingContent from "./PendingContent.vue";
 import SourceUpload from "./SourceUpload.vue";
 
-const { sources, loadSources, remove } = useSources();
-const { corpusId } = useCorpusIdParam();
-const { isEmpty } = useCorpusState();
+const corpusId = useCorpusIdParam();
+const { sources, loadSources, remove } = useSources(corpusId.value);
+const { isEmpty } = useCorpusState(corpusId.value);
 
 loadSources();
 </script>

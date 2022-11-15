@@ -20,17 +20,17 @@
 </template>
 
 <script setup>
-import PageTitle from "@/components/PageTitle.vue";
+import { computed } from "@vue/runtime-core";
+import { useStore } from "vuex";
+import { useJwt } from "@/composables/jwt";
 import useConfig from "@/composables/config";
 import useCorpusIdParam from "@/composables/corpusIdParam";
-import { useJwt } from "@/composables/jwt";
-import { useStore } from "vuex";
-import { computed } from "@vue/runtime-core";
+import PageTitle from "@/components/PageTitle.vue";
 
-const { requireAuthentication, isAuthenticated } = useJwt();
-const { corpusId } = useCorpusIdParam();
-const { corpusName } = useConfig();
 const store = useStore();
+const { requireAuthentication, isAuthenticated } = useJwt();
+const corpusId = useCorpusIdParam();
+const { corpusName } = useConfig(corpusId.value);
 
 const corpusExists = computed(() => !!store.state.corpora[corpusId.value]);
 

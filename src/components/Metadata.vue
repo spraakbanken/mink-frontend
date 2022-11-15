@@ -28,8 +28,8 @@ import PendingContent from "./PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import useTh from "@/composables/th";
 
-const { corpusId } = useCorpusIdParam();
-const { config, loadConfig } = useConfig();
+const corpusId = useCorpusIdParam();
+const { config, loadConfig } = useConfig(corpusId.value);
 const { th } = useTh();
 
 loadConfig();

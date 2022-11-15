@@ -52,8 +52,8 @@ const props = defineProps({
 });
 
 const store = useStore();
-const { downloadSource, downloadPlaintext } = useSources();
-const { isJobDone } = useJob();
+const { downloadSource, downloadPlaintext } = useSources(props.corpusId);
+const { isJobDone } = useJob(props.corpusId);
 
 const metadata = computed(() =>
   store.state.corpora[props.corpusId].sources.find(

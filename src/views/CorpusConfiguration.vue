@@ -157,8 +157,8 @@ import TaggedInput from "@/components/TaggedInput.vue";
 const router = useRouter();
 const store = useStore();
 const { spin } = useSpin();
-const { corpusId } = useCorpusIdParam();
-const { config, loadConfig } = useConfig();
+const corpusId = useCorpusIdParam();
+const { config, loadConfig } = useConfig(corpusId.value);
 const { t } = useI18n();
 
 const name = ref({ ...config.value?.name });

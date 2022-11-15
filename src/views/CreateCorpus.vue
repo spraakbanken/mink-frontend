@@ -70,25 +70,16 @@
 
 <script setup>
 import { ref } from "@vue/reactivity";
-import { api } from "@/assets/api";
-import { useRouter } from "vue-router";
-import useSpin from "@/assets/spin";
 import PageTitle from "@/components/PageTitle.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
-import { useStore } from "vuex";
 import PendingContent from "@/components/PendingContent.vue";
-import { FORMATS_EXT, makeConfig } from "@/assets/corpusConfig";
+import { FORMATS_EXT } from "@/assets/corpusConfig";
 import { useJwt } from "@/composables/jwt";
-import { useI18n } from "vue-i18n";
-import useConfig from "@/composables/config";
+import useCorpora from "@/composables/corpora";
 
-const router = useRouter();
-const store = useStore();
-const { spin } = useSpin();
-const { requireAuthentication, refreshJwt } = useJwt();
-const { uploadConfig } = useConfig();
-const { t } = useI18n();
+const { requireAuthentication } = useJwt();
+const { createFromConfig } = useCorpora();
 
 const name = ref("");
 const description = ref("");
@@ -99,35 +90,11 @@ const message = ref(null);
 requireAuthentication();
 
 async function submit() {
-  const langify = (str) => ({ swe: str, eng: str });
-  const config = {
-    name: langify(name.value),
-    description: langify(description.value),
-    format: fileFormat.value,
-    textAnnotation: textAnnotation.value,
-  };
-
-  try {
-    const corpusId = await spin(
-      api.createCorpus(),
-      t("corpus.creating"),
-      "create"
-    );
-    store.commit("addCorpus", corpusId);
-
-    // Have the new corpus included.
-    await refreshJwt();
-    await uploadConfig(config);
-    router.push(`/corpus/${corpusId}`);
-  } catch (reason) {
-    message.value = reason.response ? reason.response.data.message : reason;
-  }
+  await createFromConfig(
+    name.value,
+    description.value,
+    fileFormat.value,
+    textAnnotation.value
+  );
 }
 </script>
-
-<style scoped>
-th,
-td {
-  @apply align-baseline;
-}
-</style>

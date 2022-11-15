@@ -1,8 +1,10 @@
 <script setup>
+import useCorpusIdParam from "@/composables/corpusIdParam";
 import { useCorpusState } from "@/composables/corpusState";
 import Help from "./Help.vue";
 
-const { stateHelp } = useCorpusState();
+const corpusId = useCorpusIdParam();
+const { stateHelp } = useCorpusState(corpusId.value);
 </script>
 
 <template>

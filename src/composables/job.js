@@ -9,16 +9,14 @@ import {
   isStatusInstalled,
 } from "@/assets/api";
 import useSpin from "@/assets/spin";
-import useCorpusIdParam from "./corpusIdParam";
 import { useStore } from "vuex";
 import { useI18n } from "vue-i18n";
 
-export default function useJob(corpusIdArg) {
+export default function useJob(corpusId) {
+  corpusId = { value: corpusId };
   const store = useStore();
   const { spin } = useSpin();
   const { t } = useI18n();
-  const { corpusId: corpusIdParam } = useCorpusIdParam();
-  const corpusId = corpusIdArg ? computed(() => corpusIdArg) : corpusIdParam;
   const token = computed(() => `corpus/${corpusId.value}/job`);
 
   let loadJobTimer = null;
