@@ -23,14 +23,6 @@ const props = defineProps({
   },
 });
 
-const {
-  loadJob,
-  jobStatusMessage,
-  isJobStarted,
-  isJobDone,
-  isJobRunning,
-  isJobError,
-} = useJob(props.corpusId);
-
-loadJob();
+const { jobStatusMessage, isJobStarted, isJobDone, isJobRunning, isJobError } =
+  useJob(props.corpusId);
 </script>

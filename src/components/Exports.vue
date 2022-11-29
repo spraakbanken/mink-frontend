@@ -56,11 +56,9 @@ import PendingContent from "./PendingContent.vue";
 
 const { t } = useI18n();
 const corpusId = useCorpusIdParam();
-const { loadExports, exports, downloadResult } = useExports(corpusId);
+const { exports, downloadResult } = useExports(corpusId);
 const { isDone } = useCorpusState(corpusId);
 const { install, isInstalled } = useJob(corpusId);
-
-loadExports();
 
 async function downloadFull() {
   const data = await downloadResult();

@@ -54,7 +54,7 @@ const { loadCorpora, createFromUpload } = useCorpora();
 const corpora = computed(() => store.state.corpora);
 const hasCorpora = computed(() => !!Object.keys(store.state.corpora).length);
 
-requireAuthentication().then(() => loadCorpora());
+requireAuthentication().then((ok) => ok && loadCorpora());
 
 async function createCorpusFromFiles(files) {
   createFromUpload(files);

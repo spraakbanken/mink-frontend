@@ -13,10 +13,10 @@
 <script setup>
 import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
+import useConfig from "@/composables/config";
 import PadButton from "@/components/layout/PadButton.vue";
 import CorpusStateMessage from "./CorpusStateMessage.vue";
-import useConfig from "@/composables/config";
-import useSources from "@/composables/sources";
+import useCorpus from "@/composables/corpus";
 
 const props = defineProps({
   id: {
@@ -27,11 +27,10 @@ const props = defineProps({
 });
 
 const store = useStore();
-const { loadConfig, corpusName } = useConfig(props.id);
-const { loadSources } = useSources(props.id);
+const { loadCorpus } = useCorpus(props.id);
+const { corpusName } = useConfig(props.id);
 
 const corpus = computed(() => store.state.corpora[props.id]);
 
-loadConfig();
-loadSources();
+loadCorpus();
 </script>

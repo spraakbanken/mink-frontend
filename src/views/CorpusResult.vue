@@ -55,10 +55,7 @@ import { downloadFile } from "@/util";
 
 const corpusId = useCorpusIdParam();
 
-const { loadExports, exports, downloadResult, downloadResultFile } =
-  useExports(corpusId);
-
-loadExports();
+const { exports, downloadResult, downloadResultFile } = useExports(corpusId);
 
 async function downloadSingle(path) {
   const data = await downloadResultFile(path);

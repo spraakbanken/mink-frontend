@@ -23,18 +23,23 @@
 import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
 import { useJwt } from "@/composables/jwt";
-import useConfig from "@/composables/config";
 import useCorpusIdParam from "@/composables/corpusIdParam";
+import useCorpus from "@/composables/corpus.js";
+import useConfig from "@/composables/config";
 import PageTitle from "@/components/PageTitle.vue";
 
 const store = useStore();
 const { requireAuthentication, isAuthenticated } = useJwt();
 const corpusId = useCorpusIdParam();
+const { loadCorpus } = useCorpus(corpusId);
 const { corpusName } = useConfig(corpusId);
 
 const corpusExists = computed(() => !!store.state.corpora[corpusId]);
 
-requireAuthentication();
+(async () => {
+  await requireAuthentication();
+  await loadCorpus();
+})();
 </script>
 
 <style></style>

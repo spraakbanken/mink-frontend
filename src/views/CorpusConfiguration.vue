@@ -159,7 +159,7 @@ const router = useRouter();
 const store = useStore();
 const { spin } = useSpin();
 const corpusId = useCorpusIdParam();
-const { config, loadConfig } = useConfig(corpusId);
+const { config } = useConfig(corpusId);
 const { t } = useI18n();
 const { alert } = useMessenger();
 
@@ -170,10 +170,6 @@ const textAnnotation = ref(config.value?.textAnnotation);
 const sentenceSegmenter = ref(config.value?.sentenceSegmenter || "");
 const datetimeFrom = ref(config.value?.datetimeFrom);
 const datetimeTo = ref(config.value?.datetimeTo);
-
-if (!config.value) {
-  loadConfig();
-}
 
 async function save() {
   const corpusIdFixed = corpusId;
