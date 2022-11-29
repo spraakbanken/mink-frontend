@@ -2,7 +2,7 @@ import { useI18n } from "vue-i18n";
 import { api } from "@/assets/api";
 import useSpin from "@/assets/spin";
 
-/** Wrap API endpoints with Spin and fixing some return values. */
+/** Wraps API endpoints with Spin. */
 export default function useMinkBackend() {
   const { spin } = useSpin();
   const { t } = useI18n();
@@ -12,6 +12,13 @@ export default function useMinkBackend() {
 
   const createCorpus = () =>
     spin(api.createCorpus(), t("corpus.creating"), "create");
+
+  const deleteCorpus = (corpusId) =>
+    spin(
+      api.removeCorpus(corpusId),
+      t("corpus.deleting"),
+      `corpus/${corpusId}`
+    );
 
   const loadConfig = (corpusId) =>
     spin(
@@ -108,6 +115,7 @@ export default function useMinkBackend() {
   return {
     loadCorpora,
     createCorpus,
+    deleteCorpus,
     loadConfig,
     saveConfig,
     loadSources,

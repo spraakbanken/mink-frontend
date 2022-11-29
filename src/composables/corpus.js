@@ -1,4 +1,6 @@
 import { useStore } from "vuex";
+import { useJwt } from "./jwt";
+import useMinkBackend from "./backend";
 import useConfig from "./config";
 import useExports from "./exports";
 import useJob from "./job";
@@ -9,6 +11,8 @@ const isCorpusFresh = {};
 
 export default function useCorpus(corpusId) {
   const store = useStore();
+  const { refreshJwt } = useJwt();
+  const mink = useMinkBackend();
   const { loadConfig } = useConfig(corpusId);
   const { loadExports } = useExports(corpusId);
   const { loadJob } = useJob(corpusId);
@@ -28,5 +32,14 @@ export default function useCorpus(corpusId) {
     isCorpusFresh[corpusId] = true;
   }
 
-  return { loadCorpus };
+  async function deleteCorpus(corpusId_ = corpusId) {
+    // Delete corpus in the backend.
+    await mink.deleteCorpus(corpusId_);
+    // The backend will have updated the remote JWT, so refresh our copy.
+    // The backend uses the corpus list within it when listing available corpora.
+    await refreshJwt();
+    store.commit("removeCorpus", corpusId_);
+  }
+
+  return { loadCorpus, deleteCorpus };
 }

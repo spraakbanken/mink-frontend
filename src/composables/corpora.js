@@ -1,12 +1,12 @@
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { api } from "@/assets/api";
 import { useJwt } from "./jwt";
 import { emptyConfig } from "@/assets/corpusConfig";
 import useConfig from "./config";
 import useSources from "./sources";
 import useMessenger from "./messenger";
 import useMinkBackend from "./backend";
+import useCorpus from "./corpus";
 
 /** Let corpus list be refreshed initially, but skip subsequent load calls. */
 let isCorporaFresh = false;
@@ -15,6 +15,7 @@ export default function useCorpora() {
   const store = useStore();
   const router = useRouter();
   const { refreshJwt } = useJwt();
+  const { deleteCorpus } = useCorpus();
   const { uploadConfig } = useConfig();
   const { uploadSources } = useSources();
   const { alert } = useMessenger();
@@ -46,10 +47,9 @@ export default function useCorpora() {
   }
 
   async function createFromConfig(name, description, format, textAnnotation) {
-    const langify = (str) => ({ swe: str, eng: str });
     const config = {
-      name: langify(name),
-      description: langify(description),
+      name: { swe: name, eng: name },
+      description: { swe: description, eng: description },
       format,
       textAnnotation,
     };
@@ -62,9 +62,7 @@ export default function useCorpora() {
       return corpusId;
     } catch (e) {
       alert(e, "error");
-      await api.removeCorpus(corpusId);
-      store.commit("removeCorpus", corpusId);
-      await refreshJwt();
+      await deleteCorpus(corpusId);
     }
   }
 
