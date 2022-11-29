@@ -1,62 +1,47 @@
 import { onUnmounted } from "@vue/runtime-core";
 import { computed } from "@vue/reactivity";
 import {
-  api,
   isStatusRunning,
   isStatusStarted,
   isStatusDone,
   isStatusError,
   isStatusInstalled,
 } from "@/assets/api";
-import useSpin from "@/assets/spin";
 import { useStore } from "vuex";
 import { useI18n } from "vue-i18n";
+import useMinkBackend from "./backend";
 
 export default function useJob(corpusId) {
   const store = useStore();
-  const { spin } = useSpin();
   const { t } = useI18n();
-  const token = `corpus/${corpusId}/job`;
+  const mink = useMinkBackend();
 
   let loadJobTimer = null;
 
-  async function loadJob(corpusIdArg) {
-    const corpusIdFixed = corpusIdArg || corpusId;
-    return spin(api.checkStatus(corpusIdFixed), t("job.loading"), token)
-      .then((status) => recordJobStatus(corpusIdFixed, status))
-      .catch(() => recordJobStatus(corpusIdFixed, {}));
+  async function loadJob() {
+    const status = await mink.loadJob(corpusId).catch(() => ({}));
+    recordJobStatus(status);
   }
 
   async function runJob() {
-    const corpusIdFixed = corpusId;
-    const status = await spin(
-      api.runSparv(corpusIdFixed),
-      t("job.starting"),
-      token
-    );
-    recordJobStatus(corpusIdFixed, status);
+    const status = await mink.runJob(corpusId);
+    recordJobStatus(status);
   }
 
   async function install() {
-    const corpusIdFixed = corpusId;
-    const status = await spin(
-      api.installCorpus(corpusIdFixed),
-      t("job.installing"),
-      token
-    );
-    recordJobStatus(corpusIdFixed, status);
+    const status = await mink.install(corpusId);
+    recordJobStatus(status);
   }
 
   async function abortJob() {
-    await spin(api.abortJob(corpusId), t("job.aborting"), token);
+    await mink.abortJob(corpusId);
     await loadJob();
   }
 
-  function recordJobStatus(corpusId, status) {
+  function recordJobStatus(status) {
     store.commit("setStatus", { corpusId, status });
     // Refresh automatically.
-    if (isJobRunning.value)
-      loadJobTimer = setTimeout(() => loadJob(corpusId, token), 2000);
+    if (isJobRunning.value) loadJobTimer = setTimeout(() => loadJob(), 2000);
   }
 
   // Whichever component triggered loadJob, if it disappears, stop polling.
@@ -72,7 +57,6 @@ export default function useJob(corpusId) {
   const jobStatusMessage = computed(
     () => jobStatusId.value && t(`job.status.${jobStatusId.value}`)
   );
-  const exports = computed(() => store.state.corpora[corpusId]?.exports);
 
   return {
     loadJob,
@@ -86,6 +70,5 @@ export default function useJob(corpusId) {
     isInstalled,
     isJobError,
     jobStatusMessage,
-    exports,
   };
 }

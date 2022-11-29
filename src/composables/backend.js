@@ -27,6 +27,22 @@ export default function useMinkBackend() {
       `corpus/${corpusId}/config`
     );
 
+  const loadJob = (corpusId) =>
+    spin(api.checkStatus(corpusId), t("job.loading"), `corpus/${corpusId}/job`);
+
+  const runJob = (corpusId) =>
+    spin(api.runSparv(corpusId), t("job.starting"), `corpus/${corpusId}/job`);
+
+  const install = (corpusId) =>
+    spin(
+      api.installCorpus(corpusId),
+      t("job.installing"),
+      `corpus/${corpusId}/job`
+    );
+
+  const abortJob = (corpusId) =>
+    spin(api.abortJob(corpusId), t("job.aborting"), `corpus/${corpusId}/job`);
+
   const loadExports = (corpusId) =>
     spin(
       api.listExports(corpusId),
@@ -59,6 +75,10 @@ export default function useMinkBackend() {
     createCorpus,
     loadConfig,
     saveConfig,
+    loadJob,
+    runJob,
+    install,
+    abortJob,
     loadExports,
     downloadExports,
     downloadExportFiles,
