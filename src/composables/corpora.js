@@ -16,7 +16,7 @@ export default function useCorpora() {
   const router = useRouter();
   const { refreshJwt } = useJwt();
   const { uploadConfig } = useConfig();
-  const { upload } = useSources();
+  const { uploadSources } = useSources();
   const { alert } = useMessenger();
   const mink = useMinkBackend();
 
@@ -37,7 +37,7 @@ export default function useCorpora() {
   async function createFromUpload(files) {
     const corpusId = await createCorpus();
     await Promise.all([
-      upload(files, corpusId),
+      uploadSources(files, corpusId),
       uploadConfig(emptyConfig(), corpusId),
     ]);
     store.commit("addCorpus", corpusId);

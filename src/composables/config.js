@@ -28,10 +28,9 @@ export default function useConfig(corpusId) {
     store.commit("setConfig", { corpusId, config });
   }
 
-  async function uploadConfig(config, corpusIdArg) {
-    const corpusIdFixed = corpusIdArg || corpusId;
-    await mink.saveConfig(corpusIdFixed, makeConfig(corpusIdFixed, config));
-    store.commit("setConfig", { corpusId: corpusIdFixed, config });
+  async function uploadConfig(config, corpusId_ = corpusId) {
+    await mink.saveConfig(corpusId_, makeConfig(corpusId_, config));
+    store.commit("setConfig", { corpusId: corpusId_, config });
   }
 
   const isConfigValid = computed(

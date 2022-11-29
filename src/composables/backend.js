@@ -27,6 +27,41 @@ export default function useMinkBackend() {
       `corpus/${corpusId}/config`
     );
 
+  const loadSources = (corpusId) =>
+    spin(
+      api.listSources(corpusId),
+      t("source.list.loading"),
+      `corpus/${corpusId}/sources`
+    );
+
+  const downloadSource = (corpusId, filename) =>
+    spin(
+      api.downloadSourceFile(corpusId, filename),
+      t("source.downloading"),
+      `corpus/${corpusId}/sources`
+    );
+
+  const downloadPlaintext = (corpusId, filename) =>
+    spin(
+      api.downloadSourceText(corpusId, filename),
+      t("source.downloading_plain"),
+      `corpus/${corpusId}/sources`
+    );
+
+  const uploadSources = (corpusId, files) =>
+    spin(
+      api.uploadSources(corpusId, files),
+      t("source.uploading", files.length),
+      `corpus/${corpusId}/sources`
+    );
+
+  const deleteSource = (corpusId, filename) =>
+    spin(
+      api.removeSource(corpusId, filename),
+      t("source.deleting"),
+      `corpus/${corpusId}/sources`
+    );
+
   const loadJob = (corpusId) =>
     spin(api.checkStatus(corpusId), t("job.loading"), `corpus/${corpusId}/job`);
 
@@ -75,6 +110,11 @@ export default function useMinkBackend() {
     createCorpus,
     loadConfig,
     saveConfig,
+    loadSources,
+    downloadSource,
+    downloadPlaintext,
+    uploadSources,
+    deleteSource,
     loadJob,
     runJob,
     install,

@@ -23,7 +23,7 @@
               <ActionButton
                 variant="danger"
                 class="mute slim"
-                @click="remove(source)"
+                @click="deleteSource(source)"
               >
                 <icon :icon="['far', 'trash-can']" />
               </ActionButton>
@@ -44,7 +44,7 @@ import PendingContent from "./PendingContent.vue";
 import SourceUpload from "./SourceUpload.vue";
 
 const corpusId = useCorpusIdParam();
-const { sources, remove } = useSources(corpusId);
+const { sources, deleteSource } = useSources(corpusId);
 const { isEmpty } = useCorpusState(corpusId);
 </script>
 
