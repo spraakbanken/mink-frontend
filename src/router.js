@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home.vue";
 import Dashboard from "@/views/Dashboard.vue";
 import Login from "@/views/Login.vue";
+import Signup from "@/views/Signup.vue";
 import CreateCorpus from "@/views/CreateCorpus.vue";
 import Corpus from "@/views/Corpus.vue";
 import Overview from "@/views/Overview.vue";
@@ -17,6 +18,7 @@ const routes = [
   { path: "/", component: Home },
   { path: "/dashboard", component: Dashboard },
   { path: "/login", component: Login },
+  { path: "/signup", component: Signup },
   { path: "/corpus", component: CreateCorpus },
   {
     path: "/corpus/:corpusId",

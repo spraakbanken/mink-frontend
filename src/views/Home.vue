@@ -5,6 +5,7 @@ import { useRouter } from "vue-router";
 import PageTitle from "@/components/PageTitle.vue";
 import Section from "@/components/layout/Section.vue";
 import LoginButton from "@/components/LoginButton.vue";
+import ActionButton from "@/components/layout/ActionButton.vue";
 
 const { isAuthenticated } = useJwt();
 const router = useRouter();
@@ -46,8 +47,15 @@ watchEffect(() => {
             directly for concordance search in Korp.
           </p>
 
-          <div class="text-center p-8 text-xl">
-            <LoginButton class="mr-4" />
+          <div class="flex justify-center gap-4 p-8 text-center text-xl">
+            <LoginButton />
+
+            <router-link to="/signup">
+              <ActionButton variant="success">
+                <icon :icon="['fas', 'user-plus']" />
+                {{ $t("signup") }}
+              </ActionButton>
+            </router-link>
           </div>
         </div>
       </div>

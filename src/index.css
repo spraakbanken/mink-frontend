@@ -74,7 +74,7 @@ pre {
     @apply bg-red-400 shadow-red-700 text-white;
   }
   .mink-button.mink-success {
-    @apply bg-green-400 shadow-green-700 text-green-900;
+    @apply bg-green-300 shadow-green-600 text-green-900;
   }
   .mink-button.mink-warning {
     @apply bg-amber-300 shadow-amber-600 text-amber-900;

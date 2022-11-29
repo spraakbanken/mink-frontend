@@ -91,6 +91,7 @@
   "login": "Sign in",
   "login.required": "This page requires you to authenticate.",
   "logout": "Logout",
+  "signup": "Create account",
   "enable": "Enable",
   "disable": "Disable",
   "xml": "XML",
