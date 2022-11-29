@@ -30,8 +30,6 @@ watchEffect(() => {
     <div class="flex flex-wrap gap-6 mb-4">
       <div class="flex-1">
         <div class="text-lg">
-          <PageTitle class="mt-0">Create your corpus</PageTitle>
-
           <p class="mb-2">
             <strong>Språkbanken Text</strong> is a research infrastructure for
             language resources. We create, maintain and host resources for the
