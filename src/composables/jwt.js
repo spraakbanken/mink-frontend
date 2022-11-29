@@ -42,7 +42,7 @@ export function useJwt() {
     if (!jwt.value) {
       router.push(`/login?destination=${route.fullPath}`);
     }
-    return !!jwt.value
+    return !!jwt.value;
   }
 
   /** Fetch JWT, store it and use it for API client. */
