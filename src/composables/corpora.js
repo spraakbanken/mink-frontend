@@ -1,13 +1,12 @@
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { useI18n } from "vue-i18n";
 import { api } from "@/assets/api";
-import useSpin from "@/assets/spin";
 import { useJwt } from "./jwt";
 import { emptyConfig } from "@/assets/corpusConfig";
 import useConfig from "./config";
 import useSources from "./sources";
 import useMessenger from "./messenger";
+import useMinkBackend from "./backend";
 
 /** Let corpus list be refreshed initially, but skip subsequent load calls. */
 let isCorporaFresh = false;
@@ -15,32 +14,21 @@ let isCorporaFresh = false;
 export default function useCorpora() {
   const store = useStore();
   const router = useRouter();
-  const { t } = useI18n();
-  const { spin } = useSpin();
   const { refreshJwt } = useJwt();
   const { uploadConfig } = useConfig();
   const { upload } = useSources();
   const { alert } = useMessenger();
+  const mink = useMinkBackend();
 
   async function loadCorpora(force = false) {
-    if (isCorporaFresh && !force) {
-      return;
-    }
-    const corpora = await spin(
-      api.listCorpora(),
-      t("corpus.list.loading"),
-      "corpora"
-    );
+    if (isCorporaFresh && !force) return;
+    const corpora = await mink.loadCorpora();
     store.commit("setCorpora", corpora);
     isCorporaFresh = true;
   }
 
   async function createCorpus() {
-    const corpusId = await spin(
-      api.createCorpus(),
-      t("corpus.creating"),
-      "create"
-    );
+    const corpusId = await mink.createCorpus();
     // Have the new corpus included in further API calls.
     await refreshJwt();
     return corpusId;
