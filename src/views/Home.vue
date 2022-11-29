@@ -18,16 +18,16 @@ watchEffect(() => {
 
 <template>
   <div>
-    <div class="bg-amber-100 text-amber-800 p-2 px-4">
+    <div class="bg-amber-100 text-amber-800 p-2 px-4 mb-4">
       <strong>Under construction.</strong> Please note that Mink is still in an
       early development stage, and access to it is thus currently restricted to
       Språkbanken Text employees.
     </div>
 
-    <div class="flex flex-wrap -m-4 mb-4">
-      <div class="lg:w-1/2 p-4">
+    <div class="flex flex-wrap gap-6 mb-4">
+      <div class="flex-1">
         <div class="text-lg">
-          <PageTitle>Create your corpus</PageTitle>
+          <PageTitle class="mt-0">Create your corpus</PageTitle>
 
           <p class="mb-2">
             <strong>Språkbanken Text</strong> is a research infrastructure for
@@ -50,10 +50,10 @@ watchEffect(() => {
         </div>
       </div>
 
-      <div class="lg:w-1/2 flex flex-wrap content-start">
+      <div class="w-full lg:flex-1 flex flex-wrap content-start gap-4">
         <Section
           title="Configurable linguistic analysis"
-          class="w-1/2 p-4 mt-0"
+          class="w-64 flex-grow mt-0"
         >
           Text documents are analyzed by
           <a
@@ -65,13 +65,13 @@ watchEffect(() => {
           Sparv.
         </Section>
 
-        <Section title="Deposit your text" class="w-1/2 p-4 mt-0">
+        <Section title="Deposit your text" class="w-64 flex-grow mt-0">
           Upload your word-processor documents, plain <em>txt</em> files or XML
           data. When using XML, annotation output is added as attributes,
           keeping the structure intact.
         </Section>
 
-        <Section title="Explore in Korp" class="w-1/2 p-4 mt-0">
+        <Section title="Explore in Korp" class="w-64 flex-grow mt-0">
           Use the resulting annotations for concordance search and statistical
           analysis in
           <a
@@ -81,7 +81,7 @@ watchEffect(() => {
           >.
         </Section>
 
-        <Section title="Share and collaborate" class="w-1/2 p-4 mt-0">
+        <Section title="Share and collaborate" class="w-64 flex-grow mt-0">
           Invite fellow project members to manage the process. Share the
           finished resource to the research community.
         </Section>
