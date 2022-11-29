@@ -29,7 +29,7 @@
     <p>{{ t("exports.download.help") }}</p>
 
     <div class="flex flex-wrap items-baseline gap-4">
-      <ActionButton v-if="exports && exports.length" @click="downloadFull">
+      <ActionButton v-if="exports && exports.length" @click="downloadResult">
         <icon :icon="['far', 'file-zipper']" class="mr-1" />
         {{ $t("download_export") }}
       </ActionButton>
@@ -46,7 +46,6 @@
 
 <script setup>
 import { useI18n } from "vue-i18n";
-import { downloadFile } from "@/util";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import useExports from "@/composables/exports";
 import { useCorpusState } from "@/composables/corpusState";
@@ -59,11 +58,6 @@ const corpusId = useCorpusIdParam();
 const { exports, downloadResult } = useExports(corpusId);
 const { isDone } = useCorpusState(corpusId);
 const { install, isInstalled } = useJob(corpusId);
-
-async function downloadFull() {
-  const data = await downloadResult();
-  downloadFile(data, corpusId + ".zip");
-}
 
 function korpInstall() {
   install();

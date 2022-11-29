@@ -27,6 +27,27 @@ export default function useMinkBackend() {
       `corpus/${corpusId}/config`
     );
 
+  const loadExports = (corpusId) =>
+    spin(
+      api.listExports(corpusId),
+      t("exports.loading"),
+      `corpus/${corpusId}/exports`
+    );
+
+  const downloadExports = (corpusId) =>
+    spin(
+      api.downloadExports(corpusId),
+      t("exports.downloading"),
+      `corpus/${corpusId}/exports`
+    );
+
+  const downloadExportFiles = (corpusId, filename) =>
+    spin(
+      api.downloadExportFile(corpusId, filename),
+      t("exports.downloading"),
+      `corpus/${corpusId}/exports`
+    );
+
   const enableAdminMode = () =>
     spin(api.adminModeOn(), "Enabling admin mode", "admin-mode");
 
@@ -38,6 +59,9 @@ export default function useMinkBackend() {
     createCorpus,
     loadConfig,
     saveConfig,
+    loadExports,
+    downloadExports,
+    downloadExportFiles,
     enableAdminMode,
     disableAdminMode,
   };

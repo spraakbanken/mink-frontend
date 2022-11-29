@@ -6,7 +6,7 @@
           v-if="exports && exports.length"
           variant="primary"
           class="mr-2"
-          @click="downloadFull"
+          @click="downloadResult"
         >
           <icon :icon="['far', 'file-zipper']" class="mr-1" />
           {{ $t("download_export") }}
@@ -33,7 +33,7 @@
               <ActionButton
                 variant="primary"
                 class="mute slim"
-                @click="downloadSingle(file.path)"
+                @click="downloadResultFile(file.path)"
               >
                 <icon :icon="['far', 'file-code']" />
               </ActionButton>
@@ -51,22 +51,10 @@ import ActionButton from "@/components/layout/ActionButton.vue";
 import PendingContent from "@/components/PendingContent.vue";
 import Section from "@/components/layout/Section.vue";
 import useExports from "@/composables/exports";
-import { downloadFile } from "@/util";
 
 const corpusId = useCorpusIdParam();
 
 const { exports, downloadResult, downloadResultFile } = useExports(corpusId);
-
-async function downloadSingle(path) {
-  const data = await downloadResultFile(path);
-  const filename = path.split("/").pop();
-  downloadFile(data, filename);
-}
-
-async function downloadFull() {
-  const data = await downloadResult();
-  downloadFile(data, corpusId + ".zip");
-}
 </script>
 
 <style></style>

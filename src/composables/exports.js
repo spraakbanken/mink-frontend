@@ -1,36 +1,27 @@
 import { computed } from "@vue/reactivity";
-import { api } from "@/assets/api";
-import useSpin from "@/assets/spin";
 import { useStore } from "vuex";
-import { useI18n } from "vue-i18n";
+import useMinkBackend from "./backend";
+import { downloadFile } from "@/util";
 
 export default function useExports(corpusId) {
   const store = useStore();
-  const { spin } = useSpin();
-  const { t } = useI18n();
   const exports = computed(() => store.state.corpora[corpusId]?.exports);
-  const token = `corpus/${corpusId}/exports`;
+  const mink = useMinkBackend();
 
-  function loadExports() {
-    spin(api.listExports(corpusId), t("exports.loading"), token).then(
-      (exports) => store.commit("setExports", { corpusId, exports })
-    );
+  async function loadExports() {
+    const exports = await mink.loadExports(corpusId);
+    store.commit("setExports", { corpusId, exports });
   }
 
-  function downloadResult() {
-    return spin(
-      api.downloadExports(corpusId),
-      "Laddar ner analysresultat",
-      token
-    );
+  async function downloadResult() {
+    const data = await mink.downloadExports(corpusId);
+    downloadFile(data, corpusId + ".zip");
   }
 
-  function downloadResultFile(fileName) {
-    return spin(
-      api.downloadExportFile(corpusId, fileName),
-      "Laddar ner analysresultat",
-      token
-    );
+  async function downloadResultFile(path) {
+    const data = await mink.downloadExportFiles(corpusId, path);
+    const filename = path.split("/").pop();
+    downloadFile(data, filename);
   }
 
   return {
