@@ -9,6 +9,9 @@ import useConfig from "./config";
 import useSources from "./sources";
 import useMessenger from "./messenger";
 
+/** Let corpus list be refreshed initially, but skip subsequent load calls. */
+let isCorporaFresh = false;
+
 export default function useCorpora() {
   const store = useStore();
   const router = useRouter();
@@ -19,10 +22,17 @@ export default function useCorpora() {
   const { upload } = useSources();
   const { alert } = useMessenger();
 
-  async function loadCorpora() {
-    return spin(api.listCorpora(), t("corpus.list.loading"), "corpora").then(
-      (corporaFetched) => store.commit("setCorpora", corporaFetched)
+  async function loadCorpora(force = false) {
+    if (isCorporaFresh && !force) {
+      return;
+    }
+    const corpora = await spin(
+      api.listCorpora(),
+      t("corpus.list.loading"),
+      "corpora"
     );
+    store.commit("setCorpora", corpora);
+    isCorporaFresh = true;
   }
 
   async function createCorpus() {

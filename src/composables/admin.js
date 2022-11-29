@@ -14,12 +14,13 @@ export default function useAdmin() {
   async function enableAdminMode() {
     await spin(api.adminModeOn(), "Enabling admin mode", "admin-mode");
     adminModeRef.value = true;
+    await loadCorpora(true);
   }
 
   async function disableAdminMode() {
     await spin(api.adminModeOff(), "Disabling admin mode", "admin-mode");
     adminModeRef.value = false;
-    await loadCorpora();
+    await loadCorpora(true);
   }
 
   const adminMode = computed(() => adminModeRef.value);
