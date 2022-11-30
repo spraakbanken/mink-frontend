@@ -24,7 +24,7 @@ export function formatSeconds(secs) {
 }
 
 export function ensureExtension(filename, ext) {
-  return filename.replace(/.[^.]*$/, "") + "." + ext;
+  return filename.replace(/(.+)\.[^/.]*$/, "$1") + "." + ext;
 }
 
 /** Join path segments and normalize.

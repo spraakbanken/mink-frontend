@@ -7,7 +7,9 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
-    "format": "prettier .  --write '!.yarn'"
+    "format": "prettier .  --write '!.yarn'",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
@@ -35,6 +37,7 @@
     "rollup-plugin-visualizer": "^5.6.0",
     "tailwindcss": "^3.1.4",
     "vite": "^2.9.13",
-    "vite-plugin-rewrite-all": "^0.1.2"
+    "vite-plugin-rewrite-all": "^0.1.2",
+    "vitest": "^0.25.3"
   }
 }
