@@ -36,10 +36,7 @@ const { corpusName } = useConfig(corpusId);
 
 const corpusExists = computed(() => !!store.state.corpora[corpusId]);
 
-(async () => {
-  await requireAuthentication();
-  await loadCorpus();
-})();
+requireAuthentication().then((ok) => ok && loadCorpus());
 </script>
 
 <style></style>
