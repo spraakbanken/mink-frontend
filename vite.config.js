@@ -35,5 +35,8 @@ export default defineConfig(({ command, mode }) => {
       host: "minkdev.spraakbanken.gu.se",
       https: DEV_HTTPS,
     },
+    test: {
+      environment: "happy-dom",
+    },
   };
 });
