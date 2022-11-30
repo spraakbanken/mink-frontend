@@ -58,14 +58,14 @@
 
 <script setup>
 import { useStore } from "vuex";
-import { api } from "@/assets/api";
-import useSpin from "@/assets/spin";
-import { useJwt } from "@/composables/jwt";
-import useMessenger from "@/composables/messenger";
-import Spinner from "@/components/Spinner.vue";
-import LocaleSwitcher from "@/components/LocaleSwitcher.vue";
-import AdminModeBanner from "@/components/AdminModeBanner.vue";
-import MessageToasts from "@/components/MessageToasts.vue";
+import { api } from "@/api/api";
+import useSpin from "@/spin/spin.composable";
+import { useJwt } from "@/auth/jwt.composable";
+import useMessenger from "@/message/messenger.composable";
+import Spinner from "@/spin/Spinner.vue";
+import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
+import AdminModeBanner from "@/admin/AdminModeBanner.vue";
+import MessageToasts from "@/message/MessageToasts.vue";
 
 const store = useStore();
 const { messages } = useSpin();

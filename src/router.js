@@ -1,18 +1,18 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "@/views/Home.vue";
-import Dashboard from "@/views/Dashboard.vue";
-import Login from "@/views/Login.vue";
-import Signup from "@/views/Signup.vue";
-import CreateCorpus from "@/views/CreateCorpus.vue";
-import Corpus from "@/views/Corpus.vue";
-import Overview from "@/views/Overview.vue";
-import CorpusSources from "@/views/CorpusSources.vue";
-import CorpusConfiguration from "@/views/CorpusConfiguration.vue";
-import CorpusResult from "@/views/CorpusResult.vue";
-import CorpusDelete from "@/views/CorpusDelete.vue";
-import Source from "@/views/Source.vue";
-import User from "@/views/User.vue";
-import NotFound from "@/views/NotFound.vue";
+import Home from "@/Home.vue";
+import Dashboard from "@/corpora/Dashboard.vue";
+import Login from "@/auth/Login.vue";
+import Signup from "@/auth/Signup.vue";
+import CreateCorpus from "@/corpora/CreateCorpus.vue";
+import Corpus from "@/corpus/Corpus.vue";
+import Overview from "@/corpus/Overview.vue";
+import CorpusSources from "@/corpus/sources/CorpusSources.vue";
+import CorpusConfiguration from "@/corpus/config/CorpusConfiguration.vue";
+import CorpusResult from "@/corpus/exports/CorpusResult.vue";
+import CorpusDelete from "@/corpus/CorpusDelete.vue";
+import Source from "@/corpus/sources/Source.vue";
+import User from "@/auth/User.vue";
+import NotFound from "@/NotFound.vue";
 
 const routes = [
   { path: "/", component: Home },
