@@ -75,7 +75,7 @@ import Section from "@/components/Section.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import { FORMATS_EXT } from "@/api/corpusConfig";
 import { useJwt } from "@/auth/jwt.composable";
-import useCorpora from "@/corpora/corpora.composable";
+import useCorpora from "./corpora.composable";
 
 const { requireAuthentication } = useJwt();
 const { createFromConfig } = useCorpora();

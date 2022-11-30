@@ -9,7 +9,7 @@
 
 <script setup>
 import { useRoute } from "vue-router";
-import { getLoginUrl } from "@/auth/auth";
+import { getLoginUrl } from "./auth";
 import ActionButton from "@/components/ActionButton.vue";
 
 const route = useRoute();

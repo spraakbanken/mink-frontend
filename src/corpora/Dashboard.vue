@@ -40,7 +40,7 @@ import { useI18n } from "vue-i18n";
 import PadButton from "@/components/PadButton.vue";
 import Section from "@/components/Section.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import CorpusButton from "@/corpora/CorpusButton.vue";
+import CorpusButton from "./CorpusButton.vue";
 import { useJwt } from "@/auth/jwt.composable";
 import SourceUpload from "@/corpus/sources/SourceUpload.vue";
 import Help from "@/components/Help.vue";

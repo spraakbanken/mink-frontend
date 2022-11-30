@@ -21,8 +21,8 @@
 
 <script setup>
 import { useI18n } from "vue-i18n";
-import { getLogoutUrl } from "@/auth/auth";
-import { useJwt } from "@/auth/jwt.composable";
+import { getLogoutUrl } from "./auth";
+import { useJwt } from "./jwt.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import Panel from "@/components/Panel.vue";

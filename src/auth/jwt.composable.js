@@ -3,7 +3,7 @@ import { useI18n } from "vue-i18n";
 import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
 import useSpin from "@/spin/spin.composable";
-import { checkLogin } from "@/auth/auth";
+import { checkLogin } from "./auth";
 import { api } from "@/api/api";
 
 /**
