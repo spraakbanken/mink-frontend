@@ -140,27 +140,20 @@
 
 <script setup>
 import { ref } from "@vue/reactivity";
-import { api } from "@/assets/api";
-import useSpin from "@/assets/spin";
 import useCorpusIdParam from "@/composables/corpusIdParam";
 import ActionButton from "@/components/layout/ActionButton.vue";
 import Section from "@/components/layout/Section.vue";
 import PendingContent from "@/components/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
-import { useStore } from "vuex";
 import useConfig from "@/composables/config";
 import { useRouter } from "vue-router";
-import { FORMATS_EXT, SEGMENTERS, makeConfig } from "@/assets/corpusConfig";
-import { useI18n } from "vue-i18n";
+import { FORMATS_EXT, SEGMENTERS } from "@/assets/corpusConfig";
 import TaggedInput from "@/components/TaggedInput.vue";
 import useMessenger from "@/composables/messenger";
 
 const router = useRouter();
-const store = useStore();
-const { spin } = useSpin();
 const corpusId = useCorpusIdParam();
-const { config } = useConfig(corpusId);
-const { t } = useI18n();
+const { config, uploadConfig } = useConfig(corpusId);
 const { alert } = useMessenger();
 
 const name = ref({ ...config.value?.name });
@@ -183,13 +176,7 @@ async function save() {
     datetimeTo: datetimeTo.value,
   };
   try {
-    const configYaml = makeConfig(corpusIdFixed, configNew);
-    await spin(
-      api.uploadConfig(corpusIdFixed, configYaml),
-      t("config.saving"),
-      `corpus/${corpusIdFixed}/config`
-    );
-    store.commit("setConfig", { corpusId: corpusIdFixed, config: configNew });
+    await uploadConfig(configNew, corpusIdFixed);
     router.push(`/corpus/${corpusIdFixed}`);
   } catch (e) {
     alert(e, "error");

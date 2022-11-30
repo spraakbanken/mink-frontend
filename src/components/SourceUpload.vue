@@ -14,7 +14,9 @@
       </label>
       <div class="p-8">
         <div class="flex flex-col justify-center items-center opacity-60">
-          <label for="file-input">{{ $t("dragANDdrop") }}</label>
+          <label for="file-input" class="cursor-pointer">
+            {{ $t("dragANDdrop") }}
+          </label>
           <input
             id="file-input"
             type="file"
@@ -45,9 +47,9 @@ const props = defineProps({
 });
 
 const corpusId = useCorpusIdParam();
-const { upload } = useSources(corpusId);
+const { uploadSources } = useSources(corpusId);
 
-const fileHandler = props.fileHandler || upload;
+const fileHandler = props.fileHandler || uploadSources;
 </script>
 
 <style></style>
