@@ -2,7 +2,6 @@
 import { useJwt } from "@/composables/jwt";
 import { watchEffect } from "@vue/runtime-core";
 import { useRouter } from "vue-router";
-import PageTitle from "@/components/PageTitle.vue";
 import Section from "@/components/layout/Section.vue";
 import LoginButton from "@/components/LoginButton.vue";
 import ActionButton from "@/components/layout/ActionButton.vue";
