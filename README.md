@@ -12,11 +12,11 @@ Design patterns used:
 - [Composables](https://vuejs.org/guide/reusability/composables.html) to group state+logic for distinct features
 - Utility-first styling with [Tailwind CSS](https://tailwindcss.com/)
 - Visualization of API calls:
-  1. Wrap async calls in [`spin`](src/assets/spin.js):
+  1. Wrap async calls in [`spin`](src/spin/spin.composable.js):
      ```js
      spin(loadCorpora(), "Loading corpora", "corpora");
      ```
-  2. For markup that might change after the call, wrap it in [`<PendingContent>`](src/components/PendingContent.vue) to apply animation:
+  2. For markup that might change after the call, wrap it in [`<PendingContent>`](src/spin/PendingContent.vue) to apply animation:
      ```html
      <PendingContent on="corpora"> {{ corpora.length }} </PendingContent>
      ```
@@ -56,3 +56,11 @@ For SB-Auth to allow authentication requests, the dev server must use a hostname
 DEV_HTTPS_KEY=./local/spraakbanken.gu.se+1-key.pem
 DEV_HTTPS_CERT=./local/spraakbanken.gu.se+1.pem
 ```
+
+## Testing
+
+See:
+
+- [Vue testing guide](https://vuejs.org/guide/scaling-up/testing.html)
+- [Vitest API](https://vitest.dev/api/)
+- [Vue testing library](https://testing-library.com/docs/vue-testing-library/intro)
