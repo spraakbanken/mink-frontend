@@ -11,7 +11,7 @@ import CorpusConfiguration from "@/corpus/config/CorpusConfiguration.vue";
 import CorpusResult from "@/corpus/exports/CorpusResult.vue";
 import CorpusDelete from "@/corpus/CorpusDelete.vue";
 import Source from "@/corpus/sources/Source.vue";
-import User from "@/auth/User.vue";
+import User from "@/user/User.vue";
 import NotFound from "@/NotFound.vue";
 
 const routes = [

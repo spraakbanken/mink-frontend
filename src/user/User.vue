@@ -21,13 +21,13 @@
 
 <script setup>
 import { useI18n } from "vue-i18n";
-import { getLogoutUrl } from "./auth";
-import { useJwt } from "./jwt.composable";
+import { getLogoutUrl } from "@/auth/auth";
+import { useJwt } from "@/auth/jwt.composable";
+import useAdmin from "./admin.composable";
+import AdminModeSwitcher from "./AdminModeSwitcher.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import Panel from "@/components/Panel.vue";
-import AdminModeSwitcher from "@/admin/AdminModeSwitcher.vue";
-import useAdmin from "@/admin/admin.composable";
 
 const { t } = useI18n();
 const { requireAuthentication, isAuthenticated, payload } = useJwt();

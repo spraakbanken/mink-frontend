@@ -1,13 +1,12 @@
-import omit from "lodash/omit";
+import pick from "lodash/pick";
 import { createStore } from "vuex";
 import VuexPersistence from "vuex-persist";
 
 export default createStore({
   plugins: [
-    // Sync store with localstorage.
+    // Sync some of the store with localstorage.
     new VuexPersistence({
-      // The JWT should be fetched anew on page reload.
-      reducer: (state) => omit(state, ["jwt"]),
+      reducer: (state) => pick(state, ["corpora", "locale"]),
     }).plugin,
   ],
   state() {
@@ -18,6 +17,7 @@ export default createStore({
         // [corpusId]: {source, config, status, exports}
       },
       pending: [],
+      adminMode: false,
     };
   },
   mutations: {
@@ -68,6 +68,9 @@ export default createStore({
     },
     removeCorpus(state, corpusId) {
       delete state.corpora[corpusId];
+    },
+    setAdminMode(state, adminMode) {
+      state.adminMode = adminMode;
     },
   },
 });
