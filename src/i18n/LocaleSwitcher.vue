@@ -1,5 +1,5 @@
 <template>
-  <select v-model="$i18n.locale" class="bg-transparent text-gray-600">
+  <select v-model="$i18n.locale" class="bg-transparent border-0">
     <option
       v-for="locale in $i18n.availableLocales"
       :key="locale"

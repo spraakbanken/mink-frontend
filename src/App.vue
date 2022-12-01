@@ -1,9 +1,17 @@
 <template>
-  <header class="bg-white mb-2 shadow">
+  <header
+    class="mb-2 shadow bg-white text-gray-600 dark:bg-zinc-700 dark:text-zinc-400"
+  >
     <div class="container py-4 flex justify-between flex-wrap gap-4">
       <div class="text-4xl">
         <router-link to="/" class="text-current">
-          <img src="@/assets/mink.svg" alt="Mink" class="h-16" />
+          <picture>
+            <source
+              media="(prefers-color-scheme: dark)"
+              :srcset="logoMinkLight"
+            />
+            <img src="@/assets/mink.svg" alt="Mink" class="h-16" />
+          </picture>
         </router-link>
       </div>
 
@@ -23,13 +31,19 @@
         <div class="self-stretch flex flex-col">
           <div class="w-56 flex-1">
             <a href="https://spraakbanken.gu.se/">
-              <img src="@/assets/sbx1r.svg" />
+              <picture>
+                <source
+                  media="(prefers-color-scheme: dark)"
+                  :srcset="logoSbxLight"
+                />
+                <img src="@/assets/sbx1r.svg" />
+              </picture>
             </a>
           </div>
 
           <div class="mt-2 flex flex-wrap gap-4 items-baseline justify-end">
             <template v-if="payload">
-              <router-link to="/user" class="text-gray-600 pt-0.5">
+              <router-link to="/user" class="text-inherit pt-0.5">
                 {{ payload.name }}
               </router-link>
             </template>
@@ -66,6 +80,9 @@ import Spinner from "@/spin/Spinner.vue";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
 import MessageToasts from "@/message/MessageToasts.vue";
+// Asset path transformation doesn't work in <source srcset> like in <img src>
+import logoMinkLight from "@/assets/mink-light.svg";
+import logoSbxLight from "@/assets/sbx1r-light.svg";
 
 const store = useStore();
 const { messages } = useSpin();
