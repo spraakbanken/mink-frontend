@@ -26,7 +26,10 @@ function toggleExpand() {
 </script>
 
 <template>
-  <div v-if="text" class="relative bg-zinc-700 rounded shadow-inner text-sm">
+  <div
+    v-if="text"
+    class="relative bg-zinc-700 dark:bg-zinc-600 rounded shadow-inner text-sm"
+  >
     <div class="absolute z-10 bottom-2 right-2 flex gap-2">
       <ActionButton @click="toggleExpand">
         <template v-if="expanded">

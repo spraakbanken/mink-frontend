@@ -50,7 +50,7 @@
   </div>
 
   <div
-    class="container py-20 flex justify-center items-center text-sm text-gray-700"
+    class="container py-20 flex justify-center items-center text-sm opacity-70"
   >
     {{ $t("contact") }}: sb-info@svenska.gu.se
   </div>

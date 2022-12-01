@@ -3,7 +3,7 @@
     <h1>
       <slot />
     </h1>
-    <h2 v-if="subtitle" class="ml-8 text-gray-600">
+    <h2 v-if="subtitle" class="ml-8 text-gray-600 dark:text-zinc-400">
       {{ $t(subtitle) }}
     </h2>
   </header>
