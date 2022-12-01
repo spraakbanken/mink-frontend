@@ -31,7 +31,10 @@
     </div>
 
     <div class="w-full lg:w-1/2 lg:pl-2">
-      <Panel :title="t('job.status')" class="mb-4 bg-zinc-700 text-white">
+      <Panel
+        :title="t('job.status')"
+        class="mb-4 bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
+      >
         <JobStatus />
       </Panel>
 
