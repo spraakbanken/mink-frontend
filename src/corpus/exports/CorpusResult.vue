@@ -24,7 +24,7 @@
         <tbody>
           <tr v-for="file in exports" :key="file.name">
             <td>
-              {{ file.name }}
+              {{ file.path }}
             </td>
             <td class="text-right whitespace-nowrap">
               {{ (file.size / 1000).toFixed(1) }} KB

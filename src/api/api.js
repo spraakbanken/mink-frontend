@@ -143,7 +143,9 @@ class MinkApi {
     const response = await this.axios.get("list-exports", {
       params: { corpus_id: corpusId },
     });
-    return response.data.contents;
+    return response.data.contents.filter(
+      (meta) => meta.path.indexOf("xml_export.pretty/") === 0
+    );
   }
 
   async downloadExports(corpusId) {
