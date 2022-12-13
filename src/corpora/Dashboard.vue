@@ -1,5 +1,5 @@
 <template>
-  <Section v-if="hasCorpora" :title="$t('corpuses')">
+  <Section :title="$t('corpuses')">
     <PendingContent
       v-if="isAuthenticated"
       on="corpora"

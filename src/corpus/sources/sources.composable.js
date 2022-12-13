@@ -26,7 +26,7 @@ export default function useSources(corpusId) {
 
   async function uploadSources(files, corpusId_ = corpusId) {
     await mink.uploadSources(corpusId_, files);
-    loadSources();
+    loadSources(corpusId_);
   }
 
   async function deleteSource(source) {

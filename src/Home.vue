@@ -31,17 +31,19 @@ watchEffect(() => {
         <div class="text-lg">
           <p class="mb-2">
             <strong>Språkbanken Text</strong> is a research infrastructure for
-            language resources. We create, maintain and host resources for the
-            disposal of researchers everywhere, and take pride in providing free
-            and open access where possible.
+            language data. We create and maintain language data analysed with
+            state-of-the-art language technology methods for researchers
+            everywhere, and take pride in providing free and open access where
+            possible.
           </p>
 
           <p class="mb-2">
-            <strong>Mink</strong> is our effort to bring the resource creation
-            toolchain into the hands of researchers. You can use Mink to run
-            automatic annotation models on texts that you have collected
-            yourself. The resulting resource can be downloaded, shared, and used
-            directly for concordance search in Korp.
+            <strong>Mink</strong> is our effort to put Språkbanken Text’s
+            research infrastructure into the hands of the researchers. You can
+            use Mink to apply our language technology methods on texts that you
+            have collected yourself. The resulting data can be downloaded or
+            made available through our research tools, such as Korp and Strix,
+            behind login.
           </p>
 
           <div class="flex justify-center gap-4 p-8 text-center text-xl">
@@ -59,38 +61,41 @@ watchEffect(() => {
 
       <div class="w-full lg:flex-1 flex flex-wrap content-start gap-4">
         <Section
-          title="Configurable linguistic analysis"
+          title="Configurable language technology analysis"
           class="w-64 flex-grow mt-0"
         >
-          Text documents are analyzed by
+          Your language data are analyzed by our language technology platform
           <a
             href="https://spraakbanken.gu.se/en/tools/sparv"
             title="About the Sparv tool"
             ><strong>Sparv</strong></a
           >
-          according to your settings. In a way, Mink is just a user interface to
-          Sparv.
+          according to your settings.
         </Section>
 
         <Section title="Deposit your text" class="w-64 flex-grow mt-0">
           Upload your word-processor documents, plain <em>txt</em> files or XML
-          data. When using XML, annotation output is added as attributes,
-          keeping the structure intact.
+          data. When using XML, the output of the analyses is added to the XML
+          while keeping the input XML structure intact.
         </Section>
 
         <Section title="Explore in Korp" class="w-64 flex-grow mt-0">
-          Use the resulting annotations for concordance search and statistical
-          analysis in
+          Export the resulting data, for search and statistical analysis, to
           <a
             href="https://spraakbanken.gu.se/en/tools/korp"
             title="About the Korp tool"
             ><strong>Korp</strong></a
-          >.
+          >
+          and Strix.
         </Section>
 
         <Section title="Share and collaborate" class="w-64 flex-grow mt-0">
-          Invite fellow project members to manage the process. Share the
-          finished resource to the research community.
+          Invite fellow researchers to view your data in our research tools,
+          protected by login. Contact us (sb-info@svenska.gu.se) when you want
+          to share your data with the research community.
+          <p class="mb-2 italic">
+            This feature is scheduled for an upcoming version of Mink.
+          </p>
         </Section>
       </div>
     </div>
@@ -98,17 +103,17 @@ watchEffect(() => {
     <div>
       <p class="mb-2">
         <strong>Mink or no Mink?</strong>
-        Make sure to first get acquainted to any existing resources related to
-        your interests! Språkbanken's growing collection of language resources
-        can be browsed on the
+        Make sure to first get acquainted to any existing language data set
+        related to your interests! Språkbanken's growing collection of research
+        data can be browsed on the
         <a
           href="https://spraakbanken.gu.se/en/resources"
-          title="Språkbanken Text: Resources"
-          >Resources</a
+          title="Språkbanken Text: Language resources"
+          >Data</a
         >
         section of our website. At a larger scale, Språkbanken forms a part of
-        the CLARIN ERIC, whose collected assortment of resource can be browsed
-        in the
+        the CLARIN ERIC, whose collected assortment of data can be browsed in
+        the
         <a
           href="https://vlo.clarin.eu/"
           title="CLARIN Virtual Language Observatory"

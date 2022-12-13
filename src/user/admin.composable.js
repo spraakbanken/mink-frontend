@@ -12,13 +12,13 @@ export default function useAdmin() {
 
   async function enableAdminMode() {
     await mink.enableAdminMode();
-    store.commit("setAdmninMode", true);
+    store.commit("setAdminMode", true);
     await loadCorpora(true);
   }
 
   async function disableAdminMode() {
     await mink.disableAdminMode();
-    store.commit("setAdmninMode", false);
+    store.commit("setAdminMode", false);
     await loadCorpora(true);
   }
 
