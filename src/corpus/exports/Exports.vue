@@ -45,6 +45,7 @@
 </template>
 
 <script setup>
+import { watch } from "vue";
 import { useI18n } from "vue-i18n";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import useExports from "./exports.composable";
@@ -55,11 +56,17 @@ import PendingContent from "@/spin/PendingContent.vue";
 
 const { t } = useI18n();
 const corpusId = useCorpusIdParam();
-const { exports, downloadResult } = useExports(corpusId);
+const { exports, loadExports, downloadResult } = useExports(corpusId);
 const { isDone } = useCorpusState(corpusId);
 const { install, isInstalled } = useJob(corpusId);
 
 function korpInstall() {
   install();
 }
+
+watch(isDone, () => {
+  if (isDone.value) {
+    loadExports();
+  }
+});
 </script>
