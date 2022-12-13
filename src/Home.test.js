@@ -14,5 +14,5 @@ test("frontpage", () => {
     },
   });
 
-  getByText("Configurable linguistic analysis");
+  getByText("Configurable language technology analysis");
 });
