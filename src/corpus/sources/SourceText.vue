@@ -1,10 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { useI18n } from "vue-i18n";
 import { downloadFile } from "@/util";
 import ActionButton from "@/components/ActionButton.vue";
-
-const { t } = useI18n();
 
 const props = defineProps(["load", "filename", "noLoad"]);
 const text = ref();
@@ -34,17 +31,17 @@ function toggleExpand() {
       <ActionButton @click="toggleExpand">
         <template v-if="expanded">
           <icon :icon="['far', 'square-minus']" class="mr-1" />
-          {{ t("expand.close") }}
+          {{ $t("expand.close") }}
         </template>
         <template v-else>
           <icon :icon="['far', 'square-plus']" class="mr-1" />
 
-          {{ t("expand.open") }}
+          {{ $t("expand.open") }}
         </template>
       </ActionButton>
       <ActionButton @click="download">
         <icon :icon="['far', 'file']" class="mr-1" />
-        {{ t("download") }}
+        {{ $t("download") }}
       </ActionButton>
     </div>
     <div
@@ -57,7 +54,7 @@ function toggleExpand() {
   <div v-else>
     <ActionButton @click="download">
       <icon :icon="['far', 'file']" class="mr-1" />
-      {{ t("download") }}
+      {{ $t("download") }}
     </ActionButton>
   </div>
 </template>

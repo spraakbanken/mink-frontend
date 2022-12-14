@@ -1,6 +1,5 @@
 <script setup>
 import { useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
 import useCorpusIdParam from "./corpusIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import Section from "@/components/Section.vue";
@@ -8,7 +7,6 @@ import PendingContent from "@/spin/PendingContent.vue";
 import useCorpus from "./corpus.composable";
 
 const router = useRouter();
-const { t } = useI18n();
 const corpusId = useCorpusIdParam();
 const { deleteCorpus } = useCorpus(corpusId);
 
@@ -20,7 +18,7 @@ async function doDelete() {
 
 <template>
   <PendingContent :on="`corpus/${corpusId}`">
-    <Section :title="t('corpus.delete')">
+    <Section :title="$t('corpus.delete')">
       <p class="my-2">{{ $t("corpus.delete.ask") }}</p>
 
       <div>

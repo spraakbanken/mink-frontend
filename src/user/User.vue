@@ -11,7 +11,7 @@
       </a>
     </div>
 
-    <Panel v-if="isAdmin" :title="t('user.settings')">
+    <Panel v-if="isAdmin" :title="$t('user.settings')">
       <div class="my-4">
         <AdminModeSwitcher />
       </div>
@@ -20,7 +20,6 @@
 </template>
 
 <script setup>
-import { useI18n } from "vue-i18n";
 import { getLogoutUrl } from "@/auth/auth";
 import { useJwt } from "@/auth/jwt.composable";
 import useAdmin from "./admin.composable";
@@ -29,7 +28,6 @@ import PageTitle from "@/components/PageTitle.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import Panel from "@/components/Panel.vue";
 
-const { t } = useI18n();
 const { requireAuthentication, isAuthenticated, payload } = useJwt();
 const { isAdmin } = useAdmin();
 

@@ -5,7 +5,7 @@
     </div>
 
     <div class="w-full lg:w-1/2 lg:pr-2">
-      <Panel :title="t('metadata')" class="mb-4">
+      <Panel :title="$t('metadata')" class="mb-4">
         <Metadata />
         <template #controls>
           <router-link :to="`/corpus/${corpusId}/config`">
@@ -17,7 +17,7 @@
         </template>
       </Panel>
 
-      <Panel :title="t('configuration')" class="mb-4">
+      <Panel :title="$t('configuration')" class="mb-4">
         <Config />
         <template #controls>
           <router-link :to="`/corpus/${corpusId}/config`">
@@ -32,24 +32,23 @@
 
     <div class="w-full lg:w-1/2 lg:pl-2">
       <Panel
-        :title="t('job.status')"
+        :title="$t('job.status')"
         class="mb-4 bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
       >
         <JobStatus />
       </Panel>
 
-      <Panel :title="t('result')" class="mb-4">
+      <Panel :title="$t('result')" class="mb-4">
         <Exports />
       </Panel>
     </div>
   </div>
-  <Panel :title="t('texts')">
+  <Panel :title="$t('texts')">
     <Sources />
   </Panel>
 </template>
 
 <script setup>
-import { useI18n } from "vue-i18n";
 import useCorpusIdParam from "./corpusIdParam.composable";
 import { useCorpusState } from "./corpusState.composable";
 import Metadata from "./config/Metadata.vue";
@@ -61,7 +60,6 @@ import JobStatus from "./job/JobStatus.vue";
 import Exports from "./exports/Exports.vue";
 import CorpusStateHelp from "./CorpusStateHelp.vue";
 
-const { t } = useI18n();
 const corpusId = useCorpusIdParam();
 const { isUnconfigured } = useCorpusState(corpusId);
 </script>

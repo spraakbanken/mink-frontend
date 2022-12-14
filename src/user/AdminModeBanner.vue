@@ -1,9 +1,7 @@
 <script setup>
-import { useI18n } from "vue-i18n";
 import useAdmin from "./admin.composable";
 import ActionButton from "@/components/ActionButton.vue";
 
-const { t } = useI18n();
 const { adminMode, disableAdminMode } = useAdmin();
 
 function disable() {
@@ -18,9 +16,9 @@ function disable() {
   >
     <div class="container py-1">
       <icon icon="triangle-exclamation" class="mr-2" />
-      {{ t("user.admin_mode.warning") }}
+      {{ $t("user.admin_mode.warning") }}
       <ActionButton class="ml-2 slim text-sm" @click="disable">
-        {{ t("disable") }}
+        {{ $t("disable") }}
       </ActionButton>
     </div>
   </div>

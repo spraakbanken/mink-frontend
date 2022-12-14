@@ -28,7 +28,7 @@
       :variant="hasCorpora ? null : 'primary'"
     />
     <Help>
-      <p>{{ t("home.help.upload") }}</p>
+      <p>{{ $t("home.help.upload") }}</p>
     </Help>
   </Section>
 </template>
@@ -36,7 +36,6 @@
 <script setup>
 import { computed } from "@vue/reactivity";
 import { useStore } from "vuex";
-import { useI18n } from "vue-i18n";
 import PadButton from "@/components/PadButton.vue";
 import Section from "@/components/Section.vue";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -46,7 +45,6 @@ import SourceUpload from "@/corpus/sources/SourceUpload.vue";
 import Help from "@/components/Help.vue";
 import useCorpora from "@/corpora/corpora.composable";
 
-const { t } = useI18n();
 const store = useStore();
 const { requireAuthentication, isAuthenticated } = useJwt();
 const { loadCorpora, createFromUpload } = useCorpora();
