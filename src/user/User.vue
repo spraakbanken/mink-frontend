@@ -21,14 +21,14 @@
 
 <script setup>
 import { getLogoutUrl } from "@/auth/auth";
-import { useJwt } from "@/auth/jwt.composable";
+import { useAuth } from "@/auth/auth.composable";
 import useAdmin from "./admin.composable";
 import AdminModeSwitcher from "./AdminModeSwitcher.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import Panel from "@/components/Panel.vue";
 
-const { requireAuthentication, isAuthenticated, payload } = useJwt();
+const { requireAuthentication, isAuthenticated, payload } = useAuth();
 const { isAdmin } = useAdmin();
 
 const logoutUrl = getLogoutUrl();

@@ -1,12 +1,12 @@
 import { computed, ref } from "vue";
 import useMinkBackend from "@/api/backend.composable";
-import { useJwt } from "@/auth/jwt.composable";
+import { useAuth } from "@/auth/auth.composable";
 import useCorpora from "@/corpora/corpora.composable";
 
 const adminModeRef = ref(false);
 
 export default function useAdmin() {
-  const { payload } = useJwt();
+  const { payload } = useAuth();
   const { loadCorpora } = useCorpora();
   const mink = useMinkBackend();
 

@@ -1,12 +1,12 @@
 <script setup>
-import { useJwt } from "@/auth/jwt.composable";
+import { useAuth } from "@/auth/auth.composable";
 import { watchEffect } from "@vue/runtime-core";
 import { useRouter } from "vue-router";
 import Section from "@/components/Section.vue";
 import LoginButton from "@/auth/LoginButton.vue";
 import ActionButton from "@/components/ActionButton.vue";
 
-const { isAuthenticated } = useJwt();
+const { isAuthenticated } = useAuth();
 const router = useRouter();
 
 watchEffect(() => {

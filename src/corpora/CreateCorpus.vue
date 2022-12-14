@@ -74,10 +74,10 @@ import ActionButton from "@/components/ActionButton.vue";
 import Section from "@/components/Section.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import { FORMATS_EXT } from "@/api/corpusConfig";
-import { useJwt } from "@/auth/jwt.composable";
+import { useAuth } from "@/auth/auth.composable";
 import useCorpora from "./corpora.composable";
 
-const { requireAuthentication } = useJwt();
+const { requireAuthentication } = useAuth();
 const { createFromConfig } = useCorpora();
 
 const name = ref("");

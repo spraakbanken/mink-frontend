@@ -74,7 +74,7 @@
 import { useStore } from "vuex";
 import { api } from "@/api/api";
 import useSpin from "@/spin/spin.composable";
-import { useJwt } from "@/auth/jwt.composable";
+import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
 import Spinner from "@/spin/Spinner.vue";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
@@ -86,7 +86,7 @@ import logoSbxLight from "@/assets/sbx1r-light.svg";
 
 const store = useStore();
 const { messages } = useSpin();
-const { refreshJwt, payload } = useJwt();
+const { refreshJwt, payload } = useAuth();
 const { alert } = useMessenger();
 
 // Fetch JWT and use it for all API requests.

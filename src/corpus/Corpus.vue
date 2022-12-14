@@ -22,14 +22,14 @@
 <script setup>
 import { computed } from "@vue/runtime-core";
 import { useStore } from "vuex";
-import { useJwt } from "@/auth/jwt.composable";
+import { useAuth } from "@/auth/auth.composable";
 import useCorpusIdParam from "./corpusIdParam.composable";
 import useCorpus from "./corpus.composable.js";
 import useConfig from "./config/config.composable";
 import PageTitle from "@/components/PageTitle.vue";
 
 const store = useStore();
-const { requireAuthentication, isAuthenticated } = useJwt();
+const { requireAuthentication, isAuthenticated } = useAuth();
 const corpusId = useCorpusIdParam();
 const { loadCorpus } = useCorpus(corpusId);
 const { corpusName } = useConfig(corpusId);

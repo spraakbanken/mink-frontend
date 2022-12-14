@@ -1,6 +1,6 @@
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { useJwt } from "@/auth/jwt.composable";
+import { useAuth } from "@/auth/auth.composable";
 import { emptyConfig } from "@/api/corpusConfig";
 import useConfig from "@/corpus/config/config.composable";
 import useSources from "@/corpus/sources/sources.composable";
@@ -14,7 +14,7 @@ let isCorporaFresh = false;
 export default function useCorpora() {
   const store = useStore();
   const router = useRouter();
-  const { refreshJwt } = useJwt();
+  const { refreshJwt } = useAuth();
   const { deleteCorpus } = useCorpus();
   const { uploadConfig } = useConfig();
   const { uploadSources } = useSources();

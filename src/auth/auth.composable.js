@@ -22,7 +22,7 @@ let refreshTimer = null;
 
 const jwt = ref(null);
 
-export function useJwt() {
+export function useAuth() {
   const router = useRouter();
   const route = useRoute();
   const { spin } = useSpin();

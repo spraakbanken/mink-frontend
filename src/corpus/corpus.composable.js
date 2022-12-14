@@ -1,17 +1,17 @@
 import { useStore } from "vuex";
-import { useJwt } from "@/auth/jwt.composable";
+import { useAuth } from "@/auth/auth.composable";
 import useMinkBackend from "@/api/backend.composable";
-import useConfig from "./config/config.composable"
-import useExports from "./exports/exports.composable"
-import useJob from "./job/job.composable"
-import useSources from "./sources/sources.composable"
+import useConfig from "./config/config.composable";
+import useExports from "./exports/exports.composable";
+import useJob from "./job/job.composable";
+import useSources from "./sources/sources.composable";
 
 /** Let data be refreshed initially, but skip subsequent load calls. */
 const isCorpusFresh = {};
 
 export default function useCorpus(corpusId) {
   const store = useStore();
-  const { refreshJwt } = useJwt();
+  const { refreshJwt } = useAuth();
   const mink = useMinkBackend();
   const { loadConfig } = useConfig(corpusId);
   const { loadExports } = useExports(corpusId);
