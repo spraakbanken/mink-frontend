@@ -11,7 +11,6 @@ export default createStore({
   ],
   state() {
     return {
-      jwt: null, // or a string
       locale: "en",
       corpora: {
         // [corpusId]: {source, config, status, exports}
@@ -20,9 +19,6 @@ export default createStore({
     };
   },
   mutations: {
-    setJwt(state, jwt) {
-      state.jwt = jwt;
-    },
     setPending(state, token) {
       if (!state.pending.includes(token)) {
         state.pending.push(token);

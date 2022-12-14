@@ -1,7 +1,6 @@
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter, useRoute } from "vue-router";
-import { useStore } from "vuex";
 import useSpin from "@/spin/spin.composable";
 import { checkLogin } from "./auth";
 import { api } from "@/api/api";
@@ -21,14 +20,14 @@ let jwtPromise = null;
  */
 let refreshTimer = null;
 
+const jwt = ref(null);
+
 export function useJwt() {
-  const store = useStore();
   const router = useRouter();
   const route = useRoute();
   const { spin } = useSpin();
   const { t } = useI18n();
 
-  const jwt = computed(() => store.state.jwt);
   const isAuthenticated = computed(() => !!jwt.value);
   const payload = computed(() =>
     jwt.value ? JSON.parse(atob(jwt.value.split(".")[1])) : undefined
@@ -49,32 +48,28 @@ export function useJwt() {
   async function refreshJwt() {
     async function fetchAndStoreJwt() {
       // Fetch JWT.
-      const jwt = await checkLogin();
+      const jwtValue = await checkLogin();
       // Store it to make username etc available to GUI.
-      store.commit("setJwt", jwt);
+      jwt.value = jwtValue;
       // Register it with the API client.
-      api.setJwt(jwt);
+      api.setJwt(jwtValue);
 
       // Schedule next request shortly before expiration time.
       clearTimeout(refreshTimer);
-      if (jwt) {
+      if (payload.value) {
         const timeoutMs = (payload.value.exp - 10) * 1000 - Date.now();
         refreshTimer = setTimeout(refreshJwt, timeoutMs);
       }
-
-      return jwt;
     }
     // Reuse current JWT request or make a new one.
     jwtPromise =
       jwtPromise || spin(fetchAndStoreJwt(), t("jwt.refreshing"), "jwt");
-    const jwt = await jwtPromise;
+    await jwtPromise;
     // Free the slot for subsequent refreshes.
     jwtPromise = null;
-    return jwt;
   }
 
   return {
-    jwt,
     isAuthenticated,
     payload,
     requireAuthentication,
