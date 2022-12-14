@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 import pluginRewriteAll from "vite-plugin-rewrite-all";
+import ViteYaml from "@modyfi/vite-plugin-yaml";
 import visualizer from "rollup-plugin-visualizer";
 
 // https://vitejs.dev/config/
@@ -21,6 +22,7 @@ export default defineConfig(({ command, mode }) => {
     plugins: [
       vue(),
       pluginRewriteAll(),
+      ViteYaml(),
       visualizer(), // Keep visualizer last.
     ],
     resolve: {
