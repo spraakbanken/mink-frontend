@@ -17,7 +17,6 @@ export default createStore({
         // [corpusId]: {source, config, status, exports}
       },
       pending: [],
-      adminMode: false,
     };
   },
   mutations: {
@@ -68,9 +67,6 @@ export default createStore({
     },
     removeCorpus(state, corpusId) {
       delete state.corpora[corpusId];
-    },
-    setAdminMode(state, adminMode) {
-      state.adminMode = adminMode;
     },
   },
 });

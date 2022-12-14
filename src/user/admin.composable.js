@@ -1,28 +1,28 @@
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import useMinkBackend from "@/api/backend.composable";
 import { useJwt } from "@/auth/jwt.composable";
 import useCorpora from "@/corpora/corpora.composable";
-import { useStore } from "vuex";
+
+const adminModeRef = ref(false);
 
 export default function useAdmin() {
   const { payload } = useJwt();
   const { loadCorpora } = useCorpora();
   const mink = useMinkBackend();
-  const store = useStore();
+
+  const adminMode = computed(() => adminModeRef.value);
 
   async function enableAdminMode() {
     await mink.enableAdminMode();
-    store.commit("setAdminMode", true);
+    adminModeRef.value = true;
     await loadCorpora(true);
   }
 
   async function disableAdminMode() {
     await mink.disableAdminMode();
-    store.commit("setAdminMode", false);
+    adminModeRef.value = false;
     await loadCorpora(true);
   }
-
-  const adminMode = computed(() => store.state.adminMode);
 
   const isAdmin = computed(
     () =>
