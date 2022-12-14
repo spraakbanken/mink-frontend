@@ -1,19 +1,17 @@
 <script setup>
-import { computed } from "vue";
-import { useStore } from "vuex";
+import useSpin from "./spin.composable";
 
-const props = defineProps({
+defineProps({
   on: {
     type: String,
+    required: true,
   },
 });
-const store = useStore();
-const pending = computed(() => store.state.pending);
-const isPending = computed(() => pending.value.includes(props.on));
+const { pending } = useSpin();
 </script>
 
 <template>
-  <div :class="{ 'animate-pulse': isPending }">
+  <div :class="{ 'animate-pulse': pending.includes(on) }">
     <slot />
   </div>
 </template>

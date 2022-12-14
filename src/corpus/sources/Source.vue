@@ -16,24 +16,28 @@
         <tr>
           <th>{{ $t("source.content") }}</th>
           <td>
-            <SourceText
-              :load="loadRaw"
-              :filename="metadata.name"
-              :no-load="!isText"
-            />
+            <PendingContent :on="`corpus/${corpusId}/sources/${filename}`">
+              <SourceText
+                :load="loadRaw"
+                :filename="metadata.name"
+                :no-load="!isText"
+              />
+            </PendingContent>
           </td>
         </tr>
         <tr v-if="isText && !isPlaintext">
           <th>{{ $t("txt") }}</th>
           <td>
-            <SourceText
-              v-if="isJobDone"
-              :load="loadPlain"
-              :filename="ensureExtension(metadata.name, 'txt')"
-            />
-            <div class="text-sm py-1">
-              {{ $t("source_text_help") }}
-            </div>
+            <PendingContent :on="`corpus/${corpusId}/sources/${filename}`">
+              <SourceText
+                v-if="isJobDone"
+                :load="loadPlain"
+                :filename="ensureExtension(metadata.name, 'txt')"
+              />
+              <div class="text-sm py-1">
+                {{ $t("source_text_help") }}
+              </div>
+            </PendingContent>
           </td>
         </tr>
       </tbody>
@@ -49,6 +53,7 @@ import Section from "@/components/Section.vue";
 import useJob from "@/corpus/job/job.composable";
 import useSources from "./sources.composable";
 import SourceText from "./SourceText.vue";
+import PendingContent from "@/spin/PendingContent.vue";
 
 const props = defineProps({
   corpusId: { type: String, required: true },

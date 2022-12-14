@@ -15,20 +15,9 @@ export default createStore({
       corpora: {
         // [corpusId]: {source, config, status, exports}
       },
-      pending: [],
     };
   },
   mutations: {
-    setPending(state, token) {
-      if (!state.pending.includes(token)) {
-        state.pending.push(token);
-      }
-    },
-    clearPending(state, token) {
-      if (state.pending.includes(token)) {
-        state.pending.splice(state.pending.indexOf(token), 1);
-      }
-    },
     setLocale(state, locale) {
       state.locale = locale;
     },
