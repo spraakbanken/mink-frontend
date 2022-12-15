@@ -1,4 +1,4 @@
-import { computed, ref } from "vue";
+import { computed, readonly, ref } from "vue";
 import useMinkBackend from "@/api/backend.composable";
 import { useAuth } from "@/auth/auth.composable";
 import useCorpora from "@/corpora/corpora.composable";
@@ -9,8 +9,6 @@ export default function useAdmin() {
   const { payload } = useAuth();
   const { loadCorpora } = useCorpora();
   const mink = useMinkBackend();
-
-  const adminMode = computed(() => adminModeRef.value);
 
   async function enableAdminMode() {
     await mink.enableAdminMode();
@@ -33,7 +31,7 @@ export default function useAdmin() {
   return {
     enableAdminMode,
     disableAdminMode,
-    adminMode,
+    adminMode: readonly(adminModeRef),
     isAdmin,
   };
 }
