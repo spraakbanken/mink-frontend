@@ -6,12 +6,12 @@ import {
   makeConfig,
   parseConfig,
 } from "@/api/corpusConfig";
-import useTh from "@/i18n/th.composable";
+import useLocale from "@/i18n/locale.composable";
 import useMinkBackend from "@/api/backend.composable";
 
 export default function useConfig(corpusId) {
   const store = useStore();
-  const { th } = useTh();
+  const { th } = useLocale();
   const mink = useMinkBackend();
 
   const config = computed(() => store.state.corpora[corpusId]?.config);

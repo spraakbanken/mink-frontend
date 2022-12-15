@@ -77,6 +77,7 @@ import useSpin from "@/spin/spin.composable";
 import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
 import Spinner from "@/spin/Spinner.vue";
+import useLocale from "@/i18n/locale.composable";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
 import MessageToasts from "@/message/MessageToasts.vue";
@@ -88,6 +89,7 @@ const store = useStore();
 const { messages } = useSpin();
 const { refreshJwt, payload } = useAuth();
 const { alert } = useMessenger();
+useLocale();
 
 // Fetch JWT and use it for all API requests.
 refreshJwt();

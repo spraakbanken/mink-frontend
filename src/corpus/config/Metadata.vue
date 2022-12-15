@@ -26,11 +26,11 @@ import useConfig from "./config.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
-import useTh from "@/i18n/th.composable";
+import useLocale from "@/i18n/locale.composable";
 
 const corpusId = useCorpusIdParam();
 const { config } = useConfig(corpusId);
-const { th } = useTh();
+const { th } = useLocale();
 </script>
 
 <style></style>
