@@ -11,18 +11,16 @@
 </template>
 
 <script setup>
-import { watch } from "@vue/runtime-core";
+import { watch } from "vue";
 import { useI18n } from "vue-i18n";
-import { useStore } from "vuex";
+import { useStorage } from "@vueuse/core";
 
 const { locale } = useI18n();
-const store = useStore();
+const storedLocale = useStorage("locale", locale.value);
 
-// Sync from store to switcher once
-locale.value = store.state.locale;
+// Sync from storage to switcher once
+locale.value = storedLocale.value;
 
-// Sync from switcher to store at-will
-watch(locale, () => {
-  store.commit("setLocale", locale.value);
-});
+// Sync from switcher to store continually
+watch(locale, () => (storedLocale.value = locale.value));
 </script>

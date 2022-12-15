@@ -6,21 +6,17 @@ export default createStore({
   plugins: [
     // Sync some of the store with localstorage.
     new VuexPersistence({
-      reducer: (state) => pick(state, ["corpora", "locale"]),
+      reducer: (state) => pick(state, ["corpora"]),
     }).plugin,
   ],
   state() {
     return {
-      locale: "en",
       corpora: {
         // [corpusId]: {source, config, status, exports}
       },
     };
   },
   mutations: {
-    setLocale(state, locale) {
-      state.locale = locale;
-    },
     setCorpora(state, corpora) {
       // Add id as a key, empty object as value (if not already present)
       corpora.forEach(
