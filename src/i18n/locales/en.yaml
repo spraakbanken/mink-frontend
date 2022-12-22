@@ -15,7 +15,7 @@ corpus.state.help.empty: There are no sources in this corpus. Upload some text f
 corpus.state.help.unconfigured: This corpus needs some configuration before it can be processed.
 corpus.state.help.ready: Ready for annotation. You can also supply more text or edit the configuration.
 corpus.state.help.running: Annotation is running in the background. Feel free to close the website, have some coffee and check back later!
-corpus.state.help.failed: There was an error with the annotation. If you need help, please contact sb-info@svenska.gu.se
+corpus.state.help.failed: There was an error with the annotation. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.state.help.done: Annotation done! You can download the results or use Korp.
 config.loading: Loading metadata
 config.saving: Saving metadata
