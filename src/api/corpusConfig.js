@@ -48,6 +48,7 @@ export function makeConfig(id, options) {
     annotations: [
       "<sentence>:misc.id",
       "<token>:saldo.baseform",
+      "<token>:saldo.lemgram as lex",
       "<token>:hunpos.pos",
       "<token>:sensaldo.sentiment_label",
       // Korp needs the document annotation to be called "text"
