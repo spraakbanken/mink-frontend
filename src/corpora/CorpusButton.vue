@@ -29,7 +29,7 @@ const corpusStore = useCorpusStore();
 const { loadCorpus } = useCorpus(props.id);
 const { corpusName } = useConfig(props.id);
 
-const corpus = corpusStore.getCorpusComputed(props.id);
+const corpus = corpusStore.getCorpus(props.id);
 
 loadCorpus();
 </script>

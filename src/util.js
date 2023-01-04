@@ -1,3 +1,4 @@
+import { pick } from "lodash";
 import round from "lodash/round";
 
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -35,4 +36,19 @@ export function pathJoin(...parts) {
   return parts
     .map((part) => part.replace(/^\/+/, "").replace(/\/+$/, ""))
     .join("/");
+}
+
+/** Remove and add properties in `obj`, to match names in `keys`.
+ * The returned object is derived from a shallow copy.
+ */
+export function setKeys(obj, keys, defaultValue = null) {
+  // Remove non-matching items.
+  obj = pick(obj, keys);
+
+  // Add new items.
+  for (const key of keys) {
+    obj[key] = obj[key] || defaultValue;
+  }
+
+  return obj;
 }

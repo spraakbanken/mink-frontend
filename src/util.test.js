@@ -1,5 +1,11 @@
 import { describe, expect, test } from "vitest";
-import { ensureExtension, formatDate, formatSeconds, pathJoin } from "./util";
+import {
+  ensureExtension,
+  formatDate,
+  formatSeconds,
+  pathJoin,
+  setKeys,
+} from "./util";
 
 describe("formatDate", () => {
   test("formats a date", () => {
@@ -38,5 +44,13 @@ describe("pathJoin", () => {
   test("joins paths", () => {
     expect(pathJoin("a", "b")).toBe("a/b");
     expect(pathJoin("//a//", "//b//")).toBe("a/b");
+  });
+});
+
+describe("setKeys", () => {
+  test("adds and removes", () => {
+    const a = { a: 1, b: 2 };
+    expect(setKeys(a, ["b", "c"], 10)).toEqual({ b: 2, c: 10 });
+    expect(a).toEqual({ a: 1, b: 2 });
   });
 });
