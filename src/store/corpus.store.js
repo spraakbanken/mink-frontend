@@ -1,25 +1,19 @@
 import { setKeys } from "@/util";
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { computed, reactive } from "vue";
 
 export const useCorpusStore = defineStore("corpus", () => {
-  // TODO Try reactive()
-  const corpora = ref({});
+  const corpora = reactive({});
 
   function setCorpusIds(corpusIds) {
-    corpora.value = setKeys(corpora.value, corpusIds, {});
+    setKeys(corpora, corpusIds, {});
   }
 
-  const hasCorpora = computed(() => !!Object.keys(corpora.value).length);
-
-  function getCorpus(id) {
-    return computed(() => corpora.value[id]);
-  }
+  const hasCorpora = computed(() => !!Object.keys(corpora).length);
 
   return {
     corpora,
     setCorpusIds,
     hasCorpora,
-    getCorpus,
   };
 });

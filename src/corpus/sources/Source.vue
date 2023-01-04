@@ -65,9 +65,9 @@ const { downloadSource, downloadPlaintext } = useSources(props.corpusId);
 const { isJobDone } = useJob(props.corpusId);
 
 const metadata = computed(() =>
-  corpusStore
-    .getCorpus(props.corpusId)
-    .value.sources.find((source) => source.name === props.filename)
+  corpusStore.corpora[props.corpusId].sources.find(
+    (source) => source.name === props.filename
+  )
 );
 const isText = computed(() => metadata.value.type.indexOf("text/") === 0);
 const isPlaintext = computed(() => metadata.value.type == "text/plain");

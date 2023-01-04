@@ -6,15 +6,11 @@ export default function useSources(corpusId) {
   const corpusStore = useCorpusStore();
   const mink = useMinkBackend();
 
-  const sources = computed(
-    () => corpusStore.getCorpus(corpusId).value?.sources || []
-  );
+  const sources = computed(() => corpusStore.corpora[corpusId]?.sources || []);
 
   async function loadSources(corpusId_ = corpusId) {
-    console.log("loadSources", corpusId);
     const sourcesFetched = await mink.loadSources(corpusId_);
     corpusStore.corpora[corpusId_].sources = sourcesFetched;
-    console.log("loadSources", corpusStore.corpora[corpusId_].sources);
   }
 
   async function downloadSource(source) {
