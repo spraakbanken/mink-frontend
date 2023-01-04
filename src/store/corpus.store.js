@@ -1,9 +1,11 @@
-import { setKeys } from "@/util";
-import { defineStore } from "pinia";
 import { computed, reactive } from "vue";
+import { defineStore } from "pinia";
+import { useStorage } from "@vueuse/core";
+import { setKeys } from "@/util";
 
 export const useCorpusStore = defineStore("corpus", () => {
-  const corpora = reactive({});
+  const corporaRef = useStorage("corpora", {});
+  const corpora = reactive(corporaRef.value);
 
   function setCorpusIds(corpusIds) {
     setKeys(corpora, corpusIds, {});
