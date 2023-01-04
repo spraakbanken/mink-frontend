@@ -1,6 +1,10 @@
 <template>
   <div v-if="config">
     <Section :title="$t('metadata')">
+      <Help>
+        <p>{{ $t("config.metadata.help") }}</p>
+      </Help>
+
       <table class="w-full my-4 striped">
         <thead></thead>
         <tbody>
@@ -43,7 +47,12 @@
         </tbody>
       </table>
     </Section>
+
     <Section :title="$t('configuration')">
+      <Help>
+        <p>{{ $t("config.configuration.help") }}</p>
+      </Help>
+
       <table class="w-full my-4 striped">
         <thead></thead>
         <tbody>
@@ -55,6 +64,9 @@
                   {{ $t(ext) }} (.{{ ext }})
                 </option>
               </select>
+              <div class="text-sm py-1">
+                {{ $t("config.format.help") }}
+              </div>
             </td>
           </tr>
           <tr v-if="format === 'xml'">
@@ -150,6 +162,7 @@ import useConfig from "./config.composable";
 import { FORMATS_EXT, SEGMENTERS } from "@/api/corpusConfig";
 import TaggedInput from "./TaggedInput.vue";
 import useMessenger from "@/message/messenger.composable";
+import Help from "@/components/Help.vue";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
@@ -158,7 +171,7 @@ const { alert } = useMessenger();
 
 const name = ref({ ...config.value?.name });
 const description = ref({ ...config.value?.description });
-const format = ref(config.value?.format);
+const format = ref(config.value?.format || FORMATS_EXT[0]);
 const textAnnotation = ref(config.value?.textAnnotation);
 const sentenceSegmenter = ref(config.value?.sentenceSegmenter || "");
 const datetimeFrom = ref(config.value?.datetimeFrom);

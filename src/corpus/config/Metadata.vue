@@ -5,7 +5,7 @@
         <tr>
           <th>{{ $t("description") }}</th>
           <td>
-            {{ th(config.description) }}
+            {{ th(config.description) || "—" }}
           </td>
         </tr>
         <tr>

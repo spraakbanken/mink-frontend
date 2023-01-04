@@ -1,5 +1,15 @@
 <template>
   <Section :title="$t('corpuses')">
+    <Help>
+      <p>
+        {{
+          corpusStore.hasCorpora
+            ? $t("home.help.corpora")
+            : $t("home.help.corpora.none")
+        }}
+      </p>
+    </Help>
+
     <PendingContent
       v-if="isAuthenticated"
       on="corpora"
@@ -27,9 +37,6 @@
       :file-handler="createCorpusFromFiles"
       :variant="corpusStore.hasCorpora ? null : 'primary'"
     />
-    <Help>
-      <p>{{ $t("home.help.upload") }}</p>
-    </Help>
   </Section>
 </template>
 

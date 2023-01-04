@@ -1,4 +1,5 @@
-home.help.upload: To start processing your text files, drop them in the area above.
+home.help.corpora: These are the corpora that you have created. Click them to view more details.
+home.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "@:{'new_corpus'}" button or drop text files into the upload field below.
 corpus.creating: Creating corpus
 corpus.configuring: Configuring corpus
 corpus.delete: Delete corpus
@@ -12,11 +13,13 @@ corpus.state.running: Annotating
 corpus.state.failed: Failed
 corpus.state.done: Done
 corpus.state.help.empty: There are no sources in this corpus. Upload some text files below.
-corpus.state.help.unconfigured: This corpus needs some configuration before it can be processed.
+corpus.state.help.unconfigured: This corpus needs some configuration before it can be processed. It must have a name, and depending on text format, additional settings may be required.
 corpus.state.help.ready: Ready for annotation. You can also supply more text or edit the configuration.
 corpus.state.help.running: Annotation is running in the background. Feel free to close the website, have some coffee and check back later!
 corpus.state.help.failed: There was an error with the annotation. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.state.help.done: Annotation done! You can download the results or use Korp.
+config.metadata.help: Metadata is information about the data, meant for assessment by interested users (if you release the data), and for categorization in data repositories.
+config.configuration.help: These settings are information for the automatic analysis; they will affect the parsing or annotation.
 config.loading: Loading metadata
 config.saving: Saving metadata
 job.aborting: Aborting annotation job
@@ -41,6 +44,7 @@ exports.korp.help: Use this data in Språkbanken's corpus search tool.
 exports.download.help: Output XML files can be processed by custom scripts etc.
 exports.download.more: More files...
 exports.downloading: Downloading results
+exports.help: The annotation yields one export file for each input file. You can download each single export file or all of them in a bundle. The files are in a form of XML, the exact structure depending on the input files as well as the configuration. Typically, sentences and tokens are elements, and annotations are attributes.
 user.settings: Settings
 user.settings.admin_mode: Enable administration mode
 user.admin_mode.warning: Administration mode is enabled. Please be careful!
@@ -101,7 +105,8 @@ odt: OpenDocument Text
 name: Name
 identifier: Identifier
 description: Description
-fileFormat: File format
+fileFormat: Source format
+config.format.help: Select the file format of the source texts. All files must be of the selected format.
 text_annotation: Document-level element
 text_annotation_help: The XML element name representing one text document. Any text-level annotations will be attached to this element.
 segmenter_sentence: Existing sentence segmentation

@@ -1,4 +1,6 @@
-home.help.upload: För att börja bearbeta textfiler kan du dra dem till ytan ovan.
+home.help.corpora: Här listas de korpusar du har skapat. Klicka på dem för att visa mer.
+home.help.corpora.none: >-
+  Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en korpus: använd knappen "@:{'new_corpus'}" eller dra textfiler till uppladdningsrutan nedan.
 corpus.creating: Skapar korpus
 corpus.configuring: Konfigurerar korpus
 corpus.delete: Radera korpus
@@ -12,11 +14,13 @@ corpus.state.running: Annoterar
 corpus.state.failed: Fel
 corpus.state.done: Färdig
 corpus.state.help.empty: Den här korpusen har inga texter. Ladda upp texter nedan.
-corpus.state.help.unconfigured: Den här korpusen behöver konfigureras innan annoteringen kan startas.
+corpus.state.help.unconfigured: Den här korpusen behöver konfigureras innan annoteringen kan startas. Den måste ha ett namn, och beroende på textformat krävs eventuellt ytterligare inställningar.
 corpus.state.help.ready: Redo för annotering. Du kan också lägga till fler texter eller redigera konfigurationen.
 corpus.state.help.running: Annoteringen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
 corpus.state.help.failed: Ett fel med annoteringen har uppstått. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 corpus.state.help.done: Annotering klar! Du kan ladda ner resultaten eller använda Korp.
+config.metadata.help: Metadata är information om datan, och fungerar som underlag för potentiellt intresserade användare (om du publicerar datan) samt underlättar katalogiseringen i datarepositorier.
+config.configuration.help: Dessa inställningar blir instruktioner till den automatiska analysen.
 config.loading: Hämtar metadata
 config.saving: Sparar metadata
 job.aborting: Avbryter annotering
@@ -41,6 +45,7 @@ exports.korp.help: Använd den här datan i Språkbankens korpusverktyg.
 exports.download.help: XML-filerna i utdatan kan du till exempel bearbeta genom att skriva egna script.
 exports.download.more: Fler filer...
 exports.downloading: Laddar ner analysresultat
+exports.help: Annoteringen skapar en exportfil för varje källfil, och de kan laddas ner enskilt eller i klump. Filerna är i ett XML-format vars struktur beror både på källfilerna och konfigurationen, men i regel är varje mening och token ett element, och annoteringar är attribut.
 user.settings: Inställningar
 user.settings.admin_mode: Aktivera administrationsläge
 user.admin_mode.warning: Administrationsläget är aktiverat. Var försiktig!
@@ -101,7 +106,8 @@ odt: OpenDocument Text
 name: Namn
 identifier: Identifierare
 description: Beskrivning
-fileFormat: Format
+fileFormat: Källformat
+config.format.help: Ange vilket filformat källtexterna har. Alla filer måste ha det valda formatet.
 text_annotation: Element för dokument
 text_annotation_help: Namnet på ett XML-element som representerar ett enskilt textdokument. Eventuella annotationer på textnivå kommer att sättas på det elementet.
 segmenter_sentence: Existerande meningssegmentering

@@ -1,6 +1,10 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}/exports`">
     <Section :title="$t('result')">
+      <Help>
+        <p>{{ $t("exports.help") }}</p>
+      </Help>
+
       <div class="my-4">
         <ActionButton
           v-if="exports && exports.length"
@@ -51,6 +55,7 @@ import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import Section from "@/components/Section.vue";
 import useExports from "./exports.composable";
+import Help from "@/components/Help.vue";
 
 const corpusId = useCorpusIdParam();
 

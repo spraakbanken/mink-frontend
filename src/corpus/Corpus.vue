@@ -2,7 +2,10 @@
   <div v-if="isAuthenticated">
     <template v-if="corpus">
       <PageTitle subtitle="corpus">
-        <router-link :to="`/corpus/${corpusId}`" class="text-inherit">
+        <router-link
+          :to="`/corpus/${corpusId}`"
+          class="text-inherit hover:underline"
+        >
           {{ corpusName || corpusId }}
         </router-link>
       </PageTitle>

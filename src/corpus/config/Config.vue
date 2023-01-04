@@ -10,6 +10,7 @@
               (<code>.{{ config.format }}</code
               >)
             </span>
+            <template v-else>—</template>
           </td>
         </tr>
         <tr v-if="config.textAnnotation">
@@ -34,6 +35,7 @@
             <span v-if="config.datetimeFrom || config.datetimeTo">
               {{ config.datetimeFrom }} – {{ config.datetimeTo }}
             </span>
+            <template v-else>—</template>
           </td>
         </tr>
       </tbody>
