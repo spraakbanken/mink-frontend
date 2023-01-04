@@ -11,12 +11,11 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/runtime-core";
-import { useStore } from "vuex";
 import useConfig from "@/corpus/config/config.composable";
 import PadButton from "@/components/PadButton.vue";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
 import useCorpus from "@/corpus/corpus.composable";
+import { useCorpusStore } from "@/store/corpus.store";
 
 const props = defineProps({
   id: {
@@ -26,11 +25,11 @@ const props = defineProps({
   },
 });
 
-const store = useStore();
+const corpusStore = useCorpusStore();
 const { loadCorpus } = useCorpus(props.id);
 const { corpusName } = useConfig(props.id);
 
-const corpus = computed(() => store.state.corpora[props.id]);
+const corpus = corpusStore.getCorpusComputed(props.id);
 
 loadCorpus();
 </script>

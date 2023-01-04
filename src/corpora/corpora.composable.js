@@ -7,12 +7,14 @@ import useSources from "@/corpus/sources/sources.composable";
 import useMessenger from "@/message/messenger.composable";
 import useMinkBackend from "@/api/backend.composable";
 import useCorpus from "@/corpus/corpus.composable";
+import { useCorpusStore } from "@/store/corpus.store";
 
 /** Let corpus list be refreshed initially, but skip subsequent load calls. */
 let isCorporaFresh = false;
 
 export default function useCorpora() {
   const store = useStore();
+  const corpusStore = useCorpusStore();
   const router = useRouter();
   const { refreshJwt } = useAuth();
   const { deleteCorpus } = useCorpus();
@@ -25,6 +27,7 @@ export default function useCorpora() {
     if (isCorporaFresh && !force) return;
     const corpora = await mink.loadCorpora();
     store.commit("setCorpora", corpora);
+    corpusStore.setCorpusIds(corpora);
     isCorporaFresh = true;
   }
 
