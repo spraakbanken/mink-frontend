@@ -1,4 +1,4 @@
-import { readonly } from "vue";
+import { computed } from "vue";
 import { downloadFile } from "@/util";
 import useMinkBackend from "@/api/backend.composable";
 import { useCorpusStore } from "@/store/corpus.store";
@@ -6,7 +6,7 @@ import { useCorpusStore } from "@/store/corpus.store";
 export default function useExports(corpusId) {
   const corpusStore = useCorpusStore();
   const corpus = corpusStore.corpora[corpusId];
-  const exports = readonly(corpus?.exports);
+  const exports = computed(() => corpus?.exports);
   const mink = useMinkBackend();
 
   async function loadExports() {

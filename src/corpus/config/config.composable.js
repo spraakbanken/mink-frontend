@@ -1,4 +1,4 @@
-import { computed, readonly } from "vue";
+import { computed } from "vue";
 import {
   emptyConfig,
   FORMATS_EXT,
@@ -15,8 +15,8 @@ export default function useConfig(corpusId) {
   const mink = useMinkBackend();
 
   const corpus = corpusStore.corpora[corpusId];
-  const config = readonly(corpus?.config);
-  const corpusName = computed(() => th(config?.name));
+  const config = computed(() => corpus?.config);
+  const corpusName = computed(() => th(config.value?.name));
 
   async function loadConfig() {
     const config = await mink
@@ -36,9 +36,9 @@ export default function useConfig(corpusId) {
 
   const isConfigValid = computed(
     () =>
-      config &&
-      FORMATS_EXT.includes(config.format) &&
-      (config.name?.swe || config.name?.eng)
+      config.value &&
+      FORMATS_EXT.includes(config.value.format) &&
+      (config.value.name?.swe || config.value.name?.eng)
   );
 
   return {

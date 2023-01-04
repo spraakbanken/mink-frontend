@@ -156,13 +156,13 @@ const corpusId = useCorpusIdParam();
 const { config, uploadConfig } = useConfig(corpusId);
 const { alert } = useMessenger();
 
-const name = ref({ ...config?.name });
-const description = ref({ ...config?.description });
-const format = ref(config?.format);
-const textAnnotation = ref(config?.textAnnotation);
-const sentenceSegmenter = ref(config?.sentenceSegmenter || "");
-const datetimeFrom = ref(config?.datetimeFrom);
-const datetimeTo = ref(config?.datetimeTo);
+const name = ref({ ...config.value?.name });
+const description = ref({ ...config.value?.description });
+const format = ref(config.value?.format);
+const textAnnotation = ref(config.value?.textAnnotation);
+const sentenceSegmenter = ref(config.value?.sentenceSegmenter || "");
+const datetimeFrom = ref(config.value?.datetimeFrom);
+const datetimeTo = ref(config.value?.datetimeTo);
 
 async function save() {
   const corpusIdFixed = corpusId;

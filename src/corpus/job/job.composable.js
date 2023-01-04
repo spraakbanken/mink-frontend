@@ -1,4 +1,4 @@
-import { computed, readonly, onUnmounted } from "vue";
+import { computed, onUnmounted } from "vue";
 import {
   isStatusRunning,
   isStatusStarted,
@@ -47,8 +47,8 @@ export default function useJob(corpusId) {
   // Whichever component triggered loadJob, if it disappears, stop polling.
   onUnmounted(() => clearTimeout(loadJobTimer));
 
-  const jobStatus = readonly(corpus?.status);
-  const jobStatusId = computed(() => jobStatus?.job_status);
+  const jobStatus = computed(() => corpus?.status);
+  const jobStatusId = computed(() => jobStatus.value?.job_status);
   const isJobStarted = computed(() => isStatusStarted(jobStatusId.value));
   const isJobRunning = computed(() => isStatusRunning(jobStatusId.value));
   const isJobDone = computed(() => isStatusDone(jobStatusId.value));
