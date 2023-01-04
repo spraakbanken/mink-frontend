@@ -6,7 +6,7 @@
       class="flex flex-wrap -mx-2"
     >
       <router-link
-        v-for="(corpus, corpusId) of corpora"
+        v-for="(corpus, corpusId) of corpusStore.corpora"
         :key="corpusId"
         v-slot="{ navigate }"
         :to="`/corpus/${corpusId}`"
@@ -25,7 +25,7 @@
   <Section :title="$t('new_corpus')">
     <SourceUpload
       :file-handler="createCorpusFromFiles"
-      :variant="hasCorpora ? null : 'primary'"
+      :variant="corpusStore.hasCorpora ? null : 'primary'"
     />
     <Help>
       <p>{{ $t("home.help.upload") }}</p>
@@ -34,8 +34,6 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
-import { useStore } from "vuex";
 import PadButton from "@/components/PadButton.vue";
 import Section from "@/components/Section.vue";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -44,13 +42,11 @@ import { useAuth } from "@/auth/auth.composable";
 import SourceUpload from "@/corpus/sources/SourceUpload.vue";
 import Help from "@/components/Help.vue";
 import useCorpora from "@/corpora/corpora.composable";
+import { useCorpusStore } from "@/store/corpus.store";
 
-const store = useStore();
+const corpusStore = useCorpusStore();
 const { requireAuthentication, isAuthenticated } = useAuth();
 const { loadCorpora, createFromUpload } = useCorpora();
-
-const corpora = computed(() => store.state.corpora);
-const hasCorpora = computed(() => !!Object.keys(store.state.corpora).length);
 
 requireAuthentication().then((ok) => ok && loadCorpora());
 

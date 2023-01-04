@@ -47,8 +47,8 @@
 
 <script setup>
 import { computed } from "vue";
-import { useStore } from "vuex";
 import { ensureExtension, formatDate } from "@/util";
+import { useCorpusStore } from "@/store/corpus.store";
 import Section from "@/components/Section.vue";
 import useJob from "@/corpus/job/job.composable";
 import useSources from "./sources.composable";
@@ -60,12 +60,12 @@ const props = defineProps({
   filename: { type: String, required: true },
 });
 
-const store = useStore();
+const corpusStore = useCorpusStore();
 const { downloadSource, downloadPlaintext } = useSources(props.corpusId);
 const { isJobDone } = useJob(props.corpusId);
 
 const metadata = computed(() =>
-  store.state.corpora[props.corpusId].sources.find(
+  corpusStore.corpora[props.corpusId].sources.find(
     (source) => source.name === props.filename
   )
 );

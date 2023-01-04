@@ -1,16 +1,17 @@
-import { computed } from "@vue/reactivity";
-import { useStore } from "vuex";
+import { computed } from "vue";
 import { downloadFile } from "@/util";
 import useMinkBackend from "@/api/backend.composable";
+import { useCorpusStore } from "@/store/corpus.store";
 
 export default function useExports(corpusId) {
-  const store = useStore();
-  const exports = computed(() => store.state.corpora[corpusId]?.exports);
+  const corpusStore = useCorpusStore();
+  const corpus = corpusStore.corpora[corpusId];
+  const exports = computed(() => corpus?.exports);
   const mink = useMinkBackend();
 
   async function loadExports() {
     const exports = await mink.loadExports(corpusId);
-    store.commit("setExports", { corpusId, exports });
+    corpus.exports = exports;
   }
 
   async function downloadResult() {
