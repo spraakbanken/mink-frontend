@@ -72,7 +72,6 @@
 
 <script setup>
 import { api } from "@/api/api";
-import { useCorpusStore } from "@/store/corpus.store";
 import useSpin from "@/spin/spin.composable";
 import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
@@ -98,8 +97,10 @@ api.setResponseHandler(
 );
 
 if (import.meta.env.DEV) {
-  window.corpusStore = useCorpusStore();
   window.api = api;
+  import("@/store/corpus.store").then(
+    (m) => (window.corpusStore = m.useCorpusStore())
+  );
   import("@/util").then((m) => (window.util = m));
 }
 </script>
