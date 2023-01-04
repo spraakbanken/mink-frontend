@@ -1,4 +1,3 @@
-import { useStore } from "vuex";
 import { useAuth } from "@/auth/auth.composable";
 import useMinkBackend from "@/api/backend.composable";
 import { useCorpusStore } from "@/store/corpus.store";
@@ -11,7 +10,6 @@ import useSources from "./sources/sources.composable";
 const isCorpusFresh = {};
 
 export default function useCorpus(corpusId) {
-  const store = useStore();
   const corpusStore = useCorpusStore();
   const { refreshJwt } = useAuth();
   const mink = useMinkBackend();
@@ -40,7 +38,6 @@ export default function useCorpus(corpusId) {
     // The backend will have updated the remote JWT, so refresh our copy.
     // The backend uses the corpus list within it when listing available corpora.
     await refreshJwt();
-    store.commit("removeCorpus", corpusId_);
     corpusStore.removeCorpus(corpusId_);
   }
 

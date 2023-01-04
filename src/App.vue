@@ -71,8 +71,8 @@
 </template>
 
 <script setup>
-import { useStore } from "vuex";
 import { api } from "@/api/api";
+import { useCorpusStore } from "@/store/corpus.store";
 import useSpin from "@/spin/spin.composable";
 import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
@@ -85,7 +85,6 @@ import MessageToasts from "@/message/MessageToasts.vue";
 import logoMinkLight from "@/assets/mink-light.svg";
 import logoSbxLight from "@/assets/sbx1r-light.svg";
 
-const store = useStore();
 const { messages } = useSpin();
 const { refreshJwt, payload } = useAuth();
 const { alert } = useMessenger();
@@ -99,7 +98,7 @@ api.setResponseHandler(
 );
 
 if (import.meta.env.DEV) {
-  window.state = store.state;
+  window.corpusStore = useCorpusStore();
   window.api = api;
   import("@/util").then((m) => (window.util = m));
 }

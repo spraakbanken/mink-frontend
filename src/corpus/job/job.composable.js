@@ -1,5 +1,4 @@
-import { onUnmounted } from "@vue/runtime-core";
-import { computed } from "@vue/reactivity";
+import { computed, readonly, onUnmounted } from "vue";
 import {
   isStatusRunning,
   isStatusStarted,
@@ -7,12 +6,13 @@ import {
   isStatusError,
   isStatusInstalled,
 } from "@/api/api";
-import { useStore } from "vuex";
 import { useI18n } from "vue-i18n";
 import useMinkBackend from "@/api/backend.composable";
+import { useCorpusStore } from "@/store/corpus.store";
 
 export default function useJob(corpusId) {
-  const store = useStore();
+  const corpusStore = useCorpusStore();
+  const corpus = corpusStore.corpora[corpusId];
   const { t } = useI18n();
   const mink = useMinkBackend();
 
@@ -39,7 +39,7 @@ export default function useJob(corpusId) {
   }
 
   function recordJobStatus(status) {
-    store.commit("setStatus", { corpusId, status });
+    corpus.status = status;
     // Refresh automatically.
     if (isJobRunning.value) loadJobTimer = setTimeout(() => loadJob(), 2000);
   }
@@ -47,8 +47,8 @@ export default function useJob(corpusId) {
   // Whichever component triggered loadJob, if it disappears, stop polling.
   onUnmounted(() => clearTimeout(loadJobTimer));
 
-  const jobStatus = computed(() => store.state.corpora[corpusId]?.status);
-  const jobStatusId = computed(() => jobStatus.value?.job_status);
+  const jobStatus = readonly(corpus?.status);
+  const jobStatusId = computed(() => jobStatus?.job_status);
   const isJobStarted = computed(() => isStatusStarted(jobStatusId.value));
   const isJobRunning = computed(() => isStatusRunning(jobStatusId.value));
   const isJobDone = computed(() => isStatusDone(jobStatusId.value));

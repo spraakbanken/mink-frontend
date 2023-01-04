@@ -1,5 +1,4 @@
-import { computed } from "vue";
-import { useStore } from "vuex";
+import { computed, readonly } from "vue";
 import {
   emptyConfig,
   FORMATS_EXT,
@@ -8,14 +7,16 @@ import {
 } from "@/api/corpusConfig";
 import useLocale from "@/i18n/locale.composable";
 import useMinkBackend from "@/api/backend.composable";
+import { useCorpusStore } from "@/store/corpus.store";
 
 export default function useConfig(corpusId) {
-  const store = useStore();
+  const corpusStore = useCorpusStore();
   const { th } = useLocale();
   const mink = useMinkBackend();
 
-  const config = computed(() => store.state.corpora[corpusId]?.config);
-  const corpusName = computed(() => config.value && th(config.value.name));
+  const corpus = corpusStore.corpora[corpusId];
+  const config = readonly(corpus?.config);
+  const corpusName = computed(() => th(config?.name));
 
   async function loadConfig() {
     const config = await mink
@@ -25,19 +26,19 @@ export default function useConfig(corpusId) {
         if (error.response?.status == 404) return emptyConfig();
         throw error;
       });
-    store.commit("setConfig", { corpusId, config });
+    corpus.config = config;
   }
 
   async function uploadConfig(config, corpusId_ = corpusId) {
     await mink.saveConfig(corpusId_, makeConfig(corpusId_, config));
-    store.commit("setConfig", { corpusId: corpusId_, config });
+    corpusStore.corpora[corpusId_].config = config;
   }
 
   const isConfigValid = computed(
     () =>
-      config.value &&
-      FORMATS_EXT.includes(config.value.format) &&
-      (config.value.name?.swe || config.value.name?.eng)
+      config &&
+      FORMATS_EXT.includes(config.format) &&
+      (config.name?.swe || config.name?.eng)
   );
 
   return {

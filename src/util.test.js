@@ -48,9 +48,9 @@ describe("pathJoin", () => {
 });
 
 describe("setKeys", () => {
-  test("adds and removes", () => {
+  test("adds and removes in-place", () => {
     const a = { a: 1, b: 2 };
     expect(setKeys(a, ["b", "c"], 10)).toEqual({ b: 2, c: 10 });
-    expect(a).toEqual({ a: 1, b: 2 });
+    expect(a).toEqual({ b: 2, c: 10 });
   });
 });
