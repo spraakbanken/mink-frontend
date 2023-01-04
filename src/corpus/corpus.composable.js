@@ -1,6 +1,7 @@
 import { useStore } from "vuex";
 import { useAuth } from "@/auth/auth.composable";
 import useMinkBackend from "@/api/backend.composable";
+import { useCorpusStore } from "@/store/corpus.store";
 import useConfig from "./config/config.composable";
 import useExports from "./exports/exports.composable";
 import useJob from "./job/job.composable";
@@ -11,6 +12,7 @@ const isCorpusFresh = {};
 
 export default function useCorpus(corpusId) {
   const store = useStore();
+  const corpusStore = useCorpusStore();
   const { refreshJwt } = useAuth();
   const mink = useMinkBackend();
   const { loadConfig } = useConfig(corpusId);
@@ -19,7 +21,7 @@ export default function useCorpus(corpusId) {
   const { loadSources } = useSources(corpusId);
 
   async function loadCorpus(force = false) {
-    const isLoaded = Object.keys(store.state.corpora[corpusId]).length;
+    const isLoaded = Object.keys(corpusStore.corpora[corpusId]).length;
     if (isLoaded && isCorpusFresh[corpusId] && !force) {
       return;
     }
@@ -39,6 +41,7 @@ export default function useCorpus(corpusId) {
     // The backend uses the corpus list within it when listing available corpora.
     await refreshJwt();
     store.commit("removeCorpus", corpusId_);
+    corpusStore.removeCorpus(corpusId_);
   }
 
   return { loadCorpus, deleteCorpus };

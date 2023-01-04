@@ -9,11 +9,16 @@ export const useCorpusStore = defineStore("corpus", () => {
     setKeys(corpora, corpusIds, {});
   }
 
+  function removeCorpus(corpusId) {
+    delete corpora[corpusId];
+  }
+
   const hasCorpora = computed(() => !!Object.keys(corpora).length);
 
   return {
     corpora,
     setCorpusIds,
+    removeCorpus,
     hasCorpora,
   };
 });
