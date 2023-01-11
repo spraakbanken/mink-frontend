@@ -26,15 +26,11 @@ watchEffect(() => {
       Språkbanken Text employees.
     </div>
 
-    <div class="flex flex-wrap gap-20 mb-4">
+    <div class="flex flex-wrap gap-20 my-10">
       <div class="w-full flex flex-wrap items-center gap-20">
         <div class="flex-1">
           <div class="bg-sborange rounded-full aspect-square flex items-center">
-            <img
-              src="@/assets/mink-screen.png"
-              class="shadow-lg"
-              style="transform: scale(0.9) perspective(500px) rotateY(3deg)"
-            />
+            <img src="@/assets/mink-screen.png" class="shadow-lg image3d" />
           </div>
         </div>
 
@@ -137,5 +133,13 @@ watchEffect(() => {
 <style scoped>
 .mt-0 {
   margin-top: 0;
+}
+
+.image3d {
+  transform: scale(0.9) perspective(500px) rotateY(3deg);
+  transition: transform ease-in-out 300ms;
+}
+.image3d:hover {
+  transform: scale(0.95) perspective(500px) rotateY(6deg);
 }
 </style>
