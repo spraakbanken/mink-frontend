@@ -82,7 +82,10 @@ export function makeConfig(id, options) {
         },
       },
     ];
-    config.export.annotations.push("<text>:misc.date");
+    config.export.annotations.push(
+      "<text>:misc.datefrom",
+      "<text>:misc.dateto"
+    );
   }
 
   return yaml.dump(config);
