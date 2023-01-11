@@ -5,6 +5,7 @@ import { useRouter } from "vue-router";
 import Section from "@/components/Section.vue";
 import LoginButton from "@/auth/LoginButton.vue";
 import ActionButton from "@/components/ActionButton.vue";
+import HomeIllustration from "./components/HomeIllustration.vue";
 
 const { isAuthenticated } = useAuth();
 const router = useRouter();
@@ -34,7 +35,7 @@ watchEffect(() => {
           </div>
         </div>
 
-        <div class="w-full md:flex-1 text-lg">
+        <div class="w-full lg:flex-1 text-lg">
           <p class="mb-2">
             <strong>Språkbanken Text</strong> is a research infrastructure for
             language data. We create and maintain language data analysed with
@@ -66,12 +67,14 @@ watchEffect(() => {
       </div>
 
       <div class="md:w-4/5 lg:w-2/3 mx-auto">
-        <div class="my-10 flex flex-col md:flex-row items-center gap-6">
-          <img src="@/assets/korp-screen.png" class="w-96 md:w-1/2" />
+        <div class="my-20 flex flex-col md:flex-row items-center gap-6">
+          <HomeIllustration deg="-2" class="w-96 md:w-1/2">
+            <img src="@/assets/sparv-screen.png" />
+          </HomeIllustration>
 
           <Section
             title="Configurable language technology analysis"
-            class="my-0 text-center"
+            class="flex-1 my-0 text-center"
           >
             Your language data are analyzed by our language technology platform
             <a
@@ -83,20 +86,24 @@ watchEffect(() => {
           </Section>
         </div>
 
-        <div class="my-10 flex flex-col md:flex-row-reverse items-center gap-6">
-          <img src="@/assets/korp-screen.png" class="w-96 md:w-1/2" />
+        <div class="my-20 flex flex-col md:flex-row-reverse items-center gap-6">
+          <HomeIllustration deg="2" class="w-96 md:w-1/2">
+            <img src="@/assets/texts.png" />
+          </HomeIllustration>
 
-          <Section title="Deposit your text" class="my-0 text-center">
+          <Section title="Deposit your text" class="flex-1 my-0 text-center">
             Upload your word-processor documents, plain <em>txt</em> files or
             XML data. When using XML, the output of the analyses is added to the
             XML while keeping the input XML structure intact.
           </Section>
         </div>
 
-        <div class="my-10 flex flex-col md:flex-row items-center gap-6">
-          <img src="@/assets/korp-screen.png" class="w-96 md:w-1/2" />
+        <div class="my-20 flex flex-col md:flex-row items-center gap-6">
+          <HomeIllustration deg="-2" class="w-96 md:w-1/2">
+            <img src="@/assets/korp-screen.png" />
+          </HomeIllustration>
 
-          <Section title="Explore in Korp" class="my-0 text-center">
+          <Section title="Explore in Korp" class="flex-1 my-0 text-center">
             Export the resulting data, for search and statistical analysis, to
             <a
               href="https://spraakbanken.gu.se/en/tools/korp"
@@ -107,10 +114,15 @@ watchEffect(() => {
           </Section>
         </div>
 
-        <div class="my-10 flex flex-col md:flex-row-reverse items-center gap-6">
-          <img src="@/assets/korp-screen.png" class="w-96 md:w-1/2" />
+        <div class="my-20 flex flex-col md:flex-row-reverse items-center gap-6">
+          <HomeIllustration deg="2" class="w-96 md:w-1/2">
+            <img src="@/assets/share.png" />
+          </HomeIllustration>
 
-          <Section title="Share and collaborate" class="my-0 text-center">
+          <Section
+            title="Share and collaborate"
+            class="flex-1 my-0 text-center"
+          >
             Invite fellow researchers to view your data in our research tools,
             protected by login. Contact us (sb-info@svenska.gu.se) when you want
             to share your data with the research community.
