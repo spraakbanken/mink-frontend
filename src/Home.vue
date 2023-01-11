@@ -65,44 +65,60 @@ watchEffect(() => {
         </div>
       </div>
 
-      <div class="w-full lg:flex-1 flex flex-wrap content-start gap-4">
-        <Section
-          title="Configurable language technology analysis"
-          class="w-64 flex-grow mt-0"
-        >
-          Your language data are analyzed by our language technology platform
-          <a
-            href="https://spraakbanken.gu.se/en/tools/sparv"
-            title="About the Sparv tool"
-            ><strong>Sparv</strong></a
+      <div class="md:w-4/5 lg:w-2/3 mx-auto">
+        <div class="my-10 flex flex-col md:flex-row items-center gap-6">
+          <img src="@/assets/korp-screen.png" class="w-96 md:w-1/2" />
+
+          <Section
+            title="Configurable language technology analysis"
+            class="my-0 text-center"
           >
-          according to your settings.
-        </Section>
+            Your language data are analyzed by our language technology platform
+            <a
+              href="https://spraakbanken.gu.se/en/tools/sparv"
+              title="About the Sparv tool"
+              ><strong>Sparv</strong></a
+            >
+            according to your settings.
+          </Section>
+        </div>
 
-        <Section title="Deposit your text" class="w-64 flex-grow mt-0">
-          Upload your word-processor documents, plain <em>txt</em> files or XML
-          data. When using XML, the output of the analyses is added to the XML
-          while keeping the input XML structure intact.
-        </Section>
+        <div class="my-10 flex flex-col md:flex-row-reverse items-center gap-6">
+          <img src="@/assets/korp-screen.png" class="w-96 md:w-1/2" />
 
-        <Section title="Explore in Korp" class="w-64 flex-grow mt-0">
-          Export the resulting data, for search and statistical analysis, to
-          <a
-            href="https://spraakbanken.gu.se/en/tools/korp"
-            title="About the Korp tool"
-            ><strong>Korp</strong></a
-          >
-          and Strix.
-        </Section>
+          <Section title="Deposit your text" class="my-0 text-center">
+            Upload your word-processor documents, plain <em>txt</em> files or
+            XML data. When using XML, the output of the analyses is added to the
+            XML while keeping the input XML structure intact.
+          </Section>
+        </div>
 
-        <Section title="Share and collaborate" class="w-64 flex-grow mt-0">
-          Invite fellow researchers to view your data in our research tools,
-          protected by login. Contact us (sb-info@svenska.gu.se) when you want
-          to share your data with the research community.
-          <p class="mb-2 italic">
-            This feature is scheduled for an upcoming version of Mink.
-          </p>
-        </Section>
+        <div class="my-10 flex flex-col md:flex-row items-center gap-6">
+          <img src="@/assets/korp-screen.png" class="w-96 md:w-1/2" />
+
+          <Section title="Explore in Korp" class="my-0 text-center">
+            Export the resulting data, for search and statistical analysis, to
+            <a
+              href="https://spraakbanken.gu.se/en/tools/korp"
+              title="About the Korp tool"
+              ><strong>Korp</strong></a
+            >
+            and Strix.
+          </Section>
+        </div>
+
+        <div class="my-10 flex flex-col md:flex-row-reverse items-center gap-6">
+          <img src="@/assets/korp-screen.png" class="w-96 md:w-1/2" />
+
+          <Section title="Share and collaborate" class="my-0 text-center">
+            Invite fellow researchers to view your data in our research tools,
+            protected by login. Contact us (sb-info@svenska.gu.se) when you want
+            to share your data with the research community.
+            <p class="mb-2 italic">
+              This feature is scheduled for an upcoming version of Mink.
+            </p>
+          </Section>
+        </div>
       </div>
     </div>
 
