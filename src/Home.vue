@@ -28,13 +28,7 @@ watchEffect(() => {
     </div>
 
     <div class="flex flex-wrap gap-20 my-10">
-      <div class="w-full flex flex-wrap items-center gap-20">
-        <div class="flex-1">
-          <div class="bg-sborange rounded-full aspect-square flex items-center">
-            <img src="@/assets/mink-screen.png" class="shadow-lg image3d" />
-          </div>
-        </div>
-
+      <div class="w-full flex flex-row-reverse flex-wrap items-center gap-20">
         <div class="w-full lg:flex-1 text-lg">
           <p class="mb-2">
             <strong>Språkbanken Text</strong> is a research infrastructure for
@@ -64,11 +58,18 @@ watchEffect(() => {
             </router-link>
           </div>
         </div>
+        <div class="flex-1">
+          <div class="bg-sborange rounded-full aspect-square flex items-center">
+            <img src="@/assets/mink-screen.png" class="shadow-lg image3d" />
+          </div>
+        </div>
       </div>
 
-      <div class="md:w-4/5 lg:w-2/3 mx-auto">
-        <div class="my-20 flex flex-col md:flex-row items-center gap-6">
-          <HomeIllustration deg="-2" class="w-96 md:w-1/2">
+      <div
+        class="flex flex-col 2xl:flex-row my-20 gap-20 md:w-4/5 lg:w-2/3 2xl:w-full mx-auto"
+      >
+        <div class="flex flex-col md:flex-row 2xl:flex-col items-center gap-6">
+          <HomeIllustration deg="-2" class="w-96 md:w-1/2 2xl:w-4/5">
             <img src="@/assets/sparv-screen.png" />
           </HomeIllustration>
 
@@ -86,8 +87,10 @@ watchEffect(() => {
           </Section>
         </div>
 
-        <div class="my-20 flex flex-col md:flex-row-reverse items-center gap-6">
-          <HomeIllustration deg="2" class="w-96 md:w-1/2">
+        <div
+          class="flex flex-col md:flex-row-reverse 2xl:flex-col items-center gap-6"
+        >
+          <HomeIllustration deg="2" class="w-96 md:w-1/2 2xl:w-4/5">
             <img src="@/assets/texts.png" />
           </HomeIllustration>
 
@@ -98,8 +101,8 @@ watchEffect(() => {
           </Section>
         </div>
 
-        <div class="my-20 flex flex-col md:flex-row items-center gap-6">
-          <HomeIllustration deg="-2" class="w-96 md:w-1/2">
+        <div class="flex flex-col md:flex-row 2xl:flex-col items-center gap-6">
+          <HomeIllustration deg="-2" class="w-96 md:w-1/2 2xl:w-4/5">
             <img src="@/assets/korp-screen.png" />
           </HomeIllustration>
 
@@ -114,8 +117,10 @@ watchEffect(() => {
           </Section>
         </div>
 
-        <div class="my-20 flex flex-col md:flex-row-reverse items-center gap-6">
-          <HomeIllustration deg="2" class="w-96 md:w-1/2">
+        <div
+          class="flex flex-col md:flex-row-reverse 2xl:flex-col items-center gap-6"
+        >
+          <HomeIllustration deg="2" class="w-96 md:w-1/2 2xl:w-5/6">
             <img src="@/assets/share.png" />
           </HomeIllustration>
 
@@ -135,7 +140,7 @@ watchEffect(() => {
     </div>
 
     <div>
-      <p class="mb-2">
+      <p class="max-w-2xl mx-auto mb-2">
         <strong>Mink or no Mink?</strong>
         Make sure to first get acquainted to any existing language data set
         related to your interests! Språkbanken's growing collection of research
