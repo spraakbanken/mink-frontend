@@ -70,8 +70,8 @@ uploaded: Uppladdad
 lastModify: Senast ändrad
 fileSize: Storlek
 deleteFile: Ta bort
-addFile: Lägg till fil
-dragANDdrop: Dra och släpp en fil hit, eller klicka här för att välja
+addFile: Lägg till filer
+dragANDdrop: Dra och släpp filer hit, eller klicka här för att välja
 original: Original
 source_text_help: Under annoteringen extraheras ren text från filen, och kan sedan visas här.
 contact: Kontakt

@@ -26,9 +26,19 @@ watchEffect(() => {
       Språkbanken Text employees.
     </div>
 
-    <div class="flex flex-wrap gap-6 mb-4">
-      <div class="flex-1">
-        <div class="text-lg">
+    <div class="flex flex-wrap gap-20 mb-4">
+      <div class="w-full flex flex-wrap items-center gap-20">
+        <div class="flex-1">
+          <div class="bg-sborange rounded-full aspect-square flex items-center">
+            <img
+              src="@/assets/mink-screen.png"
+              class="shadow-lg"
+              style="transform: scale(0.9) perspective(500px) rotateY(3deg)"
+            />
+          </div>
+        </div>
+
+        <div class="w-full md:flex-1 text-lg">
           <p class="mb-2">
             <strong>Språkbanken Text</strong> is a research infrastructure for
             language data. We create and maintain language data analysed with

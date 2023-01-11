@@ -69,8 +69,8 @@ uploaded: Uploaded
 lastModify: Last modified
 fileSize: Size
 deleteFile: Delete
-addFile: Add file
-dragANDdrop: Drag and drop a file here, or click here to choose one
+addFile: Add files
+dragANDdrop: Drag and drop files here, or click here to choose
 original: Original
 source_text_help: Plain text is extracted during the annotation process, and can then be shown here.
 contact: Contact
