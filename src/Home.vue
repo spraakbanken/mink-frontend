@@ -69,7 +69,7 @@ watchEffect(() => {
         class="flex flex-col 2xl:flex-row my-20 gap-20 md:w-4/5 lg:w-2/3 2xl:w-full mx-auto"
       >
         <div class="flex flex-col md:flex-row 2xl:flex-col items-center gap-6">
-          <HomeIllustration deg="-2" class="w-96 md:w-1/2 2xl:w-4/5">
+          <HomeIllustration tilt="left" class="w-96 md:w-1/2 2xl:w-4/5">
             <img src="@/assets/sparv-screen.png" />
           </HomeIllustration>
 
@@ -102,7 +102,7 @@ watchEffect(() => {
         </div>
 
         <div class="flex flex-col md:flex-row 2xl:flex-col items-center gap-6">
-          <HomeIllustration deg="-2" class="w-96 md:w-1/2 2xl:w-4/5">
+          <HomeIllustration tilt="left" class="w-96 md:w-1/2 2xl:w-4/5">
             <img src="@/assets/korp-screen.png" />
           </HomeIllustration>
 

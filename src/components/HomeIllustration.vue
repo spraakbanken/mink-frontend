@@ -1,13 +1,18 @@
 <script setup>
-defineProps(["deg"]);
+defineProps({
+  tilt: {
+    type: String,
+    default: () => "right",
+  },
+});
 </script>
 
 <template>
   <figure
     :class="[
-      `${deg > 0 ? '' : '-'}rotate-${Math.abs(deg)}`,
+      tilt == 'left' ? '-rotate-2' : 'rotate-2',
       'shadow-lg',
-      `hover:${deg > 0 ? '' : '-'}rotate-${Math.abs(deg) * 1.5}`,
+      tilt == 'left' ? 'hover:-rotate-3' : 'hover:rotate-3',
       'hover:scale-110',
       'transition-transform',
     ]"
