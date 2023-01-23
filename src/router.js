@@ -12,6 +12,7 @@ import CorpusResult from "@/corpus/exports/CorpusResult.vue";
 import CorpusDelete from "@/corpus/CorpusDelete.vue";
 import Source from "@/corpus/sources/Source.vue";
 import User from "@/user/User.vue";
+import AccessDenied from "@/auth/AccessDenied.vue";
 import NotFound from "@/NotFound.vue";
 
 const routes = [
@@ -37,6 +38,7 @@ const routes = [
     ],
   },
   { path: "/user", component: User },
+  { path: "/access-denied", component: AccessDenied },
   { path: "/:pathMatch(.*)*", component: NotFound },
 ];
 

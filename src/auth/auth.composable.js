@@ -4,6 +4,7 @@ import { useRouter, useRoute } from "vue-router";
 import useSpin from "@/spin/spin.composable";
 import { checkLogin } from "./auth";
 import { api } from "@/api/api";
+import { canAdmin, canWrite, decodeJwt } from "./jwtSb";
 
 /**
  * JWT request slot.
@@ -29,8 +30,12 @@ export function useAuth() {
   const { t } = useI18n();
 
   const isAuthenticated = computed(() => !!jwt.value);
-  const payload = computed(() =>
-    jwt.value ? JSON.parse(atob(jwt.value.split(".")[1])) : undefined
+  const payload = computed(() => decodeJwt(jwt.value).payload);
+  const canUserAdmin = computed(() =>
+    canAdmin(payload.value, "other", "mink-app")
+  );
+  const canUserWrite = computed(() =>
+    canWrite(payload.value, "other", "mink-app")
   );
 
   /** If not authenticated, redirect to the login page. */
@@ -41,7 +46,11 @@ export function useAuth() {
     if (!jwt.value) {
       router.push(`/login?destination=${route.fullPath}`);
     }
-    return !!jwt.value;
+    if (!canUserWrite.value) {
+      router.push("/access-denied");
+    }
+
+    return canUserWrite.value;
   }
 
   /** Fetch JWT, store it and use it for API client. */
@@ -72,6 +81,8 @@ export function useAuth() {
   return {
     isAuthenticated,
     payload,
+    canUserAdmin,
+    canUserWrite,
     requireAuthentication,
     refreshJwt,
   };
