@@ -11,5 +11,7 @@
     <h1>Access denied</h1>
 
     <p>If you want access to Mink, please contact sb-info@svenska.gu.se</p>
+
+    <router-link to="/">Back to Home</router-link>
   </div>
 </template>

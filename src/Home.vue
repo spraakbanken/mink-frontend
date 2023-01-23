@@ -1,20 +1,11 @@
 <script setup>
 import { useAuth } from "@/auth/auth.composable";
-import { watchEffect } from "@vue/runtime-core";
-import { useRouter } from "vue-router";
 import Section from "@/components/Section.vue";
 import LoginButton from "@/auth/LoginButton.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import HomeIllustration from "./components/HomeIllustration.vue";
 
-const { isAuthenticated } = useAuth();
-const router = useRouter();
-
-watchEffect(() => {
-  if (isAuthenticated.value) {
-    router.push("/dashboard");
-  }
-});
+const { isAuthenticated, canUserWrite, payload } = useAuth();
 </script>
 
 <template>
@@ -47,15 +38,27 @@ watchEffect(() => {
             behind login.
           </p>
 
-          <div class="flex justify-center gap-4 p-8 text-center text-xl">
-            <LoginButton />
+          <div
+            class="p-4"
+            :class="canUserWrite ? ['bg-zinc-200', 'rounded-lg', 'p-4'] : []"
+          >
+            <div v-if="canUserWrite">Hi, {{ payload.name }}!</div>
+            <div class="flex justify-center gap-4 p-4 text-center text-xl">
+              <LoginButton v-if="!isAuthenticated" />
 
-            <router-link to="/signup">
-              <ActionButton variant="success">
-                <icon :icon="['fas', 'user-plus']" />
-                {{ $t("signup") }}
-              </ActionButton>
-            </router-link>
+              <router-link v-if="!isAuthenticated" to="/signup">
+                <ActionButton variant="success">
+                  <icon :icon="['fas', 'user-plus']" />
+                  {{ $t("signup") }}
+                </ActionButton>
+              </router-link>
+
+              <router-link v-if="canUserWrite" to="/dashboard">
+                <ActionButton variant="primary">
+                  {{ $t("corpuses") }}
+                </ActionButton>
+              </router-link>
+            </div>
           </div>
         </div>
         <div class="flex-1">

@@ -30,7 +30,7 @@ export function useAuth() {
   const { t } = useI18n();
 
   const isAuthenticated = computed(() => !!jwt.value);
-  const payload = computed(() => decodeJwt(jwt.value).payload);
+  const payload = computed(() => decodeJwt(jwt.value)?.payload);
   const canUserAdmin = computed(() =>
     canAdmin(payload.value, "other", "mink-app")
   );

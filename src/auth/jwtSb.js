@@ -16,14 +16,13 @@ export function decodeJwt(jwt) {
 }
 
 export function canAdmin(payload, resourceType, resourceName) {
-  return payload.scope[resourceType]?.[resourceName] >= payload.levels.ADMIN;
+  return payload?.scope[resourceType]?.[resourceName] >= payload?.levels.ADMIN;
 }
 
 export function canWrite(payload, resourceType, resourceName) {
-  console.log(payload);
-  return payload.scope[resourceType]?.[resourceName] >= payload.levels.WRITE;
+  return payload?.scope[resourceType]?.[resourceName] >= payload?.levels.WRITE;
 }
 
 export function canRead(payload, resourceType, resourceName) {
-  return payload.scope[resourceType]?.[resourceName] >= payload.levels.READ;
+  return payload?.scope[resourceType]?.[resourceName] >= payload?.levels.READ;
 }
