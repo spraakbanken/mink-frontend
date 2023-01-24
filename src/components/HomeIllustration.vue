@@ -2,7 +2,8 @@
 defineProps({
   tilt: {
     type: String,
-    default: () => "right",
+    default: () => "none",
+    validate: (tilt) => ["none", "left", "right"].includes(tilt),
   },
 });
 </script>
@@ -10,9 +11,9 @@ defineProps({
 <template>
   <figure
     :class="[
-      tilt == 'left' ? '-rotate-2' : 'rotate-2',
+      { left: '-rotate-2', right: 'rotate-2' }[tilt],
       'shadow-lg',
-      tilt == 'left' ? 'hover:-rotate-3' : 'hover:rotate-3',
+      { left: 'hover:-rotate-3', right: 'hover:rotate-3' }[tilt],
       'hover:scale-110',
       'transition-transform',
     ]"
