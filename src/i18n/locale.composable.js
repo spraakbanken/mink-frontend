@@ -15,6 +15,7 @@ export default function useLocale() {
   /** Translate here - picks the current language out of a strings-by-language object. */
   function th(stringsByLang) {
     if (!stringsByLang) return undefined;
+    if (typeof stringsByLang == "string") return stringsByLang;
     const lang3 = { sv: "swe", en: "eng" }[locale.value];
     return (
       stringsByLang[locale.value] ||

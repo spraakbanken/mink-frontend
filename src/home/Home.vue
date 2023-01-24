@@ -3,7 +3,7 @@ import { useAuth } from "@/auth/auth.composable";
 import Section from "@/components/Section.vue";
 import LoginButton from "@/auth/LoginButton.vue";
 import ActionButton from "@/components/ActionButton.vue";
-import HomeIllustration from "./components/HomeIllustration.vue";
+import HomeIllustration from "./HomeIllustration.vue";
 
 const { isAuthenticated, canUserWrite, payload } = useAuth();
 </script>
