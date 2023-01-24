@@ -4,19 +4,14 @@ import Section from "@/components/Section.vue";
 import LoginButton from "@/auth/LoginButton.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import HomeIllustration from "./HomeIllustration.vue";
+import HomeNews from "./HomeNews.vue";
 
 const { isAuthenticated, canUserWrite, payload } = useAuth();
 </script>
 
 <template>
   <div>
-    <div
-      class="bg-amber-300 shadow shadow-amber-600 text-amber-900 p-2 px-4 mb-4"
-    >
-      <strong>Under construction.</strong> Please note that Mink is still in an
-      early development stage, and access to it is thus currently restricted to
-      Språkbanken Text employees.
-    </div>
+    <HomeNews />
 
     <div class="flex flex-wrap gap-20 my-10">
       <div class="w-full flex flex-row-reverse flex-wrap items-center gap-20">
