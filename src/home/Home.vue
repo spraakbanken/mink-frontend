@@ -145,7 +145,7 @@ const { isAuthenticated, canUserWrite, payload } = useAuth();
     <div>
       <p class="max-w-2xl mx-auto mb-2">
         <strong>Mink or no Mink?</strong>
-        Make sure to first get acquainted to any existing language data set
+        Make sure to first get acquainted with any existing language data set
         related to your interests! Språkbanken's growing collection of research
         data can be browsed on the
         <a
