@@ -64,7 +64,20 @@ pre {
 }
 
 input, textarea, select {
-  @apply dark:bg-zinc-900 border dark:border-zinc-600 rounded p-1;
+  @apply bg-white dark:bg-zinc-900 border dark:border-zinc-600 rounded p-1 px-2;
+}
+
+.formkit-outer {
+  @apply my-2
+}
+.formkit-label {
+  @apply font-medium;
+}
+.formkit-help {
+  @apply text-sm py-1
+}
+.formkit-message {
+  @apply text-red-600;
 }
 
 @layer components {
