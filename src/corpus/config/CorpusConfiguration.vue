@@ -76,11 +76,15 @@
           :label="$t('segmenter_sentence')"
           type="radio"
           :options="segmenterOptions"
+          :help="$t('segmenter_sentence_help')"
         />
 
-        <FormKit :label="$t('timespan_from')" type="date" />
         <FormKit
-          :label="$t('timespan_to')"
+          :label="`${$t('timespan')}: ${$t('timespan_from')}`"
+          type="date"
+        />
+        <FormKit
+          :label="`${$t('timespan')}: ${$t('timespan_to')}`"
           type="date"
           :help="$t('timespan_help')"
         />
