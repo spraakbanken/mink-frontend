@@ -64,7 +64,7 @@ pre {
 }
 
 input, textarea, select {
-  @apply dark:bg-zinc-900 border dark:border-zinc-600 rounded;
+  @apply dark:bg-zinc-900 border dark:border-zinc-600 rounded p-1;
 }
 
 @layer components {

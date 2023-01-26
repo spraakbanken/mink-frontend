@@ -1,5 +1,6 @@
 home.help.corpora: These are the corpora that you have created. Click them to view more details.
 home.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "@:{'new_corpus'}" button or drop text files into the upload field below.
+corpus.create.name.placeholder: My new corpus
 corpus.creating: Creating corpus
 corpus.configuring: Configuring corpus
 corpus.delete: Delete corpus
