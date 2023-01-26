@@ -79,6 +79,15 @@ input, textarea, select {
 .formkit-message {
   @apply text-red-600;
 }
+[data-type=radio] .formkit-inner {
+  @apply inline-block mr-2;
+}
+[data-type=radio] .formkit-legend {
+  @apply font-medium;
+}
+[data-type=radio] .formkit-label {
+  @apply font-normal;
+}
 
 @layer components {
   .mink-button, a .mink-button {
