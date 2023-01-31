@@ -53,9 +53,7 @@
 <script setup>
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
-import { submitForm } from "@formkit/core";
 import PageTitle from "@/components/PageTitle.vue";
-import ActionButton from "@/components/ActionButton.vue";
 import Section from "@/components/Section.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import { FORMATS_EXT } from "@/api/corpusConfig";

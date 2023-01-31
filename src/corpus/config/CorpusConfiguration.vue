@@ -82,7 +82,7 @@
           v-if="value.format != 'xml'"
           name="sentenceSegmenter"
           :label="$t('segmenter_sentence')"
-          :value="config.sentenceSegmenter || 'none'"
+          :value="config.sentenceSegmenter || ''"
           type="radio"
           :options="segmenterOptions"
           :help="$t('segmenter_sentence_help')"
@@ -118,7 +118,6 @@
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
-import { submitForm } from "@formkit/core";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import Section from "@/components/Section.vue";
@@ -151,7 +150,7 @@ const segmenterOptions = computed(() =>
       ...options,
       [segmenter]: t(`segmenter_${segmenter}`),
     }),
-    { none: t("none") }
+    { "": t("none") }
   )
 );
 
@@ -166,7 +165,6 @@ async function submit(fields) {
     datetimeFrom: fields.datetimeFrom,
     datetimeTo: fields.datetimeTo,
   };
-  console.log(configNew);
   try {
     await uploadConfig(configNew, corpusIdFixed);
     router.push(`/corpus/${corpusIdFixed}`);
