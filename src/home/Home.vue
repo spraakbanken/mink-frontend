@@ -33,27 +33,21 @@ const { isAuthenticated, canUserWrite, payload } = useAuth();
             behind login.
           </p>
 
-          <div
-            class="p-4"
-            :class="canUserWrite ? ['bg-zinc-200', 'rounded-lg', 'p-4'] : []"
-          >
-            <div v-if="canUserWrite">Hi, {{ payload.name }}!</div>
-            <div class="flex justify-center gap-4 p-4 text-center text-xl">
-              <LoginButton v-if="!isAuthenticated" />
+          <div class="flex justify-center gap-4 p-4 text-center text-xl">
+            <LoginButton v-if="!isAuthenticated" />
 
-              <router-link v-if="!isAuthenticated" to="/signup">
-                <ActionButton variant="success">
-                  <icon :icon="['fas', 'user-plus']" />
-                  {{ $t("signup") }}
-                </ActionButton>
-              </router-link>
+            <router-link v-if="!isAuthenticated" to="/signup">
+              <ActionButton variant="success">
+                <icon :icon="['fas', 'user-plus']" />
+                {{ $t("signup") }}
+              </ActionButton>
+            </router-link>
 
-              <router-link v-if="canUserWrite" to="/dashboard">
-                <ActionButton variant="primary">
-                  {{ $t("corpuses") }}
-                </ActionButton>
-              </router-link>
-            </div>
+            <router-link v-if="canUserWrite" to="/dashboard">
+              <ActionButton variant="primary">
+                {{ $t("dashboard") }}
+              </ActionButton>
+            </router-link>
           </div>
         </div>
         <div class="flex-1">
