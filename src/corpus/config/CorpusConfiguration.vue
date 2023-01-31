@@ -12,30 +12,32 @@
           <p>{{ $t("config.metadata.help") }}</p>
         </Help>
 
-        <FormKit type="group" name="name">
-          <TaggedInput v-for="lang in ['swe', 'eng']" :key="lang" :tag="lang">
-            <FormKit
-              :name="lang"
-              :label="$t('name')"
-              :value="config.name?.[lang]"
-              type="text"
-              input-class="w-72"
-              validation="required:trim"
-            />
-          </TaggedInput>
-        </FormKit>
+        <div class="grid md:grid-cols-2 gap-x-4">
+          <FormKit type="group" name="name">
+            <TaggedInput v-for="lang in ['swe', 'eng']" :key="lang" :tag="lang">
+              <FormKit
+                :name="lang"
+                :label="$t('name')"
+                :value="config.name?.[lang]"
+                type="text"
+                input-class="w-72"
+                validation="required:trim"
+              />
+            </TaggedInput>
+          </FormKit>
 
-        <FormKit type="group" name="description">
-          <TaggedInput v-for="lang in ['swe', 'eng']" :key="lang" :tag="lang">
-            <FormKit
-              :name="lang"
-              :label="$t('description')"
-              :value="config.description?.[lang]"
-              type="textarea"
-              input-class="w-full h-20"
-            />
-          </TaggedInput>
-        </FormKit>
+          <FormKit type="group" name="description">
+            <TaggedInput v-for="lang in ['swe', 'eng']" :key="lang" :tag="lang">
+              <FormKit
+                :name="lang"
+                :label="$t('description')"
+                :value="config.description?.[lang]"
+                type="textarea"
+                input-class="w-full h-20"
+              />
+            </TaggedInput>
+          </FormKit>
+        </div>
 
         <FormKit
           :label="$t('identifier')"
