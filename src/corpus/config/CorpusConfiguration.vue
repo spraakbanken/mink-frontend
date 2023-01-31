@@ -4,7 +4,10 @@
       id="corpus-config"
       v-slot="{ value }"
       type="form"
-      :actions="false"
+      :submit-label="$t('save')"
+      :submit-attrs="{
+        inputClass: 'mink-button mink-primary',
+      }"
       @submit="submit"
     >
       <Section :title="$t('metadata')">
@@ -97,27 +100,17 @@
           :help="$t('timespan_help')"
         />
       </Section>
-      <Section>
-        <div class="flex justify-center">
-          <PendingContent :on="`corpus/${corpusId}/config`">
-            <ActionButton
-              variant="primary"
-              @click="submitForm('corpus-config')"
-            >
-              <icon :icon="['far', 'floppy-disk']" class="mr-1" />
-              {{ $t("save") }}
-            </ActionButton>
-
-            <router-link :to="`/corpus/${corpusId}/delete`">
-              <ActionButton variant="danger" class="ml-4">
-                <icon :icon="['far', 'trash-can']" class="mr-1" />
-                {{ $t("corpus.delete") }}
-              </ActionButton>
-            </router-link>
-          </PendingContent>
-        </div>
-      </Section>
     </FormKit>
+    <div class="flex justify-center">
+      <PendingContent :on="`corpus/${corpusId}/config`">
+        <router-link :to="`/corpus/${corpusId}/delete`">
+          <ActionButton variant="danger">
+            <icon :icon="['far', 'trash-can']" class="mr-1" />
+            {{ $t("corpus.delete") }}
+          </ActionButton>
+        </router-link>
+      </PendingContent>
+    </div>
   </div>
 </template>
 

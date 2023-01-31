@@ -77,6 +77,7 @@ original: Original
 source_text_help: Plain text is extracted during the annotation process, and can then be shown here.
 contact: Contact
 save: Save
+create: Create
 cancel: Cancel
 message: Message
 sparvOutput: Sparv output

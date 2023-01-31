@@ -6,7 +6,10 @@
         id="create-corpus"
         v-slot="{ value }"
         type="form"
-        :actions="false"
+        :submit-label="$t('create')"
+        :submit-attrs="{
+          inputClass: 'mink-button mink-primary',
+        }"
         @submit="submit"
       >
         <FormKit
@@ -43,13 +46,6 @@
           :help="$t('text_annotation_help')"
         />
       </FormKit>
-
-      <div class="flex justify-center">
-        <ActionButton variant="primary" @click="submitForm('create-corpus')">
-          <icon :icon="['far', 'floppy-disk']" class="mr-1" />
-          {{ $t("save") }}
-        </ActionButton>
-      </div>
     </PendingContent>
   </Section>
 </template>

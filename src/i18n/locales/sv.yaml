@@ -78,6 +78,7 @@ original: Original
 source_text_help: Under annoteringen extraheras ren text från filen, och kan sedan visas här.
 contact: Kontakt
 save: Spara
+create: Skapa
 cancel: Avbryt
 message: Meddelande
 sparvOutput: Output från Sparv
