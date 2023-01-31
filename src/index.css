@@ -68,13 +68,13 @@ input, textarea, select {
 }
 
 .formkit-outer {
-  @apply my-2
+  @apply my-4
 }
 .formkit-label {
   @apply font-medium;
 }
 .formkit-help {
-  @apply text-sm py-1
+  @apply text-sm py-1 opacity-70
 }
 .formkit-message {
   @apply text-red-600;

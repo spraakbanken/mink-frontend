@@ -10,7 +10,6 @@
         @submit="submit"
       >
         <FormKit
-          id="name"
           :label="$t('name')"
           type="text"
           validation="required:trim"
@@ -20,7 +19,6 @@
         />
 
         <FormKit
-          id="description"
           :label="$t('description')"
           type="textarea"
           name="description"
@@ -28,18 +26,16 @@
         />
 
         <FormKit
-          id="fileFormat"
-          name="fileFormat"
+          name="format"
           :label="$t('fileFormat')"
           type="select"
           input-class="w-72"
-          :options="fileFormatOptions"
+          :options="formatOptions"
           validate="required"
         />
 
         <FormKit
-          v-if="value.fileFormat === 'xml'"
-          id="textAnnotation"
+          v-if="value.format === 'xml'"
           name="textAnnotation"
           :label="$t('text_annotation')"
           validation="required:trim"
@@ -74,7 +70,7 @@ const { requireAuthentication } = useAuth();
 const { createFromConfig } = useCorpora();
 const { t } = useI18n();
 
-const fileFormatOptions = computed(() =>
+const formatOptions = computed(() =>
   FORMATS_EXT.reduce(
     (options, ext) => ({
       ...options,
@@ -90,7 +86,7 @@ async function submit(fields) {
   await createFromConfig(
     fields.name,
     fields.description,
-    fields.fileFormat,
+    fields.format,
     fields.textAnnotation
   );
 }

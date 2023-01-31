@@ -17,6 +17,7 @@
             <FormKit
               :name="lang"
               :label="$t('name')"
+              :value="config.name?.[lang]"
               type="text"
               input-class="w-72"
               validation="required:trim"
@@ -29,6 +30,7 @@
             <FormKit
               :name="lang"
               :label="$t('description')"
+              :value="config.description?.[lang]"
               type="textarea"
               input-class="w-full h-20"
             />
@@ -51,96 +53,55 @@
         </Help>
 
         <FormKit
-          id="fileFormat"
-          name="fileFormat"
+          name="format"
           :label="$t('fileFormat')"
+          :value="config.format"
           type="select"
           input-class="w-72"
-          :options="fileFormatOptions"
+          :options="formatOptions"
           validate="required"
           :help="$t('config.format.help')"
         />
 
         <FormKit
-          v-if="value.fileFormat === 'xml'"
-          id="textAnnotation"
+          v-if="value.format === 'xml'"
           name="textAnnotation"
           :label="$t('text_annotation')"
+          :value="config.textAnnotation"
           validation="required:trim"
           input-class="w-72"
           :help="$t('text_annotation_help')"
         />
 
         <FormKit
-          v-if="value.fileFormat != 'xml'"
+          v-if="value.format != 'xml'"
+          name="sentenceSegmenter"
           :label="$t('segmenter_sentence')"
+          :value="config.sentenceSegmenter || 'none'"
           type="radio"
           :options="segmenterOptions"
           :help="$t('segmenter_sentence_help')"
         />
 
         <FormKit
-          :label="`${$t('timespan')}: ${$t('timespan_from')}`"
           type="date"
+          :label="`${$t('timespan')}: ${$t('timespan_from')}`"
+          :value="config.datetimeFrom"
         />
         <FormKit
-          :label="`${$t('timespan')}: ${$t('timespan_to')}`"
           type="date"
+          :label="`${$t('timespan')}: ${$t('timespan_to')}`"
+          :value="config.datetimeTo"
           :help="$t('timespan_help')"
         />
-
-        <table class="w-full my-4 striped">
-          <thead></thead>
-          <tbody>
-            <tr v-if="format != 'xml'">
-              <th class="lg:w-1/6">
-                {{ $t("segmenter_sentence") }}
-              </th>
-              <td>
-                <label class="mr-4">
-                  <input
-                    id="sentenceSegmenter"
-                    v-model="sentenceSegmenter"
-                    type="radio"
-                    value=""
-                  />
-                  {{ $t("none") }}
-                </label>
-                <label v-for="segmenter in SEGMENTERS" class="mr-4">
-                  <input
-                    id="sentenceSegmenter"
-                    v-model="sentenceSegmenter"
-                    type="radio"
-                    :value="segmenter"
-                  />
-                  {{ $t(`segmenter_${segmenter}`) }}
-                </label>
-                <div class="text-sm py-1">
-                  {{ $t("segmenter_sentence_help") }}
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                {{ $t("timespan") }}
-              </th>
-              <td>
-                {{ $t("timespan_from") }}:
-                <input v-model="datetimeFrom" type="date" class="mr-4" />
-                {{ $t("timespan_to") }}:
-                <input v-model="datetimeTo" type="date" />
-                <div class="text-sm py-1">
-                  {{ $t("timespan_help") }}
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </Section>
       <Section>
         <div class="flex justify-center">
           <PendingContent :on="`corpus/${corpusId}/config`">
-            <ActionButton variant="primary" @click="save">
+            <ActionButton
+              variant="primary"
+              @click="submitForm('corpus-config')"
+            >
               <icon :icon="['far', 'floppy-disk']" class="mr-1" />
               {{ $t("save") }}
             </ActionButton>
@@ -159,8 +120,10 @@
 </template>
 
 <script setup>
-import { ref } from "@vue/reactivity";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+import { submitForm } from "@formkit/core";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import Section from "@/components/Section.vue";
@@ -170,8 +133,6 @@ import { FORMATS_EXT, SEGMENTERS } from "@/api/corpusConfig";
 import TaggedInput from "./TaggedInput.vue";
 import useMessenger from "@/message/messenger.composable";
 import Help from "@/components/Help.vue";
-import { computed } from "vue";
-import { useI18n } from "vue-i18n";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
@@ -187,7 +148,7 @@ const sentenceSegmenter = ref(config.value?.sentenceSegmenter || "");
 const datetimeFrom = ref(config.value?.datetimeFrom);
 const datetimeTo = ref(config.value?.datetimeTo);
 
-const fileFormatOptions = computed(() =>
+const formatOptions = computed(() =>
   FORMATS_EXT.reduce(
     (options, ext) => ({
       ...options,
@@ -196,6 +157,8 @@ const fileFormatOptions = computed(() =>
     {}
   )
 );
+
+console.log(config.value);
 
 const segmenterOptions = computed(() =>
   SEGMENTERS.reduce(
@@ -207,17 +170,18 @@ const segmenterOptions = computed(() =>
   )
 );
 
-async function save() {
+async function submit(fields) {
   const corpusIdFixed = corpusId;
   const configNew = {
-    name: name.value,
-    description: description.value,
-    format: format.value,
-    textAnnotation: textAnnotation.value,
-    sentenceSegmenter: sentenceSegmenter.value,
-    datetimeFrom: datetimeFrom.value,
-    datetimeTo: datetimeTo.value,
+    name: fields.name,
+    description: fields.description,
+    format: fields.format,
+    textAnnotation: fields.textAnnotation,
+    sentenceSegmenter: fields.sentenceSegmenter,
+    datetimeFrom: fields.datetimeFrom,
+    datetimeTo: fields.datetimeTo,
   };
+  console.log(configNew);
   try {
     await uploadConfig(configNew, corpusIdFixed);
     router.push(`/corpus/${corpusIdFixed}`);
