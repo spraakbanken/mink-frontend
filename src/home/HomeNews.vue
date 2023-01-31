@@ -14,7 +14,7 @@ function getDate(date) {
     <article
       v-for="(item, i) in items"
       :key="i"
-      class="bg-sky-50 border shadow shadow-sky-200 text-sky-800 p-1 px-2 my-2"
+      class="bg-sky-50 dark:bg-sky-800 shadow shadow-sky-200 dark:shadow-sky-600 text-sky-800 dark:text-sky-200 p-1 px-2 my-2"
     >
       <strong>{{ getDate(item.date) }}: {{ th(item.title) }}</strong>
       <div v-html="th(item.body)"></div>
