@@ -32,7 +32,12 @@ class MinkApi {
         return response;
       },
       (error) => {
-        handleResponse(error.response.data);
+        try {
+          handleResponse(error.response.data);
+        } catch (handlerError) {
+          // An error during an error? Just log it.
+          console.error(handlerError);
+        }
         throw error;
       }
     );
@@ -89,13 +94,9 @@ class MinkApi {
   async uploadSources(corpusId, files) {
     const formData = new FormData();
     [...files].forEach((file) => formData.append("files[]", file));
-    const response = await this.axios
-      .put("upload-sources", formData, {
-        params: { corpus_id: corpusId },
-      })
-      .catch((error) => {
-        if (error.response) throw TypeError(error.response.data.info);
-      });
+    const response = await this.axios.put("upload-sources", formData, {
+      params: { corpus_id: corpusId },
+    });
     return response.data;
   }
 
