@@ -2,63 +2,50 @@
   <PageTitle>{{ $t("new_corpus") }}</PageTitle>
   <Section>
     <PendingContent on="create">
-      <table class="w-full my-4">
-        <tbody>
-          <tr>
-            <th class="lg:w-1/6">
-              <label for="name">{{ $t("name") }}</label>
-            </th>
-            <td>
-              <input id="name" v-model="name" class="border w-72 p-1" />
-            </td>
-          </tr>
-          <tr>
-            <th class="lg:w-1/6">
-              <label for="description">{{ $t("description") }}</label>
-            </th>
-            <td>
-              <textarea
-                v-model="description"
-                class="block border w-full p-1 h-20"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th class="lg:w-1/6">
-              <label for="fileFormat">{{ $t("fileFormat") }}</label>
-            </th>
-            <td>
-              <select
-                id="fileFormat"
-                v-model="fileFormat"
-                class="border w-72 p-1"
-              >
-                <option v-for="ext in FORMATS_EXT" :value="ext">
-                  {{ $t(ext) }} (.{{ ext }})
-                </option>
-              </select>
-            </td>
-          </tr>
-          <tr v-if="fileFormat === 'xml'">
-            <th class="lg:w-1/6">
-              <label for="textAnnotation">{{ $t("text_annotation") }}:</label>
-            </th>
-            <td>
-              <input
-                id="textAnnotation"
-                v-model="textAnnotation"
-                :required="fileFormat === 'xml'"
-                class="border w-72 p-1"
-              />
-              <div class="text-sm py-1">
-                {{ $t("text_annotation_help") }}
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <FormKit
+        id="create-corpus"
+        v-slot="{ value }"
+        type="form"
+        :actions="false"
+        @submit="submit"
+      >
+        <FormKit
+          :label="$t('name')"
+          type="text"
+          validation="required:trim"
+          name="name"
+          input-class="w-72"
+          :placeholder="$t('corpus.create.name.placeholder')"
+        />
+
+        <FormKit
+          :label="$t('description')"
+          type="textarea"
+          name="description"
+          input-class="block w-full h-20"
+        />
+
+        <FormKit
+          name="format"
+          :label="$t('fileFormat')"
+          type="select"
+          input-class="w-72"
+          :options="formatOptions"
+          validate="required"
+        />
+
+        <FormKit
+          v-if="value.format === 'xml'"
+          name="textAnnotation"
+          :label="$t('text_annotation')"
+          validation="required:trim"
+          input-class="w-72"
+          :help="$t('text_annotation_help')"
+        />
+      </FormKit>
+
       <div class="flex justify-center">
-        <ActionButton variant="primary" @click="submit">
+        <ActionButton variant="primary" @click="submitForm('create-corpus')">
           <icon :icon="['far', 'floppy-disk']" class="mr-1" />
           {{ $t("save") }}
         </ActionButton>
@@ -68,7 +55,9 @@
 </template>
 
 <script setup>
-import { ref } from "@vue/reactivity";
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { submitForm } from "@formkit/core";
 import PageTitle from "@/components/PageTitle.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import Section from "@/components/Section.vue";
@@ -79,20 +68,26 @@ import useCorpora from "./corpora.composable";
 
 const { requireAuthentication } = useAuth();
 const { createFromConfig } = useCorpora();
+const { t } = useI18n();
 
-const name = ref("");
-const description = ref("");
-const fileFormat = ref("txt");
-const textAnnotation = ref("");
+const formatOptions = computed(() =>
+  FORMATS_EXT.reduce(
+    (options, ext) => ({
+      ...options,
+      [ext]: `${t(ext)} (.${ext})`,
+    }),
+    {}
+  )
+);
 
 requireAuthentication();
 
-async function submit() {
+async function submit(fields) {
   await createFromConfig(
-    name.value,
-    description.value,
-    fileFormat.value,
-    textAnnotation.value
+    fields.name,
+    fields.description,
+    fields.format,
+    fields.textAnnotation
   );
 }
 </script>

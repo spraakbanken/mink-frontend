@@ -64,7 +64,29 @@ pre {
 }
 
 input, textarea, select {
-  @apply dark:bg-zinc-900 border dark:border-zinc-600 rounded;
+  @apply bg-white dark:bg-zinc-900 border dark:border-zinc-600 rounded p-1 px-2;
+}
+
+.formkit-outer {
+  @apply my-4
+}
+.formkit-label {
+  @apply font-medium;
+}
+.formkit-help {
+  @apply text-sm py-1 opacity-70
+}
+.formkit-message {
+  @apply text-red-600;
+}
+[data-type=radio] .formkit-inner {
+  @apply inline-block mr-2;
+}
+[data-type=radio] .formkit-legend {
+  @apply font-medium;
+}
+[data-type=radio] .formkit-label {
+  @apply font-normal;
 }
 
 @layer components {
