@@ -83,11 +83,13 @@ import MessageToasts from "@/message/MessageToasts.vue";
 // Asset path transformation doesn't work in <source srcset> like in <img src>
 import logoMinkLight from "@/assets/mink-light.svg";
 import logoSbxLight from "@/assets/sbx1r-light.svg";
+import usePageTitle from "./title.composable";
 
 const { messages } = useSpin();
 const { refreshJwt, payload } = useAuth();
 const { alert } = useMessenger();
 useLocale();
+usePageTitle();
 
 // Fetch JWT and use it for all API requests.
 refreshJwt();

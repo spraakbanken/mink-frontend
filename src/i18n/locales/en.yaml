@@ -1,3 +1,4 @@
+home: Home
 home.help.corpora: These are the corpora that you have created. Click them to view more details.
 home.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "@:{'new_corpus'}" button or drop text files into the upload field below.
 dashboard: Dashboard
@@ -70,7 +71,7 @@ fileType: Type
 uploaded: Uploaded
 lastModify: Last modified
 fileSize: Size
-deleteFile: Delete
+delete: Delete
 addFile: Add files
 dragANDdrop: Drag and drop files here, or click here to choose
 original: Original
@@ -99,6 +100,7 @@ login: Sign in
 login.required: This page requires you to authenticate.
 logout: Logout
 signup: Create account
+account: Account
 enable: Enable
 disable: Disable
 xml: XML
@@ -122,3 +124,10 @@ timespan_to: To
 edit: Edit
 job_run: Run annotation
 job_abort: Abort
+accessdenied: Access denied
+accessdenied.contact: If you want access to Mink, please contact sb-info{'@'}svenska.gu.se
+notfound: Page not found
+notfound.description: Something went wrong, and there is nothing to see at this address.
+notfound.contact: If you have questions, or you want to report a bug, please contact sb-info{'@'}svenska.gu.se. Thank you!
+devnotice.title: Under construction
+devnotice.description: Please note that Mink is still in an early development stage, and access to it is thus currently restricted to Språkbanken Text employees.

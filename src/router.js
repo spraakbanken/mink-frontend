@@ -17,29 +17,89 @@ import NotFound from "@/NotFound.vue";
 
 const routes = [
   { path: "/", component: Home },
-  { path: "/dashboard", component: Dashboard },
-  { path: "/login", component: Login },
-  { path: "/signup", component: Signup },
-  { path: "/corpus", component: CreateCorpus },
+  {
+    path: "/dashboard",
+    component: Dashboard,
+    meta: { title: "dashboard" },
+  },
+  {
+    path: "/login",
+    component: Login,
+    meta: { title: "login" },
+  },
+  {
+    path: "/signup",
+    component: Signup,
+    meta: { title: "signup" },
+  },
+  {
+    path: "/corpus",
+    component: CreateCorpus,
+    meta: { title: "new_corpus" },
+  },
   {
     path: "/corpus/:corpusId",
     component: Corpus,
     children: [
-      { path: "", component: Overview },
-      { path: "config", component: CorpusConfiguration },
-      { path: "sources", component: CorpusSources },
+      {
+        path: "",
+        component: Overview,
+        meta: { createTitle: (t, corpusName) => corpusName },
+      },
+      {
+        path: "config",
+        component: CorpusConfiguration,
+        meta: {
+          createTitle: (t, corpusName) =>
+            `${t("configuration")} – ${corpusName}`,
+        },
+      },
+      {
+        path: "sources",
+        component: CorpusSources,
+        meta: {
+          createTitle: (t, corpusName) => `${t("texts")} – ${corpusName}`,
+        },
+      },
       {
         path: "sources/:filename",
         component: Source,
         props: true,
+        meta: {
+          createTitle: (t, corpusName, params) => params.filename,
+        },
       },
-      { path: "exports", component: CorpusResult },
-      { path: "delete", component: CorpusDelete },
+      {
+        path: "exports",
+        component: CorpusResult,
+        meta: {
+          createTitle: (t, corpusName) => `${t("result")} – ${corpusName}`,
+        },
+      },
+      {
+        path: "delete",
+        component: CorpusDelete,
+        meta: {
+          createTitle: (t, corpusName) => `${t("delete")} – ${corpusName}`,
+        },
+      },
     ],
   },
-  { path: "/user", component: User },
-  { path: "/access-denied", component: AccessDenied },
-  { path: "/:pathMatch(.*)*", component: NotFound },
+  {
+    path: "/user",
+    component: User,
+    meta: { title: "account" },
+  },
+  {
+    path: "/access-denied",
+    component: AccessDenied,
+    meta: { title: "accessdenied" },
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    component: NotFound,
+    meta: { title: "notfound" },
+  },
 ];
 
 const router = createRouter({

@@ -3,15 +3,12 @@
     <div
       class="bg-amber-300 shadow shadow-amber-600 text-amber-900 p-2 px-4 mb-4"
     >
-      <strong>Under construction.</strong> Please note that Mink is still in an
-      early development stage, and access to it is thus currently restricted to
-      Språkbanken Text employees.
+      <strong>{{ $t("devnotice.title") }}</strong>
+      {{ $t("devnotice.description") }}
     </div>
 
-    <h1>Access denied</h1>
-
-    <p>If you want access to Mink, please contact sb-info@svenska.gu.se</p>
-
-    <router-link to="/">Back to Home</router-link>
+    <h1>{{ $t("accessdenied") }}</h1>
+    <p>{{ $t("accessdenied.contact") }}</p>
+    <router-link to="/">{{ $t("home") }}</router-link>
   </div>
 </template>
