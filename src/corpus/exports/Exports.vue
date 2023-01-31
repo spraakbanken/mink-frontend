@@ -13,7 +13,7 @@
 
       <a
         v-if="isInstalled"
-        :href="`https://spraakbanken.gu.se/korplabb/?mode=mink&corpus=${corpusId}`"
+        :href="`https://spraakbanken.gu.se/korplabb/?mode=mink#?corpus=${corpusId}`"
         target="_blank"
       >
         <ActionButton variant="primary">
