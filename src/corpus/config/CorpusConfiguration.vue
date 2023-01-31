@@ -120,7 +120,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { submitForm } from "@formkit/core";
@@ -140,14 +140,6 @@ const { config, uploadConfig } = useConfig(corpusId);
 const { alert } = useMessenger();
 const { t } = useI18n();
 
-const name = ref({ ...config.value?.name });
-const description = ref({ ...config.value?.description });
-const format = ref(config.value?.format || FORMATS_EXT[0]);
-const textAnnotation = ref(config.value?.textAnnotation);
-const sentenceSegmenter = ref(config.value?.sentenceSegmenter || "");
-const datetimeFrom = ref(config.value?.datetimeFrom);
-const datetimeTo = ref(config.value?.datetimeTo);
-
 const formatOptions = computed(() =>
   FORMATS_EXT.reduce(
     (options, ext) => ({
@@ -157,8 +149,6 @@ const formatOptions = computed(() =>
     {}
   )
 );
-
-console.log(config.value);
 
 const segmenterOptions = computed(() =>
   SEGMENTERS.reduce(
