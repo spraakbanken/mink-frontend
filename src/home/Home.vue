@@ -43,7 +43,7 @@ const { isAuthenticated, canUserWrite, payload } = useAuth();
               </ActionButton>
             </router-link>
 
-            <router-link v-if="canUserWrite" to="/dashboard">
+            <router-link v-if="canUserWrite" to="/corpus">
               <ActionButton variant="primary">
                 {{ $t("dashboard") }}
               </ActionButton>

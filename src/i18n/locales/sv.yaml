@@ -127,7 +127,7 @@ job_run: Starta annotering
 job_abort: Avbryt
 accessdenied: Åtkomst nekad
 accessdenied.contact: Om du vill få tillgång till Mink, hör av dig till sb-info{'@'}svenska.gu.se
-notfound.title: Sidan kan inte hittas
+notfound: Sidan kan inte hittas
 notfound.description: Något har gått fel, och det finns ingenting att visa på den här adressen.
 notfound.contact: Om du har frågor eller vill rapportera en bugg, kontakta gärna sb-info{'@'}svenska.gu.se. Tack!
 devnotice.title: Under konstruktion

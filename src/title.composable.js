@@ -1,7 +1,6 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
-import { useTitle } from "@vueuse/core";
 import useLocale from "./i18n/locale.composable";
 import { useCorpusStore } from "./store/corpus.store";
 
@@ -15,11 +14,16 @@ export default function usePageTitle() {
     th(corpusStore.corpora[route.params.corpusId]?.config?.name)
   );
 
-  const title = computed(() =>
-    route.meta.title
+  function getTitle(route) {
+    return route.meta.title
       ? t(route.meta.title)
-      : route.meta.createTitle?.(t, corpusName.value, route.params)
-  );
+      : route.meta.createTitle?.(t, corpusName.value, route.params);
+  }
 
-  useTitle(title, { titleTemplate: "%s | Mink" });
+  const title = computed(() => getTitle(route));
+
+  return {
+    getTitle,
+    title,
+  };
 }

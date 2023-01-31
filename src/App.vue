@@ -57,6 +57,7 @@
     <AdminModeBanner />
   </header>
 
+  <Breadcrumb />
   <MessageToasts />
 
   <div class="container py-2">
@@ -71,6 +72,7 @@
 </template>
 
 <script setup>
+import { useTitle } from "@vueuse/core";
 import { api } from "@/api/api";
 import useSpin from "@/spin/spin.composable";
 import { useAuth } from "@/auth/auth.composable";
@@ -84,12 +86,14 @@ import MessageToasts from "@/message/MessageToasts.vue";
 import logoMinkLight from "@/assets/mink-light.svg";
 import logoSbxLight from "@/assets/sbx1r-light.svg";
 import usePageTitle from "./title.composable";
+import Breadcrumb from "./Breadcrumb.vue";
 
 const { messages } = useSpin();
 const { refreshJwt, payload } = useAuth();
 const { alert } = useMessenger();
 useLocale();
-usePageTitle();
+const { title } = usePageTitle();
+useTitle(title, { titleTemplate: "%s | Mink" });
 
 // Fetch JWT and use it for all API requests.
 refreshJwt();

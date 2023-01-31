@@ -18,7 +18,7 @@ import NotFound from "@/NotFound.vue";
 const routes = [
   { path: "/", component: Home },
   {
-    path: "/dashboard",
+    path: "/corpus",
     component: Dashboard,
     meta: { title: "dashboard" },
   },
@@ -33,7 +33,7 @@ const routes = [
     meta: { title: "signup" },
   },
   {
-    path: "/corpus",
+    path: "/corpus/new",
     component: CreateCorpus,
     meta: { title: "new_corpus" },
   },
@@ -50,15 +50,14 @@ const routes = [
         path: "config",
         component: CorpusConfiguration,
         meta: {
-          createTitle: (t, corpusName) =>
-            `${t("configuration")} – ${corpusName}`,
+          createTitle: (t, corpusName) => t("configuration"),
         },
       },
       {
         path: "sources",
         component: CorpusSources,
         meta: {
-          createTitle: (t, corpusName) => `${t("texts")} – ${corpusName}`,
+          title: "texts",
         },
       },
       {
@@ -73,14 +72,14 @@ const routes = [
         path: "exports",
         component: CorpusResult,
         meta: {
-          createTitle: (t, corpusName) => `${t("result")} – ${corpusName}`,
+          title: "result",
         },
       },
       {
         path: "delete",
         component: CorpusDelete,
         meta: {
-          createTitle: (t, corpusName) => `${t("delete")} – ${corpusName}`,
+          title: "delete",
         },
       },
     ],
@@ -97,6 +96,7 @@ const routes = [
   },
   {
     path: "/:pathMatch(.*)*",
+    name: "notfound",
     component: NotFound,
     meta: { title: "notfound" },
   },

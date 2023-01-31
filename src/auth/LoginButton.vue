@@ -1,5 +1,5 @@
 <template>
-  <a :href="getLoginUrl(route.query.destination || '/dashboard')">
+  <a :href="getLoginUrl(route.query.destination || '/corpus')">
     <ActionButton variant="primary">
       <icon :icon="['fas', 'right-to-bracket']" />
       {{ $t("login") }}
