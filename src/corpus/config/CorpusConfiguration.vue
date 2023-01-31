@@ -89,11 +89,13 @@
         />
 
         <FormKit
+          name="datetimeFrom"
           type="date"
           :label="`${$t('timespan')}: ${$t('timespan_from')}`"
           :value="config.datetimeFrom"
         />
         <FormKit
+          name="datetimeTo"
           type="date"
           :label="`${$t('timespan')}: ${$t('timespan_to')}`"
           :value="config.datetimeTo"

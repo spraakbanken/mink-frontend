@@ -33,7 +33,8 @@
           <th>{{ $t("timespan") }}</th>
           <td>
             <span v-if="config.datetimeFrom || config.datetimeTo">
-              {{ config.datetimeFrom }} – {{ config.datetimeTo }}
+              <span class="whitespace-nowrap">{{ config.datetimeFrom }}</span> –
+              <span class="whitespace-nowrap">{{ config.datetimeTo }}</span>
             </span>
             <template v-else>—</template>
           </td>
