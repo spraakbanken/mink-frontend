@@ -1,4 +1,4 @@
-import { watch } from "vue";
+import { inject, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useStorage } from "@vueuse/core";
 
@@ -6,11 +6,17 @@ const storedLocale = useStorage("locale", "en");
 
 export default function useLocale() {
   const { locale } = useI18n();
+  const formkitConfig = inject(Symbol.for("FormKitConfig"));
 
-  // Sync from storage to switcher once
+  // Sync from storage once
   locale.value = storedLocale.value;
-  // Sync from switcher to store continually
-  watch(locale, () => (storedLocale.value = locale.value));
+  formkitConfig.locale = storedLocale.value;
+
+  // Then sync from switcher continually
+  watch(locale, () => {
+    storedLocale.value = locale.value;
+    formkitConfig.locale = locale.value;
+  });
 
   /** Translate here - picks the current language out of a strings-by-language object. */
   function th(stringsByLang) {

@@ -1,8 +1,10 @@
 import { defaultConfig } from "@formkit/vue";
+import { en, sv } from "@formkit/i18n";
 export { plugin as formkit } from "@formkit/vue";
 
 export const formkitConfig = defaultConfig({
   plugins: [addAsteriskPlugin],
+  locales: { en, sv },
 });
 
 const isCheckboxAndRadioMultiple = (node) =>
