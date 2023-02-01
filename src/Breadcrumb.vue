@@ -1,11 +1,13 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 import usePageTitle from "./title.composable";
 
 const route = useRoute();
 const { resolve } = useRouter();
 const { getTitle } = usePageTitle();
+const { locale } = useI18n();
 const crumbs = ref([]);
 
 function getInits(path) {
@@ -17,23 +19,25 @@ function getInits(path) {
   return inits;
 }
 
+function updateCrumbs() {
+  crumbs.value = getInits(route.path)
+    .map((path) => {
+      const route = resolve(path);
+      return {
+        path,
+        title: getTitle(route),
+        name: route.name,
+      };
+    })
+    .filter((crumb) => crumb.name != "notfound" && crumb.title);
+}
+
 watch(
   () => route.path,
-  () => {
-    crumbs.value = getInits(route.path)
-      .map((path) => {
-        const route = resolve(path);
-        console.log(route);
-        return {
-          path,
-          title: getTitle(route),
-          name: route.name,
-        };
-      })
-      .filter((crumb) => crumb.name != "notfound" && crumb.title);
-    console.log(crumbs.value);
-  }
+  () => updateCrumbs()
 );
+
+watch(locale, () => updateCrumbs());
 </script>
 
 <template>
