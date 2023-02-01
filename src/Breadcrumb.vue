@@ -7,7 +7,7 @@ import usePageTitle from "./title.composable";
 const route = useRoute();
 const { resolve } = useRouter();
 const { getTitle } = usePageTitle();
-const { locale } = useI18n();
+const { t, locale } = useI18n();
 const crumbs = ref([]);
 
 function getInits(path) {
@@ -20,16 +20,14 @@ function getInits(path) {
 }
 
 function updateCrumbs() {
+  const homeCrumb = { path: "/", title: t("home") };
   crumbs.value = getInits(route.path)
     .map((path) => {
       const route = resolve(path);
-      return {
-        path,
-        title: getTitle(route),
-        name: route.name,
-      };
+      return { path, title: getTitle(route), name: route.name };
     })
     .filter((crumb) => crumb.name != "notfound" && crumb.title);
+  crumbs.value.unshift(homeCrumb);
 }
 
 watch(
@@ -41,13 +39,10 @@ watch(locale, () => updateCrumbs());
 </script>
 
 <template>
-  <div class="container">
-    <router-link to="/">
-      {{ $t("home") }}
-    </router-link>
+  <div class="container opacity-70">
     <template v-for="(crumb, i) in crumbs" :key="i">
-      &gt;
-      <router-link :to="crumb.path">
+      <template v-if="i"> &gt; </template>
+      <router-link :to="crumb.path" class="text-inherit hover:underline">
         {{ crumb.title }}
       </router-link>
     </template>
