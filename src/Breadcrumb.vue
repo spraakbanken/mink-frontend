@@ -39,7 +39,7 @@ watch(locale, () => updateCrumbs());
 </script>
 
 <template>
-  <div class="container opacity-70">
+  <div v-if="crumbs.length > 1" class="container opacity-70">
     <template v-for="(crumb, i) in crumbs" :key="i">
       <template v-if="i"> &gt; </template>
       <router-link :to="crumb.path" class="text-inherit hover:underline">
