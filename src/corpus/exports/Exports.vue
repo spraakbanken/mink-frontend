@@ -30,8 +30,8 @@
 
     <div class="flex flex-wrap items-baseline gap-4">
       <ActionButton v-if="exports && exports.length" @click="downloadResult">
-        <icon :icon="['far', 'file-zipper']" class="mr-1" />
-        {{ $t("download_export") }}
+        <icon :icon="['fas', 'download']" class="mr-1" />
+        {{ getDownloadFilename() }}
       </ActionButton>
 
       <router-link
@@ -54,7 +54,8 @@ import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 
 const corpusId = useCorpusIdParam();
-const { exports, loadExports, downloadResult } = useExports(corpusId);
+const { exports, loadExports, downloadResult, getDownloadFilename } =
+  useExports(corpusId);
 const { isDone } = useCorpusState(corpusId);
 const { install, isInstalled } = useJob(corpusId);
 

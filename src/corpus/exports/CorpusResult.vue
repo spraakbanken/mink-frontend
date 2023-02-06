@@ -6,14 +6,15 @@
       </Help>
 
       <div class="my-4">
+        {{ $t("download_export") }}:
         <ActionButton
           v-if="exports && exports.length"
           variant="primary"
           class="mr-2"
           @click="downloadResult"
         >
-          <icon :icon="['far', 'file-zipper']" class="mr-1" />
-          {{ $t("download_export") }}
+          <icon :icon="['fas', 'download']" class="mr-1" />
+          {{ getDownloadFilename() }}
         </ActionButton>
       </div>
 
@@ -39,7 +40,7 @@
                 class="mute slim"
                 @click="downloadResultFile(file.path)"
               >
-                <icon :icon="['far', 'file-code']" />
+                <icon :icon="['fas', 'download']" />
               </ActionButton>
             </td>
           </tr>
@@ -59,7 +60,8 @@ import Help from "@/components/Help.vue";
 
 const corpusId = useCorpusIdParam();
 
-const { exports, downloadResult, downloadResultFile } = useExports(corpusId);
+const { exports, downloadResult, downloadResultFile, getDownloadFilename } =
+  useExports(corpusId);
 </script>
 
 <style></style>

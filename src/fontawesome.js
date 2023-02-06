@@ -4,15 +4,13 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 // Use them as in https://fontawesome.com/docs/web/use-with/vue/add-icons
 import {
   faFile,
-  faFileCode,
-  faFileLines,
-  faFileZipper,
   faLightbulb,
   faSquareMinus,
   faSquarePlus,
   faTrashCan,
 } from "@fortawesome/free-regular-svg-icons";
 import {
+  faDownload,
   faGears,
   faPen,
   faPersonRunning,
@@ -23,10 +21,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
+  faDownload,
   faFile,
-  faFileCode,
-  faFileLines,
-  faFileZipper,
   faGears,
   faLightbulb,
   faPen,

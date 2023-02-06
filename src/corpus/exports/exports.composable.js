@@ -16,7 +16,11 @@ export default function useExports(corpusId) {
 
   async function downloadResult() {
     const data = await mink.downloadExports(corpusId);
-    downloadFile(data, corpusId + ".zip");
+    downloadFile(data, getDownloadFilename());
+  }
+
+  function getDownloadFilename() {
+    return corpusId + ".zip";
   }
 
   async function downloadResultFile(path) {
@@ -30,5 +34,6 @@ export default function useExports(corpusId) {
     exports,
     downloadResult,
     downloadResultFile,
+    getDownloadFilename,
   };
 }
