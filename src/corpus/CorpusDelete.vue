@@ -12,7 +12,7 @@ const { deleteCorpus } = useCorpus(corpusId);
 
 async function doDelete() {
   await deleteCorpus();
-  router.push("/");
+  router.push("/corpus");
 }
 </script>
 
