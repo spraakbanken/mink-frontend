@@ -8,7 +8,7 @@
       <Panel :title="$t('metadata')" class="mb-4">
         <Metadata />
         <template #controls>
-          <router-link :to="`/corpus/${corpusId}/config`">
+          <router-link :to="`/corpus/${corpusId}/metadata`">
             <ActionButton :variant="isUnconfigured ? 'primary' : null">
               <icon :icon="['fas', 'pen']" class="mr-1" />
               {{ $t("edit") }}

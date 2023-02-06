@@ -7,6 +7,7 @@ import CreateCorpus from "@/corpora/CreateCorpus.vue";
 import Corpus from "@/corpus/Corpus.vue";
 import Overview from "@/corpus/Overview.vue";
 import CorpusSources from "@/corpus/sources/CorpusSources.vue";
+import CorpusMetadata from "@/corpus/config/CorpusMetadata.vue";
 import CorpusConfiguration from "@/corpus/config/CorpusConfiguration.vue";
 import CorpusResult from "@/corpus/exports/CorpusResult.vue";
 import CorpusDelete from "@/corpus/CorpusDelete.vue";
@@ -47,18 +48,19 @@ const routes = [
         meta: { createTitle: (t, corpusName) => corpusName },
       },
       {
+        path: "metadata",
+        component: CorpusMetadata,
+        meta: { title: "metadata" },
+      },
+      {
         path: "config",
         component: CorpusConfiguration,
-        meta: {
-          createTitle: (t, corpusName) => t("configuration"),
-        },
+        meta: { title: "configuration" },
       },
       {
         path: "sources",
         component: CorpusSources,
-        meta: {
-          title: "texts",
-        },
+        meta: { title: "texts" },
       },
       {
         path: "sources/:filename",
@@ -71,16 +73,12 @@ const routes = [
       {
         path: "exports",
         component: CorpusResult,
-        meta: {
-          title: "result",
-        },
+        meta: { title: "result" },
       },
       {
         path: "delete",
         component: CorpusDelete,
-        meta: {
-          title: "delete",
-        },
+        meta: { title: "delete" },
       },
     ],
   },
