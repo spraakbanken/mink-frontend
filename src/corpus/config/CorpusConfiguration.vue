@@ -29,12 +29,16 @@
         <FormKit
           v-if="value.format === 'xml'"
           name="textAnnotation"
-          :label="$t('text_annotation')"
+          :label="$t('config.text_annotation')"
+          type="text"
           :value="config.textAnnotation"
-          validation="required:trim"
-          input-class="w-72"
-          :help="$t('text_annotation_help')"
-        />
+          validation="required:trim|matches:/^[^<>]*$/"
+          input-class="w-40 font-mono"
+          :help="$t('config.text_annotation.help')"
+        >
+          <template #prefix>&lt;</template>
+          <template #suffix>&gt;</template>
+        </FormKit>
 
         <FormKit
           v-if="value.format != 'xml'"

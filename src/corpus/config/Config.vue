@@ -14,7 +14,7 @@
           </td>
         </tr>
         <tr v-if="config.textAnnotation">
-          <th>{{ $t("text_annotation") }}</th>
+          <th>{{ $t("config.text_annotation") }}</th>
           <td>
             <code>{{ config.textAnnotation }}</code>
           </td>
