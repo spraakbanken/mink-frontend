@@ -5,11 +5,11 @@
     </div>
 
     <div class="w-full lg:w-1/2 lg:pr-2">
-      <Panel :title="$t('metadata')" class="mb-4">
-        <Metadata />
+      <Panel :title="$t('configuration')" class="mb-4">
+        <Config />
         <template #controls>
-          <router-link :to="`/corpus/${corpusId}/metadata`">
-            <ActionButton :variant="isNeedingMeta ? 'primary' : null">
+          <router-link :to="`/corpus/${corpusId}/config`">
+            <ActionButton :variant="isNeedingConfig ? 'primary' : null">
               <icon :icon="['fas', 'pen']" class="mr-1" />
               {{ $t("edit") }}
             </ActionButton>
@@ -17,11 +17,11 @@
         </template>
       </Panel>
 
-      <Panel :title="$t('configuration')" class="mb-4">
-        <Config />
+      <Panel :title="$t('metadata')" class="mb-4">
+        <Metadata />
         <template #controls>
-          <router-link :to="`/corpus/${corpusId}/config`">
-            <ActionButton :variant="isNeedingConfig ? 'primary' : null">
+          <router-link :to="`/corpus/${corpusId}/metadata`">
+            <ActionButton :variant="isNeedingMeta ? 'primary' : null">
               <icon :icon="['fas', 'pen']" class="mr-1" />
               {{ $t("edit") }}
             </ActionButton>
