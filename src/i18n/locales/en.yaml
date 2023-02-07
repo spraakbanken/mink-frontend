@@ -2,7 +2,7 @@ home: Home
 home.help.corpora: These are the corpora that you have created. Click them to view more details.
 home.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "@:{'new_corpus'}" button or drop text files into the upload field below.
 dashboard: Dashboard
-corpus.create.name.placeholder: My new corpus
+corpus.create.help: You can always change these values later.
 corpus.creating: Creating corpus
 corpus.configuring: Configuring corpus
 corpus.delete: Delete corpus
@@ -108,10 +108,12 @@ txt: Plain text
 docx: Microsoft Word
 odt: OpenDocument Text
 name: Name
+metadata.name.placeholder: Social media 2015
 metadata.name.help: You can use spaces and special characters.
 identifier: Identifier
 metadata.identifier.help: This automatically generated machine name is used to identify this particular corpus on the server.
 description: Description
+metadata.description.placeholder: Anonymized posts from Twitter and blogs from the year 2015.
 metadata.description.help: |
   This can be a summary of the text material for your own benefit.
   If you aim to share or publish the results, we recommend entering one or two sentences

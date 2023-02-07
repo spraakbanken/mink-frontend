@@ -1,6 +1,8 @@
 <template>
   <PageTitle>{{ $t("new_corpus") }}</PageTitle>
   <Section>
+    <Help>{{ $t("corpus.create.help") }}</Help>
+
     <PendingContent on="create">
       <FormKit
         id="create-corpus"
@@ -18,13 +20,16 @@
           validation="required:trim"
           name="name"
           input-class="w-72"
-          :placeholder="$t('corpus.create.name.placeholder')"
+          :placeholder="$t('metadata.name.placeholder')"
+          :help="$t('metadata.name.help')"
         />
 
         <FormKit
           :label="$t('description')"
           type="textarea"
           name="description"
+          :placeholder="$t('metadata.description.placeholder')"
+          :help="$t('metadata.description.help')"
           input-class="block w-full h-20"
         />
 
@@ -33,6 +38,7 @@
           :label="$t('fileFormat')"
           type="select"
           input-class="w-72"
+          :help="$t('config.format.help')"
           :options="formatOptions"
           validate="required"
         />
@@ -59,6 +65,7 @@ import PendingContent from "@/spin/PendingContent.vue";
 import { FORMATS_EXT } from "@/api/corpusConfig";
 import { useAuth } from "@/auth/auth.composable";
 import useCorpora from "./corpora.composable";
+import Help from "@/components/Help.vue";
 
 const { requireAuthentication } = useAuth();
 const { createFromConfig } = useCorpora();

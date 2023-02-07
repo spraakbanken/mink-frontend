@@ -3,7 +3,7 @@ home.help.corpora: Här listas de korpusar du har skapat. Klicka på dem för at
 home.help.corpora.none: >-
   Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en korpus: använd knappen "@:{'new_corpus'}" eller dra textfiler till uppladdningsrutan nedan.
 dashboard: Översikt
-corpus.create.name.placeholder: Min nya korpus
+corpus.create.help: Du kan alltid uppdatera de här uppgifterna senare.
 corpus.creating: Skapar korpus
 corpus.configuring: Konfigurerar korpus
 corpus.delete: Radera korpus
@@ -109,10 +109,12 @@ txt: Ren text
 docx: Microsoft Word
 odt: OpenDocument Text
 name: Namn
+metadata.name.placeholder: Sociala medier 2015
 metadata.name.help: Det går bra att använda mellanslag och specialtecken. Den maskinläsbara identifieraren visas nedan.
 identifier: Identifierare
 metadata.identifier.help: Ett automatiskt genererat maskinnamn som används för att identifiera den här korpusen på servern.
 description: Beskrivning
+metadata.description.placeholder: Anonymiserade inlägg från Twitter och bloggar från år 2015.
 metadata.description.help: |
   Detta kan vara en sammanfattning av textmaterialet för din egen skull.
   Om du vill distribuera eller publicera resultatet rekommenderar vi en eller två meningar
