@@ -20,7 +20,6 @@
           validation="required:trim"
           name="name"
           input-class="w-72"
-          :placeholder="$t('metadata.name.placeholder')"
           :help="$t('metadata.name.help')"
         />
 
@@ -28,7 +27,6 @@
           :label="$t('description')"
           type="textarea"
           name="description"
-          :placeholder="$t('metadata.description.placeholder')"
           :help="$t('metadata.description.help')"
           input-class="block w-full h-20"
         />
