@@ -112,6 +112,10 @@ metadata.name.help: You can use spaces and special characters.
 identifier: Identifier
 metadata.identifier.help: This automatically generated machine name is used to identify this particular corpus on the server.
 description: Description
+metadata.description.help: |
+  This can be a summary of the text material for your own benefit.
+  If you aim to share or publish the results, we recommend entering one or two sentences
+  to summarize the content or purpose to a potential user.
 fileFormat: Source format
 config.format.help: Select the file format of the source texts. All files must be of the selected format.
 config.text_annotation: Text element

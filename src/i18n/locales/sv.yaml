@@ -113,6 +113,10 @@ metadata.name.help: Det går bra att använda mellanslag och specialtecken. Den 
 identifier: Identifierare
 metadata.identifier.help: Ett automatiskt genererat maskinnamn som används för att identifiera den här korpusen på servern.
 description: Beskrivning
+metadata.description.help: |
+  Detta kan vara en sammanfattning av textmaterialet för din egen skull.
+  Om du vill distribuera eller publicera resultatet rekommenderar vi en eller två meningar
+  som sammanfattar innehållet eller syftet för en potentiell användare.
 fileFormat: Källformat
 config.format.help: Ange vilket filformat källtexterna har. Alla filer måste ha det valda formatet.
 config.text_annotation: Textelement

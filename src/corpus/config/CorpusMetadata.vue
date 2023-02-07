@@ -35,6 +35,7 @@
                 :name="lang"
                 :label="$t('description')"
                 :value="config.description?.[lang]"
+                :help="$t('metadata.description.help')"
                 type="textarea"
                 input-class="w-full h-20"
               />
