@@ -1,19 +1,21 @@
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
+import { FORMATS_EXT } from "@/api/corpusConfig";
 import useConfig from "./config/config.composable";
 import useJob from "./job/job.composable";
 import useSources from "./sources/sources.composable";
 
 export function useCorpusState(corpusId) {
   const { sources } = useSources(corpusId);
-  const { isConfigValid } = useConfig(corpusId);
+  const { config } = useConfig(corpusId);
   const { isJobStarted, isJobRunning, isJobError, isJobDone } =
     useJob(corpusId);
   const { t } = useI18n();
 
   const corpusState = computed(() => {
     if (!sources.value.length) return CorpusState.EMPTY;
-    if (!isConfigValid.value) return CorpusState.UNCONFIGURED;
+    if (!isConfigValid.value) return CorpusState.NEEDING_CONFIG;
+    if (!hasMetadata.value) return CorpusState.NEEDING_META;
     if (!isJobStarted.value) return CorpusState.READY;
     if (isJobRunning.value) return CorpusState.RUNNING;
     if (isJobError.value) return CorpusState.FAILED;
@@ -21,9 +23,20 @@ export function useCorpusState(corpusId) {
     return undefined;
   });
 
+  const isConfigValid = computed(
+    () => config.value && FORMATS_EXT.includes(config.value.format)
+  );
+
+  const hasMetadata = computed(
+    () => config.value?.name?.swe || config.value?.name?.eng
+  );
+
   const isEmpty = computed(() => corpusState.value == CorpusState.EMPTY);
-  const isUnconfigured = computed(
-    () => corpusState.value == CorpusState.UNCONFIGURED
+  const isNeedingConfig = computed(
+    () => corpusState.value == CorpusState.NEEDING_CONFIG
+  );
+  const isNeedingMeta = computed(
+    () => corpusState.value == CorpusState.NEEDING_META
   );
   const isReady = computed(() => corpusState.value == CorpusState.READY);
   const isRunning = computed(() => corpusState.value == CorpusState.RUNNING);
@@ -36,7 +49,8 @@ export function useCorpusState(corpusId) {
   return {
     corpusState,
     isEmpty,
-    isUnconfigured,
+    isNeedingConfig,
+    isNeedingMeta,
     isReady,
     isRunning,
     isFailed,
@@ -50,8 +64,11 @@ export class CorpusState {
   static get EMPTY() {
     return "empty";
   }
-  static get UNCONFIGURED() {
-    return "unconfigured";
+  static get NEEDING_CONFIG() {
+    return "needing_config";
+  }
+  static get NEEDING_META() {
+    return "needing_meta";
   }
   static get READY() {
     return "ready";

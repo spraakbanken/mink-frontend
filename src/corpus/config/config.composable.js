@@ -1,10 +1,5 @@
 import { computed } from "vue";
-import {
-  emptyConfig,
-  FORMATS_EXT,
-  makeConfig,
-  parseConfig,
-} from "@/api/corpusConfig";
+import { emptyConfig, makeConfig, parseConfig } from "@/api/corpusConfig";
 import useLocale from "@/i18n/locale.composable";
 import useMinkBackend from "@/api/backend.composable";
 import { useCorpusStore } from "@/store/corpus.store";
@@ -34,17 +29,9 @@ export default function useConfig(corpusId) {
     corpusStore.corpora[corpusId_].config = config;
   }
 
-  const isConfigValid = computed(
-    () =>
-      config.value &&
-      FORMATS_EXT.includes(config.value.format) &&
-      (config.value.name?.swe || config.value.name?.eng)
-  );
-
   return {
     config,
     corpusName,
-    isConfigValid,
     loadConfig,
     uploadConfig,
   };

@@ -11,13 +11,15 @@ corpus.delete.ask: Är du säker på att du vill ta bort den här korpusen?
 corpus.deleting: Raderar korpus
 corpus.list.loading: Hämtar korpusar
 corpus.state.empty: Inga filer
-corpus.state.unconfigured: Behöver konfigureras
+corpus.state.needing_config: Behöver konfigureras
+corpus.state.needing_meta: Behöver metadata
 corpus.state.ready: Klar för start
 corpus.state.running: Annoterar
 corpus.state.failed: Fel
 corpus.state.done: Färdig
 corpus.state.help.empty: Den här korpusen har inga källtexter. Ladda upp textfiler nedan.
-corpus.state.help.unconfigured: Den här korpusen behöver konfigureras innan annoteringen kan startas. Den måste ha ett namn, och beroende på textformat krävs eventuellt ytterligare inställningar.
+corpus.state.help.needing_config: Den här korpusen behöver konfigureras innan annoteringen kan startas. Nuvarande konfiguration kan vara ofullständig eller felaktig. Beroende på källtexternas filformat krävs eventuellt ytterligare inställningar.
+corpus.state.help.needing_meta: Korpusen behöver ha ett namn innan annoteringen kan startas.
 corpus.state.help.ready: Redo för annotering. Du kan också lägga till fler källtexter eller redigera konfigurationen.
 corpus.state.help.running: Annoteringen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
 corpus.state.help.failed: Ett fel med annoteringen har uppstått. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se

@@ -2,7 +2,7 @@
   <span
     v-if="stateMessage"
     :class="[
-      isEmpty || isUnconfigured
+      isEmpty || isNeedingConfig || isNeedingMeta
         ? 'text-yellow-500'
         : isFailed
         ? 'text-red-500'
@@ -26,6 +26,12 @@ const props = defineProps({
   },
 });
 
-const { stateMessage, isEmpty, isUnconfigured, isReady, isFailed } =
-  useCorpusState(props.corpusId);
+const {
+  stateMessage,
+  isEmpty,
+  isNeedingConfig,
+  isNeedingMeta,
+  isReady,
+  isFailed,
+} = useCorpusState(props.corpusId);
 </script>

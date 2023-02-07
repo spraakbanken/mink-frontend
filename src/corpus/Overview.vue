@@ -9,7 +9,7 @@
         <Metadata />
         <template #controls>
           <router-link :to="`/corpus/${corpusId}/metadata`">
-            <ActionButton :variant="isUnconfigured ? 'primary' : null">
+            <ActionButton :variant="isNeedingMeta ? 'primary' : null">
               <icon :icon="['fas', 'pen']" class="mr-1" />
               {{ $t("edit") }}
             </ActionButton>
@@ -21,7 +21,7 @@
         <Config />
         <template #controls>
           <router-link :to="`/corpus/${corpusId}/config`">
-            <ActionButton :variant="isUnconfigured ? 'primary' : null">
+            <ActionButton :variant="isNeedingConfig ? 'primary' : null">
               <icon :icon="['fas', 'pen']" class="mr-1" />
               {{ $t("edit") }}
             </ActionButton>
@@ -61,7 +61,7 @@ import Exports from "./exports/Exports.vue";
 import CorpusStateHelp from "./CorpusStateHelp.vue";
 
 const corpusId = useCorpusIdParam();
-const { isUnconfigured } = useCorpusState(corpusId);
+const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
 </script>
 
 <style></style>
