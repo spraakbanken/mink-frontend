@@ -21,6 +21,7 @@
                 :name="lang"
                 :label="$t('name')"
                 :value="config.name?.[lang]"
+                :help="$t('metadata.name.help')"
                 type="text"
                 input-class="w-72"
                 validation="required:trim"
@@ -47,6 +48,7 @@
           name="identifier"
           disabled
           :value="corpusId"
+          :help="$t('metadata.identifier.help')"
           input-class="font-mono bg-stone-600 text-lime-50 text-xs p-2 rounded"
         />
       </Section>

@@ -3,6 +3,12 @@
     <table v-if="config" class="w-full">
       <tbody>
         <tr>
+          <th>{{ $t("name") }}</th>
+          <td>
+            {{ th(config.name) || "—" }}
+          </td>
+        </tr>
+        <tr>
           <th>{{ $t("description") }}</th>
           <td>
             {{ th(config.description) || "—" }}
