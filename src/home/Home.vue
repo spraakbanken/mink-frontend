@@ -6,7 +6,7 @@ import ActionButton from "@/components/ActionButton.vue";
 import HomeIllustration from "./HomeIllustration.vue";
 import HomeNews from "./HomeNews.vue";
 
-const { isAuthenticated, canUserWrite, payload } = useAuth();
+const { isAuthenticated, canUserWrite } = useAuth();
 </script>
 
 <template>
@@ -34,14 +34,24 @@ const { isAuthenticated, canUserWrite, payload } = useAuth();
           </p>
 
           <div class="flex justify-center gap-4 p-4 text-center text-xl">
-            <LoginButton v-if="!isAuthenticated" />
+            <div v-if="!isAuthenticated">
+              <LoginButton />
+              <div class="my-1 text-sm opacity-70">
+                Most university users can sign in directly.
+              </div>
+            </div>
 
-            <router-link v-if="!isAuthenticated" to="/signup">
-              <ActionButton variant="success">
-                <icon :icon="['fas', 'user-plus']" />
-                {{ $t("signup") }}
-              </ActionButton>
-            </router-link>
+            <div v-if="!isAuthenticated">
+              <router-link to="/signup">
+                <ActionButton variant="success">
+                  <icon :icon="['fas', 'user-plus']" />
+                  {{ $t("signup") }}
+                </ActionButton>
+              </router-link>
+              <div class="my-1 text-sm opacity-70">
+                Most non-university users need to set up an account first.
+              </div>
+            </div>
 
             <router-link v-if="canUserWrite" to="/corpus">
               <ActionButton variant="primary">
