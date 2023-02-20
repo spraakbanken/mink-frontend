@@ -46,7 +46,7 @@ jwt.refreshing: Uppdaterar konto
 exports.loading: Hämtar resultatlista
 exports.korp.install: Installera i Korp
 exports.korp.view: Visa i Korp
-exports.korp.help: Använd den här datan i Språkbankens korpusverktyg.
+exports.korp.help: Använd den här datan i Språkbankens korpusverktyg. Din data visas bara för dig, i ett särskilt Mink-läge.
 exports.download.help: XML-filerna i utdatan kan du till exempel bearbeta genom att skriva egna script.
 exports.download.more: Fler filer...
 exports.downloading: Laddar ner analysresultat
