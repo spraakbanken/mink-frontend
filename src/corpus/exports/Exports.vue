@@ -1,45 +1,52 @@
 <template>
-  <PendingContent :on="`corpus/${corpusId}/exports`">
-    <h3 class="text-lg uppercase">Korp</h3>
-    <p>{{ $t("exports.korp.help") }}</p>
-    <div class="flex flex-wrap gap-2 mb-1">
-      <ActionButton
-        :variant="isDone && !isInstalled ? 'primary' : null"
-        :disabled="!isDone"
-        @click="isDone ? korpInstall() : null"
-      >
-        {{ $t("exports.korp.install") }}
-      </ActionButton>
+  <PendingContent
+    :on="`corpus/${corpusId}/exports`"
+    class="grid grid-cols-2 gap-4"
+  >
+    <div>
+      <h3 class="text-lg uppercase">Korp</h3>
+      <p>{{ $t("exports.korp.help") }}</p>
+      <div class="flex flex-wrap gap-2 mb-1">
+        <ActionButton
+          :variant="isDone && !isInstalled ? 'primary' : null"
+          :disabled="!isDone"
+          @click="isDone ? korpInstall() : null"
+        >
+          {{ $t("exports.korp.install") }}
+        </ActionButton>
 
-      <a
-        v-if="isInstalled"
-        :href="`https://spraakbanken.gu.se/korplabb/?mode=mink#?corpus=${corpusId}`"
-        target="_blank"
-      >
-        <ActionButton variant="primary">
+        <a
+          v-if="isInstalled"
+          :href="`https://spraakbanken.gu.se/korplabb/?mode=mink#?corpus=${corpusId}`"
+          target="_blank"
+        >
+          <ActionButton variant="primary">
+            {{ $t("exports.korp.view") }}
+          </ActionButton>
+        </a>
+        <ActionButton v-else disabled>
           {{ $t("exports.korp.view") }}
         </ActionButton>
-      </a>
-      <ActionButton v-else disabled>
-        {{ $t("exports.korp.view") }}
-      </ActionButton>
+      </div>
     </div>
 
-    <h3 class="text-lg uppercase mt-4">{{ $t("download") }}</h3>
-    <p>{{ $t("exports.download.help") }}</p>
+    <div>
+      <h3 class="text-lg uppercase">{{ $t("download") }}</h3>
+      <p>{{ $t("exports.download.help") }}</p>
 
-    <div class="flex flex-wrap items-baseline gap-4">
-      <ActionButton v-if="exports && exports.length" @click="downloadResult">
-        <icon :icon="['fas', 'download']" class="mr-1" />
-        {{ getDownloadFilename() }}
-      </ActionButton>
+      <div class="flex flex-wrap items-baseline gap-4">
+        <ActionButton v-if="exports && exports.length" @click="downloadResult">
+          <icon :icon="['fas', 'download']" class="mr-1" />
+          {{ getDownloadFilename() }}
+        </ActionButton>
 
-      <router-link
-        v-if="exports && exports.length"
-        :to="`/corpus/${corpusId}/exports`"
-      >
-        {{ $t("exports.download.more") }}
-      </router-link>
+        <router-link
+          v-if="exports && exports.length"
+          :to="`/corpus/${corpusId}/exports`"
+        >
+          {{ $t("exports.download.more") }}
+        </router-link>
+      </div>
     </div>
   </PendingContent>
 </template>
