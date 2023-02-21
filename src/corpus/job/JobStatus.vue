@@ -9,7 +9,7 @@
           v-if="!isJobRunning"
           :variant="isReady ? 'primary' : null"
           :disabled="!canRun"
-          @click="canRun ? runJob() : null"
+          @click="canRun ? doRunJob() : null"
         >
           <icon :icon="['fas', 'gears']" class="mr-1" />
           {{ $t("job_run") }}
@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
+import { computed, ref } from "vue";
 import { formatDate, formatSeconds } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
@@ -88,7 +88,17 @@ const corpusId = useCorpusIdParam();
 const { runJob, abortJob, jobStatus, isJobRunning, isJobError } =
   useJob(corpusId);
 const { isReady, isFailed, isDone } = useCorpusState(corpusId);
-const canRun = computed(() => isReady.value || isFailed.value || isDone.value);
+
+const isPending = ref(false);
+const canRun = computed(
+  () => !isPending.value && (isReady.value || isFailed.value || isDone.value)
+);
+
+async function doRunJob() {
+  isPending.value = true;
+  await runJob();
+  isPending.value = false;
+}
 </script>
 
 <style></style>
