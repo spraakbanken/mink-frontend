@@ -111,7 +111,7 @@ txt: Ren text
 docx: Microsoft Word
 odt: OpenDocument Text
 name: Namn
-metadata.name.help: Det går bra att använda mellanslag och specialtecken. Den maskinläsbara identifieraren visas nedan.
+metadata.name.help: Det går bra att använda mellanslag och specialtecken.
 identifier: Identifierare
 metadata.identifier.help: Ett automatiskt genererat maskinnamn som används för att identifiera den här korpusen på servern.
 description: Beskrivning
