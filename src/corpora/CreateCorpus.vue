@@ -45,10 +45,13 @@
           v-if="value.format === 'xml'"
           name="textAnnotation"
           :label="$t('config.text_annotation')"
-          validation="required:trim"
-          input-class="w-72"
+          validation="required:trim|matches:/^[^<>\s]*$/"
+          input-class="w-40 font-mono"
           :help="$t('config.text_annotation.help')"
-        />
+        >
+          <template #prefix>&lt;</template>
+          <template #suffix>&gt;</template>
+        </FormKit>
       </FormKit>
     </PendingContent>
   </Section>

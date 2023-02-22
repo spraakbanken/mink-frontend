@@ -32,7 +32,7 @@
           :label="$t('config.text_annotation')"
           type="text"
           :value="config.textAnnotation"
-          validation="required:trim|matches:/^[^<>]*$/"
+          validation="required:trim|matches:/^[^<>\s]*$/"
           input-class="w-40 font-mono"
           :help="$t('config.text_annotation.help')"
         >
