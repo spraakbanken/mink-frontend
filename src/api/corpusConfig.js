@@ -46,13 +46,35 @@ export function makeConfig(id, options) {
 
   config.export = {
     annotations: [
-      "<sentence>:misc.id",
-      "<token>:saldo.baseform",
+      "<token>:saldo.baseform2 as lemma",
       "<token>:saldo.lemgram as lex",
-      "<token>:hunpos.pos",
+      "<token>:wsd.sense",
+      "<token>:saldo.compwf",
+      "<token>:saldo.complemgram",
+      "<token>:stanza.dephead_ref as dephead",
+      "<token>:stanza.ufeats",
+      "<token>:stanza.deprel",
+      "<token>:stanza.msd",
+      "<token>:stanza.pos",
+      "<token>:stanza.ref",
+      "<token>:sensaldo.sentiment_score",
       "<token>:sensaldo.sentiment_label",
+      "<token>:lexical_classes.blingbring",
+      "<token>:lexical_classes.swefn",
+      "<token>:misc.tail as _tail",
+      "<token>:misc.head as _head",
+      "<sentence>:misc.id",
+      "<text>:lexical_classes.blingbring",
+      "<text>:lexical_classes.swefn",
+      "<text>:readability.lix",
+      "<text>:readability.ovix",
+      "<text>:readability.nk",
+    ],
+    source_annotations: [
       // Korp needs the document annotation to be called "text"
       "<text> as text",
+      // Expands to remaining annotations in input data
+      "...",
     ],
   };
 
