@@ -69,12 +69,8 @@ export function makeConfig(id, options) {
       "<text>:readability.lix",
       "<text>:readability.ovix",
       "<text>:readability.nk",
-    ],
-    source_annotations: [
       // Korp needs the document annotation to be called "text"
       "<text> as text",
-      // Expands to remaining annotations in input data
-      "...",
     ],
   };
 
