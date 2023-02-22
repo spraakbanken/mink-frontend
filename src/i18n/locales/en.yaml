@@ -121,7 +121,7 @@ metadata.description.help: |
 fileFormat: Source format
 config.format.help: Select the file format of the source texts. All files must be of the selected format.
 config.text_annotation: Text element
-config.text_annotation.help: The XML element name representing each text document. Any text-level annotations will be attached to this element.
+config.text_annotation.help: In your source files, what XML element is most representative of a single text? Any text-level annotations will be attached to this element.
 segmenter_sentence: Existing sentence segmentation
 segmenter_sentence_help: Are the text files already formatted such that sentences are separated by linebreaks?
 segmenter_linebreaks: One per line

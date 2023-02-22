@@ -44,10 +44,10 @@
         <FormKit
           v-if="value.format === 'xml'"
           name="textAnnotation"
-          :label="$t('text_annotation')"
+          :label="$t('config.text_annotation')"
           validation="required:trim"
           input-class="w-72"
-          :help="$t('text_annotation_help')"
+          :help="$t('config.text_annotation.help')"
         />
       </FormKit>
     </PendingContent>

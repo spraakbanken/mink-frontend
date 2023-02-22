@@ -122,7 +122,7 @@ metadata.description.help: |
 fileFormat: Källformat
 config.format.help: Ange vilket filformat källtexterna har. Alla filer måste ha det valda formatet.
 config.text_annotation: Textelement
-config.text_annotation.help: Namnet på ett XML-element som representerar ett enskilt textdokument. Eventuella annotationer på textnivå kommer att sättas på det elementet.
+config.text_annotation.help: Vilket XML-element i dina källfiler representerar bäst en enskild text? Eventuella annotationer på textnivå kommer att sättas på det elementet.
 segmenter_sentence: Existerande meningssegmentering
 segmenter_sentence_help: Är källtexterna redan formaterade så att varje mening börjar på en ny rad?
 segmenter_linebreaks: En per rad
