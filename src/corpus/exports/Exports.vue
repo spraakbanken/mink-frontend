@@ -8,8 +8,8 @@
       <p>{{ $t("exports.korp.help") }}</p>
       <div class="flex flex-wrap gap-2 mb-1">
         <ActionButton
-          :variant="isDone && !isInstalled ? 'primary' : null"
-          :disabled="!isDone"
+          :variant="canInstall ? 'primary' : null"
+          :disabled="!canInstall"
           @click="isDone ? korpInstall() : null"
         >
           {{ $t("exports.korp.install") }}
@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-import { watch } from "vue";
+import { computed, ref, watch } from "vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import useExports from "./exports.composable";
 import { useCorpusState } from "@/corpus/corpusState.composable";
@@ -66,10 +66,18 @@ const { exports, loadExports, downloadResult, getDownloadFilename } =
 const { isDone } = useCorpusState(corpusId);
 const { install, isInstalled } = useJob(corpusId);
 
-function korpInstall() {
-  install();
+const isInstallPending = ref(false);
+const canInstall = computed(
+  () => isDone.value && !isInstalled.value && !isInstallPending.value
+);
+
+async function korpInstall() {
+  isInstallPending.value = true;
+  await install();
+  isInstallPending.value = false;
 }
 
+// When a job finishes, show download button.
 watch(isDone, () => {
   if (isDone.value) {
     loadExports();
