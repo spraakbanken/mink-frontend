@@ -11,13 +11,15 @@
 
 <script setup>
 import { ref } from "@vue/reactivity";
+import { getFilesFromDataTransferItems } from "datatransfer-files-promise";
 
 const emit = defineEmits(["drop"]);
 
 const isDragover = ref(false);
 
-function drop(event) {
-  emit("drop", event.dataTransfer.files);
+async function drop(event) {
+  const files = await getFilesFromDataTransferItems(event.dataTransfer.items);
+  emit("drop", files);
   isDragover.value = false;
 }
 </script>
