@@ -1,7 +1,7 @@
 import { inject, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useStorage } from "@vueuse/core";
-import { partial } from "filesize";
+import { filesize } from "filesize";
 
 const storedLocale = useStorage("locale", "en");
 
@@ -33,11 +33,15 @@ export default function useLocale() {
     );
   }
 
-  const filesize = partial({ round: 1, locale: locale.value });
+  function myFilesize(bytes) {
+    const str = filesize(bytes, { precision: 2, locale: locale.value });
+    // Convert exponential notation to ordinary.
+    return str.replace(/[\d.]+e[+\d]+/, parseFloat);
+  }
 
   return {
     locale,
     th,
-    filesize,
+    filesize: myFilesize,
   };
 }
