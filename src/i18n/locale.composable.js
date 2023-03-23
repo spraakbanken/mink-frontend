@@ -1,6 +1,7 @@
 import { inject, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useStorage } from "@vueuse/core";
+import { partial } from "filesize";
 
 const storedLocale = useStorage("locale", "en");
 
@@ -32,5 +33,11 @@ export default function useLocale() {
     );
   }
 
-  return { locale, th };
+  const filesize = partial({ round: 1, locale: locale.value });
+
+  return {
+    locale,
+    th,
+    filesize,
+  };
 }

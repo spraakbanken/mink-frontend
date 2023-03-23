@@ -32,7 +32,7 @@
               {{ file.path }}
             </td>
             <td class="text-right whitespace-nowrap">
-              {{ (file.size / 1000).toFixed(1) }} KB
+              {{ filesize(file.size) }}
             </td>
             <td class="text-right">
               <ActionButton
@@ -57,9 +57,10 @@ import PendingContent from "@/spin/PendingContent.vue";
 import Section from "@/components/Section.vue";
 import useExports from "./exports.composable";
 import Help from "@/components/Help.vue";
+import useLocale from "@/i18n/locale.composable";
 
 const corpusId = useCorpusIdParam();
-
+const { filesize } = useLocale();
 const { exports, downloadResult, downloadResultFile, getDownloadFilename } =
   useExports(corpusId);
 </script>

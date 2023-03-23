@@ -5,7 +5,7 @@
       <tbody>
         <tr>
           <th>{{ $t("fileSize") }}</th>
-          <td>{{ (metadata.size / 1000).toFixed(1) }} KB</td>
+          <td>{{ filesize(metadata.size) }}</td>
         </tr>
         <tr>
           <th>{{ $t("uploaded") }}</th>
@@ -54,6 +54,7 @@ import useJob from "@/corpus/job/job.composable";
 import useSources from "./sources.composable";
 import SourceText from "./SourceText.vue";
 import PendingContent from "@/spin/PendingContent.vue";
+import useLocale from "@/i18n/locale.composable";
 
 const props = defineProps({
   corpusId: { type: String, required: true },
@@ -63,6 +64,7 @@ const props = defineProps({
 const corpusStore = useCorpusStore();
 const { downloadSource, downloadPlaintext } = useSources(props.corpusId);
 const { isJobDone } = useJob(props.corpusId);
+const { filesize } = useLocale();
 
 const metadata = computed(() =>
   corpusStore.corpora[props.corpusId].sources.find(
