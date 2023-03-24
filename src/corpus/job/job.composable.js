@@ -1,4 +1,4 @@
-import { computed, onUnmounted } from "vue";
+import { computed, ref, watch } from "vue";
 import {
   isStatusRunning,
   isStatusStarted,
@@ -10,42 +10,35 @@ import { useI18n } from "vue-i18n";
 import useMinkBackend from "@/api/backend.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 
+// Module-scope ticker, can be watched to perform task intermittently
+let pollTick = ref(false);
+setInterval(() => (pollTick.value = !pollTick.value), 2000);
+
+// Corpus ids are added as keys to this object to indicate that a status request is active.
+const pollTracker = {};
+
 export default function useJob(corpusId) {
   const corpusStore = useCorpusStore();
   const corpus = corpusStore.corpora[corpusId];
   const { t } = useI18n();
   const mink = useMinkBackend();
 
-  let loadJobTimer = null;
-
   async function loadJob() {
-    const status = await mink.loadJob(corpusId).catch(() => ({}));
-    recordJobStatus(status);
+    corpus.status = await mink.loadJob(corpusId).catch(() => ({}));
   }
 
   async function runJob() {
-    const status = await mink.runJob(corpusId);
-    recordJobStatus(status);
+    corpus.status = await mink.runJob(corpusId);
   }
 
   async function install() {
-    const status = await mink.install(corpusId);
-    recordJobStatus(status);
+    corpus.status = await mink.install(corpusId);
   }
 
   async function abortJob() {
     await mink.abortJob(corpusId);
     await loadJob();
   }
-
-  function recordJobStatus(status) {
-    corpus.status = status;
-    // Refresh automatically.
-    if (isJobRunning.value) loadJobTimer = setTimeout(() => loadJob(), 2000);
-  }
-
-  // Whichever component triggered loadJob, if it disappears, stop polling.
-  onUnmounted(() => clearTimeout(loadJobTimer));
 
   const jobStatus = computed(() => corpus?.status);
   const jobStatusId = computed(() => jobStatus.value?.job_status);
@@ -57,6 +50,16 @@ export default function useJob(corpusId) {
   const jobStatusMessage = computed(
     () => jobStatusId.value && t(`job.status.${jobStatusId.value}`)
   );
+
+  // Check status intermittently if active.
+  watch(pollTick, async () => {
+    // This composable can be active in multiple components with the same corpus id. Only send request once per corpus.
+    if (isJobRunning.value && !pollTracker[corpusId]) {
+      pollTracker[corpusId] = true;
+      await loadJob();
+      pollTracker[corpusId] = false;
+    }
+  });
 
   return {
     loadJob,
