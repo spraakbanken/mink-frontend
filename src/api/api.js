@@ -194,6 +194,10 @@ export const isStatusStarted = (status) => STATUSES[status]?.started;
 export const isStatusRunning = (status) => STATUSES[status]?.running;
 export const isStatusDone = (status) =>
   ["done_syncing", "done_installing"].includes(status);
+export const isStatusAnnotated = (status) =>
+  ["done_syncing", "waiting_install", "installing", "done_installing"].includes(
+    status
+  );
 export const isStatusInstalled = (status) => status == "done_installing";
 export const isStatusError = (status) => status == "error";
 

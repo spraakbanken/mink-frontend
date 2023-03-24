@@ -5,6 +5,7 @@ import {
   isStatusDone,
   isStatusError,
   isStatusInstalled,
+  isStatusAnnotated,
 } from "@/api/api";
 import { useI18n } from "vue-i18n";
 import useMinkBackend from "@/api/backend.composable";
@@ -46,6 +47,7 @@ export default function useJob(corpusId) {
   const isJobRunning = computed(() => isStatusRunning(jobStatusId.value));
   const isJobDone = computed(() => isStatusDone(jobStatusId.value));
   const isInstalled = computed(() => isStatusInstalled(jobStatusId.value));
+  const isAnnotated = computed(() => isStatusAnnotated(jobStatusId.value));
   const isJobError = computed(() => isStatusError(jobStatusId.value));
   const jobStatusMessage = computed(
     () => jobStatusId.value && t(`job.status.${jobStatusId.value}`)
@@ -71,6 +73,7 @@ export default function useJob(corpusId) {
     isJobRunning,
     isJobDone,
     isInstalled,
+    isAnnotated,
     isJobError,
     jobStatusMessage,
   };

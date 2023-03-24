@@ -14,15 +14,19 @@ corpus.state.needing_config: Configuration needed
 corpus.state.needing_meta: Metadata needed
 corpus.state.ready: Ready to run
 corpus.state.running: Annotating
-corpus.state.failed: Failed
 corpus.state.done: Done
+corpus.state.running_install: Installing
+corpus.state.done_install: Done
+corpus.state.failed: Failed
 corpus.state.help.empty: There are no source texts in this corpus. Upload some text files below.
 corpus.state.help.needing_config: This corpus needs some configuration before it can be processed. It might currently be incomplete or invalid. Depending on the source text file format, additional settings may be required.
 corpus.state.help.needing_meta: The corpus needs a name before it can be processed.
 corpus.state.help.ready: Ready for annotation. You can also supply more source texts or edit the configuration.
 corpus.state.help.running: Annotation is running in the background. Feel free to close the website, have some coffee and check back later!
-corpus.state.help.failed: There was an error with the annotation. If you need help, please contact sb-info{'@'}svenska.gu.se
-corpus.state.help.done: Annotation done! You can download the results or use Korp.
+corpus.state.help.done: Annotation done! You can download the results or install it to Korp.
+corpus.state.help.running_install: Installation is running in the background. Feel free to close the website, have some coffee and check back later!
+corpus.state.help.done_install: Successfully installed in Korp!
+corpus.state.help.failed: An error occurred while processing your data. If you need help, please contact sb-info{'@'}svenska.gu.se
 config.metadata.help: Metadata is information about the data, meant for assessment by interested users (if you release the data), and for categorization in data repositories.
 config.configuration.help: These settings are information for the automatic analysis; they will affect the parsing or annotation.
 config.loading: Loading metadata
