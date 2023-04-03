@@ -1,5 +1,5 @@
 import { computed, ref } from "@vue/reactivity";
-import { uniq } from "lodash";
+import uniq from "lodash/uniq";
 
 /**
  * @type {{promise: Promise, message: string}[]}
