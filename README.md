@@ -23,7 +23,7 @@ Design patterns used:
 
 See:
 
-- [Min SB API documentation](https://ws.spraakbanken.gu.se/ws/min-sb/api-doc)
+- [Min SB API documentation](https://ws.spraakbanken.gu.se/ws/mink/api-doc)
 - [Mink project board](https://github.com/orgs/spraakbanken/projects/10)
 
 ## Recommended IDE setup

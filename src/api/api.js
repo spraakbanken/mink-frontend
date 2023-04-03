@@ -5,7 +5,7 @@ class MinkApi {
   /** Creates the client instance */
   constructor(jwt) {
     this.axios = Axios.create({
-      baseURL: "https://ws.spraakbanken.gu.se/ws/min-sb/",
+      baseURL: "https://ws.spraakbanken.gu.se/ws/mink/",
       withCredentials: true,
     });
     this.setJwt(jwt);
