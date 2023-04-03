@@ -33,13 +33,6 @@ export function makeConfig(id, options) {
     importer: FORMATS[format],
   };
 
-  if (format === "xml") {
-    if (!textAnnotation) {
-      throw new TypeError("Text annotation setting is required for XML");
-    }
-    config.import.text_annotation = textAnnotation;
-  }
-
   if (sentenceSegmenter) {
     config.segment = { sentence_segmenter: sentenceSegmenter };
   }
@@ -70,10 +63,16 @@ export function makeConfig(id, options) {
       "<text>:readability.ovix",
       "<text>:readability.nk",
       "<text>:misc.source",
-      // Korp needs the document annotation to be called "text"
-      "<text> as text",
     ],
   };
+
+  if (format === "xml") {
+    if (!textAnnotation) {
+      throw new TypeError("Text annotation setting is required for XML");
+    }
+    config.import.text_annotation = textAnnotation;
+    config.export.source_annotations = [`${textAnnotation} as text`, "..."];
+  }
 
   if (datetimeFrom || datetimeTo) {
     if (!datetimeFrom && datetimeTo) {
