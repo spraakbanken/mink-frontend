@@ -1,4 +1,4 @@
-import yaml from "js-yaml";
+const yaml = import("js-yaml").then((m) => m.default);
 
 const FORMATS = {
   txt: "text_import:parse",
@@ -11,7 +11,7 @@ export const FORMATS_EXT = Object.keys(FORMATS);
 
 export const SEGMENTERS = ["linebreaks"];
 
-export function makeConfig(id, options) {
+export async function makeConfig(id, options) {
   const {
     format,
     name,
@@ -106,7 +106,7 @@ export function makeConfig(id, options) {
     );
   }
 
-  return yaml.dump(config);
+  return (await yaml).dump(config);
 }
 
 export function emptyConfig() {
@@ -116,8 +116,8 @@ export function emptyConfig() {
   };
 }
 
-export function parseConfig(configYaml) {
-  const config = yaml.load(configYaml);
+export async function parseConfig(configYaml) {
+  const config = (await yaml).load(configYaml);
   return {
     name: config.metadata?.name,
     description: config.metadata?.description,
