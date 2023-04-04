@@ -17,17 +17,18 @@ watch(
     <div
       v-for="{ key, message, status } in alerts"
       :key="message"
-      class="opacity-80 rounded-lg my-2 text-white p-2 px-4 shadow-lg flex"
+      class="opacity-80 rounded-lg my-2 text-white p-2 shadow-lg flex"
       :class="status == 'error' ? ['bg-red-500'] : ['bg-gray-400']"
     >
-      <div class="flex-1">
+      <div class="flex-1 px-2">
         {{ message }}
       </div>
-      <icon
-        icon="xmark"
-        class="ml-2 p-1 cursor-pointer"
+      <div
+        class="p-1 cursor-pointer rounded bg-white bg-opacity-40 hover:bg-opacity-50 transition-all"
         @click="dismiss(key)"
-      />
+      >
+        <icon icon="xmark" class="block aspect-square" />
+      </div>
     </div>
   </aside>
 </template>
