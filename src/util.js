@@ -28,6 +28,10 @@ export function ensureExtension(filename, ext) {
   return filename.replace(/(.+)\.[^/.]*$/, "$1") + "." + ext;
 }
 
+export function ensureTrailingSlash(url) {
+  return url && url.replace(/\/*$/, "/");
+}
+
 /** Join path segments and normalize.
  *
  * Similar to Node.js path.join but not as complete.

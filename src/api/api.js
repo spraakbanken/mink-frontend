@@ -1,11 +1,12 @@
 import Axios from "axios";
+import { ensureTrailingSlash } from "@/util";
 
 /** Mink backend API client */
 class MinkApi {
   /** Creates the client instance */
   constructor(jwt) {
     this.axios = Axios.create({
-      baseURL: "https://ws.spraakbanken.gu.se/ws/mink/",
+      baseURL: ensureTrailingSlash(import.meta.env.VITE_BACKEND_URL),
       withCredentials: true,
     });
     this.setJwt(jwt);

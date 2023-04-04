@@ -17,7 +17,7 @@
 
         <a
           v-if="isInstalled"
-          :href="`https://spraakbanken.gu.se/korp/?mode=mink#?corpus=${corpusId}`"
+          :href="`${korpUrl}?mode=mink#?corpus=${corpusId}`"
           target="_blank"
         >
           <ActionButton variant="primary">
@@ -53,6 +53,7 @@
 
 <script setup>
 import { computed, ref, watch } from "vue";
+import { ensureTrailingSlash } from "@/util";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import useExports from "./exports.composable";
 import { useCorpusState } from "@/corpus/corpusState.composable";
@@ -65,6 +66,8 @@ const { exports, loadExports, downloadResult, getDownloadFilename } =
   useExports(corpusId);
 const { isDone } = useCorpusState(corpusId);
 const { install, isInstalled } = useJob(corpusId);
+
+const korpUrl = ensureTrailingSlash(import.meta.env.VITE_KORP_URL);
 
 const isInstallPending = ref(false);
 const canInstall = computed(
