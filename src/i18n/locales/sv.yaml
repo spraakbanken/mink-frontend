@@ -20,7 +20,7 @@ corpus.state.running_install: Installerar
 corpus.state.done_install: Färdig
 corpus.state.failed: Fel
 corpus.state.help.empty: Den här korpusen har inga källtexter. Ladda upp textfiler nedan.
-corpus.state.help.needing_config: Den här korpusen behöver konfigureras innan annoteringen kan startas. Nuvarande konfiguration kan vara ofullständig eller felaktig. Beroende på källtexternas filformat krävs eventuellt ytterligare inställningar.
+corpus.state.help.needing_config: Den här korpusen behöver några inställningar innan annoteringen kan startas.
 corpus.state.help.needing_meta: Korpusen behöver ha ett namn innan annoteringen kan startas.
 corpus.state.help.ready: Redo för annotering. Du kan också lägga till fler källtexter eller redigera konfigurationen.
 corpus.state.help.running: Annoteringen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!

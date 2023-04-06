@@ -19,7 +19,7 @@ corpus.state.running_install: Installing
 corpus.state.done_install: Done
 corpus.state.failed: Failed
 corpus.state.help.empty: There are no source texts in this corpus. Upload some text files below.
-corpus.state.help.needing_config: This corpus needs some configuration before it can be processed. It might currently be incomplete or invalid. Depending on the source text file format, additional settings may be required.
+corpus.state.help.needing_config: This corpus needs you to change some settings before it can be processed.
 corpus.state.help.needing_meta: The corpus needs a name before it can be processed.
 corpus.state.help.ready: Ready for annotation. You can also supply more source texts or edit the configuration.
 corpus.state.help.running: Annotation is running in the background. Feel free to close the website, have some coffee and check back later!
