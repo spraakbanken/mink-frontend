@@ -37,6 +37,7 @@ job.loading: Kollar annoteringsstatus
 job.starting: Lägger annotering i kö
 job.installing: Installerar i Korp
 job.status: Status
+job.priority: Plats i kön
 job.last_run_started: Senast startad
 job.last_run_ended: Senast avslutad
 job.time_taken: Tidsåtgång

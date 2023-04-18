@@ -36,6 +36,7 @@ job.loading: Checking annotation status
 job.starting: Queueing annotation job
 job.installing: Installing to Korp
 job.status: Status
+job.priority: Place in queue
 job.last_run_started: Last run started
 job.last_run_ended: Last run ended
 job.time_taken: Time taken

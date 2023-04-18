@@ -55,6 +55,10 @@
             }}</TerminalOutput>
           </td>
         </tr>
+        <tr v-if="jobStatus.priority > 0">
+          <th>{{ $t("job.priority") }}</th>
+          <td>{{ jobStatus.priority }}</td>
+        </tr>
         <tr v-if="jobStatus.last_run_started">
           <th>{{ $t("job.last_run_started") }}</th>
           <td>{{ formatDate(jobStatus.last_run_started) }}</td>
