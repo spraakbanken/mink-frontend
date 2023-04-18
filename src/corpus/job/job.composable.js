@@ -1,4 +1,4 @@
-import { computed, ref, watch } from "vue";
+import { computed, watch } from "vue";
 import {
   isStatusRunning,
   isStatusStarted,
@@ -8,12 +8,12 @@ import {
   isStatusAnnotated,
 } from "@/api/api";
 import { useI18n } from "vue-i18n";
+import { useInterval } from "@vueuse/shared";
 import useMinkBackend from "@/api/backend.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 
 // Module-scope ticker, can be watched to perform task intermittently
-let pollTick = ref(false);
-setInterval(() => (pollTick.value = !pollTick.value), 2000);
+const { counter } = useInterval(2000);
 
 // Corpus ids are added as keys to this object to indicate that a status request is active.
 const pollTracker = {};
@@ -54,7 +54,7 @@ export default function useJob(corpusId) {
   );
 
   // Check status intermittently if active.
-  watch(pollTick, async () => {
+  watch(counter, async () => {
     // This composable can be active in multiple components with the same corpus id. Only send request once per corpus.
     if (isJobRunning.value && !pollTracker[corpusId]) {
       pollTracker[corpusId] = true;
