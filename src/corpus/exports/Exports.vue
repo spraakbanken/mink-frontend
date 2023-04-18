@@ -69,13 +69,13 @@ const corpusId = useCorpusIdParam();
 const { exports, loadExports, downloadResult, getDownloadFilename } =
   useExports(corpusId);
 const { isDone } = useCorpusState(corpusId);
-const { install, isInstalled } = useJob(corpusId);
+const { install, isAnnotated, isInstalled } = useJob(corpusId);
 
 const korpUrl = ensureTrailingSlash(import.meta.env.VITE_KORP_URL);
 
 const isInstallPending = ref(false);
 const canInstall = computed(
-  () => isDone.value && !isInstalled.value && !isInstallPending.value
+  () => isAnnotated.value && !isInstalled.value && !isInstallPending.value
 );
 
 async function korpInstall() {
