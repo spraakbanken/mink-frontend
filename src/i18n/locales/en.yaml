@@ -44,6 +44,7 @@ source.deleting: Deleting text
 source.downloading: Downloading text
 source.downloading_plain: Downloading extracted text
 source.uploading: Uploading text file | Uploading text files
+source.upload.drop.empty: No file was dropped. Drag-and-drop may not be supported on your system.
 source.list.loading: Listing source texts
 source.content: Content
 jwt.refreshing: Refreshing account
