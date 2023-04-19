@@ -59,10 +59,9 @@ exports.korp.install: Installera i Korp
 exports.korp.reinstall: Installera om i Korp
 exports.korp.view: Visa i Korp
 exports.korp.help: Använd den här datan i Språkbankens korpusverktyg. Din data visas bara för dig, i ett särskilt Mink-läge.
-exports.download.help: XML-filerna i utdatan kan du till exempel bearbeta genom att skriva egna script.
-exports.download.more: Fler filer...
+exports.download.help: Resultatet kan laddas ner som maskinläsbara filer för bearbetning i script eller speciella program.
 exports.downloading: Laddar ner analysresultat
-exports.help: Annoteringen skapar en exportfil för varje källfil, och de kan laddas ner enskilt eller i klump. Filerna är i ett XML-format vars struktur beror både på källfilerna och konfigurationen, men i regel är varje mening och token ett element, och annoteringar är attribut.
+exports.help: Annoteringsprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen.
 user.settings: Inställningar
 user.settings.admin_mode: Aktivera administrationsläge
 user.admin_mode.warning: Administrationsläget är aktiverat. Var försiktig!
@@ -70,6 +69,7 @@ errors: Fel
 error.message: Ett fel uppstod
 expand.open: Visa mer
 expand.close: Visa mindre
+show: Visa
 en: Engelska
 sv: Svenska
 metadata: Metadata
@@ -122,6 +122,8 @@ xml: XML
 txt: Ren text
 docx: Microsoft Word
 odt: OpenDocument Text
+file.archive: Arkivfil
+file.singles: Enskilda filer
 name: Namn
 metadata.name.help: Det går bra att använda mellanslag och specialtecken.
 identifier: Identifierare

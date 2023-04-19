@@ -58,10 +58,9 @@ exports.korp.install: Add to Korp
 exports.korp.reinstall: Re-add to Korp
 exports.korp.view: View in Korp
 exports.korp.help: Use this data in Språkbanken's corpus search tool. Your data will be available to you only, in a special Mink mode.
-exports.download.help: Output XML files can be processed by custom scripts etc.
-exports.download.more: More files...
+exports.download.help: Results can be downloaded as machine-readable files for processing in scripts or other specialized software.
 exports.downloading: Downloading results
-exports.help: The annotation yields one export file for each input file. You can download each single export file or all of them in a bundle. The files are in a form of XML, the exact structure depending on the input files as well as the configuration. Typically, sentences and tokens are elements, and annotations are attributes.
+exports.help: The annotation process yields export files for each input file. You can download each single export file or all of them in a bundle. The exact structure of the files depends on the input files as well as the configuration.
 user.settings: Settings
 user.settings.admin_mode: Enable administration mode
 user.admin_mode.warning: Administration mode is enabled. Please be careful!
@@ -69,6 +68,7 @@ errors: Errors
 error.message: There was an error
 expand.open: Show more
 expand.close: Show less
+show: Show
 en: English
 sv: Swedish
 metadata: Metadata
@@ -121,6 +121,8 @@ xml: XML
 txt: Plain text
 docx: Microsoft Word
 odt: OpenDocument Text
+file.archive: Archive
+file.singles: Single files
 name: Name
 metadata.name.help: You can use spaces and special characters.
 identifier: Identifier

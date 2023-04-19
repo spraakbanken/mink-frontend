@@ -38,19 +38,33 @@
       <h3 class="text-lg uppercase">{{ $t("download") }}</h3>
       <p>{{ $t("exports.download.help") }}</p>
 
-      <div class="flex flex-wrap items-baseline gap-4">
-        <ActionButton v-if="exports && exports.length" @click="downloadResult">
-          <icon :icon="['fas', 'download']" class="mr-1" />
-          {{ getDownloadFilename() }}
-        </ActionButton>
+      <table>
+        <tr>
+          <th>{{ $t("file.archive") }}</th>
+          <td>
+            <a
+              v-if="exports && exports.length"
+              href="#"
+              @click.prevent="downloadResult"
+            >
+              <icon :icon="['fas', 'download']" class="mr-1" />
 
-        <router-link
-          v-if="exports && exports.length"
-          :to="`/corpus/${corpusId}/exports`"
-        >
-          {{ $t("exports.download.more") }}
-        </router-link>
-      </div>
+              {{ getDownloadFilename() }}
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th>{{ $t("file.singles") }}</th>
+          <td>
+            <router-link
+              v-if="exports && exports.length"
+              :to="`/corpus/${corpusId}/exports`"
+            >
+              {{ $t("show") }}...
+            </router-link>
+          </td>
+        </tr>
+      </table>
     </div>
   </PendingContent>
 </template>
