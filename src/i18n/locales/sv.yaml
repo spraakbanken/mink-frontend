@@ -24,7 +24,7 @@ corpus.state.help.needing_config: Den här korpusen behöver konfigureras innan 
 corpus.state.help.needing_meta: Korpusen behöver ha ett namn innan annoteringen kan startas.
 corpus.state.help.ready: Redo för annotering. Du kan också lägga till fler källtexter eller redigera konfigurationen.
 corpus.state.help.running: Annoteringen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
-corpus.state.help.done: Annotering klar! Du kan ladda ner resultaten eller installera den i Korp.
+corpus.state.help.done: Annotering klar! Du kan ladda ner resultaten eller installera datan i Korp.
 corpus.state.help.running_install: Installationen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
 corpus.state.help.done_install: Nu är datan installerad i Korp!
 corpus.state.help.failed: Ett fel uppstod i bearbetningen. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
@@ -32,6 +32,9 @@ config.metadata.help: Metadata är information om datan, och fungerar som underl
 config.configuration.help: Dessa inställningar blir instruktioner till den automatiska analysen.
 config.loading: Hämtar metadata
 config.saving: Sparar metadata
+job.run: Starta annotering
+job.rerun: Starta om annotering
+job.abort: Avbryt
 job.aborting: Avbryter annotering
 job.loading: Kollar annoteringsstatus
 job.starting: Lägger annotering i kö
@@ -51,6 +54,7 @@ source.content: Innehåll
 jwt.refreshing: Uppdaterar konto
 exports.loading: Hämtar resultatlista
 exports.korp.install: Installera i Korp
+exports.korp.reinstall: Installera om i Korp
 exports.korp.view: Visa i Korp
 exports.korp.help: Använd den här datan i Språkbankens korpusverktyg. Din data visas bara för dig, i ett särskilt Mink-läge.
 exports.download.help: XML-filerna i utdatan kan du till exempel bearbeta genom att skriva egna script.
@@ -137,8 +141,6 @@ timespan_help: Datum för tidigaste och senaste innehållet i korpusen.
 timespan_from: Från
 timespan_to: Till
 edit: Redigera
-job_run: Starta annotering
-job_abort: Avbryt
 accessdenied: Åtkomst nekad
 accessdenied.contact: Om du vill få tillgång till Mink, hör av dig till sb-info{'@'}svenska.gu.se
 notfound: Sidan kan inte hittas

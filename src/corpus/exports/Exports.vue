@@ -12,7 +12,11 @@
           :disabled="!canInstall"
           @click="isDone ? korpInstall() : null"
         >
-          {{ $t("exports.korp.install") }}
+          {{
+            !isInstalled
+              ? $t("exports.korp.install")
+              : $t("exports.korp.reinstall")
+          }}
         </ActionButton>
 
         <a
