@@ -13,7 +13,7 @@ import useMinkBackend from "@/api/backend.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 
 // Module-scope ticker, can be watched to perform task intermittently
-const { counter } = useInterval(2000);
+const pollTick = useInterval(2000);
 
 // Corpus ids are added as keys to this object to indicate that a status request is active.
 const pollTracker = {};
@@ -54,7 +54,7 @@ export default function useJob(corpusId) {
   );
 
   // Check status intermittently if active.
-  watch(counter, async () => {
+  watch(pollTick, async () => {
     // This composable can be active in multiple components with the same corpus id. Only send request once per corpus.
     if (isJobRunning.value && !pollTracker[corpusId]) {
       pollTracker[corpusId] = true;
