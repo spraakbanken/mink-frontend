@@ -7,6 +7,7 @@ import {
   isStatusInstalled,
   isStatusAnnotated,
   isStatusAnnotation,
+  isStatusInstallation,
 } from "@/api/api";
 import { useI18n } from "vue-i18n";
 import { useInterval } from "@vueuse/shared";
