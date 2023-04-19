@@ -6,6 +6,8 @@ import {
   isStatusError,
   isStatusInstalled,
   isStatusAnnotated,
+  isStatusAnnotation,
+  isStatusInstallation,
 } from "@/api/api";
 import { useI18n } from "vue-i18n";
 import { useInterval } from "@vueuse/shared";
@@ -47,8 +49,18 @@ export default function useJob(corpusId) {
   const isJobRunning = computed(() => isStatusRunning(jobStatusId.value));
   const isJobDone = computed(() => isStatusDone(jobStatusId.value));
   const isInstalled = computed(() => isStatusInstalled(jobStatusId.value));
-  const isAnnotated = computed(() => isStatusAnnotated(jobStatusId.value));
+  const isAnnotated = computed(
+    () =>
+      isStatusAnnotated(jobStatusId.value) ||
+      (isJobError.value && wasInstalling.value)
+  );
   const isJobError = computed(() => isStatusError(jobStatusId.value));
+  const wasAnnotating = computed(() =>
+    isStatusAnnotation(jobStatus.value?.latest_status)
+  );
+  const wasInstalling = computed(() =>
+    isStatusInstallation(jobStatus.value?.latest_status)
+  );
   const jobStatusMessage = computed(
     () => jobStatusId.value && t(`job.status.${jobStatusId.value}`)
   );
@@ -75,6 +87,8 @@ export default function useJob(corpusId) {
     isInstalled,
     isAnnotated,
     isJobError,
+    wasAnnotating,
+    wasInstalling,
     jobStatusMessage,
   };
 }

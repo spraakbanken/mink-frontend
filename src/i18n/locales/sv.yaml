@@ -19,6 +19,7 @@ corpus.state.done: Färdig
 corpus.state.running_install: Installerar
 corpus.state.done_install: Färdig
 corpus.state.failed: Fel
+corpus.state.failed_install: Fel
 corpus.state.help.empty: Den här korpusen har inga källtexter. Ladda upp textfiler nedan.
 corpus.state.help.needing_config: Den här korpusen behöver några inställningar innan annoteringen kan startas.
 corpus.state.help.needing_meta: Korpusen behöver ha ett namn innan annoteringen kan startas.
@@ -27,7 +28,8 @@ corpus.state.help.running: Annoteringen körs i bakgrunden. Det går bra att st�
 corpus.state.help.done: Annotering klar! Du kan ladda ner resultaten eller installera datan i Korp.
 corpus.state.help.running_install: Installationen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
 corpus.state.help.done_install: Nu är datan installerad i Korp!
-corpus.state.help.failed: Ett fel uppstod i bearbetningen. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
+corpus.state.help.failed: Ett fel uppstod under annotering. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
+corpus.state.help.failed_install: Ett fel uppstod under installation. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 config.metadata.help: Metadata är information om datan, och fungerar som underlag för potentiellt intresserade användare (om du publicerar datan) samt underlättar katalogiseringen i datarepositorier.
 config.configuration.help: Dessa inställningar blir instruktioner till den automatiska analysen.
 config.loading: Hämtar metadata
