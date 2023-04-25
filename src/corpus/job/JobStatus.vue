@@ -12,7 +12,7 @@
           @click="canRun ? doRunJob() : null"
         >
           <icon :icon="['fas', 'gears']" class="mr-1" />
-          {{ $t("job_run") }}
+          {{ !isAnnotated ? $t("job.run") : $t("job.rerun") }}
         </ActionButton>
 
         <ActionButton
@@ -21,7 +21,7 @@
           class="ml-2"
           @click="abortJob"
         >
-          {{ $t("job_abort") }}
+          {{ $t("job.abort") }}
         </ActionButton>
       </div>
     </div>
@@ -55,6 +55,10 @@
             }}</TerminalOutput>
           </td>
         </tr>
+        <tr v-if="jobStatus.priority > 0">
+          <th>{{ $t("job.priority") }}</th>
+          <td>{{ jobStatus.priority }}</td>
+        </tr>
         <tr v-if="jobStatus.last_run_started">
           <th>{{ $t("job.last_run_started") }}</th>
           <td>{{ formatDate(jobStatus.last_run_started) }}</td>
@@ -85,7 +89,7 @@ import ProgressBar from "./ProgressBar.vue";
 import JobStatusMessage from "./JobStatusMessage.vue";
 
 const corpusId = useCorpusIdParam();
-const { runJob, abortJob, jobStatus, isJobRunning, isJobError } =
+const { runJob, abortJob, jobStatus, isJobRunning, isJobError, isAnnotated } =
   useJob(corpusId);
 const { isReady, isFailed, isDone, isDoneInstall } = useCorpusState(corpusId);
 

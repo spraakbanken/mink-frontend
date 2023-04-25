@@ -23,25 +23,18 @@
           <tr>
             <th class="w-full">{{ $t("fileName") }}</th>
             <th class="text-right">{{ $t("fileSize") }}</th>
-            <th class="text-right">{{ $t("download") }}</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="file in exports" :key="file.name">
             <td>
-              {{ file.path }}
+              <a href="#" @click.prevent="downloadResultFile(file.path)">
+                <icon :icon="['fas', 'download']" />
+                {{ file.path }}
+              </a>
             </td>
             <td class="text-right whitespace-nowrap">
               {{ filesize(file.size) }}
-            </td>
-            <td class="text-right">
-              <ActionButton
-                variant="primary"
-                class="mute slim"
-                @click="downloadResultFile(file.path)"
-              >
-                <icon :icon="['fas', 'download']" />
-              </ActionButton>
             </td>
           </tr>
         </tbody>

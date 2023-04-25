@@ -19,24 +19,30 @@ corpus.state.done: Färdig
 corpus.state.running_install: Installerar
 corpus.state.done_install: Färdig
 corpus.state.failed: Fel
+corpus.state.failed_install: Fel
 corpus.state.help.empty: Den här korpusen har inga källtexter. Ladda upp textfiler nedan.
-corpus.state.help.needing_config: Den här korpusen behöver konfigureras innan annoteringen kan startas. Nuvarande konfiguration kan vara ofullständig eller felaktig. Beroende på källtexternas filformat krävs eventuellt ytterligare inställningar.
+corpus.state.help.needing_config: Den här korpusen behöver några inställningar innan annoteringen kan startas.
 corpus.state.help.needing_meta: Korpusen behöver ha ett namn innan annoteringen kan startas.
 corpus.state.help.ready: Redo för annotering. Du kan också lägga till fler källtexter eller redigera konfigurationen.
 corpus.state.help.running: Annoteringen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
-corpus.state.help.done: Annotering klar! Du kan ladda ner resultaten eller installera den i Korp.
+corpus.state.help.done: Annotering klar! Du kan ladda ner resultaten eller installera datan i Korp.
 corpus.state.help.running_install: Installationen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
 corpus.state.help.done_install: Nu är datan installerad i Korp!
-corpus.state.help.failed: Ett fel uppstod i bearbetningen. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
+corpus.state.help.failed: Ett fel uppstod under annotering. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
+corpus.state.help.failed_install: Ett fel uppstod under installation. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 config.metadata.help: Metadata är information om datan, och fungerar som underlag för potentiellt intresserade användare (om du publicerar datan) samt underlättar katalogiseringen i datarepositorier.
 config.configuration.help: Dessa inställningar blir instruktioner till den automatiska analysen.
 config.loading: Hämtar metadata
 config.saving: Sparar metadata
+job.run: Starta annotering
+job.rerun: Starta om annotering
+job.abort: Avbryt
 job.aborting: Avbryter annotering
 job.loading: Kollar annoteringsstatus
 job.starting: Lägger annotering i kö
 job.installing: Installerar i Korp
 job.status: Status
+job.priority: Plats i kön
 job.last_run_started: Senast startad
 job.last_run_ended: Senast avslutad
 job.time_taken: Tidsåtgång
@@ -44,17 +50,18 @@ source.deleting: Raderar text
 source.downloading: Laddar ner text
 source.downloading_plain: Laddar ner extraherad text
 source.uploading: Laddar upp källfil | Laddar upp källfiler
+source.upload.drop.empty: Ingen fil släpptes. Dra-och-släpp kanske inte stöds på ditt system.
 source.list.loading: Hämtar textlista
 source.content: Innehåll
 jwt.refreshing: Uppdaterar konto
 exports.loading: Hämtar resultatlista
 exports.korp.install: Installera i Korp
+exports.korp.reinstall: Installera om i Korp
 exports.korp.view: Visa i Korp
 exports.korp.help: Använd den här datan i Språkbankens korpusverktyg. Din data visas bara för dig, i ett särskilt Mink-läge.
-exports.download.help: XML-filerna i utdatan kan du till exempel bearbeta genom att skriva egna script.
-exports.download.more: Fler filer...
+exports.download.help: Resultatet kan laddas ner som maskinläsbara filer för bearbetning i script eller speciella program.
 exports.downloading: Laddar ner analysresultat
-exports.help: Annoteringen skapar en exportfil för varje källfil, och de kan laddas ner enskilt eller i klump. Filerna är i ett XML-format vars struktur beror både på källfilerna och konfigurationen, men i regel är varje mening och token ett element, och annoteringar är attribut.
+exports.help: Annoteringsprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen.
 user.settings: Inställningar
 user.settings.admin_mode: Aktivera administrationsläge
 user.admin_mode.warning: Administrationsläget är aktiverat. Var försiktig!
@@ -62,6 +69,7 @@ errors: Fel
 error.message: Ett fel uppstod
 expand.open: Visa mer
 expand.close: Visa mindre
+show: Visa
 en: Engelska
 sv: Svenska
 metadata: Metadata
@@ -114,6 +122,8 @@ xml: XML
 txt: Ren text
 docx: Microsoft Word
 odt: OpenDocument Text
+file.archive: Arkivfil
+file.singles: Enskilda filer
 name: Namn
 metadata.name.help: Det går bra att använda mellanslag och specialtecken.
 identifier: Identifierare
@@ -135,8 +145,6 @@ timespan_help: Datum för tidigaste och senaste innehållet i korpusen.
 timespan_from: Från
 timespan_to: Till
 edit: Redigera
-job_run: Starta annotering
-job_abort: Avbryt
 accessdenied: Åtkomst nekad
 accessdenied.contact: Om du vill få tillgång till Mink, hör av dig till sb-info{'@'}svenska.gu.se
 notfound: Sidan kan inte hittas

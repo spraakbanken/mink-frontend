@@ -1,5 +1,5 @@
 <template>
-  <Filedrop @drop="fileHandler">
+  <Filedrop @drop="handleUpload">
     <slot />
     <label for="file-input" class="cursor-pointer">
       <div
@@ -32,7 +32,7 @@
               type="file"
               class="hidden"
               multiple
-              @change="(event) => fileHandler(event.target.files)"
+              @change="(event) => handleUpload(event.target.files)"
             />
           </div>
         </div>
@@ -42,6 +42,7 @@
 </template>
 
 <script setup>
+import useMessenger from "@/message/messenger.composable";
 import useSources from "./sources.composable";
 import Filedrop from "./Filedrop.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
@@ -59,8 +60,14 @@ const props = defineProps({
 
 const corpusId = useCorpusIdParam();
 const { uploadSources } = useSources(corpusId);
+const { clear } = useMessenger();
 
 const fileHandler = props.fileHandler || uploadSources;
+
+function handleUpload(files) {
+  clear();
+  fileHandler(files);
+}
 </script>
 
 <style></style>
