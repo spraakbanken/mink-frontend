@@ -3,11 +3,13 @@ import { emptyConfig, makeConfig, parseConfig } from "@/api/corpusConfig";
 import useLocale from "@/i18n/locale.composable";
 import useMinkBackend from "@/api/backend.composable";
 import { useCorpusStore } from "@/store/corpus.store";
+import useMessenger from "@/message/messenger.composable";
 
 export default function useConfig(corpusId) {
   const corpusStore = useCorpusStore();
   const { th } = useLocale();
   const mink = useMinkBackend();
+  const { alertError } = useMessenger();
 
   const corpus = corpusStore.corpora[corpusId];
   const config = computed(() => corpus?.config);
@@ -25,7 +27,9 @@ export default function useConfig(corpusId) {
   }
 
   async function uploadConfig(config, corpusId_ = corpusId) {
-    await mink.saveConfig(corpusId_, await makeConfig(corpusId_, config));
+    await mink
+      .saveConfig(corpusId_, await makeConfig(corpusId_, config))
+      .catch(alertError);
     corpusStore.corpora[corpusId_].config = config;
   }
 
