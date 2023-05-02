@@ -38,15 +38,11 @@
       <h3 class="text-lg uppercase">{{ $t("download") }}</h3>
       <p>{{ $t("exports.download.help") }}</p>
 
-      <table>
+      <table v-if="exports?.length">
         <tr>
           <th>{{ $t("file.archive") }}</th>
           <td>
-            <a
-              v-if="exports && exports.length"
-              href="#"
-              @click.prevent="downloadResult"
-            >
+            <a href="#" @click.prevent="downloadResult">
               <icon :icon="['fas', 'download']" class="mr-1" />
 
               {{ getDownloadFilename() }}
@@ -56,10 +52,7 @@
         <tr>
           <th>{{ $t("file.singles") }}</th>
           <td>
-            <router-link
-              v-if="exports && exports.length"
-              :to="`/corpus/${corpusId}/exports`"
-            >
+            <router-link :to="`/corpus/${corpusId}/exports`">
               {{ $t("show") }}...
             </router-link>
           </td>
