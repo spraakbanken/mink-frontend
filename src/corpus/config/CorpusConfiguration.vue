@@ -94,7 +94,7 @@ import Help from "@/components/Help.vue";
 const router = useRouter();
 const corpusId = useCorpusIdParam();
 const { config, uploadConfig } = useConfig(corpusId);
-const { alert } = useMessenger();
+const { alert, alertError } = useMessenger();
 const { t } = useI18n();
 
 const formatOptions = computed(() =>
@@ -131,7 +131,9 @@ async function submit(fields) {
     await uploadConfig(configNew, corpusIdFixed);
     router.push(`/corpus/${corpusIdFixed}`);
   } catch (e) {
-    alert(e, "error");
+    if (e.name == "TypeError") {
+      alert(e.message, "error");
+    } else alertError(e);
   }
 }
 </script>

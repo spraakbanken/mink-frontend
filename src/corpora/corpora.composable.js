@@ -18,7 +18,7 @@ export default function useCorpora() {
   const { deleteCorpus } = useCorpus();
   const { uploadConfig } = useConfig();
   const { uploadSources } = useSources();
-  const { alertError } = useMessenger();
+  const { alert, alertError } = useMessenger();
   const mink = useMinkBackend();
 
   async function loadCorpora(force = false) {
@@ -55,13 +55,27 @@ export default function useCorpora() {
       textAnnotation,
     };
 
-    const corpusId = await createCorpus().catch(alertError);
+    // Create an empty corpus. If it fails, abort.
+    let corpusId;
+    try {
+      corpusId = await createCorpus().catch(alertError);
+    } catch (e) {
+      alertError(e);
+      return;
+    }
+
+    // Upload the basic config.
     try {
       await uploadConfig(config, corpusId);
+      // Show the created corpus.
       router.push(`/corpus/${corpusId}`);
       return corpusId;
     } catch (e) {
-      alertError(e);
+      // If creating the config fails, there's a TypeError.
+      if (e.name == "TypeError") alert(e.message, "error");
+      // Otherwise it's probably a backend error when saving.
+      else alertError(e);
+      // Discard the empty corpus.
       await deleteCorpus(corpusId).catch(alertError);
     }
   }
