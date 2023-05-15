@@ -26,10 +26,13 @@ export default function useJob(corpusId) {
   const corpus = corpusStore.corpora[corpusId];
   const { t } = useI18n();
   const mink = useMinkBackend();
-  const {alertError} = useMessenger()
+  const { alertError } = useMessenger();
 
   async function loadJob() {
-    corpus.status = await mink.loadJob(corpusId).catch(() => ({})).catch(alertError);
+    corpus.status = await mink
+      .loadJob(corpusId)
+      .catch(() => ({}))
+      .catch(alertError);
   }
 
   async function runJob() {

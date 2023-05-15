@@ -18,7 +18,7 @@ export default function useCorpora() {
   const { deleteCorpus } = useCorpus();
   const { uploadConfig } = useConfig();
   const { uploadSources } = useSources();
-  const { alert, alertError } = useMessenger();
+  const { alertError } = useMessenger();
   const mink = useMinkBackend();
 
   async function loadCorpora(force = false) {

@@ -17,7 +17,7 @@ watch(
     <div
       v-for="{ key, message, status } in alerts"
       :key="message"
-      class="opacity-80 rounded-lg my-2 text-white p-2 shadow-lg flex"
+      class="opacity-80 rounded-lg my-2 text-white p-2 shadow-lg flex items-start"
       :class="status == 'error' ? ['bg-red-500'] : ['bg-gray-400']"
     >
       <div class="flex-1 px-2">

@@ -6,7 +6,7 @@ import useMessenger from "@/message/messenger.composable";
 export default function useSources(corpusId) {
   const corpusStore = useCorpusStore();
   const mink = useMinkBackend();
-  const {alertError} = useMessenger()
+  const { alertError } = useMessenger();
 
   const sources = computed(() => corpusStore.corpora[corpusId]?.sources || []);
 
