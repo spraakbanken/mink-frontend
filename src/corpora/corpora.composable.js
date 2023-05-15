@@ -18,18 +18,18 @@ export default function useCorpora() {
   const { deleteCorpus } = useCorpus();
   const { uploadConfig } = useConfig();
   const { uploadSources } = useSources();
-  const { alert } = useMessenger();
+  const { alert, alertError } = useMessenger();
   const mink = useMinkBackend();
 
   async function loadCorpora(force = false) {
     if (isCorporaFresh && !force) return;
-    const corpora = await mink.loadCorpora();
+    const corpora = await mink.loadCorpora().catch(alertError);
     corpusStore.setCorpusIds(corpora);
     isCorporaFresh = true;
   }
 
   async function createCorpus() {
-    const corpusId = await mink.createCorpus();
+    const corpusId = await mink.createCorpus().catch(alertError);
     // Have the new corpus included in further API calls.
     await refreshJwt();
     // Adding the new id to store may trigger API calls, so do it after updating the JWT.
@@ -38,10 +38,10 @@ export default function useCorpora() {
   }
 
   async function createFromUpload(files) {
-    const corpusId = await createCorpus();
+    const corpusId = await createCorpus().catch(alertError);
     await Promise.all([
-      uploadSources(files, corpusId),
-      uploadConfig(emptyConfig(), corpusId),
+      uploadSources(files, corpusId).catch(alertError),
+      uploadConfig(emptyConfig(), corpusId).catch(alertError),
     ]);
     router.push(`/corpus/${corpusId}`);
     return corpusId;
@@ -55,14 +55,28 @@ export default function useCorpora() {
       textAnnotation,
     };
 
-    const corpusId = await createCorpus();
+    // Create an empty corpus. If it fails, abort.
+    let corpusId;
+    try {
+      corpusId = await createCorpus().catch(alertError);
+    } catch (e) {
+      alertError(e);
+      return;
+    }
+
+    // Upload the basic config.
     try {
       await uploadConfig(config, corpusId);
+      // Show the created corpus.
       router.push(`/corpus/${corpusId}`);
       return corpusId;
     } catch (e) {
-      alert(e, "error");
-      await deleteCorpus(corpusId);
+      // If creating the config fails, there's a TypeError.
+      if (e.name == "TypeError") alert(e.message, "error");
+      // Otherwise it's probably a backend error when saving.
+      else alertError(e);
+      // Discard the empty corpus.
+      await deleteCorpus(corpusId).catch(alertError);
     }
   }
 

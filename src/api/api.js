@@ -20,30 +20,6 @@ class MinkApi {
       : undefined;
   }
 
-  /** Sets a function to handle all responses. */
-  setResponseHandler(handleResponse) {
-    // Remove any previous handler.
-    if (this.responseInterceptor) {
-      this.axios.interceptors.response.eject(this.responseInterceptor);
-    }
-    // Set new handler.
-    this.responseInterceptor = this.axios.interceptors.response.use(
-      (response) => {
-        handleResponse(response.data);
-        return response;
-      },
-      (error) => {
-        try {
-          handleResponse(error.response.data);
-        } catch (handlerError) {
-          // An error during an error? Just log it.
-          console.error(handlerError);
-        }
-        throw error;
-      }
-    );
-  }
-
   async listCorpora() {
     const response = await this.axios.get("list-corpora");
     return response.data.corpora;

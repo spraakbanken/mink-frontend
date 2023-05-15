@@ -76,7 +76,6 @@ import { useTitle } from "@vueuse/core";
 import { api } from "@/api/api";
 import useSpin from "@/spin/spin.composable";
 import { useAuth } from "@/auth/auth.composable";
-import useMessenger from "@/message/messenger.composable";
 import Spinner from "@/spin/Spinner.vue";
 import useLocale from "@/i18n/locale.composable";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
@@ -90,17 +89,12 @@ import Breadcrumb from "./Breadcrumb.vue";
 
 const { messages } = useSpin();
 const { refreshJwt, payload } = useAuth();
-const { alert } = useMessenger();
 useLocale();
 const { title } = usePageTitle();
 useTitle(title, { titleTemplate: "%s | Mink" });
 
 // Fetch JWT and use it for all API requests.
 refreshJwt();
-
-api.setResponseHandler(
-  (data) => data.message && alert(data.message, data.status)
-);
 
 if (import.meta.env.DEV) {
   window.api = api;

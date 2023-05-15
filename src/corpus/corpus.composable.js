@@ -1,6 +1,7 @@
 import { useAuth } from "@/auth/auth.composable";
 import useMinkBackend from "@/api/backend.composable";
 import { useCorpusStore } from "@/store/corpus.store";
+import useMessenger from "@/message/messenger.composable";
 import useConfig from "./config/config.composable";
 import useExports from "./exports/exports.composable";
 import useJob from "./job/job.composable";
@@ -13,6 +14,7 @@ export default function useCorpus(corpusId) {
   const corpusStore = useCorpusStore();
   const { refreshJwt } = useAuth();
   const mink = useMinkBackend();
+  const { alertError } = useMessenger();
   const { loadConfig } = useConfig(corpusId);
   const { loadExports } = useExports(corpusId);
   const { loadJob } = useJob(corpusId);
@@ -34,7 +36,7 @@ export default function useCorpus(corpusId) {
 
   async function deleteCorpus(corpusId_ = corpusId) {
     // Delete corpus in the backend.
-    await mink.deleteCorpus(corpusId_);
+    await mink.deleteCorpus(corpusId_).catch(alertError);
     // The backend will have updated the remote JWT, so refresh our copy.
     // The backend uses the corpus list within it when listing available corpora.
     await refreshJwt();

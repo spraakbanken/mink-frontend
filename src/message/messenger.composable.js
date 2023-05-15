@@ -20,10 +20,22 @@ export default function useMessenger() {
     alerts.value = [];
   }
 
+  /** Display a backend error message. */
+  const alertError = (err) => {
+    const message = err.response?.data?.message;
+    // Proper Mink backend responses contain a message.
+    if (message) {
+      alert(message, "error");
+    }
+    // For other errors, like timeout or bad gateway, display it and hope the user understands it.
+    else alert(err);
+  };
+
   return {
     alert,
     dismiss,
     clear,
+    alertError,
     alerts,
   };
 }
