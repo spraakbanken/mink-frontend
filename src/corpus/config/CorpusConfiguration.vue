@@ -41,7 +41,6 @@
         </FormKit>
 
         <FormKit
-          v-if="value.format != 'xml'"
           name="sentenceSegmenter"
           :label="$t('segmenter_sentence')"
           :value="config.sentenceSegmenter || ''"
