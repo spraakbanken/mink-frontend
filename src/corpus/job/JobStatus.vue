@@ -91,13 +91,13 @@ import JobStatusMessage from "./JobStatusMessage.vue";
 const corpusId = useCorpusIdParam();
 const { runJob, abortJob, jobStatus, isJobRunning, isJobError, isAnnotated } =
   useJob(corpusId);
-const { isReady, isFailed, isDone, isDoneInstall } = useCorpusState(corpusId);
+const { isReady, isFailed, isFailedInstall, isDone, isDoneInstall } = useCorpusState(corpusId);
 
 const isPending = ref(false);
 const canRun = computed(
   () =>
     !isPending.value &&
-    (isReady.value || isFailed.value || isDone.value || isDoneInstall.value)
+    (isReady.value || isFailed.value || isFailedInstall.value || isDone.value || isDoneInstall.value)
 );
 
 async function doRunJob() {
