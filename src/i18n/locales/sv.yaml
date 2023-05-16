@@ -122,6 +122,7 @@ xml: XML
 txt: Ren text
 docx: Microsoft Word
 odt: OpenDocument Text
+pdf: PDF
 file.archive: Arkivfil
 file.singles: Enskilda filer
 name: Namn

@@ -7,7 +7,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
-    "format": "prettier .  --write '!.yarn'",
+    "format": "prettier .  --write '!.yarn' --ignore-path .gitignore",
     "test": "vitest",
     "coverage": "vitest run --coverage"
   },

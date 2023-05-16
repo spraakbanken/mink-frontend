@@ -25,6 +25,7 @@ export default function useConfig(corpusId) {
   }
 
   async function uploadConfig(config, corpusId_ = corpusId) {
+    // This may throw, either from makeConfig or saveConfig.
     await mink.saveConfig(corpusId_, await makeConfig(corpusId_, config));
     corpusStore.corpora[corpusId_].config = config;
   }

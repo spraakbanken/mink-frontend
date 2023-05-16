@@ -13,6 +13,7 @@ import { useI18n } from "vue-i18n";
 import { useInterval } from "@vueuse/shared";
 import useMinkBackend from "@/api/backend.composable";
 import { useCorpusStore } from "@/store/corpus.store";
+import useMessenger from "@/message/messenger.composable";
 
 // Module-scope ticker, can be watched to perform task intermittently
 const pollTick = useInterval(2000);
@@ -25,21 +26,25 @@ export default function useJob(corpusId) {
   const corpus = corpusStore.corpora[corpusId];
   const { t } = useI18n();
   const mink = useMinkBackend();
+  const { alertError } = useMessenger();
 
   async function loadJob() {
-    corpus.status = await mink.loadJob(corpusId).catch(() => ({}));
+    corpus.status = await mink
+      .loadJob(corpusId)
+      .catch(() => ({}))
+      .catch(alertError);
   }
 
   async function runJob() {
-    corpus.status = await mink.runJob(corpusId);
+    corpus.status = await mink.runJob(corpusId).catch(alertError);
   }
 
   async function install() {
-    corpus.status = await mink.install(corpusId);
+    corpus.status = await mink.install(corpusId).catch(alertError);
   }
 
   async function abortJob() {
-    await mink.abortJob(corpusId);
+    await mink.abortJob(corpusId).catch(alertError);
     await loadJob();
   }
 

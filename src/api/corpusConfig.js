@@ -5,6 +5,7 @@ const FORMATS = {
   xml: "xml_import:parse",
   odt: "odt_import:parse",
   docx: "docx_import:parse",
+  pdf: "pdf_import:parse",
 };
 
 export const FORMATS_EXT = Object.keys(FORMATS);
@@ -72,15 +73,18 @@ export async function makeConfig(id, options) {
     }
     config.import.text_annotation = textAnnotation;
     config.export.source_annotations = [`${textAnnotation} as text`, "..."];
+  } else if (format === "pdf") {
+    config.export.source_annotations = ["text", "page:number"];
   }
 
   if (datetimeFrom || datetimeTo) {
-    if (!datetimeFrom && datetimeTo) {
-      throw new TypeError("Both or none of the dates must be set.");
+    if (!datetimeFrom || !datetimeTo) {
+      throw new TypeError("Both or none of the timespan dates must be set.");
     }
     config.dateformat = {
       datetime_from: "<text>:misc.datefrom",
       datetime_to: "<text>:misc.dateto",
+      datetime_informat: "%Y-%m-%d",
     };
     config.custom_annotations = [
       {
@@ -101,8 +105,10 @@ export async function makeConfig(id, options) {
       },
     ];
     config.export.annotations.push(
-      "<text>:misc.datefrom",
-      "<text>:misc.dateto"
+      "<text>:dateformat.datefrom",
+      "<text>:dateformat.dateto",
+      "<text>:dateformat.timefrom",
+      "<text>:dateformat.timeto"
     );
   }
 
