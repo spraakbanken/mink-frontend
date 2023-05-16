@@ -84,6 +84,7 @@ export async function makeConfig(id, options) {
     config.dateformat = {
       datetime_from: "<text>:misc.datefrom",
       datetime_to: "<text>:misc.dateto",
+      datetime_informat: "%Y-%m-%d",
     };
     config.custom_annotations = [
       {
@@ -104,8 +105,10 @@ export async function makeConfig(id, options) {
       },
     ];
     config.export.annotations.push(
-      "<text>:misc.datefrom",
-      "<text>:misc.dateto"
+      "<text>:dateformat.datefrom",
+      "<text>:dateformat.dateto",
+      "<text>:dateformat.timefrom",
+      "<text>:dateformat.timeto"
     );
   }
 
