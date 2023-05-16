@@ -121,6 +121,7 @@ xml: XML
 txt: Plain text
 docx: Microsoft Word
 odt: OpenDocument Text
+pdf: PDF
 file.archive: Archive
 file.singles: Single files
 name: Name

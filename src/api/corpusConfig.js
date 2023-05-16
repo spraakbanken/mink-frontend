@@ -5,6 +5,7 @@ const FORMATS = {
   xml: "xml_import:parse",
   odt: "odt_import:parse",
   docx: "docx_import:parse",
+  pdf: "pdf_import:parse",
 };
 
 export const FORMATS_EXT = Object.keys(FORMATS);
@@ -72,6 +73,8 @@ export async function makeConfig(id, options) {
     }
     config.import.text_annotation = textAnnotation;
     config.export.source_annotations = [`${textAnnotation} as text`, "..."];
+  } else if (format === "pdf") {
+    config.export.source_annotations = ["text", "page:number"];
   }
 
   if (datetimeFrom || datetimeTo) {
