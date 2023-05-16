@@ -78,8 +78,8 @@ export async function makeConfig(id, options) {
   }
 
   if (datetimeFrom || datetimeTo) {
-    if (!datetimeFrom && datetimeTo) {
-      throw new TypeError("Both or none of the dates must be set.");
+    if (!datetimeFrom || !datetimeTo) {
+      throw new TypeError("Both or none of the timespan dates must be set.");
     }
     config.dateformat = {
       datetime_from: "<text>:misc.datefrom",
