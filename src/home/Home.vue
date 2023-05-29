@@ -1,12 +1,14 @@
 <script setup>
 import { useAuth } from "@/auth/auth.composable";
 import Section from "@/components/Section.vue";
+import { getLogoutUrl } from "@/auth/auth";
 import LoginButton from "@/auth/LoginButton.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import HomeIllustration from "./HomeIllustration.vue";
 import HomeNews from "./HomeNews.vue";
 
-const { isAuthenticated, canUserWrite } = useAuth();
+const { isAuthenticated, canUserWrite, payload } = useAuth();
+const logoutUrl = getLogoutUrl();
 </script>
 
 <template>
@@ -53,11 +55,25 @@ const { isAuthenticated, canUserWrite } = useAuth();
               </div>
             </div>
 
-            <router-link v-if="canUserWrite" to="/corpus">
-              <ActionButton variant="primary">
-                {{ $t("dashboard") }}
-              </ActionButton>
-            </router-link>
+            <div
+              v-if="canUserWrite"
+              class="bg-sky-100 p-4 rounded shadow-inner flex flex-wrap justify-center items-baseline gap-4"
+            >
+              <div>{{ $t("welcome", { name: payload.name }) }}</div>
+
+              <router-link to="/corpus">
+                <ActionButton variant="primary">
+                  {{ $t("mydata") }}
+                </ActionButton>
+              </router-link>
+
+              <a :href="logoutUrl">
+                <ActionButton>
+                  <icon :icon="['fas', 'person-running']" />
+                  {{ $t("logout") }}
+                </ActionButton>
+              </a>
+            </div>
           </div>
         </div>
         <div class="flex-1">
