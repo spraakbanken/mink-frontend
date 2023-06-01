@@ -105,7 +105,7 @@ const { t } = useI18n();
 const formatOptions = computed(() =>
   FORMATS_EXT.map((ext) => ({
     value: ext,
-    label: t(ext),
+    label: `${t(ext)} (.${ext})`,
     attrs: {
       disabled: extensions.value.length && !extensions.value.includes(ext),
     },
