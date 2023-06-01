@@ -62,6 +62,10 @@
           :value="config.datetimeTo"
           :help="$t('timespan_help')"
         />
+
+        <Section :title="$t('annotations')">
+          <div class="prose" v-html="$t('annotations.info')" />
+        </Section>
       </Section>
     </FormKit>
     <div class="flex justify-center">
@@ -137,4 +141,11 @@ async function submit(fields) {
 }
 </script>
 
-<style></style>
+<style scoped>
+.prose :deep(ul) {
+  padding-left: 2em;
+}
+.prose :deep(ul li) {
+  list-style-type: bullet;
+}
+</style>

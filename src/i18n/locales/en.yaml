@@ -147,6 +147,26 @@ timespan_help: Dates of the oldest and newest content in the corpus.
 timespan_from: From
 timespan_to: To
 edit: Edit
+annotations: Annotations
+annotations.info: |
+  <p>
+    We are working on making it possible to choose what methods, annotations and models are used in the analysis.
+    At this time, the analysis will enrich the texts with the following annotations:</p>
+  <ul>
+    <li>Part-of-speech tags</li>
+    <li>Morphosyntactic tags</li>
+    <li>Base form</li>
+    <li>Lemgram</li>
+    <li>Saldo sense</li>
+    <li>Compound word analysis</li>
+    <li>Dependency parsing</li>
+    <li>Sentiment analysis</li>
+    <li>Lexical classes from SweFN and Blingbring</li>
+    <li>Readability values per text</li>
+  </ul>
+  <p>You can find some more information about the annotations in the 
+    <a href="https://spraakbanken.gu.se/sparv/#/user-manual/available-analyses">Sparv documentation</a>.
+  </p>
 accessdenied: Access denied
 accessdenied.contact: If you want access to Mink, please contact sb-info{'@'}svenska.gu.se
 notfound: Page not found
