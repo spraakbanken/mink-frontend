@@ -5,10 +5,10 @@ import sv from "./locales/sv.yaml";
 export default createI18n({
   legacy: false,
   globalInjection: true,
-  locale: "en",
-  fallbackLocale: "en",
-  messages: {
-    en,
-    sv,
-  },
+  // Prefer Swedish if it's among browser's preferred languages, even if English is ranked higher
+  locale: navigator.languages.find((l) => l.split("-")[0] == "sv")
+    ? "sv"
+    : "en",
+  fallbackLocale: ["en", "sv"],
+  messages: { en, sv },
 });
