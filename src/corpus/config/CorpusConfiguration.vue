@@ -18,7 +18,7 @@
         <FormKit
           name="format"
           :label="$t('fileFormat')"
-          :value="config.format"
+          :value="selectedFormat"
           type="select"
           input-class="w-72"
           :options="formatOptions"
@@ -62,6 +62,10 @@
           :value="config.datetimeTo"
           :help="$t('timespan_help')"
         />
+
+        <Section :title="$t('annotations')">
+          <div class="prose" v-html="$t('annotations.info')" />
+        </Section>
       </Section>
     </FormKit>
     <div class="flex justify-center">
@@ -89,22 +93,28 @@ import useConfig from "./config.composable";
 import { FORMATS_EXT, SEGMENTERS } from "@/api/corpusConfig";
 import useMessenger from "@/message/messenger.composable";
 import Help from "@/components/Help.vue";
+import useSources from "../sources/sources.composable";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
 const { config, uploadConfig } = useConfig(corpusId);
 const { alert, alertError } = useMessenger();
+const { extensions } = useSources(corpusId);
 const { t } = useI18n();
 
 const formatOptions = computed(() =>
-  FORMATS_EXT.reduce(
-    (options, ext) => ({
-      ...options,
-      [ext]: `${t(ext)} (.${ext})`,
-    }),
-    {}
-  )
+  FORMATS_EXT.map((ext) => ({
+    value: ext,
+    label: t(ext),
+    attrs: {
+      disabled: extensions.value.length && !extensions.value.includes(ext),
+    },
+  }))
 );
+
+const selectedFormat = computed(() => {
+  return extensions.value.includes(config.value.format) && config.value.format;
+});
 
 const segmenterOptions = computed(() =>
   SEGMENTERS.reduce(
@@ -137,4 +147,11 @@ async function submit(fields) {
 }
 </script>
 
-<style></style>
+<style scoped>
+.prose :deep(ul) {
+  padding-left: 2em;
+}
+.prose :deep(ul li) {
+  list-style-type: bullet;
+}
+</style>

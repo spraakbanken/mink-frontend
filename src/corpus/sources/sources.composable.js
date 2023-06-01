@@ -1,4 +1,5 @@
 import { computed } from "@vue/reactivity";
+import uniq from "lodash/uniq";
 import useMinkBackend from "@/api/backend.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 import useMessenger from "@/message/messenger.composable";
@@ -33,6 +34,15 @@ export default function useSources(corpusId) {
     loadSources();
   }
 
+  /** Find file extensions present in source files. */
+  const extensions = computed(() =>
+    uniq(
+      corpusStore.corpora[corpusId]?.sources?.map((source) =>
+        source.name.split(".").pop()
+      )
+    )
+  );
+
   return {
     sources,
     loadSources,
@@ -40,5 +50,6 @@ export default function useSources(corpusId) {
     downloadPlaintext,
     uploadSources,
     deleteSource,
+    extensions,
   };
 }

@@ -1,25 +1,18 @@
 <template>
-  <div
-    :class="{ dragover: isDragover }"
-    @drop.prevent="drop"
-    @dragover.prevent="isDragover = true"
-    @dragleave.prevent="isDragover = false"
-  >
+  <div :class="{ dragover: isDragover }">
     <slot />
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import useMessenger from "@/message/messenger.composable";
+import useDropToPage from "@/components/droptopage.composable";
 
 const emit = defineEmits(["drop"]);
 
 const { alert } = useMessenger();
 const { t } = useI18n();
-
-const isDragover = ref(false);
 
 function drop(event) {
   // On Chrome+Ubuntu, the file list may be empty for security reasons.
@@ -30,8 +23,9 @@ function drop(event) {
   }
 
   emit("drop", event.dataTransfer.files);
-  isDragover.value = false;
 }
+
+const { isDragover } = useDropToPage(drop);
 </script>
 
 <style scoped>

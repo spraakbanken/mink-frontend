@@ -148,6 +148,27 @@ timespan_help: Datum för tidigaste och senaste innehållet i korpusen.
 timespan_from: Från
 timespan_to: Till
 edit: Redigera
+annotations: Annotationer
+annotations.info: |
+  <p>
+    Vi jobbar på möjligheten att själv välja analysmetoder, annotationer och modeller.
+    För närvarande kommer analysen att berika texten med följande annotationer:
+  </p>
+  <ul>
+    <li>ordklasstaggar</li>
+    <li>morfosyntaktiska taggar</li>
+    <li>grundform</li>
+    <li>lemgram</li>
+    <li>saldo-betydelse</li>
+    <li>sammansättningsanalys</li>
+    <li>dependensparsning</li>
+    <li>attitydanalys</li>
+    <li>lexikala klasser från SweFN och Blingbring</li>
+    <li>läsbarhetsvärden för hela texten</li>
+  </ul>
+  <p>Du kan hitta lite mer info om annotationerna i
+    <a href="https://spraakbanken.gu.se/sparv/#/user-manual/available-analyses">Sparvs dokumentation</a>.
+  </p>
 accessdenied: Åtkomst nekad
 accessdenied.contact: Om du vill få tillgång till Mink, hör av dig till sb-info{'@'}svenska.gu.se
 notfound: Sidan kan inte hittas
