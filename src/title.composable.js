@@ -10,8 +10,10 @@ export default function usePageTitle() {
   const { t } = useI18n();
   const { th } = useLocale();
   const corpusStore = useCorpusStore();
-  const corpusName = computed(() =>
-    th(corpusStore.corpora[route.params.corpusId]?.config?.name)
+  const corpusName = computed(
+    () =>
+      th(corpusStore.corpora[route.params.corpusId]?.config?.name) ||
+      route.params.corpusId
   );
 
   function getTitle(route) {
