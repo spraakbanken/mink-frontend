@@ -2,18 +2,20 @@
   <span
     v-if="jobStatusMessage"
     :class="{
-      'text-gray-400': !isJobStarted,
-      'text-lime-600': isJobDone,
-      'text-yellow-500': isJobRunning,
-      'text-red-500': isJobError,
+      'text-gray-400': status.isReady,
+      'text-red-500': status.isError,
+      'text-yellow-500': status.isRunning,
+      'text-lime-600': status.isDone,
     }"
   >
-    {{ jobStatusMessage }}
+    {{ message }}
   </span>
 </template>
 
 <script setup>
+import { useI18n } from "vue-i18n";
 import useJob from "./job.composable";
+import { computed } from "vue";
 
 const props = defineProps({
   corpusId: {
@@ -23,6 +25,11 @@ const props = defineProps({
   },
 });
 
-const { jobStatusMessage, isJobStarted, isJobDone, isJobRunning, isJobError } =
-  useJob(props.corpusId);
+const { t } = useI18n();
+const { sparvStatus, korpStatus, jobStatusMessage } = useJob(props.corpusId);
+
+const status = computed(() =>
+  !sparvStatus.value.isDone ? sparvStatus.value : korpStatus.value
+);
+const message = computed(() => t(`job.status.${status.value.state}`));
 </script>

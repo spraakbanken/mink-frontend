@@ -16,9 +16,9 @@ corpus.state.needing_config: Configuration needed
 corpus.state.needing_meta: Metadata needed
 corpus.state.ready: Ready to run
 corpus.state.running: Annotating
-corpus.state.done: Done
+corpus.state.done: Done annotating
 corpus.state.running_install: Installing
-corpus.state.done_install: Done
+corpus.state.done_install: Done installing
 corpus.state.failed: Failed
 corpus.state.failed_install: Failed
 corpus.state.help.empty: There are no source texts in this corpus. Upload some text files below.

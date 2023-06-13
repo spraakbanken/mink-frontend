@@ -9,32 +9,25 @@ import useSources from "./sources/sources.composable";
 export function useCorpusState(corpusId) {
   const { sources } = useSources(corpusId);
   const { config } = useConfig(corpusId);
-  const {
-    isJobStarted,
-    isJobRunning,
-    isJobError,
-    isJobDone,
-    isInstalled,
-    isAnnotated,
-  } = useJob(corpusId);
+  const { sparvStatus, korpStatus } = useJob(corpusId);
   const { t } = useI18n();
 
   const corpusState = computed(() => {
     if (!sources.value.length) return CorpusState.EMPTY;
     if (!isConfigValid.value) return CorpusState.NEEDING_CONFIG;
     if (!hasMetadata.value) return CorpusState.NEEDING_META;
-    if (!isAnnotated.value) {
-      if (!isJobStarted.value) return CorpusState.READY;
-      if (isJobRunning.value) return CorpusState.RUNNING;
-      if (isJobError.value) return CorpusState.FAILED;
-    }
-    if (!isInstalled.value) {
-      if (isJobDone.value) return CorpusState.DONE;
-      if (isJobError.value) return CorpusState.FAILED_INSTALL;
-    }
-    if (isJobRunning.value) return CorpusState.RUNNING_INSTALL;
-    if (isJobDone.value) return CorpusState.DONE_INSTALL;
-    return undefined;
+
+    if (sparvStatus.value.isReady) return CorpusState.READY;
+    if (sparvStatus.value.isError) return CorpusState.FAILED;
+    if (korpStatus.value.isRunning) return CorpusState.RUNNING_INSTALL;
+    if (sparvStatus.value.isRunning) return CorpusState.RUNNING;
+    if (korpStatus.value.isReady) return CorpusState.DONE;
+    if (korpStatus.value.isError) return CorpusState.FAILED_INSTALL;
+    if (korpStatus.value.isDone) return CorpusState.DONE_INSTALL;
+
+    throw RangeError(
+      `Invalid state, sparv=${sparvStatus.value}, korp=${korpStatus.value}`
+    );
   });
 
   const isConfigValid = computed(
@@ -52,13 +45,14 @@ export function useCorpusState(corpusId) {
   const isNeedingMeta = computed(
     () => corpusState.value == CorpusState.NEEDING_META
   );
-  const isFailed = computed(() => corpusState.value == CorpusState.FAILED);
+  const isFailed = computed(
+    () =>
+      corpusState.value == CorpusState.FAILED ||
+      corpusState.value == CorpusState.FAILED_INSTALL
+  );
   const isReady = computed(() => corpusState.value == CorpusState.READY);
   const isRunning = computed(() => corpusState.value == CorpusState.RUNNING);
   const isDone = computed(() => corpusState.value == CorpusState.DONE);
-  const isFailedInstall = computed(
-    () => corpusState.value == CorpusState.FAILED_INSTALL
-  );
   const isRunningInstall = computed(
     () => corpusState.value == CorpusState.RUNNING_INSTALL
   );
@@ -78,7 +72,6 @@ export function useCorpusState(corpusId) {
     isReady,
     isRunning,
     isDone,
-    isFailedInstall,
     isRunningInstall,
     isDoneInstall,
     stateMessage,

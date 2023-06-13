@@ -1,15 +1,4 @@
 import { computed, watch } from "vue";
-import {
-  isStatusRunning,
-  isStatusStarted,
-  isStatusDone,
-  isStatusError,
-  isStatusInstalled,
-  isStatusAnnotated,
-  isStatusAnnotation,
-  isStatusInstallation,
-} from "@/api/api";
-import { useI18n } from "vue-i18n";
 import { useInterval } from "@vueuse/shared";
 import useMinkBackend from "@/api/backend.composable";
 import { useCorpusStore } from "@/store/corpus.store";
@@ -21,10 +10,46 @@ const pollTick = useInterval(2000);
 // Corpus ids are added as keys to this object to indicate that a status request is active.
 const pollTracker = {};
 
+class JobStatus {
+  constructor(v) {
+    // none = "Process does not exist"
+    // waiting = "Waiting to be processed"
+    // running = "Process is running"
+    // done = "Process has finished"
+    // error = "An error occurred in the process"
+    // aborted = "Process was aborted by the user"
+    this.allowed = ["done", "none", "aborted", "error", "waiting", "running"];
+    this.state = undefined;
+    this.set(v);
+  }
+
+  set(v) {
+    if (v && !this.allowed.includes(v)) {
+      throw TypeError(`Not a valid status: "${v}"`);
+    }
+    this.state = v || undefined;
+  }
+
+  get isReady() {
+    return ["none", "aborted"].includes(this.state);
+  }
+
+  get isError() {
+    return this.state == "error";
+  }
+
+  get isRunning() {
+    return ["waiting", "running"].includes(this.state);
+  }
+
+  get isDone() {
+    return this.state == "done";
+  }
+}
+
 export default function useJob(corpusId) {
   const corpusStore = useCorpusStore();
   const corpus = corpusStore.corpora[corpusId];
-  const { t } = useI18n();
   const mink = useMinkBackend();
   const { alertError } = useMessenger();
 
@@ -49,25 +74,23 @@ export default function useJob(corpusId) {
   }
 
   const jobStatus = computed(() => corpus?.status);
-  const jobStatusId = computed(() => jobStatus.value?.job_status);
-  const isJobStarted = computed(() => isStatusStarted(jobStatusId.value));
-  const isJobRunning = computed(() => isStatusRunning(jobStatusId.value));
-  const isJobDone = computed(() => isStatusDone(jobStatusId.value));
-  const isInstalled = computed(() => isStatusInstalled(jobStatusId.value));
-  const isAnnotated = computed(
+  const sparvStatus = computed(
+    () => new JobStatus(jobStatus.value?.job_status.sparv)
+  );
+  const korpStatus = computed(
+    () => new JobStatus(jobStatus.value?.job_status.korp)
+  );
+
+  // "Running" if any job is waiting/running.
+  const isJobRunning = computed(
+    () => sparvStatus.value.isRunning || korpStatus.value.isRunning
+  );
+
+  // "Done" if Sparv is done, and Korp is not running/error.
+  const isJobDone = computed(
     () =>
-      isStatusAnnotated(jobStatusId.value) ||
-      (isJobError.value && wasInstalling.value)
-  );
-  const isJobError = computed(() => isStatusError(jobStatusId.value));
-  const wasAnnotating = computed(() =>
-    isStatusAnnotation(jobStatus.value?.latest_status)
-  );
-  const wasInstalling = computed(() =>
-    isStatusInstallation(jobStatus.value?.latest_status)
-  );
-  const jobStatusMessage = computed(
-    () => jobStatusId.value && t(`job.status.${jobStatusId.value}`)
+      sparvStatus.value.isDone &&
+      (korpStatus.value.isReady || korpStatus.value.isDone)
   );
 
   // Check status intermittently if active.
@@ -86,14 +109,9 @@ export default function useJob(corpusId) {
     abortJob,
     install,
     jobStatus,
-    isJobStarted,
+    sparvStatus,
+    korpStatus,
     isJobRunning,
     isJobDone,
-    isInstalled,
-    isAnnotated,
-    isJobError,
-    wasAnnotating,
-    wasInstalling,
-    jobStatusMessage,
   };
 }

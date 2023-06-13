@@ -2,17 +2,17 @@
   <PendingContent :on="`corpus/${corpusId}/job`">
     <div class="flex flex-wrap gap-4 justify-between items-baseline">
       <div class="text-lg font-bold">
-        <JobStatusMessage :corpus-id="corpusId" />
+        <CorpusStateMessage :corpus-id="corpusId" />
       </div>
       <div class="text-sm">
         <ActionButton
           v-if="!isJobRunning"
-          :variant="isReady ? 'primary' : null"
+          :variant="sparvStatus.isReady ? 'primary' : null"
           :disabled="!canRun"
           @click="canRun ? doRunJob() : null"
         >
           <icon :icon="['fas', 'gears']" class="mr-1" />
-          {{ !isAnnotated ? $t("job.run") : $t("job.rerun") }}
+          {{ !sparvStatus.isDone ? $t("job.run") : $t("job.rerun") }}
         </ActionButton>
 
         <ActionButton
@@ -45,10 +45,10 @@
             }}</TerminalOutput>
           </td>
         </tr>
-        <tr v-if="isJobError && jobStatus.sparv_output">
+        <tr v-if="isFailed && jobStatus.sparv_output">
           <th colspan="2">{{ $t("sparvOutput") }}</th>
         </tr>
-        <tr v-if="isJobError && jobStatus.sparv_output">
+        <tr v-if="isFailed && jobStatus.sparv_output">
           <td colspan="2">
             <TerminalOutput class="whitespace-pre-wrap">{{
               jobStatus.sparv_output
@@ -81,24 +81,20 @@ import { computed, ref } from "vue";
 import { formatDate, formatSeconds } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import { useCorpusState } from "@/corpus/corpusState.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import useJob from "./job.composable";
 import ProgressBar from "./ProgressBar.vue";
-import JobStatusMessage from "./JobStatusMessage.vue";
+import { useCorpusState } from "@/corpus/corpusState.composable";
+import CorpusStateMessage from "../CorpusStateMessage.vue";
 
 const corpusId = useCorpusIdParam();
-const { runJob, abortJob, jobStatus, isJobRunning, isJobError, isAnnotated } =
+const { runJob, abortJob, jobStatus, sparvStatus, isJobRunning } =
   useJob(corpusId);
-const { isReady, isFailed, isFailedInstall, isDone, isDoneInstall } = useCorpusState(corpusId);
+const { isFailed } = useCorpusState(corpusId);
 
 const isPending = ref(false);
-const canRun = computed(
-  () =>
-    !isPending.value &&
-    (isReady.value || isFailed.value || isFailedInstall.value || isDone.value || isDoneInstall.value)
-);
+const canRun = computed(() => !isPending.value && sparvStatus.value.isReady);
 
 async function doRunJob() {
   isPending.value = true;

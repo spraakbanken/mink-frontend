@@ -17,9 +17,9 @@ corpus.state.needing_config: Behöver konfigureras
 corpus.state.needing_meta: Behöver metadata
 corpus.state.ready: Klar för start
 corpus.state.running: Annoterar
-corpus.state.done: Färdig
+corpus.state.done: Annotering färdig
 corpus.state.running_install: Installerar
-corpus.state.done_install: Färdig
+corpus.state.done_install: Installation färdig
 corpus.state.failed: Fel
 corpus.state.failed_install: Fel
 corpus.state.help.empty: Den här korpusen har inga källtexter. Ladda upp textfiler nedan.
