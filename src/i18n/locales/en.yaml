@@ -71,6 +71,7 @@ error.message: There was an error
 expand.open: Show more
 expand.close: Show less
 show: Show
+select: Select...
 en: English
 sv: Swedish
 metadata: Metadata
