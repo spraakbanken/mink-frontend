@@ -1,11 +1,11 @@
 <template>
   <span
-    v-if="jobStatusMessage"
+    v-if="message"
     :class="{
-      'text-gray-400': status.isReady,
-      'text-red-500': status.isError,
-      'text-yellow-500': status.isRunning,
-      'text-lime-600': status.isDone,
+      'text-gray-400': !status || status.isReady,
+      'text-red-500': status?.isError,
+      'text-yellow-500': status?.isRunning,
+      'text-lime-600': status?.isDone,
     }"
   >
     {{ message }}
@@ -26,10 +26,10 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const { sparvStatus, korpStatus, jobStatusMessage } = useJob(props.corpusId);
+const { currentStatus } = useJob(props.corpusId);
 
-const status = computed(() =>
-  !sparvStatus.value.isDone ? sparvStatus.value : korpStatus.value
+const status = computed(() => currentStatus.value);
+const message = computed(() =>
+  t(`job.status.${status.value?.state || "none"}`)
 );
-const message = computed(() => t(`job.status.${status.value.state}`));
 </script>

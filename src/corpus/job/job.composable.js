@@ -80,6 +80,13 @@ export default function useJob(corpusId) {
   const korpStatus = computed(
     () => new JobStatus(jobStatus.value?.job_status.korp)
   );
+  const currentStatus = computed(
+    () =>
+      ({
+        sparv: sparvStatus.value,
+        korp: korpStatus.value,
+      }[jobStatus.value.current_process])
+  );
 
   // "Running" if any job is waiting/running.
   const isJobRunning = computed(
@@ -111,6 +118,7 @@ export default function useJob(corpusId) {
     jobStatus,
     sparvStatus,
     korpStatus,
+    currentStatus,
     isJobRunning,
     isJobDone,
   };

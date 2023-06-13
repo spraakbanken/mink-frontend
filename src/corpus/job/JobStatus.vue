@@ -2,7 +2,7 @@
   <PendingContent :on="`corpus/${corpusId}/job`">
     <div class="flex flex-wrap gap-4 justify-between items-baseline">
       <div class="text-lg font-bold">
-        <CorpusStateMessage :corpus-id="corpusId" />
+        <JobStatusMessage :corpus-id="corpusId" />
       </div>
       <div class="text-sm">
         <ActionButton
@@ -81,12 +81,12 @@ import { computed, ref } from "vue";
 import { formatDate, formatSeconds } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import { useCorpusState } from "@/corpus/corpusState.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import useJob from "./job.composable";
 import ProgressBar from "./ProgressBar.vue";
-import { useCorpusState } from "@/corpus/corpusState.composable";
-import CorpusStateMessage from "../CorpusStateMessage.vue";
+import JobStatusMessage from "./JobStatusMessage.vue";
 
 const corpusId = useCorpusIdParam();
 const { runJob, abortJob, jobStatus, sparvStatus, isJobRunning } =

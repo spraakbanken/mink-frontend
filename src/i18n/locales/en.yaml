@@ -101,18 +101,12 @@ message: Message
 sparvOutput: Sparv output
 download: Download
 download_export: Download full result
-job.status.none: Annotation not started
-job.status.syncing_corpus: Synchronizing corpus
-job.status.waiting: Waiting
-job.status.annotating: Annotating
-job.status.done_annotating: Annotation completed
-job.status.syncing_results: Synchronizing results
-job.status.done_syncing: Done
-job.status.error: Error
+job.status.done: Done
+job.status.none: Not started
 job.status.aborted: Aborted
-job.status.waiting_install: Waiting to be installed
-job.status.installing: Installing
-job.status.done_installing: Done
+job.status.error: Error
+job.status.waiting: Waiting
+job.status.running: Working
 login: Sign in
 login.required: This page requires you to authenticate.
 logout: Logout

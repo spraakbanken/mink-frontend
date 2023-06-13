@@ -102,18 +102,12 @@ message: Meddelande
 sparvOutput: Output från Sparv
 download: Ladda ner
 download_export: Ladda ner all utdata
-job.status.none: Ingen annotering har körts
-job.status.syncing_corpus: Syncar korpus
-job.status.waiting: Väntar
-job.status.annotating: Annoterar
-job.status.done_annotating: Annotering färdig
-job.status.syncing_results: Syncar resultat
-job.status.done_syncing: Färdig
-job.status.error: Fel
+job.status.done: Färdig
+job.status.none: Inte startad
 job.status.aborted: Avbruten
-job.status.waiting_install: Väntar på att installeras
-job.status.installing: Installerar
-job.status.done_installing: Färdig
+job.status.error: Fel
+job.status.waiting: Väntar
+job.status.running: Arbetar
 login: Logga in
 login.required: Den här sidan kräver autentisering.
 logout: Logga ut
