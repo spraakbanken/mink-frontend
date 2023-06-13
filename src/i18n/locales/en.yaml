@@ -47,6 +47,8 @@ job.priority: Place in queue
 job.last_run_started: Last run started
 job.last_run_ended: Last run ended
 job.time_taken: Time taken
+job.process.sparv: Annotation
+job.process.korp: Installation to Korp
 source.deleting: Deleting text
 source.downloading: Downloading text
 source.downloading_plain: Downloading extracted text

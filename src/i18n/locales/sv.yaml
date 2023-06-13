@@ -48,6 +48,8 @@ job.priority: Plats i kön
 job.last_run_started: Senast startad
 job.last_run_ended: Senast avslutad
 job.time_taken: Tidsåtgång
+job.process.sparv: Annotering
+job.process.korp: Installation i Korp
 source.deleting: Raderar text
 source.downloading: Laddar ner text
 source.downloading_plain: Laddar ner extraherad text
