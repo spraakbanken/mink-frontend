@@ -20,12 +20,19 @@
       <Panel :title="$t('metadata')" class="mb-4">
         <Metadata />
         <template #controls>
-          <router-link :to="`/corpus/${corpusId}/metadata`">
+          <router-link
+            v-if="!isNeedingConfig"
+            :to="`/corpus/${corpusId}/metadata`"
+          >
             <ActionButton :variant="isNeedingMeta ? 'primary' : null">
               <icon :icon="['fas', 'pen']" class="mr-1" />
               {{ $t("edit") }}
             </ActionButton>
           </router-link>
+          <ActionButton v-else disabled>
+            <icon :icon="['fas', 'pen']" class="mr-1" />
+            {{ $t("edit") }}
+          </ActionButton>
         </template>
       </Panel>
     </div>

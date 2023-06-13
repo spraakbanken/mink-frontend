@@ -17,9 +17,9 @@ corpus.state.needing_config: Behöver konfigureras
 corpus.state.needing_meta: Behöver metadata
 corpus.state.ready: Klar för start
 corpus.state.running: Annoterar
-corpus.state.done: Färdig
+corpus.state.done: Annotering färdig
 corpus.state.running_install: Installerar
-corpus.state.done_install: Färdig
+corpus.state.done_install: Installation färdig
 corpus.state.failed: Fel
 corpus.state.failed_install: Fel
 corpus.state.help.empty: Den här korpusen har inga källtexter. Ladda upp textfiler nedan.
@@ -48,6 +48,8 @@ job.priority: Plats i kön
 job.last_run_started: Senast startad
 job.last_run_ended: Senast avslutad
 job.time_taken: Tidsåtgång
+job.process.sparv: Annotering
+job.process.korp: Installation i Korp
 source.deleting: Raderar text
 source.downloading: Laddar ner text
 source.downloading_plain: Laddar ner extraherad text
@@ -72,6 +74,7 @@ error.message: Ett fel uppstod
 expand.open: Visa mer
 expand.close: Visa mindre
 show: Visa
+select: Välj...
 en: Engelska
 sv: Svenska
 metadata: Metadata
@@ -101,18 +104,12 @@ message: Meddelande
 sparvOutput: Output från Sparv
 download: Ladda ner
 download_export: Ladda ner all utdata
-job.status.none: Ingen annotering har körts
-job.status.syncing_corpus: Syncar korpus
-job.status.waiting: Väntar
-job.status.annotating: Annoterar
-job.status.done_annotating: Annotering färdig
-job.status.syncing_results: Syncar resultat
-job.status.done_syncing: Färdig
-job.status.error: Fel
+job.status.done: Färdig
+job.status.none: Inte startad
 job.status.aborted: Avbruten
-job.status.waiting_install: Väntar på att installeras
-job.status.installing: Installerar
-job.status.done_installing: Färdig
+job.status.error: Fel
+job.status.waiting: Väntar
+job.status.running: Arbetar
 login: Logga in
 login.required: Den här sidan kräver autentisering.
 logout: Logga ut

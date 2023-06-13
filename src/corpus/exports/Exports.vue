@@ -13,14 +13,14 @@
           @click="isDone ? korpInstall() : null"
         >
           {{
-            !isInstalled
+            !korpStatus.isDone
               ? $t("exports.korp.install")
               : $t("exports.korp.reinstall")
           }}
         </ActionButton>
 
         <a
-          v-if="isInstalled"
+          v-if="korpStatus.isDone"
           :href="`${korpUrl}?mode=mink#?corpus=${corpusId}`"
           target="_blank"
         >
@@ -76,13 +76,16 @@ const corpusId = useCorpusIdParam();
 const { exports, loadExports, downloadResult, getDownloadFilename } =
   useExports(corpusId);
 const { isDone } = useCorpusState(corpusId);
-const { install, isAnnotated, isInstalled } = useJob(corpusId);
+const { install, sparvStatus, korpStatus } = useJob(corpusId);
 
 const korpUrl = ensureTrailingSlash(import.meta.env.VITE_KORP_URL);
 
 const isInstallPending = ref(false);
 const canInstall = computed(
-  () => isAnnotated.value && !isInstalled.value && !isInstallPending.value
+  () =>
+    sparvStatus.value.isDone &&
+    !korpStatus.value.isRunning &&
+    !isInstallPending.value
 );
 
 async function korpInstall() {

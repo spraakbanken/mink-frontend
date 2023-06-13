@@ -1,18 +1,22 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}/job`">
     <div class="flex flex-wrap gap-4 justify-between items-baseline">
-      <div class="text-lg font-bold">
-        <JobStatusMessage :corpus-id="corpusId" />
+      <div class="text-lg">
+        <span v-if="jobStatus.current_process">
+          {{ $t(`job.process.${jobStatus.current_process}`) }}:
+        </span>
+        <JobStatusMessage :corpus-id="corpusId" class="font-bold" />
       </div>
+
       <div class="text-sm">
         <ActionButton
           v-if="!isJobRunning"
-          :variant="isReady ? 'primary' : null"
+          :variant="sparvStatus.isReady ? 'primary' : null"
           :disabled="!canRun"
           @click="canRun ? doRunJob() : null"
         >
           <icon :icon="['fas', 'gears']" class="mr-1" />
-          {{ !isAnnotated ? $t("job.run") : $t("job.rerun") }}
+          {{ !sparvStatus.isDone ? $t("job.run") : $t("job.rerun") }}
         </ActionButton>
 
         <ActionButton
@@ -45,10 +49,10 @@
             }}</TerminalOutput>
           </td>
         </tr>
-        <tr v-if="isJobError && jobStatus.sparv_output">
+        <tr v-if="isFailed && jobStatus.sparv_output">
           <th colspan="2">{{ $t("sparvOutput") }}</th>
         </tr>
-        <tr v-if="isJobError && jobStatus.sparv_output">
+        <tr v-if="isFailed && jobStatus.sparv_output">
           <td colspan="2">
             <TerminalOutput class="whitespace-pre-wrap">{{
               jobStatus.sparv_output
@@ -89,16 +93,13 @@ import ProgressBar from "./ProgressBar.vue";
 import JobStatusMessage from "./JobStatusMessage.vue";
 
 const corpusId = useCorpusIdParam();
-const { runJob, abortJob, jobStatus, isJobRunning, isJobError, isAnnotated } =
+const { runJob, abortJob, jobStatus, sparvStatus, isJobRunning } =
   useJob(corpusId);
-const { isReady, isFailed, isFailedInstall, isDone, isDoneInstall } = useCorpusState(corpusId);
+const { isFailed, isRunning, isRunningInstall, stateMessage } =
+  useCorpusState(corpusId);
 
 const isPending = ref(false);
-const canRun = computed(
-  () =>
-    !isPending.value &&
-    (isReady.value || isFailed.value || isFailedInstall.value || isDone.value || isDoneInstall.value)
-);
+const canRun = computed(() => !isPending.value && sparvStatus.value.isReady);
 
 async function doRunJob() {
   isPending.value = true;

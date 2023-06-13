@@ -16,9 +16,9 @@ corpus.state.needing_config: Configuration needed
 corpus.state.needing_meta: Metadata needed
 corpus.state.ready: Ready to run
 corpus.state.running: Annotating
-corpus.state.done: Done
+corpus.state.done: Done annotating
 corpus.state.running_install: Installing
-corpus.state.done_install: Done
+corpus.state.done_install: Done installing
 corpus.state.failed: Failed
 corpus.state.failed_install: Failed
 corpus.state.help.empty: There are no source texts in this corpus. Upload some text files below.
@@ -47,6 +47,8 @@ job.priority: Place in queue
 job.last_run_started: Last run started
 job.last_run_ended: Last run ended
 job.time_taken: Time taken
+job.process.sparv: Annotation
+job.process.korp: Installation to Korp
 source.deleting: Deleting text
 source.downloading: Downloading text
 source.downloading_plain: Downloading extracted text
@@ -71,6 +73,7 @@ error.message: There was an error
 expand.open: Show more
 expand.close: Show less
 show: Show
+select: Select...
 en: English
 sv: Swedish
 metadata: Metadata
@@ -100,18 +103,12 @@ message: Message
 sparvOutput: Sparv output
 download: Download
 download_export: Download full result
-job.status.none: Annotation not started
-job.status.syncing_corpus: Synchronizing corpus
-job.status.waiting: Waiting
-job.status.annotating: Annotating
-job.status.done_annotating: Annotation completed
-job.status.syncing_results: Synchronizing results
-job.status.done_syncing: Done
-job.status.error: Error
+job.status.done: Done
+job.status.none: Not started
 job.status.aborted: Aborted
-job.status.waiting_install: Waiting to be installed
-job.status.installing: Installing
-job.status.done_installing: Done
+job.status.error: Error
+job.status.waiting: Waiting
+job.status.running: Working
 login: Sign in
 login.required: This page requires you to authenticate.
 logout: Logout

@@ -164,32 +164,3 @@ class MinkApi {
 
 /** API client singleton instance. */
 export const api = new MinkApi();
-
-export const isStatusStarted = (status) => STATUSES[status]?.started;
-export const isStatusRunning = (status) => STATUSES[status]?.running;
-export const isStatusDone = (status) =>
-  ["done_syncing", "done_installing"].includes(status);
-export const isStatusAnnotated = (status) =>
-  ["done_syncing", "waiting_install", "installing", "done_installing"].includes(
-    status
-  );
-export const isStatusInstalled = (status) => status == "done_installing";
-export const isStatusError = (status) => status == "error";
-export const isStatusAnnotation = (status) => STATUSES[status]?.annotation;
-export const isStatusInstallation = (status) => STATUSES[status]?.installation;
-
-// prettier-ignore
-const STATUSES = {
-  none:             { started: false, running: false                     },
-  syncing_corpus:   { started:  true, running:  true, annotation:   true },
-  waiting:          { started:  true, running:  true, annotation:   true },
-  annotating:       { started:  true, running:  true, annotation:   true },
-  done_annotating:  { started:  true, running:  true, annotation:   true },
-  syncing_results:  { started:  true, running:  true, annotation:   true },
-  done_syncing:     { started:  true, running: false, annotation:   true },
-  error:            { started:  true, running: false                     },
-  aborted:          { started: false, running: false                     },
-  waiting_install:  { started:  true, running:  true, installation: true },
-  installing:       { started:  true, running:  true, installation: true },
-  done_installing:  { started:  true, running: false, installation: true },
-};
