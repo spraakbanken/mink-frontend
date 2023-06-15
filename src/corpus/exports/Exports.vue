@@ -10,7 +10,7 @@
         <ActionButton
           :variant="canInstall ? 'primary' : null"
           :disabled="!canInstall"
-          @click="isDone ? korpInstall() : null"
+          @click="canInstall ? korpInstall() : null"
         >
           {{
             !korpStatus.isDone
