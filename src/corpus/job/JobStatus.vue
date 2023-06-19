@@ -19,12 +19,7 @@
           {{ !sparvStatus.isDone ? $t("job.run") : $t("job.rerun") }}
         </ActionButton>
 
-        <ActionButton
-          v-if="isJobRunning"
-          variant="danger"
-          class="ml-2"
-          @click="abortJob"
-        >
+        <ActionButton v-else variant="danger" class="ml-2" @click="abortJob">
           {{ $t("job.abort") }}
         </ActionButton>
       </div>
@@ -95,11 +90,10 @@ import JobStatusMessage from "./JobStatusMessage.vue";
 const corpusId = useCorpusIdParam();
 const { runJob, abortJob, jobStatus, sparvStatus, isJobRunning } =
   useJob(corpusId);
-const { isFailed, isRunning, isRunningInstall, stateMessage } =
-  useCorpusState(corpusId);
+const { isFailed } = useCorpusState(corpusId);
 
 const isPending = ref(false);
-const canRun = computed(() => !isPending.value && sparvStatus.value.isReady);
+const canRun = computed(() => !isPending.value && !isJobRunning.value);
 
 async function doRunJob() {
   isPending.value = true;
