@@ -145,7 +145,7 @@ class MinkApi {
   }
 
   async installCorpus(corpusId) {
-    const response = await this.axios.put("install-corpus", null, {
+    const response = await this.axios.put("install-korp", null, {
       params: { corpus_id: corpusId },
     });
     return response.data;
