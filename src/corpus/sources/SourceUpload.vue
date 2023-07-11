@@ -32,7 +32,7 @@
               type="file"
               class="hidden"
               multiple
-              @change="(event) => handleUpload(event.target.files)"
+              @change="handleUpload"
             />
           </div>
         </div>
@@ -64,9 +64,10 @@ const { clear } = useMessenger();
 
 const fileHandler = props.fileHandler || uploadSources;
 
-function handleUpload(files) {
+function handleUpload(event) {
   clear();
-  fileHandler(files);
+  fileHandler(event.target.files);
+  event.target.value = null;
 }
 </script>
 
