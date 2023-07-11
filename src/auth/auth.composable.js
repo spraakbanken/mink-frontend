@@ -45,12 +45,14 @@ export function useAuth() {
     }
     if (!jwt.value) {
       router.push(`/login?destination=${route.fullPath}`);
+      return Promise.reject();
     }
     if (!canUserWrite.value) {
       router.push("/access-denied");
+      return Promise.reject();
     }
 
-    return canUserWrite.value;
+    return Promise.resolve();
   }
 
   /** Fetch JWT, store it and use it for API client. */

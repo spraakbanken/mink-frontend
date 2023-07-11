@@ -32,7 +32,7 @@
               type="file"
               class="hidden"
               multiple
-              @change="(event) => handleUpload(event.target.files)"
+              @change="handleFileInput"
             />
           </div>
         </div>
@@ -60,13 +60,21 @@ const props = defineProps({
 
 const corpusId = useCorpusIdParam();
 const { uploadSources } = useSources(corpusId);
-const { clear } = useMessenger();
+const { clear, alertError } = useMessenger();
 
-const fileHandler = props.fileHandler || uploadSources;
+async function defaultFileHandler(files) {
+  return uploadSources(files).catch(alertError);
+}
+const fileHandler = props.fileHandler || defaultFileHandler;
 
-function handleUpload(files) {
+async function handleFileInput(event) {
+  await handleUpload(event.target.files);
+  event.target.value = null;
+}
+
+async function handleUpload(files) {
   clear();
-  fileHandler(files);
+  await fileHandler(files);
 }
 </script>
 

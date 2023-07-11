@@ -39,12 +39,25 @@ export default function useCorpora() {
 
   async function createFromUpload(files) {
     const corpusId = await createCorpus().catch(alertError);
-    await Promise.all([
-      uploadSources(files, corpusId).catch(alertError),
-      uploadConfig(emptyConfig(), corpusId).catch(alertError),
+    if (!corpusId) return;
+
+    const results = await Promise.allSettled([
+      uploadSources(files, corpusId),
+      uploadConfig(emptyConfig(), corpusId),
     ]);
+
+    const rejectedResults = results.filter(
+      (result) => result.status != "fulfilled"
+    );
+    if (rejectedResults.length) {
+      // Display error message(s).
+      rejectedResults.forEach((result) => alertError(result.reason));
+      // Discard the empty corpus.
+      await deleteCorpus(corpusId).catch(alertError);
+      return;
+    }
+
     router.push(`/corpus/${corpusId}`);
-    return corpusId;
   }
 
   async function createFromConfig(name, description, format, textAnnotation) {

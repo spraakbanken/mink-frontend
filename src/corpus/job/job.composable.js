@@ -75,10 +75,10 @@ export default function useJob(corpusId) {
 
   const jobStatus = computed(() => corpus?.status);
   const sparvStatus = computed(
-    () => new JobStatus(jobStatus.value?.job_status.sparv)
+    () => new JobStatus(jobStatus.value?.job_status?.sparv)
   );
   const korpStatus = computed(
-    () => new JobStatus(jobStatus.value?.job_status.korp)
+    () => new JobStatus(jobStatus.value?.job_status?.korp)
   );
   const currentStatus = computed(
     () =>

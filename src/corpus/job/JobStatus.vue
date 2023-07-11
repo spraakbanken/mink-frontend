@@ -1,5 +1,5 @@
 <template>
-  <PendingContent :on="`corpus/${corpusId}/job`">
+  <PendingContent v-if="jobStatus" :on="`corpus/${corpusId}/job`">
     <div class="flex flex-wrap gap-4 justify-between items-baseline">
       <div class="text-lg">
         <span v-if="jobStatus.current_process">
@@ -90,10 +90,12 @@ import JobStatusMessage from "./JobStatusMessage.vue";
 const corpusId = useCorpusIdParam();
 const { runJob, abortJob, jobStatus, sparvStatus, isJobRunning } =
   useJob(corpusId);
-const { isFailed } = useCorpusState(corpusId);
+const { canBeReady, isFailed } = useCorpusState(corpusId);
 
 const isPending = ref(false);
-const canRun = computed(() => !isPending.value && !isJobRunning.value);
+const canRun = computed(
+  () => canBeReady.value && !isPending.value && !isJobRunning.value
+);
 
 async function doRunJob() {
   isPending.value = true;
