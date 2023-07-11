@@ -45,6 +45,7 @@ export function useAuth() {
     }
     if (!jwt.value) {
       router.push(`/login?destination=${route.fullPath}`);
+      return false;
     }
     if (!canUserWrite.value) {
       router.push("/access-denied");
