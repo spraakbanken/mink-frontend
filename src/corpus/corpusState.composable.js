@@ -45,6 +45,8 @@ export function useCorpusState(corpusId) {
   const isNeedingMeta = computed(
     () => corpusState.value == CorpusState.NEEDING_META
   );
+const canBeReady = computed(() => !isEmpty.value && !isNeedingConfig.value && !isNeedingMeta.value)
+
   const isFailed = computed(
     () =>
       corpusState.value == CorpusState.FAILED ||
@@ -68,6 +70,7 @@ export function useCorpusState(corpusId) {
     isEmpty,
     isNeedingConfig,
     isNeedingMeta,
+    canBeReady,
     isFailed,
     isReady,
     isRunning,
