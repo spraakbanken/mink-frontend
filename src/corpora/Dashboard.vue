@@ -58,6 +58,6 @@ const { loadCorpora, createFromUpload } = useCorpora();
 requireAuthentication().then(() => loadCorpora());
 
 async function createCorpusFromFiles(files) {
-  createFromUpload(files);
+  await createFromUpload(files);
 }
 </script>
