@@ -1,5 +1,5 @@
 <template>
-  <PendingContent :on="`corpus/${corpusId}/job`">
+  <PendingContent v-if="jobStatus" :on="`corpus/${corpusId}/job`">
     <div class="flex flex-wrap gap-4 justify-between items-baseline">
       <div class="text-lg">
         <span v-if="jobStatus.current_process">
