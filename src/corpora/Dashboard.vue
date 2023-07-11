@@ -55,7 +55,7 @@ const corpusStore = useCorpusStore();
 const { requireAuthentication, isAuthenticated } = useAuth();
 const { loadCorpora, createFromUpload } = useCorpora();
 
-requireAuthentication().then((ok) => ok && loadCorpora());
+requireAuthentication().then(() => loadCorpora());
 
 async function createCorpusFromFiles(files) {
   createFromUpload(files);
