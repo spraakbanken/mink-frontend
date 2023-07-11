@@ -60,9 +60,12 @@ const props = defineProps({
 
 const corpusId = useCorpusIdParam();
 const { uploadSources } = useSources(corpusId);
-const { clear } = useMessenger();
+const { clear, alertError } = useMessenger();
 
-const fileHandler = props.fileHandler || uploadSources;
+async function defaultFileHandler(files) {
+  return uploadSources(files).catch(alertError);
+}
+const fileHandler = props.fileHandler || defaultFileHandler;
 
 async function handleFileInput(event) {
   await handleUpload(event.target.files);
