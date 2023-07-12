@@ -53,6 +53,11 @@ job.process.korp: Installation i Korp
 source.deleting: Raderar text
 source.downloading: Laddar ner text
 source.downloading_plain: Laddar ner extraherad text
+source.upload: Lägg till filer
+source.upload.dnd: Dra och släpp filer hit, eller klicka här för att välja
+source.limit.file.recommended: Rekommenderad filstorlek
+source.limit.file.max: Högsta tillåtna filstorlek
+source.limit.upload.max: Största tillåtna uppladdning
 source.uploading: Laddar upp källfil | Laddar upp källfiler
 source.upload.drop.empty: Ingen fil släpptes. Dra-och-släpp kanske inte stöds på ditt system.
 source.list.loading: Hämtar textlista
@@ -92,8 +97,6 @@ uploaded: Uppladdad
 lastModify: Senast ändrad
 fileSize: Storlek
 delete: Radera
-addFile: Lägg till filer
-dragANDdrop: Dra och släpp filer hit, eller klicka här för att välja
 original: Original
 source_text_help: Under annoteringen extraheras ren text från filen, och kan sedan visas här.
 contact: Kontakt

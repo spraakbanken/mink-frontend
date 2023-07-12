@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { ensureTrailingSlash } from "@/util";
+import pick from "lodash/pick";
 
 /** Mink backend API client */
 class MinkApi {
@@ -18,6 +19,16 @@ class MinkApi {
     this.axios.defaults.headers["Authorization"] = jwt
       ? `Bearer ${jwt}`
       : undefined;
+  }
+
+  async getInfo() {
+    const response = await this.axios.get("info");
+    return pick(response.data, [
+      "status_codes",
+      "importer_modules",
+      "file_size_limits",
+      "recommended_file_size",
+    ]);
   }
 
   async listCorpora() {
