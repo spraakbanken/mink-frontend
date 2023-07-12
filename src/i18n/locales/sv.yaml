@@ -1,11 +1,11 @@
 home: Hem
-home.help.corpora: Här listas de korpusar du har skapat. Klicka på dem för att visa mer.
+home.help.corpora: Här listas de korpusar du har skapat. De är bara synliga för dig. Klicka på dem för att visa mer.
 home.help.corpora.none: >-
   Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en korpus: använd knappen "@:{'new_corpus'}" eller dra textfiler till uppladdningsrutan nedan.
 welcome: Välkommen, {name}!
 mydata: Mina data
 dashboard: Översikt
-corpus.create.help: Du kan alltid uppdatera de här uppgifterna senare.
+corpus.create.help: Korpusen kommer bara att vara synlig för dig. Du kan alltid uppdatera de här uppgifterna senare.
 corpus.creating: Skapar korpus
 corpus.configuring: Konfigurerar korpus
 corpus.delete: Radera korpus

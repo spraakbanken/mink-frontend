@@ -18,7 +18,7 @@ const logoutUrl = getLogoutUrl();
     <div class="flex flex-wrap gap-20 my-10">
       <div class="w-full flex flex-row-reverse flex-wrap items-center gap-20">
         <div class="w-full lg:flex-1 text-lg">
-          <p class="mb-2">
+          <p class="my-2">
             <strong>Språkbanken Text</strong> is a research infrastructure for
             language data. We create and maintain language data analysed with
             state-of-the-art language technology methods for researchers
@@ -26,13 +26,19 @@ const logoutUrl = getLogoutUrl();
             possible.
           </p>
 
-          <p class="mb-2">
+          <p class="my-2">
             <strong>Mink</strong> is our effort to put Språkbanken Text’s
             research infrastructure into the hands of the researchers. You can
             use Mink to apply our language technology methods on texts that you
             have collected yourself. The resulting data can be downloaded or
             made available through our research tools, such as Korp and Strix,
             behind login.
+          </p>
+
+          <p class="my-2">
+            Your source data and the results are private. Forthcoming versions
+            will include features for sharing datasets with teams and publishing
+            them publicly.
           </p>
 
           <div class="flex justify-center gap-4 p-4 text-center text-xl">
@@ -86,7 +92,9 @@ const logoutUrl = getLogoutUrl();
       <div
         class="flex flex-col 2xl:flex-row my-20 gap-20 md:w-4/5 lg:w-2/3 2xl:w-full mx-auto"
       >
-        <div class="flex flex-col md:flex-row 2xl:flex-col items-center gap-6">
+        <div
+          class="flex-1 flex flex-col md:flex-row 2xl:flex-col items-center gap-6"
+        >
           <HomeIllustration class="w-96 md:w-1/2 2xl:w-4/5">
             <img src="@/assets/sparv-screen.png" />
           </HomeIllustration>
@@ -106,7 +114,7 @@ const logoutUrl = getLogoutUrl();
         </div>
 
         <div
-          class="flex flex-col md:flex-row-reverse 2xl:flex-col items-center gap-6"
+          class="flex-1 flex flex-col md:flex-row-reverse 2xl:flex-col items-center gap-6"
         >
           <HomeIllustration class="w-96 md:w-1/2 2xl:w-4/5">
             <img src="@/assets/texts.png" />
@@ -119,7 +127,9 @@ const logoutUrl = getLogoutUrl();
           </Section>
         </div>
 
-        <div class="flex flex-col md:flex-row 2xl:flex-col items-center gap-6">
+        <div
+          class="flex-1 flex flex-col md:flex-row 2xl:flex-col items-center gap-6"
+        >
           <HomeIllustration class="w-96 md:w-1/2 2xl:w-4/5">
             <img src="@/assets/korp-screen.png" />
           </HomeIllustration>
@@ -136,7 +146,7 @@ const logoutUrl = getLogoutUrl();
         </div>
 
         <div
-          class="flex flex-col md:flex-row-reverse 2xl:flex-col items-center gap-6"
+          class="flex-1 flex flex-col md:flex-row-reverse 2xl:flex-col items-center gap-6"
         >
           <HomeIllustration class="w-96 md:w-1/2 2xl:w-5/6">
             <img src="@/assets/share.png" />
@@ -160,7 +170,7 @@ const logoutUrl = getLogoutUrl();
     <div>
       <p class="max-w-2xl mx-auto mb-2">
         <strong>Mink or no Mink?</strong>
-        Make sure to first get acquainted with any existing language data set
+        Make sure to first get acquainted with any existing language data sets
         related to your interests! Språkbanken's growing collection of research
         data can be browsed on the
         <a
