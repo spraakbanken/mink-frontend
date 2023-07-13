@@ -103,13 +103,17 @@ const logoutUrl = getLogoutUrl();
             title="Configurable language technology analysis"
             class="flex-1 my-0 text-center"
           >
-            Your language data are analyzed by our language technology platform
-            <a
-              href="https://spraakbanken.gu.se/en/tools/sparv"
-              title="About the Sparv tool"
-              ><strong>Sparv</strong></a
-            >
-            according to your settings.
+            <p>
+              Your language data are analyzed by our language technology
+              platform
+              <a
+                href="https://spraakbanken.gu.se/en/tools/sparv"
+                title="About the Sparv tool"
+              >
+                <strong>Sparv</strong>
+              </a>
+              according to your settings.
+            </p>
           </Section>
         </div>
 
@@ -121,9 +125,11 @@ const logoutUrl = getLogoutUrl();
           </HomeIllustration>
 
           <Section title="Deposit your text" class="flex-1 my-0 text-center">
-            Upload your word-processor documents, plain <em>txt</em> files or
-            XML data. When using XML, the output of the analyses is added to the
-            XML while keeping the input XML structure intact.
+            <p>
+              Upload your word-processor documents, PDFs, plain text files or
+              XML data. When using XML, the output of the analyses is added
+              while keeping the input structure intact.
+            </p>
           </Section>
         </div>
 
@@ -135,13 +141,19 @@ const logoutUrl = getLogoutUrl();
           </HomeIllustration>
 
           <Section title="Explore in Korp" class="flex-1 my-0 text-center">
-            Export the resulting data, for search and statistical analysis, to
-            <a
-              href="https://spraakbanken.gu.se/en/tools/korp"
-              title="About the Korp tool"
-              ><strong>Korp</strong></a
-            >
-            and Strix.
+            <p>
+              Export the resulting data, for search and statistical analysis, to
+              <a
+                href="https://spraakbanken.gu.se/en/tools/korp"
+                title="About the Korp tool"
+              >
+                <strong>Korp</strong>
+              </a>
+              and (soon)
+              <a href="https://spraakbanken.gu.se/strix/">
+                <strong>Strix</strong></a
+              >.
+            </p>
           </Section>
         </div>
 
@@ -156,11 +168,13 @@ const logoutUrl = getLogoutUrl();
             title="Share and collaborate"
             class="flex-1 my-0 text-center"
           >
-            Invite fellow researchers to view your data in our research tools,
-            protected by login. Contact us (sb-info@svenska.gu.se) when you want
-            to share your data with the research community.
-            <p class="mb-2 italic">
-              This feature is scheduled for an upcoming version of Mink.
+            <p>
+              Invite fellow researchers to view your data in our research tools,
+              protected by login. If you want to share your data with the
+              research community, contact us to discuss publication.
+            </p>
+            <p class="italic">
+              These features are scheduled for upcoming versions of Mink.
             </p>
           </Section>
         </div>
