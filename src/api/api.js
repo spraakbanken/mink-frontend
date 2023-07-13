@@ -5,12 +5,11 @@ import pick from "lodash/pick";
 /** Mink backend API client */
 class MinkApi {
   /** Creates the client instance */
-  constructor(jwt) {
+  constructor() {
     this.axios = Axios.create({
       baseURL: ensureTrailingSlash(import.meta.env.VITE_BACKEND_URL),
       withCredentials: true,
     });
-    this.setJwt(jwt);
   }
 
   /** Sets a JWT token which is then used to authenticate API requests. */
