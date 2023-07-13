@@ -8,8 +8,10 @@ api.getInfo().then((values) => Object.assign(info, values));
 export default function useMinkBackendInfo() {
   const hasInfo = computed(() => Object.keys(info).length);
 
-  const findInfo = (field, name) =>
-    info[field].data.find((item) => item.name == name).value;
+  const findInfo = (field, name) => {
+    console.log(info);
+    return info[field]?.data.find((item) => item.name == name).value;
+  };
 
   return {
     info,
