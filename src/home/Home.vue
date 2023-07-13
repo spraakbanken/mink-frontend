@@ -6,6 +6,7 @@ import LoginButton from "@/auth/LoginButton.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import HomeIllustration from "./HomeIllustration.vue";
 import HomeNews from "./HomeNews.vue";
+import i18n from "@/i18n/i18n";
 
 const { isAuthenticated, canUserWrite, payload } = useAuth();
 const logoutUrl = getLogoutUrl();
@@ -18,34 +19,19 @@ const logoutUrl = getLogoutUrl();
     <div class="flex flex-wrap gap-20 my-10">
       <div class="w-full flex flex-row-reverse flex-wrap items-center gap-20">
         <div class="w-full lg:flex-1 text-lg">
-          <p class="my-2">
-            <strong>Språkbanken Text</strong> is a research infrastructure for
-            language data. We create and maintain language data analysed with
-            state-of-the-art language technology methods for researchers
-            everywhere, and take pride in providing free and open access where
-            possible.
-          </p>
-
-          <p class="my-2">
-            <strong>Mink</strong> is our effort to put Språkbanken Text’s
-            research infrastructure into the hands of the researchers. You can
-            use Mink to apply our language technology methods on texts that you
-            have collected yourself. The resulting data can be downloaded or
-            made available through our research tools, such as Korp and Strix,
-            behind login.
-          </p>
-
-          <p class="my-2">
-            Your source data and the results are private. Forthcoming versions
-            will include features for sharing datasets with teams and publishing
-            them publicly.
-          </p>
+          <i18n-t keypath="home.hero.sb" tag="p" class="my-2">
+            <strong>Språkbanken Text</strong>
+          </i18n-t>
+          <i18n-t keypath="home.hero.mink" tag="p" class="my-2">
+            <strong>Mink</strong>
+          </i18n-t>
+          <i18n-t keypath="home.hero.privacy" tag="p" class="my-2" />
 
           <div class="flex justify-center gap-4 p-4 text-center text-xl">
             <div v-if="!isAuthenticated">
               <LoginButton />
               <div class="my-1 text-sm opacity-70">
-                Most university users can sign in directly.
+                {{ $t("login.help") }}
               </div>
             </div>
 
@@ -57,7 +43,7 @@ const logoutUrl = getLogoutUrl();
                 </ActionButton>
               </router-link>
               <div class="my-1 text-sm opacity-70">
-                Most non-university users need to set up an account first.
+                {{ $t("signup.help") }}
               </div>
             </div>
 
@@ -100,20 +86,16 @@ const logoutUrl = getLogoutUrl();
           </HomeIllustration>
 
           <Section
-            title="Configurable language technology analysis"
+            :title="$t('home.features.sparv.title')"
             class="flex-1 my-0 text-center"
           >
-            <p>
-              Your language data are analyzed by our language technology
-              platform
-              <a
-                href="https://spraakbanken.gu.se/en/tools/sparv"
-                title="About the Sparv tool"
-              >
-                <strong>Sparv</strong>
-              </a>
-              according to your settings.
-            </p>
+            <i18n-t keypath="home.features.sparv.body" tag="p">
+              <template #sparv>
+                <a href="https://spraakbanken.gu.se/en/tools/sparv">
+                  <strong>Sparv</strong>
+                </a>
+              </template>
+            </i18n-t>
           </Section>
         </div>
 
@@ -124,12 +106,11 @@ const logoutUrl = getLogoutUrl();
             <img src="@/assets/texts.png" />
           </HomeIllustration>
 
-          <Section title="Deposit your text" class="flex-1 my-0 text-center">
-            <p>
-              Upload your word-processor documents, PDFs, plain text files or
-              XML data. When using XML, the output of the analyses is added
-              while keeping the input structure intact.
-            </p>
+          <Section
+            :title="$t('home.features.upload.title')"
+            class="flex-1 my-0 text-center"
+          >
+            <i18n-t keypath="home.features.upload.body" tag="p" />
           </Section>
         </div>
 
@@ -140,20 +121,25 @@ const logoutUrl = getLogoutUrl();
             <img src="@/assets/korp-screen.png" />
           </HomeIllustration>
 
-          <Section title="Explore in Korp" class="flex-1 my-0 text-center">
-            <p>
-              Export the resulting data, for search and statistical analysis, to
-              <a
-                href="https://spraakbanken.gu.se/en/tools/korp"
-                title="About the Korp tool"
-              >
-                <strong>Korp</strong>
-              </a>
-              and (soon)
-              <a href="https://spraakbanken.gu.se/strix/">
-                <strong>Strix</strong></a
-              >.
-            </p>
+          <Section
+            :title="$t('home.features.explore.title')"
+            class="flex-1 my-0 text-center"
+          >
+            <i18n-t keypath="home.features.explore.body" tag="p">
+              <template #korp>
+                <a
+                  href="https://spraakbanken.gu.se/en/tools/korp"
+                  title="About the Korp tool"
+                >
+                  <strong>Korp</strong>
+                </a>
+              </template>
+              <template #strix>
+                <a href="https://spraakbanken.gu.se/strix/">
+                  <strong>Strix</strong></a
+                >
+              </template>
+            </i18n-t>
           </Section>
         </div>
 
@@ -165,17 +151,15 @@ const logoutUrl = getLogoutUrl();
           </HomeIllustration>
 
           <Section
-            title="Share and collaborate"
+            :title="$t('home.features.share.title')"
             class="flex-1 my-0 text-center"
           >
-            <p>
-              Invite fellow researchers to view your data in our research tools,
-              protected by login. If you want to share your data with the
-              research community, contact us to discuss publication.
-            </p>
-            <p class="italic">
-              These features are scheduled for upcoming versions of Mink.
-            </p>
+            <i18n-t keypath="home.features.share.body" tag="p" />
+            <i18n-t
+              keypath="home.features.share.upcoming"
+              tag="p"
+              class="italic"
+            />
           </Section>
         </div>
       </div>
@@ -183,23 +167,20 @@ const logoutUrl = getLogoutUrl();
 
     <div>
       <p class="max-w-2xl mx-auto mb-2">
-        <strong>Mink or no Mink?</strong>
-        Make sure to first get acquainted with any existing language data sets
-        related to your interests! Språkbanken's growing collection of research
-        data can be browsed on the
-        <a
-          href="https://spraakbanken.gu.se/en/resources"
-          title="Språkbanken Text: Language resources"
-          >Data</a
-        >
-        section of our website. At a larger scale, Språkbanken forms a part of
-        the CLARIN ERIC, whose collected assortment of data can be browsed in
-        the
-        <a
-          href="https://vlo.clarin.eu/"
-          title="CLARIN Virtual Language Observatory"
-          >Virtual Language Observatory</a
-        >.
+        <strong>{{ $t("home.otherdata.title") }}</strong>
+        {{ " " }}
+        <i18n-t keypath="home.otherdata.body">
+          <a
+            href="https://spraakbanken.gu.se/en/resources"
+            :title="$t('home.otherdata.sbdata.title')"
+            >Data</a
+          >
+          <a
+            href="https://vlo.clarin.eu/"
+            title="CLARIN Virtual Language Observatory"
+            >Virtual Language Observatory</a
+          >
+        </i18n-t>
       </p>
     </div>
   </div>
