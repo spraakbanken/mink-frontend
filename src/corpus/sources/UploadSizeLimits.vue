@@ -1,15 +1,9 @@
 <script setup>
-import useMinkBackend from "@/api/backend.composable";
+import useMinkBackendInfo from "@/api/backendInfo.composable";
 import useLocale from "@/i18n/locale.composable";
-import { computed } from "vue";
 
-const { info } = useMinkBackend();
+const { hasInfo, findInfo } = useMinkBackendInfo();
 const { filesize } = useLocale();
-
-const hasInfo = computed(() => Object.keys(info).length);
-
-const findInfo = (field, name) =>
-  info[field].data.find((item) => item.name == name).value;
 </script>
 
 <template>
