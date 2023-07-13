@@ -4,8 +4,8 @@
       <p>
         {{
           corpusStore.hasCorpora
-            ? $t("home.help.corpora")
-            : $t("home.help.corpora.none")
+            ? $t("dashboard.help.corpora")
+            : $t("dashboard.help.corpora.none")
         }}
       </p>
     </Help>

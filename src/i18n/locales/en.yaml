@@ -1,9 +1,9 @@
 home: Home
-home.help.corpora: These are the corpora that you have created. Only you can see them. Click them to view more details.
-home.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "@:{'new_corpus'}" button or drop text files into the upload field below.
 welcome: Welcome, {name}!
 mydata: My data
 dashboard: Dashboard
+dashboard.help.corpora: These are the corpora that you have created. Only you can see them. Click them to view more details.
+dashboard.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "@:{'new_corpus'}" button or drop text files into the upload field below.
 corpus.create.help: The corpus will be accessibly by you only. You can always change these values later.
 corpus.creating: Creating corpus
 corpus.configuring: Configuring corpus
