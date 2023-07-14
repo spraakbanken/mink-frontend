@@ -1,9 +1,9 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}/exports`">
     <Section :title="$t('result')">
-      <Help>
+      <HelpBox>
         <p>{{ $t("exports.help") }}</p>
-      </Help>
+      </HelpBox>
 
       <div class="my-4">
         {{ $t("download_export") }}:
@@ -49,7 +49,7 @@ import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import Section from "@/components/Section.vue";
 import useExports from "./exports.composable";
-import Help from "@/components/Help.vue";
+import HelpBox from "@/components/HelpBox.vue";
 import useLocale from "@/i18n/locale.composable";
 
 const corpusId = useCorpusIdParam();

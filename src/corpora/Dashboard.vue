@@ -1,6 +1,6 @@
 <template>
   <Section :title="$t('corpuses')">
-    <Help>
+    <HelpBox>
       <p>
         {{
           corpusStore.hasCorpora
@@ -8,7 +8,7 @@
             : $t("dashboard.help.corpora.none")
         }}
       </p>
-    </Help>
+    </HelpBox>
 
     <PendingContent
       v-if="isAuthenticated"
@@ -47,7 +47,7 @@ import PendingContent from "@/spin/PendingContent.vue";
 import CorpusButton from "./CorpusButton.vue";
 import { useAuth } from "@/auth/auth.composable";
 import SourceUpload from "@/corpus/sources/SourceUpload.vue";
-import Help from "@/components/Help.vue";
+import HelpBox from "@/components/HelpBox.vue";
 import useCorpora from "@/corpora/corpora.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 
