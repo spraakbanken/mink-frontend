@@ -14,33 +14,35 @@
           <p>{{ $t("config.metadata.help") }}</p>
         </HelpBox>
 
-        <div class="grid md:grid-cols-2 gap-x-4">
-          <FormKit type="group" name="name">
-            <TaggedInput v-for="lang in ['swe', 'eng']" :key="lang" :tag="lang">
+        <div class="grid md:grid-cols-2 gap-4">
+          <Panel
+            v-for="(lang2, lang3) of { swe: 'sv', eng: 'en' }"
+            :key="lang3"
+            :title="$t(lang2)"
+          >
+            <FormKit type="group" name="name">
               <FormKit
-                :name="lang"
+                :name="lang3"
                 :label="$t('name')"
-                :value="config.name?.[lang]"
+                :value="config.name?.[lang3]"
                 :help="$t('metadata.name.help')"
                 type="text"
                 input-class="w-72"
                 validation="required:trim"
               />
-            </TaggedInput>
-          </FormKit>
+            </FormKit>
 
-          <FormKit type="group" name="description">
-            <TaggedInput v-for="lang in ['swe', 'eng']" :key="lang" :tag="lang">
+            <FormKit type="group" name="description">
               <FormKit
-                :name="lang"
+                :name="lang3"
                 :label="$t('description')"
-                :value="config.description?.[lang]"
+                :value="config.description?.[lang3]"
                 :help="$t('metadata.description.help')"
                 type="textarea"
                 input-class="w-full h-20"
               />
-            </TaggedInput>
-          </FormKit>
+            </FormKit>
+          </Panel>
         </div>
 
         <FormKit
@@ -62,9 +64,9 @@ import { useRouter } from "vue-router";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import Section from "@/components/Section.vue";
 import useConfig from "./config.composable";
-import TaggedInput from "./TaggedInput.vue";
 import useMessenger from "@/message/messenger.composable";
 import HelpBox from "@/components/HelpBox.vue";
+import Panel from "@/components/Panel.vue";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
