@@ -4,8 +4,8 @@
       <p>
         {{
           corpusStore.hasCorpora
-            ? $t("home.help.corpora")
-            : $t("home.help.corpora.none")
+            ? $t("dashboard.help.corpora")
+            : $t("dashboard.help.corpora.none")
         }}
       </p>
     </Help>
@@ -55,7 +55,7 @@ const corpusStore = useCorpusStore();
 const { requireAuthentication, isAuthenticated } = useAuth();
 const { loadCorpora, createFromUpload } = useCorpora();
 
-requireAuthentication().then(() => loadCorpora());
+requireAuthentication(loadCorpora);
 
 async function createCorpusFromFiles(files) {
   await createFromUpload(files);

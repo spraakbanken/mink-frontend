@@ -1,11 +1,26 @@
 home: Hem
-home.help.corpora: Här listas de korpusar du har skapat. Klicka på dem för att visa mer.
-home.help.corpora.none: >-
-  Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en korpus: använd knappen "@:{'new_corpus'}" eller dra textfiler till uppladdningsrutan nedan.
+home.hero.sb: "{0} är en forskningsinfrastruktur för språkdata. Med språkteknologiska metoder i framkant skapar vi och underhåller språkresurser för forskare världen över, och vi använder fri och öppen access såvitt det går."
+home.hero.mink: "{0} är vår insats för att lägga infrastrukturen i forskarnas händer. Här kan du applicera våra språkteknologiska metoder på texter som du själv har samlat in. Resultaten kan du ladda ner eller föra in i våra forskningsverktyg såsom Korp och Strix bakom inloggning."
+home.hero.privacy: Dina källdata och resultaten är privata. I kommande versioner kommer du att kunna dela datamängder med kollegor och publicera dem för allmän åtkomst.
+home.features.sparv.title: Anpassningsbara analyser
+home.features.sparv.body: Dina texter analyseras av vår språkteknologiska plattform {sparv} med de inställningar du väljer.
+home.features.upload.title: Ladda upp din text
+home.features.upload.body: Ladda upp ordbehandlingsdokument, pdf:er, ren text eller XML. Om du använder XML läggs analyserna in utan att påverka strukturen från originalfilerna.
+home.features.explore.title: Utforska i Korp
+home.features.explore.body: Exportera den färdiga datan för sökning och statistiska undersökningar i {korp} och (snart) {strix}.
+home.features.share.title: Dela och samarbeta
+home.features.share.body: Bjud in andra forskare att ta del av dina data i våra forskningsverktyg, skyddat bakom inloggning. Om du vill göra dina data tillgängliga för alla kan du kontakta oss för att diskutera publicering.
+home.features.share.upcoming: De här funktionerna planeras till kommande Mink-versioner.
+home.otherdata.title: Mink eller icke Mink?
+home.otherdata.body: Tänk på att först undersöka andra språkdatamängder som eventuellt uppfyller dina behov! Språkbankens växande samling av forskningsdata kan du se på sidan {0} på vår webbplats. I ett större perspektiv bildar Språkbanken en del av CLARIN ERIC, vars samlade data kan utforskas i {1}.
+home.otherdata.sbdata.title: "Språkbanken Text: Language resources"
 welcome: Välkommen, {name}!
 mydata: Mina data
 dashboard: Översikt
-corpus.create.help: Du kan alltid uppdatera de här uppgifterna senare.
+dashboard.help.corpora: Här listas de korpusar du har skapat. De är bara synliga för dig. Klicka på dem för att visa mer.
+dashboard.help.corpora.none: >-
+  Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en korpus: använd knappen "@:{'new_corpus'}" eller dra textfiler till uppladdningsrutan nedan.
+corpus.create.help: Korpusen kommer bara att vara synlig för dig. Du kan alltid uppdatera de här uppgifterna senare.
 corpus.creating: Skapar korpus
 corpus.configuring: Konfigurerar korpus
 corpus.delete: Radera korpus
@@ -53,6 +68,13 @@ job.process.korp: Installation i Korp
 source.deleting: Raderar text
 source.downloading: Laddar ner text
 source.downloading_plain: Laddar ner extraherad text
+source.upload: Lägg till filer
+source.upload.dnd: Dra och släpp filer hit, eller klicka här för att välja
+source.limit.file.recommended: Rekommenderad filstorlek
+source.limit.file.max: Högsta tillåtna filstorlek
+source.limit.upload.max: Största tillåtna uppladdning
+source.limit.corpus.recommended: Rekommenderad korpusstorlek
+source.limit.corpus.max: Största tillåtna korpus
 source.uploading: Laddar upp källfil | Laddar upp källfiler
 source.upload.drop.empty: Ingen fil släpptes. Dra-och-släpp kanske inte stöds på ditt system.
 source.list.loading: Hämtar textlista
@@ -65,7 +87,7 @@ exports.korp.view: Visa i Korp
 exports.korp.help: Använd den här datan i Språkbankens korpusverktyg. Din data visas bara för dig, i ett särskilt Mink-läge.
 exports.download.help: Resultatet kan laddas ner som maskinläsbara filer för bearbetning i script eller speciella program.
 exports.downloading: Laddar ner analysresultat
-exports.help: Annoteringsprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen.
+exports.help: Annoteringsprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen. De lagras på servern tillsvidare, men ersätts med nya om du kör om annoteringen på nytt.
 user.settings: Inställningar
 user.settings.admin_mode: Aktivera administrationsläge
 user.admin_mode.warning: Administrationsläget är aktiverat. Var försiktig!
@@ -92,8 +114,6 @@ uploaded: Uppladdad
 lastModify: Senast ändrad
 fileSize: Storlek
 delete: Radera
-addFile: Lägg till filer
-dragANDdrop: Dra och släpp filer hit, eller klicka här för att välja
 original: Original
 source_text_help: Under annoteringen extraheras ren text från filen, och kan sedan visas här.
 contact: Kontakt
@@ -112,8 +132,10 @@ job.status.waiting: Väntar
 job.status.running: Arbetar
 login: Logga in
 login.required: Den här sidan kräver autentisering.
+login.help: De flesta med akademisk anknytning kan logga in direkt.
 logout: Logga ut
 signup: Skapa konto
+signup.help: Andra användare behöver i regel registrera ett konto.
 account: Konto
 enable: Aktivera
 disable: Avaktivera

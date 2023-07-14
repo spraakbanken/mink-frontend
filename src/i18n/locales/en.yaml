@@ -1,10 +1,25 @@
 home: Home
-home.help.corpora: These are the corpora that you have created. Click them to view more details.
-home.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "@:{'new_corpus'}" button or drop text files into the upload field below.
+home.hero.sb: "{0} is a research infrastructure for language data. We create and maintain language data analysed with state-of-the-art language technology methods for researchers everywhere, and take pride in providing free and open access where possible."
+home.hero.mink: "{0} is our effort to put Språkbanken Text’s research infrastructure into the hands of the researchers. You can use Mink to apply our language technology methods on texts that you have collected yourself. The resulting data can be downloaded or made available through our research tools, such as Korp and Strix, behind login."
+home.hero.privacy: Your source data and the results are private. Forthcoming versions will include features for sharing datasets with teams and publishing them publicly.
+home.features.sparv.title: Configurable language technology analysis
+home.features.sparv.body: Your language data are analyzed by our language technology platform {sparv} according to your settings.
+home.features.upload.title: Deposit your text
+home.features.upload.body: Upload your word-processor documents, PDFs, plain text files or XML data. When using XML, the output of the analyses is added while keeping the input structure intact.
+home.features.explore.title: Explore in Korp
+home.features.explore.body: Export the resulting data, for search and statistical analysis, to {korp} and (soon) {strix}.
+home.features.share.title: Share and collaborate
+home.features.share.body: Invite fellow researchers to view your data in our research tools, protected by login. If you want to share your data with the research community, contact us to discuss publication.
+home.features.share.upcoming: These features are scheduled for upcoming versions of Mink.
+home.otherdata.title: Mink or no Mink?
+home.otherdata.body: Make sure to first get acquainted with any existing language data sets related to your interests! Språkbanken's growing collection of research data can be browsed on the {0} section of our website. At a larger scale, Språkbanken forms a part of the CLARIN ERIC, whose collected assortment of data can be browsed in the {1}.
+home.otherdata.sbdata.title: "Språkbanken Text: Language resources"
 welcome: Welcome, {name}!
 mydata: My data
 dashboard: Dashboard
-corpus.create.help: You can always change these values later.
+dashboard.help.corpora: These are the corpora that you have created. Only you can see them. Click them to view more details.
+dashboard.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "@:{'new_corpus'}" button or drop text files into the upload field below.
+corpus.create.help: The corpus will be accessibly by you only. You can always change these values later.
 corpus.creating: Creating corpus
 corpus.configuring: Configuring corpus
 corpus.delete: Delete corpus
@@ -52,6 +67,13 @@ job.process.korp: Installation to Korp
 source.deleting: Deleting text
 source.downloading: Downloading text
 source.downloading_plain: Downloading extracted text
+source.upload: Add files
+source.upload.dnd: Drag and drop files here, or click here to choose
+source.limit.file.recommended: Recommended max file size
+source.limit.file.max: Maximum file size
+source.limit.upload.max: Maximum batch upload size
+source.limit.corpus.recommended: Recommended max corpus size
+source.limit.corpus.max: Maximum corpus size
 source.uploading: Uploading text file | Uploading text files
 source.upload.drop.empty: No file was dropped. Drag-and-drop may not be supported on your system.
 source.list.loading: Listing source texts
@@ -64,7 +86,7 @@ exports.korp.view: View in Korp
 exports.korp.help: Use this data in Språkbanken's corpus search tool. Your data will be available to you only, in a special Mink mode.
 exports.download.help: Results can be downloaded as machine-readable files for processing in scripts or other specialized software.
 exports.downloading: Downloading results
-exports.help: The annotation process yields export files for each input file. You can download each single export file or all of them in a bundle. The exact structure of the files depends on the input files as well as the configuration.
+exports.help: The annotation process yields export files for each input file. You can download each single export file or all of them in a bundle. The exact structure of the files depends on the input files as well as the configuration. They are stored on the server indefinitely, but re-running the annotation will replace them with new ones.
 user.settings: Settings
 user.settings.admin_mode: Enable administration mode
 user.admin_mode.warning: Administration mode is enabled. Please be careful!
@@ -91,8 +113,6 @@ uploaded: Uploaded
 lastModify: Last modified
 fileSize: Size
 delete: Delete
-addFile: Add files
-dragANDdrop: Drag and drop files here, or click here to choose
 original: Original
 source_text_help: Plain text is extracted during the annotation process, and can then be shown here.
 contact: Contact
@@ -111,8 +131,10 @@ job.status.waiting: Waiting
 job.status.running: Working
 login: Sign in
 login.required: This page requires you to authenticate.
+login.help: Most university users can sign in directly.
 logout: Logout
 signup: Create account
+signup.help: Most non-university users need to set up an account first.
 account: Account
 enable: Enable
 disable: Disable

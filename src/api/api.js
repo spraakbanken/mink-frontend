@@ -1,15 +1,15 @@
 import Axios from "axios";
 import { ensureTrailingSlash } from "@/util";
+import pick from "lodash/pick";
 
 /** Mink backend API client */
 class MinkApi {
   /** Creates the client instance */
-  constructor(jwt) {
+  constructor() {
     this.axios = Axios.create({
       baseURL: ensureTrailingSlash(import.meta.env.VITE_BACKEND_URL),
       withCredentials: true,
     });
-    this.setJwt(jwt);
   }
 
   /** Sets a JWT token which is then used to authenticate API requests. */
@@ -18,6 +18,16 @@ class MinkApi {
     this.axios.defaults.headers["Authorization"] = jwt
       ? `Bearer ${jwt}`
       : undefined;
+  }
+
+  async getInfo() {
+    const response = await this.axios.get("info");
+    return pick(response.data, [
+      "status_codes",
+      "importer_modules",
+      "file_size_limits",
+      "recommended_file_size",
+    ]);
   }
 
   async listCorpora() {

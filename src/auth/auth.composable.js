@@ -39,20 +39,19 @@ export function useAuth() {
   );
 
   /** If not authenticated, redirect to the login page. */
-  async function requireAuthentication() {
+  async function requireAuthentication(callback) {
     if (!jwt.value) {
       await refreshJwt();
     }
     if (!jwt.value) {
       router.push(`/login?destination=${route.fullPath}`);
-      return Promise.reject();
+      return;
     }
     if (!canUserWrite.value) {
       router.push("/access-denied");
-      return Promise.reject();
+      return;
     }
-
-    return Promise.resolve();
+    callback();
   }
 
   /** Fetch JWT, store it and use it for API client. */

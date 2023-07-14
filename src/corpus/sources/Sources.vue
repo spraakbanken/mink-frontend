@@ -1,6 +1,16 @@
 <template>
   <PendingContent :on="`corpus/${corpusId}/sources`">
-    <div>{{ $t("files", sources.length) }}, {{ filesize(totalSize) }}</div>
+    <div class="flex flex-wrap gap-x-8">
+      <span>{{ $t("files", sources.length) }}, {{ filesize(totalSize) }}</span>
+      <span v-if="hasInfo">
+        {{ $t("source.limit.corpus.recommended") }}:
+        {{ filesize(findInfo("recommended_file_size", "min_file_length")) }}
+      </span>
+      <span v-if="hasInfo">
+        {{ $t("source.limit.corpus.max") }}:
+        {{ filesize(findInfo("file_size_limits", "max_corpus_length")) }}
+      </span>
+    </div>
     <SourceUpload :variant="isEmpty ? 'primary' : null">
       <table v-if="sources.length" class="w-full mt-4 striped">
         <thead>
@@ -38,6 +48,7 @@
 
 <script setup>
 import { computed } from "vue";
+import useMinkBackendInfo from "@/api/backendInfo.composable";
 import useSources from "./sources.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import { useCorpusState } from "@/corpus/corpusState.composable";
@@ -49,6 +60,7 @@ import useLocale from "@/i18n/locale.composable";
 const corpusId = useCorpusIdParam();
 const { sources, deleteSource } = useSources(corpusId);
 const { isEmpty } = useCorpusState(corpusId);
+const { hasInfo, findInfo } = useMinkBackendInfo();
 const { filesize } = useLocale();
 
 const totalSize = computed(() =>

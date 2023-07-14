@@ -22,11 +22,14 @@
         class="border-dashed border-4"
       >
         <span class="absolute uppercase opacity-70 text-sm font-bold p-1">
-          {{ $t("addFile") }}
+          {{ $t("source.upload") }}
         </span>
         <div class="p-8">
-          <div class="flex flex-col justify-center items-center opacity-70">
-            {{ $t("dragANDdrop") }}
+          <div
+            class="flex flex-col justify-center items-center gap-2 opacity-70"
+          >
+            <div>{{ $t("source.upload.dnd") }}</div>
+
             <input
               id="file-input"
               type="file"
@@ -34,6 +37,8 @@
               multiple
               @change="handleFileInput"
             />
+
+            <UploadSizeLimits />
           </div>
         </div>
       </div>
@@ -46,6 +51,7 @@ import useMessenger from "@/message/messenger.composable";
 import useSources from "./sources.composable";
 import Filedrop from "./Filedrop.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import UploadSizeLimits from "./UploadSizeLimits.vue";
 
 const props = defineProps({
   fileHandler: {

@@ -1,6 +1,10 @@
+import { reactive } from "vue";
 import { useI18n } from "vue-i18n";
 import { api } from "./api";
 import useSpin from "@/spin/spin.composable";
+
+const info = reactive({});
+api.getInfo().then((values) => Object.assign(info, values));
 
 /** Wraps API endpoints with Spin. */
 export default function useMinkBackend() {
@@ -113,6 +117,7 @@ export default function useMinkBackend() {
     spin(api.adminModeOff(), "Disabling admin mode", "admin-mode");
 
   return {
+    info,
     loadCorpora,
     createCorpus,
     deleteCorpus,
