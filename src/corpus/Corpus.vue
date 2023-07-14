@@ -38,7 +38,7 @@ const { corpusName } = useConfig(corpusId);
 
 const corpus = corpusStore.corpora[corpusId];
 
-requireAuthentication().then(() => loadCorpus());
+requireAuthentication(loadCorpus);
 </script>
 
 <style></style>
