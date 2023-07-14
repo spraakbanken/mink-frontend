@@ -66,6 +66,13 @@ export function useCorpusState(corpusId) {
 
   const stateMessage = computed(() => t(`corpus.state.${corpusState.value}`));
   const stateHelp = computed(() => t(`corpus.state.help.${corpusState.value}`));
+  const isActionNeeded = computed(
+    () =>
+      isEmpty.value ||
+      isNeedingConfig.value ||
+      isNeedingMeta.value ||
+      isFailed.value
+  );
 
   return {
     corpusState,
@@ -81,6 +88,7 @@ export function useCorpusState(corpusId) {
     isDoneInstall,
     stateMessage,
     stateHelp,
+    isActionNeeded,
   };
 }
 
