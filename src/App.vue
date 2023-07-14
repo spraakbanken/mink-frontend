@@ -62,9 +62,7 @@
 <script setup>
 import { useTitle } from "@vueuse/core";
 import { api } from "@/api/api";
-import useSpin from "@/spin/spin.composable";
 import { useAuth } from "@/auth/auth.composable";
-import Spinner from "@/spin/Spinner.vue";
 import useLocale from "@/i18n/locale.composable";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
@@ -75,7 +73,6 @@ import logoSbxLight from "@/assets/sbx1r-light.svg";
 import usePageTitle from "./title.composable";
 import Breadcrumb from "./Breadcrumb.vue";
 
-const { messages } = useSpin();
 const { refreshJwt, payload } = useAuth();
 useLocale();
 const { title } = usePageTitle();
