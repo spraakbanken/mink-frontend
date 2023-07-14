@@ -34,7 +34,7 @@ export default function useSources(corpusId) {
     loadSources();
   }
 
-  /** Find file extensions present in source files. */
+  /** Find file extensions present in source files. Undefined if no files. */
   const extensions = computed(() =>
     uniq(
       corpusStore.corpora[corpusId]?.sources?.map((source) =>
