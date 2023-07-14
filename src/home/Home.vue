@@ -6,7 +6,6 @@ import LoginButton from "@/auth/LoginButton.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import HomeIllustration from "./HomeIllustration.vue";
 import HomeNews from "./HomeNews.vue";
-import i18n from "@/i18n/i18n";
 
 const { isAuthenticated, canUserWrite, payload } = useAuth();
 const logoutUrl = getLogoutUrl();
@@ -19,13 +18,18 @@ const logoutUrl = getLogoutUrl();
     <div class="flex flex-wrap gap-20 my-10">
       <div class="w-full flex flex-row-reverse flex-wrap items-center gap-20">
         <div class="w-full lg:flex-1 text-lg">
-          <i18n-t keypath="home.hero.sb" tag="p" class="my-2">
+          <i18n-t keypath="home.hero.sb" scope="global" tag="p" class="my-2">
             <strong>Språkbanken Text</strong>
           </i18n-t>
-          <i18n-t keypath="home.hero.mink" tag="p" class="my-2">
+          <i18n-t keypath="home.hero.mink" scope="global" tag="p" class="my-2">
             <strong>Mink</strong>
           </i18n-t>
-          <i18n-t keypath="home.hero.privacy" tag="p" class="my-2" />
+          <i18n-t
+            keypath="home.hero.privacy"
+            scope="global"
+            tag="p"
+            class="my-2"
+          />
 
           <div class="flex justify-center gap-4 p-4 text-center text-xl">
             <div v-if="!isAuthenticated">
@@ -89,7 +93,7 @@ const logoutUrl = getLogoutUrl();
             :title="$t('home.features.sparv.title')"
             class="flex-1 my-0 text-center"
           >
-            <i18n-t keypath="home.features.sparv.body" tag="p">
+            <i18n-t keypath="home.features.sparv.body" scope="global" tag="p">
               <template #sparv>
                 <a href="https://spraakbanken.gu.se/en/tools/sparv">
                   <strong>Sparv</strong>
@@ -110,7 +114,11 @@ const logoutUrl = getLogoutUrl();
             :title="$t('home.features.upload.title')"
             class="flex-1 my-0 text-center"
           >
-            <i18n-t keypath="home.features.upload.body" tag="p" />
+            <i18n-t
+              keypath="home.features.upload.body"
+              scope="global"
+              tag="p"
+            />
           </Section>
         </div>
 
@@ -125,7 +133,7 @@ const logoutUrl = getLogoutUrl();
             :title="$t('home.features.explore.title')"
             class="flex-1 my-0 text-center"
           >
-            <i18n-t keypath="home.features.explore.body" tag="p">
+            <i18n-t keypath="home.features.explore.body" scope="global" tag="p">
               <template #korp>
                 <a
                   href="https://spraakbanken.gu.se/en/tools/korp"
@@ -154,9 +162,10 @@ const logoutUrl = getLogoutUrl();
             :title="$t('home.features.share.title')"
             class="flex-1 my-0 text-center"
           >
-            <i18n-t keypath="home.features.share.body" tag="p" />
+            <i18n-t keypath="home.features.share.body" scope="global" tag="p" />
             <i18n-t
               keypath="home.features.share.upcoming"
+              scope="global"
               tag="p"
               class="italic"
             />
@@ -169,7 +178,7 @@ const logoutUrl = getLogoutUrl();
       <p class="max-w-2xl mx-auto mb-2">
         <strong>{{ $t("home.otherdata.title") }}</strong>
         {{ " " }}
-        <i18n-t keypath="home.otherdata.body">
+        <i18n-t keypath="home.otherdata.body" scope="global">
           <a
             href="https://spraakbanken.gu.se/en/resources"
             :title="$t('home.otherdata.sbdata.title')"
