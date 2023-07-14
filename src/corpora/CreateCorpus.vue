@@ -1,7 +1,7 @@
 <template>
   <PageTitle>{{ $t("new_corpus") }}</PageTitle>
   <Section>
-    <Help>{{ $t("corpus.create.help") }}</Help>
+    <HelpBox>{{ $t("corpus.create.help") }}</HelpBox>
 
     <PendingContent on="create">
       <FormKit
@@ -66,7 +66,7 @@ import PendingContent from "@/spin/PendingContent.vue";
 import { FORMATS_EXT } from "@/api/corpusConfig";
 import { useAuth } from "@/auth/auth.composable";
 import useCorpora from "./corpora.composable";
-import Help from "@/components/Help.vue";
+import HelpBox from "@/components/HelpBox.vue";
 
 const { requireAuthentication } = useAuth();
 const { createFromConfig } = useCorpora();

@@ -11,9 +11,9 @@
       @submit="submit"
     >
       <Section :title="$t('configuration')">
-        <Help>
+        <HelpBox>
           <p>{{ $t("config.configuration.help") }}</p>
-        </Help>
+        </HelpBox>
 
         <FormKit
           name="format"
@@ -93,7 +93,7 @@ import PendingContent from "@/spin/PendingContent.vue";
 import useConfig from "./config.composable";
 import { FORMATS_EXT, SEGMENTERS } from "@/api/corpusConfig";
 import useMessenger from "@/message/messenger.composable";
-import Help from "@/components/Help.vue";
+import HelpBox from "@/components/HelpBox.vue";
 import useSources from "../sources/sources.composable";
 
 const router = useRouter();

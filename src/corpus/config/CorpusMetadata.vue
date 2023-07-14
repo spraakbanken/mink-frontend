@@ -10,9 +10,9 @@
       @submit="submit"
     >
       <Section :title="$t('metadata')">
-        <Help>
+        <HelpBox>
           <p>{{ $t("config.metadata.help") }}</p>
-        </Help>
+        </HelpBox>
 
         <div class="grid md:grid-cols-2 gap-x-4">
           <FormKit type="group" name="name">
@@ -64,7 +64,7 @@ import Section from "@/components/Section.vue";
 import useConfig from "./config.composable";
 import TaggedInput from "./TaggedInput.vue";
 import useMessenger from "@/message/messenger.composable";
-import Help from "@/components/Help.vue";
+import HelpBox from "@/components/HelpBox.vue";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();

@@ -1,15 +1,15 @@
 <script setup>
 import useCorpusIdParam from "./corpusIdParam.composable";
 import { useCorpusState } from "./corpusState.composable";
-import Help from "@/components/Help.vue";
+import HelpBox from "@/components/HelpBox.vue";
 
 const corpusId = useCorpusIdParam();
 const { stateHelp } = useCorpusState(corpusId);
 </script>
 
 <template>
-  <Help v-if="stateHelp">
+  <HelpBox v-if="stateHelp">
     <icon :icon="['far', 'lightbulb']" class="mr-1" />
     {{ stateHelp }}
-  </Help>
+  </HelpBox>
 </template>
