@@ -3,7 +3,7 @@ import { useI18n } from "vue-i18n";
 import { useStorage } from "@vueuse/core";
 import { filesize } from "filesize";
 
-const storedLocale = useStorage("locale");
+const storedLocale = useStorage("locale", "");
 
 export default function useLocale() {
   const { locale } = useI18n();
