@@ -49,23 +49,23 @@ class JobStatus {
 
 export default function useJob(corpusId) {
   const corpusStore = useCorpusStore();
-  const corpus = corpusStore.corpora[corpusId];
+  const corpus = computed(() => corpusStore.corpora[corpusId]);
   const mink = useMinkBackend();
   const { alertError } = useMessenger();
 
   async function loadJob() {
-    corpus.status = await mink
+    corpus.value.status = await mink
       .loadJob(corpusId)
       .catch(() => ({}))
       .catch(alertError);
   }
 
   async function runJob() {
-    corpus.status = await mink.runJob(corpusId).catch(alertError);
+    corpus.value.status = await mink.runJob(corpusId).catch(alertError);
   }
 
   async function install() {
-    corpus.status = await mink.install(corpusId).catch(alertError);
+    corpus.value.status = await mink.install(corpusId).catch(alertError);
   }
 
   async function abortJob() {
@@ -73,7 +73,7 @@ export default function useJob(corpusId) {
     await loadJob();
   }
 
-  const jobStatus = computed(() => corpus?.status);
+  const jobStatus = computed(() => corpus.value?.status);
   const sparvStatus = computed(
     () => new JobStatus(jobStatus.value?.job_status?.sparv)
   );

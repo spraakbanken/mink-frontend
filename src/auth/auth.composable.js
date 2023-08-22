@@ -51,7 +51,7 @@ export function useAuth() {
       router.push("/access-denied");
       return;
     }
-    callback();
+    callback?.();
   }
 
   /** Fetch JWT, store it and use it for API client. */
