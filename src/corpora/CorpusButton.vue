@@ -11,6 +11,7 @@
 </template>
 
 <script setup>
+import useSpin from "@/spin/spin.composable";
 import useConfig from "@/corpus/config/config.composable";
 import PadButton from "@/components/PadButton.vue";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
@@ -28,8 +29,9 @@ const props = defineProps({
 const corpusStore = useCorpusStore();
 const { loadCorpus } = useCorpus(props.id);
 const { corpusName } = useConfig(props.id);
+const { spin } = useSpin();
 
 const corpus = corpusStore.corpora[props.id];
 
-loadCorpus();
+spin(loadCorpus(), null, "corpora");
 </script>

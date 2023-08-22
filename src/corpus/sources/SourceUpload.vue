@@ -35,6 +35,7 @@
               type="file"
               class="hidden"
               multiple
+              :accept="extensionsAccept"
               @change="handleFileInput"
             />
 
@@ -47,6 +48,7 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import useMessenger from "@/message/messenger.composable";
 import useSources from "./sources.composable";
 import Filedrop from "./Filedrop.vue";
@@ -65,8 +67,11 @@ const props = defineProps({
 });
 
 const corpusId = useCorpusIdParam();
-const { uploadSources } = useSources(corpusId);
+const { uploadSources, extensions } = useSources(corpusId);
 const { clear, alertError } = useMessenger();
+const extensionsAccept = computed(() =>
+  extensions.value?.map((ext) => `.${ext}`).join()
+);
 
 async function defaultFileHandler(files) {
   return uploadSources(files).catch(alertError);

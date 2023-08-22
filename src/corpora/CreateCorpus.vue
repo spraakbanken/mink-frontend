@@ -62,6 +62,7 @@ import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import PageTitle from "@/components/PageTitle.vue";
 import Section from "@/components/Section.vue";
+import useSpin from "@/spin/spin.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import { FORMATS_EXT } from "@/api/corpusConfig";
 import { useAuth } from "@/auth/auth.composable";
@@ -71,6 +72,7 @@ import HelpBox from "@/components/HelpBox.vue";
 const { requireAuthentication } = useAuth();
 const { createFromConfig } = useCorpora();
 const { t } = useI18n();
+const { spin } = useSpin();
 
 const formatOptions = computed(() =>
   FORMATS_EXT.reduce(
@@ -85,11 +87,12 @@ const formatOptions = computed(() =>
 requireAuthentication();
 
 async function submit(fields) {
-  await createFromConfig(
+  const createPromise = createFromConfig(
     fields.name,
     fields.description,
     fields.format,
     fields.textAnnotation
   );
+  await spin(createPromise, null, "create");
 }
 </script>

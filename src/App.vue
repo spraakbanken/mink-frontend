@@ -31,9 +31,12 @@
 
           <div class="mt-2 flex flex-wrap gap-4 items-baseline justify-end">
             <template v-if="payload">
-              <router-link to="/user" class="text-inherit pt-0.5">
+              <router-link v-if="canUserWrite" to="/user" class="text-inherit">
                 {{ payload.name }}
               </router-link>
+              <a v-else :href="getLogoutUrl()" class="text-inherit">
+                {{ $t("logout") }}
+              </a>
             </template>
 
             <LocaleSwitcher />
@@ -62,6 +65,7 @@
 <script setup>
 import { useTitle } from "@vueuse/core";
 import { api } from "@/api/api";
+import { getLogoutUrl } from "@/auth/auth";
 import { useAuth } from "@/auth/auth.composable";
 import useLocale from "@/i18n/locale.composable";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
@@ -73,7 +77,7 @@ import logoSbxLight from "@/assets/sbx1r-light.svg";
 import usePageTitle from "./title.composable";
 import Breadcrumb from "./Breadcrumb.vue";
 
-const { refreshJwt, payload } = useAuth();
+const { refreshJwt, payload, canUserWrite } = useAuth();
 useLocale();
 const { title } = usePageTitle();
 useTitle(title, { titleTemplate: "%s | Mink" });
