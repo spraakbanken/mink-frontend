@@ -23,9 +23,11 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import { useAuth } from "@/auth/auth.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 import useCorpusIdParam from "./corpusIdParam.composable";
+import useCorpora from "@/corpora/corpora.composable";
 import useCorpus from "./corpus.composable.js";
 import useConfig from "./config/config.composable";
 import PageTitle from "@/components/PageTitle.vue";
@@ -33,12 +35,16 @@ import PageTitle from "@/components/PageTitle.vue";
 const corpusStore = useCorpusStore();
 const { requireAuthentication, isAuthenticated } = useAuth();
 const corpusId = useCorpusIdParam();
+const { loadCorpora } = useCorpora();
 const { loadCorpus } = useCorpus(corpusId);
 const { corpusName } = useConfig(corpusId);
 
-const corpus = corpusStore.corpora[corpusId];
+const corpus = computed(() => corpusStore.corpora[corpusId]);
 
-requireAuthentication(loadCorpus);
+requireAuthentication(async () => {
+  await loadCorpora();
+  await loadCorpus();
+});
 </script>
 
 <style></style>

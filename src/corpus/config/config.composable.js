@@ -9,8 +9,8 @@ export default function useConfig(corpusId) {
   const { th } = useLocale();
   const mink = useMinkBackend();
 
-  const corpus = corpusStore.corpora[corpusId];
-  const config = computed(() => corpus?.config);
+  const corpus = computed(() => corpusStore.corpora[corpusId]);
+  const config = computed(() => corpus.value?.config);
   const corpusName = computed(() => th(config.value?.name));
 
   async function loadConfig() {
@@ -21,7 +21,7 @@ export default function useConfig(corpusId) {
         if (error.response?.status == 404) return emptyConfig();
         throw error;
       });
-    corpus.config = config;
+    corpus.value.config = config;
   }
 
   async function uploadConfig(config, corpusId_ = corpusId) {

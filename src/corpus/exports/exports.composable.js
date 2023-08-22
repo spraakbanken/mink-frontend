@@ -6,14 +6,14 @@ import useMessenger from "@/message/messenger.composable";
 
 export default function useExports(corpusId) {
   const corpusStore = useCorpusStore();
-  const corpus = corpusStore.corpora[corpusId];
-  const exports = computed(() => corpus?.exports);
+  const corpus = computed(() => corpusStore.corpora[corpusId]);
+  const exports = computed(() => corpus.value?.exports);
   const mink = useMinkBackend();
   const { alertError } = useMessenger();
 
   async function loadExports() {
     const exports = await mink.loadExports(corpusId).catch(alertError);
-    corpus.exports = exports;
+    corpus.value.exports = exports;
   }
 
   async function downloadResult() {
