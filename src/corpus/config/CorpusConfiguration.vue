@@ -119,7 +119,8 @@ const formatOptions = computed(() =>
 );
 
 const selectedFormat = computed(() => {
-  return extensions.value.includes(config.value.format)
+  return !extensions.value.length ||
+    extensions.value.includes(config.value.format)
     ? config.value.format
     : undefined;
 });
