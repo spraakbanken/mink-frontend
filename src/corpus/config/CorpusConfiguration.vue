@@ -27,6 +27,11 @@
           :help="$t('config.format.help')"
         />
 
+        <HelpBox v-if="value.format === 'pdf'" important>
+          <icon :icon="['far', 'lightbulb']" class="mr-1" />
+          {{ $t("config.format.note.pdf") }}
+        </HelpBox>
+
         <FormKit
           v-if="value.format === 'xml'"
           name="textAnnotation"

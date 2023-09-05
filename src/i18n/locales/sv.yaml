@@ -157,6 +157,7 @@ metadata.description.help: |
   som sammanfattar innehållet eller syftet för en potentiell användare.
 fileFormat: Källformat
 config.format.help: Ange vilket filformat källtexterna har. Alla filer måste ha det valda formatet.
+config.format.note.pdf: PDF-formatet är byggt främst för visuell presentation. Text som extraheras från PDF-filer kan ibland ge bristfälliga resultat. OCR-behandling av scannade dokument är (för närvarande) inget som Mink stödjer.
 config.text_annotation: Textelement
 config.text_annotation.help: Vilket XML-element i dina källfiler representerar bäst en enskild text? Eventuella annotationer på textnivå kommer att sättas på det elementet.
 segmenter_sentence: Existerande meningssegmentering
