@@ -112,6 +112,11 @@ class MinkApi {
     return response.data;
   }
 
+  async checkStatusAll() {
+    const response = await this.axios.get("check-status");
+    return response.data.jobs;
+  }
+
   async runSparv(corpusId) {
     const response = await this.axios
       .put("run-sparv", null, { params: { corpus_id: corpusId } })

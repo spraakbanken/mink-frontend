@@ -2,10 +2,9 @@ import { useAuth } from "@/auth/auth.composable";
 import useMinkBackend from "@/api/backend.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 import useMessenger from "@/message/messenger.composable";
+import useCorpora from "@/corpora/corpora.composable";
 import useConfig from "./config/config.composable";
 import useExports from "./exports/exports.composable";
-import useJob from "./job/job.composable";
-import useSources from "./sources/sources.composable";
 
 /** Let data be refreshed initially, but skip subsequent load calls. */
 const isCorpusFresh = {};
@@ -14,22 +13,19 @@ export default function useCorpus(corpusId) {
   const corpusStore = useCorpusStore();
   const { refreshJwt } = useAuth();
   const mink = useMinkBackend();
+  const { loadCorpora } = useCorpora();
   const { alertError } = useMessenger();
   const { loadConfig } = useConfig(corpusId);
   const { loadExports } = useExports(corpusId);
-  const { loadJob } = useJob(corpusId);
-  const { loadSources } = useSources(corpusId);
 
   async function loadCorpus(force = false) {
-    const isLoaded = Object.keys(corpusStore.corpora[corpusId]).length;
-    if (isLoaded && isCorpusFresh[corpusId] && !force) {
+    await loadCorpora();
+    if (isCorpusFresh[corpusId] && !force) {
       return;
     }
     await Promise.all([
       loadConfig(), //
       loadExports(),
-      loadJob(),
-      loadSources(),
     ]);
     isCorpusFresh[corpusId] = true;
   }
