@@ -14,7 +14,7 @@
 
         <div class="flex flex-wrap gap-2 justify-end">
           <ActionButton
-            :variant="canInstall ? 'primary' : null"
+            :variant="canInstall && !korpStatus.isDone ? 'primary' : null"
             :disabled="!canInstall"
             @click="canInstall ? korpInstall() : null"
           >
@@ -22,8 +22,7 @@
               $t(
                 !korpStatus.isDone
                   ? "exports.tools.install"
-                  : "exports.tools.reinstall",
-                { tool: "Korp" }
+                  : "exports.tools.reinstall"
               )
             }}
           </ActionButton>
@@ -34,11 +33,11 @@
             target="_blank"
           >
             <ActionButton variant="primary">
-              {{ $t("exports.tools.view", { tool: "Korp" }) }}
+              {{ $t("exports.tools.view") }}
             </ActionButton>
           </a>
           <ActionButton v-else disabled>
-            {{ $t("exports.tools.view", { tool: "Korp" }) }}
+            {{ $t("exports.tools.view") }}
           </ActionButton>
         </div>
       </div>
@@ -48,7 +47,7 @@
 
         <div class="flex flex-wrap gap-2 justify-end">
           <ActionButton
-            :variant="canInstall ? 'primary' : null"
+            :variant="canInstall && !strixStatus.isDone ? 'primary' : null"
             :disabled="!canInstall"
             @click="canInstall ? strixInstall() : null"
           >
@@ -56,8 +55,7 @@
               $t(
                 !strixStatus.isDone
                   ? "exports.tools.install"
-                  : "exports.tools.reinstall",
-                { tool: "Strix" }
+                  : "exports.tools.reinstall"
               )
             }}
           </ActionButton>
@@ -68,11 +66,11 @@
             target="_blank"
           >
             <ActionButton variant="primary">
-              {{ $t("exports.tools.view", { tool: "Strix" }) }}
+              {{ $t("exports.tools.view") }}
             </ActionButton>
           </a>
           <ActionButton v-else disabled>
-            {{ $t("exports.tools.view", { tool: "Strix" }) }}
+            {{ $t("exports.tools.view") }}
           </ActionButton>
         </div>
       </div>

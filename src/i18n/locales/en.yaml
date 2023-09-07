@@ -83,9 +83,9 @@ jwt.refreshing: Refreshing account
 tools: Explore
 exports.loading: Listing result files
 exports.tools.help: Use this data in Språkbanken's corpus tools. Your data will be available to you only, in a special Mink mode.
-exports.tools.install: Add to {tool}
-exports.tools.reinstall: Re-add to {tool}
-exports.tools.view: View in {tool}
+exports.tools.install: Install
+exports.tools.reinstall: Reinstall
+exports.tools.view: View
 exports.download.help: Results can be downloaded as machine-readable files for processing in scripts or other specialized software.
 exports.downloading: Downloading results
 exports.help: The annotation process yields export files for each input file. You can download each single export file or all of them in a bundle. The exact structure of the files depends on the input files as well as the configuration. They are stored on the server indefinitely, but re-running the annotation will replace them with new ones.
