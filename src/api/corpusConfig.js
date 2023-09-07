@@ -28,9 +28,6 @@ export async function makeConfig(id, options) {
       name,
       description,
     },
-    sbx_strix: {
-      modes: [{ name: "mink" }],
-    },
   };
 
   config.import = {
