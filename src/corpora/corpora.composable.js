@@ -18,12 +18,13 @@ export default function useCorpora() {
 
     // Store the pending request in module scope, so simultaneous calls will await the same promise.
     if (!loadPromise) {
-      const loadCorporaPromise = mink
+      loadPromise = mink
         .loadCorpora()
         .catch(alertError)
         .then((corpora) => corpusStore.setCorpusIds(corpora));
 
-      const loadJobsPromise = mink
+      // This request can take some time, so better not await it.
+      mink
         .loadJobs()
         .catch(alertError)
         .then((jobs) =>
@@ -32,8 +33,6 @@ export default function useCorpora() {
             corpusStore.corpora[job.corpus_id].sources = job.available_files;
           })
         );
-
-      loadPromise = Promise.all([loadCorporaPromise, loadJobsPromise]);
     }
 
     await loadPromise;
