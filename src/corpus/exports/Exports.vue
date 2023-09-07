@@ -62,7 +62,7 @@
 
           <a
             v-if="strixStatus.isDone"
-            :href="`${strixUrl}?mode=mink#?corpus=${corpusId}`"
+            :href="`${strixUrl}?filters=corpus_id:${corpusId}&modeSelected=mink`"
             target="_blank"
           >
             <ActionButton variant="primary">

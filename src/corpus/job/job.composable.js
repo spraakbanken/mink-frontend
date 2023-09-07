@@ -87,18 +87,19 @@ export default function useJob(corpusId) {
   const strixStatus = computed(
     () => new JobStatus(jobStatus.value?.job_status?.strix)
   );
-  const currentStatus = computed(
-    () =>
-      ({
-        sparv: sparvStatus.value,
-        korp: korpStatus.value,
-      }[jobStatus.value.current_process])
-  );
+  const currentStatus = computed(() => {
+    const process = jobStatus.value.current_process;
+    return new JobStatus(jobStatus.value?.job_status?.[process]);
+  });
 
   // "Running" if any job is waiting/running.
-  const isJobRunning = computed(
-    () => sparvStatus.value.isRunning || korpStatus.value.isRunning
-  );
+  const isJobRunning = computed(() => {
+    const statuses = jobStatus.value?.job_status;
+    if (!statuses) return false;
+    return Object.keys(statuses).some(
+      (process) => new JobStatus(statuses[process]).isRunning
+    );
+  });
 
   // "Done" if Sparv is done, and Korp is not running/error.
   const isJobDone = computed(

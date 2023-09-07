@@ -28,11 +28,11 @@ export function useCorpusState(corpusId) {
       return CorpusState.DONE;
     if (korpStatus.value.isError || strixStatus.value.isError)
       return CorpusState.FAILED_INSTALL;
-    if (korpStatus.value.isDone || korpStatus.value.isDone)
+    if (korpStatus.value.isDone || strixStatus.value.isDone)
       return CorpusState.DONE_INSTALL;
 
     throw RangeError(
-      `Invalid state, sparv=${sparvStatus.value}, korp=${korpStatus.value}, strix=${strixStatus.value}`
+      `Invalid state, sparv=${sparvStatus.value.state}, korp=${korpStatus.value.state}, strix=${strixStatus.value.state}`
     );
   });
 
