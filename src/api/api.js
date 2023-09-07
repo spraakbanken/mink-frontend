@@ -154,8 +154,15 @@ class MinkApi {
     return response.data;
   }
 
-  async installCorpus(corpusId) {
+  async installKorp(corpusId) {
     const response = await this.axios.put("install-korp", null, {
+      params: { corpus_id: corpusId },
+    });
+    return response.data;
+  }
+
+  async installStrix(corpusId) {
+    const response = await this.axios.put("install-strix", null, {
       params: { corpus_id: corpusId },
     });
     return response.data;

@@ -64,8 +64,12 @@ export default function useJob(corpusId) {
     corpus.value.status = await mink.runJob(corpusId).catch(alertError);
   }
 
-  async function install() {
-    corpus.value.status = await mink.install(corpusId).catch(alertError);
+  async function installKorp() {
+    corpus.value.status = await mink.installKorp(corpusId).catch(alertError);
+  }
+
+  async function installStrix() {
+    corpus.value.status = await mink.installStrix(corpusId).catch(alertError);
   }
 
   async function abortJob() {
@@ -79,6 +83,9 @@ export default function useJob(corpusId) {
   );
   const korpStatus = computed(
     () => new JobStatus(jobStatus.value?.job_status?.korp)
+  );
+  const strixStatus = computed(
+    () => new JobStatus(jobStatus.value?.job_status?.strix)
   );
   const currentStatus = computed(
     () =>
@@ -114,10 +121,12 @@ export default function useJob(corpusId) {
     loadJob,
     runJob,
     abortJob,
-    install,
+    installKorp,
+    installStrix,
     jobStatus,
     sparvStatus,
     korpStatus,
+    strixStatus,
     currentStatus,
     isJobRunning,
     isJobDone,
