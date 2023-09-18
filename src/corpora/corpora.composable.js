@@ -30,7 +30,6 @@ export default function useCorpora() {
         .then((jobs) =>
           jobs.forEach((job) => {
             corpusStore.corpora[job.corpus_id].status = job;
-            corpusStore.corpora[job.corpus_id].sources = job.available_files;
           })
         );
     }
