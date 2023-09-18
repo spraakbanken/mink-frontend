@@ -82,9 +82,16 @@ export default function useMinkBackend() {
   const runJob = (corpusId) =>
     spin(api.runSparv(corpusId), t("job.starting"), `corpus/${corpusId}/job`);
 
-  const install = (corpusId) =>
+  const installKorp = (corpusId) =>
     spin(
-      api.installCorpus(corpusId),
+      api.installKorp(corpusId),
+      t("job.installing"),
+      `corpus/${corpusId}/job`
+    );
+
+  const installStrix = (corpusId) =>
+    spin(
+      api.installStrix(corpusId),
       t("job.installing"),
       `corpus/${corpusId}/job`
     );
@@ -134,7 +141,8 @@ export default function useMinkBackend() {
     loadJob,
     loadJobs,
     runJob,
-    install,
+    installKorp,
+    installStrix,
     abortJob,
     loadExports,
     downloadExports,

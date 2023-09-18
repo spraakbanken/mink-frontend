@@ -6,8 +6,8 @@ home.features.sparv.title: Configurable language technology analysis
 home.features.sparv.body: Your language data are analyzed by our language technology platform {sparv} according to your settings.
 home.features.upload.title: Deposit your text
 home.features.upload.body: Upload your word-processor documents, PDFs, plain text files or XML data. When using XML, the output of the analyses is added while keeping the input structure intact.
-home.features.explore.title: Explore in Korp
-home.features.explore.body: Export the resulting data, for search and statistical analysis, to {korp} and (soon) {strix}.
+home.features.explore.title: Explore in Korp and Strix
+home.features.explore.body: Export the resulting data, for search and statistical analysis, to {korp} and {strix}.
 home.features.share.title: Share and collaborate
 home.features.share.body: Invite fellow researchers to view your data in our research tools, protected by login. If you want to share your data with the research community, contact us to discuss publication.
 home.features.share.upcoming: These features are scheduled for upcoming versions of Mink.
@@ -41,9 +41,9 @@ corpus.state.help.needing_config: This corpus needs you to change some settings 
 corpus.state.help.needing_meta: The corpus needs a name before it can be processed.
 corpus.state.help.ready: Ready for annotation. You can also supply more source texts or edit the configuration.
 corpus.state.help.running: Annotation is running in the background. Feel free to close the website, have some coffee and check back later!
-corpus.state.help.done: Annotation done! You can download the results or install it to Korp.
+corpus.state.help.done: Annotation done! You can download the results or install it to Korp or Strix.
 corpus.state.help.running_install: Installation is running in the background. Feel free to close the website, have some coffee and check back later!
-corpus.state.help.done_install: Successfully installed in Korp!
+corpus.state.help.done_install: Successfully installed!
 corpus.state.help.failed: An error occurred while processing your data. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.state.help.failed_install: An error occurred while installing your corpus. If you need help, please contact sb-info{'@'}svenska.gu.se
 config.metadata.help: Metadata is information about the data, meant for assessment by interested users (if you release the data), and for categorization in data repositories.
@@ -64,6 +64,7 @@ job.last_run_ended: Last run ended
 job.time_taken: Time taken
 job.process.sparv: Annotation
 job.process.korp: Installation to Korp
+job.process.strix: Installation to Strix
 source.deleting: Deleting text
 source.downloading: Downloading text
 source.downloading_plain: Downloading extracted text
@@ -79,11 +80,16 @@ source.upload.drop.empty: No file was dropped. Drag-and-drop may not be supporte
 source.list.loading: Listing source texts
 source.content: Content
 jwt.refreshing: Refreshing account
+tools: Explore
 exports.loading: Listing result files
-exports.korp.install: Add to Korp
-exports.korp.reinstall: Re-add to Korp
-exports.korp.view: View in Korp
-exports.korp.help: Use this data in Språkbanken's corpus search tool. Your data will be available to you only, in a special Mink mode.
+exports.tools.help: Use this data in Språkbanken's corpus tools. Your data will be available to you only, in a special Mink mode.
+exports.tools.help.korp: Korp offers concordance search, detailed queries, frequency statistics and more.
+exports.tools.help.korp.manual.url: https://spraakbanken.gu.se/en/tools/korp/user-manual
+exports.tools.help.korp.manual.text: User manual
+exports.tools.help.strix: In Strix, the enriched texts can be examined in full.
+exports.tools.install: Install
+exports.tools.reinstall: Reinstall
+exports.tools.view: View
 exports.download.help: Results can be downloaded as machine-readable files for processing in scripts or other specialized software.
 exports.downloading: Downloading results
 exports.help: The annotation process yields export files for each input file. You can download each single export file or all of them in a bundle. The exact structure of the files depends on the input files as well as the configuration. They are stored on the server indefinitely, but re-running the annotation will replace them with new ones.

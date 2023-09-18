@@ -64,6 +64,7 @@ export async function makeConfig(id, options) {
       "<text>:readability.ovix",
       "<text>:readability.nk",
       "<text>:misc.source",
+      "<text>:misc.id as _id",
     ],
   };
 
