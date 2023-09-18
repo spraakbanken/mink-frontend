@@ -49,10 +49,12 @@ import HelpBox from "@/components/HelpBox.vue";
 import useCorpora from "@/corpora/corpora.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 import useSpin from "@/spin/spin.composable";
+import useCreateCorpus from "@/corpus/createCorpus.composable";
 
 const corpusStore = useCorpusStore();
 const { requireAuthentication, isAuthenticated } = useAuth();
-const { loadCorpora, createFromUpload } = useCorpora();
+const { loadCorpora } = useCorpora();
+const { createFromUpload } = useCreateCorpus();
 const { spin } = useSpin();
 
 requireAuthentication(loadCorpora);

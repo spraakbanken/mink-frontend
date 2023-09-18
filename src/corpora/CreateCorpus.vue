@@ -71,11 +71,11 @@ import useSpin from "@/spin/spin.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import { FORMATS_EXT } from "@/api/corpusConfig";
 import { useAuth } from "@/auth/auth.composable";
-import useCorpora from "./corpora.composable";
+import useCreateCorpus from "@/corpus/createCorpus.composable";
 import HelpBox from "@/components/HelpBox.vue";
 
 const { requireAuthentication } = useAuth();
-const { createFromConfig } = useCorpora();
+const { createFromConfig } = useCreateCorpus();
 const { t } = useI18n();
 const { spin } = useSpin();
 
