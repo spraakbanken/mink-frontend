@@ -1,41 +1,30 @@
 <script setup>
-import { ref, watch } from "vue";
+import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
 import usePageTitle from "./title.composable";
 
 const route = useRoute();
 const { resolve } = useRouter();
 const { getTitle } = usePageTitle();
-const { t, locale } = useI18n();
-const crumbs = ref([]);
 
+/** Get a list of parent paths of the specified path, e.g. ["/", "/foo", "/foo/bar"] */
 function getInits(path) {
   const inits = [];
   for (const seg of path.split("/").filter(Boolean)) {
     const prevInit = inits[inits.length - 1] || "";
     inits.push(prevInit + "/" + seg);
   }
-  return inits;
+  return ["/", ...inits];
 }
 
-function updateCrumbs() {
-  const homeCrumb = { path: "/", title: t("home") };
-  crumbs.value = getInits(route.path)
+const crumbs = computed(() =>
+  getInits(route.path)
     .map((path) => {
       const route = resolve(path);
       return { path, title: getTitle(route), name: route.name };
     })
-    .filter((crumb) => crumb.name != "notfound" && crumb.title);
-  crumbs.value.unshift(homeCrumb);
-}
-
-watch(
-  () => route.path,
-  () => updateCrumbs()
+    .filter((crumb) => crumb.name != "notfound" && crumb.title)
 );
-
-watch(locale, () => updateCrumbs());
 </script>
 
 <template>

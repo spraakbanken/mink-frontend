@@ -8,7 +8,7 @@ import useConfig from "./config/config.composable";
 import useSources from "./sources/sources.composable";
 import useCorpus from "./corpus.composable";
 
-export default function useCorpora() {
+export default function useCreateCorpus() {
   const corpusStore = useCorpusStore();
   const router = useRouter();
   const { refreshJwt } = useAuth();

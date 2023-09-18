@@ -17,7 +17,13 @@ import AccessDenied from "@/auth/AccessDenied.vue";
 import NotFound from "@/NotFound.vue";
 
 const routes = [
-  { path: "/", component: Home },
+  {
+    path: "/",
+    component: Home,
+    meta: {
+      title: "home",
+    },
+  },
   {
     path: "/corpus",
     component: Dashboard,
