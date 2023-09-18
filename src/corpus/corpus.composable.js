@@ -5,6 +5,7 @@ import useMessenger from "@/message/messenger.composable";
 import useCorpora from "@/corpora/corpora.composable";
 import useConfig from "./config/config.composable";
 import useExports from "./exports/exports.composable";
+import useSources from "./sources/sources.composable";
 
 /** Let data be refreshed initially, but skip subsequent load calls. */
 const isCorpusFresh = {};
@@ -17,6 +18,7 @@ export default function useCorpus(corpusId) {
   const { alertError } = useMessenger();
   const { loadConfig } = useConfig(corpusId);
   const { loadExports } = useExports(corpusId);
+  const { loadSources } = useSources(corpusId);
 
   async function loadCorpus(force = false) {
     await loadCorpora();
@@ -26,6 +28,7 @@ export default function useCorpus(corpusId) {
     await Promise.all([
       loadConfig(), //
       loadExports(),
+      loadSources(),
     ]);
     isCorpusFresh[corpusId] = true;
   }
