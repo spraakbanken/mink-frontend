@@ -26,7 +26,7 @@ const jwt = ref(null);
 export function useAuth() {
   const router = useRouter();
   const route = useRoute();
-  const { spin } = useSpin();
+  const { spin, pending } = useSpin();
   const { t } = useI18n();
 
   const isAuthenticated = computed(() => !!jwt.value);
@@ -37,6 +37,7 @@ export function useAuth() {
   const canUserWrite = computed(
     () => payload.value && canWrite(payload.value, "other", "mink-app")
   );
+  const isAuthenticating = computed(() => pending.value.includes("jwt"));
 
   /** If not authenticated, redirect to the login page. */
   async function requireAuthentication(callback) {
@@ -80,6 +81,7 @@ export function useAuth() {
   }
 
   return {
+    isAuthenticating,
     isAuthenticated,
     payload,
     canUserAdmin,
