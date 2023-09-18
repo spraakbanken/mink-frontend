@@ -10,13 +10,24 @@
       <p>{{ $t("exports.tools.help") }}</p>
 
       <div class="flex gap-2 my-2 justify-between items-baseline">
-        <h3 class="text-lg uppercase">Korp</h3>
+        <div>
+          <h3 class="text-lg uppercase">Korp</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400">
+            {{ $t("exports.tools.help.korp") }}
+            <a :href="$t('exports.tools.help.korp.manual.url')">
+              <ActionButton class="slim mute">
+                {{ $t("exports.tools.help.korp.manual.text") }}
+              </ActionButton>
+            </a>
+          </p>
+        </div>
 
         <div class="flex flex-wrap gap-2 justify-end">
           <ActionButton
             :variant="canInstall && !korpStatus.isDone ? 'primary' : null"
             :disabled="!canInstall"
             @click="canInstall ? korpInstall() : null"
+            class="whitespace-nowrap"
           >
             {{
               $t(
@@ -43,13 +54,19 @@
       </div>
 
       <div class="flex gap-2 my-2 justify-between items-baseline">
-        <h3 class="text-lg uppercase">Strix</h3>
+        <div>
+          <h3 class="text-lg uppercase">Strix</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400">
+            {{ $t("exports.tools.help.strix") }}
+          </p>
+        </div>
 
         <div class="flex flex-wrap gap-2 justify-end">
           <ActionButton
             :variant="canInstall && !strixStatus.isDone ? 'primary' : null"
             :disabled="!canInstall"
             @click="canInstall ? strixInstall() : null"
+            class="whitespace-nowrap"
           >
             {{
               $t(

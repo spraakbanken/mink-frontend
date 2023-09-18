@@ -83,6 +83,10 @@ jwt.refreshing: Refreshing account
 tools: Explore
 exports.loading: Listing result files
 exports.tools.help: Use this data in Språkbanken's corpus tools. Your data will be available to you only, in a special Mink mode.
+exports.tools.help.korp: Korp offers concordance search, detailed queries, frequency statistics and more.
+exports.tools.help.korp.manual.url: https://spraakbanken.gu.se/en/tools/korp/user-manual
+exports.tools.help.korp.manual.text: User manual
+exports.tools.help.strix: In Strix, the enriched texts can be examined in full.
 exports.tools.install: Install
 exports.tools.reinstall: Reinstall
 exports.tools.view: View
