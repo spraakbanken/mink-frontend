@@ -64,8 +64,12 @@ export default function useJob(corpusId) {
     corpus.value.status = await mink.runJob(corpusId).catch(alertError);
   }
 
-  async function install() {
-    corpus.value.status = await mink.install(corpusId).catch(alertError);
+  async function installKorp() {
+    corpus.value.status = await mink.installKorp(corpusId).catch(alertError);
+  }
+
+  async function installStrix() {
+    corpus.value.status = await mink.installStrix(corpusId).catch(alertError);
   }
 
   async function abortJob() {
@@ -80,18 +84,22 @@ export default function useJob(corpusId) {
   const korpStatus = computed(
     () => new JobStatus(jobStatus.value?.job_status?.korp)
   );
-  const currentStatus = computed(
-    () =>
-      ({
-        sparv: sparvStatus.value,
-        korp: korpStatus.value,
-      }[jobStatus.value.current_process])
+  const strixStatus = computed(
+    () => new JobStatus(jobStatus.value?.job_status?.strix)
   );
+  const currentStatus = computed(() => {
+    const process = jobStatus.value.current_process;
+    return new JobStatus(jobStatus.value?.job_status?.[process]);
+  });
 
   // "Running" if any job is waiting/running.
-  const isJobRunning = computed(
-    () => sparvStatus.value.isRunning || korpStatus.value.isRunning
-  );
+  const isJobRunning = computed(() => {
+    const statuses = jobStatus.value?.job_status;
+    if (!statuses) return false;
+    return Object.keys(statuses).some(
+      (process) => new JobStatus(statuses[process]).isRunning
+    );
+  });
 
   // "Done" if Sparv is done, and Korp is not running/error.
   const isJobDone = computed(
@@ -114,10 +122,12 @@ export default function useJob(corpusId) {
     loadJob,
     runJob,
     abortJob,
-    install,
+    installKorp,
+    installStrix,
     jobStatus,
     sparvStatus,
     korpStatus,
+    strixStatus,
     currentStatus,
     isJobRunning,
     isJobDone,

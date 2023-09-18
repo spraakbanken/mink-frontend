@@ -1,101 +1,47 @@
-import { useRouter } from "vue-router";
-import { useAuth } from "@/auth/auth.composable";
-import { emptyConfig } from "@/api/corpusConfig";
-import useConfig from "@/corpus/config/config.composable";
-import useSources from "@/corpus/sources/sources.composable";
-import useMessenger from "@/message/messenger.composable";
 import useMinkBackend from "@/api/backend.composable";
-import useCorpus from "@/corpus/corpus.composable";
 import { useCorpusStore } from "@/store/corpus.store";
+import useMessenger from "@/message/messenger.composable";
 
 /** Let corpus list be refreshed initially, but skip subsequent load calls. */
 let isCorporaFresh = false;
 
+/** Use this module-scope variable for the request, so that simultaneous calls don't procude multiple requests. */
+let loadPromise = null;
+
 export default function useCorpora() {
   const corpusStore = useCorpusStore();
-  const router = useRouter();
-  const { refreshJwt } = useAuth();
-  const { deleteCorpus } = useCorpus();
-  const { uploadConfig } = useConfig();
-  const { uploadSources } = useSources();
-  const { alert, alertError } = useMessenger();
+  const { alertError } = useMessenger();
   const mink = useMinkBackend();
 
   async function loadCorpora(force = false) {
     if (isCorporaFresh && !force) return;
-    const corpora = await mink.loadCorpora().catch(alertError);
-    corpusStore.setCorpusIds(corpora);
+
+    // Store the pending request in module scope, so simultaneous calls will await the same promise.
+    if (!loadPromise) {
+      loadPromise = mink
+        .loadCorpora()
+        .catch(alertError)
+        .then((corpora) => corpusStore.setCorpusIds(corpora));
+
+      // This request can take some time, so better not await it.
+      mink
+        .loadJobs()
+        .catch(alertError)
+        .then((jobs) =>
+          jobs.forEach((job) => {
+            corpusStore.corpora[job.corpus_id].status = job;
+            corpusStore.corpora[job.corpus_id].sources = job.available_files;
+          })
+        );
+    }
+
+    await loadPromise;
+
+    loadPromise = null;
     isCorporaFresh = true;
-  }
-
-  async function createCorpus() {
-    const corpusId = await mink.createCorpus().catch(alertError);
-    // Have the new corpus included in further API calls.
-    await refreshJwt();
-    // Adding the new id to store may trigger API calls, so do it after updating the JWT.
-    corpusStore.corpora[corpusId] = corpusStore.corpora[corpusId] || {};
-    return corpusId;
-  }
-
-  async function createFromUpload(files) {
-    const corpusId = await createCorpus().catch(alertError);
-    if (!corpusId) return;
-
-    const results = await Promise.allSettled([
-      uploadSources(files, corpusId),
-      uploadConfig(emptyConfig(), corpusId),
-    ]);
-
-    const rejectedResults = results.filter(
-      (result) => result.status != "fulfilled"
-    );
-    if (rejectedResults.length) {
-      // Display error message(s).
-      rejectedResults.forEach((result) => alertError(result.reason));
-      // Discard the empty corpus.
-      await deleteCorpus(corpusId).catch(alertError);
-      return;
-    }
-
-    router.push(`/corpus/${corpusId}`);
-  }
-
-  async function createFromConfig(name, description, format, textAnnotation) {
-    const config = {
-      name: { swe: name, eng: name },
-      description: { swe: description, eng: description },
-      format,
-      textAnnotation,
-    };
-
-    // Create an empty corpus. If it fails, abort.
-    let corpusId;
-    try {
-      corpusId = await createCorpus().catch(alertError);
-    } catch (e) {
-      alertError(e);
-      return;
-    }
-
-    // Upload the basic config.
-    try {
-      await uploadConfig(config, corpusId);
-      // Show the created corpus.
-      router.push(`/corpus/${corpusId}`);
-      return corpusId;
-    } catch (e) {
-      // If creating the config fails, there's a TypeError.
-      if (e.name == "TypeError") alert(e.message, "error");
-      // Otherwise it's probably a backend error when saving.
-      else alertError(e);
-      // Discard the empty corpus.
-      await deleteCorpus(corpusId).catch(alertError);
-    }
   }
 
   return {
     loadCorpora,
-    createFromUpload,
-    createFromConfig,
   };
 }

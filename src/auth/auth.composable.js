@@ -31,11 +31,11 @@ export function useAuth() {
 
   const isAuthenticated = computed(() => !!jwt.value);
   const payload = computed(() => decodeJwt(jwt.value)?.payload);
-  const canUserAdmin = computed(() =>
-    canAdmin(payload.value, "other", "mink-app")
+  const canUserAdmin = computed(
+    () => payload.value && canAdmin(payload.value, "other", "mink-app")
   );
-  const canUserWrite = computed(() =>
-    canWrite(payload.value, "other", "mink-app")
+  const canUserWrite = computed(
+    () => payload.value && canWrite(payload.value, "other", "mink-app")
   );
 
   /** If not authenticated, redirect to the login page. */
@@ -66,7 +66,7 @@ export function useAuth() {
 
       // Schedule next request shortly before expiration time.
       clearTimeout(refreshTimer);
-      if (payload.value) {
+      if (payload.value && payload.value.exp) {
         const timeoutMs = (payload.value.exp - 10) * 1000 - Date.now();
         refreshTimer = setTimeout(refreshJwt, timeoutMs);
       }

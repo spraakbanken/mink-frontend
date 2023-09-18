@@ -9,7 +9,7 @@ import useSources from "./sources/sources.composable";
 export function useCorpusState(corpusId) {
   const { sources } = useSources(corpusId);
   const { config } = useConfig(corpusId);
-  const { sparvStatus, korpStatus } = useJob(corpusId);
+  const { sparvStatus, korpStatus, strixStatus } = useJob(corpusId);
   const { t } = useI18n();
 
   const corpusState = computed(() => {
@@ -19,14 +19,20 @@ export function useCorpusState(corpusId) {
 
     if (sparvStatus.value.isReady) return CorpusState.READY;
     if (sparvStatus.value.isError) return CorpusState.FAILED;
-    if (korpStatus.value.isRunning) return CorpusState.RUNNING_INSTALL;
+
+    // TODO Revise the CorpusState concept. The workflow can now branch in two. Ifs below questionable.
+    if (korpStatus.value.isRunning || strixStatus.value.isRunning)
+      return CorpusState.RUNNING_INSTALL;
     if (sparvStatus.value.isRunning) return CorpusState.RUNNING;
-    if (korpStatus.value.isReady) return CorpusState.DONE;
-    if (korpStatus.value.isError) return CorpusState.FAILED_INSTALL;
-    if (korpStatus.value.isDone) return CorpusState.DONE_INSTALL;
+    if (korpStatus.value.isReady && strixStatus.value.isReady)
+      return CorpusState.DONE;
+    if (korpStatus.value.isError || strixStatus.value.isError)
+      return CorpusState.FAILED_INSTALL;
+    if (korpStatus.value.isDone || strixStatus.value.isDone)
+      return CorpusState.DONE_INSTALL;
 
     throw RangeError(
-      `Invalid state, sparv=${sparvStatus.value}, korp=${korpStatus.value}`
+      `Invalid state, sparv=${sparvStatus.value.state}, korp=${korpStatus.value.state}, strix=${strixStatus.value.state}`
     );
   });
 

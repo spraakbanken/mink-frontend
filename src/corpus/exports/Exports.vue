@@ -4,33 +4,92 @@
     class="grid grid-cols-2 gap-4"
   >
     <div>
-      <h3 class="text-lg uppercase">Korp</h3>
-      <p>{{ $t("exports.korp.help") }}</p>
-      <div class="flex flex-wrap gap-2 mb-1">
-        <ActionButton
-          :variant="canInstall ? 'primary' : null"
-          :disabled="!canInstall"
-          @click="canInstall ? korpInstall() : null"
-        >
-          {{
-            !korpStatus.isDone
-              ? $t("exports.korp.install")
-              : $t("exports.korp.reinstall")
-          }}
-        </ActionButton>
+      <h3 class="text-lg uppercase">
+        {{ $t("tools") }}
+      </h3>
+      <p>{{ $t("exports.tools.help") }}</p>
 
-        <a
-          v-if="korpStatus.isDone"
-          :href="`${korpUrl}?mode=mink#?corpus=${corpusId}`"
-          target="_blank"
-        >
-          <ActionButton variant="primary">
-            {{ $t("exports.korp.view") }}
+      <div class="flex gap-2 my-2 justify-between items-baseline">
+        <div>
+          <h3 class="text-lg uppercase">Korp</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400">
+            {{ $t("exports.tools.help.korp") }}
+            <a :href="$t('exports.tools.help.korp.manual.url')">
+              <ActionButton class="slim mute">
+                {{ $t("exports.tools.help.korp.manual.text") }}
+              </ActionButton>
+            </a>
+          </p>
+        </div>
+
+        <div class="flex flex-wrap gap-2 justify-end">
+          <ActionButton
+            :variant="canInstall && !korpStatus.isDone ? 'primary' : null"
+            :disabled="!canInstall"
+            @click="canInstall ? korpInstall() : null"
+            class="whitespace-nowrap"
+          >
+            {{
+              $t(
+                !korpStatus.isDone
+                  ? "exports.tools.install"
+                  : "exports.tools.reinstall"
+              )
+            }}
           </ActionButton>
-        </a>
-        <ActionButton v-else disabled>
-          {{ $t("exports.korp.view") }}
-        </ActionButton>
+
+          <a
+            v-if="korpStatus.isDone"
+            :href="`${korpUrl}?mode=mink#?corpus=${corpusId}`"
+            target="_blank"
+          >
+            <ActionButton variant="primary">
+              {{ $t("exports.tools.view") }}
+            </ActionButton>
+          </a>
+          <ActionButton v-else disabled>
+            {{ $t("exports.tools.view") }}
+          </ActionButton>
+        </div>
+      </div>
+
+      <div class="flex gap-2 my-2 justify-between items-baseline">
+        <div>
+          <h3 class="text-lg uppercase">Strix</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400">
+            {{ $t("exports.tools.help.strix") }}
+          </p>
+        </div>
+
+        <div class="flex flex-wrap gap-2 justify-end">
+          <ActionButton
+            :variant="canInstall && !strixStatus.isDone ? 'primary' : null"
+            :disabled="!canInstall"
+            @click="canInstall ? strixInstall() : null"
+            class="whitespace-nowrap"
+          >
+            {{
+              $t(
+                !strixStatus.isDone
+                  ? "exports.tools.install"
+                  : "exports.tools.reinstall"
+              )
+            }}
+          </ActionButton>
+
+          <a
+            v-if="strixStatus.isDone"
+            :href="`${strixUrl}?filters=corpus_id:${corpusId}&modeSelected=mink`"
+            target="_blank"
+          >
+            <ActionButton variant="primary">
+              {{ $t("exports.tools.view") }}
+            </ActionButton>
+          </a>
+          <ActionButton v-else disabled>
+            {{ $t("exports.tools.view") }}
+          </ActionButton>
+        </div>
       </div>
     </div>
 
@@ -76,21 +135,30 @@ const corpusId = useCorpusIdParam();
 const { exports, loadExports, downloadResult, getDownloadFilename } =
   useExports(corpusId);
 const { isDone } = useCorpusState(corpusId);
-const { install, sparvStatus, korpStatus } = useJob(corpusId);
+const { installKorp, installStrix, sparvStatus, korpStatus, strixStatus } =
+  useJob(corpusId);
 
 const korpUrl = ensureTrailingSlash(import.meta.env.VITE_KORP_URL);
+const strixUrl = ensureTrailingSlash(import.meta.env.VITE_STRIX_URL);
 
 const isInstallPending = ref(false);
 const canInstall = computed(
   () =>
     sparvStatus.value.isDone &&
     !korpStatus.value.isRunning &&
+    !strixStatus.value.isRunning &&
     !isInstallPending.value
 );
 
 async function korpInstall() {
   isInstallPending.value = true;
-  await install();
+  await installKorp();
+  isInstallPending.value = false;
+}
+
+async function strixInstall() {
+  isInstallPending.value = true;
+  await installStrix();
   isInstallPending.value = false;
 }
 

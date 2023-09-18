@@ -27,6 +27,11 @@
           :help="$t('config.format.help')"
         />
 
+        <HelpBox v-if="value.format === 'pdf'" important>
+          <icon :icon="['far', 'lightbulb']" class="mr-1" />
+          {{ $t("config.format.note.pdf") }}
+        </HelpBox>
+
         <FormKit
           v-if="value.format === 'xml'"
           name="textAnnotation"
@@ -114,7 +119,8 @@ const formatOptions = computed(() =>
 );
 
 const selectedFormat = computed(() => {
-  return extensions.value.includes(config.value.format)
+  return !extensions.value.length ||
+    extensions.value.includes(config.value.format)
     ? config.value.format
     : undefined;
 });

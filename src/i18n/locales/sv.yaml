@@ -6,8 +6,8 @@ home.features.sparv.title: Anpassningsbara analyser
 home.features.sparv.body: Dina texter analyseras av vår språkteknologiska plattform {sparv} med de inställningar du väljer.
 home.features.upload.title: Ladda upp din text
 home.features.upload.body: Ladda upp ordbehandlingsdokument, pdf:er, ren text eller XML. Om du använder XML läggs analyserna in utan att påverka strukturen från originalfilerna.
-home.features.explore.title: Utforska i Korp
-home.features.explore.body: Exportera den färdiga datan för sökning och statistiska undersökningar i {korp} och (snart) {strix}.
+home.features.explore.title: Utforska i Korp och Strix
+home.features.explore.body: Exportera den färdiga datan för sökning och statistiska undersökningar i {korp} och {strix}.
 home.features.share.title: Dela och samarbeta
 home.features.share.body: Bjud in andra forskare att ta del av dina data i våra forskningsverktyg, skyddat bakom inloggning. Om du vill göra dina data tillgängliga för alla kan du kontakta oss för att diskutera publicering.
 home.features.share.upcoming: De här funktionerna planeras till kommande Mink-versioner.
@@ -42,9 +42,9 @@ corpus.state.help.needing_config: Den här korpusen behöver några inställning
 corpus.state.help.needing_meta: Korpusen behöver ha ett namn innan annoteringen kan startas.
 corpus.state.help.ready: Redo för annotering. Du kan också lägga till fler källtexter eller redigera konfigurationen.
 corpus.state.help.running: Annoteringen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
-corpus.state.help.done: Annotering klar! Du kan ladda ner resultaten eller installera datan i Korp.
+corpus.state.help.done: Annotering klar! Du kan ladda ner resultaten eller installera datan i Korp eller Strix.
 corpus.state.help.running_install: Installationen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
-corpus.state.help.done_install: Nu är datan installerad i Korp!
+corpus.state.help.done_install: Nu är datan installerad!
 corpus.state.help.failed: Ett fel uppstod under annotering. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 corpus.state.help.failed_install: Ett fel uppstod under installation. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 config.metadata.help: Metadata är information om datan, och fungerar som underlag för potentiellt intresserade användare (om du publicerar datan) samt underlättar katalogiseringen i datarepositorier.
@@ -65,6 +65,7 @@ job.last_run_ended: Senast avslutad
 job.time_taken: Tidsåtgång
 job.process.sparv: Annotering
 job.process.korp: Installation i Korp
+job.process.strix: Installation i Strix
 source.deleting: Raderar text
 source.downloading: Laddar ner text
 source.downloading_plain: Laddar ner extraherad text
@@ -80,11 +81,16 @@ source.upload.drop.empty: Ingen fil släpptes. Dra-och-släpp kanske inte stöds
 source.list.loading: Hämtar textlista
 source.content: Innehåll
 jwt.refreshing: Uppdaterar konto
+tools: Utforska
 exports.loading: Hämtar resultatlista
-exports.korp.install: Installera i Korp
-exports.korp.reinstall: Installera om i Korp
-exports.korp.view: Visa i Korp
-exports.korp.help: Använd den här datan i Språkbankens korpusverktyg. Din data visas bara för dig, i ett särskilt Mink-läge.
+exports.tools.help: Använd den här datan i Språkbankens korpusverktyg. Din data visas bara för dig, i ett särskilt Mink-läge.
+exports.tools.help.korp: I Korp finns konkordanssökning, detaljerade sökfrågor, frekvensstatistik m m.
+exports.tools.help.korp.manual.url: https://spraakbanken.gu.se/verktyg/korp/anvandarhandledning
+exports.tools.help.korp.manual.text: Användarhandledning
+exports.tools.help.strix: I Strix kan de berikade texterna undersökas i sin helhet.
+exports.tools.install: Installera
+exports.tools.reinstall: Installera om
+exports.tools.view: Visa
 exports.download.help: Resultatet kan laddas ner som maskinläsbara filer för bearbetning i script eller speciella program.
 exports.downloading: Laddar ner analysresultat
 exports.help: Annoteringsprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen. De lagras på servern tillsvidare, men ersätts med nya om du kör om annoteringen på nytt.
@@ -157,6 +163,7 @@ metadata.description.help: |
   som sammanfattar innehållet eller syftet för en potentiell användare.
 fileFormat: Källformat
 config.format.help: Ange vilket filformat källtexterna har. Alla filer måste ha det valda formatet.
+config.format.note.pdf: PDF-formatet är byggt främst för visuell presentation. Text som extraheras från PDF-filer kan ibland ge bristfälliga resultat. OCR-behandling av scannade dokument är (för närvarande) inget som Mink stödjer.
 config.text_annotation: Textelement
 config.text_annotation.help: Vilket XML-element i dina källfiler representerar bäst en enskild text? Eventuella annotationer på textnivå kommer att sättas på det elementet.
 segmenter_sentence: Existerande meningssegmentering

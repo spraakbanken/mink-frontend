@@ -15,14 +15,31 @@ export function decodeJwt(jwt) {
   };
 }
 
+export function assertValidPayload(payload) {
+  const isValid =
+    payload &&
+    payload.scope &&
+    payload.levels &&
+    payload.levels.ADMIN &&
+    payload.levels.WRITE &&
+    payload.levels.READ;
+
+  if (!isValid) {
+    throw new TypeError("Malformed jwt payload: " + JSON.stringify(payload));
+  }
+}
+
 export function canAdmin(payload, resourceType, resourceName) {
-  return payload?.scope[resourceType]?.[resourceName] >= payload?.levels.ADMIN;
+  assertValidPayload(payload);
+  return payload.scope[resourceType]?.[resourceName] >= payload.levels.ADMIN;
 }
 
 export function canWrite(payload, resourceType, resourceName) {
-  return payload?.scope[resourceType]?.[resourceName] >= payload?.levels.WRITE;
+  assertValidPayload(payload);
+  return payload.scope[resourceType]?.[resourceName] >= payload.levels.WRITE;
 }
 
 export function canRead(payload, resourceType, resourceName) {
-  return payload?.scope[resourceType]?.[resourceName] >= payload?.levels.READ;
+  assertValidPayload(payload);
+  return payload.scope[resourceType]?.[resourceName] >= payload.levels.READ;
 }
