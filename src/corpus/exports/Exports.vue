@@ -1,7 +1,7 @@
 <template>
   <PendingContent
     :on="`corpus/${corpusId}/exports`"
-    class="grid grid-cols-2 gap-4"
+    class="xl:grid grid-cols-2 gap-4"
   >
     <div>
       <h3 class="text-lg uppercase">
@@ -11,7 +11,7 @@
 
       <div class="flex gap-2 my-2 justify-between items-baseline">
         <div>
-          <h3 class="text-lg uppercase">Korp</h3>
+          <h3 class="font-bold">Korp</h3>
           <p class="text-sm text-gray-500 dark:text-gray-400">
             {{ $t("exports.tools.help.korp") }}
             <a :href="$t('exports.tools.help.korp.manual.url')">
@@ -55,7 +55,7 @@
 
       <div class="flex gap-2 my-2 justify-between items-baseline">
         <div>
-          <h3 class="text-lg uppercase">Strix</h3>
+          <h3 class="font-bold">Strix</h3>
           <p class="text-sm text-gray-500 dark:text-gray-400">
             {{ $t("exports.tools.help.strix") }}
           </p>

@@ -84,7 +84,7 @@ jwt.refreshing: Uppdaterar konto
 tools: Utforska
 exports.loading: Hämtar resultatlista
 exports.tools.help: Använd den här datan i Språkbankens korpusverktyg. Din data visas bara för dig, i ett särskilt Mink-läge.
-exports.tools.help.korp: I Korp finns konkordanssökning, detaljerade sökfrågor, frekvensstatistik m m.
+exports.tools.help.korp: I Korp finns konkordanssökning, detaljerade sökfrågor, frekvensstatistik med mera.
 exports.tools.help.korp.manual.url: https://spraakbanken.gu.se/verktyg/korp/anvandarhandledning
 exports.tools.help.korp.manual.text: Användarhandledning
 exports.tools.help.strix: I Strix kan de berikade texterna undersökas i sin helhet.
