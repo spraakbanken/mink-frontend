@@ -26,7 +26,7 @@ const jwt = ref(null);
 export function useAuth() {
   const router = useRouter();
   const route = useRoute();
-  const { spin } = useSpin();
+  const { spin, pending } = useSpin();
   const { t } = useI18n();
 
   const isAuthenticated = computed(() => !!jwt.value);
@@ -37,20 +37,22 @@ export function useAuth() {
   const canUserWrite = computed(
     () => payload.value && canWrite(payload.value, "other", "mink-app")
   );
+  /** Indicates whether a jwt request is currently loading. */
+  const isAuthenticating = computed(() => pending.value.includes("jwt"));
 
   /** If not authenticated, redirect to the login page. */
   async function requireAuthentication(callback) {
+    // First, ensure the jwt has been fetched.
     if (!jwt.value) {
       await refreshJwt();
     }
+    // If still no jwt, it means the user hasn't authenticated. Show our login page.
     if (!jwt.value) {
+      // By passing current page as destination param, the user will then be redirected back to where they first attempted to go.
       router.push(`/login?destination=${route.fullPath}`);
       return;
     }
-    if (!canUserWrite.value) {
-      router.push("/access-denied");
-      return;
-    }
+    // When calling `requireAuthentication`, you can optionally specify what should happen upon success.
     callback?.();
   }
 
@@ -80,6 +82,7 @@ export function useAuth() {
   }
 
   return {
+    isAuthenticating,
     isAuthenticated,
     payload,
     canUserAdmin,

@@ -16,6 +16,7 @@
       </div>
 
       <div class="flex items-center gap-4">
+        <Spinner v-if="isAuthenticating" />
         <div class="self-stretch flex flex-col">
           <div class="w-56 flex-1">
             <a href="https://spraakbanken.gu.se/">
@@ -74,12 +75,15 @@ import MessageToasts from "@/message/MessageToasts.vue";
 // Asset path transformation doesn't work in <source srcset> like in <img src>
 import logoMinkLight from "@/assets/mink-light.svg";
 import logoSbxLight from "@/assets/sbx1r-light.svg";
-import usePageTitle from "./title.composable";
-import Breadcrumb from "./Breadcrumb.vue";
+import usePageTitle from "@/page/title.composable";
+import Breadcrumb from "@/page/Breadcrumb.vue";
+import Spinner from "@/spin/Spinner.vue";
 
-const { refreshJwt, payload, canUserWrite } = useAuth();
+const { refreshJwt, isAuthenticating, payload, canUserWrite } = useAuth();
 useLocale();
+// The `title` ref is automatically updated from route meta.
 const { title } = usePageTitle();
+// Activate automatic updates of the HTML page title.
 useTitle(title, { titleTemplate: "%s | Mink" });
 
 // Fetch JWT and use it for all API requests.

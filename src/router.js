@@ -14,7 +14,7 @@ import CorpusDelete from "@/corpus/CorpusDelete.vue";
 import Source from "@/corpus/sources/Source.vue";
 import User from "@/user/User.vue";
 import AccessDenied from "@/auth/AccessDenied.vue";
-import NotFound from "@/NotFound.vue";
+import NotFound from "@/page/NotFound.vue";
 
 const routes = [
   {

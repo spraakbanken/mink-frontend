@@ -194,9 +194,7 @@ annotations.info: |
     <a href="https://spraakbanken.gu.se/sparv/#/user-manual/available-analyses">Sparv documentation</a>.
   </p>
 accessdenied: Access denied
-accessdenied.contact: If you want access to Mink, please contact sb-info{'@'}svenska.gu.se
+accessdenied.contact: If you have questions, or you want to report a bug, please contact sb-info{'@'}svenska.gu.se. Thank you!
 notfound: Page not found
 notfound.description: Something went wrong, and there is nothing to see at this address.
 notfound.contact: If you have questions, or you want to report a bug, please contact sb-info{'@'}svenska.gu.se. Thank you!
-devnotice.title: Under construction
-devnotice.description: Please note that Mink is still in an early development stage, and access to it is thus currently restricted to Språkbanken Text employees.
