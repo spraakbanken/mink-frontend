@@ -1,8 +1,8 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
-import useLocale from "./i18n/locale.composable";
-import { useCorpusStore } from "./store/corpus.store";
+import useLocale from "../i18n/locale.composable";
+import { useCorpusStore } from "../store/corpus.store";
 
 /** Handle the custom title/createTitle route meta options. */
 export default function usePageTitle() {
