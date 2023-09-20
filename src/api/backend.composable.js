@@ -76,6 +76,7 @@ export default function useMinkBackend() {
   const loadJob = (corpusId) =>
     spin(api.checkStatus(corpusId), t("job.loading"), `corpus/${corpusId}/job`);
 
+  /** Load job status data for those corpora that have any job info. */
   const loadJobs = () =>
     spin(api.checkStatusAll(), t("job.loading"), `corpora`);
 
