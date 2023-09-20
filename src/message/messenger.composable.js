@@ -6,7 +6,7 @@ import { useI18n } from "vue-i18n";
 const alerts = ref([]); // {key, message, status}[]
 
 export default function useMessenger() {
-  const { t } = useI18n();
+  const { t, locale, messages } = useI18n();
 
   function alert(message, status) {
     if (message && status !== "success") {
@@ -27,6 +27,14 @@ export default function useMessenger() {
     alerts.value = [];
   }
 
+  /** Check if there is a translation for the given key.
+   *
+   * This replaces `te` until https://github.com/kazupon/vue-i18n/issues/1521 is fixed.
+   */
+  function translationExists(key) {
+    return !!messages.value[locale.value][key];
+  }
+
   /** Display a backend error message. */
   const alertError = (err) => {
     if (err.response?.data) {
@@ -34,19 +42,18 @@ export default function useMessenger() {
 
       // Use the return code to find a message, if available.
       if (data.return_code) {
-        // Pass the response data as variables to be replaced for "{placeholders}" in the translation message.
         const translationKey = `api.code.${data.return_code}`;
-        const translatedMessage = t(translationKey, data);
-        // If there is no translation to this code, `t` will just return the key, so guard against that.
-        // TODO The `te` function should do this nicer, but it just seems to return `false`.
-        if (translatedMessage != translationKey) {
-          alert(translatedMessage, "error");
+        if (translationExists(translationKey)) {
+          // Pass the response data as variables to be replaced for "{placeholders}" in the translation message.
+          alert(t(translationKey, data), "error");
           return;
         }
+        console.warn(
+          `Translation missing for return code "${data.return_code}"`
+        );
       }
 
       // If return code missing, or translation not available, fall back to message in data.
-      console.warn(`Translation missing for return code "${data.return_code}"`);
       if (data.message) {
         alert(data.message, "error");
         return;
