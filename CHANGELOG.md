@@ -13,6 +13,12 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Changed
+
+- Adjusted the layout in the Tools panel
+- Updated screenshot for home page
+- Added an introduction with screenshot to the README
+
 ## [1.0.0] (2023-09-20)
 
 The frontend is now open to the general public! This version allows users to:
