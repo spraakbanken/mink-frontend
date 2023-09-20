@@ -198,3 +198,6 @@ accessdenied.contact: If you have questions, or you want to report a bug, please
 notfound: Page not found
 notfound.description: Something went wrong, and there is nothing to see at this address.
 notfound.contact: If you have questions, or you want to report a bug, please contact sb-info{'@'}svenska.gu.se. Thank you!
+
+api.code.failed_uploading_sources_invalid_file_extension: 'File "{file}" could not be uploaded, because it has an invalid filename extension. Please use any of the supported file formats: xml, txt, odt, docx, pdf.'
+api.code.failed_uploading_sources_incompatible_file_extension: File "{file}" could not be uploaded, because it has an different filename extension. Please check that the file format of this corpus is configured to agree with your source files.

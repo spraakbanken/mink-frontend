@@ -200,3 +200,6 @@ accessdenied.contact: Om du har frågor eller vill rapportera en bugg, kontakta 
 notfound: Sidan kan inte hittas
 notfound.description: Något har gått fel, och det finns ingenting att visa på den här adressen.
 notfound.contact: Om du har frågor eller vill rapportera en bugg, kontakta gärna sb-info{'@'}svenska.gu.se. Tack!
+
+api.code.failed_uploading_sources_invalid_file_extension: 'Filen "{file}" gick inte att ladda upp eftersom filändelsen är ogiltig. Använd något av de giltiga filformaten: xml, txt, odt, docx, pdf.'
+api.code.failed_uploading_sources_incompatible_file_extension: Filen "{file}" gick inte att ladda upp eftersom filändelsen är annorlunda. Kontrollera att korpusen är inställd på ett filformat som överensstämmer med dina textfiler.
