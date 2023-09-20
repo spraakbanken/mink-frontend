@@ -9,88 +9,25 @@
       </h3>
       <p>{{ $t("exports.tools.help") }}</p>
 
-      <div class="flex gap-2 my-2 justify-between items-baseline">
-        <div>
-          <h3 class="font-bold">Korp</h3>
-          <p class="text-sm text-gray-500 dark:text-gray-400">
-            {{ $t("exports.tools.help.korp") }}
-            <a :href="$t('exports.tools.help.korp.manual.url')">
-              <ActionButton class="slim mute">
-                {{ $t("exports.tools.help.korp.manual.text") }}
-              </ActionButton>
-            </a>
-          </p>
-        </div>
+      <ToolPanel
+        name="Korp"
+        :info="$t('exports.tools.help.korp')"
+        :link-url="$t('exports.tools.help.korp.manual.url')"
+        :link-text="$t('exports.tools.help.korp.manual.text')"
+        :can-install="canInstall"
+        :is-installed="korpStatus.isDone"
+        :show-url="`${korpUrl}?mode=mink#?corpus=${corpusId}`"
+        @install="korpInstall()"
+      />
 
-        <div class="flex flex-wrap gap-2 justify-end">
-          <ActionButton
-            :variant="canInstall && !korpStatus.isDone ? 'primary' : null"
-            :disabled="!canInstall"
-            @click="canInstall ? korpInstall() : null"
-            class="whitespace-nowrap"
-          >
-            {{
-              $t(
-                !korpStatus.isDone
-                  ? "exports.tools.install"
-                  : "exports.tools.reinstall"
-              )
-            }}
-          </ActionButton>
-
-          <a
-            v-if="korpStatus.isDone"
-            :href="`${korpUrl}?mode=mink#?corpus=${corpusId}`"
-            target="_blank"
-          >
-            <ActionButton variant="primary">
-              {{ $t("exports.tools.view") }}
-            </ActionButton>
-          </a>
-          <ActionButton v-else disabled>
-            {{ $t("exports.tools.view") }}
-          </ActionButton>
-        </div>
-      </div>
-
-      <div class="flex gap-2 my-2 justify-between items-baseline">
-        <div>
-          <h3 class="font-bold">Strix</h3>
-          <p class="text-sm text-gray-500 dark:text-gray-400">
-            {{ $t("exports.tools.help.strix") }}
-          </p>
-        </div>
-
-        <div class="flex flex-wrap gap-2 justify-end">
-          <ActionButton
-            :variant="canInstall && !strixStatus.isDone ? 'primary' : null"
-            :disabled="!canInstall"
-            @click="canInstall ? strixInstall() : null"
-            class="whitespace-nowrap"
-          >
-            {{
-              $t(
-                !strixStatus.isDone
-                  ? "exports.tools.install"
-                  : "exports.tools.reinstall"
-              )
-            }}
-          </ActionButton>
-
-          <a
-            v-if="strixStatus.isDone"
-            :href="`${strixUrl}?filters=corpus_id:${corpusId}&modeSelected=mink`"
-            target="_blank"
-          >
-            <ActionButton variant="primary">
-              {{ $t("exports.tools.view") }}
-            </ActionButton>
-          </a>
-          <ActionButton v-else disabled>
-            {{ $t("exports.tools.view") }}
-          </ActionButton>
-        </div>
-      </div>
+      <ToolPanel
+        name="Strix"
+        :info="$t('exports.tools.help.strix')"
+        :can-install="canInstall"
+        :is-installed="strixStatus.isDone"
+        :show-url="`${strixUrl}?filters=corpus_id:${corpusId}&modeSelected=mink`"
+        @install="strixInstall()"
+      />
     </div>
 
     <div>
@@ -128,8 +65,8 @@ import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import useExports from "./exports.composable";
 import { useCorpusState } from "@/corpus/corpusState.composable";
 import useJob from "@/corpus/job/job.composable";
-import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
+import ToolPanel from "./ToolPanel.vue";
 
 const corpusId = useCorpusIdParam();
 const { exports, loadExports, downloadResult, getDownloadFilename } =
