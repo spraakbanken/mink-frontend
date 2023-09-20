@@ -11,21 +11,16 @@
     </HelpBox>
 
     <PendingContent on="corpora" class="flex flex-wrap -mx-2">
-      <router-link
+      <CorpusButton
         v-for="(corpus, corpusId) of corpusStore.corpora"
+        :id="corpusId"
         :key="corpusId"
-        v-slot="{ navigate }"
-        :to="`/corpus/${corpusId}`"
-        custom
-      >
-        <CorpusButton :id="corpusId" @click="navigate" />
-      </router-link>
-      <router-link v-slot="{ navigate }" to="/corpus/new" custom>
-        <PadButton @click="navigate">
-          <icon :icon="['far', 'square-plus']" size="2xl" class="mb-2" />
-          {{ $t("new_corpus") }}
-        </PadButton>
-      </router-link>
+      />
+
+      <PadButton to="/corpus/new">
+        <icon :icon="['far', 'square-plus']" size="2xl" class="mb-2" />
+        {{ $t("new_corpus") }}
+      </PadButton>
     </PendingContent>
   </Section>
   <Section v-if="isAuthenticated" :title="$t('new_corpus')">
