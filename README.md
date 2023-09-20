@@ -1,6 +1,6 @@
 # Mink frontend
 
-Frontend for Mink.
+This code makes up the frontend for [spraakbanken.gu.se/mink](https://spraakbanken.gu.se/mink/)
 
 ## Architecture
 
@@ -23,7 +23,7 @@ Design patterns used:
 
 See:
 
-- [Min SB API documentation](https://ws.spraakbanken.gu.se/ws/mink/api-doc)
+- [Mink API documentation](https://ws.spraakbanken.gu.se/ws/mink/api-doc)
 - [Mink project board](https://github.com/orgs/spraakbanken/projects/10)
 
 ## Recommended IDE setup
