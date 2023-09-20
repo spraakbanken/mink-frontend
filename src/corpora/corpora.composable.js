@@ -13,30 +13,22 @@ export default function useCorpora() {
   const { alertError } = useMessenger();
   const mink = useMinkBackend();
 
+  async function doLoadCorpora() {
+    const corpusIds = await mink.loadCorpora().catch(alertError);
+    corpusStore.setCorpusIds(corpusIds);
+  }
+
   async function loadCorpora(force = false) {
+    // Skip if already loaded.
     if (isCorporaFresh && !force) return;
 
     // Store the pending request in module scope, so simultaneous calls will await the same promise.
-    if (!loadPromise) {
-      loadPromise = mink
-        .loadCorpora()
-        .catch(alertError)
-        .then((corpora) => corpusStore.setCorpusIds(corpora));
-
-      // This request can take some time, so better not await it.
-      mink
-        .loadJobs()
-        .catch(alertError)
-        .then((jobs) =>
-          jobs.forEach((job) => {
-            corpusStore.corpora[job.corpus_id].status = job;
-          })
-        );
-    }
-
+    if (!loadPromise) loadPromise = doLoadCorpora();
     await loadPromise;
 
+    // Unset the promise slot to allow any future, forced calls.
     loadPromise = null;
+    // Register that data has been loaded to skip future, unforced calls.
     isCorporaFresh = true;
   }
 
