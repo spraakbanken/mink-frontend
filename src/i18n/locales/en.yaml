@@ -198,3 +198,101 @@ accessdenied.contact: If you have questions, or you want to report a bug, please
 notfound: Page not found
 notfound.description: Something went wrong, and there is nothing to see at this address.
 notfound.contact: If you have questions, or you want to report a bug, please contact sb-info{'@'}svenska.gu.se. Thank you!
+
+# These correspond to the `return_code` param of backend responses
+api.code.missing_auth_token: Missing authorization token
+api.code.failed_authenticating: Failed to authenticate
+api.code.missing_login_credentials: No login credentials provided
+api.code.not_admin: Admin status could not be confirmed
+api.code.missing_corpus_id: No corpus id provided
+api.code.jwt_expired: The provided JWT has expired
+api.code.something_went_wrong: Something went wrong. If the problem persists, please contact sb-info{'@'}svenska.gu.se and report your issue.
+api.code.admin_on: Admin mode enabled. Please be careful!
+api.code.admin_off: Admin mode disabled
+api.code.failed_listing_sources: Failed to list source files for the corpus "{corpus_id}"
+api.code.no_sources_found: No source files found in the corpus "{corpus_id}"
+api.code.failed_getting_config: Failed to get config file for the corpus "{corpus_id}"
+api.code.failed_removing_exports: Failed to remove result files from the Sparv server. Cannot run Sparv safely.
+api.code.failed_queuing: Failed to queue the job
+api.code.failed_starting_job: Failed to start the job
+api.code.no_active_job: There is no active job for the corpus "{corpus_id}"
+api.code.corpus_not_found: The corpus "{corpus_id}" does not exist, or you do not have access to it
+api.code.failed_getting_job_status: Failed to get job status for the corpus "{corpus_id}"
+api.code.failed_getting_job_statuses: Failed to get job statuses
+api.code.listing_jobs: Listing jobs
+api.code.failed_aborting_job_syncing: Cannot abort the job while syncing files
+api.code.aborted_job: Successfully aborted the job
+api.code.no_running_job: No running job found for the corpus "{corpus_id}"
+api.code.failed_unqueuing_job: Failed to unqueue the job
+api.code.failed_aborting_job: Failed to abort the job
+api.code.removed_annotations: Annotations successfully removed
+api.code.failed_clearing_annotations_job_running: Cannot clear annotations while a job is running
+api.code.failed_clearing_annotations: Failed to clear annotations
+api.code.syncing_files: Files are being synced
+api.code.job_queued: Job has been queued
+api.code.job_aborted_by_user: Job was aborted by the user
+api.code.job_running: Job is running
+api.code.sparv_success_export_upload_fail: Sparv was run successfully, but the results could not be uploaded to the storage server
+api.code.sparv_success_start_sync: Sparv was run successfully. Starting to sync results.
+api.code.job_completed: Job was completed successfully
+api.code.processing_error: An error occurred during processing
+api.code.cannot_handle_status: Cannot handle this job status yet
+api.code.failed_listing_languages: Failed listing languages
+api.code.listing_languages: Listing languages available in Sparv
+api.code.failed_listing_sparv_exports: Failed listing export formats
+api.code.listing_sparv_exports: Listing export formats available in Sparv
+api.code.failed_creating_corpus: Failed to create the corpus
+api.code.created_corpus: The corpus was successfully created
+api.code.failed_creating_corpus_dir: Failed to create a new directory for the corpus
+api.code.listing_corpora: Listing available corpora
+api.code.failed_listing_korp_corpora: Failed to list corpora installed in Korp
+api.code.listing_korp_corpora: Listing corpora installed in Korp
+api.code.failed_removing_korp: Failed to remove the corpus from Korp
+api.code.failed_removing_strix: Failed to remove the corpus from Strix
+api.code.failed_removing_storage: Failed to remove the corpus from storage
+api.code.failed_removing_job: Failed to remove job
+api.code.failed_removing_auth: Failed to remove the corpus from the authentication system
+api.code.removed_corpus: The corpus was successfully removed
+api.code.missing_sources_upload: No corpus files provided for upload
+api.code.failed_uploading_sources_corpus_size: Failed to upload source files, because the total size would exceed the maximum limit of {max_corpus_size} MB
+api.code.failed_uploading_sources: Failed to upload source files
+api.code.failed_uploading_sources_file_size: Some files could not be uploaded, because they exceed the maximum file size of {max_file_size} MB
+api.code.failed_uploading_sources_invalid_file_extension: 'File "{file}" could not be uploaded, because it has an invalid filename extension. Please use any of the supported file formats: xml, txt, odt, docx, pdf.'
+api.code.failed_uploading_sources_invalid_xml: File "{file}" could not be uploaded, because it contains invalid XML.
+api.code.failed_uploading_sources_incompatible_file_extension: File "{file}" could not be uploaded, because it has an different filename extension. Please check that the file format of this corpus is configured to agree with your source files.
+api.code.uploaded_sources: The source files were successfully added
+api.code.data_too_large: Request data too large (max {max_content_length} MB per upload)
+api.code.listing_sources: Listing current source files for the corpus "{corpus_id}"
+api.code.missing_sources_remove: No files provided for removal
+api.code.failed_removing_some_sources: Failed to remove some source files
+api.code.failed_removing_sources: Failed to remove source files
+api.code.removed_sources: Source files were successfully removed
+api.code.missing_sources_download: There are no source files to download
+api.code.failed_downloading_sources: The source files could not be downloaded
+api.code.source_not_found: The source file does not exist
+api.code.failed_downloading_file: The file could not be downloaded
+api.code.wrong_config_format: The config file has to be in the YAML format
+api.code.uploaded_config: Config file was successfully uploaded
+api.code.incompatible_config_importer: The importer specified in your corpus config file is not compatible with your source files
+api.code.failed_uploading_config: Failed to upload config file
+api.code.missing_config_upload: No config file provided for upload
+api.code.config_not_found: No config file found for the corpus "{corpus_id}"
+api.code.failed_downloading_config: Failed to download config file for the corpus "{corpus_id}"
+api.code.listing_exports: Listing current result files for the corpus "{corpus_id}"
+api.code.failed_listing_exports: Failed to list result files for the corpus "{corpus_id}"
+api.code.no_exports_available: There are currently no results available for the corpus "{corpus_id}"
+api.code.failed_downloading_exports: Failed to download results
+api.code.export_folder_not_found: The folder you are trying to download does not exist
+api.code.failed_downloading_export_folder: The results folder could not be downloaded
+api.code.export_not_found: The file you are trying to download does not exist
+api.code.failed_removing_exports_storage: Failed to remove result files from storage server
+api.code.failed_removing_exports_sparv: Failed to remove result files from the Sparv server
+api.code.removed_exports: Result files for the corpus "{corpus_id}" were successfully removed
+api.code.no_source_texts_run_sparv: There are currently no source texts for the corpus "{corpus_id}". You must run Sparv before you can view source texts.
+api.code.source_text_not_found: The source text for this file does not exist
+api.code.failed_downloading_source_text: The source text could not be downloaded
+api.code.failed_getting_job: Failed to get the job of the corpus "{corpus_id}"
+api.code.input_changed: There have been changes to the corpus "{corpus_id}" since the last run
+api.code.input_not_changed: There are no changes to the corpus "{corpus_id}" since the last run
+api.code.corpus_not_run: No changes to the corpus "{corpus_id}" could be identified, as it has not yet been run
+api.code.failed_checking_changes: Failed to check changes for the corpus "{corpus_id}"
