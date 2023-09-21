@@ -13,10 +13,15 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
-### Changed
+### Fixed
 
 - Adjusted the layout in the Tools panel
 - Updated screenshot for home page
+- Corpus buttons on Dashboard are now real links, can be opened in new tab
+
+### Added
+
+- Messages from the backend are now kept in frontend code, including Swedish translations
 - Added an introduction with screenshot to the README
 
 ## [1.0.0] (2023-09-20)
