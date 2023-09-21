@@ -2,13 +2,11 @@ import { ref } from "vue";
 import remove from "lodash/remove";
 import { randomString } from "@/util";
 import { useI18n } from "vue-i18n";
-import { useRoute } from "vue-router";
 
 const alerts = ref([]); // {key, message, status}[]
 
 export default function useMessenger() {
   const { t, locale, messages } = useI18n();
-  const route = useRoute();
 
   function alert(message, status) {
     if (message && status !== "success") {
@@ -46,13 +44,8 @@ export default function useMessenger() {
       if (data.return_code) {
         const translationKey = `api.code.${data.return_code}`;
         if (translationExists(translationKey)) {
-          const messageVariables = { ...data };
-          // Use route param, if present, as fallback for the corpus id.
-          if (!messageVariables.corpus_id && route.params.corpusId) {
-            messageVariables.corpus_id = route.params.corpusId;
-          }
-
-          // Pass the response data as variables to be replaced for "{placeholders}" in the translation message.
+          // Pass the response data, plus request params, as variables to be replaced for "{placeholders}" in the translation message.
+          const messageVariables = { ...err.config.params, ...data };
           alert(t(translationKey, messageVariables), "error");
           return;
         }
