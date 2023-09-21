@@ -95,8 +95,8 @@ exports.download.help: Resultatet kan laddas ner som maskinläsbara filer för b
 exports.downloading: Laddar ner analysresultat
 exports.help: Annoteringsprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen. De lagras på servern tillsvidare, men ersätts med nya om du kör om annoteringen på nytt.
 user.settings: Inställningar
-user.settings.admin_mode: Aktivera administrationsläge
-user.admin_mode.warning: Administrationsläget är aktiverat. Var försiktig!
+user.settings.admin_mode: Aktivera administratörsläget
+user.admin_mode.warning: Administratörsläget är aktiverat. Var försiktig!
 errors: Fel
 error.message: Ett fel uppstod
 expand.open: Visa mer
@@ -201,7 +201,100 @@ notfound: Sidan kan inte hittas
 notfound.description: Något har gått fel, och det finns ingenting att visa på den här adressen.
 notfound.contact: Om du har frågor eller vill rapportera en bugg, kontakta gärna sb-info{'@'}svenska.gu.se. Tack!
 
+# These correspond to the `return_code` param of backend responses
+api.code.missing_auth_token: Auktoriseringstoken saknas
+api.code.failed_authenticating: Autentisering misslyckades
+api.code.missing_login_credentials: Autentiseringsinformation saknas
+api.code.not_admin: Det gick inte att bekräfta administratörsstatus
+api.code.missing_corpus_id: Korpus-id saknas
+api.code.jwt_expired: Den angivna JWT:en har slutat gälla
+api.code.something_went_wrong: Något gick fel. Om du får besvär kan du kontakta sb-info{'@'}svenska.gu.se och rapportera problemet.
+api.code.admin_on: Administratörsläget är aktiverat. Var försiktig!
+api.code.admin_off: Administratörsläget är avstängt
+api.code.failed_listing_sources: Det gick inte att lista källfiler för korpusen "{corpus_id}"
+api.code.no_sources_found: Det finns inga källfiler i korpusen "{corpus_id}"
+api.code.failed_getting_config: Det gick inte att hitta någon configfil för korpusen "{corpus_id}"
+api.code.failed_removing_exports: Det gick inte att radera resultatfiler från Sparvservern. Sparv kan inte köras.
+api.code.failed_queuing: Det gick inte att sätta körningen i kö
+api.code.failed_starting_job: Det gick inte att starta körningen
+api.code.no_active_job: Det finns ingen aktiv körning för korpusen "{corpus_id}"
+api.code.corpus_not_found: Korpusen "{corpus_id}" finns inte, eller du saknar åtkomst till den
+api.code.failed_getting_job_status: Det gick inte att kolla körningsstatusen för korpusen "{corpus_id}"
+api.code.failed_getting_job_statuses: Det gick inte att kolla körningsstatus
+api.code.listing_jobs: Listar körningar
+api.code.failed_aborting_job_syncing: Det går inte att avbryta en körning medan filer syncas
+api.code.aborted_job: Körningen är avbruten
+api.code.no_running_job: Det finns ingen aktiv körning för korpusen "{corpus_id}"
+api.code.failed_unqueuing_job: Det gick inte att ta körningen ur kön
+api.code.failed_aborting_job: Det gick inte att avbryta körningen
+api.code.removed_annotations: Annoteringarna är borttagna
+api.code.failed_clearing_annotations_job_running: Det går inte att ta bort annoteringar medan en körning är igång
+api.code.failed_clearing_annotations: Det gick inte att ta bort annoteringar
+api.code.syncing_files: Syncar filer
+api.code.job_queued: Körningen är satt i kö
+api.code.job_aborted_by_user: Körningen är avbruten
+api.code.job_running: Körningen är igång
+api.code.sparv_success_export_upload_fail: Sparv har körts, men det gick inte att ladda upp resultatet till lagringsservern
+api.code.sparv_success_start_sync: Sparv har körts. Syncning påbörjad.
+api.code.job_completed: Körningen är färdig
+api.code.processing_error: Ett fel uppstod under körningen
+api.code.cannot_handle_status: Körningens status är okänd
+api.code.failed_listing_languages: Det gick inte att lista språk
+api.code.listing_languages: Listar språk tillgängliga i Sparv
+api.code.failed_listing_sparv_exports: Det gick inte att lista exportformat
+api.code.listing_sparv_exports: Listar exportformat tillgängliga i Sparv
+api.code.failed_creating_corpus: Det gick inte att skapa korpusen
+api.code.created_corpus: En ny korpus har blivit till # lol
+api.code.failed_creating_corpus_dir: Det gick inte att skapa en ny mapp för korpusen
+api.code.listing_corpora: Listar tillgängliga korpusar
+api.code.failed_listing_korp_corpora: Det gick inte att lista korpusar som har installerats i Korp
+api.code.listing_korp_corpora: Listar korpusar som har installerats i Korp
+api.code.failed_removing_korp: Det gick inte att ta bort korpusen från Korp
+api.code.failed_removing_strix: Det gick inte att ta bort korpusen från Strix
+api.code.failed_removing_storage: Det gick inte att ta bort korpusen från lagringsplatsen
+api.code.failed_removing_job: Det gick inte att ta bort körningen
+api.code.failed_removing_auth: Det gick inte att ta bort korpusen från autentiseringssystemet
+api.code.removed_corpus: Korpusen har raderats
+api.code.missing_sources_upload: Uppladdningen saknar filer
+api.code.failed_uploading_sources_corpus_size: Det gick inte att ladda upp källfiler, eftersom den totala storleken skulle överstiga den högsta tillåtna, {max_corpus_size} MB
+api.code.failed_uploading_sources: Det gick inte att ladda upp källfiler
 api.code.failed_uploading_sources_file_size: Några filer gick inte att ladda upp eftersom de överstiger högsta tillåtna filstorlek, {max_file_size} MB.
 api.code.failed_uploading_sources_invalid_file_extension: 'Filen "{file}" gick inte att ladda upp eftersom filändelsen är ogiltig. Använd något av de giltiga filformaten: xml, txt, odt, docx, pdf.'
 api.code.failed_uploading_sources_invalid_xml: Filen "{file}" gick inte att ladda upp eftersom den innehåller ogiltig XML.
 api.code.failed_uploading_sources_incompatible_file_extension: Filen "{file}" gick inte att ladda upp eftersom filändelsen är annorlunda. Kontrollera att korpusen är inställd på ett filformat som överensstämmer med dina textfiler.
+api.code.uploaded_sources: Källfilerna är tillagda
+api.code.data_too_large: Frågan är för stor (högst {max_content_length} MB per uppladdning)
+api.code.listing_sources: Listar källfiler för korpusen "{corpus_id}"
+api.code.missing_sources_remove: Det saknas filer att ta bort
+api.code.failed_removing_some_sources: Några källfiler gick inte att ta bort
+api.code.failed_removing_sources: Det gick inte att ta bort källfilerna
+api.code.removed_sources: Källfilerna är borttagna
+api.code.missing_sources_download: Det finns inga källfiler att ladda ner
+api.code.failed_downloading_sources: Det gick inte att ladda ner källfilerna
+api.code.source_not_found: Källfilen finns inte
+api.code.failed_downloading_file: Det gick inte att ladda ner filern
+api.code.wrong_config_format: Configfilen måste vara i formatet YAML
+api.code.uploaded_config: Configfilen är uppladdad
+api.code.incompatible_config_importer: Importeraren som anges i korpusens configfil är inte kompatibel med källfilerna
+api.code.failed_uploading_config: Det gick inte att ladda upp configfilen
+api.code.missing_config_upload: Uppladdningen saknar configfil
+api.code.config_not_found: Det finns ingen configfil för korpusen "{corpus_id}"
+api.code.failed_downloading_config: Det gick inte att ladda ner configfilen för korpusen "{corpus_id}"
+api.code.listing_exports: Listar resultatfiler för korpusen "{corpus_id}"
+api.code.failed_listing_exports: Det gick inte att lista resultatfiler för korpusen "{corpus_id}"
+api.code.no_exports_available: Det finns inga resultatfiler för korpusen "{corpus_id}"
+api.code.failed_downloading_exports: Det gick inte att ladda ner resultat
+api.code.export_folder_not_found: Mappen du försöker ladda ner finns inte
+api.code.failed_downloading_export_folder: Det gick inte att ladda ner resultatmappen
+api.code.export_not_found: Filen du försöker ladda ner finns inte
+api.code.failed_removing_exports_storage: Det gick inte att ta bort resultatfiler från lagringsplatsen
+api.code.failed_removing_exports_sparv: Det gick inte att ta bort resultatfiler från Sparvservern
+api.code.removed_exports: Resultatfilerna för korpusen "{corpus_id}" är borttagna
+api.code.no_source_texts_run_sparv: Det finns inga källtexter för korpusen "{corpus_id}". Sparv måste köras först.
+api.code.source_text_not_found: Källtexten för den här filen finns inte
+api.code.failed_downloading_source_text: Det gick inte att ladda ner källfilen
+api.code.failed_getting_job: Det gick inte att kolla körningen för korpusen "{corpus_id}"
+api.code.input_changed: Det finns ändringar i korpusen "{corpus_id}" sedan den senaste körningen
+api.code.input_not_changed: Det finns inga ändringar i korpusen "{corpus_id}" sedan den senaste körningen
+api.code.corpus_not_run: Det gick inte att kolla ändringar i korpusen "{corpus_id}", eftersom det inte ännu har gjorts någon körning
+api.code.failed_checking_changes: Det gick inte att kolla ändringar i korpusen
