@@ -1,5 +1,5 @@
 <template>
-  <AppHeader />
+  <AppHeader :large="isHome" />
   <Breadcrumb />
   <MessageToasts />
 
@@ -15,6 +15,8 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
+import { useRoute } from "vue-router";
 import { useTitle } from "@vueuse/core";
 import { api } from "@/api/api";
 import { useAuth } from "@/auth/auth.composable";
@@ -31,6 +33,9 @@ useLocale();
 const { title } = usePageTitle();
 // Activate automatic updates of the HTML page title.
 useTitle(title, { titleTemplate: "%s | Mink" });
+const route = useRoute();
+
+const isHome = computed(() => route.path == "/");
 
 // Fetch JWT and use it for all API requests.
 refreshJwt();
