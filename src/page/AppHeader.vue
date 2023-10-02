@@ -3,39 +3,15 @@ import { getLogoutUrl } from "@/auth/auth";
 import { useAuth } from "@/auth/auth.composable";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
-// Asset path transformation doesn't work in <source srcset> like in <img src>
-import logoMink from "@/assets/mink.svg";
-import logoMinkSlogan from "@/assets/mink-slogan.svg";
-import logoMinkSloganEn from "@/assets/mink-slogan-en.svg";
-import logoMinkLight from "@/assets/mink-light.svg";
-import logoMinkLightSlogan from "@/assets/mink-light-slogan.svg";
-import logoMinkLightSloganEn from "@/assets/mink-light-slogan-en.svg";
 import logoSbxLight from "@/assets/sbx1r-light.svg";
 import Spinner from "@/spin/Spinner.vue";
-import { computed } from "vue";
-import useLocale from "@/i18n/locale.composable";
+import MinkLogo from "./MinkLogo.vue";
 
-const props = defineProps({
+defineProps({
   large: Boolean,
 });
 
 const { isAuthenticating, payload, canUserWrite } = useAuth();
-const { locale } = useLocale();
-
-const logo = computed(() =>
-  props.large
-    ? locale.value == "en"
-      ? logoMinkSloganEn
-      : logoMinkSlogan
-    : logoMink
-);
-const logoLight = computed(() =>
-  props.large
-    ? locale.value == "en"
-      ? logoMinkLightSloganEn
-      : logoMinkLightSlogan
-    : logoMinkLight
-);
 </script>
 
 <template>
@@ -45,10 +21,7 @@ const logoLight = computed(() =>
     <div class="container py-4 flex justify-between flex-wrap gap-4">
       <div class="text-4xl">
         <router-link to="/" class="text-current">
-          <picture>
-            <source media="(prefers-color-scheme: dark)" :srcset="logoLight" />
-            <img :src="logo" alt="Mink" :class="[large ? 'h-24' : 'h-16']" />
-          </picture>
+          <MinkLogo :large="large" />
         </router-link>
       </div>
 
