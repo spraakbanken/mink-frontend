@@ -11,14 +11,6 @@
       </PageTitle>
       <router-view />
     </template>
-    <template v-else>
-      <PageTitle>Not found</PageTitle>
-      <div class="bg-red-100 text-red-900 p-2 px-4 my-1">
-        The corpus with id
-        <code>{{ corpusId }}</code> does not exist, or you do not have access to
-        it.
-      </div>
-    </template>
   </div>
 </template>
 

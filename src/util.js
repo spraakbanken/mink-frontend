@@ -58,3 +58,6 @@ export function setKeys(obj, keys, defaultValue = null) {
 
   return obj;
 }
+
+/** Create a random string of around 11 chars in the [0-9a-z] range. */
+export const randomString = () => Math.random().toString(36).slice(2);

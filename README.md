@@ -1,12 +1,21 @@
 # Mink frontend
 
-Frontend for Mink.
+With Mink, we are putting Språkbanken's research infrastructure into the hands of the researchers.
+You can use Mink to apply our language technology methods on texts that you have collected yourself.
+The resulting data can be downloaded or made available through our research tools.
 
-## Architecture
+[Use Mink](https://spraakbanken.gu.se/mink/)
+– [Language data](https://spraakbanken.gu.se/en/resources)
+– [Tools](https://spraakbanken.gu.se/en/tools)
 
-[Vue 3](https://v3.vuejs.org/) app using [Vite](https://vitejs.dev/).
+<img src="src/assets/mink-screen.png" width="600" alt="Screenshot of Mink" />
 
-Design patterns used:
+## Code
+
+This repo makes up the frontend at [spraakbanken.gu.se/mink](https://spraakbanken.gu.se/mink/).
+It is a [Vue 3](https://v3.vuejs.org/) app using [Vite](https://vitejs.dev/).
+
+### Design patterns
 
 - Single-file components with [`<script setup>`](https://v3.vuejs.org/api/sfc-script-setup.html)
 - [Composables](https://vuejs.org/guide/reusability/composables.html) to group state+logic for distinct features
@@ -21,9 +30,9 @@ Design patterns used:
      <PendingContent on="corpora"> {{ corpora.length }} </PendingContent>
      ```
 
-See:
+### Futher reading
 
-- [Min SB API documentation](https://ws.spraakbanken.gu.se/ws/mink/api-doc)
+- [Mink API documentation](https://ws.spraakbanken.gu.se/ws/mink/api-doc)
 - [Mink project board](https://github.com/orgs/spraakbanken/projects/10)
 
 ## Recommended IDE setup

@@ -4,6 +4,7 @@ import {
   formatDate,
   formatSeconds,
   pathJoin,
+  randomString,
   setKeys,
 } from "./util";
 
@@ -52,5 +53,14 @@ describe("setKeys", () => {
     const a = { a: 1, b: 2 };
     expect(setKeys(a, ["b", "c"], 10)).toEqual({ b: 2, c: 10 });
     expect(a).toEqual({ b: 2, c: 10 });
+  });
+});
+
+describe("randomString", () => {
+  test("1000 samples match [0-9a-z]", () => {
+    const pattern = new RegExp(/^[0-9a-z]+$/);
+    const samples = Array.from({ length: 1000 }, () => randomString());
+    const fails = samples.filter((s) => !pattern.test(s));
+    expect(fails).toEqual([]);
   });
 });
