@@ -20,6 +20,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Fixed
 
 - Background of welcome card on home page
+- Orange color of progress bar same as logo and links
 
 ## [1.0.1] (2023-10-02)
 
