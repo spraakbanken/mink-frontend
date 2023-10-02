@@ -38,7 +38,7 @@ const { isAuthenticating, payload, canUserWrite } = useAuth();
                   media="(prefers-color-scheme: dark)"
                   :srcset="logoSbxLight"
                 />
-                <img src="@/assets/sbx1r.svg" />
+                <img src="@/assets/sbx1r.svg" alt="Språkbanken Text" />
               </picture>
             </a>
           </div>
@@ -55,6 +55,14 @@ const { isAuthenticating, payload, canUserWrite } = useAuth();
 
             <LocaleSwitcher />
           </div>
+        </div>
+
+        <div class="-my-4">
+          <img
+            src="@/assets/gu_logo_sv.png"
+            alt="Göteborgs universitet"
+            class="h-24"
+          />
         </div>
       </div>
     </div>
