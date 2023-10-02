@@ -58,11 +58,13 @@ const { isAuthenticating, payload, canUserWrite } = useAuth();
         </div>
 
         <div class="-my-4">
-          <img
-            src="@/assets/gu_logo_sv.png"
-            alt="Göteborgs universitet"
-            class="h-24"
-          />
+          <a href="https://gu.se/">
+            <img
+              src="@/assets/gu_logo_sv.png"
+              alt="Göteborgs universitet"
+              class="h-24"
+            />
+          </a>
         </div>
       </div>
     </div>
