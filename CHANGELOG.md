@@ -13,6 +13,14 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Added
+
+- Logo large with slogan on front page
+
+### Fixed
+
+- Background of welcome card on home page
+
 ## [1.0.1] (2023-10-02)
 
 ### Fixed
