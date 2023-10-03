@@ -13,13 +13,16 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+## [1.0.2] (2023-10-03)
+
 ### Added
 
 - Logo large with slogan on front page
 
 ### Fixed
 
-- Background of welcome card on home page
+- Handle unknown corpus state nicer
+- Dark-safe background color of welcome card on home page
 - Orange color of progress bar same as logo and links
 
 ## [1.0.1] (2023-10-02)
@@ -50,6 +53,7 @@ The frontend is now open to the general public! This version allows users to:
 
 Code changes up until this point are not documented other than in the git commit log.
 
-[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.1...HEAD
+[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/spraakbanken/mink-frontend/releases/tag/v1.0.0
