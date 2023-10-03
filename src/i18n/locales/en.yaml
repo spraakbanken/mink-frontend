@@ -26,6 +26,7 @@ corpus.delete: Delete corpus
 corpus.delete.ask: Are you sure you want to delete this corpus?
 corpus.deleting: Deleting corpus
 corpus.list.loading: Listing corpora
+corpus.state.unknown: Unknown
 corpus.state.empty: No files
 corpus.state.needing_config: Configuration needed
 corpus.state.needing_meta: Metadata needed
@@ -36,6 +37,7 @@ corpus.state.running_install: Installing
 corpus.state.done_install: Done installing
 corpus.state.failed: Failed
 corpus.state.failed_install: Failed
+corpus.state.help.unknown: The state of this corpus is unknown. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.state.help.empty: There are no source texts in this corpus. Upload some text files below.
 corpus.state.help.needing_config: This corpus needs you to change some settings before it can be processed.
 corpus.state.help.needing_meta: The corpus needs a name before it can be processed.

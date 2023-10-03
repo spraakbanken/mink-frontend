@@ -31,9 +31,10 @@ export function useCorpusState(corpusId) {
     if (korpStatus.value.isDone || strixStatus.value.isDone)
       return CorpusState.DONE_INSTALL;
 
-    throw RangeError(
+    console.warn(
       `Invalid state, sparv=${sparvStatus.value.state}, korp=${korpStatus.value.state}, strix=${strixStatus.value.state}`
     );
+    return CorpusState.UNKNOWN;
   });
 
   const isConfigValid = computed(
@@ -99,6 +100,9 @@ export function useCorpusState(corpusId) {
 }
 
 export class CorpusState {
+  static get UNKNOWN() {
+    return "unknown";
+  }
   static get EMPTY() {
     return "empty";
   }
