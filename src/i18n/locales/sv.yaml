@@ -27,6 +27,7 @@ corpus.delete: Radera korpus
 corpus.delete.ask: Är du säker på att du vill ta bort den här korpusen?
 corpus.deleting: Raderar korpus
 corpus.list.loading: Hämtar korpusar
+corpus.state.unknown: Okänt
 corpus.state.empty: Inga filer
 corpus.state.needing_config: Behöver konfigureras
 corpus.state.needing_meta: Behöver metadata
@@ -37,6 +38,7 @@ corpus.state.running_install: Installerar
 corpus.state.done_install: Installation färdig
 corpus.state.failed: Fel
 corpus.state.failed_install: Fel
+corpus.state.help.unknown: Den här korpusen är i ett okänt tillstånd. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 corpus.state.help.empty: Den här korpusen har inga källtexter. Ladda upp textfiler nedan.
 corpus.state.help.needing_config: Den här korpusen behöver några inställningar innan annoteringen kan startas.
 corpus.state.help.needing_meta: Korpusen behöver ha ett namn innan annoteringen kan startas.
