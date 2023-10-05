@@ -39,9 +39,10 @@
         </tr>
         <tr v-if="jobStatus.errors">
           <td colspan="2">
-            <TerminalOutput class="whitespace-pre-wrap mb-2">{{
-              jobStatus.errors
-            }}</TerminalOutput>
+            <TerminalOutput
+              class="whitespace-pre-wrap mb-2 h-fit max-h-20 resize-y"
+              >{{ jobStatus.errors }}</TerminalOutput
+            >
           </td>
         </tr>
 
@@ -50,9 +51,10 @@
         </tr>
         <tr v-if="jobStatus.warnings">
           <td colspan="2">
-            <TerminalOutput class="whitespace-pre-wrap mb-2">{{
-              jobStatus.warnings
-            }}</TerminalOutput>
+            <TerminalOutput
+              class="whitespace-pre-wrap mb-2 h-fit max-h-20 resize-y"
+              >{{ jobStatus.warnings }}</TerminalOutput
+            >
           </td>
         </tr>
 
@@ -61,9 +63,10 @@
         </tr>
         <tr v-if="isFailed && jobStatus.sparv_output">
           <td colspan="2">
-            <TerminalOutput class="whitespace-pre-wrap mb-2">{{
-              jobStatus.sparv_output
-            }}</TerminalOutput>
+            <TerminalOutput
+              class="whitespace-pre-wrap mb-2 h-fit max-h-20 resize-y"
+              >{{ jobStatus.sparv_output }}</TerminalOutput
+            >
           </td>
         </tr>
 
@@ -120,4 +123,9 @@ async function doRunJob() {
 }
 </script>
 
-<style></style>
+<style scoped>
+/* Override max-height when user is resizing. */
+.resize-y[style*="height"] {
+  max-height: unset;
+}
+</style>

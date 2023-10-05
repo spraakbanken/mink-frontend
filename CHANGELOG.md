@@ -15,7 +15,8 @@ As this project is a user-facing application, the places in the semantic version
 
 ### Added
 
-- Showing warnings from backend/Sparv
+- Showing warnings from jobs
+- Messages from jobs are limited in size, but resizeable
 
 ### Fixed
 
