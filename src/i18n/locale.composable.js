@@ -41,7 +41,7 @@ export default function useLocale() {
   }
 
   function myFilesize(bytes) {
-    const str = filesize(bytes, { precision: 2, locale: locale.value });
+    const str = filesize(bytes, { base: 2, locale: locale.value });
     // Convert exponential notation to ordinary.
     return str.replace(/[\d.]+e[+\d]+/, parseFloat);
   }
