@@ -4,12 +4,18 @@ import round from "lodash/round";
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export function downloadFile(data, filename) {
+  // The url is temporary and bound to the window and document, and represents (does not contain) the data.
+  // https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL_static
   const url = window.URL.createObjectURL(new Blob([data]));
+
+  // Create an invisible link element and "click" it. This makes the browser save the file.
   const link = document.createElement("a");
   link.href = url;
   link.setAttribute("download", filename);
   document.body.appendChild(link);
   link.click();
+
+  // Clear the temporary url.
   window.URL.revokeObjectURL(url);
 }
 

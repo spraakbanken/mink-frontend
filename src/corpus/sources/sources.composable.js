@@ -16,8 +16,8 @@ export default function useSources(corpusId) {
     corpusStore.corpora[corpusId_].sources = sourcesFetched;
   }
 
-  async function downloadSource(source) {
-    return mink.downloadSource(corpusId, source.name).catch(alertError);
+  async function downloadSource(source, binary) {
+    return mink.downloadSource(corpusId, source.name, binary).catch(alertError);
   }
 
   async function downloadPlaintext(source) {

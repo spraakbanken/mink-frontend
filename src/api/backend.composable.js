@@ -45,9 +45,9 @@ export default function useMinkBackend() {
       `corpus/${corpusId}/sources`
     );
 
-  const downloadSource = (corpusId, filename) =>
+  const downloadSource = (corpusId, filename, binary) =>
     spin(
-      api.downloadSourceFile(corpusId, filename),
+      api.downloadSourceFile(corpusId, filename, binary),
       t("source.downloading"),
       `corpus/${corpusId}/sources/${filename}`
     );

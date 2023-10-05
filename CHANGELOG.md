@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Fixed
+
+- Downloading source file was broken for binary files
+
 ## [1.0.2] (2023-10-03)
 
 ### Added
