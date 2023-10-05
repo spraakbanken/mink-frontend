@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Added
+
+- Showing warnings from backend/Sparv
+
 ### Fixed
 
 - Downloading source file was broken for binary files

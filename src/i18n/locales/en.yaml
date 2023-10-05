@@ -99,6 +99,7 @@ user.settings: Settings
 user.settings.admin_mode: Enable administration mode
 user.admin_mode.warning: Administration mode is enabled. Please be careful!
 errors: Errors
+warnings: Warnings
 error.message: There was an error
 expand.open: Show more
 expand.close: Show less
