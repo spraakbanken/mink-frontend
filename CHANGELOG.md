@@ -16,6 +16,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Fixed
 
 - Downloading source file was broken for binary files
+- Correct file size outputs using binary base instead of decimal
 
 ## [1.0.2] (2023-10-03)
 
