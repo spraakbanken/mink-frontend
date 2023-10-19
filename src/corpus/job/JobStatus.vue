@@ -39,33 +39,52 @@
         </tr>
         <tr v-if="jobStatus.errors">
           <td colspan="2">
-            <TerminalOutput class="whitespace-pre-wrap">{{
-              jobStatus.errors
-            }}</TerminalOutput>
+            <TerminalOutput
+              class="whitespace-pre-wrap mb-2 h-fit max-h-20 resize-y"
+              >{{ jobStatus.errors }}</TerminalOutput
+            >
           </td>
         </tr>
+
+        <tr v-if="jobStatus.warnings">
+          <th colspan="2">{{ $t("warnings") }}</th>
+        </tr>
+        <tr v-if="jobStatus.warnings">
+          <td colspan="2">
+            <TerminalOutput
+              class="whitespace-pre-wrap mb-2 h-fit max-h-20 resize-y"
+              >{{ jobStatus.warnings }}</TerminalOutput
+            >
+          </td>
+        </tr>
+
         <tr v-if="isFailed && jobStatus.sparv_output">
           <th colspan="2">{{ $t("sparvOutput") }}</th>
         </tr>
         <tr v-if="isFailed && jobStatus.sparv_output">
           <td colspan="2">
-            <TerminalOutput class="whitespace-pre-wrap">{{
-              jobStatus.sparv_output
-            }}</TerminalOutput>
+            <TerminalOutput
+              class="whitespace-pre-wrap mb-2 h-fit max-h-20 resize-y"
+              >{{ jobStatus.sparv_output }}</TerminalOutput
+            >
           </td>
         </tr>
+
         <tr v-if="jobStatus.priority > 0">
           <th>{{ $t("job.priority") }}</th>
           <td>{{ jobStatus.priority }}</td>
         </tr>
+
         <tr v-if="jobStatus.last_run_started">
           <th>{{ $t("job.last_run_started") }}</th>
           <td>{{ formatDate(jobStatus.last_run_started) }}</td>
         </tr>
+
         <tr v-if="jobStatus.last_run_ended">
           <th>{{ $t("job.last_run_ended") }}</th>
           <td>{{ formatDate(jobStatus.last_run_ended) }}</td>
         </tr>
+
         <tr v-if="jobStatus.seconds_taken">
           <th>{{ $t("job.time_taken") }}</th>
           <td>{{ formatSeconds(jobStatus.seconds_taken) }}</td>
@@ -104,4 +123,9 @@ async function doRunJob() {
 }
 </script>
 
-<style></style>
+<style scoped>
+/* Override max-height when user is resizing. */
+.resize-y[style*="height"] {
+  max-height: unset;
+}
+</style>

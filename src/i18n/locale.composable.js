@@ -40,8 +40,10 @@ export default function useLocale() {
     );
   }
 
-  function myFilesize(bytes) {
-    const str = filesize(bytes, { precision: 2, locale: locale.value });
+  /** Wrap the filesize lib with some sane defaults and avoiding exponential notation. */
+  function myFilesize(bytes, precision = 2) {
+    // Default precision is 0 which means up until 2 decimals?
+    const str = filesize(bytes, { precision, base: 2, locale: locale.value });
     // Convert exponential notation to ordinary.
     return str.replace(/[\d.]+e[+\d]+/, parseFloat);
   }

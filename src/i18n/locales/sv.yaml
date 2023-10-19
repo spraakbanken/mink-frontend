@@ -100,6 +100,7 @@ user.settings: Inställningar
 user.settings.admin_mode: Aktivera administratörsläget
 user.admin_mode.warning: Administratörsläget är aktiverat. Var försiktig!
 errors: Fel
+warnings: Varningar
 error.message: Ett fel uppstod
 expand.open: Visa mer
 expand.close: Visa mindre
@@ -144,6 +145,14 @@ login.help: De flesta med akademisk anknytning kan logga in direkt.
 logout: Logga ut
 signup: Skapa konto
 signup.help: Andra användare behöver i regel registrera ett konto.
+signup.existing.title: Du kanske redan har ett konto
+signup.existing.login: "Om ditt universitetskonto är kopplat till Edugain kan du redan nu använda Mink genom att logga in:"
+signup.existing.tip: (Om du inte är säker kan du alltid klicka på knappen och söka efter ditt universitet eller organisation i listan över identitetsintygare.)
+signup.new: Inget konto
+signup.new.create: Om du inte tillhör någon av de kopplade identitetsintygarna kan du {register} och sedan logga in här genom att välja {eduid} som identitetsintygare.
+signup.new.register.url: https://eduid.se/
+signup.new.register.label: skapa ett EduID-konto
+signup.new.eduid: eduID Sweden
 account: Konto
 enable: Aktivera
 disable: Avaktivera

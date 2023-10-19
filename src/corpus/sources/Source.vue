@@ -20,12 +20,12 @@
               <SourceText
                 :load="loadRaw"
                 :filename="metadata.name"
-                :no-load="!isText"
+                :no-load="isBinary"
               />
             </PendingContent>
           </td>
         </tr>
-        <tr v-if="isText && !isPlaintext">
+        <tr v-if="!isPlaintext">
           <th>{{ $t("txt") }}</th>
           <td>
             <PendingContent :on="`corpus/${corpusId}/sources/${filename}`">
@@ -71,11 +71,11 @@ const metadata = computed(() =>
     (source) => source.name === props.filename
   )
 );
-const isText = computed(() => metadata.value.type.indexOf("text/") === 0);
+const isBinary = computed(() => metadata.value.type.indexOf("text/") !== 0);
 const isPlaintext = computed(() => metadata.value.type == "text/plain");
 
 async function loadRaw() {
-  return await downloadSource(metadata.value);
+  return await downloadSource(metadata.value, isBinary.value);
 }
 
 async function loadPlain() {

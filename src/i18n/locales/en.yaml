@@ -99,6 +99,7 @@ user.settings: Settings
 user.settings.admin_mode: Enable administration mode
 user.admin_mode.warning: Administration mode is enabled. Please be careful!
 errors: Errors
+warnings: Warnings
 error.message: There was an error
 expand.open: Show more
 expand.close: Show less
@@ -143,6 +144,14 @@ login.help: Most university users can sign in directly.
 logout: Logout
 signup: Create account
 signup.help: Most non-university users need to set up an account first.
+signup.existing.title: You may already have an account
+signup.existing.login: "If your university account is connected to eduGAIN, you can directly use Mink by simply signing in:"
+signup.existing.tip: (If you are not sure, click the button and search for your university or organization.)
+signup.new: No account
+signup.new.create: If you are not affiliated with any of the available identity providers, you can {register} and then sign in here, selecting {eduid} as identity provider.
+signup.new.register.url: https://eduid.se/en/
+signup.new.register.label: create an eduID account
+signup.new.eduid: eduID Sweden
 account: Account
 enable: Enable
 disable: Disable

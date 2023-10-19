@@ -64,9 +64,10 @@ class MinkApi {
     return response.data.contents;
   }
 
-  async downloadSourceFile(corpusId, filename) {
+  async downloadSourceFile(corpusId, filename, binary = false) {
     const response = await this.axios.get("download-sources", {
       params: { corpus_id: corpusId, file: filename, zip: false },
+      responseType: binary ? "arraybuffer" : "text",
     });
     return response.data;
   }
