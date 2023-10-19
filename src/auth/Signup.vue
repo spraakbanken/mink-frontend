@@ -6,33 +6,32 @@ import PageTitle from "@/components/PageTitle.vue";
 
 <template>
   <div>
-    <PageTitle>Create account</PageTitle>
+    <PageTitle>{{ $t("signup") }}</PageTitle>
     <div class="flex flex-wrap gap-6">
       <Section
         class="!mt-0 w-64 flex-grow"
-        title="You may already have an account"
+        :title="$t('signup.existing.title')"
       >
         <p>
-          If your university account is connected to eduGAIN, you can directly
-          use Mink by simply signing in:
+          {{ $t("signup.existing.login") }}
         </p>
         <LoginButton />
         <p>
-          (If you are not sure, click the button and search for your university
-          or organization.)
+          {{ $t("signup.existing.tip") }}
         </p>
       </Section>
 
-      <Section class="!mt-0 w-64 flex-grow" title="No account">
-        <p>
-          If you are not affiliated with any of the available identity
-          providers, you can
-          <a href="https://eduid.se/en/" target="_blank"
-            >create an eduID account</a
-          >
-          and then sign in here, selecting <em>eduID Sweden</em> as identity
-          provider.
-        </p>
+      <Section class="!mt-0 w-64 flex-grow" :title="$t('signup.new')">
+        <i18n-t keypath="signup.new.create" scope="global" tag="p">
+          <template #register>
+            <a :href="$t('signup.new.register.url')" target="_blank">
+              {{ $t("signup.new.register.label") }}
+            </a>
+          </template>
+          <template #eduid>
+            <em>{{ $t("signup.new.eduid") }}</em>
+          </template>
+        </i18n-t>
       </Section>
     </div>
   </div>
