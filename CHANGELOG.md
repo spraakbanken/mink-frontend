@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Fixed
+
+- Drop requirement of mink-app permission for write check
+
 ## [1.0.3] (2023-10-19)
 
 ### Added
