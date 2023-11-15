@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Fixed
+
+- Set `lang` param of Korp/Strix urls
+
 ## [1.0.4] (2023-10-24)
 
 ### Fixed
