@@ -15,9 +15,7 @@ export default function useLocale() {
   };
 
   // The ISO 639-3 code is used in many parts of the Språkbanken infrastructure.
-  const locale3 = computed(
-    () => console.log(locale.value) || (locale.value == "en" ? "eng" : "swe")
-  );
+  const locale3 = computed(() => (locale.value == "en" ? "eng" : "swe"));
 
   // Sync from storage once, if present
   if (storedLocale.value) {
