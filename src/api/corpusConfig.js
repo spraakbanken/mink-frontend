@@ -68,13 +68,13 @@ export async function makeConfig(id, options) {
     ],
   };
 
-  if (format === "xml") {
-    if (!textAnnotation) {
-      throw new TypeError("Text annotation setting is required for XML");
+  if (format == "xml") {
+    // The text annotation setting is required if XML, but it may be set later
+    if (textAnnotation) {
+      config.import.text_annotation = textAnnotation;
+      config.export.source_annotations = [`${textAnnotation} as text`, "..."];
     }
-    config.import.text_annotation = textAnnotation;
-    config.export.source_annotations = [`${textAnnotation} as text`, "..."];
-  } else if (format === "pdf") {
+  } else if (format == "pdf") {
     config.export.source_annotations = ["text", "page:number"];
   }
 
@@ -140,4 +140,15 @@ export async function parseConfig(configYaml) {
       (a) => a.params.out == "<text>:misc.dateto"
     ).params.value,
   };
+}
+
+/** Check if the config looks ready to run. May throw anything. */
+export function validateConfig(config) {
+  if (!config.format) {
+    throw new TypeError("Format missing");
+  }
+
+  if (config.format == "xml" && !config.textAnnotation) {
+    throw new TypeError("Text annotation setting is required for XML");
+  }
 }

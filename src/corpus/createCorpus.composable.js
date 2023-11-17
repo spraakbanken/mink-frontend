@@ -30,9 +30,13 @@ export default function useCreateCorpus() {
     const corpusId = await createCorpus().catch(alertError);
     if (!corpusId) return;
 
+    // Get file extension of first file, assuming all are using the same extension.
+    const format = files[0]?.name.split(".").pop();
+
     // Create a minimal config.
     const config = {
       name: { swe: corpusId, eng: corpusId },
+      format,
     };
 
     const results = await Promise.allSettled([
