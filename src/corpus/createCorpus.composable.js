@@ -6,6 +6,7 @@ import useMessenger from "@/message/messenger.composable";
 import useConfig from "./config/config.composable";
 import useSources from "./sources/sources.composable";
 import useCorpus from "./corpus.composable";
+import { getFilenameExtension } from "@/util";
 
 export default function useCreateCorpus() {
   const corpusStore = useCorpusStore();
@@ -31,7 +32,7 @@ export default function useCreateCorpus() {
     if (!corpusId) return;
 
     // Get file extension of first file, assuming all are using the same extension.
-    const format = files[0]?.name.split(".").pop();
+    const format = getFilenameExtension(files[0]?.name);
 
     // Create a minimal config.
     const config = {

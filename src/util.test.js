@@ -4,6 +4,7 @@ import {
   formatDate,
   formatSeconds,
   getException,
+  getFilenameExtension,
   pathJoin,
   randomString,
   setKeys,
@@ -79,5 +80,23 @@ describe("getException", () => {
     const exception = getException(f);
     expect(exception.name).toBe("EvalError");
     expect(exception.message).toBe("Leverpastej");
+  });
+});
+
+describe("getFilenameExtension", () => {
+  test("one extension", () => {
+    const filename = "palakpaneer.txt";
+    const extension = getFilenameExtension(filename);
+    expect(extension).toBe("txt");
+  });
+  test("no extension", () => {
+    const filename = "marinara";
+    const extension = getFilenameExtension(filename);
+    expect(extension).toBe("");
+  });
+  test("two extensions", () => {
+    const filename = "svt.xml.bz2";
+    const extension = getFilenameExtension(filename);
+    expect(extension).toBe("bz2");
   });
 });

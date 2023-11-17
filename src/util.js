@@ -77,3 +77,6 @@ export const getException = (f) => {
   }
   return undefined;
 };
+
+export const getFilenameExtension = (filename) =>
+  filename.split(".").slice(1).pop() || "";

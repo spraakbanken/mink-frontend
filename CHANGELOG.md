@@ -15,8 +15,7 @@ As this project is a user-facing application, the places in the semantic version
 
 ### Changed
 
-- A corpus created by upload now gets its format set to match the uploaded files
-- A corpus created by upload (not through the creation form) now gets its name set to the id, instead of remaining empty
+- Improved sync between source files and settings: set format from files, set name to corpus id
 
 ### Fixed
 

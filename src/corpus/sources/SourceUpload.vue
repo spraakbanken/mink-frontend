@@ -49,11 +49,13 @@
 
 <script setup>
 import { computed } from "vue";
+import { getFilenameExtension } from "@/util";
 import useMessenger from "@/message/messenger.composable";
 import useSources from "./sources.composable";
 import Filedrop from "./Filedrop.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import UploadSizeLimits from "./UploadSizeLimits.vue";
+import useConfig from "../config/config.composable";
 
 const props = defineProps({
   fileHandler: {
@@ -68,13 +70,22 @@ const props = defineProps({
 
 const corpusId = useCorpusIdParam();
 const { uploadSources, extensions } = useSources(corpusId);
-const { clear, alertError } = useMessenger();
+const { config, uploadConfig } = useConfig(corpusId);
+const { alertError, clear } = useMessenger();
 const extensionsAccept = computed(() =>
   extensions.value?.map((ext) => `.${ext}`).join()
 );
 
 async function defaultFileHandler(files) {
-  return uploadSources(files).catch(alertError);
+  const requests = [uploadSources(files).catch(alertError)];
+
+  // Also update format setting in config if needed
+  const format = getFilenameExtension(files[0]?.name);
+  if (format != config.value.format) {
+    requests.push(uploadConfig({ ...config.value, format }));
+  }
+
+  await Promise.all(requests);
 }
 const fileHandler = props.fileHandler || defaultFileHandler;
 
