@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Changed
+
+- A corpus created by upload (not through the creation form) now gets its name set to the id, instead of remaining empty
+
 ### Fixed
 
 - Set `lang` param of Korp/Strix urls

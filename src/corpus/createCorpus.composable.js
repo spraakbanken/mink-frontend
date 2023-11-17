@@ -1,7 +1,6 @@
 import { useRouter } from "vue-router";
 import { useAuth } from "@/auth/auth.composable";
 import useMinkBackend from "@/api/backend.composable";
-import { emptyConfig } from "@/api/corpusConfig";
 import { useCorpusStore } from "@/store/corpus.store";
 import useMessenger from "@/message/messenger.composable";
 import useConfig from "./config/config.composable";
@@ -31,9 +30,14 @@ export default function useCreateCorpus() {
     const corpusId = await createCorpus().catch(alertError);
     if (!corpusId) return;
 
+    // Create a minimal config.
+    const config = {
+      name: { swe: corpusId, eng: corpusId },
+    };
+
     const results = await Promise.allSettled([
       uploadSources(files, corpusId),
-      uploadConfig(emptyConfig(), corpusId),
+      uploadConfig(config, corpusId),
     ]);
 
     const rejectedResults = results.filter(
