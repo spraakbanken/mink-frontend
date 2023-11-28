@@ -3,6 +3,8 @@ import {
   ensureExtension,
   formatDate,
   formatSeconds,
+  getException,
+  getFilenameExtension,
   pathJoin,
   randomString,
   setKeys,
@@ -62,5 +64,39 @@ describe("randomString", () => {
     const samples = Array.from({ length: 1000 }, () => randomString());
     const fails = samples.filter((s) => !pattern.test(s));
     expect(fails).toEqual([]);
+  });
+});
+
+describe("getException", () => {
+  test("translate success to undefined", () => {
+    const f = () => "foobar";
+    const exception = getException(f);
+    expect(exception).toBeUndefined();
+  });
+  test("reflect exception", () => {
+    const f = () => {
+      throw new EvalError("Leverpastej");
+    };
+    const exception = getException(f);
+    expect(exception.name).toBe("EvalError");
+    expect(exception.message).toBe("Leverpastej");
+  });
+});
+
+describe("getFilenameExtension", () => {
+  test("one extension", () => {
+    const filename = "palakpaneer.txt";
+    const extension = getFilenameExtension(filename);
+    expect(extension).toBe("txt");
+  });
+  test("no extension", () => {
+    const filename = "marinara";
+    const extension = getFilenameExtension(filename);
+    expect(extension).toBe("");
+  });
+  test("two extensions", () => {
+    const filename = "svt.xml.bz2";
+    const extension = getFilenameExtension(filename);
+    expect(extension).toBe("bz2");
   });
 });

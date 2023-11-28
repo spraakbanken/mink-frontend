@@ -1,12 +1,12 @@
 import { useRouter } from "vue-router";
 import { useAuth } from "@/auth/auth.composable";
 import useMinkBackend from "@/api/backend.composable";
-import { emptyConfig } from "@/api/corpusConfig";
 import { useCorpusStore } from "@/store/corpus.store";
 import useMessenger from "@/message/messenger.composable";
 import useConfig from "./config/config.composable";
 import useSources from "./sources/sources.composable";
 import useCorpus from "./corpus.composable";
+import { getFilenameExtension } from "@/util";
 
 export default function useCreateCorpus() {
   const corpusStore = useCorpusStore();
@@ -31,9 +31,18 @@ export default function useCreateCorpus() {
     const corpusId = await createCorpus().catch(alertError);
     if (!corpusId) return;
 
+    // Get file extension of first file, assuming all are using the same extension.
+    const format = getFilenameExtension(files[0]?.name);
+
+    // Create a minimal config.
+    const config = {
+      name: { swe: corpusId, eng: corpusId },
+      format,
+    };
+
     const results = await Promise.allSettled([
       uploadSources(files, corpusId),
-      uploadConfig(emptyConfig(), corpusId),
+      uploadConfig(config, corpusId),
     ]);
 
     const rejectedResults = results.filter(

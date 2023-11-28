@@ -67,3 +67,16 @@ export function setKeys(obj, keys, defaultValue = null) {
 
 /** Create a random string of around 11 chars in the [0-9a-z] range. */
 export const randomString = () => Math.random().toString(36).slice(2);
+
+/** Execute callback, catch and return any exception, otherwise return undefined. */
+export const getException = (f) => {
+  try {
+    f();
+  } catch (e) {
+    return e;
+  }
+  return undefined;
+};
+
+export const getFilenameExtension = (filename) =>
+  filename.split(".").slice(1).pop() || "";

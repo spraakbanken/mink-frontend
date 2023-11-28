@@ -16,7 +16,7 @@
         :link-text="$t('exports.tools.help.korp.manual.text')"
         :can-install="canInstall"
         :is-installed="korpStatus.isDone"
-        :show-url="`${korpUrl}?mode=mink#?corpus=${corpusId}`"
+        :show-url="`${korpUrl}?mode=mink#?corpus=${corpusId}&lang=${locale3}`"
         @install="korpInstall()"
       />
 
@@ -25,7 +25,7 @@
         :info="$t('exports.tools.help.strix')"
         :can-install="canInstall"
         :is-installed="strixStatus.isDone"
-        :show-url="`${strixUrl}?filters=corpus_id:${corpusId}&modeSelected=mink`"
+        :show-url="`${strixUrl}?modeSelected=mink&filters=corpus_id:${corpusId}&lang=${locale3}`"
         @install="strixInstall()"
       />
     </div>
@@ -67,6 +67,7 @@ import { useCorpusState } from "@/corpus/corpusState.composable";
 import useJob from "@/corpus/job/job.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import ToolPanel from "./ToolPanel.vue";
+import useLocale from "@/i18n/locale.composable";
 
 const corpusId = useCorpusIdParam();
 const { exports, loadExports, downloadResult, getDownloadFilename } =
@@ -74,6 +75,7 @@ const { exports, loadExports, downloadResult, getDownloadFilename } =
 const { isDone } = useCorpusState(corpusId);
 const { installKorp, installStrix, sparvStatus, korpStatus, strixStatus } =
   useJob(corpusId);
+const { locale3 } = useLocale();
 
 const korpUrl = ensureTrailingSlash(import.meta.env.VITE_KORP_URL);
 const strixUrl = ensureTrailingSlash(import.meta.env.VITE_STRIX_URL);

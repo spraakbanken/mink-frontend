@@ -1,9 +1,10 @@
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
-import { FORMATS_EXT } from "@/api/corpusConfig";
+import { validateConfig } from "@/api/corpusConfig";
 import useConfig from "./config/config.composable";
 import useJob from "./job/job.composable";
 import useSources from "./sources/sources.composable";
+import { getException } from "@/util";
 
 /** The "corpus state" is related to the job status, but is more about predicting what action the user needs to take. */
 export function useCorpusState(corpusId) {
@@ -38,7 +39,7 @@ export function useCorpusState(corpusId) {
   });
 
   const isConfigValid = computed(
-    () => config.value && FORMATS_EXT.includes(config.value.format)
+    () => !getException(() => validateConfig(config.value))
   );
 
   const hasMetadata = computed(

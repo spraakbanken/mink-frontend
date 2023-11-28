@@ -1,4 +1,4 @@
-import { inject, watch } from "vue";
+import { computed, inject, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useStorage } from "@vueuse/core";
 import { filesize } from "filesize";
@@ -13,6 +13,9 @@ export default function useLocale() {
     formkitConfig.locale = locale.value;
     document.querySelector("html")?.setAttribute("lang", locale.value);
   };
+
+  // The ISO 639-3 code is used in many parts of the Språkbanken infrastructure.
+  const locale3 = computed(() => (locale.value == "en" ? "eng" : "swe"));
 
   // Sync from storage once, if present
   if (storedLocale.value) {
@@ -50,6 +53,7 @@ export default function useLocale() {
 
   return {
     locale,
+    locale3,
     th,
     filesize: myFilesize,
   };
