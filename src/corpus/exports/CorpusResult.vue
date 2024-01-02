@@ -3,6 +3,13 @@
     <Section :title="$t('result')">
       <HelpBox>
         <p>{{ $t("exports.help") }}</p>
+        <aside>
+          <a
+            href="https://spraakbanken.gu.se/en/tools/mink/manual#download-results"
+          >
+            {{ $t("exports.help.more.label") }}
+          </a>
+        </aside>
       </HelpBox>
 
       <div class="my-4">

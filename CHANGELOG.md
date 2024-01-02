@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Added
+
+- Link to manual about exports files
+
 ### Changed
 
 - Rename "Dashboard" to "Library"

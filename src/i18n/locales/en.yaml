@@ -95,6 +95,7 @@ exports.tools.view: View
 exports.download.help: Results can be downloaded as machine-readable files for processing in scripts or other specialized software.
 exports.downloading: Downloading results
 exports.help: The annotation process yields export files for each input file. You can download each single export file or all of them in a bundle. The exact structure of the files depends on the input files as well as the configuration. They are stored on the server indefinitely, but re-running the annotation will replace them with new ones.
+exports.help.more.label: Read more about export files in the user manual
 user.settings: Settings
 user.settings.admin_mode: Enable administration mode
 user.admin_mode.warning: Administration mode is enabled. Please be careful!

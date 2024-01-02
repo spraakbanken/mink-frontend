@@ -96,6 +96,7 @@ exports.tools.view: Visa
 exports.download.help: Resultatet kan laddas ner som maskinläsbara filer för bearbetning i script eller speciella program.
 exports.downloading: Laddar ner analysresultat
 exports.help: Annoteringsprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen. De lagras på servern tillsvidare, men ersätts med nya om du kör om annoteringen på nytt.
+exports.help.more.label: Läs mer om exportfiler i användarhandledningen
 user.settings: Inställningar
 user.settings.admin_mode: Aktivera administratörsläget
 user.admin_mode.warning: Administratörsläget är aktiverat. Var försiktig!
