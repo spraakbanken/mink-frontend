@@ -13,6 +13,8 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+## [1.1.0] (2024-01-02)
+
 ### Added
 
 - Link to manual about exports files
@@ -97,7 +99,8 @@ The frontend is now open to the general public! This version allows users to:
 
 Code changes up until this point are not documented other than in the git commit log.
 
-[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.5...HEAD
+[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.5...v1.1.0
 [1.0.5]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.2...v1.0.3
