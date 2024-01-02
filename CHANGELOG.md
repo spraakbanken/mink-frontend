@@ -13,6 +13,23 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+## [1.1.0] (2024-01-02)
+
+### Added
+
+- Link to manual about exports files
+
+### Changed
+
+- Rename "Dashboard" to "Library"
+- Use new `resource-info` route, drop `check-status` and `list-sources`
+- The local storage key is now tagged with a datestamp, and should be changed when the data shape of the state changes
+
+### Fixed
+
+- Allow clicking most elements behind a loading spinner
+- Home page width on small screen
+
 ## [1.0.5] (2023-11-28)
 
 ### Changed
@@ -82,7 +99,8 @@ The frontend is now open to the general public! This version allows users to:
 
 Code changes up until this point are not documented other than in the git commit log.
 
-[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.5...HEAD
+[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.5...v1.1.0
 [1.0.5]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.2...v1.0.3

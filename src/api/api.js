@@ -57,13 +57,6 @@ class MinkApi {
     return response.data;
   }
 
-  async listSources(corpusId) {
-    const response = await this.axios.get("list-sources", {
-      params: { corpus_id: corpusId },
-    });
-    return response.data.contents;
-  }
-
   async downloadSourceFile(corpusId, filename, binary = false) {
     const response = await this.axios.get("download-sources", {
       params: { corpus_id: corpusId, file: filename, zip: false },
@@ -102,20 +95,12 @@ class MinkApi {
     return response.data;
   }
 
-  /**
-   * @returns {job_status, message, status} job_status can be: none, syncing_corpus,
-   *   waiting, annotating, done_annotating, syncing_results, done, error, aborted.
-   */
-  async checkStatus(corpusId) {
-    const response = await this.axios.get("check-status", {
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Process-Corpus/operation/resourceinfo */
+  async resourceInfo(corpusId) {
+    const response = await this.axios.get("resource-info", {
       params: { corpus_id: corpusId },
     });
     return response.data;
-  }
-
-  async checkStatusAll() {
-    const response = await this.axios.get("check-status");
-    return response.data.jobs;
   }
 
   async runSparv(corpusId) {

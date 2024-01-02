@@ -54,22 +54,26 @@ export default function useJob(corpusId) {
   const { alertError } = useMessenger();
 
   async function loadJob() {
-    corpus.value.status = await mink
-      .loadJob(corpusId)
+    const info = await mink
+      .resourceInfo(corpusId)
       .catch(() => ({}))
       .catch(alertError);
+    corpus.value.status = info.job;
   }
 
   async function runJob() {
-    corpus.value.status = await mink.runJob(corpusId).catch(alertError);
+    const info = await mink.runJob(corpusId).catch(alertError);
+    corpus.value.status = info.job;
   }
 
   async function installKorp() {
-    corpus.value.status = await mink.installKorp(corpusId).catch(alertError);
+    const info = await mink.installKorp(corpusId).catch(alertError);
+    corpus.value.status = info.job;
   }
 
   async function installStrix() {
-    corpus.value.status = await mink.installStrix(corpusId).catch(alertError);
+    const info = await mink.installStrix(corpusId).catch(alertError);
+    corpus.value.status = info.job;
   }
 
   async function abortJob() {
@@ -79,22 +83,22 @@ export default function useJob(corpusId) {
 
   const jobStatus = computed(() => corpus.value?.status);
   const sparvStatus = computed(
-    () => new JobStatus(jobStatus.value?.job_status?.sparv)
+    () => new JobStatus(jobStatus.value?.status?.sparv)
   );
   const korpStatus = computed(
-    () => new JobStatus(jobStatus.value?.job_status?.korp)
+    () => new JobStatus(jobStatus.value?.status?.korp)
   );
   const strixStatus = computed(
-    () => new JobStatus(jobStatus.value?.job_status?.strix)
+    () => new JobStatus(jobStatus.value?.status?.strix)
   );
   const currentStatus = computed(() => {
     const process = jobStatus.value.current_process;
-    return new JobStatus(jobStatus.value?.job_status?.[process]);
+    return new JobStatus(jobStatus.value?.status?.[process]);
   });
 
   // "Running" if any job is waiting/running.
   const isJobRunning = computed(() => {
-    const statuses = jobStatus.value?.job_status;
+    const statuses = jobStatus.value?.status;
     if (!statuses) return false;
     return Object.keys(statuses).some(
       (process) => new JobStatus(statuses[process]).isRunning

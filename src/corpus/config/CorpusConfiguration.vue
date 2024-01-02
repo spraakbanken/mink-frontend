@@ -75,7 +75,7 @@
       </Section>
     </FormKit>
     <div class="flex justify-center">
-      <PendingContent :on="`corpus/${corpusId}/config`">
+      <PendingContent :on="`corpus/${corpusId}`">
         <router-link :to="`/corpus/${corpusId}/delete`">
           <ActionButton variant="danger">
             <icon :icon="['far', 'trash-can']" class="mr-1" />

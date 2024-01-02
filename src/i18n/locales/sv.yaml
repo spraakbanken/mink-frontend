@@ -16,9 +16,9 @@ home.otherdata.body: Tänk på att först undersöka andra språkdatamängder so
 home.otherdata.sbdata.title: "Språkbanken Text: Language resources"
 welcome: Välkommen, {name}!
 mydata: Mina data
-dashboard: Översikt
-dashboard.help.corpora: Här listas de korpusar du har skapat. De är bara synliga för dig. Klicka på dem för att visa mer.
-dashboard.help.corpora.none: >-
+library: Bibliotek
+library.help.corpora: Här listas de korpusar du har skapat. De är bara synliga för dig. Klicka på dem för att visa mer.
+library.help.corpora.none: >-
   Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en korpus: använd knappen "@:{'new_corpus'}" eller dra textfiler till uppladdningsrutan nedan.
 corpus.create.help: Korpusen kommer bara att vara synlig för dig. Du kan alltid uppdatera de här uppgifterna senare.
 corpus.creating: Skapar korpus
@@ -27,6 +27,7 @@ corpus.delete: Radera korpus
 corpus.delete.ask: Är du säker på att du vill ta bort den här korpusen?
 corpus.deleting: Raderar korpus
 corpus.list.loading: Hämtar korpusar
+resource.loading: Laddar datamängd
 corpus.state.unknown: Okänt
 corpus.state.empty: Inga filer
 corpus.state.needing_config: Behöver konfigureras
@@ -57,7 +58,6 @@ job.run: Starta annotering
 job.rerun: Starta om annotering
 job.abort: Avbryt
 job.aborting: Avbryter annotering
-job.loading: Kollar annoteringsstatus
 job.starting: Lägger annotering i kö
 job.installing: Installerar i Korp
 job.status: Status
@@ -96,6 +96,7 @@ exports.tools.view: Visa
 exports.download.help: Resultatet kan laddas ner som maskinläsbara filer för bearbetning i script eller speciella program.
 exports.downloading: Laddar ner analysresultat
 exports.help: Annoteringsprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen. De lagras på servern tillsvidare, men ersätts med nya om du kör om annoteringen på nytt.
+exports.help.more.label: Läs mer om exportfiler i användarhandledningen
 user.settings: Inställningar
 user.settings.admin_mode: Aktivera administratörsläget
 user.admin_mode.warning: Administratörsläget är aktiverat. Var försiktig!
