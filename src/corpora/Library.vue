@@ -25,7 +25,7 @@
     </PendingContent>
   </Section>
   <Section v-if="isAuthenticated" :title="$t('new_corpus')">
-    <PendingContent on="create">
+    <PendingContent on="create" blocking>
       <SourceUpload
         :file-handler="createCorpusFromFiles"
         :variant="corpusStore.hasCorpora ? null : 'primary'"

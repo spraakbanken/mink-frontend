@@ -1,5 +1,5 @@
 <template>
-  <PendingContent on="admin-mode">
+  <PendingContent on="admin-mode" blocking>
     <input id="admin-mode" v-model="localValue" type="checkbox" />
     <label for="admin-mode" class="ml-2">
       {{ $t("user.settings.admin_mode") }}
