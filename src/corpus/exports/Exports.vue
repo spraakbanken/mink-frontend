@@ -89,6 +89,8 @@ const canInstall = computed(
     !isInstallPending.value
 );
 
+loadExports();
+
 async function korpInstall() {
   isInstallPending.value = true;
   await installKorp();

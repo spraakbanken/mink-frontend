@@ -61,8 +61,15 @@ import useLocale from "@/i18n/locale.composable";
 
 const corpusId = useCorpusIdParam();
 const { filesize } = useLocale();
-const { exports, downloadResult, downloadResultFile, getDownloadFilename } =
-  useExports(corpusId);
+const {
+  loadExports,
+  exports,
+  downloadResult,
+  downloadResultFile,
+  getDownloadFilename,
+} = useExports(corpusId);
+
+loadExports();
 </script>
 
 <style></style>

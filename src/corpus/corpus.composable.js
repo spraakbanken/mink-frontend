@@ -4,7 +4,6 @@ import { useCorpusStore } from "@/store/corpus.store";
 import useMessenger from "@/message/messenger.composable";
 import useCorpora from "@/corpora/corpora.composable";
 import useConfig from "./config/config.composable";
-import useExports from "./exports/exports.composable";
 
 /** Let data be refreshed initially, but skip subsequent load calls. */
 const isCorpusFresh = {};
@@ -16,7 +15,6 @@ export default function useCorpus(corpusId) {
   const { loadCorpora } = useCorpora();
   const { alertError } = useMessenger();
   const { loadConfig } = useConfig(corpusId);
-  const { loadExports } = useExports(corpusId);
 
   async function loadCorpus(force = false) {
     // Make sure the corpus has an entry in the store.
@@ -28,7 +26,6 @@ export default function useCorpus(corpusId) {
     // Load all essential info about the corpus.
     await Promise.all([
       loadConfig(), //
-      loadExports(),
       loadResourceInfo(),
     ]);
 
