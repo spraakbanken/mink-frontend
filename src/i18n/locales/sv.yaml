@@ -27,6 +27,7 @@ corpus.delete: Radera korpus
 corpus.delete.ask: Är du säker på att du vill ta bort den här korpusen?
 corpus.deleting: Raderar korpus
 corpus.list.loading: Hämtar korpusar
+resource.loading: Laddar datamängd
 corpus.state.unknown: Okänt
 corpus.state.empty: Inga filer
 corpus.state.needing_config: Behöver konfigureras
@@ -57,7 +58,6 @@ job.run: Starta annotering
 job.rerun: Starta om annotering
 job.abort: Avbryt
 job.aborting: Avbryter annotering
-job.loading: Kollar annoteringsstatus
 job.starting: Lägger annotering i kö
 job.installing: Installerar i Korp
 job.status: Status

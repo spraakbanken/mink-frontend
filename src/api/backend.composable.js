@@ -73,12 +73,13 @@ export default function useMinkBackend() {
       `corpus/${corpusId}/sources`
     );
 
-  const loadJob = (corpusId) =>
-    spin(api.checkStatus(corpusId), t("job.loading"), `corpus/${corpusId}/job`);
-
-  /** Load job status data for those corpora that have any job info. */
-  const loadJobs = () =>
-    spin(api.checkStatusAll(), t("job.loading"), `corpora`);
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Process-Corpus/operation/resourceinfo */
+  const resourceInfo = (corpusId) =>
+    spin(
+      api.resourceInfo(corpusId),
+      t("resource.loading"),
+      `corpus/${corpusId}/job`
+    );
 
   const runJob = (corpusId) =>
     spin(api.runSparv(corpusId), t("job.starting"), `corpus/${corpusId}/job`);
@@ -139,8 +140,7 @@ export default function useMinkBackend() {
     downloadPlaintext,
     uploadSources,
     deleteSource,
-    loadJob,
-    loadJobs,
+    resourceInfo,
     runJob,
     installKorp,
     installStrix,
