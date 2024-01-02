@@ -16,9 +16,9 @@ home.otherdata.body: Tänk på att först undersöka andra språkdatamängder so
 home.otherdata.sbdata.title: "Språkbanken Text: Language resources"
 welcome: Välkommen, {name}!
 mydata: Mina data
-dashboard: Översikt
-dashboard.help.corpora: Här listas de korpusar du har skapat. De är bara synliga för dig. Klicka på dem för att visa mer.
-dashboard.help.corpora.none: >-
+library: Bibliotek
+library.help.corpora: Här listas de korpusar du har skapat. De är bara synliga för dig. Klicka på dem för att visa mer.
+library.help.corpora.none: >-
   Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en korpus: använd knappen "@:{'new_corpus'}" eller dra textfiler till uppladdningsrutan nedan.
 corpus.create.help: Korpusen kommer bara att vara synlig för dig. Du kan alltid uppdatera de här uppgifterna senare.
 corpus.creating: Skapar korpus

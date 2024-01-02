@@ -15,6 +15,7 @@ As this project is a user-facing application, the places in the semantic version
 
 ### Changed
 
+- Rename "Dashboard" to "Library"
 - Use new `resource-info` route, drop `check-status` and `list-sources`
 - The local storage key is now tagged with a datestamp, and should be changed when the data shape of the state changes
 

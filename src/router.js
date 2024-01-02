@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/home/Home.vue";
-import Dashboard from "@/corpora/Dashboard.vue";
+import Library from "@/corpora/Library.vue";
 import Login from "@/auth/Login.vue";
 import Signup from "@/auth/Signup.vue";
 import CreateCorpus from "@/corpora/CreateCorpus.vue";
@@ -26,8 +26,8 @@ const routes = [
   },
   {
     path: "/corpus",
-    component: Dashboard,
-    meta: { title: "dashboard" },
+    component: Library,
+    meta: { title: "library" },
   },
   {
     path: "/login",
