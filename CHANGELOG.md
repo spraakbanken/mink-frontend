@@ -17,8 +17,12 @@ As this project is a user-facing application, the places in the semantic version
 
 - Rename "Dashboard" to "Library"
 - Use new `resource-info` route, drop `check-status` and `list-sources`
-- Allow clicking most elements behind a loading spinner
 - The local storage key is now tagged with a datestamp, and should be changed when the data shape of the state changes
+
+### Fixed
+
+- Allow clicking most elements behind a loading spinner
+- Home page width on small screen
 
 ## [1.0.5] (2023-11-28)
 

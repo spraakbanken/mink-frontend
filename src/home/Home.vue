@@ -85,7 +85,7 @@ const logoutUrl = getLogoutUrl();
         <div
           class="flex-1 flex flex-col md:flex-row 2xl:flex-col items-center gap-6"
         >
-          <HomeIllustration class="w-96 md:w-1/2 2xl:w-4/5">
+          <HomeIllustration class="md:w-1/2 2xl:w-4/5">
             <img src="@/assets/sparv-screen.png" />
           </HomeIllustration>
 
@@ -106,7 +106,7 @@ const logoutUrl = getLogoutUrl();
         <div
           class="flex-1 flex flex-col md:flex-row-reverse 2xl:flex-col items-center gap-6"
         >
-          <HomeIllustration class="w-96 md:w-1/2 2xl:w-4/5">
+          <HomeIllustration class="md:w-1/2 2xl:w-4/5">
             <img src="@/assets/texts.png" />
           </HomeIllustration>
 
@@ -125,7 +125,7 @@ const logoutUrl = getLogoutUrl();
         <div
           class="flex-1 flex flex-col md:flex-row 2xl:flex-col items-center gap-6"
         >
-          <HomeIllustration class="w-96 md:w-1/2 2xl:w-4/5">
+          <HomeIllustration class="md:w-1/2 2xl:w-4/5">
             <img src="@/assets/korp-screen.png" />
           </HomeIllustration>
 
@@ -154,7 +154,7 @@ const logoutUrl = getLogoutUrl();
         <div
           class="flex-1 flex flex-col md:flex-row-reverse 2xl:flex-col items-center gap-6"
         >
-          <HomeIllustration class="w-96 md:w-1/2 2xl:w-5/6">
+          <HomeIllustration class="md:w-1/2 2xl:w-5/6">
             <img src="@/assets/share.png" />
           </HomeIllustration>
 
