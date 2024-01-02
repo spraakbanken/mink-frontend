@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Changed
+
+- The local storage key is now tagged with a datestamp, and should be changed when the data shape of the state changes
+
 ## [1.0.5] (2023-11-28)
 
 ### Changed

@@ -4,7 +4,11 @@ import { useStorage } from "@vueuse/core";
 import { setKeys } from "@/util";
 
 export const useCorpusStore = defineStore("corpus", () => {
-  const corporaRef = useStorage("corpora", {});
+  // Connect state to browser's local storage. Change the number here to the
+  // current date (YYMMDD) if the state shape is changed, to make the browser
+  // forget the old state. The actual number doesn't really matter, as long as
+  // it's a new one.
+  const corporaRef = useStorage("mink@230102.corpora", {});
   const corpora = reactive(corporaRef.value);
 
   function setCorpusIds(corpusIds) {
