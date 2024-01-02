@@ -23,22 +23,14 @@ export default function useCorpus(corpusId) {
       return;
     }
 
-    // Load all essential info about the corpus.
-    await Promise.all([
-      loadConfig(), //
-      loadResourceInfo(),
-    ]);
+    // Load remaining essential info about the corpus.
+    // Skip if removed.
+    if (corpusId in corpusStore.corpora) {
+      await loadConfig();
+    }
 
     // Remember to skip loading next time.
     isCorpusFresh[corpusId] = true;
-  }
-
-  /** Load job status and source files in the same request. */
-  async function loadResourceInfo() {
-    const info = await mink.resourceInfo(corpusId).catch(alertError);
-    corpusStore.corpora[corpusId].name = info.resource.name;
-    corpusStore.corpora[corpusId].sources = info.resource.source_files;
-    corpusStore.corpora[corpusId].status = info.job;
   }
 
   async function deleteCorpus(corpusId_ = corpusId) {

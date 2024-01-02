@@ -13,17 +13,14 @@ export default function useCorpora() {
   const { alertError } = useMessenger();
   const mink = useMinkBackend();
 
-  async function doLoadCorpora() {
-    const corpusIds = await mink.loadCorpora().catch(alertError);
-    corpusStore.setCorpusIds(corpusIds);
-  }
-
   async function loadCorpora(force = false) {
     // Skip if already loaded.
     if (isCorporaFresh && !force) return;
 
     // Store the pending request in module scope, so simultaneous calls will await the same promise.
-    if (!loadPromise) loadPromise = doLoadCorpora();
+    if (!loadPromise)
+      // loadCorpusIds has less information, but it is faster and will update UI sooner.
+      loadPromise = Promise.all([loadCorpusIds(), loadResourceInfo()]);
     await loadPromise;
 
     // Unset the promise slot to allow any future, forced calls.
@@ -32,7 +29,38 @@ export default function useCorpora() {
     isCorporaFresh = true;
   }
 
+  /** Load corpus ids and update store to match. */
+  async function loadCorpusIds() {
+    const corpusIds = await mink.loadCorpusIds().catch(alertError);
+    corpusStore.setCorpusIds(corpusIds);
+  }
+
+  /** Load and store data about all the user's resources. */
+  async function loadResourceInfo() {
+    const data = await mink.resourceInfo().catch(alertError);
+    const corpora = {};
+    for (const info of data.jobs) {
+      // TODO Patch instead, to avoid removing config/exports?
+      corpora[info.resource.id] = {
+        name: info.resource.name,
+        sources: info.resource.source_files,
+        status: info.job,
+      };
+    }
+    // Overwrite the whole value, so removed items are dropped.
+    corpusStore.setCorpora(corpora);
+  }
+
+  /** Signal that info needs to be reloaded, and fetch ids. */
+  async function refreshCorpora() {
+    isCorporaFresh = false;
+    await loadCorpusIds();
+  }
+
   return {
     loadCorpora,
+    loadCorpusIds,
+    loadResourceInfo,
+    refreshCorpora,
   };
 }

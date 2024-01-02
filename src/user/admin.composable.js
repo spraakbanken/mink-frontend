@@ -8,20 +8,20 @@ const adminModeRef = ref(false);
 
 export default function useAdmin() {
   const { canUserAdmin } = useAuth();
-  const { loadCorpora } = useCorpora();
+  const { refreshCorpora } = useCorpora();
   const mink = useMinkBackend();
   const { alertError } = useMessenger();
 
   async function enableAdminMode() {
     await mink.enableAdminMode().catch(alertError);
     adminModeRef.value = true;
-    await loadCorpora(true);
+    await refreshCorpora();
   }
 
   async function disableAdminMode() {
     await mink.disableAdminMode().catch(alertError);
     adminModeRef.value = false;
-    await loadCorpora(true);
+    await refreshCorpora();
   }
 
   return {

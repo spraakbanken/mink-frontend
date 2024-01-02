@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Changed
+
+- Request `resource-info` once for all resources
+
 ## [1.1.0] (2024-01-02)
 
 ### Added

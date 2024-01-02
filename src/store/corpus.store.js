@@ -15,6 +15,13 @@ export const useCorpusStore = defineStore("corpus", () => {
     setKeys(corpora, corpusIds, {});
   }
 
+  function setCorpora(corporaNew) {
+    setKeys(corpora, Object.keys(corporaNew));
+    for (const id in corporaNew) {
+      corpora[id] = corporaNew[id];
+    }
+  }
+
   function removeCorpus(corpusId) {
     delete corpora[corpusId];
   }
@@ -24,6 +31,7 @@ export const useCorpusStore = defineStore("corpus", () => {
   return {
     corpora,
     setCorpusIds,
+    setCorpora,
     removeCorpus,
     hasCorpora,
   };
