@@ -57,13 +57,6 @@ class MinkApi {
     return response.data;
   }
 
-  async listSources(corpusId) {
-    const response = await this.axios.get("list-sources", {
-      params: { corpus_id: corpusId },
-    });
-    return response.data.contents;
-  }
-
   async downloadSourceFile(corpusId, filename, binary = false) {
     const response = await this.axios.get("download-sources", {
       params: { corpus_id: corpusId, file: filename, zip: false },

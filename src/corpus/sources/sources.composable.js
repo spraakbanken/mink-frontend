@@ -13,8 +13,8 @@ export default function useSources(corpusId) {
   const sources = computed(() => corpusStore.corpora[corpusId]?.sources || []);
 
   async function loadSources(corpusId_ = corpusId) {
-    const sourcesFetched = await mink.loadSources(corpusId_).catch(alertError);
-    corpusStore.corpora[corpusId_].sources = sourcesFetched;
+    const info = await mink.resourceInfo(corpusId_).catch(alertError);
+    corpusStore.corpora[corpusId_].sources = info.resource.source_files;
   }
 
   async function downloadSource(source, binary) {

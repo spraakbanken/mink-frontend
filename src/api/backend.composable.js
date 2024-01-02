@@ -38,13 +38,6 @@ export default function useMinkBackend() {
       `corpus/${corpusId}/config`
     );
 
-  const loadSources = (corpusId) =>
-    spin(
-      api.listSources(corpusId),
-      t("source.list.loading"),
-      `corpus/${corpusId}/sources`
-    );
-
   const downloadSource = (corpusId, filename, binary) =>
     spin(
       api.downloadSourceFile(corpusId, filename, binary),
@@ -135,7 +128,6 @@ export default function useMinkBackend() {
     deleteCorpus,
     loadConfig,
     saveConfig,
-    loadSources,
     downloadSource,
     downloadPlaintext,
     uploadSources,

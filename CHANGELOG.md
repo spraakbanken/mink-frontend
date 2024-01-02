@@ -15,7 +15,7 @@ As this project is a user-facing application, the places in the semantic version
 
 ### Changed
 
-- Use new `resource-info` route, drop `check-status`
+- Use new `resource-info` route, drop `check-status` and `list-sources`
 - The local storage key is now tagged with a datestamp, and should be changed when the data shape of the state changes
 
 ## [1.0.5] (2023-11-28)
