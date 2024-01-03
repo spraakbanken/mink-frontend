@@ -12,14 +12,14 @@
         <ActionButton
           v-if="!isJobRunning"
           :disabled="!canRun"
-          :class="{ 'mink-primary': sparvStatus.isReady }"
+          :class="{ 'button-primary': sparvStatus.isReady }"
           @click="canRun ? doRunJob() : null"
         >
           <icon :icon="['fas', 'gears']" class="mr-1" />
           {{ !sparvStatus.isDone ? $t("job.run") : $t("job.rerun") }}
         </ActionButton>
 
-        <ActionButton v-else class="mink-danger ml-2" @click="abortJob">
+        <ActionButton v-else class="button-danger ml-2" @click="abortJob">
           {{ $t("job.abort") }}
         </ActionButton>
 

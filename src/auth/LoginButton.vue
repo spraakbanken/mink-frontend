@@ -1,6 +1,6 @@
 <template>
   <UrlButton
-    class="mink-primary"
+    class="button-primary"
     :href="getLoginUrl(route.query.destination || '/corpus')"
   >
     <icon :icon="['fas', 'right-to-bracket']" />

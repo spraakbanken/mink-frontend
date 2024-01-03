@@ -6,7 +6,7 @@
       type="form"
       :submit-label="$t('save')"
       :submit-attrs="{
-        inputClass: 'mink-button mink-primary',
+        inputClass: 'mink-button button-primary',
       }"
       @submit="submit"
     >
@@ -85,7 +85,7 @@
     <div class="flex justify-center">
       <PendingContent :on="`corpus/${corpusId}`">
         <router-link :to="`/corpus/${corpusId}/delete`">
-          <ActionButton class="mink-danger">
+          <ActionButton class="button-danger">
             <icon :icon="['far', 'trash-can']" class="mr-1" />
             {{ $t("corpus.delete") }}
           </ActionButton>

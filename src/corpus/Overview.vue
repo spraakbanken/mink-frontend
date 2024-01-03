@@ -9,7 +9,7 @@
         <Config />
         <template #controls>
           <router-link :to="`/corpus/${corpusId}/config`">
-            <ActionButton :class="{ 'mink-primary': isNeedingConfig }">
+            <ActionButton :class="{ 'button-primary': isNeedingConfig }">
               <icon :icon="['fas', 'pen']" class="mr-1" />
               {{ $t("edit") }}
             </ActionButton>
@@ -24,7 +24,7 @@
             v-if="!isNeedingConfig"
             :to="`/corpus/${corpusId}/metadata`"
           >
-            <ActionButton :class="{ 'mink-primary': isNeedingMeta }">
+            <ActionButton :class="{ 'button-primary': isNeedingMeta }">
               <icon :icon="['fas', 'pen']" class="mr-1" />
               {{ $t("edit") }}
             </ActionButton>

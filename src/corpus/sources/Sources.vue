@@ -32,7 +32,7 @@
             </td>
             <td class="text-right">
               <ActionButton
-                class="mink-danger mute slim"
+                class="button-danger button-mute button-slim"
                 @click="deleteSource(source)"
               >
                 <icon :icon="['far', 'trash-can']" />

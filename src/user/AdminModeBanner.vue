@@ -23,7 +23,7 @@ function disable() {
     <div class="container py-1">
       <icon icon="triangle-exclamation" class="mr-2" />
       {{ $t("user.admin_mode.warning") }}
-      <ActionButton class="ml-2 slim text-sm" @click="disable">
+      <ActionButton class="ml-2 button-slim text-sm" @click="disable">
         {{ $t("disable") }}
       </ActionButton>
     </div>

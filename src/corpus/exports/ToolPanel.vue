@@ -23,7 +23,7 @@ defineEmits(["install"]);
         <ActionButton
           :disabled="!canInstall"
           class="whitespace-nowrap"
-          :class="{ 'mink-primary': canInstall && !isInstalled }"
+          :class="{ 'button-primary': canInstall && !isInstalled }"
           @click="$emit('install')"
         >
           {{
@@ -37,7 +37,7 @@ defineEmits(["install"]);
           :href="showUrl"
           target="_blank"
           :disabled="!isInstalled"
-          class="mink-primary"
+          class="button-primary"
         >
           {{ $t("exports.tools.view") }}
         </UrlButton>

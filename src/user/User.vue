@@ -3,7 +3,7 @@
     <PageTitle>{{ payload.name }}</PageTitle>
 
     <div class="my-4">
-      <UrlButton class="mink-warning" :href="logoutUrl">
+      <UrlButton class="button-warning" :href="logoutUrl">
         <icon :icon="['fas', 'person-running']" class="mr-1" />
         {{ $t("logout") }}
       </UrlButton>
