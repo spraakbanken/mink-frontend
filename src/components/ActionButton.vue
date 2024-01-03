@@ -1,7 +1,7 @@
 <template>
-  <div class="inline-block mink-button" :class="{ disabled }">
+  <button class="inline-block mink-button" :disabled="disabled">
     <slot />
-  </div>
+  </button>
 </template>
 
 <script setup>

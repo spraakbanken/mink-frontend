@@ -24,7 +24,7 @@ defineEmits(["install"]);
           :disabled="!canInstall"
           class="whitespace-nowrap"
           :class="{ 'mink-primary': canInstall && !isInstalled }"
-          @click="canInstall ? $emit('install') : null"
+          @click="$emit('install')"
         >
           {{
             $t(
