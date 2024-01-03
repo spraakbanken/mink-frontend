@@ -156,7 +156,9 @@ signup.new.register.label: skapa ett EduID-konto
 signup.new.eduid: eduID Sweden
 account: Konto
 enable: Aktivera
-disable: Avaktivera
+enabled: På
+disable: Stäng av
+disabled: Av
 xml: XML
 txt: Ren text
 docx: Microsoft Word
@@ -187,10 +189,12 @@ timespan_from: Från
 timespan_to: Till
 edit: Redigera
 annotations: Annotationer
+annotations.ner: Namngivna entiteter
+annotations.ner.help: Namngivna entitetsigenkänning (named entity recognition, NER) hittar personer, platser, datum och liknande i dina texter. Däremot tar analysen ganska lång tid.
 annotations.info: |
   <p>
-    Vi jobbar på möjligheten att själv välja analysmetoder, annotationer och modeller.
-    För närvarande kommer analysen att berika texten med följande annotationer:
+    Vi jobbar på möjligheten att välja bland fler analysmetoder, annotationer och modeller.
+    Förutom alternativen ovan kommer analysen automatiskt att berika texten med följande annotationer:
   </p>
   <ul>
     <li>ordklasstaggar</li>

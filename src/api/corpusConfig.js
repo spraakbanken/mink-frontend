@@ -21,6 +21,7 @@ export async function makeConfig(id, options) {
     sentenceSegmenter,
     datetimeFrom,
     datetimeTo,
+    enableNer,
   } = options;
   const config = {
     metadata: {
@@ -113,6 +114,17 @@ export async function makeConfig(id, options) {
     );
   }
 
+  // Enable named entity recognition.
+  if (enableNer) {
+    config.export.annotations.push(
+      "swener.ne",
+      "swener.ne:swener.name",
+      "swener.ne:swener.ex",
+      "swener.ne:swener.type",
+      "swener.ne:swener.subtype"
+    );
+  }
+
   return (await yaml).dump(config);
 }
 
@@ -139,6 +151,7 @@ export async function parseConfig(configYaml) {
     datetimeTo: config.custom_annotations?.find(
       (a) => a.params.out == "<text>:misc.dateto"
     ).params.value,
+    enableNer: config.export?.annotations?.includes("swener.ne"),
   };
 }
 

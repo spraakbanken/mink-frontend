@@ -15,6 +15,7 @@ As this project is a user-facing application, the places in the semantic version
 
 ### Added
 
+- Option to enable named entity recognition
 - Check if admin mode is enabled on load
 
 ### Changed

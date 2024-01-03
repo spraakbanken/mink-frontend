@@ -70,6 +70,14 @@
         />
 
         <Section :title="$t('annotations')">
+          <FormKit
+            name="enableNer"
+            :label="$t('annotations.ner')"
+            :value="config.enableNer"
+            type="checkbox"
+            :help="$t('annotations.ner.help')"
+          />
+
           <div class="prose" v-html="$t('annotations.info')" />
         </Section>
       </Section>
@@ -144,6 +152,7 @@ async function submit(fields) {
     sentenceSegmenter: fields.sentenceSegmenter,
     datetimeFrom: fields.datetimeFrom,
     datetimeTo: fields.datetimeTo,
+    enableNer: fields.enableNer,
   };
   try {
     await uploadConfig(configNew, corpusIdFixed);
