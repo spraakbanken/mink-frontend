@@ -40,7 +40,6 @@
           <td>
             <a href="#" @click.prevent="downloadResult">
               <icon :icon="['fas', 'download']" class="mr-1" />
-
               {{ getDownloadFilename() }}
             </a>
           </td>

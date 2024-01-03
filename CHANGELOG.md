@@ -21,6 +21,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Changed
 
 - Request `resource-info` once for all resources
+- `UrlButton` component replaces `a > ActionButton`
 
 ## [1.1.0] (2024-01-02)
 

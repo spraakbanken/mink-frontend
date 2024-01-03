@@ -1,5 +1,6 @@
 <script setup>
 import ActionButton from "@/components/ActionButton.vue";
+import UrlButton from "@/components/UrlButton.vue";
 
 defineProps([
   "name",
@@ -32,14 +33,14 @@ defineEmits(["install"]);
           }}
         </ActionButton>
 
-        <a v-if="isInstalled" :href="showUrl" target="_blank">
-          <ActionButton variant="primary">
-            {{ $t("exports.tools.view") }}
-          </ActionButton>
-        </a>
-        <ActionButton v-else disabled>
+        <UrlButton
+          variant="primary"
+          :href="showUrl"
+          target="_blank"
+          :disabled="!isInstalled"
+        >
           {{ $t("exports.tools.view") }}
-        </ActionButton>
+        </UrlButton>
       </div>
     </div>
 

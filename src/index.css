@@ -95,22 +95,21 @@ select {
 }
 
 @layer components {
-  .mink-button,
-  a .mink-button {
+  .mink-button {
     @apply p-1 px-2 rounded shadow bg-zinc-100 text-gray-700 cursor-pointer hover:drop-shadow-md hover:brightness-110 transition-all;
     @apply dark:bg-zinc-700 dark:text-zinc-300;
   }
-  .mink-button.mink-primary {
+  .mink-button.mink-primary:not(.disabled) {
     @apply bg-blue-400 shadow-blue-700 text-white;
   }
-  .mink-button.mink-danger {
+  .mink-button.mink-danger:not(.disabled) {
     @apply bg-red-400 shadow-red-700 text-white;
     @apply dark:bg-red-700;
   }
-  .mink-button.mink-success {
+  .mink-button.mink-success:not(.disabled) {
     @apply bg-green-300 shadow-green-600 text-green-900;
   }
-  .mink-button.mink-warning {
+  .mink-button.mink-warning:not(.disabled) {
     @apply bg-amber-300 shadow-amber-600 text-amber-900;
   }
   .mink-button.disabled {

@@ -4,6 +4,7 @@ import Section from "@/components/Section.vue";
 import { getLogoutUrl } from "@/auth/auth";
 import LoginButton from "@/auth/LoginButton.vue";
 import ActionButton from "@/components/ActionButton.vue";
+import UrlButton from "@/components/UrlButton.vue";
 import HomeIllustration from "./HomeIllustration.vue";
 import HomeNews from "./HomeNews.vue";
 
@@ -63,12 +64,10 @@ const logoutUrl = getLogoutUrl();
                 </ActionButton>
               </router-link>
 
-              <a :href="logoutUrl">
-                <ActionButton>
-                  <icon :icon="['fas', 'person-running']" />
-                  {{ $t("logout") }}
-                </ActionButton>
-              </a>
+              <UrlButton :href="logoutUrl">
+                <icon :icon="['fas', 'person-running']" />
+                {{ $t("logout") }}
+              </UrlButton>
             </div>
           </div>
         </div>
