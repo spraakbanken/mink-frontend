@@ -11,7 +11,7 @@
         {{ filesize(findInfo("file_size_limits", "max_corpus_length")) }}
       </span>
     </div>
-    <SourceUpload :variant="isEmpty ? 'primary' : null">
+    <SourceUpload :primary="isEmpty">
       <table v-if="sources.length" class="w-full mt-4 striped">
         <thead>
           <tr>
@@ -32,8 +32,7 @@
             </td>
             <td class="text-right">
               <ActionButton
-                variant="danger"
-                class="mute slim"
+                class="mink-danger mute slim"
                 @click="deleteSource(source)"
               >
                 <icon :icon="['far', 'trash-can']" />

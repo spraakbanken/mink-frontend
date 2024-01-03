@@ -1,14 +1,9 @@
 <script setup>
-import { useVariant, variantProps } from "@/variant.composable";
-
-const props = defineProps({
-  ...variantProps,
+defineProps({
   href: { type: String, required: true },
   target: { type: String, default: undefined },
   disabled: Boolean,
 });
-
-const { variantClass } = useVariant(() => props.variant);
 </script>
 
 <template>
@@ -16,7 +11,7 @@ const { variantClass } = useVariant(() => props.variant);
     :href="disabled ? undefined : href"
     :target="target"
     class="inline-block mink-button"
-    :class="{ [variantClass]: true, disabled }"
+    :class="{ disabled }"
   >
     <slot />
   </a>

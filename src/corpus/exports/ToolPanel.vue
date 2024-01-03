@@ -21,9 +21,9 @@ defineEmits(["install"]);
 
       <div class="flex gap-2 justify-end">
         <ActionButton
-          :variant="canInstall && !isInstalled ? 'primary' : null"
           :disabled="!canInstall"
           class="whitespace-nowrap"
+          :class="{ 'mink-primary': canInstall && !isInstalled }"
           @click="canInstall ? $emit('install') : null"
         >
           {{
@@ -34,10 +34,10 @@ defineEmits(["install"]);
         </ActionButton>
 
         <UrlButton
-          variant="primary"
           :href="showUrl"
           target="_blank"
           :disabled="!isInstalled"
+          class="mink-primary"
         >
           {{ $t("exports.tools.view") }}
         </UrlButton>

@@ -16,8 +16,7 @@
         {{ $t("download_export") }}:
         <ActionButton
           v-if="exports && exports.length"
-          variant="primary"
-          class="mr-2"
+          class="mink-primary mr-2"
           @click="downloadResult"
         >
           <icon :icon="['fas', 'download']" class="mr-1" />

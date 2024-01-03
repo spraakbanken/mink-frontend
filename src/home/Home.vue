@@ -42,7 +42,7 @@ const logoutUrl = getLogoutUrl();
 
             <div v-if="!isAuthenticated">
               <router-link to="/signup">
-                <ActionButton variant="success">
+                <ActionButton class="mink-success">
                   <icon :icon="['fas', 'user-plus']" />
                   {{ $t("signup") }}
                 </ActionButton>
@@ -59,7 +59,7 @@ const logoutUrl = getLogoutUrl();
               <div>{{ $t("welcome", { name: payload.name }) }}</div>
 
               <router-link to="/corpus">
-                <ActionButton variant="primary">
+                <ActionButton class="mink-primary">
                   {{ $t("mydata") }}
                 </ActionButton>
               </router-link>

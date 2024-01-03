@@ -28,7 +28,7 @@
     <PendingContent on="create" blocking>
       <SourceUpload
         :file-handler="createCorpusFromFiles"
-        :variant="corpusStore.hasCorpora ? null : 'primary'"
+        :primary="!corpusStore.hasCorpora"
       />
     </PendingContent>
   </Section>

@@ -22,7 +22,7 @@ async function doDelete() {
       <p class="my-2">{{ $t("corpus.delete.ask") }}</p>
 
       <div>
-        <ActionButton variant="danger" class="mr-4" @click="doDelete">
+        <ActionButton class="mink-danger mr-4" @click="doDelete">
           <icon :icon="['far', 'trash-can']" />
           {{ $t("corpus.delete") }}
         </ActionButton>

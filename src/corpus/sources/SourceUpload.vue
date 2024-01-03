@@ -4,7 +4,7 @@
     <label for="file-input" class="cursor-pointer">
       <div
         :class="
-          variant == 'primary'
+          primary
             ? [
                 'bg-blue-50',
                 'border-blue-100',
@@ -62,9 +62,8 @@ const props = defineProps({
     type: Function,
     default: null,
   },
-  variant: {
-    type: String,
-    default: null,
+  primary: {
+    type: Boolean,
   },
 });
 
