@@ -115,6 +115,8 @@ export default function useMinkBackend() {
       `corpus/${corpusId}/exports`
     );
 
+  const checkAdminMode = () => spin(api.adminModeStatus(), null, "admin-mode");
+
   const enableAdminMode = () =>
     spin(api.adminModeOn(), "Enabling admin mode", "admin-mode");
 
@@ -140,6 +142,7 @@ export default function useMinkBackend() {
     loadExports,
     downloadExports,
     downloadExportFiles,
+    checkAdminMode,
     enableAdminMode,
     disableAdminMode,
   };

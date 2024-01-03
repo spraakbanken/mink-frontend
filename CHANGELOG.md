@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Added
+
+- Check if admin mode is enabled on load
+
 ### Changed
 
 - Request `resource-info` once for all resources

@@ -1,8 +1,14 @@
 <script setup>
-import useAdmin from "./admin.composable";
+import { useAuth } from "@/auth/auth.composable";
 import ActionButton from "@/components/ActionButton.vue";
+import useAdmin from "./admin.composable";
 
-const { adminMode, disableAdminMode } = useAdmin();
+const { requireAuthentication } = useAuth();
+const { adminMode, isAdmin, checkAdminMode, disableAdminMode } = useAdmin();
+
+requireAuthentication(() => {
+  if (isAdmin.value) checkAdminMode();
+});
 
 function disable() {
   disableAdminMode();

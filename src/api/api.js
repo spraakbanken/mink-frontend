@@ -166,6 +166,11 @@ class MinkApi {
     return response.data;
   }
 
+  async adminModeStatus() {
+    const response = await this.axios.get("admin-mode-status");
+    return response.data.admin_mode_status;
+  }
+
   async adminModeOn() {
     const response = await this.axios.post("admin-mode-on");
     return response.data;
