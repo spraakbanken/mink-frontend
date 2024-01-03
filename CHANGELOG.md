@@ -22,6 +22,7 @@ As this project is a user-facing application, the places in the semantic version
 
 - Request `resource-info` once for all resources
 - `UrlButton` component replaces `a > ActionButton`
+- `RouteButton` component replaces `router-link > ActionButton`
 - `ActionButton` uses `<button>` and is tabbable
 
 ### Removed

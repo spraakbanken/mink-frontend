@@ -7,6 +7,7 @@ import ActionButton from "@/components/ActionButton.vue";
 import UrlButton from "@/components/UrlButton.vue";
 import HomeIllustration from "./HomeIllustration.vue";
 import HomeNews from "./HomeNews.vue";
+import RouteButton from "@/components/RouteButton.vue";
 
 const { isAuthenticated, canUserWrite, payload } = useAuth();
 const logoutUrl = getLogoutUrl();
@@ -41,12 +42,10 @@ const logoutUrl = getLogoutUrl();
             </div>
 
             <div v-if="!isAuthenticated">
-              <router-link to="/signup">
-                <ActionButton class="button-success">
-                  <icon :icon="['fas', 'user-plus']" />
-                  {{ $t("signup") }}
-                </ActionButton>
-              </router-link>
+              <RouteButton to="/signup" class="button-success">
+                <icon :icon="['fas', 'user-plus']" />
+                {{ $t("signup") }}
+              </RouteButton>
               <div class="my-1 text-sm opacity-70">
                 {{ $t("signup.help") }}
               </div>
@@ -58,11 +57,9 @@ const logoutUrl = getLogoutUrl();
             >
               <div>{{ $t("welcome", { name: payload.name }) }}</div>
 
-              <router-link to="/corpus">
-                <ActionButton class="button-primary">
-                  {{ $t("mydata") }}
-                </ActionButton>
-              </router-link>
+              <RouteButton to="/corpus" class="button-primary">
+                {{ $t("mydata") }}
+              </RouteButton>
 
               <UrlButton :href="logoutUrl">
                 <icon :icon="['fas', 'person-running']" />
