@@ -15,11 +15,20 @@ export const useCorpusStore = defineStore("corpus", () => {
     setKeys(corpora, corpusIds, {});
   }
 
-  function setCorpora(corporaNew) {
-    setKeys(corpora, Object.keys(corporaNew));
-    for (const id in corporaNew) {
-      corpora[id] = corporaNew[id];
+  function setCorpora(infos) {
+    for (const infoNew of infos) {
+      // Patch any existing record, otherwise create a new one.
+      const info =
+        infoNew.resource.id in corpora ? corpora[infoNew.resource.id] : {};
+      info.name = infoNew.resource.name;
+      info.sources = infoNew.resource.source_files;
+      info.status = infoNew.job;
+      corpora[infoNew.resource.id] = info;
     }
+
+    // Drop old keys.
+    const ids = infos.map((info) => info.resource.id);
+    setKeys(corpora, ids);
   }
 
   function removeCorpus(corpusId) {

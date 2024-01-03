@@ -38,17 +38,7 @@ export default function useCorpora() {
   /** Load and store data about all the user's resources. */
   async function loadResourceInfo() {
     const data = await mink.resourceInfo().catch(alertError);
-    const corpora = {};
-    for (const info of data.resources) {
-      // TODO Patch instead, to avoid removing config/exports?
-      corpora[info.resource.id] = {
-        name: info.resource.name,
-        sources: info.resource.source_files,
-        status: info.job,
-      };
-    }
-    // Overwrite the whole value, so removed items are dropped.
-    corpusStore.setCorpora(corpora);
+    corpusStore.setCorpora(data.resources);
   }
 
   /** Signal that info needs to be reloaded, and fetch ids. */
