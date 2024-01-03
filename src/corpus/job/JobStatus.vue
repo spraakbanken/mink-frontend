@@ -8,7 +8,7 @@
         <JobStatusMessage :corpus-id="corpusId" class="font-bold" />
       </div>
 
-      <div class="text-sm">
+      <div class="text-sm text-right">
         <ActionButton
           v-if="!isJobRunning"
           :variant="sparvStatus.isReady ? 'primary' : null"
@@ -22,6 +22,10 @@
         <ActionButton v-else variant="danger" class="ml-2" @click="abortJob">
           {{ $t("job.abort") }}
         </ActionButton>
+
+        <div v-if="!isJobRunning && sparvStatus.isDone">
+          <icon icon="circle-info" /> {{ $t("job.rerun.overwrite") }}
+        </div>
       </div>
     </div>
 

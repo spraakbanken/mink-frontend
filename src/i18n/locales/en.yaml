@@ -55,6 +55,7 @@ config.loading: Loading metadata
 config.saving: Saving metadata
 job.run: Run annotation
 job.rerun: Re-run annotation
+job.rerun.overwrite: Previous results will be overwritten
 job.abort: Abort
 job.aborting: Aborting annotation job
 job.starting: Queueing annotation job
