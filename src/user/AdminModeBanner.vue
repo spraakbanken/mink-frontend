@@ -3,12 +3,13 @@ import { useAuth } from "@/auth/auth.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import useAdmin from "./admin.composable";
 
-const { requireAuthentication } = useAuth();
+const { refreshJwt } = useAuth();
 const { adminMode, isAdmin, checkAdminMode, disableAdminMode } = useAdmin();
 
-requireAuthentication(() => {
+(async () => {
+  await refreshJwt();
   if (isAdmin.value) checkAdminMode();
-});
+})();
 
 function disable() {
   disableAdminMode();
