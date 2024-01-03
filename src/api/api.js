@@ -101,7 +101,7 @@ class MinkApi {
    * An info record has {resource: ..., job: ...}.
    *
    * If corpus_id is given, the response is an info record. If not, it contains
-   * `jobs` which is a list of info records.
+   * `resources` which is a list of info records.
    */
   async resourceInfo(corpusId) {
     const response = await this.axios.get("resource-info", {

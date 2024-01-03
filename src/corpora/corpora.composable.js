@@ -39,7 +39,7 @@ export default function useCorpora() {
   async function loadResourceInfo() {
     const data = await mink.resourceInfo().catch(alertError);
     const corpora = {};
-    for (const info of data.jobs) {
+    for (const info of data.resources) {
       // TODO Patch instead, to avoid removing config/exports?
       corpora[info.resource.id] = {
         name: info.resource.name,
