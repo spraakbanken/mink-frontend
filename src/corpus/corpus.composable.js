@@ -12,7 +12,7 @@ export default function useCorpus(corpusId) {
   const corpusStore = useCorpusStore();
   const { refreshJwt } = useAuth();
   const mink = useMinkBackend();
-  const { loadCorpora } = useCorpora();
+  const { loadCorpora, refreshCorpora } = useCorpora();
   const { alertError } = useMessenger();
   const { loadConfig } = useConfig(corpusId);
 
@@ -39,7 +39,7 @@ export default function useCorpus(corpusId) {
     // The backend will have updated the remote JWT, so refresh our copy.
     // The backend uses the corpus list within it when listing available corpora.
     await refreshJwt();
-    corpusStore.removeCorpus(corpusId_);
+    await refreshCorpora();
   }
 
   return { loadCorpus, deleteCorpus };

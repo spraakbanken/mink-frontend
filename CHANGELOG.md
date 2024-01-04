@@ -27,6 +27,10 @@ As this project is a user-facing application, the places in the semantic version
 - `RouteButton` component replaces `router-link > ActionButton`
 - `ActionButton` uses `<button>` and is tabbable
 
+### Fixed
+
+- Error handling when deleting corpus
+
 ### Removed
 
 - `useVariant`
