@@ -3,6 +3,7 @@ import { getLogoutUrl } from "@/auth/auth";
 import { useAuth } from "@/auth/auth.composable";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
+// Asset path transformation doesn't work in <source srcset> like in <img src>
 import logoSbxLight from "@/assets/sbx1r-light.svg";
 import Spinner from "@/spin/Spinner.vue";
 import MinkLogo from "./MinkLogo.vue";
