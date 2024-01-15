@@ -21,7 +21,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Changed
 
 - Dependencies upgraded
-  - Node 20 is now required (perhaps 18 is fine too), due to @vitejs/plugin-vue@5
+  - Node 18 is now required, due to @vitejs/plugin-vue@5
 - Request `resource-info` once for all resources
 - `UrlButton` component replaces `a > ActionButton`
 - `RouteButton` component replaces `router-link > ActionButton`
