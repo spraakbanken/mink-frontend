@@ -6,7 +6,7 @@
       type="form"
       :submit-label="$t('save')"
       :submit-attrs="{
-        inputClass: 'mink-button mink-primary',
+        inputClass: 'mink-button button-primary',
       }"
       @submit="submit"
     >
@@ -70,18 +70,24 @@
         />
 
         <Section :title="$t('annotations')">
+          <FormKit
+            name="enableNer"
+            :label="$t('annotations.ner')"
+            :value="config.enableNer"
+            type="checkbox"
+            :help="$t('annotations.ner.help')"
+          />
+
           <div class="prose" v-html="$t('annotations.info')" />
         </Section>
       </Section>
     </FormKit>
     <div class="flex justify-center">
       <PendingContent :on="`corpus/${corpusId}`">
-        <router-link :to="`/corpus/${corpusId}/delete`">
-          <ActionButton variant="danger">
-            <icon :icon="['far', 'trash-can']" class="mr-1" />
-            {{ $t("corpus.delete") }}
-          </ActionButton>
-        </router-link>
+        <RouteButton :to="`/corpus/${corpusId}/delete`" class="button-danger">
+          <icon :icon="['far', 'trash-can']" class="mr-1" />
+          {{ $t("corpus.delete") }}
+        </RouteButton>
       </PendingContent>
     </div>
   </div>
@@ -92,7 +98,7 @@ import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import ActionButton from "@/components/ActionButton.vue";
+import RouteButton from "@/components/RouteButton.vue";
 import Section from "@/components/Section.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useConfig from "./config.composable";
@@ -144,6 +150,7 @@ async function submit(fields) {
     sentenceSegmenter: fields.sentenceSegmenter,
     datetimeFrom: fields.datetimeFrom,
     datetimeTo: fields.datetimeTo,
+    enableNer: fields.enableNer,
   };
   try {
     await uploadConfig(configNew, corpusIdFixed);

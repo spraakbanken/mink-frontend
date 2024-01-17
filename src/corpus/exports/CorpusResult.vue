@@ -16,8 +16,7 @@
         {{ $t("download_export") }}:
         <ActionButton
           v-if="exports && exports.length"
-          variant="primary"
-          class="mr-2"
+          class="button-primary mr-2"
           @click="downloadResult"
         >
           <icon :icon="['fas', 'download']" class="mr-1" />
@@ -61,8 +60,15 @@ import useLocale from "@/i18n/locale.composable";
 
 const corpusId = useCorpusIdParam();
 const { filesize } = useLocale();
-const { exports, downloadResult, downloadResultFile, getDownloadFilename } =
-  useExports(corpusId);
+const {
+  loadExports,
+  exports,
+  downloadResult,
+  downloadResultFile,
+  getDownloadFilename,
+} = useExports(corpusId);
+
+loadExports();
 </script>
 
 <style></style>

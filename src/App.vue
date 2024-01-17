@@ -19,10 +19,11 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { useTitle } from "@vueuse/core";
 import { api } from "@/api/api";
+import * as util from "@/util";
 import { useAuth } from "@/auth/auth.composable";
 import useLocale from "@/i18n/locale.composable";
+import { useCorpusStore } from "@/store/corpus.store";
 import MessageToasts from "@/message/MessageToasts.vue";
-// Asset path transformation doesn't work in <source srcset> like in <img src>
 import usePageTitle from "@/page/title.composable";
 import Breadcrumb from "@/page/Breadcrumb.vue";
 import AppHeader from "./page/AppHeader.vue";
@@ -34,6 +35,7 @@ const { title } = usePageTitle();
 // Activate automatic updates of the HTML page title.
 useTitle(title, { titleTemplate: "%s | Mink" });
 const route = useRoute();
+const corpusStore = useCorpusStore();
 
 const isHome = computed(() => route.path == "/");
 
@@ -42,10 +44,8 @@ refreshJwt();
 
 if (import.meta.env.DEV) {
   window.api = api;
-  import("@/store/corpus.store").then(
-    (m) => (window.corpusStore = m.useCorpusStore())
-  );
-  import("@/util").then((m) => (window.util = m));
+  window.corpusStore = corpusStore;
+  window.util = util;
 }
 </script>
 

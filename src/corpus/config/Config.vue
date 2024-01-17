@@ -39,6 +39,12 @@
             <template v-else>—</template>
           </td>
         </tr>
+        <tr>
+          <th>{{ $t("annotations.ner") }}</th>
+          <td>
+            {{ config.enableNer ? $t("enabled") : $t("disabled") }}
+          </td>
+        </tr>
       </tbody>
     </table>
   </PendingContent>

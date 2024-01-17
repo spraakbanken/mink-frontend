@@ -40,7 +40,6 @@
           <td>
             <a href="#" @click.prevent="downloadResult">
               <icon :icon="['fas', 'download']" class="mr-1" />
-
               {{ getDownloadFilename() }}
             </a>
           </td>
@@ -88,6 +87,8 @@ const canInstall = computed(
     !strixStatus.value.isRunning &&
     !isInstallPending.value
 );
+
+loadExports();
 
 async function korpInstall() {
   isInstallPending.value = true;

@@ -10,7 +10,7 @@
         type="form"
         :submit-label="$t('create')"
         :submit-attrs="{
-          inputClass: 'mink-button mink-primary',
+          inputClass: 'mink-button button-primary',
         }"
         @submit="submit"
       >

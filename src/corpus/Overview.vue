@@ -8,27 +8,27 @@
       <Panel :title="$t('configuration')" class="mb-4">
         <Config />
         <template #controls>
-          <router-link :to="`/corpus/${corpusId}/config`">
-            <ActionButton :variant="isNeedingConfig ? 'primary' : null">
-              <icon :icon="['fas', 'pen']" class="mr-1" />
-              {{ $t("edit") }}
-            </ActionButton>
-          </router-link>
+          <RouteButton
+            :to="`/corpus/${corpusId}/config`"
+            :class="{ 'button-primary': isNeedingConfig }"
+          >
+            <icon :icon="['fas', 'pen']" class="mr-1" />
+            {{ $t("edit") }}
+          </RouteButton>
         </template>
       </Panel>
 
       <Panel :title="$t('metadata')" class="mb-4">
         <Metadata />
         <template #controls>
-          <router-link
+          <RouteButton
             v-if="!isNeedingConfig"
             :to="`/corpus/${corpusId}/metadata`"
+            :class="{ 'button-primary': isNeedingMeta }"
           >
-            <ActionButton :variant="isNeedingMeta ? 'primary' : null">
-              <icon :icon="['fas', 'pen']" class="mr-1" />
-              {{ $t("edit") }}
-            </ActionButton>
-          </router-link>
+            <icon :icon="['fas', 'pen']" class="mr-1" />
+            {{ $t("edit") }}
+          </RouteButton>
           <ActionButton v-else disabled>
             <icon :icon="['fas', 'pen']" class="mr-1" />
             {{ $t("edit") }}
@@ -61,6 +61,7 @@ import { useCorpusState } from "./corpusState.composable";
 import Metadata from "./config/Metadata.vue";
 import Panel from "@/components/Panel.vue";
 import ActionButton from "@/components/ActionButton.vue";
+import RouteButton from "@/components/RouteButton.vue";
 import Config from "./config/Config.vue";
 import Sources from "./sources/Sources.vue";
 import JobStatus from "./job/JobStatus.vue";

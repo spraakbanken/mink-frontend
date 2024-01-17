@@ -2,17 +2,22 @@
 import { useRouter } from "vue-router";
 import useCorpusIdParam from "./corpusIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
+import RouteButton from "@/components/RouteButton.vue";
 import Section from "@/components/Section.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useCorpus from "./corpus.composable";
+import { useCorpusStore } from "@/store/corpus.store";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
 const { deleteCorpus } = useCorpus(corpusId);
+const corpusStore = useCorpusStore();
 
 async function doDelete() {
   await deleteCorpus();
-  router.push("/corpus");
+  if (!(corpusId in corpusStore.corpora)) {
+    router.push("/corpus");
+  }
 }
 </script>
 
@@ -22,14 +27,14 @@ async function doDelete() {
       <p class="my-2">{{ $t("corpus.delete.ask") }}</p>
 
       <div>
-        <ActionButton variant="danger" class="mr-4" @click="doDelete">
+        <ActionButton class="button-danger mr-4" @click="doDelete">
           <icon :icon="['far', 'trash-can']" />
           {{ $t("corpus.delete") }}
         </ActionButton>
 
-        <router-link :to="`/corpus/${corpusId}`">
-          <ActionButton>{{ $t("cancel") }}</ActionButton>
-        </router-link>
+        <RouteButton :to="`/corpus/${corpusId}`">{{
+          $t("cancel")
+        }}</RouteButton>
       </div>
     </Section>
   </PendingContent>

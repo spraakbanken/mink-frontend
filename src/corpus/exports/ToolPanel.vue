@@ -1,5 +1,6 @@
 <script setup>
 import ActionButton from "@/components/ActionButton.vue";
+import UrlButton from "@/components/UrlButton.vue";
 
 defineProps([
   "name",
@@ -20,10 +21,10 @@ defineEmits(["install"]);
 
       <div class="flex gap-2 justify-end">
         <ActionButton
-          :variant="canInstall && !isInstalled ? 'primary' : null"
           :disabled="!canInstall"
           class="whitespace-nowrap"
-          @click="canInstall ? $emit('install') : null"
+          :class="{ 'button-primary': canInstall && !isInstalled }"
+          @click="$emit('install')"
         >
           {{
             $t(
@@ -32,14 +33,14 @@ defineEmits(["install"]);
           }}
         </ActionButton>
 
-        <a v-if="isInstalled" :href="showUrl" target="_blank">
-          <ActionButton variant="primary">
-            {{ $t("exports.tools.view") }}
-          </ActionButton>
-        </a>
-        <ActionButton v-else disabled>
+        <UrlButton
+          :href="showUrl"
+          target="_blank"
+          :disabled="!isInstalled"
+          class="button-primary"
+        >
           {{ $t("exports.tools.view") }}
-        </ActionButton>
+        </UrlButton>
       </div>
     </div>
 

@@ -11,7 +11,7 @@ export default function useMinkBackend() {
   const { spin } = useSpin();
   const { t } = useI18n();
 
-  const loadCorpora = () =>
+  const loadCorpusIds = () =>
     spin(api.listCorpora(), t("corpus.list.loading"), "corpora");
 
   const createCorpus = () =>
@@ -71,7 +71,7 @@ export default function useMinkBackend() {
     spin(
       api.resourceInfo(corpusId),
       t("resource.loading"),
-      `corpus/${corpusId}/job`
+      corpusId ? `corpus/${corpusId}/job` : "corpora"
     );
 
   const runJob = (corpusId) =>
@@ -115,6 +115,8 @@ export default function useMinkBackend() {
       `corpus/${corpusId}/exports`
     );
 
+  const checkAdminMode = () => spin(api.adminModeStatus(), null, "admin-mode");
+
   const enableAdminMode = () =>
     spin(api.adminModeOn(), "Enabling admin mode", "admin-mode");
 
@@ -123,7 +125,7 @@ export default function useMinkBackend() {
 
   return {
     info,
-    loadCorpora,
+    loadCorpusIds,
     createCorpus,
     deleteCorpus,
     loadConfig,
@@ -140,6 +142,7 @@ export default function useMinkBackend() {
     loadExports,
     downloadExports,
     downloadExportFiles,
+    checkAdminMode,
     enableAdminMode,
     disableAdminMode,
   };

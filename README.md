@@ -1,5 +1,7 @@
 # Mink frontend
 
+<img src="https://spraakbanken.gu.se/themes/sb/images/mink.svg" width="200" alt="Mink logo" />
+
 With Mink, we are putting Språkbanken's research infrastructure into the hands of the researchers.
 You can use Mink to apply our language technology methods on texts that you have collected yourself.
 The resulting data can be downloaded or made available through our research tools.
@@ -7,8 +9,6 @@ The resulting data can be downloaded or made available through our research tool
 [Use Mink](https://spraakbanken.gu.se/mink/)
 – [Language data](https://spraakbanken.gu.se/en/resources)
 – [Tools](https://spraakbanken.gu.se/en/tools)
-
-<img src="src/assets/mink-screen.png" width="600" alt="Screenshot of Mink" />
 
 ## Code
 

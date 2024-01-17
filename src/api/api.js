@@ -95,7 +95,14 @@ class MinkApi {
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Process-Corpus/operation/resourceinfo */
+  /**
+   * @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Process-Corpus/operation/resourceinfo
+   *
+   * An info record has {resource: ..., job: ...}.
+   *
+   * If corpus_id is given, the response is an info record. If not, it contains
+   * `resources` which is a list of info records.
+   */
   async resourceInfo(corpusId) {
     const response = await this.axios.get("resource-info", {
       params: { corpus_id: corpusId },
@@ -157,6 +164,11 @@ class MinkApi {
       params: { corpus_id: corpusId },
     });
     return response.data;
+  }
+
+  async adminModeStatus() {
+    const response = await this.axios.get("admin-mode-status");
+    return response.data.admin_mode_status;
   }
 
   async adminModeOn() {

@@ -1,8 +1,15 @@
 <script setup>
-import useAdmin from "./admin.composable";
+import { useAuth } from "@/auth/auth.composable";
 import ActionButton from "@/components/ActionButton.vue";
+import useAdmin from "./admin.composable";
 
-const { adminMode, disableAdminMode } = useAdmin();
+const { refreshJwt } = useAuth();
+const { adminMode, isAdmin, checkAdminMode, disableAdminMode } = useAdmin();
+
+(async () => {
+  await refreshJwt();
+  if (isAdmin.value) checkAdminMode();
+})();
 
 function disable() {
   disableAdminMode();
@@ -17,7 +24,7 @@ function disable() {
     <div class="container py-1">
       <icon icon="triangle-exclamation" class="mr-2" />
       {{ $t("user.admin_mode.warning") }}
-      <ActionButton class="ml-2 slim text-sm" @click="disable">
+      <ActionButton class="ml-2 button-slim text-sm" @click="disable">
         {{ $t("disable") }}
       </ActionButton>
     </div>

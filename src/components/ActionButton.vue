@@ -1,29 +1,9 @@
 <template>
-  <div
-    class="inline-block mink-button"
-    :class="{ [variantClass]: true, disabled }"
-  >
+  <button class="inline-block mink-button" :disabled="disabled">
     <slot />
-  </div>
+  </button>
 </template>
 
 <script setup>
-import { useVariant, variantProps } from "@/variant.composable";
-
-const props = defineProps({ ...variantProps, disabled: Boolean });
-
-const { variantClass } = useVariant(() => props.variant);
+defineProps({ disabled: Boolean });
 </script>
-
-<style scoped>
-.mute {
-  @apply text-inherit border-0 shadow-none;
-}
-.mute:not(:hover) {
-  @apply bg-transparent text-inherit;
-}
-
-.slim {
-  @apply p-0 px-1;
-}
-</style>

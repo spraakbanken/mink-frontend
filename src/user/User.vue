@@ -3,12 +3,10 @@
     <PageTitle>{{ payload.name }}</PageTitle>
 
     <div class="my-4">
-      <a :href="logoutUrl">
-        <ActionButton variant="warning">
-          <icon :icon="['fas', 'person-running']" class="mr-1" />
-          {{ $t("logout") }}
-        </ActionButton>
-      </a>
+      <UrlButton class="button-warning" :href="logoutUrl">
+        <icon :icon="['fas', 'person-running']" class="mr-1" />
+        {{ $t("logout") }}
+      </UrlButton>
     </div>
 
     <Panel v-if="isAdmin" :title="$t('user.settings')">
@@ -25,7 +23,7 @@ import { useAuth } from "@/auth/auth.composable";
 import useAdmin from "./admin.composable";
 import AdminModeSwitcher from "./AdminModeSwitcher.vue";
 import PageTitle from "@/components/PageTitle.vue";
-import ActionButton from "@/components/ActionButton.vue";
+import UrlButton from "@/components/UrlButton.vue";
 import Panel from "@/components/Panel.vue";
 
 const { requireAuthentication, isAuthenticated, payload } = useAuth();
