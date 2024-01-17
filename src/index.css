@@ -84,7 +84,9 @@ select {
 .formkit-message {
   @apply text-red-600;
 }
-[data-type="radio"] .formkit-inner {
+[data-type="radio"] .formkit-inner,
+[data-type="checkbox"] .formkit-inner
+ {
   @apply inline-block mr-2;
 }
 [data-type="radio"] .formkit-legend {
