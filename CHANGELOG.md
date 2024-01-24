@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Changed
+
+- Converted code to TypeScript [#113](https://github.com/spraakbanken/mink-frontend/issues/113)
+
 ## [1.2.0] (2024-01-17)
 
 ### Added
