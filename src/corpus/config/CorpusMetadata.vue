@@ -5,7 +5,7 @@ import Section from "@/components/Section.vue";
 import useConfig from "./config.composable";
 import useMessenger from "@/message/messenger.composable";
 import HelpBox from "@/components/HelpBox.vue";
-import Panel from "@/components/Panel.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
 import type { ByLang } from "@/util.types";
 
 const router = useRouter();
@@ -47,7 +47,7 @@ async function submit(fields: Form) {
         </HelpBox>
 
         <div class="grid md:grid-cols-2 gap-4">
-          <Panel
+          <LayoutBox
             v-for="(lang2, lang3) of { swe: 'sv', eng: 'en' }"
             :key="lang3"
             :title="$t(lang2)"
@@ -74,7 +74,7 @@ async function submit(fields: Form) {
                 input-class="w-full h-20"
               />
             </FormKit>
-          </Panel>
+          </LayoutBox>
         </div>
 
         <FormKit

@@ -2,7 +2,7 @@
 import useCorpusIdParam from "./corpusIdParam.composable";
 import { useCorpusState } from "./corpusState.composable";
 import MetadataPanel from "./config/MetadataPanel.vue";
-import Panel from "@/components/Panel.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import ConfigPanel from "./config/ConfigPanel.vue";
@@ -22,7 +22,7 @@ const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
     </div>
 
     <div class="w-full lg:w-1/2 lg:pr-2">
-      <Panel :title="$t('configuration')" class="mb-4">
+      <LayoutBox :title="$t('configuration')" class="mb-4">
         <ConfigPanel />
         <template #controls>
           <RouteButton
@@ -33,9 +33,9 @@ const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
             {{ $t("edit") }}
           </RouteButton>
         </template>
-      </Panel>
+      </LayoutBox>
 
-      <Panel :title="$t('metadata')" class="mb-4">
+      <LayoutBox :title="$t('metadata')" class="mb-4">
         <MetadataPanel />
         <template #controls>
           <RouteButton
@@ -51,23 +51,23 @@ const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
             {{ $t("edit") }}
           </ActionButton>
         </template>
-      </Panel>
+      </LayoutBox>
     </div>
 
     <div class="w-full lg:w-1/2 lg:pl-2">
-      <Panel
+      <LayoutBox
         :title="$t('job.status')"
         class="mb-4 bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
       >
         <JobStatus />
-      </Panel>
+      </LayoutBox>
 
-      <Panel :title="$t('result')" class="mb-4">
+      <LayoutBox :title="$t('result')" class="mb-4">
         <ExportsPanel />
-      </Panel>
+      </LayoutBox>
     </div>
   </div>
-  <Panel :title="$t('texts')">
+  <LayoutBox :title="$t('texts')">
     <SourcesPanel />
-  </Panel>
+  </LayoutBox>
 </template>

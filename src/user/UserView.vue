@@ -5,7 +5,7 @@ import useAdmin from "./admin.composable";
 import AdminModeSwitcher from "./AdminModeSwitcher.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import UrlButton from "@/components/UrlButton.vue";
-import Panel from "@/components/Panel.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
 
 const { requireAuthentication, isAuthenticated, payload } = useAuth();
 const { isAdmin } = useAdmin();
@@ -26,10 +26,10 @@ requireAuthentication();
       </UrlButton>
     </div>
 
-    <Panel v-if="isAdmin" :title="$t('user.settings')">
+    <LayoutBox v-if="isAdmin" :title="$t('user.settings')">
       <div class="my-4">
         <AdminModeSwitcher />
       </div>
-    </Panel>
+    </LayoutBox>
   </div>
 </template>
