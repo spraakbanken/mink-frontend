@@ -13,9 +13,14 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
-### Changed
+### Added
 
 - Converted code to TypeScript [#113](https://github.com/spraakbanken/mink-frontend/issues/113)
+- Lint check in CI workflow script
+
+### Changed
+
+- Renamed one-word components, for linting
 
 ## [1.2.0] (2024-01-17)
 
@@ -23,6 +28,7 @@ As this project is a user-facing application, the places in the semantic version
 
 - Option to enable named entity recognition
 - Check if admin mode is enabled on load
+- Build check in CI workflow script
 
 ### Changed
 

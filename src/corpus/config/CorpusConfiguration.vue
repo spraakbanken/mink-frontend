@@ -168,6 +168,7 @@ async function submit(fields: Form) {
             :help="$t('annotations.ner.help')"
           />
 
+          <!-- eslint-disable-next-line vue/no-v-html -->
           <div class="prose" v-html="$t('annotations.info')" />
         </LayoutSection>
       </LayoutSection>

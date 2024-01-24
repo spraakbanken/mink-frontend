@@ -85,8 +85,7 @@ select {
   @apply text-red-600;
 }
 [data-type="radio"] .formkit-inner,
-[data-type="checkbox"] .formkit-inner
- {
+[data-type="checkbox"] .formkit-inner {
   @apply inline-block mr-2;
 }
 [data-type="radio"] .formkit-legend {
@@ -115,7 +114,8 @@ select {
     @apply bg-amber-300 shadow-amber-600 text-amber-900;
   }
 
-  .mink-button[disabled], .mink-button.disabled  {
+  .mink-button[disabled],
+  .mink-button.disabled {
     @apply bg-slate-100 shadow text-slate-400 cursor-not-allowed hover:drop-shadow-none hover:brightness-100 !important;
     @apply dark:bg-slate-600 dark:text-gray-400 !important;
   }
@@ -126,9 +126,8 @@ select {
   .button-mute:not(:hover) {
     @apply !bg-transparent !text-inherit;
   }
-  
+
   .button-slim {
     @apply p-0 px-1;
   }
-  
 }
