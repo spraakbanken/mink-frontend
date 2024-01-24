@@ -1,9 +1,9 @@
-<script setup>
-defineProps({
-  href: { type: String, required: true },
-  target: { type: String, default: undefined },
-  disabled: Boolean,
-});
+<script setup lang="ts">
+defineProps<{
+  href: string;
+  target?: string;
+  disabled?: boolean;
+}>();
 </script>
 
 <template>

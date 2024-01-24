@@ -1,3 +1,25 @@
+<script setup lang="ts">
+import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import ActionButton from "@/components/ActionButton.vue";
+import PendingContent from "@/spin/PendingContent.vue";
+import Section from "@/components/Section.vue";
+import useExports from "./exports.composable";
+import HelpBox from "@/components/HelpBox.vue";
+import useLocale from "@/i18n/locale.composable";
+
+const corpusId = useCorpusIdParam();
+const { filesize } = useLocale();
+const {
+  loadExports,
+  exports,
+  downloadResult,
+  downloadResultFile,
+  getDownloadFilename,
+} = useExports(corpusId);
+
+loadExports();
+</script>
+
 <template>
   <PendingContent :on="`corpus/${corpusId}/exports`">
     <Section :title="$t('result')">
@@ -48,27 +70,3 @@
     </Section>
   </PendingContent>
 </template>
-
-<script setup>
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import ActionButton from "@/components/ActionButton.vue";
-import PendingContent from "@/spin/PendingContent.vue";
-import Section from "@/components/Section.vue";
-import useExports from "./exports.composable";
-import HelpBox from "@/components/HelpBox.vue";
-import useLocale from "@/i18n/locale.composable";
-
-const corpusId = useCorpusIdParam();
-const { filesize } = useLocale();
-const {
-  loadExports,
-  exports,
-  downloadResult,
-  downloadResultFile,
-  getDownloadFilename,
-} = useExports(corpusId);
-
-loadExports();
-</script>
-
-<style></style>

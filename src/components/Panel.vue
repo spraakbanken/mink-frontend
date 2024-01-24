@@ -1,3 +1,9 @@
+<script setup lang="ts">
+defineProps<{
+  title?: string;
+}>();
+</script>
+
 <template>
   <section
     class="border rounded p-2 bg-white dark:bg-zinc-900 dark:border-zinc-700"
@@ -11,11 +17,3 @@
     <slot />
   </section>
 </template>
-
-<script setup>
-const props = defineProps({
-  title: String,
-});
-</script>
-
-<style></style>

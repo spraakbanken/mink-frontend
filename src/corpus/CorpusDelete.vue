@@ -1,20 +1,20 @@
-<script setup>
+<script setup lang="ts">
 import { useRouter } from "vue-router";
 import useCorpusIdParam from "./corpusIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import Section from "@/components/Section.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import useCorpus from "./corpus.composable";
+import useDeleteCorpus from "./deleteCorpus.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
-const { deleteCorpus } = useCorpus(corpusId);
+const { deleteCorpus } = useDeleteCorpus();
 const corpusStore = useCorpusStore();
 
 async function doDelete() {
-  await deleteCorpus();
+  await deleteCorpus(corpusId);
   if (!(corpusId in corpusStore.corpora)) {
     router.push("/corpus");
   }

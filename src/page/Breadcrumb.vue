@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import usePageTitle from "./title.composable";
@@ -8,10 +8,10 @@ const { resolve } = useRouter();
 const { getTitle } = usePageTitle();
 
 /** Get a list of parent paths of the specified path, e.g. ["/", "/foo", "/foo/bar"] */
-function getInits(path) {
+function getInits(path: string): string[] {
   const inits = [];
   for (const seg of path.split("/").filter(Boolean)) {
-    const prevInit = inits[inits.length - 1] || "";
+    const prevInit: string = inits[inits.length - 1] || "";
     inits.push(prevInit + "/" + seg);
   }
   return ["/", ...inits];

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import useCorpusIdParam from "./corpusIdParam.composable";
 import { useCorpusState } from "./corpusState.composable";
 import HelpBox from "@/components/HelpBox.vue";

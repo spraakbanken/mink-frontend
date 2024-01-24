@@ -1,3 +1,35 @@
+<script setup lang="ts">
+import { useRouter } from "vue-router";
+import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import Section from "@/components/Section.vue";
+import useConfig from "./config.composable";
+import useMessenger from "@/message/messenger.composable";
+import HelpBox from "@/components/HelpBox.vue";
+import Panel from "@/components/Panel.vue";
+import type { ByLang } from "@/util.types";
+
+const router = useRouter();
+const corpusId = useCorpusIdParam();
+const { config, uploadConfig } = useConfig(corpusId);
+const { alertError } = useMessenger();
+
+type Form = {
+  name: ByLang;
+  description: ByLang;
+};
+
+async function submit(fields: Form) {
+  const configNew = {
+    ...config.value,
+    name: fields.name,
+    description: fields.description,
+  };
+  await uploadConfig(configNew)
+    .then(() => router.push(`/corpus/${corpusId}`))
+    .catch(alertError);
+}
+</script>
+
 <template>
   <div v-if="config">
     <FormKit
@@ -58,35 +90,3 @@
     </FormKit>
   </div>
 </template>
-
-<script setup>
-import { useRouter } from "vue-router";
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import Section from "@/components/Section.vue";
-import useConfig from "./config.composable";
-import useMessenger from "@/message/messenger.composable";
-import HelpBox from "@/components/HelpBox.vue";
-import Panel from "@/components/Panel.vue";
-
-const router = useRouter();
-const corpusId = useCorpusIdParam();
-const { config, uploadConfig } = useConfig(corpusId);
-const { alert } = useMessenger();
-
-async function submit(fields) {
-  const corpusIdFixed = corpusId;
-  const configNew = {
-    ...config.value,
-    name: fields.name,
-    description: fields.description,
-  };
-  try {
-    await uploadConfig(configNew, corpusIdFixed);
-    router.push(`/corpus/${corpusIdFixed}`);
-  } catch (e) {
-    alert(e, "error");
-  }
-}
-</script>
-
-<style></style>

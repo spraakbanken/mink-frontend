@@ -1,14 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
-import Spinner from "./Spinner.vue";
+import SpinIndicator from "./SpinIndicator.vue";
 import useSpin from "./spin.composable";
 
-const props = defineProps({
+const props = defineProps<{
   /** A token that may have been used with `spin()`. */
-  on: {
-    type: String,
-    required: true,
-  },
+  on: string;
   /**
    * Enable this to block interaction with elements in the slot.
    *
@@ -16,10 +13,8 @@ const props = defineProps({
    * following a broken link is probably okay. However, creating or
    * deleting data twice might not be.
    */
-  blocking: {
-    type: Boolean,
-  },
-});
+  blocking?: boolean;
+}>();
 
 const { pending } = useSpin();
 const isPending = computed(() => pending.value.includes(props.on));
@@ -31,7 +26,7 @@ const isPending = computed(() => pending.value.includes(props.on));
       class="absolute top-0 left-0 right-0 bottom-0 z-30 flex justify-center items-center"
       :class="{ hidden: !isPending, 'pointer-events-none': !blocking }"
     >
-      <Spinner />
+      <SpinIndicator />
     </div>
     <slot />
   </div>

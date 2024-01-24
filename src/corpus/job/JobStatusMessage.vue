@@ -1,35 +1,29 @@
-<template>
-  <span
-    v-if="message"
-    :class="{
-      'text-gray-400': !status || status.isReady,
-      'text-red-500': status?.isError,
-      'text-yellow-500': status?.isRunning,
-      'text-lime-600': status?.isDone,
-    }"
-  >
-    {{ message }}
-  </span>
-</template>
-
-<script setup>
+<script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import useJob from "./job.composable";
 import { computed } from "vue";
 
-const props = defineProps({
-  corpusId: {
-    type: String,
-    required: true,
-    validate: (x) => x,
-  },
-});
+const props = defineProps<{
+  corpusId: string;
+}>();
 
 const { t } = useI18n();
 const { currentStatus } = useJob(props.corpusId);
 
 const status = computed(() => currentStatus.value);
-const message = computed(() =>
-  t(`job.status.${status.value?.state || "none"}`)
-);
+const message = computed(() => t(`job.status.${status.value || "none"}`));
 </script>
+
+<template>
+  <span
+    v-if="message"
+    :class="{
+      'text-gray-400': !status || status == 'none' || status == 'aborted',
+      'text-red-500': status == 'error',
+      'text-yellow-500': status == 'waiting' || status == 'running',
+      'text-lime-600': status == 'done',
+    }"
+  >
+    {{ message }}
+  </span>
+</template>

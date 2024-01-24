@@ -1,5 +1,59 @@
+<script setup lang="ts">
+import { computed } from "vue";
+import { getFilenameExtension } from "@/util";
+import useMessenger from "@/message/messenger.composable";
+import useSources from "./sources.composable";
+import FileDropArea from "./FileDropArea.vue";
+import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import UploadSizeLimits from "./UploadSizeLimits.vue";
+import useConfig from "../config/config.composable";
+import type { FileFormat } from "@/api/corpusConfig";
+
+const props = defineProps<{
+  fileHandler?: (files: FileList) => Promise<void>;
+  primary?: boolean;
+}>();
+
+const corpusId = useCorpusIdParam();
+const { uploadSources, extensions } = useSources(corpusId);
+const { config, uploadConfig } = useConfig(corpusId);
+const { alertError, clear } = useMessenger();
+const extensionsAccept = computed(() =>
+  extensions.value?.map((ext) => `.${ext}`).join()
+);
+
+async function defaultFileHandler(files: FileList) {
+  const requests = [uploadSources(files).catch(alertError)];
+
+  // Also update format setting in config if needed
+  const format = getFilenameExtension(files[0]?.name) as FileFormat;
+  if (config.value && format != config.value?.format) {
+    requests.push(uploadConfig({ ...config.value, format }));
+  }
+
+  await Promise.all(requests);
+}
+const fileHandler = props.fileHandler || defaultFileHandler;
+
+async function handleFileInput(event: Event) {
+  const fileInput = event.target as HTMLInputElement;
+  if (!fileInput.files) {
+    throw new RangeError("No file found in the file input");
+  }
+
+  await handleUpload(fileInput.files!);
+  // Empty the input value to enable selecting the same file again.
+  fileInput.value = "";
+}
+
+async function handleUpload(files: FileList) {
+  clear();
+  await fileHandler(files);
+}
+</script>
+
 <template>
-  <Filedrop @drop="handleUpload">
+  <FileDropArea @drop="handleUpload">
     <slot />
     <label for="file-input" class="cursor-pointer">
       <div
@@ -44,59 +98,5 @@
         </div>
       </div>
     </label>
-  </Filedrop>
+  </FileDropArea>
 </template>
-
-<script setup>
-import { computed } from "vue";
-import { getFilenameExtension } from "@/util";
-import useMessenger from "@/message/messenger.composable";
-import useSources from "./sources.composable";
-import Filedrop from "./Filedrop.vue";
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import UploadSizeLimits from "./UploadSizeLimits.vue";
-import useConfig from "../config/config.composable";
-
-const props = defineProps({
-  fileHandler: {
-    type: Function,
-    default: null,
-  },
-  primary: {
-    type: Boolean,
-  },
-});
-
-const corpusId = useCorpusIdParam();
-const { uploadSources, extensions } = useSources(corpusId);
-const { config, uploadConfig } = useConfig(corpusId);
-const { alertError, clear } = useMessenger();
-const extensionsAccept = computed(() =>
-  extensions.value?.map((ext) => `.${ext}`).join()
-);
-
-async function defaultFileHandler(files) {
-  const requests = [uploadSources(files).catch(alertError)];
-
-  // Also update format setting in config if needed
-  const format = getFilenameExtension(files[0]?.name);
-  if (format != config.value.format) {
-    requests.push(uploadConfig({ ...config.value, format }));
-  }
-
-  await Promise.all(requests);
-}
-const fileHandler = props.fileHandler || defaultFileHandler;
-
-async function handleFileInput(event) {
-  await handleUpload(event.target.files);
-  event.target.value = null;
-}
-
-async function handleUpload(files) {
-  clear();
-  await fileHandler(files);
-}
-</script>
-
-<style></style>

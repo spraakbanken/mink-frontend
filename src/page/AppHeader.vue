@@ -1,16 +1,16 @@
-<script setup>
+<script setup lang="ts">
 import { getLogoutUrl } from "@/auth/auth";
 import { useAuth } from "@/auth/auth.composable";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
 // Asset path transformation doesn't work in <source srcset> like in <img src>
 import logoSbxLight from "@/assets/sbx1r-light.svg";
-import Spinner from "@/spin/Spinner.vue";
+import SpinIndicator from "@/spin/SpinIndicator.vue";
 import MinkLogo from "./MinkLogo.vue";
 
-defineProps({
-  large: Boolean,
-});
+defineProps<{
+  large: boolean;
+}>();
 
 const { isAuthenticating, payload, canUserWrite } = useAuth();
 </script>
@@ -27,7 +27,7 @@ const { isAuthenticating, payload, canUserWrite } = useAuth();
       </div>
 
       <div class="flex items-center gap-4">
-        <Spinner v-if="isAuthenticating" />
+        <SpinIndicator v-if="isAuthenticating" />
         <div class="self-stretch flex flex-col justify-end">
           <div class="w-56">
             <a href="https://spraakbanken.gu.se/">

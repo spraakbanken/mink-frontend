@@ -1,11 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import useLocale from "@/i18n/locale.composable";
 import items from "./news.yaml";
 
 const { th } = useLocale();
 
-function getDate(date) {
-  return date.toISOString().substr(0, 10);
+function getDate(date: Date) {
+  return date.toISOString().slice(0, 10);
 }
 </script>
 

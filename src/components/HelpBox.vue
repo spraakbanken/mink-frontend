@@ -1,9 +1,7 @@
-<script setup>
-defineProps({
-  important: {
-    type: Boolean,
-  },
-});
+<script setup lang="ts">
+defineProps<{
+  important?: boolean;
+}>();
 </script>
 
 <template>

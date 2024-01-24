@@ -1,3 +1,19 @@
+<script setup lang="ts">
+import { computed } from "@vue/runtime-core";
+import { useI18n } from "vue-i18n";
+
+const props = defineProps<{
+  percent: number;
+}>();
+
+const { locale } = useI18n();
+const percentStr = computed(() =>
+  Intl.NumberFormat(locale.value, { style: "percent" }).format(
+    props.percent / 100
+  )
+);
+</script>
+
 <template>
   <div class="inline-block bg-slate-500 rounded h-6 relative overflow-hidden">
     <div
@@ -9,20 +25,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { computed } from "@vue/runtime-core";
-import { useI18n } from "vue-i18n";
-
-const props = defineProps({
-  percent: Number,
-  validator: (x) => x >= 0 && x <= 100,
-});
-
-const { locale } = useI18n();
-const percentStr = computed(() =>
-  Intl.NumberFormat(locale, { style: "percent" }).format(props.percent / 100)
-);
-</script>
-
-<style></style>

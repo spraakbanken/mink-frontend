@@ -1,3 +1,20 @@
+<script setup lang="ts">
+import { useCorpusState } from "./corpusState.composable";
+
+const props = defineProps<{
+  corpusId: string;
+}>();
+
+const {
+  stateMessage,
+  isEmpty,
+  isNeedingConfig,
+  isNeedingMeta,
+  isReady,
+  isFailed,
+} = useCorpusState(props.corpusId);
+</script>
+
 <template>
   <span
     v-if="stateMessage"
@@ -14,24 +31,3 @@
     {{ stateMessage }}
   </span>
 </template>
-
-<script setup>
-import { useCorpusState } from "./corpusState.composable";
-
-const props = defineProps({
-  corpusId: {
-    type: String,
-    required: true,
-    validate: (x) => x,
-  },
-});
-
-const {
-  stateMessage,
-  isEmpty,
-  isNeedingConfig,
-  isNeedingMeta,
-  isReady,
-  isFailed,
-} = useCorpusState(props.corpusId);
-</script>

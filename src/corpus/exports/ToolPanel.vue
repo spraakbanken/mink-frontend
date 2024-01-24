@@ -1,17 +1,19 @@
-<script setup>
+<script setup lang="ts">
 import ActionButton from "@/components/ActionButton.vue";
 import UrlButton from "@/components/UrlButton.vue";
 
-defineProps([
-  "name",
-  "info",
-  "link-url",
-  "link-text",
-  "can-install",
-  "is-installed",
-  "show-url",
-]);
-defineEmits(["install"]);
+defineProps<{
+  name: string;
+  info: string;
+  canInstall?: boolean;
+  isInstalled?: boolean;
+  showUrl: string;
+  linkUrl?: string;
+  linkText?: string;
+}>();
+defineEmits<{
+  (e: "install"): void;
+}>();
 </script>
 
 <template>

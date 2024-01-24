@@ -1,3 +1,93 @@
+<script setup lang="ts">
+import { computed } from "vue";
+import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import RouteButton from "@/components/RouteButton.vue";
+import Section from "@/components/Section.vue";
+import PendingContent from "@/spin/PendingContent.vue";
+import useConfig from "./config.composable";
+import {
+  FORMATS_EXT,
+  SEGMENTERS,
+  type FileFormat,
+  type ConfigOptions,
+} from "@/api/corpusConfig";
+import useMessenger from "@/message/messenger.composable";
+import HelpBox from "@/components/HelpBox.vue";
+import useSources from "../sources/sources.composable";
+import type { AxiosError } from "axios";
+import type { FormKitOptionsList } from "@formkit/inputs";
+import type { ConfigSentenceSegmenter } from "@/api/sparvConfig.types";
+
+const router = useRouter();
+const corpusId = useCorpusIdParam();
+const { config, uploadConfig } = useConfig(corpusId);
+const { alert, alertError } = useMessenger();
+const { extensions } = useSources(corpusId);
+const { t } = useI18n();
+
+type Form = {
+  name: string;
+  description: string;
+  format: FileFormat;
+  textAnnotation: string;
+  sentenceSegmenter: ConfigSentenceSegmenter;
+  datetimeFrom: string;
+  datetimeTo: string;
+  enableNer: boolean;
+};
+
+const formatOptions = computed<FormKitOptionsList>(() =>
+  FORMATS_EXT.map((ext) => ({
+    value: ext,
+    label: `${t(ext)} (.${ext})`,
+    // If there are source files, disable all formats not present there.
+    attrs: {
+      disabled: extensions.value.length > 0 && !extensions.value.includes(ext),
+    },
+  }))
+);
+
+// Auto-select the file format present among source files, if any.
+const selectedFormat = computed<FileFormat | undefined>(() =>
+  config.value?.format && extensions.value.includes(config.value?.format)
+    ? config.value?.format
+    : undefined
+);
+
+type SegmenterOptions = Record<ConfigSentenceSegmenter | "", string>;
+
+const segmenterOptions = computed<SegmenterOptions>(() => {
+  const options: Partial<SegmenterOptions> = { "": t("none") };
+  for (const segmenter of SEGMENTERS) {
+    options[segmenter] = t(`segmenter_${segmenter}`);
+  }
+  return options as SegmenterOptions;
+});
+
+async function submit(fields: Form) {
+  const corpusIdFixed = corpusId;
+  const configNew: ConfigOptions = {
+    ...config.value!,
+    format: fields.format,
+    textAnnotation: fields.textAnnotation,
+    sentenceSegmenter: fields.sentenceSegmenter,
+    datetimeFrom: fields.datetimeFrom,
+    datetimeTo: fields.datetimeTo,
+    enableNer: fields.enableNer,
+  };
+  try {
+    await uploadConfig(configNew);
+    router.push(`/corpus/${corpusIdFixed}`);
+  } catch (e) {
+    if (e instanceof TypeError) {
+      alert(e.message, "error");
+    } else alertError(e as AxiosError);
+  }
+}
+</script>
+
 <template>
   <div v-if="config">
     <FormKit
@@ -27,13 +117,13 @@
           :help="$t('config.format.help')"
         />
 
-        <HelpBox v-if="value.format === 'pdf'" important>
+        <HelpBox v-if="value!.format === 'pdf'" important>
           <icon :icon="['far', 'lightbulb']" class="mr-1" />
           {{ $t("config.format.note.pdf") }}
         </HelpBox>
 
         <FormKit
-          v-if="value.format === 'xml'"
+          v-if="value!.format === 'xml'"
           name="textAnnotation"
           :label="$t('config.text_annotation')"
           type="text"
@@ -92,76 +182,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { computed } from "vue";
-import { useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import RouteButton from "@/components/RouteButton.vue";
-import Section from "@/components/Section.vue";
-import PendingContent from "@/spin/PendingContent.vue";
-import useConfig from "./config.composable";
-import { FORMATS_EXT, SEGMENTERS } from "@/api/corpusConfig";
-import useMessenger from "@/message/messenger.composable";
-import HelpBox from "@/components/HelpBox.vue";
-import useSources from "../sources/sources.composable";
-
-const router = useRouter();
-const corpusId = useCorpusIdParam();
-const { config, uploadConfig } = useConfig(corpusId);
-const { alert, alertError } = useMessenger();
-const { extensions } = useSources(corpusId);
-const { t } = useI18n();
-
-const formatOptions = computed(() =>
-  FORMATS_EXT.map((ext) => ({
-    value: ext,
-    label: `${t(ext)} (.${ext})`,
-    attrs: {
-      disabled: extensions.value.length && !extensions.value.includes(ext),
-    },
-  }))
-);
-
-const selectedFormat = computed(() => {
-  return !extensions.value.length ||
-    extensions.value.includes(config.value.format)
-    ? config.value.format
-    : undefined;
-});
-
-const segmenterOptions = computed(() =>
-  SEGMENTERS.reduce(
-    (options, segmenter) => ({
-      ...options,
-      [segmenter]: t(`segmenter_${segmenter}`),
-    }),
-    { "": t("none") }
-  )
-);
-
-async function submit(fields) {
-  const corpusIdFixed = corpusId;
-  const configNew = {
-    ...config.value,
-    format: fields.format,
-    textAnnotation: fields.textAnnotation,
-    sentenceSegmenter: fields.sentenceSegmenter,
-    datetimeFrom: fields.datetimeFrom,
-    datetimeTo: fields.datetimeTo,
-    enableNer: fields.enableNer,
-  };
-  try {
-    await uploadConfig(configNew, corpusIdFixed);
-    router.push(`/corpus/${corpusIdFixed}`);
-  } catch (e) {
-    if (e.name == "TypeError") {
-      alert(e.message, "error");
-    } else alertError(e);
-  }
-}
-</script>
 
 <style scoped>
 .prose :deep(ul) {

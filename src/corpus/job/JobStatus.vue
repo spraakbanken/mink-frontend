@@ -1,3 +1,32 @@
+<script setup lang="ts">
+import { computed, ref } from "vue";
+import { formatDate } from "@/util";
+import PendingContent from "@/spin/PendingContent.vue";
+import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import { useCorpusState } from "@/corpus/corpusState.composable";
+import ActionButton from "@/components/ActionButton.vue";
+import TerminalOutput from "@/components/TerminalOutput.vue";
+import useJob from "./job.composable";
+import ProgressBar from "./ProgressBar.vue";
+import JobStatusMessage from "./JobStatusMessage.vue";
+
+const corpusId = useCorpusIdParam();
+const { runJob, abortJob, jobStatus, jobState, isJobRunning } =
+  useJob(corpusId);
+const { canBeReady, isFailed } = useCorpusState(corpusId);
+
+const isPending = ref(false);
+const canRun = computed(
+  () => canBeReady.value && !isPending.value && !isJobRunning.value
+);
+
+async function doRunJob() {
+  isPending.value = true;
+  await runJob();
+  isPending.value = false;
+}
+</script>
+
 <template>
   <PendingContent v-if="jobStatus" :on="`corpus/${corpusId}/job`">
     <div class="flex flex-wrap gap-4 justify-between items-baseline">
@@ -12,18 +41,21 @@
         <ActionButton
           v-if="!isJobRunning"
           :disabled="!canRun"
-          :class="{ 'button-primary': sparvStatus.isReady }"
+          :class="{
+            'button-primary':
+              jobState?.sparv == 'none' || jobState?.sparv == 'aborted',
+          }"
           @click="canRun ? doRunJob() : null"
         >
           <icon :icon="['fas', 'gears']" class="mr-1" />
-          {{ !sparvStatus.isDone ? $t("job.run") : $t("job.rerun") }}
+          {{ jobState?.sparv != "done" ? $t("job.run") : $t("job.rerun") }}
         </ActionButton>
 
         <ActionButton v-else class="button-danger ml-2" @click="abortJob">
           {{ $t("job.abort") }}
         </ActionButton>
 
-        <div v-if="!isJobRunning && sparvStatus.isDone">
+        <div v-if="!isJobRunning && jobState?.sparv == 'done'">
           <icon icon="circle-info" /> {{ $t("job.rerun.overwrite") }}
         </div>
       </div>
@@ -74,7 +106,7 @@
           </td>
         </tr>
 
-        <tr v-if="jobStatus.priority > 0">
+        <tr v-if="Number(jobStatus.priority) > 0">
           <th>{{ $t("job.priority") }}</th>
           <td>{{ jobStatus.priority }}</td>
         </tr>
@@ -88,44 +120,10 @@
           <th>{{ $t("job.last_run_ended") }}</th>
           <td>{{ formatDate(jobStatus.last_run_ended) }}</td>
         </tr>
-
-        <tr v-if="jobStatus.seconds_taken">
-          <th>{{ $t("job.time_taken") }}</th>
-          <td>{{ formatSeconds(jobStatus.seconds_taken) }}</td>
-        </tr>
       </tbody>
     </table>
   </PendingContent>
 </template>
-
-<script setup>
-import { computed, ref } from "vue";
-import { formatDate, formatSeconds } from "@/util";
-import PendingContent from "@/spin/PendingContent.vue";
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import { useCorpusState } from "@/corpus/corpusState.composable";
-import ActionButton from "@/components/ActionButton.vue";
-import TerminalOutput from "@/components/TerminalOutput.vue";
-import useJob from "./job.composable";
-import ProgressBar from "./ProgressBar.vue";
-import JobStatusMessage from "./JobStatusMessage.vue";
-
-const corpusId = useCorpusIdParam();
-const { runJob, abortJob, jobStatus, sparvStatus, isJobRunning } =
-  useJob(corpusId);
-const { canBeReady, isFailed } = useCorpusState(corpusId);
-
-const isPending = ref(false);
-const canRun = computed(
-  () => canBeReady.value && !isPending.value && !isJobRunning.value
-);
-
-async function doRunJob() {
-  isPending.value = true;
-  await runJob();
-  isPending.value = false;
-}
-</script>
 
 <style scoped>
 /* Override max-height when user is resizing. */
