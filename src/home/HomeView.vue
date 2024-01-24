@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAuth } from "@/auth/auth.composable";
-import Section from "@/components/Section.vue";
+import LayoutSection from "@/components/LayoutSection.vue";
 import { getLogoutUrl } from "@/auth/auth";
 import LoginButton from "@/auth/LoginButton.vue";
 import UrlButton from "@/components/UrlButton.vue";
@@ -85,7 +85,7 @@ const logoutUrl = getLogoutUrl();
             <img src="@/assets/sparv-screen.png" />
           </figure>
 
-          <Section
+          <LayoutSection
             :title="$t('home.features.sparv.title')"
             class="flex-1 my-0 text-center"
           >
@@ -96,7 +96,7 @@ const logoutUrl = getLogoutUrl();
                 </a>
               </template>
             </i18n-t>
-          </Section>
+          </LayoutSection>
         </div>
 
         <div
@@ -108,7 +108,7 @@ const logoutUrl = getLogoutUrl();
             <img src="@/assets/texts.png" />
           </figure>
 
-          <Section
+          <LayoutSection
             :title="$t('home.features.upload.title')"
             class="flex-1 my-0 text-center"
           >
@@ -117,7 +117,7 @@ const logoutUrl = getLogoutUrl();
               scope="global"
               tag="p"
             />
-          </Section>
+          </LayoutSection>
         </div>
 
         <div
@@ -129,7 +129,7 @@ const logoutUrl = getLogoutUrl();
             <img src="@/assets/korp-screen.png" />
           </figure>
 
-          <Section
+          <LayoutSection
             :title="$t('home.features.explore.title')"
             class="flex-1 my-0 text-center"
           >
@@ -148,7 +148,7 @@ const logoutUrl = getLogoutUrl();
                 >
               </template>
             </i18n-t>
-          </Section>
+          </LayoutSection>
         </div>
 
         <div
@@ -160,7 +160,7 @@ const logoutUrl = getLogoutUrl();
             <img src="@/assets/share.png" />
           </figure>
 
-          <Section
+          <LayoutSection
             :title="$t('home.features.share.title')"
             class="flex-1 my-0 text-center"
           >
@@ -171,7 +171,7 @@ const logoutUrl = getLogoutUrl();
               tag="p"
               class="italic"
             />
-          </Section>
+          </LayoutSection>
         </div>
       </div>
     </div>

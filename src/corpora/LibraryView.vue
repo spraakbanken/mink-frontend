@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import PadButton from "@/components/PadButton.vue";
-import Section from "@/components/Section.vue";
+import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import CorpusButton from "./CorpusButton.vue";
 import { useAuth } from "@/auth/auth.composable";
@@ -27,7 +27,7 @@ async function createCorpusFromFiles(files: FileList) {
 
 <template>
   <PageTitle>{{ $t("library") }}</PageTitle>
-  <Section v-if="isAuthenticated" :title="$t('corpuses')">
+  <LayoutSection v-if="isAuthenticated" :title="$t('corpuses')">
     <HelpBox>
       <p>
         {{
@@ -50,13 +50,13 @@ async function createCorpusFromFiles(files: FileList) {
         {{ $t("new_corpus") }}
       </PadButton>
     </PendingContent>
-  </Section>
-  <Section v-if="isAuthenticated" :title="$t('new_corpus')">
+  </LayoutSection>
+  <LayoutSection v-if="isAuthenticated" :title="$t('new_corpus')">
     <PendingContent on="create" blocking>
       <SourceUpload
         :file-handler="createCorpusFromFiles"
         :primary="!corpusStore.hasCorpora"
       />
     </PendingContent>
-  </Section>
+  </LayoutSection>
 </template>

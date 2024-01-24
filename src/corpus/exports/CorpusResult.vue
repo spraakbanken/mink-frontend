@@ -2,7 +2,7 @@
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import Section from "@/components/Section.vue";
+import LayoutSection from "@/components/LayoutSection.vue";
 import useExports from "./exports.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import useLocale from "@/i18n/locale.composable";
@@ -22,7 +22,7 @@ loadExports();
 
 <template>
   <PendingContent :on="`corpus/${corpusId}/exports`">
-    <Section :title="$t('result')">
+    <LayoutSection :title="$t('result')">
       <HelpBox>
         <p>{{ $t("exports.help") }}</p>
         <aside>
@@ -67,6 +67,6 @@ loadExports();
           </tr>
         </tbody>
       </table>
-    </Section>
+    </LayoutSection>
   </PendingContent>
 </template>

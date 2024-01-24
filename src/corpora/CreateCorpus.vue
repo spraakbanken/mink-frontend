@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import PageTitle from "@/components/PageTitle.vue";
-import Section from "@/components/Section.vue";
+import LayoutSection from "@/components/LayoutSection.vue";
 import useSpin from "@/spin/spin.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import { FORMATS_EXT, type FileFormat } from "@/api/corpusConfig";
@@ -47,7 +47,7 @@ async function submit(fields: Form) {
 
 <template>
   <PageTitle>{{ $t("new_corpus") }}</PageTitle>
-  <Section>
+  <LayoutSection>
     <HelpBox>{{ $t("corpus.create.help") }}</HelpBox>
 
     <PendingContent on="create">
@@ -106,5 +106,5 @@ async function submit(fields: Form) {
         </FormKit>
       </FormKit>
     </PendingContent>
-  </Section>
+  </LayoutSection>
 </template>

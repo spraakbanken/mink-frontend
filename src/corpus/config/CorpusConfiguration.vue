@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import RouteButton from "@/components/RouteButton.vue";
-import Section from "@/components/Section.vue";
+import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useConfig from "./config.composable";
 import {
@@ -100,7 +100,7 @@ async function submit(fields: Form) {
       }"
       @submit="submit"
     >
-      <Section :title="$t('configuration')">
+      <LayoutSection :title="$t('configuration')">
         <HelpBox>
           <p>{{ $t("config.configuration.help") }}</p>
         </HelpBox>
@@ -159,7 +159,7 @@ async function submit(fields: Form) {
           :help="$t('timespan_help')"
         />
 
-        <Section :title="$t('annotations')">
+        <LayoutSection :title="$t('annotations')">
           <FormKit
             name="enableNer"
             :label="$t('annotations.ner')"
@@ -169,8 +169,8 @@ async function submit(fields: Form) {
           />
 
           <div class="prose" v-html="$t('annotations.info')" />
-        </Section>
-      </Section>
+        </LayoutSection>
+      </LayoutSection>
     </FormKit>
     <div class="flex justify-center">
       <PendingContent :on="`corpus/${corpusId}`">

@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { ensureExtension, formatDate } from "@/util";
 import { useCorpusStore } from "@/store/corpus.store";
-import Section from "@/components/Section.vue";
+import LayoutSection from "@/components/LayoutSection.vue";
 import useJob from "@/corpus/job/job.composable";
 import useSources from "./sources.composable";
 import SourceText from "./SourceText.vue";
@@ -40,7 +40,7 @@ async function loadPlain() {
 </script>
 
 <template>
-  <Section>
+  <LayoutSection>
     <h2>{{ filename }}</h2>
     <table v-if="metadata" class="w-full mt-4">
       <tbody>
@@ -83,5 +83,5 @@ async function loadPlain() {
         </tr>
       </tbody>
     </table>
-  </Section>
+  </LayoutSection>
 </template>

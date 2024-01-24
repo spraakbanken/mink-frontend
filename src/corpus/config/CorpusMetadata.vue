@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import Section from "@/components/Section.vue";
+import LayoutSection from "@/components/LayoutSection.vue";
 import useConfig from "./config.composable";
 import useMessenger from "@/message/messenger.composable";
 import HelpBox from "@/components/HelpBox.vue";
@@ -41,7 +41,7 @@ async function submit(fields: Form) {
       }"
       @submit="submit"
     >
-      <Section :title="$t('metadata')">
+      <LayoutSection :title="$t('metadata')">
         <HelpBox>
           <p>{{ $t("config.metadata.help") }}</p>
         </HelpBox>
@@ -86,7 +86,7 @@ async function submit(fields: Form) {
           :help="$t('metadata.identifier.help')"
           input-class="font-mono bg-stone-600 text-lime-50 text-xs p-2 rounded"
         />
-      </Section>
+      </LayoutSection>
     </FormKit>
   </div>
 </template>

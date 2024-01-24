@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Section from "@/components/Section.vue";
+import LayoutSection from "@/components/LayoutSection.vue";
 import LoginButton from "./LoginButton.vue";
 import PageTitle from "@/components/PageTitle.vue";
 </script>
@@ -8,7 +8,7 @@ import PageTitle from "@/components/PageTitle.vue";
   <div>
     <PageTitle>{{ $t("signup") }}</PageTitle>
     <div class="flex flex-wrap gap-6">
-      <Section
+      <LayoutSection
         class="!mt-0 w-64 flex-grow"
         :title="$t('signup.existing.title')"
       >
@@ -19,9 +19,9 @@ import PageTitle from "@/components/PageTitle.vue";
         <p>
           {{ $t("signup.existing.tip") }}
         </p>
-      </Section>
+      </LayoutSection>
 
-      <Section class="!mt-0 w-64 flex-grow" :title="$t('signup.new')">
+      <LayoutSection class="!mt-0 w-64 flex-grow" :title="$t('signup.new')">
         <i18n-t keypath="signup.new.create" scope="global" tag="p">
           <template #register>
             <a :href="$t('signup.new.register.url')" target="_blank">
@@ -32,7 +32,7 @@ import PageTitle from "@/components/PageTitle.vue";
             <em>{{ $t("signup.new.eduid") }}</em>
           </template>
         </i18n-t>
-      </Section>
+      </LayoutSection>
     </div>
   </div>
 </template>
