@@ -9,7 +9,7 @@ import useLocale from "@/i18n/locale.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 import MessageToasts from "@/message/MessageToasts.vue";
 import usePageTitle from "@/page/title.composable";
-import Breadcrumb from "@/page/Breadcrumb.vue";
+import BreadcrumbBar from "@/page/BreadcrumbBar.vue";
 import AppHeader from "./page/AppHeader.vue";
 
 const { refreshJwt } = useAuth();
@@ -35,7 +35,7 @@ if (import.meta.env.DEV) {
 
 <template>
   <AppHeader :large="isHome" />
-  <Breadcrumb />
+  <BreadcrumbBar />
   <MessageToasts />
 
   <div class="container py-2">
