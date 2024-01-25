@@ -8,6 +8,7 @@ import useSources from "./sources.composable";
 import SourceText from "./SourceText.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
+import MessageAlert from "@/message/MessageAlert.vue";
 
 const props = defineProps<{
   corpusId: string;
@@ -19,11 +20,9 @@ const { downloadSource, downloadPlaintext } = useSources(props.corpusId);
 const { isJobDone } = useJob(props.corpusId);
 const { filesize } = useLocale();
 
-// TODO Handle missing source (e.g. due to user visiting old url)
+const sources = computed(() => corpusStore.corpora[props.corpusId].sources);
 const metadata = computed(() =>
-  corpusStore.corpora[props.corpusId].sources?.find(
-    (source) => source.name === props.filename
-  )
+  sources.value?.find((source) => source.name === props.filename)
 );
 const isBinary = computed(() => metadata.value?.type.indexOf("text/") !== 0);
 const isPlaintext = computed(() => metadata.value?.type == "text/plain");
@@ -42,6 +41,11 @@ async function loadPlain() {
 <template>
   <LayoutSection>
     <h2>{{ filename }}</h2>
+    <MessageAlert
+      v-if="sources && !metadata"
+      :message="$t('source.notfound')"
+      status="error"
+    />
     <table v-if="metadata" class="w-full mt-4">
       <tbody>
         <tr>
