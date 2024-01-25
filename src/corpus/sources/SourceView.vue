@@ -44,7 +44,7 @@ async function loadPlain() {
     <MessageAlert
       v-if="sources && !metadata"
       :message="$t('source.notfound')"
-      status="error"
+      level="error"
     />
     <table v-if="metadata" class="w-full mt-4">
       <tbody>

@@ -7,23 +7,23 @@ import type { AxiosError } from "axios";
 export type Alert = {
   key: string;
   message: string;
-  status: Status;
+  level: MessageLevel;
 };
 
-export type Status = "error" | "success" | "debug";
+export type MessageLevel = "error" | "success" | "debug";
 
 const alerts = ref<Alert[]>([]);
 
 export default function useMessenger() {
   const { t, locale, messages } = useI18n();
 
-  function alert(message: string, status?: Status) {
-    if (message && status !== "success") {
+  function alert(message: string, level?: MessageLevel) {
+    if (message && level !== "success") {
       // Add message.
       alerts.value.push({
         key: randomString(),
         message,
-        status: status || "debug",
+        level: level || "debug",
       });
     }
   }

@@ -15,10 +15,10 @@ watch(
 <template>
   <aside class="container max-w-3xl my-4 sticky top-2 z-50">
     <div
-      v-for="{ key, message, status } in alerts"
+      v-for="{ key, message, level } in alerts"
       :key="message"
       class="opacity-80 rounded-lg my-2 text-white p-2 shadow-lg flex items-start"
-      :class="status == 'error' ? ['bg-red-500'] : ['bg-gray-400']"
+      :class="level == 'error' ? ['bg-red-500'] : ['bg-gray-400']"
     >
       <div class="flex-1 px-2">
         {{ message }}
