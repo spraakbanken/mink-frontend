@@ -1,7 +1,7 @@
 import { Config } from "tailwindcss";
 
 export default <Config>{
-  content: ["./index.html", "./src/**/*.{vue,js}"],
+  content: ["./index.html", "./src/**/*.{vue,js,ts}"],
   theme: {
     container: {
       center: true,
