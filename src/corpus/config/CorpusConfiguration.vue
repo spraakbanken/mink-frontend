@@ -19,6 +19,7 @@ import useSources from "../sources/sources.composable";
 import type { AxiosError } from "axios";
 import type { FormKitOptionsList } from "@formkit/inputs";
 import type { ConfigSentenceSegmenter } from "@/api/sparvConfig.types";
+import type { MinkResponse } from "@/api/api.types";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
@@ -83,7 +84,7 @@ async function submit(fields: Form) {
   } catch (e) {
     if (e instanceof TypeError) {
       alert(e.message, "error");
-    } else alertError(e as AxiosError);
+    } else alertError(e as AxiosError<MinkResponse>);
   }
 }
 </script>

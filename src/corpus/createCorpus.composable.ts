@@ -11,6 +11,7 @@ import {
   type ConfigOptions,
 } from "@/api/corpusConfig";
 import type { AxiosError } from "axios";
+import type { MinkResponse } from "@/api/api.types";
 
 export default function useCreateCorpus() {
   const corpusStore = useCorpusStore();
@@ -104,7 +105,7 @@ export default function useCreateCorpus() {
       // If creating the config fails, there's a TypeError.
       if (e instanceof TypeError) alert(e.message, "error");
       // Otherwise it's probably a backend error when saving.
-      else alertError(e as AxiosError);
+      else alertError(e as AxiosError<MinkResponse>);
       // Discard the empty corpus.
       await deleteCorpus(corpusId).catch(alertError);
     }

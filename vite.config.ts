@@ -1,20 +1,19 @@
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
-import pluginRewriteAll from "vite-plugin-rewrite-all";
 import ViteYaml from "@modyfi/vite-plugin-yaml";
-import visualizer from "rollup-plugin-visualizer";
+import { visualizer } from "rollup-plugin-visualizer";
 import { ServerOptions } from "https";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(async ({ mode }) => {
   // Load .env files. Vite will do it itself, but only later. See https://github.com/vitejs/vite/issues/1930
   Object.assign(process.env, loadEnv(mode, process.cwd(), ""));
 
   // Read HTTPS cert and key, if their paths are specified in env.
   const DEV_HTTPS: ServerOptions = {};
   if (process.env.DEV_HTTPS_KEY && process.env.DEV_HTTPS_CERT) {
-    const fs = require("fs");
+    const fs = await import("fs");
     DEV_HTTPS.key = fs.readFileSync(process.env.DEV_HTTPS_KEY);
     DEV_HTTPS.cert = fs.readFileSync(process.env.DEV_HTTPS_CERT);
   }
@@ -22,7 +21,6 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       vue(),
-      pluginRewriteAll(),
       ViteYaml(),
       visualizer(), // Keep visualizer last.
     ],

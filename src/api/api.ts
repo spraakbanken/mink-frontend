@@ -34,7 +34,7 @@ class MinkApi {
     this.jwt = jwt;
     this.axios.defaults.headers["Authorization"] = jwt
       ? `Bearer ${jwt}`
-      : undefined;
+      : null;
   }
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Documentation/operation/APIinfo */

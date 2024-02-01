@@ -2,7 +2,8 @@ import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import remove from "lodash/remove";
 import { randomString } from "@/util";
-import type { AxiosError } from "axios";
+import { AxiosError } from "axios";
+import type { MinkResponse } from "@/api/api.types";
 
 export type Alert = {
   key: string;
@@ -45,7 +46,7 @@ export default function useMessenger() {
   }
 
   /** Display a backend error message. */
-  const alertError = (err: AxiosError): undefined => {
+  const alertError = (err: AxiosError<MinkResponse>): undefined => {
     if (err.response?.data) {
       const data = err.response.data;
 
@@ -54,7 +55,7 @@ export default function useMessenger() {
         const translationKey = `api.code.${data.return_code}`;
         if (translationExists(translationKey)) {
           // Pass the response data, plus request params, as variables to be replaced for "{placeholders}" in the translation message.
-          const messageVariables = { ...err.config.params, ...data };
+          const messageVariables = { ...err.config?.params, ...data };
           alert(t(translationKey, messageVariables), "error");
           return;
         }
