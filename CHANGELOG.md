@@ -22,6 +22,10 @@ As this project is a user-facing application, the places in the semantic version
 
 - Renamed one-word components, for linting
 
+### Fixed
+
+- Upgraded dependencies
+
 ## [1.2.0] (2024-01-17)
 
 ### Added
