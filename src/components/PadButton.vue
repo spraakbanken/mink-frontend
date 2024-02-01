@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed } from "@vue/reactivity";
-import { useAttrs } from "@vue/runtime-core";
+import { computed, useAttrs } from "vue";
 import type { RouteLocationRaw } from "vue-router";
 
 defineProps<{
