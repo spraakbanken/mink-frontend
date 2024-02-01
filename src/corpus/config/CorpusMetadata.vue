@@ -20,7 +20,7 @@ type Form = {
 
 async function submit(fields: Form) {
   const configNew = {
-    ...config.value,
+    ...config.value!,
     name: fields.name,
     description: fields.description,
   };

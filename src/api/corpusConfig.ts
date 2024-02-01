@@ -7,7 +7,7 @@ export type FileFormat = "txt" | "xml" | "odt" | "docx" | "pdf";
 
 /** Frontend-internal format of a Sparv config. */
 export type ConfigOptions = {
-  format?: FileFormat;
+  format: FileFormat;
   name: ByLang;
   description?: ByLang;
   textAnnotation?: string;
@@ -154,17 +154,22 @@ export function emptyConfig(): ConfigOptions {
   return {
     name: { swe: "", eng: "" },
     description: { swe: "", eng: "" },
+    format: "txt",
   };
 }
 
 export async function parseConfig(configYaml: string) {
   const config = (await yaml).load(configYaml) as SparvConfig;
+
+  const format = (Object.keys(FORMATS) as FileFormat[]).find(
+    (ext) => FORMATS[ext as FileFormat] == config.import?.importer
+  )
+  if (!format) throw new TypeError(`Unrecognized importer: "${config.import?.importer}"`)
+
   return {
     name: config.metadata?.name,
     description: config.metadata?.description,
-    format: (Object.keys(FORMATS) as FileFormat[]).find(
-      (ext) => FORMATS[ext as FileFormat] == config.import?.importer
-    ),
+    format,
     textAnnotation: config.import?.text_annotation,
     sentenceSegmenter: config.segment?.sentence_segmenter,
     datetimeFrom: config.custom_annotations?.find(
