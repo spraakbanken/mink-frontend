@@ -158,18 +158,30 @@ export function emptyConfig(): ConfigOptions {
   };
 }
 
-export async function parseConfig(configYaml: string) {
-  const config = (await yaml).load(configYaml) as SparvConfig;
+/**
+ * Parse a Sparv config YAML string.
+ * 
+ * May throw all kinds of errors, the sky is the limit.
+ */
+export async function parseConfig(configYaml: string): Promise<ConfigOptions> {
+  const config = (await yaml).load(configYaml) as any
+  
+  if (!config) throw new TypeError(`Parsing config failed, returned "${config}"`)
 
+  // Throw specific errors if required parts are missing.
   const format = (Object.keys(FORMATS) as FileFormat[]).find(
-    (ext) => FORMATS[ext as FileFormat] == config.import?.importer
+    (ext) => FORMATS[ext as FileFormat] == config.import.importer
   )
-  if (!format) throw new TypeError(`Unrecognized importer: "${config.import?.importer}"`)
+  if (!format) throw new TypeError(`Unrecognized importer: "${config.import.importer}"`)
+
+  const name = config.metadata.name
+  if (!name) throw new TypeError(`Name missing in metadata: ${config.metadata}`)
+  if (!name.swe || !name.eng) throw new TypeError(`Name must contain swe and eng: ${name}`)
 
   return {
-    name: config.metadata?.name,
-    description: config.metadata?.description,
     format,
+    name,
+    description: config.metadata.description,
     textAnnotation: config.import?.text_annotation,
     sentenceSegmenter: config.segment?.sentence_segmenter,
     datetimeFrom: config.custom_annotations?.find(
