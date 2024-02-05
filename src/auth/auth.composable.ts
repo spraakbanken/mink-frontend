@@ -1,9 +1,9 @@
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter, useRoute } from "vue-router";
-import useSpin from "@/spin/spin.composable";
 import { checkLogin } from "./auth";
-import { api } from "@/api/api";
+import api from "@/api/api";
+import useSpin from "@/spin/spin.composable";
 import { canAdmin, decodeJwt, type JwtSbPayload } from "./jwtSb";
 
 /**

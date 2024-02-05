@@ -1,5 +1,5 @@
 import { useI18n } from "vue-i18n";
-import { api } from "./api";
+import api from "./api";
 import useSpin from "@/spin/spin.composable";
 
 /** Wraps API endpoints with Spin. */

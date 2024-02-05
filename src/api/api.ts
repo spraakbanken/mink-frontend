@@ -232,4 +232,4 @@ class MinkApi {
 }
 
 /** API client singleton instance. */
-export const api = new MinkApi();
+export default new MinkApi();

@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { useTitle } from "@vueuse/core";
-import { api } from "@/api/api";
+import api from "@/api/api";
 import * as util from "@/util";
 import { useAuth } from "@/auth/auth.composable";
 import useLocale from "@/i18n/locale.composable";
