@@ -9,8 +9,4 @@ module.exports = {
     "prettier",
     "@vue/eslint-config-typescript",
   ],
-  rules: {
-    // https://eslint.vuejs.org/user-guide/#does-not-work-well-with-script-setup
-    "vue/script-setup-uses-vars": "error",
-  },
 };
