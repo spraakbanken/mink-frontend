@@ -149,3 +149,18 @@ describe("parseConfig", () => {
     expect(config).toStrictEqual(expected);
   });
 });
+
+describe("validateConfig", () => {
+  test("missing text annotation", () => {
+    const options: ConfigOptions = {
+      name: { swe: "Nyheter", eng: "News" },
+      format: "xml",
+    };
+
+    // Config can be handled
+    makeConfig("mink-abc123", options);
+
+    // But is not ready for annotation
+    expect(() => validateConfig(options)).toThrow();
+  });
+});
