@@ -25,7 +25,7 @@ const canInstall = computed(
     jobState.value?.sparv == "done" &&
     !["waiting", "running"].includes(jobState?.value.korp) &&
     !["waiting", "running"].includes(jobState?.value.strix) &&
-    !isInstallPending.value
+    !isInstallPending.value,
 );
 
 loadExports();

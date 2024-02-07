@@ -22,10 +22,10 @@ const {
       isEmpty || isNeedingConfig || isNeedingMeta
         ? 'text-yellow-500'
         : isFailed
-        ? 'text-red-500'
-        : isReady
-        ? 'text-lime-600'
-        : 'text-gray-400',
+          ? 'text-red-500'
+          : isReady
+            ? 'text-lime-600'
+            : 'text-gray-400',
     ]"
   >
     {{ stateMessage }}

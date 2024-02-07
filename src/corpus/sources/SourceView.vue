@@ -22,7 +22,7 @@ const { filesize } = useLocale();
 
 const sources = computed(() => corpusStore.corpora[props.corpusId].sources);
 const metadata = computed(() =>
-  sources.value?.find((source) => source.name === props.filename)
+  sources.value?.find((source) => source.name === props.filename),
 );
 const isBinary = computed(() => metadata.value?.type.indexOf("text/") !== 0);
 const isPlaintext = computed(() => metadata.value?.type == "text/plain");

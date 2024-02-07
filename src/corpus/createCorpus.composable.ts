@@ -50,7 +50,7 @@ export default function useCreateCorpus() {
     ]);
 
     const rejectedResults = results.filter(
-      (result): result is PromiseRejectedResult => result.status != "fulfilled"
+      (result): result is PromiseRejectedResult => result.status != "fulfilled",
     );
     if (rejectedResults.length) {
       // Display error message(s).
@@ -82,7 +82,7 @@ export default function useCreateCorpus() {
     name: string,
     description: string,
     format: FileFormat,
-    textAnnotation?: string
+    textAnnotation?: string,
   ): Promise<string | undefined> {
     const config = {
       name: { swe: name, eng: name },

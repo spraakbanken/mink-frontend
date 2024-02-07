@@ -60,7 +60,7 @@ export default function useMessenger() {
           return;
         }
         console.warn(
-          `Translation missing for return code "${data.return_code}"`
+          `Translation missing for return code "${data.return_code}"`,
         );
       }
 

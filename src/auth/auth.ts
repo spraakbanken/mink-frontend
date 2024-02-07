@@ -7,7 +7,7 @@ export function getLoginUrl(redirectLocation = "") {
   redirectLocation = pathJoin(
     window.location.origin,
     import.meta.env.BASE_URL,
-    redirectLocation
+    redirectLocation,
   );
   return AUTH_BASE + `login?redirect=${redirectLocation}`;
 }

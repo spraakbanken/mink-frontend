@@ -27,17 +27,17 @@ api.getInfo().then((original: InfoData) => {
   const status_codes = objsToDict(
     original.status_codes.data,
     "name",
-    "description"
+    "description",
   );
   const importer_modules = objsToDict(
     original.importer_modules.data,
     "file_extension",
-    "importer"
+    "importer",
   );
   const file_size_limits = keyBy(original.file_size_limits.data, "name");
   const recommended_file_size = keyBy(
     original.recommended_file_size.data,
-    "name"
+    "name",
   );
   info.value = {
     status_codes,

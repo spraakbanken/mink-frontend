@@ -35,5 +35,5 @@ library.add(
   faTrashCan,
   faTriangleExclamation,
   faUserPlus,
-  faXmark
+  faXmark,
 );

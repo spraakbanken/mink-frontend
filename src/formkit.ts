@@ -25,7 +25,7 @@ function addAsteriskPlugin(node: FormKitNode) {
     const schemaFn = node.props.definition.schema;
     node.props.definition.schema = (sectionsSchema = {}) => {
       const isRequired = node.props.parsedRules.some(
-        (rule: any) => rule.name === "required"
+        (rule: any) => rule.name === "required",
       );
 
       if (isRequired) {

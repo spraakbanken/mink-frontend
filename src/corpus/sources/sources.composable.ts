@@ -41,9 +41,9 @@ export default function useSources(corpusId: string) {
   const extensions = computed(() =>
     uniq(
       corpusStore.corpora[corpusId]?.sources?.map((source) =>
-        getFilenameExtension(source.name)
-      )
-    )
+        getFilenameExtension(source.name),
+      ),
+    ),
   );
 
   return {

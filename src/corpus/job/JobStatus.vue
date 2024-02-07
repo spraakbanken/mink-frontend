@@ -17,7 +17,7 @@ const { canBeReady, isFailed } = useCorpusState(corpusId);
 
 const isPending = ref(false);
 const canRun = computed(
-  () => canBeReady.value && !isPending.value && !isJobRunning.value
+  () => canBeReady.value && !isPending.value && !isJobRunning.value,
 );
 
 async function doRunJob() {

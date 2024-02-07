@@ -54,7 +54,7 @@ export function assertValidPayload(payload: any): payload is JwtSbPayload {
 export function canAdmin(
   payload: JwtSbPayload,
   resourceType: string,
-  resourceName: string
+  resourceName: string,
 ) {
   assertValidPayload(payload);
   return payload.scope[resourceType]?.[resourceName] >= payload.levels.ADMIN;
@@ -63,7 +63,7 @@ export function canAdmin(
 export function canWrite(
   payload: JwtSbPayload,
   resourceType: string,
-  resourceName: string
+  resourceName: string,
 ) {
   assertValidPayload(payload);
   return payload.scope[resourceType]?.[resourceName] >= payload.levels.WRITE;
@@ -72,7 +72,7 @@ export function canWrite(
 export function canRead(
   payload: JwtSbPayload,
   resourceType: string,
-  resourceName: string
+  resourceName: string,
 ) {
   assertValidPayload(payload);
   return payload.scope[resourceType]?.[resourceName] >= payload.levels.READ;

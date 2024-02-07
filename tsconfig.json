@@ -5,9 +5,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
     },
     "types": ["@modyfi/vite-plugin-yaml/modules"],
-    "allowJs": true
-  }
+    "allowJs": true,
+  },
 }

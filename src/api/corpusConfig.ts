@@ -132,7 +132,7 @@ export async function makeConfig(id: string, options: ConfigOptions) {
       "<text>:dateformat.datefrom",
       "<text>:dateformat.dateto",
       "<text>:dateformat.timefrom",
-      "<text>:dateformat.timeto"
+      "<text>:dateformat.timeto",
     );
   }
 
@@ -143,7 +143,7 @@ export async function makeConfig(id: string, options: ConfigOptions) {
       "swener.ne:swener.name",
       "swener.ne:swener.ex",
       "swener.ne:swener.type",
-      "swener.ne:swener.subtype"
+      "swener.ne:swener.subtype",
     );
   }
 
@@ -160,23 +160,27 @@ export function emptyConfig(): ConfigOptions {
 
 /**
  * Parse a Sparv config YAML string.
- * 
+ *
  * May throw all kinds of errors, the sky is the limit.
  */
 export async function parseConfig(configYaml: string): Promise<ConfigOptions> {
-  const config = (await yaml).load(configYaml) as any
-  
-  if (!config) throw new TypeError(`Parsing config failed, returned "${config}"`)
+  const config = (await yaml).load(configYaml) as any;
+
+  if (!config)
+    throw new TypeError(`Parsing config failed, returned "${config}"`);
 
   // Throw specific errors if required parts are missing.
   const format = (Object.keys(FORMATS) as FileFormat[]).find(
-    (ext) => FORMATS[ext as FileFormat] == config.import.importer
-  )
-  if (!format) throw new TypeError(`Unrecognized importer: "${config.import.importer}"`)
+    (ext) => FORMATS[ext as FileFormat] == config.import.importer,
+  );
+  if (!format)
+    throw new TypeError(`Unrecognized importer: "${config.import.importer}"`);
 
-  const name = config.metadata.name
-  if (!name) throw new TypeError(`Name missing in metadata: ${config.metadata}`)
-  if (!name.swe || !name.eng) throw new TypeError(`Name must contain swe and eng: ${name}`)
+  const name = config.metadata.name;
+  if (!name)
+    throw new TypeError(`Name missing in metadata: ${config.metadata}`);
+  if (!name.swe || !name.eng)
+    throw new TypeError(`Name must contain swe and eng: ${name}`);
 
   return {
     format,
@@ -185,10 +189,10 @@ export async function parseConfig(configYaml: string): Promise<ConfigOptions> {
     textAnnotation: config.import?.text_annotation,
     sentenceSegmenter: config.segment?.sentence_segmenter,
     datetimeFrom: config.custom_annotations?.find(
-      (a: any) => a.params.out == "<text>:misc.datefrom"
+      (a: any) => a.params.out == "<text>:misc.datefrom",
     )?.params.value,
     datetimeTo: config.custom_annotations?.find(
-      (a: any) => a.params.out == "<text>:misc.dateto"
+      (a: any) => a.params.out == "<text>:misc.dateto",
     )?.params.value,
     enableNer: config.export?.annotations?.includes("swener.ne"),
   };

@@ -19,7 +19,7 @@ const { uploadSources, extensions } = useSources(corpusId);
 const { config, uploadConfig } = useConfig(corpusId);
 const { alertError, clear } = useMessenger();
 const extensionsAccept = computed(() =>
-  extensions.value?.map((ext) => `.${ext}`).join()
+  extensions.value?.map((ext) => `.${ext}`).join(),
 );
 
 async function defaultFileHandler(files: FileList) {

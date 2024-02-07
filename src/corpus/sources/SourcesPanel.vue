@@ -16,7 +16,7 @@ const { info } = useMinkBackendInfo();
 const { filesize } = useLocale();
 
 const totalSize = computed(() =>
-  sources.value.reduce((sum, source) => sum + Number(source.size), 0)
+  sources.value.reduce((sum, source) => sum + Number(source.size), 0),
 );
 </script>
 

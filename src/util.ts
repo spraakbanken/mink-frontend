@@ -57,7 +57,7 @@ export function pathJoin(...parts: string[]) {
 export function setKeys<T>(
   obj: Record<string, T>,
   keys: string[],
-  defaultValue: T
+  defaultValue: T,
 ) {
   // Remove non-matching items.
   for (const key in obj) {
@@ -98,26 +98,26 @@ export const unarray = <T>(x: T[] | T): T => (Array.isArray(x) ? x[0] : x);
 export const objsToDict = <
   T extends Record<keyof any, any>,
   K1 extends keyof T,
-  K2 extends keyof T
+  K2 extends keyof T,
 >(
   objs: T[],
   keyName: K1,
-  valueName: K2
+  valueName: K2,
 ): Record<T[K1], T[K2]> =>
   objs.reduce(
     (dict: Partial<Record<T[K1], T[K2]>>, item) => ({
       ...dict,
       [item[keyName]]: item[valueName],
     }),
-    {}
+    {},
   ) as Record<T[K1], T[K2]>;
 
 /** Like lodash/keyBy but slightly more restrictive in range and typing. */
 export const keyBy = <T extends Record<K, keyof any>, K extends keyof T>(
   objs: T[],
-  prop: K
+  prop: K,
 ): Record<T[K], T> =>
   objs.reduce(
     (obj, item) => ({ ...obj, [String(item[prop])]: item }),
-    {} as Record<T[K], T>
+    {} as Record<T[K], T>,
   );

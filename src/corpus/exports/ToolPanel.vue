@@ -30,7 +30,9 @@ defineEmits<{
         >
           {{
             $t(
-              !isInstalled ? "exports.tools.install" : "exports.tools.reinstall"
+              !isInstalled
+                ? "exports.tools.install"
+                : "exports.tools.reinstall",
             )
           }}
         </ActionButton>

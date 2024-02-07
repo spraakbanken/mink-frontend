@@ -57,7 +57,7 @@ export default function useJob(corpusId: string) {
     const statuses = jobState.value;
     if (!statuses) return false;
     return (Object.keys(statuses) as JobType[]).some((process) =>
-      ["waiting", "running"].includes(statuses[process])
+      ["waiting", "running"].includes(statuses[process]),
     );
   });
 
@@ -65,7 +65,7 @@ export default function useJob(corpusId: string) {
   const isJobDone = computed(
     () =>
       jobState.value?.sparv == "done" &&
-      ["none", "aborted", "done"].includes(jobState.value.korp)
+      ["none", "aborted", "done"].includes(jobState.value.korp),
   );
 
   // Check status intermittently if active.

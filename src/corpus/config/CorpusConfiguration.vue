@@ -47,14 +47,14 @@ const formatOptions = computed<FormKitOptionsList>(() =>
     attrs: {
       disabled: extensions.value.length > 0 && !extensions.value.includes(ext),
     },
-  }))
+  })),
 );
 
 // Auto-select the file format present among source files, if any.
 const selectedFormat = computed<FileFormat | undefined>(() =>
   config.value?.format && extensions.value.includes(config.value?.format)
     ? config.value?.format
-    : undefined
+    : undefined,
 );
 
 type SegmenterOptions = Record<ConfigSentenceSegmenter | "", string>;

@@ -32,9 +32,7 @@ class MinkApi {
   /** Sets a JWT token which is then used to authenticate API requests. */
   setJwt(jwt?: string) {
     this.jwt = jwt;
-    this.axios.defaults.headers["Authorization"] = jwt
-      ? `Bearer ${jwt}`
-      : null;
+    this.axios.defaults.headers["Authorization"] = jwt ? `Bearer ${jwt}` : null;
   }
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Documentation/operation/APIinfo */
@@ -45,17 +43,15 @@ class MinkApi {
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Corpora/operation/listcorpora */
   async listCorpora() {
-    const response = await this.axios.get<MinkResponse<ListCorporaData>>(
-      "list-corpora"
-    );
+    const response =
+      await this.axios.get<MinkResponse<ListCorporaData>>("list-corpora");
     return response.data.corpora;
   }
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Corpora/operation/createcorpus */
   async createCorpus() {
-    const response = await this.axios.post<MinkResponse<CreateCorpusData>>(
-      "create-corpus"
-    );
+    const response =
+      await this.axios.post<MinkResponse<CreateCorpusData>>("create-corpus");
     return response.data.corpus_id;
   }
 
@@ -75,7 +71,7 @@ class MinkApi {
     const response = await this.axios.put<MinkResponse>(
       "upload-config",
       formData,
-      { params: { corpus_id: corpusId } }
+      { params: { corpus_id: corpusId } },
     );
     return response.data;
   }
@@ -104,7 +100,7 @@ class MinkApi {
     const response = await this.axios.put<MinkResponse>(
       "upload-sources",
       formData,
-      { params: { corpus_id: corpusId } }
+      { params: { corpus_id: corpusId } },
     );
     return response.data;
   }
@@ -127,9 +123,8 @@ class MinkApi {
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Process-Corpus/operation/resourceinfo */
   async resourceInfoAll() {
-    const response = await this.axios.get<MinkResponse<ResourceInfoAllData>>(
-      "resource-info"
-    );
+    const response =
+      await this.axios.get<MinkResponse<ResourceInfoAllData>>("resource-info");
     return response.data;
   }
 
@@ -137,7 +132,7 @@ class MinkApi {
   async resourceInfoOne(corpusId: string) {
     const response = await this.axios.get<MinkResponse<ResourceInfoOneData>>(
       "resource-info",
-      { params: { corpus_id: corpusId } }
+      { params: { corpus_id: corpusId } },
     );
     return response.data;
   }
@@ -167,7 +162,7 @@ class MinkApi {
   async listExports(corpusId: string) {
     const response = await this.axios.get<MinkResponse<ListExportsData>>(
       "list-exports",
-      { params: { corpus_id: corpusId } }
+      { params: { corpus_id: corpusId } },
     );
     return response.data.contents;
   }
@@ -195,7 +190,7 @@ class MinkApi {
     const response = await this.axios.put<MinkResponse<ResourceInfoOneData>>(
       "install-korp",
       null,
-      { params: { corpus_id: corpusId } }
+      { params: { corpus_id: corpusId } },
     );
     return response.data;
   }
@@ -205,16 +200,17 @@ class MinkApi {
     const response = await this.axios.put<MinkResponse<ResourceInfoOneData>>(
       "install-strix",
       null,
-      { params: { corpus_id: corpusId } }
+      { params: { corpus_id: corpusId } },
     );
     return response.data;
   }
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Admin-Mode/operation/adminmodestatus */
   async adminModeStatus() {
-    const response = await this.axios.get<MinkResponse<AdminModeStatusData>>(
-      "admin-mode-status"
-    );
+    const response =
+      await this.axios.get<MinkResponse<AdminModeStatusData>>(
+        "admin-mode-status",
+      );
     return response.data.admin_mode_status;
   }
 

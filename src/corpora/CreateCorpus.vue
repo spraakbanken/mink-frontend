@@ -28,8 +28,8 @@ const formatOptions = computed(() =>
       ...options,
       [ext]: `${t(ext)} (.${ext})`,
     }),
-    {}
-  )
+    {},
+  ),
 );
 
 requireAuthentication();
@@ -39,7 +39,7 @@ async function submit(fields: Form) {
     fields.name,
     fields.description,
     fields.format,
-    fields.textAnnotation
+    fields.textAnnotation,
   );
   await spin(createPromise, null, "create");
 }

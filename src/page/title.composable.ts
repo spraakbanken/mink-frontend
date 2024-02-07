@@ -13,7 +13,7 @@ export default function usePageTitle() {
   const corpusName = computed<string>(
     () =>
       th(corpusStore.corpora[route.params.corpusId as string]?.name) ||
-      (route.params.corpusId as string)
+      (route.params.corpusId as string),
   );
 
   function getTitle(route: RouteLocation) {

@@ -22,7 +22,7 @@ export default function useSpin() {
     promise: Promise<T>,
     // TODO Remove message
     message: string | null,
-    token: string
+    token: string,
   ): Promise<T> {
     // Add to watchlist.
     unsettled.value.push({
@@ -33,7 +33,7 @@ export default function useSpin() {
     return promise.finally(() => {
       // Whenever done, remove from watchlist.
       const index = unsettled.value.findIndex(
-        (item) => item.promise === promise
+        (item) => item.promise === promise,
       );
       unsettled.value.splice(index, 1);
     });
@@ -43,7 +43,7 @@ export default function useSpin() {
    * Reactive list of messages, ordered by time added.
    */
   const messages = computed<string[]>(() =>
-    unsettled.value.filter((item) => item.message).map((item) => item.message!)
+    unsettled.value.filter((item) => item.message).map((item) => item.message!),
   );
 
   /**
@@ -51,8 +51,8 @@ export default function useSpin() {
    */
   const pending = computed<string[]>(() =>
     uniq(
-      unsettled.value.filter((item) => item.token).map((item) => item.token!)
-    )
+      unsettled.value.filter((item) => item.token).map((item) => item.token!),
+    ),
   );
 
   return {

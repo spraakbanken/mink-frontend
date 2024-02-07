@@ -8,7 +8,7 @@ const route = useRoute();
 
 watch(
   () => route.path,
-  () => clear()
+  () => clear(),
 );
 </script>
 

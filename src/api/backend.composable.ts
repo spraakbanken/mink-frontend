@@ -17,49 +17,49 @@ export default function useMinkBackend() {
     spin(
       api.removeCorpus(corpusId),
       t("corpus.deleting"),
-      `corpus/${corpusId}`
+      `corpus/${corpusId}`,
     );
 
   const loadConfig = (corpusId: string) =>
     spin(
       api.downloadConfig(corpusId),
       t("config.loading"),
-      `corpus/${corpusId}/config`
+      `corpus/${corpusId}/config`,
     );
 
   const saveConfig = (corpusId: string, configYaml: string) =>
     spin(
       api.uploadConfig(corpusId, configYaml),
       t("corpus.configuring"),
-      `corpus/${corpusId}/config`
+      `corpus/${corpusId}/config`,
     );
 
   const downloadSource = (corpusId: string, filename: string, binary = false) =>
     spin(
       api.downloadSources(corpusId, filename, binary),
       t("source.downloading"),
-      `corpus/${corpusId}/sources/${filename}`
+      `corpus/${corpusId}/sources/${filename}`,
     );
 
   const downloadPlaintext = (corpusId: string, filename: string) =>
     spin(
       api.downloadSourceText(corpusId, filename),
       t("source.downloading_plain"),
-      `corpus/${corpusId}/sources/${filename}`
+      `corpus/${corpusId}/sources/${filename}`,
     );
 
   const uploadSources = (corpusId: string, files: FileList) =>
     spin(
       api.uploadSources(corpusId, files),
       t("source.uploading", files.length),
-      `corpus/${corpusId}/sources`
+      `corpus/${corpusId}/sources`,
     );
 
   const deleteSource = (corpusId: string, filename: string) =>
     spin(
       api.removeSource(corpusId, filename),
       t("source.deleting"),
-      `corpus/${corpusId}/sources`
+      `corpus/${corpusId}/sources`,
     );
 
   const resourceInfoAll = () =>
@@ -69,7 +69,7 @@ export default function useMinkBackend() {
     spin(
       api.resourceInfoOne(corpusId),
       t("resource.loading"),
-      `corpus/${corpusId}/job`
+      `corpus/${corpusId}/job`,
     );
 
   const runJob = (corpusId: string) =>
@@ -79,14 +79,14 @@ export default function useMinkBackend() {
     spin(
       api.installKorp(corpusId),
       t("job.installing"),
-      `corpus/${corpusId}/job`
+      `corpus/${corpusId}/job`,
     );
 
   const installStrix = (corpusId: string) =>
     spin(
       api.installStrix(corpusId),
       t("job.installing"),
-      `corpus/${corpusId}/job`
+      `corpus/${corpusId}/job`,
     );
 
   const abortJob = (corpusId: string) =>
@@ -96,21 +96,21 @@ export default function useMinkBackend() {
     spin(
       api.listExports(corpusId),
       t("exports.loading"),
-      `corpus/${corpusId}/exports`
+      `corpus/${corpusId}/exports`,
     );
 
   const downloadExports = (corpusId: string) =>
     spin(
       api.downloadExports(corpusId),
       t("exports.downloading"),
-      `corpus/${corpusId}/exports`
+      `corpus/${corpusId}/exports`,
     );
 
   const downloadExportFiles = (corpusId: string, filename: string) =>
     spin(
       api.downloadExportFile(corpusId, filename),
       t("exports.downloading"),
-      `corpus/${corpusId}/exports`
+      `corpus/${corpusId}/exports`,
     );
 
   const checkAdminMode = () => spin(api.adminModeStatus(), null, "admin-mode");

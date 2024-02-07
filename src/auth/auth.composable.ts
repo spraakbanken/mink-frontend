@@ -31,10 +31,10 @@ export function useAuth() {
 
   const isAuthenticated = computed<boolean>(() => !!jwt.value);
   const payload = computed<JwtSbPayload | undefined>(() =>
-    jwt.value ? decodeJwt(jwt.value)?.payload : undefined
+    jwt.value ? decodeJwt(jwt.value)?.payload : undefined,
   );
   const canUserAdmin = computed<boolean>(
-    () => !!payload.value && canAdmin(payload.value, "other", "mink-app")
+    () => !!payload.value && canAdmin(payload.value, "other", "mink-app"),
   );
   const canUserWrite = computed(() => isAuthenticated.value);
   /** Indicates whether a jwt request is currently loading. */

@@ -15,14 +15,14 @@ const props = defineProps<{
 const { locale } = useI18n();
 
 const src = computed(() =>
-  props.large ? (locale.value == "en" ? logoSloganEn : logoSlogan) : logo
+  props.large ? (locale.value == "en" ? logoSloganEn : logoSlogan) : logo,
 );
 const srcLight = computed(() =>
   props.large
     ? locale.value == "en"
       ? logoLightSloganEn
       : logoLightSlogan
-    : logoLight
+    : logoLight,
 );
 </script>
 

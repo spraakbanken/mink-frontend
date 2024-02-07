@@ -54,37 +54,37 @@ export function useCorpusState(corpusId: string) {
   });
 
   const isConfigValid = computed(
-    () => config.value && !getException(() => validateConfig(config.value!))
+    () => config.value && !getException(() => validateConfig(config.value!)),
   );
 
   const hasMetadata = computed(
-    () => config.value?.name?.swe || config.value?.name?.eng
+    () => config.value?.name?.swe || config.value?.name?.eng,
   );
 
   const isEmpty = computed(() => corpusState.value == CorpusState.EMPTY);
   const isNeedingConfig = computed(
-    () => corpusState.value == CorpusState.NEEDING_CONFIG
+    () => corpusState.value == CorpusState.NEEDING_CONFIG,
   );
   const isNeedingMeta = computed(
-    () => corpusState.value == CorpusState.NEEDING_META
+    () => corpusState.value == CorpusState.NEEDING_META,
   );
   const canBeReady = computed(
-    () => !isEmpty.value && !isNeedingConfig.value && !isNeedingMeta.value
+    () => !isEmpty.value && !isNeedingConfig.value && !isNeedingMeta.value,
   );
 
   const isFailed = computed(
     () =>
       corpusState.value == CorpusState.FAILED ||
-      corpusState.value == CorpusState.FAILED_INSTALL
+      corpusState.value == CorpusState.FAILED_INSTALL,
   );
   const isReady = computed(() => corpusState.value == CorpusState.READY);
   const isRunning = computed(() => corpusState.value == CorpusState.RUNNING);
   const isDone = computed(() => corpusState.value == CorpusState.DONE);
   const isRunningInstall = computed(
-    () => corpusState.value == CorpusState.RUNNING_INSTALL
+    () => corpusState.value == CorpusState.RUNNING_INSTALL,
   );
   const isDoneInstall = computed(
-    () => corpusState.value == CorpusState.DONE_INSTALL
+    () => corpusState.value == CorpusState.DONE_INSTALL,
   );
 
   const stateMessage = computed(() => t(`corpus.state.${corpusState.value}`));
@@ -94,7 +94,7 @@ export function useCorpusState(corpusId: string) {
       isEmpty.value ||
       isNeedingConfig.value ||
       isNeedingMeta.value ||
-      isFailed.value
+      isFailed.value,
   );
 
   return {

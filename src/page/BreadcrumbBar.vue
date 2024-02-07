@@ -23,7 +23,7 @@ const crumbs = computed(() =>
       const route = resolve(path);
       return { path, title: getTitle(route), name: route.name };
     })
-    .filter((crumb) => crumb.name != "notfound" && crumb.title)
+    .filter((crumb) => crumb.name != "notfound" && crumb.title),
 );
 </script>
 

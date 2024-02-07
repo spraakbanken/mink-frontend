@@ -9,8 +9,8 @@ const props = defineProps<{
 const { locale } = useI18n();
 const percentStr = computed(() =>
   Intl.NumberFormat(locale.value, { style: "percent" }).format(
-    props.percent / 100
-  )
+    props.percent / 100,
+  ),
 );
 </script>
 
