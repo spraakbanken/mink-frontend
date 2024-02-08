@@ -9,9 +9,10 @@ import CorpusDelete from "@/corpus/CorpusDelete.vue";
 import SourceView from "@/corpus/sources/SourceView.vue";
 
 const corpusRoutes: RouteRecordRaw[] = [
+  { path: "/corpus", redirect: "/library" },
   {
     // Redirect /corpus/* to /library/corpus/*
-    path: "/corpus/:pathMatch(.*)*/",
+    path: "/corpus/:pathMatch(.*)*",
     redirect: (to) => ({
       path: `/library/corpus/${(to.params.pathMatch as string[]).join("/")}`,
     }),
