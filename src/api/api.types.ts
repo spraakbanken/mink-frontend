@@ -45,6 +45,11 @@ export type CreateCorpusData = {
   corpus_id: string;
 };
 
+/** Data in the create-metadata response */
+export type CreateMetadataData = {
+  resource_id: string;
+};
+
 /** Data in the resource-info response, if no corpus_id param is given */
 export type ResourceInfoAllData = {
   resources: MinkResponse<ResourceInfo>[];

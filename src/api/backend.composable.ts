@@ -13,6 +13,9 @@ export default function useMinkBackend() {
   const createCorpus = () =>
     spin(api.createCorpus(), t("corpus.creating"), "create");
 
+  const createMetadata = (publicId: string) =>
+    spin(api.createMetadata(publicId), null, "create");
+
   const deleteCorpus = (corpusId: string) =>
     spin(
       api.removeCorpus(corpusId),
@@ -124,6 +127,7 @@ export default function useMinkBackend() {
   return {
     loadCorpusIds,
     createCorpus,
+    createMetadata,
     deleteCorpus,
     loadConfig,
     saveConfig,

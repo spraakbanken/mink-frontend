@@ -27,7 +27,7 @@ export default function useCreateCorpus() {
     // Have the new corpus included in further API calls.
     await refreshJwt();
     // Adding the new id to store may trigger API calls, so do it after updating the JWT.
-    resourceStore.corpora[corpusId] = resourceStore.corpora[corpusId] || {};
+    resourceStore.resources[corpusId] = resourceStore.resources[corpusId] || {};
     return corpusId;
   }
 

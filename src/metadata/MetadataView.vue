@@ -13,9 +13,7 @@ const { loadMetadata } = useMetadata(resourceId);
 
 const metadata = computed(() => resourceStore.resources[resourceId]);
 
-requireAuthentication(async () => {
-  await loadMetadata();
-});
+requireAuthentication(loadMetadata);
 </script>
 
 <template>
@@ -29,6 +27,7 @@ requireAuthentication(async () => {
           {{ resourceId }}
         </router-link>
       </PageTitle>
+
       <router-view />
     </template>
   </div>

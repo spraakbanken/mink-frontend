@@ -55,12 +55,21 @@ async function createCorpusFromFiles(files: FileList) {
   </LayoutSection>
 
   <LayoutSection :title="$t('metadata')">
+    <HelpBox>
+      <p>{{ $t("library.help.metadata") }}</p>
+    </HelpBox>
+
     <div class="my-4 flex flex-wrap gap-4">
       <template v-for="(metadata, id) of resourceStore.metadatas" :key="id">
         <PadButton :to="`/library/metadata/${id}`">
           <strong>{{ th(metadata.name) || id }}</strong>
         </PadButton>
       </template>
+
+      <PadButton to="/library/metadata/new">
+        <icon :icon="['far', 'square-plus']" size="2xl" class="mb-2" />
+        {{ $t("metadata.new") }}
+      </PadButton>
     </div>
   </LayoutSection>
 

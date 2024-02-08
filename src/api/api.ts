@@ -11,6 +11,7 @@ import type {
   JobType,
   ListExportsData,
   AdminModeStatusData,
+  CreateMetadataData,
 } from "./api.types";
 
 /** Mink backend API client */
@@ -53,6 +54,15 @@ class MinkApi {
     const response =
       await this.axios.post<MinkResponse<CreateCorpusData>>("create-corpus");
     return response.data.corpus_id;
+  }
+
+  async createMetadata(publicId: string) {
+    const response = await this.axios.post<MinkResponse<CreateMetadataData>>(
+      "create-metadata",
+      undefined,
+      { params: { public_id: publicId } },
+    );
+    return response.data.resource_id;
   }
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Corpora/operation/removecorpus */
