@@ -12,7 +12,6 @@ import HelpBox from "@/components/HelpBox.vue";
 import { useResourceStore } from "@/store/resource.store";
 import useSpin from "@/spin/spin.composable";
 import useCreateCorpus from "@/corpus/createCorpus.composable";
-import RouteButton from "@/components/RouteButton.vue";
 
 const resourceStore = useResourceStore();
 const { requireAuthentication, isAuthenticated } = useAuth();
@@ -41,7 +40,7 @@ async function createCorpusFromFiles(files: FileList) {
       </p>
     </HelpBox>
 
-    <PendingContent on="corpora" class="flex flex-wrap -mx-2">
+    <PendingContent on="corpora" class="my-4 flex flex-wrap gap-4">
       <CorpusButton
         v-for="(corpus, corpusId) of resourceStore.corpora"
         :id="corpusId"
@@ -56,11 +55,11 @@ async function createCorpusFromFiles(files: FileList) {
   </LayoutSection>
 
   <LayoutSection :title="$t('metadata')">
-    <div class="flex flex-wrap gap-2">
+    <div class="my-4 flex flex-wrap gap-4">
       <template v-for="(metadata, id) of resourceStore.metadatas" :key="id">
-        <RouteButton :to="`/resource/${id}`">
-          {{ th(metadata.name) || id }}
-        </RouteButton>
+        <PadButton :to="`/resource/${id}`">
+          <strong>{{ th(metadata.name) || id }}</strong>
+        </PadButton>
       </template>
     </div>
   </LayoutSection>

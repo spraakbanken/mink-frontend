@@ -14,7 +14,7 @@ const clickable = computed(() => !!attrs.onClick);
 <template>
   <router-link
     :to="to"
-    class="mink-button m-2 w-40 h-40 flex flex-col justify-center items-center text-center"
+    class="mink-button w-40 h-40 flex flex-col justify-center items-center text-center"
     :class="{ 'cursor-pointer': clickable }"
   >
     <slot />
