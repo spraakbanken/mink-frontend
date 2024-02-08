@@ -1,7 +1,7 @@
 import { readonly, ref } from "vue";
 import useMinkBackend from "@/api/backend.composable";
 import { useAuth } from "@/auth/auth.composable";
-import useCorpora from "@/corpora/corpora.composable";
+import useCorpora from "@/library/corpora.composable";
 import useMessenger from "@/message/messenger.composable";
 
 const adminModeRef = ref(false);

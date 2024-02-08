@@ -3,12 +3,12 @@ import useLocale from "@/i18n/locale.composable";
 import PadButton from "@/components/PadButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
+import useCorpora from "./corpora.composable";
 import CorpusButton from "./CorpusButton.vue";
 import { useAuth } from "@/auth/auth.composable";
 import SourceUpload from "@/corpus/sources/SourceUpload.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import HelpBox from "@/components/HelpBox.vue";
-import useCorpora from "@/corpora/corpora.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 import useSpin from "@/spin/spin.composable";
 import useCreateCorpus from "@/corpus/createCorpus.composable";
@@ -74,3 +74,4 @@ async function createCorpusFromFiles(files: FileList) {
     </PendingContent>
   </LayoutSection>
 </template>
+@/library/corpora.composable

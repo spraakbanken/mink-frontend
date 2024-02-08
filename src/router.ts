@@ -4,10 +4,10 @@ import {
   type RouteRecordRaw,
 } from "vue-router";
 import HomeView from "@/home/HomeView.vue";
-import LibraryView from "@/corpora/LibraryView.vue";
+import LibraryView from "@/library/LibraryView.vue";
 import LoginView from "@/auth/LoginView.vue";
 import SignupView from "@/auth/SignupView.vue";
-import CreateCorpus from "@/corpora/CreateCorpus.vue";
+import CreateCorpus from "@/corpus/CreateCorpus.vue";
 import CorpusView from "@/corpus/CorpusView.vue";
 import CorpusOverview from "@/corpus/CorpusOverview.vue";
 import CorpusMetadata from "@/corpus/config/CorpusMetadata.vue";

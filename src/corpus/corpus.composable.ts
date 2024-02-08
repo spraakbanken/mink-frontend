@@ -1,5 +1,5 @@
 import { useCorpusStore } from "@/store/corpus.store";
-import useCorpora from "@/corpora/corpora.composable";
+import useCorpora from "@/library/corpora.composable";
 import useConfig from "./config/config.composable";
 
 /** Let data be refreshed initially, but skip subsequent load calls. */

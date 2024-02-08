@@ -1,7 +1,7 @@
 import { useAuth } from "@/auth/auth.composable";
 import useMinkBackend from "@/api/backend.composable";
 import useMessenger from "@/message/messenger.composable";
-import useCorpora from "@/corpora/corpora.composable";
+import useCorpora from "@/library/corpora.composable";
 
 export default function useDeleteCorpus() {
   const { refreshJwt } = useAuth();
