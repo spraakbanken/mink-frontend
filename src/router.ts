@@ -14,6 +14,8 @@ import CorpusMetadata from "@/corpus/config/CorpusMetadata.vue";
 import CorpusConfiguration from "@/corpus/config/CorpusConfiguration.vue";
 import CorpusResult from "@/corpus/exports/CorpusResult.vue";
 import CorpusDelete from "@/corpus/CorpusDelete.vue";
+import MetadataView from "@/metadata/MetadataView.vue";
+import MetadataOverview from "@/metadata/MetadataOverview.vue";
 import SourceView from "@/corpus/sources/SourceView.vue";
 import UserView from "@/user/UserView.vue";
 import AccessDenied from "@/auth/AccessDenied.vue";
@@ -36,8 +38,10 @@ const routes: RouteRecordRaw[] = [
       title: "home",
     },
   },
+  // TODO Remove redirect in late 2024
+  { path: "/corpus", redirect: "/library" },
   {
-    path: "/corpus",
+    path: "/library",
     component: LibraryView,
     meta: { title: "library" },
   },
@@ -51,19 +55,26 @@ const routes: RouteRecordRaw[] = [
     component: SignupView,
     meta: { title: "signup" },
   },
+  // TODO Remove redirect in late 2024
+  { path: "/corpus/new", redirect: "/library/corpus/new" },
   {
-    path: "/corpus/new",
+    path: "/library/corpus/new",
     component: CreateCorpus,
     meta: { title: "new_corpus" },
   },
+  // TODO Remove redirect in late 2024
   {
     path: "/corpus/:corpusId",
+    redirect: (to) => ({ path: `/library/corpus/${to.params.corpusId}` }),
+  },
+  {
+    path: "/library/corpus/:corpusId",
     component: CorpusView,
     children: [
       {
         path: "",
         component: CorpusOverview,
-        meta: { createTitle: (params, corpusName) => corpusName },
+        meta: { createTitle: (params, resourceName) => resourceName },
       },
       {
         path: "metadata",
@@ -92,6 +103,20 @@ const routes: RouteRecordRaw[] = [
         path: "delete",
         component: CorpusDelete,
         meta: { title: "delete" },
+      },
+    ],
+  },
+  {
+    path: "/library/metadata/:resourceId",
+    component: MetadataView,
+    children: [
+      {
+        path: "",
+        component: MetadataOverview,
+        meta: {
+          createTitle: (params, resourceName) =>
+            resourceName || (params.resourceId as string),
+        },
       },
     ],
   },

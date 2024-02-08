@@ -57,7 +57,7 @@ async function createCorpusFromFiles(files: FileList) {
   <LayoutSection :title="$t('metadata')">
     <div class="my-4 flex flex-wrap gap-4">
       <template v-for="(metadata, id) of resourceStore.metadatas" :key="id">
-        <PadButton :to="`/resource/${id}`">
+        <PadButton :to="`/library/metadata/${id}`">
           <strong>{{ th(metadata.name) || id }}</strong>
         </PadButton>
       </template>
