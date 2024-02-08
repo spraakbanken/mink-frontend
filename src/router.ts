@@ -38,8 +38,6 @@ const routes: RouteRecordRaw[] = [
       title: "home",
     },
   },
-  // TODO Remove redirect in late 2024
-  { path: "/corpus", redirect: "/library" },
   {
     path: "/library",
     component: LibraryView,
@@ -55,17 +53,10 @@ const routes: RouteRecordRaw[] = [
     component: SignupView,
     meta: { title: "signup" },
   },
-  // TODO Remove redirect in late 2024
-  { path: "/corpus/new", redirect: "/library/corpus/new" },
   {
     path: "/library/corpus/new",
     component: CreateCorpus,
     meta: { title: "new_corpus" },
-  },
-  // TODO Remove redirect in late 2024
-  {
-    path: "/corpus/:corpusId",
-    redirect: (to) => ({ path: `/library/corpus/${to.params.corpusId}` }),
   },
   {
     path: "/library/corpus/:corpusId",
@@ -129,6 +120,13 @@ const routes: RouteRecordRaw[] = [
     path: "/access-denied",
     component: AccessDenied,
     meta: { title: "accessdenied" },
+  },
+  {
+    // Redirect /corpus/* to /library/corpus/*
+    path: "/corpus/:pathMatch(.*)*/",
+    redirect: (to) => ({
+      path: `/library/corpus/${(to.params.pathMatch as string[]).join("/")}`,
+    }),
   },
   {
     path: "/:pathMatch(.*)*",
