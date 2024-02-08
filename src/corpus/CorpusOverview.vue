@@ -26,7 +26,7 @@ const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
         <ConfigPanel />
         <template #controls>
           <RouteButton
-            :to="`/corpus/${corpusId}/config`"
+            :to="`/library/corpus/${corpusId}/config`"
             :class="{ 'button-primary': isNeedingConfig }"
           >
             <icon :icon="['fas', 'pen']" class="mr-1" />
@@ -40,7 +40,7 @@ const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
         <template #controls>
           <RouteButton
             v-if="!isNeedingConfig"
-            :to="`/corpus/${corpusId}/metadata`"
+            :to="`/library/corpus/${corpusId}/metadata`"
             :class="{ 'button-primary': isNeedingMeta }"
           >
             <icon :icon="['fas', 'pen']" class="mr-1" />

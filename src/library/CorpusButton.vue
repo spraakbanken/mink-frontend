@@ -21,7 +21,7 @@ spin(loadCorpus(), null, "corpora");
 </script>
 
 <template>
-  <PadButton class="flex" :to="`/corpus/${id}`">
+  <PadButton class="flex" :to="`/library/corpus/${id}`">
     <strong>{{ th(corpus.name) || id }}</strong>
 
     <span v-if="corpus.sources && corpus.sources.length">

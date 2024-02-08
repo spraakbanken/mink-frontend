@@ -47,7 +47,7 @@ async function createCorpusFromFiles(files: FileList) {
         :key="corpusId"
       />
 
-      <PadButton to="/corpus/new">
+      <PadButton to="/library/corpus/new">
         <icon :icon="['far', 'square-plus']" size="2xl" class="mb-2" />
         {{ $t("new_corpus") }}
       </PadButton>

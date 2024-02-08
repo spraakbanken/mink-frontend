@@ -25,7 +25,7 @@ async function submit(fields: Form) {
     description: fields.description,
   };
   await uploadConfig(configNew)
-    .then(() => router.push(`/corpus/${corpusId}`))
+    .then(() => router.push(`/library/corpus/${corpusId}`))
     .catch(alertError);
 }
 </script>

@@ -60,7 +60,7 @@ export default function useCreateCorpus() {
       return;
     }
 
-    router.push(`/corpus/${corpusId}`);
+    router.push(`/library/corpus/${corpusId}`);
   }
 
   // Like the `uploadConfig` in `config.composable.ts` but takes `corpusId` as argument.
@@ -99,7 +99,7 @@ export default function useCreateCorpus() {
     try {
       await uploadConfig(config, corpusId);
       // Show the created corpus.
-      router.push(`/corpus/${corpusId}`);
+      router.push(`/library/corpus/${corpusId}`);
       return corpusId;
     } catch (e) {
       // If creating the config fails, there's a TypeError.

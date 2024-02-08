@@ -23,7 +23,7 @@ requireAuthentication(async () => {
     <template v-if="metadata">
       <PageTitle subtitle="metadata">
         <router-link
-          :to="`/metadata/${resourceId}`"
+          :to="`/library/metadata/${resourceId}`"
           class="text-inherit hover:underline"
         >
           {{ resourceId }}

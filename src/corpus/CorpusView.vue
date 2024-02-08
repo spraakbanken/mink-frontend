@@ -25,7 +25,7 @@ requireAuthentication(async () => {
     <template v-if="corpus">
       <PageTitle subtitle="corpus">
         <router-link
-          :to="`/corpus/${corpusId}`"
+          :to="`/library/corpus/${corpusId}`"
           class="text-inherit hover:underline"
         >
           {{ th(corpus.name) || corpusId }}

@@ -32,7 +32,7 @@ async function doDelete() {
           {{ $t("corpus.delete") }}
         </ActionButton>
 
-        <RouteButton :to="`/corpus/${corpusId}`">{{
+        <RouteButton :to="`/library/corpus/${corpusId}`">{{
           $t("cancel")
         }}</RouteButton>
       </div>
