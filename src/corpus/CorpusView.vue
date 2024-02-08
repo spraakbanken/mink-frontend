@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useAuth } from "@/auth/auth.composable";
+import useLocale from "@/i18n/locale.composable";
 import { useResourceStore } from "@/store/resource.store";
 import useCorpusIdParam from "./corpusIdParam.composable";
 import useCorpus from "./corpus.composable.js";
-import useConfig from "./config/config.composable";
 import PageTitle from "@/components/PageTitle.vue";
 
 const resourceStore = useResourceStore();
 const { requireAuthentication, isAuthenticated } = useAuth();
 const corpusId = useCorpusIdParam();
 const { loadCorpus } = useCorpus(corpusId);
-const { corpusName } = useConfig(corpusId);
+const { th } = useLocale();
 
 const corpus = computed(() => resourceStore.corpora[corpusId]);
 
@@ -28,7 +28,7 @@ requireAuthentication(async () => {
           :to="`/corpus/${corpusId}`"
           class="text-inherit hover:underline"
         >
-          {{ corpusName || corpusId }}
+          {{ th(corpus.name) || corpusId }}
         </router-link>
       </PageTitle>
       <router-view />
