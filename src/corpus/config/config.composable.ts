@@ -7,14 +7,14 @@ import {
 } from "@/api/corpusConfig";
 import useLocale from "@/i18n/locale.composable";
 import useMinkBackend from "@/api/backend.composable";
-import { useCorpusStore } from "@/store/corpus.store";
+import { useResourceStore } from "@/store/resource.store";
 
 export default function useConfig(corpusId: string) {
-  const corpusStore = useCorpusStore();
+  const resourceStore = useResourceStore();
   const { th } = useLocale();
   const mink = useMinkBackend();
 
-  const corpus = computed(() => corpusStore.corpora[corpusId]);
+  const corpus = computed(() => resourceStore.corpora[corpusId]);
   const config = computed(() => corpus.value?.config);
   const corpusName = computed(() => th(config.value?.name));
 
@@ -32,7 +32,7 @@ export default function useConfig(corpusId: string) {
   async function uploadConfig(config: ConfigOptions) {
     // This may throw, either from makeConfig or saveConfig.
     await mink.saveConfig(corpusId, await makeConfig(corpusId, config));
-    corpusStore.corpora[corpusId].config = config;
+    resourceStore.corpora[corpusId].config = config;
   }
 
   return {

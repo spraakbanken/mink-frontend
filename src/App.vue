@@ -6,7 +6,7 @@ import api from "@/api/api";
 import * as util from "@/util";
 import { useAuth } from "@/auth/auth.composable";
 import useLocale from "@/i18n/locale.composable";
-import { useCorpusStore } from "@/store/corpus.store";
+import { useResourceStore } from "@/store/resource.store";
 import MessageToasts from "@/message/MessageToasts.vue";
 import usePageTitle from "@/page/title.composable";
 import BreadcrumbBar from "@/page/BreadcrumbBar.vue";
@@ -19,7 +19,7 @@ const { title } = usePageTitle();
 // Activate automatic updates of the HTML page title.
 useTitle(title, { titleTemplate: "%s | Mink" });
 const route = useRoute();
-const corpusStore = useCorpusStore();
+const resourceStore = useResourceStore();
 
 const isHome = computed(() => route.path == "/");
 
@@ -28,7 +28,7 @@ refreshJwt();
 
 if (import.meta.env.DEV) {
   (window as any).api = api;
-  (window as any).corpusStore = corpusStore;
+  (window as any).resourceStore = resourceStore;
   (window as any).util = util;
 }
 </script>

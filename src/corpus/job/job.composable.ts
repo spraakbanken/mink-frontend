@@ -1,7 +1,7 @@
 import { computed, watch } from "vue";
 import { useInterval } from "@vueuse/shared";
 import useMinkBackend from "@/api/backend.composable";
-import { useCorpusStore } from "@/store/corpus.store";
+import { useResourceStore } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
 import type { JobType } from "@/api/api.types";
 
@@ -12,8 +12,8 @@ const pollTick = useInterval(2000);
 const pollTracker: Record<string, boolean> = {};
 
 export default function useJob(corpusId: string) {
-  const corpusStore = useCorpusStore();
-  const corpus = computed(() => corpusStore.corpora[corpusId]);
+  const resourceStore = useResourceStore();
+  const corpus = computed(() => resourceStore.corpora[corpusId]);
   const mink = useMinkBackend();
   const { alertError } = useMessenger();
 

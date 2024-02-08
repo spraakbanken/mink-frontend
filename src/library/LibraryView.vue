@@ -3,25 +3,25 @@ import useLocale from "@/i18n/locale.composable";
 import PadButton from "@/components/PadButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import useCorpora from "./corpora.composable";
+import useResources from "./resources.composable";
 import CorpusButton from "./CorpusButton.vue";
 import { useAuth } from "@/auth/auth.composable";
 import SourceUpload from "@/corpus/sources/SourceUpload.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import HelpBox from "@/components/HelpBox.vue";
-import { useCorpusStore } from "@/store/corpus.store";
+import { useResourceStore } from "@/store/resource.store";
 import useSpin from "@/spin/spin.composable";
 import useCreateCorpus from "@/corpus/createCorpus.composable";
 import RouteButton from "@/components/RouteButton.vue";
 
-const corpusStore = useCorpusStore();
+const resourceStore = useResourceStore();
 const { requireAuthentication, isAuthenticated } = useAuth();
-const { loadCorpora } = useCorpora();
+const { loadResources } = useResources();
 const { createFromUpload } = useCreateCorpus();
 const { spin } = useSpin();
 const { th } = useLocale();
 
-requireAuthentication(loadCorpora);
+requireAuthentication(loadResources);
 
 async function createCorpusFromFiles(files: FileList) {
   await spin(createFromUpload(files), null, "create");
@@ -34,7 +34,7 @@ async function createCorpusFromFiles(files: FileList) {
     <HelpBox>
       <p>
         {{
-          corpusStore.hasCorpora
+          resourceStore.hasCorpora
             ? $t("library.help.corpora")
             : $t("library.help.corpora.none")
         }}
@@ -43,7 +43,7 @@ async function createCorpusFromFiles(files: FileList) {
 
     <PendingContent on="corpora" class="flex flex-wrap -mx-2">
       <CorpusButton
-        v-for="(corpus, corpusId) of corpusStore.corpora"
+        v-for="(corpus, corpusId) of resourceStore.corpora"
         :id="corpusId"
         :key="corpusId"
       />
@@ -57,7 +57,7 @@ async function createCorpusFromFiles(files: FileList) {
 
   <LayoutSection :title="$t('metadata')">
     <div class="flex flex-wrap gap-2">
-      <template v-for="(metadata, id) of corpusStore.metadatas" :key="id">
+      <template v-for="(metadata, id) of resourceStore.metadatas" :key="id">
         <RouteButton :to="`/resource/${id}`">
           {{ th(metadata.name) || id }}
         </RouteButton>
@@ -69,9 +69,8 @@ async function createCorpusFromFiles(files: FileList) {
     <PendingContent on="create" blocking>
       <SourceUpload
         :file-handler="createCorpusFromFiles"
-        :primary="!corpusStore.hasCorpora"
+        :primary="!resourceStore.hasCorpora"
       />
     </PendingContent>
   </LayoutSection>
 </template>
-@/library/corpora.composable

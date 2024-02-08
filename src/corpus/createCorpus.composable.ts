@@ -1,7 +1,7 @@
 import { useRouter } from "vue-router";
 import { useAuth } from "@/auth/auth.composable";
 import useMinkBackend from "@/api/backend.composable";
-import { useCorpusStore } from "@/store/corpus.store";
+import { useResourceStore } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
 import useDeleteCorpus from "./deleteCorpus.composable";
 import { getFilenameExtension } from "@/util";
@@ -14,7 +14,7 @@ import type { AxiosError } from "axios";
 import type { MinkResponse } from "@/api/api.types";
 
 export default function useCreateCorpus() {
-  const corpusStore = useCorpusStore();
+  const resourceStore = useResourceStore();
   const router = useRouter();
   const { refreshJwt } = useAuth();
   const { deleteCorpus } = useDeleteCorpus();
@@ -27,7 +27,7 @@ export default function useCreateCorpus() {
     // Have the new corpus included in further API calls.
     await refreshJwt();
     // Adding the new id to store may trigger API calls, so do it after updating the JWT.
-    corpusStore.corpora[corpusId] = corpusStore.corpora[corpusId] || {};
+    resourceStore.corpora[corpusId] = resourceStore.corpora[corpusId] || {};
     return corpusId;
   }
 
@@ -67,7 +67,7 @@ export default function useCreateCorpus() {
   async function uploadConfig(config: ConfigOptions, corpusId: string) {
     // This may throw, either from makeConfig or saveConfig.
     await mink.saveConfig(corpusId, await makeConfig(corpusId, config));
-    corpusStore.corpora[corpusId].config = config;
+    resourceStore.corpora[corpusId].config = config;
   }
 
   // Like the `uploadSources` in `sources.composable.ts` but takes `corpusId` as argument.
@@ -75,7 +75,7 @@ export default function useCreateCorpus() {
     await mink.uploadSources(corpusId, files);
     const info = await mink.resourceInfoOne(corpusId).catch(alertError);
     if (!info) return;
-    corpusStore.corpora[corpusId].sources = info.resource.source_files;
+    resourceStore.corpora[corpusId].sources = info.resource.source_files;
   }
 
   async function createFromConfig(

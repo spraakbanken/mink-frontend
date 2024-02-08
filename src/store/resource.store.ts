@@ -24,21 +24,21 @@ type Corpus = Resource & {
   exports: FileMeta[];
 };
 
-type Metadata = Resource;
+type Metadata = Resource & {};
 
 // A user-defined type guard to help inform TypeScript
 // See https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards
 const isCorpus = (resource: Partial<Resource>): resource is Corpus =>
   resource.type == "corpus";
 
-export const useCorpusStore = defineStore("corpus", () => {
+export const useResourceStore = defineStore("resource", () => {
   // Connect state to browser's local storage. Change the number here to the
   // current date (YYMMDD) if the state shape is changed, to make the browser
   // forget the old state. The actual number doesn't really matter, as long as
   // it's a new one.
-  const corporaRef = useStorage("mink@230102.corpora", {});
+  const resourcesRef = useStorage("mink@230208.resources", {});
   const resources: Record<string, Partial<Resource>> = reactive(
-    corporaRef.value,
+    resourcesRef.value,
   );
 
   const corpora = computed<Record<string, Partial<Corpus>>>(() =>
@@ -52,18 +52,18 @@ export const useCorpusStore = defineStore("corpus", () => {
     type: ResourceType,
   ): Record<string, Partial<T>> =>
     Object.keys(resources).reduce(
-      (corpora, resourceId) =>
+      (filtered, resourceId) =>
         resources[resourceId].type == type
-          ? { ...corpora, [resourceId]: resources[resourceId] }
-          : corpora,
+          ? { ...filtered, [resourceId]: resources[resourceId] }
+          : filtered,
       {},
     );
 
-  function setCorpusIds(resourceIds: string[]) {
+  function setResourceIds(resourceIds: string[]) {
     setKeys(resources, resourceIds, {});
   }
 
-  function setCorpora(infos: ResourceInfo[]) {
+  function setResources(infos: ResourceInfo[]) {
     // Drop old keys, assign empty records for each new id
     const ids = infos.map((info) => info.resource.id);
     setKeys(resources, ids, {});
@@ -71,9 +71,7 @@ export const useCorpusStore = defineStore("corpus", () => {
     for (const infoNew of infos) {
       // Patch any existing record, otherwise create a new one.
       const info =
-        infoNew.resource.id in corpora.value
-          ? resources[infoNew.resource.id]
-          : {};
+        infoNew.resource.id in resources ? resources[infoNew.resource.id] : {};
       info.type = infoNew.resource.type;
       info.name = infoNew.resource.name;
 
@@ -86,19 +84,14 @@ export const useCorpusStore = defineStore("corpus", () => {
     }
   }
 
-  function removeCorpus(corpusId: string) {
-    delete resources[corpusId];
-  }
-
   const hasCorpora = computed(() => !!Object.keys(corpora).length);
 
   return {
     resources,
     corpora,
     metadatas,
-    setCorpusIds,
-    setCorpora,
-    removeCorpus,
+    setResourceIds,
+    setResources,
     hasCorpora,
   };
 });

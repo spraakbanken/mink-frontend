@@ -6,16 +6,16 @@ import RouteButton from "@/components/RouteButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useDeleteCorpus from "./deleteCorpus.composable";
-import { useCorpusStore } from "@/store/corpus.store";
+import { useResourceStore } from "@/store/resource.store";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
 const { deleteCorpus } = useDeleteCorpus();
-const corpusStore = useCorpusStore();
+const resourceStore = useResourceStore();
 
 async function doDelete() {
   await deleteCorpus(corpusId);
-  if (!(corpusId in corpusStore.corpora)) {
+  if (!(corpusId in resourceStore.corpora)) {
     router.push("/corpus");
   }
 }

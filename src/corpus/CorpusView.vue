@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useAuth } from "@/auth/auth.composable";
-import { useCorpusStore } from "@/store/corpus.store";
+import { useResourceStore } from "@/store/resource.store";
 import useCorpusIdParam from "./corpusIdParam.composable";
 import useCorpus from "./corpus.composable.js";
 import useConfig from "./config/config.composable";
 import PageTitle from "@/components/PageTitle.vue";
 
-const corpusStore = useCorpusStore();
+const resourceStore = useResourceStore();
 const { requireAuthentication, isAuthenticated } = useAuth();
 const corpusId = useCorpusIdParam();
 const { loadCorpus } = useCorpus(corpusId);
 const { corpusName } = useConfig(corpusId);
 
-const corpus = computed(() => corpusStore.corpora[corpusId]);
+const corpus = computed(() => resourceStore.corpora[corpusId]);
 
 requireAuthentication(async () => {
   await loadCorpus();
