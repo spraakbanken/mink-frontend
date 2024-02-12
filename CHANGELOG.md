@@ -24,6 +24,7 @@ As this project is a user-facing application, the places in the semantic version
 
 ### Fixed
 
+- Status panel is empty for new corpus, until page is reloaded [#151](https://github.com/spraakbanken/mink-frontend/issues/151)
 - Upgraded dependencies
 
 ## [1.2.0] (2024-01-17)

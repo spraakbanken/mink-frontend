@@ -12,6 +12,7 @@ import {
 } from "@/api/corpusConfig";
 import type { AxiosError } from "axios";
 import type { MinkResponse } from "@/api/api.types";
+import useCorpora from "@/corpora/corpora.composable";
 
 export default function useCreateCorpus() {
   const corpusStore = useCorpusStore();
@@ -20,12 +21,15 @@ export default function useCreateCorpus() {
   const { deleteCorpus } = useDeleteCorpus();
   const { alert, alertError } = useMessenger();
   const mink = useMinkBackend();
+  const { refreshCorpora } = useCorpora();
 
   async function createCorpus() {
     const corpusId = await mink.createCorpus().catch(alertError);
     if (!corpusId) return undefined;
     // Have the new corpus included in further API calls.
     await refreshJwt();
+    // Mark corpus store outdated. Instead of awaiting to have the ids present, add it manually below.
+    refreshCorpora();
     // Adding the new id to store may trigger API calls, so do it after updating the JWT.
     corpusStore.corpora[corpusId] = corpusStore.corpora[corpusId] || {};
     return corpusId;
