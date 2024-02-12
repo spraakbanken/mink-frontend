@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import logo from "@/assets/mink.svg";
@@ -8,21 +8,21 @@ import logoLight from "@/assets/mink-light.svg";
 import logoLightSlogan from "@/assets/mink-light-slogan.svg";
 import logoLightSloganEn from "@/assets/mink-light-slogan-en.svg";
 
-const props = defineProps({
-  large: Boolean,
-});
+const props = defineProps<{
+  large: boolean;
+}>();
 
 const { locale } = useI18n();
 
 const src = computed(() =>
-  props.large ? (locale.value == "en" ? logoSloganEn : logoSlogan) : logo
+  props.large ? (locale.value == "en" ? logoSloganEn : logoSlogan) : logo,
 );
 const srcLight = computed(() =>
   props.large
     ? locale.value == "en"
       ? logoLightSloganEn
       : logoLightSlogan
-    : logoLight
+    : logoLight,
 );
 </script>
 

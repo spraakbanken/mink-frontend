@@ -1,30 +1,9 @@
-<template>
-  <span
-    v-if="stateMessage"
-    :class="[
-      isEmpty || isNeedingConfig || isNeedingMeta
-        ? 'text-yellow-500'
-        : isFailed
-        ? 'text-red-500'
-        : isReady
-        ? 'text-lime-600'
-        : 'text-gray-400',
-    ]"
-  >
-    {{ stateMessage }}
-  </span>
-</template>
-
-<script setup>
+<script setup lang="ts">
 import { useCorpusState } from "./corpusState.composable";
 
-const props = defineProps({
-  corpusId: {
-    type: String,
-    required: true,
-    validate: (x) => x,
-  },
-});
+const props = defineProps<{
+  corpusId: string;
+}>();
 
 const {
   stateMessage,
@@ -35,3 +14,20 @@ const {
   isFailed,
 } = useCorpusState(props.corpusId);
 </script>
+
+<template>
+  <span
+    v-if="stateMessage"
+    :class="[
+      isEmpty || isNeedingConfig || isNeedingMeta
+        ? 'text-yellow-500'
+        : isFailed
+          ? 'text-red-500'
+          : isReady
+            ? 'text-lime-600'
+            : 'text-gray-400',
+    ]"
+  >
+    {{ stateMessage }}
+  </span>
+</template>

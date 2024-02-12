@@ -1,6 +1,53 @@
+<script setup lang="ts">
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import PageTitle from "@/components/PageTitle.vue";
+import LayoutSection from "@/components/LayoutSection.vue";
+import useSpin from "@/spin/spin.composable";
+import PendingContent from "@/spin/PendingContent.vue";
+import { FORMATS_EXT, type FileFormat } from "@/api/corpusConfig";
+import { useAuth } from "@/auth/auth.composable";
+import useCreateCorpus from "@/corpus/createCorpus.composable";
+import HelpBox from "@/components/HelpBox.vue";
+
+const { requireAuthentication } = useAuth();
+const { createFromConfig } = useCreateCorpus();
+const { t } = useI18n();
+const { spin } = useSpin();
+
+type Form = {
+  name: string;
+  description: string;
+  format: FileFormat;
+  textAnnotation: string;
+};
+
+const formatOptions = computed(() =>
+  FORMATS_EXT.reduce(
+    (options, ext) => ({
+      ...options,
+      [ext]: `${t(ext)} (.${ext})`,
+    }),
+    {},
+  ),
+);
+
+requireAuthentication();
+
+async function submit(fields: Form) {
+  const createPromise = createFromConfig(
+    fields.name,
+    fields.description,
+    fields.format,
+    fields.textAnnotation,
+  );
+  await spin(createPromise, null, "create");
+}
+</script>
+
 <template>
   <PageTitle>{{ $t("new_corpus") }}</PageTitle>
-  <Section>
+  <LayoutSection>
     <HelpBox>{{ $t("corpus.create.help") }}</HelpBox>
 
     <PendingContent on="create">
@@ -41,13 +88,13 @@
           validate="required"
         />
 
-        <HelpBox v-if="value.format === 'pdf'" important>
+        <HelpBox v-if="value!.format === 'pdf'" important>
           <icon :icon="['far', 'lightbulb']" class="mr-1" />
           {{ $t("config.format.note.pdf") }}
         </HelpBox>
 
         <FormKit
-          v-if="value.format === 'xml'"
+          v-if="value!.format === 'xml'"
           name="textAnnotation"
           :label="$t('config.text_annotation')"
           validation="required:trim|matches:/^[^<>\s]*$/"
@@ -59,45 +106,5 @@
         </FormKit>
       </FormKit>
     </PendingContent>
-  </Section>
+  </LayoutSection>
 </template>
-
-<script setup>
-import { computed } from "vue";
-import { useI18n } from "vue-i18n";
-import PageTitle from "@/components/PageTitle.vue";
-import Section from "@/components/Section.vue";
-import useSpin from "@/spin/spin.composable";
-import PendingContent from "@/spin/PendingContent.vue";
-import { FORMATS_EXT } from "@/api/corpusConfig";
-import { useAuth } from "@/auth/auth.composable";
-import useCreateCorpus from "@/corpus/createCorpus.composable";
-import HelpBox from "@/components/HelpBox.vue";
-
-const { requireAuthentication } = useAuth();
-const { createFromConfig } = useCreateCorpus();
-const { t } = useI18n();
-const { spin } = useSpin();
-
-const formatOptions = computed(() =>
-  FORMATS_EXT.reduce(
-    (options, ext) => ({
-      ...options,
-      [ext]: `${t(ext)} (.${ext})`,
-    }),
-    {}
-  )
-);
-
-requireAuthentication();
-
-async function submit(fields) {
-  const createPromise = createFromConfig(
-    fields.name,
-    fields.description,
-    fields.format,
-    fields.textAnnotation
-  );
-  await spin(createPromise, null, "create");
-}
-</script>

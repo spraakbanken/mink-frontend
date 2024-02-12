@@ -78,6 +78,7 @@ source.limit.file.max: Maximum file size
 source.limit.upload.max: Maximum batch upload size
 source.limit.corpus.recommended: Recommended max corpus size
 source.limit.corpus.max: Maximum corpus size
+source.notfound: This source file was not found
 source.uploading: Uploading text file | Uploading text files
 source.upload.drop.empty: No file was dropped. Drag-and-drop may not be supported on your system.
 source.list.loading: Listing source texts

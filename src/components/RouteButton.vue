@@ -1,10 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import ActionButton from "./ActionButton.vue";
+import type { RouteLocationRaw } from "vue-router";
 
-defineProps({
-  to: { type: [String, Object], required: true },
-  disabled: Boolean,
-});
+defineProps<{
+  to: RouteLocationRaw;
+  disabled?: boolean;
+}>();
 </script>
 
 <template>

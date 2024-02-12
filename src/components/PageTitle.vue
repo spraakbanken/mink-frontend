@@ -1,3 +1,9 @@
+<script setup lang="ts">
+defineProps<{
+  subtitle?: string;
+}>();
+</script>
+
 <template>
   <header class="flex flex-wrap items-end mt-2 mb-4">
     <h1>
@@ -8,11 +14,3 @@
     </h2>
   </header>
 </template>
-
-<script setup>
-const props = defineProps({
-  subtitle: String,
-});
-</script>
-
-<style></style>

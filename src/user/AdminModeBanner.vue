@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useAuth } from "@/auth/auth.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import useAdmin from "./admin.composable";

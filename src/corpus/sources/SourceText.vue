@@ -1,20 +1,25 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { downloadFile } from "@/util";
 import ActionButton from "@/components/ActionButton.vue";
 
-const props = defineProps(["load", "filename", "noLoad"]);
+const props = defineProps<{
+  load: () => Promise<string | undefined>;
+  filename: string;
+  noLoad?: boolean;
+}>();
+
 const text = ref();
 const expanded = ref(false);
-let loadPromise = null;
+const loadPromise = props.load();
 
 onMounted(async () => {
-  loadPromise = props.load();
   if (!props.noLoad) text.value = await loadPromise;
 });
 
 async function download() {
-  downloadFile(await loadPromise, props.filename || "mink-source");
+  const text = await loadPromise;
+  downloadFile(text!, props.filename || "mink-source");
 }
 
 function toggleExpand() {

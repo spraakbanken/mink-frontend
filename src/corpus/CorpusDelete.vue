@@ -1,20 +1,20 @@
-<script setup>
+<script setup lang="ts">
 import { useRouter } from "vue-router";
 import useCorpusIdParam from "./corpusIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
-import Section from "@/components/Section.vue";
+import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import useCorpus from "./corpus.composable";
+import useDeleteCorpus from "./deleteCorpus.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
-const { deleteCorpus } = useCorpus(corpusId);
+const { deleteCorpus } = useDeleteCorpus();
 const corpusStore = useCorpusStore();
 
 async function doDelete() {
-  await deleteCorpus();
+  await deleteCorpus(corpusId);
   if (!(corpusId in corpusStore.corpora)) {
     router.push("/corpus");
   }
@@ -23,7 +23,7 @@ async function doDelete() {
 
 <template>
   <PendingContent :on="`corpus/${corpusId}`" blocking>
-    <Section :title="$t('corpus.delete')">
+    <LayoutSection :title="$t('corpus.delete')">
       <p class="my-2">{{ $t("corpus.delete.ask") }}</p>
 
       <div>
@@ -36,7 +36,7 @@ async function doDelete() {
           $t("cancel")
         }}</RouteButton>
       </div>
-    </Section>
+    </LayoutSection>
   </PendingContent>
 </template>
 

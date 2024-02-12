@@ -79,6 +79,7 @@ source.limit.file.max: Högsta tillåtna filstorlek
 source.limit.upload.max: Största tillåtna uppladdning
 source.limit.corpus.recommended: Rekommenderad korpusstorlek
 source.limit.corpus.max: Största tillåtna korpus
+source.notfound: Denna källfil kunde inte hittas
 source.uploading: Laddar upp källfil | Laddar upp källfiler
 source.upload.drop.empty: Ingen fil släpptes. Dra-och-släpp kanske inte stöds på ditt system.
 source.list.loading: Hämtar textlista

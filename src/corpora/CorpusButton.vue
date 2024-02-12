@@ -1,3 +1,25 @@
+<script setup lang="ts">
+import useSpin from "@/spin/spin.composable";
+import useConfig from "@/corpus/config/config.composable";
+import PadButton from "@/components/PadButton.vue";
+import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
+import useCorpus from "@/corpus/corpus.composable";
+import { useCorpusStore } from "@/store/corpus.store";
+
+const props = defineProps<{
+  id: string;
+}>();
+
+const corpusStore = useCorpusStore();
+const { loadCorpus } = useCorpus(props.id);
+const { corpusName } = useConfig(props.id);
+const { spin } = useSpin();
+
+const corpus = corpusStore.corpora[props.id];
+
+spin(loadCorpus(), null, "corpora");
+</script>
+
 <template>
   <PadButton class="flex" :to="`/corpus/${id}`">
     <strong>{{ corpusName || id }}</strong>
@@ -9,29 +31,3 @@
     </div>
   </PadButton>
 </template>
-
-<script setup>
-import useSpin from "@/spin/spin.composable";
-import useConfig from "@/corpus/config/config.composable";
-import PadButton from "@/components/PadButton.vue";
-import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
-import useCorpus from "@/corpus/corpus.composable";
-import { useCorpusStore } from "@/store/corpus.store";
-
-const props = defineProps({
-  id: {
-    type: String,
-    required: true,
-    validator: (x) => x,
-  },
-});
-
-const corpusStore = useCorpusStore();
-const { loadCorpus } = useCorpus(props.id);
-const { corpusName } = useConfig(props.id);
-const { spin } = useSpin();
-
-const corpus = corpusStore.corpora[props.id];
-
-spin(loadCorpus(), null, "corpora");
-</script>

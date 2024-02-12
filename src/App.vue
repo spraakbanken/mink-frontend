@@ -1,31 +1,15 @@
-<template>
-  <AppHeader :large="isHome" />
-  <Breadcrumb />
-  <MessageToasts />
-
-  <div class="container py-2">
-    <router-view />
-  </div>
-
-  <div
-    class="container py-20 flex justify-center items-center text-sm opacity-70"
-  >
-    {{ $t("contact") }}: sb-info@svenska.gu.se
-  </div>
-</template>
-
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { useTitle } from "@vueuse/core";
-import { api } from "@/api/api";
+import api from "@/api/api";
 import * as util from "@/util";
 import { useAuth } from "@/auth/auth.composable";
 import useLocale from "@/i18n/locale.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 import MessageToasts from "@/message/MessageToasts.vue";
 import usePageTitle from "@/page/title.composable";
-import Breadcrumb from "@/page/Breadcrumb.vue";
+import BreadcrumbBar from "@/page/BreadcrumbBar.vue";
 import AppHeader from "./page/AppHeader.vue";
 
 const { refreshJwt } = useAuth();
@@ -43,10 +27,24 @@ const isHome = computed(() => route.path == "/");
 refreshJwt();
 
 if (import.meta.env.DEV) {
-  window.api = api;
-  window.corpusStore = corpusStore;
-  window.util = util;
+  (window as any).api = api;
+  (window as any).corpusStore = corpusStore;
+  (window as any).util = util;
 }
 </script>
 
-<style scoped></style>
+<template>
+  <AppHeader :large="isHome" />
+  <BreadcrumbBar />
+  <MessageToasts />
+
+  <div class="container py-2">
+    <router-view />
+  </div>
+
+  <div
+    class="container py-20 flex justify-center items-center text-sm opacity-70"
+  >
+    {{ $t("contact") }}: sb-info@svenska.gu.se
+  </div>
+</template>
