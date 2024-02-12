@@ -13,9 +13,9 @@ export default function useCorpora() {
   const { alertError } = useMessenger();
   const mink = useMinkBackend();
 
-  async function loadCorpora(force = false) {
+  async function loadCorpora() {
     // Skip if already loaded.
-    if (isCorporaFresh && !force) return;
+    if (isCorporaFresh) return;
 
     // Store the pending request in module scope, so simultaneous calls will await the same promise.
     if (!loadPromise)
@@ -23,9 +23,9 @@ export default function useCorpora() {
       loadPromise = Promise.all([loadCorpusIds(), loadResourceInfo()]);
     await loadPromise;
 
-    // Unset the promise slot to allow any future, forced calls.
+    // Unset the promise slot to allow any future calls.
     loadPromise = null;
-    // Register that data has been loaded to skip future, unforced calls.
+    // Register that data has been loaded to skip future calls.
     isCorporaFresh = true;
   }
 
