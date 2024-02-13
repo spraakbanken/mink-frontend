@@ -1,38 +1,38 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import useCorpusIdParam from "./corpusIdParam.composable";
+import useMetadataIdParam from "@/resource/resourceIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import useDeleteCorpus from "./deleteCorpus.composable";
+import useDeleteMetadata from "./deleteMetadata.composable";
 import { useResourceStore } from "@/store/resource.store";
 
 const router = useRouter();
-const corpusId = useCorpusIdParam();
-const { deleteCorpus } = useDeleteCorpus();
+const resourceId = useMetadataIdParam();
+const { deleteMetadata } = useDeleteMetadata();
 const resourceStore = useResourceStore();
 
 async function doDelete() {
-  await deleteCorpus(corpusId);
-  if (!(corpusId in resourceStore.corpora)) {
+  await deleteMetadata(resourceId);
+  if (!(resourceId in resourceStore.resources)) {
     router.push("/library");
   }
 }
 </script>
 
 <template>
-  <PendingContent :on="`corpus/${corpusId}`" blocking>
-    <LayoutSection :title="$t('corpus.delete')">
+  <PendingContent :on="`metadata/${resourceId}`" blocking>
+    <LayoutSection :title="$t('metadata.delete')">
       <p class="my-2">{{ $t("resource.delete.ask") }}</p>
 
       <div>
         <ActionButton class="button-danger mr-4" @click="doDelete">
           <icon :icon="['far', 'trash-can']" />
-          {{ $t("corpus.delete") }}
+          {{ $t("metadata.delete") }}
         </ActionButton>
 
-        <RouteButton :to="`/library/corpus/${corpusId}`">{{
+        <RouteButton :to="`/library/metadata/${resourceId}`">{{
           $t("cancel")
         }}</RouteButton>
       </div>

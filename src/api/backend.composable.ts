@@ -23,6 +23,9 @@ export default function useMinkBackend() {
       `corpus/${corpusId}`,
     );
 
+  const deleteMetadata = (resourceId: string) =>
+    spin(api.removeMetadata(resourceId), null, `resource/${resourceId}`);
+
   const loadConfig = (corpusId: string) =>
     spin(
       api.downloadConfig(corpusId),
@@ -129,6 +132,7 @@ export default function useMinkBackend() {
     createCorpus,
     createMetadata,
     deleteCorpus,
+    deleteMetadata,
     loadConfig,
     saveConfig,
     downloadSource,

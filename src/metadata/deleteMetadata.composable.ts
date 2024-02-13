@@ -3,23 +3,23 @@ import useMinkBackend from "@/api/backend.composable";
 import useMessenger from "@/message/messenger.composable";
 import useResources from "@/library/resources.composable";
 
-export default function useDeleteCorpus() {
+export default function useDeleteMetadata() {
   const { refreshJwt } = useAuth();
   const mink = useMinkBackend();
   const { refreshResources } = useResources();
   const { alertError } = useMessenger();
 
   /**
-   * Delete a corpus in backend.
+   * Delete a metadata resource in the backend.
    */
-  async function deleteCorpus(corpusId: string): Promise<void> {
-    // Delete corpus in the backend.
-    await mink.deleteCorpus(corpusId).catch(alertError);
+  async function deleteMetadata(resourceId: string): Promise<void> {
+    // Delete resource in the backend.
+    await mink.deleteMetadata(resourceId).catch(alertError);
     // The backend will have updated the remote JWT, so refresh our copy.
-    // The backend uses the corpus list within it when listing available corpora.
+    // The backend uses the resource list within it when listing available resources.
     await refreshJwt();
     await refreshResources();
   }
 
-  return { deleteCorpus };
+  return { deleteMetadata };
 }

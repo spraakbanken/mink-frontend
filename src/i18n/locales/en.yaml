@@ -24,7 +24,6 @@ corpus.create.help: The corpus will be accessible by you only. You can always ch
 corpus.creating: Creating corpus
 corpus.configuring: Configuring corpus
 corpus.delete: Delete corpus
-corpus.delete.ask: Are you sure you want to delete this corpus?
 corpus.deleting: Deleting corpus
 corpus.list.loading: Listing corpora
 resource.loading: Loading dataset
@@ -53,6 +52,8 @@ corpus.state.help.failed_install: An error occurred while installing your corpus
 metadata.new: New metadata
 metadata.public_id.help: In Mink, all resources have fixed, unmodifiable identifiers. The public identifier is what this resource will get once it is exported to a repository. Try to make it recognizable and descriptive, but not too long. It must only contain lowercase letters, numbers and dashes, and start with your assigned organization prefix.
 metadata.public_id.error.format: The public identifier must only contain lowercase letters (a-z), numbers (0-9) and dashes (-). It must not start or end with a dash.
+metadata.delete: Delete metadata
+resource.delete.ask: Are you sure you want to delete this resource?
 config.metadata.help: Metadata is information about the data, meant for assessment by interested users (if you release the data), and for categorization in data repositories.
 config.configuration.help: These settings are information for the automatic analysis; they will affect the parsing or annotation.
 config.loading: Loading metadata

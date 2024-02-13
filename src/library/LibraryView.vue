@@ -63,6 +63,7 @@ async function createCorpusFromFiles(files: FileList) {
       <template v-for="(metadata, id) of resourceStore.metadatas" :key="id">
         <PadButton :to="`/library/metadata/${id}`">
           <strong>{{ th(metadata.name) || id }}</strong>
+          {{ metadata.publicId }}
         </PadButton>
       </template>
 

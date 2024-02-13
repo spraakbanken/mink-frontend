@@ -73,6 +73,14 @@ class MinkApi {
     return response.data;
   }
 
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Metadata/operation/removemetadata */
+  async removeMetadata(resourceId: string) {
+    const response = await this.axios.delete<MinkResponse>("remove-metadata", {
+      params: { corpus_id: resourceId },
+    });
+    return response.data;
+  }
+
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Config/operation/uploadconfig */
   async uploadConfig(corpusId: string, config: string) {
     const configFile = new File([config], "config.yaml", { type: "text/yaml" });
