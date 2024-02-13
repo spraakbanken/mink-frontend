@@ -26,6 +26,7 @@ type Corpus = Resource & {
 
 type Metadata = Resource & {
   publicId: string;
+  metadata: string; // YAML
 };
 
 // User-defined type guards to help inform TypeScript

@@ -10,18 +10,15 @@ export default function useCorpus(corpusId: string) {
   const { loadResources } = useResources();
   const { loadConfig } = useConfig(corpusId);
 
-  /**
-   * Load data about a corpus and store it.
-   */
+  /** Load data about a corpus and store it. */
   async function loadCorpus(): Promise<void> {
     // Make sure the corpus has an entry in the store.
     await loadResources();
-    if (isCorpusFresh[corpusId]) {
-      return;
-    }
 
-    // Load remaining essential info about the corpus.
-    // Skip if removed.
+    // Skip if already loaded.
+    if (isCorpusFresh[corpusId]) return;
+
+    // Load remaining essential info, unless removed.
     if (corpusId in resourceStore.corpora) {
       await loadConfig();
     }

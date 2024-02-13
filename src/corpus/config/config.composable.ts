@@ -19,6 +19,7 @@ export default function useConfig(corpusId: string) {
     const config = await mink
       .loadConfig(corpusId)
       .then(parseConfig)
+      // 404 means no config which is fine, rethrow other errors.
       .catch((error) => {
         if (error.response?.status == 404) return emptyConfig();
         throw error;

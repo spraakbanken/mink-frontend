@@ -139,6 +139,27 @@ class MinkApi {
     return response.data;
   }
 
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Metadata/operation/uploadmetadatayaml */
+  async uploadMetadataYaml(resourceId: string, yaml: string) {
+    const file = new File([yaml], "metadata.yaml", { type: "text/yaml" });
+    const formData = new FormData();
+    formData.append("files[]", file);
+    const response = await this.axios.put<MinkResponse>(
+      "upload-metadata-yaml",
+      formData,
+      { params: { corpus_id: resourceId } },
+    );
+    return response.data;
+  }
+
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Metadata/operation/downloadmetadatayaml */
+  async downloadMetaataYaml(resourceId: string) {
+    const response = await this.axios.get<string>("download-metadata-yaml", {
+      params: { corpus_id: resourceId },
+    });
+    return response.data;
+  }
+
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Process-Corpus/operation/resourceinfo */
   async resourceInfoAll() {
     const response =

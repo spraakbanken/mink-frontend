@@ -68,6 +68,20 @@ export default function useMinkBackend() {
       `corpus/${corpusId}/sources`,
     );
 
+  const uploadMetadata = (resourceId: string, yaml: string) =>
+    spin(
+      api.uploadMetadataYaml(resourceId, yaml),
+      null,
+      `resource/${resourceId}/metadata`,
+    );
+
+  const downloadMetadata = (resourceId: string) =>
+    spin(
+      api.downloadMetaataYaml(resourceId),
+      null,
+      `resource/${resourceId}/metadata`,
+    );
+
   const resourceInfoAll = () =>
     spin(api.resourceInfoAll(), t("resource.loading"), "corpora");
 
@@ -139,6 +153,8 @@ export default function useMinkBackend() {
     downloadPlaintext,
     uploadSources,
     deleteSource,
+    uploadMetadata,
+    downloadMetadata,
     resourceInfoAll,
     resourceInfoOne,
     runJob,
