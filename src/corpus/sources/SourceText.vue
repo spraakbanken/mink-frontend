@@ -24,16 +24,9 @@ async function download() {
 </script>
 
 <template>
-  <TextData v-if="text" :text="text">
-    <template #controls>
-      <ActionButton @click="download">
-        <icon :icon="['far', 'file']" class="mr-1" />
-        {{ $t("download") }}
-      </ActionButton>
-    </template>
-  </TextData>
+  <TextData v-if="text" :text="text" />
 
-  <div v-else>
+  <div class="my-2">
     <ActionButton @click="download">
       <icon :icon="['far', 'file']" class="mr-1" />
       {{ $t("download") }}
