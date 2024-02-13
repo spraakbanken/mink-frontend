@@ -12,16 +12,11 @@ export default function useCorpus(corpusId: string) {
 
   /**
    * Load data about a corpus and store it.
-   *
-   * @param force Calling again will do nothing, unless `force` is enabled
    */
-  async function loadCorpus(force = false): Promise<void> {
-    // Always force it if this resource is currently empty.
-    if (!resourceStore.resources[corpusId]?.type) force = true;
-
+  async function loadCorpus(): Promise<void> {
     // Make sure the corpus has an entry in the store.
     await loadResources();
-    if (isCorpusFresh[corpusId] && !force) {
+    if (isCorpusFresh[corpusId]) {
       return;
     }
 

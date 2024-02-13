@@ -75,10 +75,9 @@ async function doRunJob() {
         </tr>
         <tr v-if="jobStatus.errors">
           <td colspan="2">
-            <TerminalOutput
-              class="whitespace-pre-wrap mb-2 h-fit max-h-20 resize-y"
-              >{{ jobStatus.errors }}</TerminalOutput
-            >
+            <TerminalOutput class="mb-2 h-fit max-h-20 resize-y">
+              {{ jobStatus.errors }}
+            </TerminalOutput>
           </td>
         </tr>
 
@@ -87,10 +86,9 @@ async function doRunJob() {
         </tr>
         <tr v-if="jobStatus.warnings">
           <td colspan="2">
-            <TerminalOutput
-              class="whitespace-pre-wrap mb-2 h-fit max-h-20 resize-y"
-              >{{ jobStatus.warnings }}</TerminalOutput
-            >
+            <TerminalOutput class="mb-2 h-fit max-h-20 resize-y">
+              {{ jobStatus.warnings }}
+            </TerminalOutput>
           </td>
         </tr>
 
@@ -99,10 +97,9 @@ async function doRunJob() {
         </tr>
         <tr v-if="isFailed && jobStatus.sparv_output">
           <td colspan="2">
-            <TerminalOutput
-              class="whitespace-pre-wrap mb-2 h-fit max-h-20 resize-y"
-              >{{ jobStatus.sparv_output }}</TerminalOutput
-            >
+            <TerminalOutput class="mb-2 h-fit max-h-20 resize-y">
+              {{ jobStatus.sparv_output }}
+            </TerminalOutput>
           </td>
         </tr>
 

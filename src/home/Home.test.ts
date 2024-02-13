@@ -2,7 +2,7 @@ import { render } from "@testing-library/vue";
 import { test } from "vitest";
 import i18n from "@/i18n/i18n";
 import HomeView from "./HomeView.vue";
-import router from "@/router";
+import router from "@/router/router";
 import { formkit, formkitConfig } from "@/formkit";
 import { FontAwesomeIcon } from "@/fontawesome";
 

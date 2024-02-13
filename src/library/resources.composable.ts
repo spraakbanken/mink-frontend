@@ -13,9 +13,9 @@ export default function useResources() {
   const { alertError } = useMessenger();
   const mink = useMinkBackend();
 
-  async function loadResources(force = false) {
+  async function loadResources() {
     // Skip if already loaded.
-    if (isFresh && !force) return;
+    if (isFresh) return;
 
     // Store the pending request in module scope, so simultaneous calls will await the same promise.
     if (!loadPromise)
@@ -23,9 +23,9 @@ export default function useResources() {
       loadPromise = Promise.all([loadResourceIds(), loadResourceInfo()]);
     await loadPromise;
 
-    // Unset the promise slot to allow any future, forced calls.
+    // Unset the promise slot to allow any future calls.
     loadPromise = null;
-    // Register that data has been loaded to skip future, unforced calls.
+    // Register that data has been loaded to skip future calls.
     isFresh = true;
   }
 
