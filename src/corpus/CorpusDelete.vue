@@ -16,7 +16,7 @@ const resourceStore = useResourceStore();
 async function doDelete() {
   await deleteCorpus(corpusId);
   if (!(corpusId in resourceStore.corpora)) {
-    router.push("/corpus");
+    router.push("/library");
   }
 }
 </script>
