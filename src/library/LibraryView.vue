@@ -14,7 +14,7 @@ import useSpin from "@/spin/spin.composable";
 import useCreateCorpus from "@/corpus/createCorpus.composable";
 
 const resourceStore = useResourceStore();
-const { requireAuthentication, isAuthenticated } = useAuth();
+const { requireAuthentication, isAuthenticated, canUserAdmin } = useAuth();
 const { loadResources } = useResources();
 const { createFromUpload } = useCreateCorpus();
 const { spin } = useSpin();
@@ -54,7 +54,7 @@ async function createCorpusFromFiles(files: FileList) {
     </PendingContent>
   </LayoutSection>
 
-  <LayoutSection :title="$t('metadata')">
+  <LayoutSection v-if="canUserAdmin" :title="$t('metadata')">
     <HelpBox>
       <p>{{ $t("library.help.metadata") }}</p>
     </HelpBox>
