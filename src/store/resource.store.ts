@@ -24,10 +24,17 @@ type Corpus = Resource & {
   exports: FileMeta[];
 };
 
+type Metadata = Resource & {
+  publicId: string;
+  metadata: string; // YAML
+};
+
 // User-defined type guards to help inform TypeScript
 // See https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards
 const isCorpus = (resource: Partial<Resource>): resource is Corpus =>
   resource.type == "corpus";
+const isMetadata = (resource: Partial<Resource>): resource is Metadata =>
+  resource.type == "metadata";
 
 export const useResourceStore = defineStore("resource", () => {
   // Connect state to browser's local storage. Change the number here to the
@@ -41,6 +48,9 @@ export const useResourceStore = defineStore("resource", () => {
 
   const corpora = computed<Record<string, Partial<Corpus>>>(() =>
     filterResources("corpus"),
+  );
+  const metadatas = computed<Record<string, Partial<Metadata>>>(() =>
+    filterResources("metadata"),
   );
 
   const filterResources = <T extends Resource>(
@@ -75,6 +85,10 @@ export const useResourceStore = defineStore("resource", () => {
         info.status = infoNew.job;
       }
 
+      if (isMetadata(info)) {
+        info.publicId = infoNew.resource.public_id;
+      }
+
       resources[infoNew.resource.id] = info;
     }
   }
@@ -84,6 +98,7 @@ export const useResourceStore = defineStore("resource", () => {
   return {
     resources,
     corpora,
+    metadatas,
     setResourceIds,
     setResources,
     hasCorpora,

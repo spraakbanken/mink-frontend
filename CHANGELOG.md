@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Added
+
+- Basic functionality for adding and removing metadata resources [#145](https://github.com/spraakbanken/mink-frontend/issues/145)
+
 ### Changed
 
 - Extracted the concept of a Resource as a supertype of Corpus, in preparation for adding the Metadata resource type [#145](https://github.com/spraakbanken/mink-frontend/issues/145)

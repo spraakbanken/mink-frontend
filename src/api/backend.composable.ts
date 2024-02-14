@@ -13,12 +13,18 @@ export default function useMinkBackend() {
   const createCorpus = () =>
     spin(api.createCorpus(), t("corpus.creating"), "create");
 
+  const createMetadata = (publicId: string) =>
+    spin(api.createMetadata(publicId), null, "create");
+
   const deleteCorpus = (corpusId: string) =>
     spin(
       api.removeCorpus(corpusId),
       t("corpus.deleting"),
       `corpus/${corpusId}`,
     );
+
+  const deleteMetadata = (resourceId: string) =>
+    spin(api.removeMetadata(resourceId), null, `resource/${resourceId}`);
 
   const loadConfig = (corpusId: string) =>
     spin(
@@ -60,6 +66,20 @@ export default function useMinkBackend() {
       api.removeSource(corpusId, filename),
       t("source.deleting"),
       `corpus/${corpusId}/sources`,
+    );
+
+  const uploadMetadata = (resourceId: string, yaml: string) =>
+    spin(
+      api.uploadMetadataYaml(resourceId, yaml),
+      null,
+      `resource/${resourceId}/metadata`,
+    );
+
+  const downloadMetadata = (resourceId: string) =>
+    spin(
+      api.downloadMetaataYaml(resourceId),
+      null,
+      `resource/${resourceId}/metadata`,
     );
 
   const resourceInfoAll = () =>
@@ -124,13 +144,17 @@ export default function useMinkBackend() {
   return {
     loadCorpusIds,
     createCorpus,
+    createMetadata,
     deleteCorpus,
+    deleteMetadata,
     loadConfig,
     saveConfig,
     downloadSource,
     downloadPlaintext,
     uploadSources,
     deleteSource,
+    uploadMetadata,
+    downloadMetadata,
     resourceInfoAll,
     resourceInfoOne,
     runJob,

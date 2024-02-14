@@ -1,5 +1,4 @@
 import { useRouter } from "vue-router";
-import { useAuth } from "@/auth/auth.composable";
 import useMinkBackend from "@/api/backend.composable";
 import { useResourceStore } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
@@ -12,27 +11,21 @@ import {
 } from "@/api/corpusConfig";
 import type { AxiosError } from "axios";
 import type { MinkResponse } from "@/api/api.types";
-import useResources from "@/library/resources.composable";
+import useCreateResource from "@/resource/createResource.composable";
 
 export default function useCreateCorpus() {
   const resourceStore = useResourceStore();
   const router = useRouter();
-  const { refreshJwt } = useAuth();
   const { deleteCorpus } = useDeleteCorpus();
   const { alert, alertError } = useMessenger();
   const mink = useMinkBackend();
-  const { refreshResources } = useResources();
+  const { addNewResource } = useCreateResource();
 
   async function createCorpus() {
     const corpusId = await mink.createCorpus().catch(alertError);
     if (!corpusId) return undefined;
-    // Have the new corpus included in further API calls.
-    await refreshJwt();
-    // Mark corpus store outdated. Instead of awaiting to have the ids present, add it manually below.
-    refreshResources();
-    // Adding the new id to store may trigger API calls, so do it after updating the JWT.
-    resourceStore.resources[corpusId] = resourceStore.resources[corpusId] || {};
-    return corpusId;
+
+    return await addNewResource(corpusId);
   }
 
   async function createFromUpload(files: FileList) {

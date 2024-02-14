@@ -11,6 +11,7 @@ import type {
   JobType,
   ListExportsData,
   AdminModeStatusData,
+  CreateMetadataData,
 } from "./api.types";
 
 /** Mink backend API client */
@@ -55,10 +56,27 @@ class MinkApi {
     return response.data.corpus_id;
   }
 
+  async createMetadata(publicId: string) {
+    const response = await this.axios.post<MinkResponse<CreateMetadataData>>(
+      "create-metadata",
+      undefined,
+      { params: { public_id: publicId } },
+    );
+    return response.data.resource_id;
+  }
+
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Corpora/operation/removecorpus */
   async removeCorpus(corpusId: string) {
     const response = await this.axios.delete<MinkResponse>("remove-corpus", {
       params: { corpus_id: corpusId },
+    });
+    return response.data;
+  }
+
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Metadata/operation/removemetadata */
+  async removeMetadata(resourceId: string) {
+    const response = await this.axios.delete<MinkResponse>("remove-metadata", {
+      params: { corpus_id: resourceId },
     });
     return response.data;
   }
@@ -117,6 +135,27 @@ class MinkApi {
   async downloadConfig(corpusId: string) {
     const response = await this.axios.get<string>("download-config", {
       params: { corpus_id: corpusId },
+    });
+    return response.data;
+  }
+
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Metadata/operation/uploadmetadatayaml */
+  async uploadMetadataYaml(resourceId: string, yaml: string) {
+    const file = new File([yaml], "metadata.yaml", { type: "text/yaml" });
+    const formData = new FormData();
+    formData.append("files[]", file);
+    const response = await this.axios.put<MinkResponse>(
+      "upload-metadata-yaml",
+      formData,
+      { params: { corpus_id: resourceId } },
+    );
+    return response.data;
+  }
+
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Metadata/operation/downloadmetadatayaml */
+  async downloadMetaataYaml(resourceId: string) {
+    const response = await this.axios.get<string>("download-metadata-yaml", {
+      params: { corpus_id: resourceId },
     });
     return response.data;
   }

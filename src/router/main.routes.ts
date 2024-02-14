@@ -7,6 +7,7 @@ import UserView from "@/user/UserView.vue";
 import AccessDenied from "@/auth/AccessDenied.vue";
 import NotFound from "@/page/NotFound.vue";
 import corpusRoutes from "./corpus.routes";
+import metadataRoutes from "./metadata.routes";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -42,6 +43,7 @@ const routes: RouteRecordRaw[] = [
     meta: { title: "accessdenied" },
   },
   ...corpusRoutes,
+  ...metadataRoutes,
   {
     path: "/:pathMatch(.*)*",
     name: "notfound",
