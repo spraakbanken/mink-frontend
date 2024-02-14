@@ -1,8 +1,8 @@
 import { type RouteRecordRaw } from "vue-router";
-import MetadataView from "@/metadata/MetadataView.vue";
-import MetadataOverview from "@/metadata/MetadataOverview.vue";
-import CreateMetadata from "@/metadata/CreateMetadata.vue";
-import MetadataDelete from "@/metadata/MetadataDelete.vue";
+const MetadataView = () => import("@/metadata/MetadataView.vue");
+const MetadataOverview = () => import("@/metadata/MetadataOverview.vue");
+const CreateMetadata = () => import("@/metadata/CreateMetadata.vue");
+const MetadataDelete = () => import("@/metadata/MetadataDelete.vue");
 
 const metadataRoutes: RouteRecordRaw[] = [
   {

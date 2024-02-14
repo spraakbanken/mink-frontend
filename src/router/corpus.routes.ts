@@ -1,12 +1,13 @@
 import { type RouteRecordRaw } from "vue-router";
-import CreateCorpus from "@/corpus/CreateCorpus.vue";
-import CorpusView from "@/corpus/CorpusView.vue";
-import CorpusOverview from "@/corpus/CorpusOverview.vue";
-import CorpusMetadata from "@/corpus/config/CorpusMetadata.vue";
-import CorpusConfiguration from "@/corpus/config/CorpusConfiguration.vue";
-import CorpusResult from "@/corpus/exports/CorpusResult.vue";
-import CorpusDelete from "@/corpus/CorpusDelete.vue";
-import SourceView from "@/corpus/sources/SourceView.vue";
+const CreateCorpus = () => import("@/corpus/CreateCorpus.vue");
+const CorpusView = () => import("@/corpus/CorpusView.vue");
+const CorpusOverview = () => import("@/corpus/CorpusOverview.vue");
+const CorpusMetadata = () => import("@/corpus/config/CorpusMetadata.vue");
+const CorpusConfiguration = () =>
+  import("@/corpus/config/CorpusConfiguration.vue");
+const CorpusResult = () => import("@/corpus/exports/CorpusResult.vue");
+const CorpusDelete = () => import("@/corpus/CorpusDelete.vue");
+const SourceView = () => import("@/corpus/sources/SourceView.vue");
 
 const corpusRoutes: RouteRecordRaw[] = [
   { path: "/corpus", redirect: "/library" },

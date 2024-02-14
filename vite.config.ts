@@ -42,5 +42,12 @@ export default defineConfig(async ({ mode }) => {
     test: {
       environment: "happy-dom",
     },
+    build: {
+      rollupOptions: {
+        output: {
+          experimentalMinChunkSize: 5000,
+        },
+      },
+    },
   };
 });
