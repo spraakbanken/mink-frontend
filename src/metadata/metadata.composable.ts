@@ -43,8 +43,14 @@ export default function useMetadata(resourceId: string) {
     return yaml;
   }
 
+  async function uploadYaml(yaml: string): Promise<void> {
+    await mink.uploadMetadata(resourceId, yaml).catch(alertError);
+    resourceStore.metadatas[resourceId].metadata = yaml;
+  }
+
   return {
     loadMetadata,
     loadYaml,
+    uploadYaml,
   };
 }

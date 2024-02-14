@@ -72,8 +72,6 @@ job.process.strix: Installation i Strix
 source.deleting: Raderar text
 source.downloading: Laddar ner text
 source.downloading_plain: Laddar ner extraherad text
-source.upload: Lägg till filer
-source.upload.dnd: Dra och släpp filer hit, eller klicka här för att välja
 source.limit.file.recommended: Rekommenderad filstorlek
 source.limit.file.max: Högsta tillåtna filstorlek
 source.limit.upload.max: Största tillåtna uppladdning
@@ -83,6 +81,10 @@ source.notfound: Denna källfil kunde inte hittas
 source.uploading: Laddar upp källfil | Laddar upp källfiler
 source.list.loading: Hämtar textlista
 source.content: Innehåll
+upload.label.single: Lägg till fil
+upload.label.multiple: Lägg till filer
+upload.dnd.single: Dra och släpp en fil hit, eller klicka här för att välja
+upload.dnd.multiple: Dra och släpp filer hit, eller klicka här för att välja
 upload.drop.empty: Ingen fil släpptes. Dra-och-släpp kanske inte stöds på ditt system.
 jwt.refreshing: Uppdaterar konto
 tools: Utforska

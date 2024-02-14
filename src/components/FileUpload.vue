@@ -6,6 +6,7 @@ const props = defineProps<{
   fileHandler: (files: FileList) => Promise<void>;
   primary?: boolean;
   accept?: string;
+  multiple?: boolean;
 }>();
 
 const { clear } = useMessenger();
@@ -50,19 +51,25 @@ async function handleUpload(files: FileList) {
         class="border-dashed border-4"
       >
         <span class="absolute uppercase opacity-70 text-sm font-bold p-1">
-          {{ $t("source.upload") }}
+          {{
+            multiple ? $t("upload.label.multiple") : $t("upload.label.single")
+          }}
         </span>
         <div class="p-8">
           <div
             class="flex flex-col justify-center items-center gap-2 opacity-70"
           >
-            <div>{{ $t("source.upload.dnd") }}</div>
+            <div>
+              {{
+                multiple ? $t("upload.dnd.multiple") : $t("upload.dnd.single")
+              }}
+            </div>
 
             <input
               id="file-input"
               type="file"
               class="hidden"
-              multiple
+              :multiple="multiple"
               :accept="accept"
               @change="handleFileInput"
             />

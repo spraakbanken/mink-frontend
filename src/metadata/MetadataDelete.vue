@@ -22,7 +22,7 @@ async function doDelete() {
 </script>
 
 <template>
-  <PendingContent :on="`metadata/${resourceId}`" blocking>
+  <PendingContent :on="`resource/${resourceId}`" blocking>
     <LayoutSection :title="$t('metadata.delete')">
       <p class="my-2">{{ $t("resource.delete.ask") }}</p>
 

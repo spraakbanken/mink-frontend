@@ -42,6 +42,7 @@ const fileHandler = props.fileHandler || defaultFileHandler;
     :file-handler="fileHandler"
     :primary="primary"
     :accept="extensionsAccept"
+    multiple
   >
     <UploadSizeLimits />
   </FileUpload>
