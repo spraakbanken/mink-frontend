@@ -7,14 +7,11 @@ import PendingContent from "@/spin/PendingContent.vue";
 import useCreateResource from "@/resource/createResource.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
-import { useResourceStore } from "@/store/resource.store";
-import useMetadata from "./metadata.composable";
 
 const router = useRouter();
-const { requireAuthentication, refreshJwt } = useAuth();
+const { requireAuthentication } = useAuth();
 const mink = useMinkBackend();
 const { alertError } = useMessenger();
-const resourceStore = useResourceStore();
 const { addNewResource } = useCreateResource();
 
 type Form = {

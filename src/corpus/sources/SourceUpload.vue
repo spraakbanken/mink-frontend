@@ -7,7 +7,6 @@ import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import UploadSizeLimits from "./UploadSizeLimits.vue";
 import useConfig from "../config/config.composable";
 import type { FileFormat } from "@/api/corpusConfig";
-import FileDropArea from "@/components/FileDropArea.vue";
 import FileUpload from "@/components/FileUpload.vue";
 
 const props = defineProps<{
