@@ -80,7 +80,7 @@ async function submit(fields: Form) {
   };
   try {
     await uploadConfig(configNew);
-    router.push(`/corpus/${corpusIdFixed}`);
+    router.push(`/library/corpus/${corpusIdFixed}`);
   } catch (e) {
     if (e instanceof TypeError) {
       alert(e.message, "error");
@@ -176,7 +176,10 @@ async function submit(fields: Form) {
     </FormKit>
     <div class="flex justify-center">
       <PendingContent :on="`corpus/${corpusId}`">
-        <RouteButton :to="`/corpus/${corpusId}/delete`" class="button-danger">
+        <RouteButton
+          :to="`/library/corpus/${corpusId}/delete`"
+          class="button-danger"
+        >
           <icon :icon="['far', 'trash-can']" class="mr-1" />
           {{ $t("corpus.delete") }}
         </RouteButton>

@@ -61,12 +61,14 @@ export type ResourceInfo = {
 
 /** Basic data about a resource */
 export type ResourceData = {
-  type: "corpus";
+  type: ResourceType;
   id: string;
   public_id: string;
   name: ByLang;
   source_files: FileMeta[];
 };
+
+export type ResourceType = "corpus";
 
 /** Job status for a resource */
 // There's more but we're not using everything.

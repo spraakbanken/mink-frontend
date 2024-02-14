@@ -1,32 +1,25 @@
-import { useCorpusStore } from "@/store/corpus.store";
-import useCorpora from "@/corpora/corpora.composable";
+import { useResourceStore } from "@/store/resource.store";
+import useResources from "@/library/resources.composable";
 import useConfig from "./config/config.composable";
 
 /** Let data be refreshed initially, but skip subsequent load calls. */
 const isCorpusFresh: Record<string, boolean> = {};
 
 export default function useCorpus(corpusId: string) {
-  const corpusStore = useCorpusStore();
-  const { loadCorpora } = useCorpora();
+  const resourceStore = useResourceStore();
+  const { loadResources } = useResources();
   const { loadConfig } = useConfig(corpusId);
 
-  /**
-   * Load data about a corpus and store it.
-   */
+  /** Load data about a corpus and store it. */
   async function loadCorpus(): Promise<void> {
-    if (!corpusId) {
-      throw new RangeError("Corpus ID missing");
-    }
-
     // Make sure the corpus has an entry in the store.
-    await loadCorpora();
-    if (isCorpusFresh[corpusId]) {
-      return;
-    }
+    await loadResources();
 
-    // Load remaining essential info about the corpus.
-    // Skip if removed.
-    if (corpusId in corpusStore.corpora) {
+    // Skip if already loaded.
+    if (isCorpusFresh[corpusId]) return;
+
+    // Load remaining essential info, unless removed.
+    if (corpusId in resourceStore.corpora) {
       await loadConfig();
     }
 

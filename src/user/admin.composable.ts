@@ -1,14 +1,14 @@
 import { readonly, ref } from "vue";
 import useMinkBackend from "@/api/backend.composable";
 import { useAuth } from "@/auth/auth.composable";
-import useCorpora from "@/corpora/corpora.composable";
+import useResources from "@/library/resources.composable";
 import useMessenger from "@/message/messenger.composable";
 
 const adminModeRef = ref(false);
 
 export default function useAdmin() {
   const { canUserAdmin } = useAuth();
-  const { refreshCorpora } = useCorpora();
+  const { refreshResources } = useResources();
   const mink = useMinkBackend();
   const { alertError } = useMessenger();
 
@@ -20,13 +20,13 @@ export default function useAdmin() {
   async function enableAdminMode() {
     await mink.enableAdminMode().catch(alertError);
     adminModeRef.value = true;
-    await refreshCorpora();
+    await refreshResources();
   }
 
   async function disableAdminMode() {
     await mink.disableAdminMode().catch(alertError);
     adminModeRef.value = false;
-    await refreshCorpora();
+    await refreshResources();
   }
 
   return {

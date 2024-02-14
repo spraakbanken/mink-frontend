@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { ensureExtension, formatDate } from "@/util";
-import { useCorpusStore } from "@/store/corpus.store";
+import { useResourceStore } from "@/store/resource.store";
 import LayoutSection from "@/components/LayoutSection.vue";
 import useJob from "@/corpus/job/job.composable";
 import useSources from "./sources.composable";
@@ -15,12 +15,12 @@ const props = defineProps<{
   filename: string;
 }>();
 
-const corpusStore = useCorpusStore();
+const resourceStore = useResourceStore();
 const { downloadSource, downloadPlaintext } = useSources(props.corpusId);
 const { isJobDone } = useJob(props.corpusId);
 const { filesize } = useLocale();
 
-const sources = computed(() => corpusStore.corpora[props.corpusId].sources);
+const sources = computed(() => resourceStore.corpora[props.corpusId].sources);
 const metadata = computed(() =>
   sources.value?.find((source) => source.name === props.filename),
 );

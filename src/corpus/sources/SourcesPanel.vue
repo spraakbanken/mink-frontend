@@ -33,7 +33,6 @@ const totalSize = computed(() =>
         {{ filesize(info.file_size_limits.max_corpus_length.value) }}
       </span>
     </div>
-    <SourceUpload :primary="isEmpty">
       <table v-if="sources.length" class="w-full mt-4 striped">
         <thead>
           <tr>
@@ -45,7 +44,9 @@ const totalSize = computed(() =>
         <tbody class="border-b-0">
           <tr v-for="source in sources" :key="source.path">
             <td>
-              <router-link :to="`/corpus/${corpusId}/sources/${source.name}`">
+              <router-link
+                :to="`/library/corpus/${corpusId}/sources/${source.name}`"
+              >
                 {{ source.name }}
               </router-link>
             </td>
@@ -63,6 +64,6 @@ const totalSize = computed(() =>
           </tr>
         </tbody>
       </table>
-    </SourceUpload>
+    <SourceUpload :primary="isEmpty" />
   </PendingContent>
 </template>

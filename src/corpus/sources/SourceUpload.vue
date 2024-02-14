@@ -3,11 +3,12 @@ import { computed } from "vue";
 import { getFilenameExtension } from "@/util";
 import useMessenger from "@/message/messenger.composable";
 import useSources from "./sources.composable";
-import FileDropArea from "./FileDropArea.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import UploadSizeLimits from "./UploadSizeLimits.vue";
 import useConfig from "../config/config.composable";
 import type { FileFormat } from "@/api/corpusConfig";
+import FileDropArea from "@/components/FileDropArea.vue";
+import FileUpload from "@/components/FileUpload.vue";
 
 const props = defineProps<{
   fileHandler?: (files: FileList) => Promise<void>;
@@ -17,7 +18,7 @@ const props = defineProps<{
 const corpusId = useCorpusIdParam();
 const { uploadSources, extensions } = useSources(corpusId);
 const { config, uploadConfig } = useConfig(corpusId);
-const { alertError, clear } = useMessenger();
+const { alertError } = useMessenger();
 const extensionsAccept = computed(() =>
   extensions.value?.map((ext) => `.${ext}`).join(),
 );
@@ -34,69 +35,15 @@ async function defaultFileHandler(files: FileList) {
   await Promise.all(requests);
 }
 const fileHandler = props.fileHandler || defaultFileHandler;
-
-async function handleFileInput(event: Event) {
-  const fileInput = event.target as HTMLInputElement;
-  if (!fileInput.files) {
-    throw new RangeError("No file found in the file input");
-  }
-
-  await handleUpload(fileInput.files!);
-  // Empty the input value to enable selecting the same file again.
-  fileInput.value = "";
-}
-
-async function handleUpload(files: FileList) {
-  clear();
-  await fileHandler(files);
-}
 </script>
 
 <template>
-  <FileDropArea @drop="handleUpload">
-    <slot />
-    <label for="file-input" class="cursor-pointer">
-      <div
-        :class="
-          primary
-            ? [
-                'bg-blue-50',
-                'border-blue-100',
-                'dark:bg-blue-200',
-                'dark:border-blue-300',
-                'dark:text-blue-800',
-              ]
-            : [
-                'bg-zinc-100',
-                'border-zinc-200',
-                'dark:bg-zinc-700',
-                'dark:border-zinc-500',
-              ]
-        "
-        class="border-dashed border-4"
-      >
-        <span class="absolute uppercase opacity-70 text-sm font-bold p-1">
-          {{ $t("source.upload") }}
-        </span>
-        <div class="p-8">
-          <div
-            class="flex flex-col justify-center items-center gap-2 opacity-70"
-          >
-            <div>{{ $t("source.upload.dnd") }}</div>
-
-            <input
-              id="file-input"
-              type="file"
-              class="hidden"
-              multiple
-              :accept="extensionsAccept"
-              @change="handleFileInput"
-            />
-
-            <UploadSizeLimits />
-          </div>
-        </div>
-      </div>
-    </label>
-  </FileDropArea>
+  <FileUpload
+    :file-handler="fileHandler"
+    :primary="primary"
+    :accept="extensionsAccept"
+    multiple
+  >
+    <UploadSizeLimits />
+  </FileUpload>
 </template>

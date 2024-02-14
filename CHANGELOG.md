@@ -13,6 +13,11 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Changed
+
+- Extracted the concept of a Resource as a supertype of Corpus, in preparation for adding the Metadata resource type [#145](https://github.com/spraakbanken/mink-frontend/issues/145)
+- Source text file content now look the same as log output
+
 ## [1.3.0] (2024-02-12)
 
 ### Added

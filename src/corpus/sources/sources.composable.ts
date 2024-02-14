@@ -1,22 +1,24 @@
 import { computed } from "@vue/reactivity";
 import uniq from "lodash/uniq";
 import useMinkBackend from "@/api/backend.composable";
-import { useCorpusStore } from "@/store/corpus.store";
+import { useResourceStore } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
 import { getFilenameExtension } from "@/util";
 import type { FileMeta } from "@/api/api.types";
 
 export default function useSources(corpusId: string) {
-  const corpusStore = useCorpusStore();
+  const resourceStore = useResourceStore();
   const mink = useMinkBackend();
   const { alertError } = useMessenger();
 
-  const sources = computed(() => corpusStore.corpora[corpusId]?.sources || []);
+  const sources = computed(
+    () => resourceStore.corpora[corpusId]?.sources || [],
+  );
 
   async function loadSources() {
     const info = await mink.resourceInfoOne(corpusId).catch(alertError);
     if (!info) return;
-    corpusStore.corpora[corpusId].sources = info.resource.source_files;
+    resourceStore.corpora[corpusId].sources = info.resource.source_files;
   }
 
   async function downloadSource(source: FileMeta, binary: boolean) {
@@ -40,7 +42,7 @@ export default function useSources(corpusId: string) {
   /** Find file extensions present in source files. Undefined if no files. */
   const extensions = computed(() =>
     uniq(
-      corpusStore.corpora[corpusId]?.sources?.map((source) =>
+      resourceStore.corpora[corpusId]?.sources?.map((source) =>
         getFilenameExtension(source.name),
       ),
     ),

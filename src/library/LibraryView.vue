@@ -2,23 +2,23 @@
 import PadButton from "@/components/PadButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
+import useResources from "./resources.composable";
 import CorpusButton from "./CorpusButton.vue";
 import { useAuth } from "@/auth/auth.composable";
 import SourceUpload from "@/corpus/sources/SourceUpload.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import HelpBox from "@/components/HelpBox.vue";
-import useCorpora from "@/corpora/corpora.composable";
-import { useCorpusStore } from "@/store/corpus.store";
+import { useResourceStore } from "@/store/resource.store";
 import useSpin from "@/spin/spin.composable";
 import useCreateCorpus from "@/corpus/createCorpus.composable";
 
-const corpusStore = useCorpusStore();
+const resourceStore = useResourceStore();
 const { requireAuthentication, isAuthenticated } = useAuth();
-const { loadCorpora } = useCorpora();
+const { loadResources } = useResources();
 const { createFromUpload } = useCreateCorpus();
 const { spin } = useSpin();
 
-requireAuthentication(loadCorpora);
+requireAuthentication(loadResources);
 
 async function createCorpusFromFiles(files: FileList) {
   await spin(createFromUpload(files), null, "create");
@@ -31,31 +31,32 @@ async function createCorpusFromFiles(files: FileList) {
     <HelpBox>
       <p>
         {{
-          corpusStore.hasCorpora
+          resourceStore.hasCorpora
             ? $t("library.help.corpora")
             : $t("library.help.corpora.none")
         }}
       </p>
     </HelpBox>
 
-    <PendingContent on="corpora" class="flex flex-wrap -mx-2">
+    <PendingContent on="corpora" class="my-4 flex flex-wrap gap-4">
       <CorpusButton
-        v-for="(corpus, corpusId) of corpusStore.corpora"
+        v-for="(corpus, corpusId) of resourceStore.corpora"
         :id="corpusId"
         :key="corpusId"
       />
 
-      <PadButton to="/corpus/new">
+      <PadButton to="/library/corpus/new">
         <icon :icon="['far', 'square-plus']" size="2xl" class="mb-2" />
         {{ $t("new_corpus") }}
       </PadButton>
     </PendingContent>
   </LayoutSection>
+
   <LayoutSection v-if="isAuthenticated" :title="$t('new_corpus')">
     <PendingContent on="create" blocking>
       <SourceUpload
         :file-handler="createCorpusFromFiles"
-        :primary="!corpusStore.hasCorpora"
+        :primary="!resourceStore.hasCorpora"
       />
     </PendingContent>
   </LayoutSection>
