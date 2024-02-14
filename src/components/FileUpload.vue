@@ -1,0 +1,76 @@
+<script setup lang="ts">
+import useMessenger from "@/message/messenger.composable";
+import FileDropArea from "@/components/FileDropArea.vue";
+
+const props = defineProps<{
+  fileHandler: (files: FileList) => Promise<void>;
+  primary?: boolean;
+  accept?: string;
+}>();
+
+const { clear } = useMessenger();
+
+async function handleFileInput(event: Event) {
+  const fileInput = event.target as HTMLInputElement;
+  if (!fileInput.files) {
+    throw new RangeError("No file found in the file input");
+  }
+
+  await handleUpload(fileInput.files!);
+  // Empty the input value to enable selecting the same file again.
+  fileInput.value = "";
+}
+
+async function handleUpload(files: FileList) {
+  clear();
+  await props.fileHandler(files);
+}
+</script>
+
+<template>
+  <FileDropArea @drop="handleUpload">
+    <label for="file-input" class="cursor-pointer">
+      <div
+        :class="
+          primary
+            ? [
+                'bg-blue-50',
+                'border-blue-100',
+                'dark:bg-blue-200',
+                'dark:border-blue-300',
+                'dark:text-blue-800',
+              ]
+            : [
+                'bg-zinc-100',
+                'border-zinc-200',
+                'dark:bg-zinc-700',
+                'dark:border-zinc-500',
+              ]
+        "
+        class="border-dashed border-4"
+      >
+        <span class="absolute uppercase opacity-70 text-sm font-bold p-1">
+          {{ $t("source.upload") }}
+        </span>
+        <div class="p-8">
+          <div
+            class="flex flex-col justify-center items-center gap-2 opacity-70"
+          >
+            <div>{{ $t("source.upload.dnd") }}</div>
+
+            <input
+              id="file-input"
+              type="file"
+              class="hidden"
+              multiple
+              :accept="accept"
+              @change="handleFileInput"
+            />
+
+            <slot />
+          </div>
+        </div>
+      </div>
+    </label>
+  </FileDropArea>
+</template>

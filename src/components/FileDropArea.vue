@@ -14,7 +14,7 @@ function drop(event: DragEvent) {
   // On Chrome+Ubuntu, the file list may be empty for security reasons.
   // See https://askubuntu.com/a/1411727
   if (!event.dataTransfer?.files[0]) {
-    alert(t("source.upload.drop.empty"), "error");
+    alert(t("upload.drop.empty"), "error");
     return;
   }
 

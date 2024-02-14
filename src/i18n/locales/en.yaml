@@ -26,7 +26,6 @@ corpus.configuring: Configuring corpus
 corpus.delete: Delete corpus
 corpus.deleting: Deleting corpus
 corpus.list.loading: Listing corpora
-resource.loading: Loading dataset
 corpus.state.unknown: Unknown
 corpus.state.empty: No files
 corpus.state.needing_config: Configuration needed
@@ -53,6 +52,7 @@ metadata.new: New metadata
 metadata.public_id.help: In Mink, all resources have fixed, unmodifiable identifiers. The public identifier is what this resource will get once it is exported to a repository. Try to make it recognizable and descriptive, but not too long. It must only contain lowercase letters, numbers and dashes, and start with your assigned organization prefix.
 metadata.public_id.error.format: The public identifier must only contain lowercase letters (a-z), numbers (0-9) and dashes (-). It must not start or end with a dash.
 metadata.delete: Delete metadata
+resource.loading: Loading resource
 resource.delete.ask: Are you sure you want to delete this resource?
 config.metadata.help: Metadata is information about the data, meant for assessment by interested users (if you release the data), and for categorization in data repositories.
 config.configuration.help: These settings are information for the automatic analysis; they will affect the parsing or annotation.
@@ -85,9 +85,9 @@ source.limit.corpus.recommended: Recommended max corpus size
 source.limit.corpus.max: Maximum corpus size
 source.notfound: This source file was not found
 source.uploading: Uploading text file | Uploading text files
-source.upload.drop.empty: No file was dropped. Drag-and-drop may not be supported on your system.
 source.list.loading: Listing source texts
 source.content: Content
+upload.drop.empty: No file was dropped. Drag-and-drop may not be supported on your system.
 jwt.refreshing: Refreshing account
 tools: Explore
 exports.loading: Listing result files

@@ -24,10 +24,8 @@ corpus.create.help: Korpusen kommer bara att vara synlig för dig. Du kan alltid
 corpus.creating: Skapar korpus
 corpus.configuring: Konfigurerar korpus
 corpus.delete: Radera korpus
-corpus.delete.ask: Är du säker på att du vill ta bort den här korpusen?
 corpus.deleting: Raderar korpus
 corpus.list.loading: Hämtar korpusar
-resource.loading: Laddar datamängd
 corpus.state.unknown: Okänt
 corpus.state.empty: Inga filer
 corpus.state.needing_config: Behöver konfigureras
@@ -50,6 +48,8 @@ corpus.state.help.running_install: Installationen körs i bakgrunden. Det går b
 corpus.state.help.done_install: Nu är datan installerad!
 corpus.state.help.failed: Ett fel uppstod under annotering. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 corpus.state.help.failed_install: Ett fel uppstod under installation. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
+resource.loading: Laddar resurs
+resource.delete.ask: Är du säker på att du vill ta bort den här resursen?
 config.metadata.help: Metadata är information om datan, och fungerar som underlag för potentiellt intresserade användare (om du publicerar datan) samt underlättar katalogiseringen i datarepositorier.
 config.configuration.help: Dessa inställningar blir instruktioner till den automatiska analysen.
 config.loading: Hämtar metadata
@@ -81,9 +81,9 @@ source.limit.corpus.recommended: Rekommenderad korpusstorlek
 source.limit.corpus.max: Största tillåtna korpus
 source.notfound: Denna källfil kunde inte hittas
 source.uploading: Laddar upp källfil | Laddar upp källfiler
-source.upload.drop.empty: Ingen fil släpptes. Dra-och-släpp kanske inte stöds på ditt system.
 source.list.loading: Hämtar textlista
 source.content: Innehåll
+upload.drop.empty: Ingen fil släpptes. Dra-och-släpp kanske inte stöds på ditt system.
 jwt.refreshing: Uppdaterar konto
 tools: Utforska
 exports.loading: Hämtar resultatlista
