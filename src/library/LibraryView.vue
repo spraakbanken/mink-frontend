@@ -54,6 +54,15 @@ async function createCorpusFromFiles(files: FileList) {
     </PendingContent>
   </LayoutSection>
 
+  <LayoutSection v-if="isAuthenticated" :title="$t('new_corpus')">
+    <PendingContent on="create" blocking>
+      <SourceUpload
+        :file-handler="createCorpusFromFiles"
+        :primary="!resourceStore.hasCorpora"
+      />
+    </PendingContent>
+  </LayoutSection>
+
   <LayoutSection v-if="canUserAdmin" :title="$t('metadata')">
     <HelpBox>
       <p>{{ $t("library.help.metadata") }}</p>
@@ -72,14 +81,5 @@ async function createCorpusFromFiles(files: FileList) {
         {{ $t("metadata.new") }}
       </PadButton>
     </div>
-  </LayoutSection>
-
-  <LayoutSection v-if="isAuthenticated" :title="$t('new_corpus')">
-    <PendingContent on="create" blocking>
-      <SourceUpload
-        :file-handler="createCorpusFromFiles"
-        :primary="!resourceStore.hasCorpora"
-      />
-    </PendingContent>
   </LayoutSection>
 </template>
