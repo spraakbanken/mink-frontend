@@ -8,6 +8,5 @@
       "@/*": ["./src/*"],
     },
     "types": ["@modyfi/vite-plugin-yaml/modules"],
-    "allowJs": true,
   },
 }
