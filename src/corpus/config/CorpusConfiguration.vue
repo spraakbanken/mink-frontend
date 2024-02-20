@@ -90,7 +90,7 @@ async function submit(fields: Form) {
 </script>
 
 <template>
-  <div v-if="config">
+  <PendingContent v-if="config" :on="`corpus/${corpusId}/config`">
     <FormKit
       id="corpus-config"
       v-slot="{ value }"
@@ -175,17 +175,15 @@ async function submit(fields: Form) {
       </LayoutSection>
     </FormKit>
     <div class="flex justify-center">
-      <PendingContent :on="`corpus/${corpusId}`">
-        <RouteButton
-          :to="`/library/corpus/${corpusId}/delete`"
-          class="button-danger"
-        >
-          <icon :icon="['far', 'trash-can']" class="mr-1" />
-          {{ $t("corpus.delete") }}
-        </RouteButton>
-      </PendingContent>
+      <RouteButton
+        :to="`/library/corpus/${corpusId}/delete`"
+        class="button-danger"
+      >
+        <icon :icon="['far', 'trash-can']" class="mr-1" />
+        {{ $t("corpus.delete") }}
+      </RouteButton>
     </div>
-  </div>
+  </PendingContent>
 </template>
 
 <style scoped>
