@@ -26,6 +26,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Fixed
 
 - Missing `type` in store caused new corpus form to crash
+- Fix visual feedback when saving config and deleting resource
 
 ## [1.3.0] (2024-02-12)
 
