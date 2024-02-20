@@ -25,7 +25,8 @@ export default function useCreateCorpus() {
     const corpusId = await mink.createCorpus().catch(alertError);
     if (!corpusId) return undefined;
 
-    return await addNewResource(corpusId);
+    await addNewResource("corpus", corpusId);
+    return corpusId;
   }
 
   async function createFromUpload(files: FileList) {

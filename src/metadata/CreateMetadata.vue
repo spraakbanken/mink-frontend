@@ -26,7 +26,7 @@ async function submit(fields: Form) {
     .catch(alertError);
   if (!resourceId) return;
 
-  await addNewResource(resourceId);
+  await addNewResource("metadata", resourceId);
 
   router.push(`/library/metadata/${resourceId}`);
 }
