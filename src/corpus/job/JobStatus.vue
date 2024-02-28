@@ -7,8 +7,8 @@ import { useCorpusState } from "@/corpus/corpusState.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import useJob from "./job.composable";
-import ProgressBar from "./ProgressBar.vue";
 import JobStatusMessage from "./JobStatusMessage.vue";
+import ProgressBar from "@/components/ProgressBar.vue";
 
 const corpusId = useCorpusIdParam();
 const { runJob, abortJob, jobStatus, jobState, isJobRunning } =

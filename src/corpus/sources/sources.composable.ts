@@ -4,7 +4,7 @@ import useMinkBackend from "@/api/backend.composable";
 import { useResourceStore } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
 import { getFilenameExtension } from "@/util";
-import type { FileMeta } from "@/api/api.types";
+import type { FileMeta, ProgressHandler } from "@/api/api.types";
 
 export default function useSources(corpusId: string) {
   const resourceStore = useResourceStore();
@@ -29,8 +29,8 @@ export default function useSources(corpusId: string) {
     return mink.downloadPlaintext(corpusId, source.name).catch(alertError);
   }
 
-  async function uploadSources(files: FileList) {
-    await mink.uploadSources(corpusId, files);
+  async function uploadSources(files: FileList, onProgress?: ProgressHandler) {
+    await mink.uploadSources(corpusId, files, onProgress);
     loadSources();
   }
 

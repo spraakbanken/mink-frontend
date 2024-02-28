@@ -21,18 +21,18 @@ const totalSize = computed(() =>
 </script>
 
 <template>
+  <div class="flex flex-wrap gap-x-8">
+    <span>{{ $t("files", sources.length) }}, {{ filesize(totalSize) }}</span>
+    <span v-if="info">
+      {{ $t("source.limit.corpus.recommended") }}:
+      {{ filesize(info.recommended_file_size.min_file_length.value) }}
+    </span>
+    <span v-if="info">
+      {{ $t("source.limit.corpus.max") }}:
+      {{ filesize(info.file_size_limits.max_corpus_length.value) }}
+    </span>
+  </div>
   <PendingContent :on="`corpus/${corpusId}/sources`">
-    <div class="flex flex-wrap gap-x-8">
-      <span>{{ $t("files", sources.length) }}, {{ filesize(totalSize) }}</span>
-      <span v-if="info">
-        {{ $t("source.limit.corpus.recommended") }}:
-        {{ filesize(info.recommended_file_size.min_file_length.value) }}
-      </span>
-      <span v-if="info">
-        {{ $t("source.limit.corpus.max") }}:
-        {{ filesize(info.file_size_limits.max_corpus_length.value) }}
-      </span>
-    </div>
     <table v-if="sources.length" class="w-full mt-4 striped">
       <thead>
         <tr>
@@ -64,6 +64,9 @@ const totalSize = computed(() =>
         </tr>
       </tbody>
     </table>
+  </PendingContent>
+
+  <PendingContent :on="`corpus/${corpusId}/sources`" blocking>
     <SourceUpload :primary="isEmpty" />
   </PendingContent>
 </template>

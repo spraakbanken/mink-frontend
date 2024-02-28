@@ -1,16 +1,26 @@
 <script setup lang="ts">
+import { ref } from "vue";
+import type { AxiosProgressEvent } from "axios";
 import useMessenger from "@/message/messenger.composable";
-import FileDropArea from "@/components/FileDropArea.vue";
+import FileDropArea from "./FileDropArea.vue";
+import ProgressBar from "./ProgressBar.vue";
+import type { ProgressHandler } from "@/api/api.types";
 
 const props = defineProps<{
-  fileHandler: (files: FileList) => Promise<void>;
+  /**
+   * A function that presumably uploads given file(s) to the appropriate API.
+   */
+  fileHandler: (files: FileList, onProgress: ProgressHandler) => Promise<void>;
   primary?: boolean;
   accept?: string;
   multiple?: boolean;
+  showProgress?: boolean;
 }>();
 
 const { clear } = useMessenger();
+const progress = ref<number>();
 
+/** Call upload function when using the <input> element. */
 async function handleFileInput(event: Event) {
   const fileInput = event.target as HTMLInputElement;
   if (!fileInput.files) {
@@ -22,9 +32,19 @@ async function handleFileInput(event: Event) {
   fileInput.value = "";
 }
 
+/** Call upload function. */
 async function handleUpload(files: FileList) {
   clear();
-  await props.fileHandler(files);
+  try {
+    await props.fileHandler(files, onProgress);
+  } finally {
+    progress.value = undefined;
+  }
+}
+
+/** Report upload progress. */
+function onProgress(progressEvent: AxiosProgressEvent) {
+  progress.value = progressEvent.progress;
 }
 </script>
 
@@ -72,6 +92,12 @@ async function handleUpload(files: FileList) {
               :multiple="multiple"
               :accept="accept"
               @change="handleFileInput"
+            />
+
+            <ProgressBar
+              v-if="showProgress && progress !== undefined"
+              :percent="progress * 100"
+              class="w-60"
             />
 
             <slot />

@@ -1,4 +1,5 @@
 import type { ByLang } from "@/util.types";
+import type { AxiosProgressEvent } from "axios";
 
 /** Properties common to most backend responses */
 export type MinkResponse<T extends { [k: string]: any } = {}> = T & {
@@ -132,3 +133,5 @@ export type ListExportsData = {
 export type AdminModeStatusData = {
   admin_mode_status: boolean;
 };
+
+export type ProgressHandler = (progressEvent: AxiosProgressEvent) => void;

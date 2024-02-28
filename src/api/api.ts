@@ -12,6 +12,7 @@ import type {
   ListExportsData,
   AdminModeStatusData,
   CreateMetadataData,
+  ProgressHandler,
 } from "./api.types";
 
 /** Mink backend API client */
@@ -112,13 +113,20 @@ class MinkApi {
   }
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Sources/operation/uploadsources */
-  async uploadSources(corpusId: string, files: FileList) {
+  async uploadSources(
+    corpusId: string,
+    files: FileList,
+    onProgress?: ProgressHandler,
+  ) {
     const formData = new FormData();
     [...files].forEach((file) => formData.append("files[]", file));
     const response = await this.axios.put<MinkResponse>(
       "upload-sources",
       formData,
-      { params: { corpus_id: corpusId } },
+      {
+        params: { corpus_id: corpusId },
+        onUploadProgress: onProgress,
+      },
     );
     return response.data;
   }

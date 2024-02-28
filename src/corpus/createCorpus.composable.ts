@@ -10,7 +10,7 @@ import {
   type ConfigOptions,
 } from "@/api/corpusConfig";
 import type { AxiosError } from "axios";
-import type { MinkResponse } from "@/api/api.types";
+import type { MinkResponse, ProgressHandler } from "@/api/api.types";
 import useCreateResource from "@/resource/createResource.composable";
 
 export default function useCreateCorpus() {
@@ -69,8 +69,12 @@ export default function useCreateCorpus() {
   }
 
   // Like the `uploadSources` in `sources.composable.ts` but takes `corpusId` as argument.
-  async function uploadSources(files: FileList, corpusId: string) {
-    await mink.uploadSources(corpusId, files);
+  async function uploadSources(
+    files: FileList,
+    corpusId: string,
+    onProgress?: ProgressHandler,
+  ) {
+    await mink.uploadSources(corpusId, files, onProgress);
     const info = await mink.resourceInfoOne(corpusId).catch(alertError);
     if (!info) return;
     resourceStore.corpora[corpusId].sources = info.resource.source_files;

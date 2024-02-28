@@ -16,6 +16,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Added
 
 - Basic functionality for adding and removing metadata resources [#145](https://github.com/spraakbanken/mink-frontend/issues/145)
+- Progress bar for source file uploads [#45](https://github.com/spraakbanken/mink-frontend/issues/45)
 - Some dynamic imports to reduce main chunk size
 
 ### Changed

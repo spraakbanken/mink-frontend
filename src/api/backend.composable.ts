@@ -1,6 +1,7 @@
 import { useI18n } from "vue-i18n";
 import api from "./api";
 import useSpin from "@/spin/spin.composable";
+import type { ProgressHandler } from "./api.types";
 
 /** Wraps API endpoints with Spin. */
 export default function useMinkBackend() {
@@ -54,9 +55,13 @@ export default function useMinkBackend() {
       `corpus/${corpusId}/sources/${filename}`,
     );
 
-  const uploadSources = (corpusId: string, files: FileList) =>
+  const uploadSources = (
+    corpusId: string,
+    files: FileList,
+    onProgress?: ProgressHandler,
+  ) =>
     spin(
-      api.uploadSources(corpusId, files),
+      api.uploadSources(corpusId, files, onProgress),
       t("source.uploading", files.length),
       `corpus/${corpusId}/sources`,
     );

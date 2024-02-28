@@ -8,6 +8,7 @@ import UploadSizeLimits from "./UploadSizeLimits.vue";
 import useConfig from "../config/config.composable";
 import type { FileFormat } from "@/api/corpusConfig";
 import FileUpload from "@/components/FileUpload.vue";
+import type { ProgressHandler } from "@/api/api.types";
 
 const props = defineProps<{
   fileHandler?: (files: FileList) => Promise<void>;
@@ -18,12 +19,16 @@ const corpusId = useCorpusIdParam();
 const { uploadSources, extensions } = useSources(corpusId);
 const { config, uploadConfig } = useConfig(corpusId);
 const { alertError } = useMessenger();
+
 const extensionsAccept = computed(() =>
   extensions.value?.map((ext) => `.${ext}`).join(),
 );
 
-async function defaultFileHandler(files: FileList) {
-  const requests = [uploadSources(files).catch(alertError)];
+async function defaultFileHandler(
+  files: FileList,
+  onProgress: ProgressHandler,
+) {
+  const requests = [uploadSources(files, onProgress).catch(alertError)];
 
   // Also update format setting in config if needed
   const format = getFilenameExtension(files[0]?.name) as FileFormat;
@@ -42,6 +47,7 @@ const fileHandler = props.fileHandler || defaultFileHandler;
     :primary="primary"
     :accept="extensionsAccept"
     multiple
+    show-progress
   >
     <UploadSizeLimits />
   </FileUpload>
