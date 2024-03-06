@@ -168,6 +168,7 @@ txt: Ren text
 docx: Microsoft Word
 odt: OpenDocument Text
 pdf: PDF
+load: Ladda in
 file.archive: Arkivfil
 file.singles: Enskilda filer
 name: Namn

@@ -173,6 +173,7 @@ txt: Plain text
 docx: Microsoft Word
 odt: OpenDocument Text
 pdf: PDF
+load: Load
 file.archive: Archive
 file.singles: Single files
 name: Name

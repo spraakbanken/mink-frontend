@@ -52,7 +52,7 @@ export default function useMinkBackend() {
     spin(
       api.downloadSourceText(corpusId, filename),
       t("source.downloading_plain"),
-      `corpus/${corpusId}/sources/${filename}`,
+      `corpus/${corpusId}/sources/${filename}/plain`,
     );
 
   const uploadSources = (

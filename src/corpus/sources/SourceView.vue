@@ -66,6 +66,7 @@ async function loadPlain() {
                 :load="loadRaw"
                 :filename="metadata.name"
                 :no-load="isBinary"
+                :size="metadata.size"
               />
             </PendingContent>
           </td>
@@ -73,11 +74,14 @@ async function loadPlain() {
         <tr v-if="!isPlaintext">
           <th>{{ $t("txt") }}</th>
           <td>
-            <PendingContent :on="`corpus/${corpusId}/sources/${filename}`">
+            <PendingContent
+              :on="`corpus/${corpusId}/sources/${filename}/plain`"
+            >
               <SourceText
                 v-if="isJobDone"
                 :load="loadPlain"
                 :filename="ensureExtension(metadata.name, 'txt')"
+                :size="metadata.size"
               />
               <div class="text-sm py-1">
                 {{ $t("source_text_help") }}
