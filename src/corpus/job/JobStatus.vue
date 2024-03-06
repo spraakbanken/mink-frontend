@@ -19,6 +19,12 @@ const isPending = ref(false);
 const canRun = computed(
   () => canBeReady.value && !isPending.value && !isJobRunning.value,
 );
+const hasStarted = computed(
+  () =>
+    Object.values(jobStatus.value?.status || {}).some(
+      (status) => status != "none",
+    ) || jobStatus.value?.priority,
+);
 
 async function doRunJob() {
   isPending.value = true;
@@ -67,7 +73,7 @@ async function doRunJob() {
       class="w-full my-2"
     />
 
-    <table v-if="jobStatus?.last_run_started" class="w-full mt-4">
+    <table v-if="hasStarted" class="w-full mt-4">
       <thead></thead>
       <tbody>
         <tr v-if="jobStatus.errors">
