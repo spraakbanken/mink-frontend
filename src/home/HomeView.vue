@@ -55,7 +55,7 @@ const logoutUrl = getLogoutUrl();
             >
               <div>{{ $t("welcome", { name: payload.name }) }}</div>
 
-              <RouteButton to="/corpus" class="button-primary">
+              <RouteButton to="/library" class="button-primary">
                 {{ $t("mydata") }}
               </RouteButton>
 

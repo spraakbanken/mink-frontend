@@ -99,7 +99,7 @@ watch(isDone, () => {
         <tr>
           <th>{{ $t("file.singles") }}</th>
           <td>
-            <router-link :to="`/corpus/${corpusId}/exports`">
+            <router-link :to="`/library/corpus/${corpusId}/exports`">
               {{ $t("show") }}...
             </router-link>
           </td>

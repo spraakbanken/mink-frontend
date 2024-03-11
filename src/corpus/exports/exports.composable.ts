@@ -1,12 +1,12 @@
 import { computed } from "vue";
 import { downloadFile } from "@/util";
 import useMinkBackend from "@/api/backend.composable";
-import { useCorpusStore } from "@/store/corpus.store";
+import { useResourceStore } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
 
 export default function useExports(corpusId: string) {
-  const corpusStore = useCorpusStore();
-  const corpus = computed(() => corpusStore.corpora[corpusId]);
+  const resourceStore = useResourceStore();
+  const corpus = computed(() => resourceStore.corpora[corpusId]);
   const exports = computed(() => corpus.value?.exports);
   const mink = useMinkBackend();
   const { alertError } = useMessenger();

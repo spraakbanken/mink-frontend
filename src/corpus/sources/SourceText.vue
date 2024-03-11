@@ -1,71 +1,54 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
+import once from "lodash/once";
 import { downloadFile } from "@/util";
 import ActionButton from "@/components/ActionButton.vue";
+import TextData from "@/components/TextData.vue";
+
+/** Defer loading if file is large. */
+const AUTOLOAD_LIMIT = 500_000;
 
 const props = defineProps<{
   load: () => Promise<string | undefined>;
   filename: string;
+  size?: number;
   noLoad?: boolean;
 }>();
 
 const text = ref();
-const expanded = ref(false);
-const loadPromise = props.load();
+const shouldDeferLoading = computed(() => (props.size || 0) > AUTOLOAD_LIMIT);
 
+/** Wraps the load call to ensure it's only called once (or not at all). */
+const load = once(() => props.load());
+
+/** Load text and store it for showing. */
+async function show() {
+  text.value = await load();
+}
+
+// Load the text unless it is disabled or only manual.
 onMounted(async () => {
-  if (!props.noLoad) text.value = await loadPromise;
+  if (!props.noLoad && !shouldDeferLoading.value) await show();
 });
 
 async function download() {
-  const text = await loadPromise;
+  const text = await load();
   downloadFile(text!, props.filename || "mink-source");
-}
-
-function toggleExpand() {
-  expanded.value = !expanded.value;
 }
 </script>
 
 <template>
-  <div
-    v-if="text"
-    class="relative bg-zinc-700 dark:bg-zinc-600 rounded shadow-inner text-sm"
-  >
-    <div class="absolute z-10 bottom-2 right-2 flex gap-2">
-      <ActionButton @click="toggleExpand">
-        <template v-if="expanded">
-          <icon :icon="['far', 'square-minus']" class="mr-1" />
-          {{ $t("expand.close") }}
-        </template>
-        <template v-else>
-          <icon :icon="['far', 'square-plus']" class="mr-1" />
+  <TextData v-if="text" :text="text" />
 
-          {{ $t("expand.open") }}
-        </template>
-      </ActionButton>
-      <ActionButton @click="download">
-        <icon :icon="['far', 'file']" class="mr-1" />
-        {{ $t("download") }}
-      </ActionButton>
-    </div>
-    <div
-      class="text-white overflow-hidden whitespace-pre-wrap font-mono text-xs p-2 pb-10"
-      :class="{ 'h-20': !expanded }"
-    >
-      {{ expanded ? text : text.slice(0, 800) }}
-    </div>
-  </div>
-  <div v-else>
+  <div class="my-2 flex gap-2">
+    <ActionButton v-if="!noLoad && text === undefined" @click="show()">
+      <icon :icon="['fas', 'rotate']" class="mr-1" />
+      {{ $t("load") }}
+    </ActionButton>
+
     <ActionButton @click="download">
       <icon :icon="['far', 'file']" class="mr-1" />
       {{ $t("download") }}
     </ActionButton>
   </div>
 </template>
-
-<style scoped>
-.h-20 {
-  mask-image: linear-gradient(black 50%, transparent);
-}
-</style>

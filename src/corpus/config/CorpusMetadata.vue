@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import PendingContent from "@/spin/PendingContent.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import LayoutSection from "@/components/LayoutSection.vue";
 import useConfig from "./config.composable";
@@ -25,13 +26,13 @@ async function submit(fields: Form) {
     description: fields.description,
   };
   await uploadConfig(configNew)
-    .then(() => router.push(`/corpus/${corpusId}`))
+    .then(() => router.push(`/library/corpus/${corpusId}`))
     .catch(alertError);
 }
 </script>
 
 <template>
-  <div v-if="config">
+  <PendingContent v-if="config" :on="`corpus/${corpusId}/config`">
     <FormKit
       id="corpus-config"
       type="form"
@@ -88,5 +89,5 @@ async function submit(fields: Form) {
         />
       </LayoutSection>
     </FormKit>
-  </div>
+  </PendingContent>
 </template>

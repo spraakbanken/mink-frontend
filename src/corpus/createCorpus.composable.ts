@@ -1,7 +1,6 @@
 import { useRouter } from "vue-router";
-import { useAuth } from "@/auth/auth.composable";
 import useMinkBackend from "@/api/backend.composable";
-import { useCorpusStore } from "@/store/corpus.store";
+import { useResourceStore } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
 import useDeleteCorpus from "./deleteCorpus.composable";
 import { getFilenameExtension } from "@/util";
@@ -11,27 +10,22 @@ import {
   type ConfigOptions,
 } from "@/api/corpusConfig";
 import type { AxiosError } from "axios";
-import type { MinkResponse } from "@/api/api.types";
-import useCorpora from "@/corpora/corpora.composable";
+import type { MinkResponse, ProgressHandler } from "@/api/api.types";
+import useCreateResource from "@/resource/createResource.composable";
 
 export default function useCreateCorpus() {
-  const corpusStore = useCorpusStore();
+  const resourceStore = useResourceStore();
   const router = useRouter();
-  const { refreshJwt } = useAuth();
   const { deleteCorpus } = useDeleteCorpus();
   const { alert, alertError } = useMessenger();
   const mink = useMinkBackend();
-  const { refreshCorpora } = useCorpora();
+  const { addNewResource } = useCreateResource();
 
   async function createCorpus() {
     const corpusId = await mink.createCorpus().catch(alertError);
     if (!corpusId) return undefined;
-    // Have the new corpus included in further API calls.
-    await refreshJwt();
-    // Mark corpus store outdated. Instead of awaiting to have the ids present, add it manually below.
-    refreshCorpora();
-    // Adding the new id to store may trigger API calls, so do it after updating the JWT.
-    corpusStore.corpora[corpusId] = corpusStore.corpora[corpusId] || {};
+
+    await addNewResource("corpus", corpusId);
     return corpusId;
   }
 
@@ -64,22 +58,26 @@ export default function useCreateCorpus() {
       return;
     }
 
-    router.push(`/corpus/${corpusId}`);
+    router.push(`/library/corpus/${corpusId}`);
   }
 
   // Like the `uploadConfig` in `config.composable.ts` but takes `corpusId` as argument.
   async function uploadConfig(config: ConfigOptions, corpusId: string) {
     // This may throw, either from makeConfig or saveConfig.
     await mink.saveConfig(corpusId, await makeConfig(corpusId, config));
-    corpusStore.corpora[corpusId].config = config;
+    resourceStore.corpora[corpusId].config = config;
   }
 
   // Like the `uploadSources` in `sources.composable.ts` but takes `corpusId` as argument.
-  async function uploadSources(files: FileList, corpusId: string) {
-    await mink.uploadSources(corpusId, files);
+  async function uploadSources(
+    files: FileList,
+    corpusId: string,
+    onProgress?: ProgressHandler,
+  ) {
+    await mink.uploadSources(corpusId, files, onProgress);
     const info = await mink.resourceInfoOne(corpusId).catch(alertError);
     if (!info) return;
-    corpusStore.corpora[corpusId].sources = info.resource.source_files;
+    resourceStore.corpora[corpusId].sources = info.resource.source_files;
   }
 
   async function createFromConfig(
@@ -103,7 +101,7 @@ export default function useCreateCorpus() {
     try {
       await uploadConfig(config, corpusId);
       // Show the created corpus.
-      router.push(`/corpus/${corpusId}`);
+      router.push(`/library/corpus/${corpusId}`);
       return corpusId;
     } catch (e) {
       // If creating the config fails, there's a TypeError.

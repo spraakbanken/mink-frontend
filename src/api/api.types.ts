@@ -1,4 +1,5 @@
 import type { ByLang } from "@/util.types";
+import type { AxiosProgressEvent } from "axios";
 
 /** Properties common to most backend responses */
 export type MinkResponse<T extends { [k: string]: any } = {}> = T & {
@@ -45,6 +46,11 @@ export type CreateCorpusData = {
   corpus_id: string;
 };
 
+/** Data in the create-metadata response */
+export type CreateMetadataData = {
+  resource_id: string;
+};
+
 /** Data in the resource-info response, if no corpus_id param is given */
 export type ResourceInfoAllData = {
   resources: MinkResponse<ResourceInfo>[];
@@ -61,12 +67,14 @@ export type ResourceInfo = {
 
 /** Basic data about a resource */
 export type ResourceData = {
-  type: "corpus";
+  type: ResourceType;
   id: string;
   public_id: string;
   name: ByLang;
   source_files: FileMeta[];
 };
+
+export type ResourceType = "corpus" | "metadata";
 
 /** Job status for a resource */
 // There's more but we're not using everything.
@@ -125,3 +133,5 @@ export type ListExportsData = {
 export type AdminModeStatusData = {
   admin_mode_status: boolean;
 };
+
+export type ProgressHandler = (progressEvent: AxiosProgressEvent) => void;

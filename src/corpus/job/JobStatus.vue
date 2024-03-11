@@ -7,8 +7,8 @@ import { useCorpusState } from "@/corpus/corpusState.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import useJob from "./job.composable";
-import ProgressBar from "./ProgressBar.vue";
 import JobStatusMessage from "./JobStatusMessage.vue";
+import ProgressBar from "@/components/ProgressBar.vue";
 
 const corpusId = useCorpusIdParam();
 const { runJob, abortJob, jobStatus, jobState, isJobRunning } =
@@ -18,6 +18,12 @@ const { canBeReady, isFailed } = useCorpusState(corpusId);
 const isPending = ref(false);
 const canRun = computed(
   () => canBeReady.value && !isPending.value && !isJobRunning.value,
+);
+const hasStarted = computed(
+  () =>
+    Object.values(jobStatus.value?.status || {}).some(
+      (status) => status != "none",
+    ) || jobStatus.value?.priority,
 );
 
 async function doRunJob() {
@@ -29,7 +35,7 @@ async function doRunJob() {
 
 <template>
   <PendingContent v-if="jobStatus" :on="`corpus/${corpusId}/job`">
-    <div class="flex flex-wrap gap-4 justify-between items-baseline">
+    <div class="flex gap-4 justify-between items-baseline">
       <div class="text-lg">
         <span v-if="jobStatus.current_process">
           {{ $t(`job.process.${jobStatus.current_process}`) }}:
@@ -67,7 +73,7 @@ async function doRunJob() {
       class="w-full my-2"
     />
 
-    <table v-if="jobStatus?.last_run_started" class="w-full mt-4">
+    <table v-if="hasStarted" class="w-full mt-4">
       <thead></thead>
       <tbody>
         <tr v-if="jobStatus.errors">
