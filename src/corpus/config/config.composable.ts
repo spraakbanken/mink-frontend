@@ -5,15 +5,18 @@ import {
   parseConfig,
   type ConfigOptions,
 } from "@/api/corpusConfig";
+import useLocale from "@/i18n/locale.composable";
 import useMinkBackend from "@/api/backend.composable";
 import { useResourceStore } from "@/store/resource.store";
 
 export default function useConfig(corpusId: string) {
   const resourceStore = useResourceStore();
+  const { th } = useLocale();
   const mink = useMinkBackend();
 
   const corpus = computed(() => resourceStore.corpora[corpusId]);
   const config = computed(() => corpus.value?.config);
+  const corpusName = computed(() => th(config.value?.name));
 
   async function loadConfig() {
     const config = await mink
@@ -35,6 +38,7 @@ export default function useConfig(corpusId: string) {
 
   return {
     config,
+    corpusName,
     loadConfig,
     uploadConfig,
   };
