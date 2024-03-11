@@ -13,6 +13,8 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+## [1.4.0] (2024-03-11)
+
 ### Added
 
 - Basic functionality for adding and removing metadata resources [#145](https://github.com/spraakbanken/mink-frontend/issues/145)
@@ -23,7 +25,7 @@ As this project is a user-facing application, the places in the semantic version
 
 - Extracted the concept of a Resource as a supertype of Corpus, in preparation for adding the Metadata resource type [#145](https://github.com/spraakbanken/mink-frontend/issues/145)
 - Defer loading source text if file is large [#29](https://github.com/spraakbanken/mink-frontend/issues/29)
-- Source text file content now look the same as log output
+- Source text file content now looks the same as log output
 
 ### Fixed
 
@@ -158,7 +160,8 @@ The frontend is now open to the general public! This version allows users to:
 
 Code changes up until this point are not documented other than in the git commit log.
 
-[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.3.0...HEAD
+[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.5...v1.1.0
