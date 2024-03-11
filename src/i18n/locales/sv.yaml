@@ -20,6 +20,7 @@ library: Bibliotek
 library.help.corpora: Här listas de korpusar du har skapat. De är bara synliga för dig. Klicka på dem för att visa mer.
 library.help.corpora.none: >-
   Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en korpus: använd knappen "@:{'new_corpus'}" eller dra textfiler till uppladdningsrutan nedan.
+library.help.metadata: Ett metadataobjekt har information som beskriver en godtycklig resurs. Mink bearbetar ingen data för dessa objekt, men de kan exporteras till en datakatalog.
 corpus.create.help: Korpusen kommer bara att vara synlig för dig. Du kan alltid uppdatera de här uppgifterna senare.
 corpus.creating: Skapar korpus
 corpus.configuring: Konfigurerar korpus
@@ -48,6 +49,10 @@ corpus.state.help.running_install: Installationen körs i bakgrunden. Det går b
 corpus.state.help.done_install: Nu är datan installerad!
 corpus.state.help.failed: Ett fel uppstod under annotering. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 corpus.state.help.failed_install: Ett fel uppstod under installation. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
+metadata.new: Ny metadata
+metadata.public_id.help: Varje resurs i Mink har en förutbestämd identifierare. Den publika identifieraren är vad denna resurs kommer at få när den exporteras till en datakatalog. Välj gärna något unikt och beskrivande, men inte för långt. Den får endast innehålla små bokstäver, siffror och bindestreck, och måste börja med ditt tilldelade organisationsprefix.
+metadata.public_id.error.format: Den publika identifieraren får endast innehålla små bokstäver (a-z), siffror (0-9) och bindestreck (-). Den får inte börja eller sluta med bindestreck.
+metadata.delete: Radera metadata
 resource.loading: Laddar resurs
 resource.delete.ask: Är du säker på att du vill ta bort den här resursen?
 config.metadata.help: Metadata är information om datan, och fungerar som underlag för potentiellt intresserade användare (om du publicerar datan) samt underlättar katalogiseringen i datarepositorier.
@@ -129,6 +134,7 @@ lastModify: Senast ändrad
 fileSize: Storlek
 delete: Radera
 original: Original
+public_id: Publik identifierare
 source_text_help: Under annoteringen extraheras ren text från filen, och kan sedan visas här.
 contact: Kontakt
 save: Spara
