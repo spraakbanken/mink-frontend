@@ -11,12 +11,12 @@ import type {
 } from "@/api/api.types";
 import type { ConfigOptions } from "@/api/corpusConfig";
 
-type Resource = {
+export type Resource = {
   type: ResourceType;
   name: ByLang;
 };
 
-type Corpus = Resource & {
+export type Corpus = Resource & {
   type: "corpus";
   sources: FileMeta[];
   config: ConfigOptions;
@@ -24,7 +24,7 @@ type Corpus = Resource & {
   exports: FileMeta[];
 };
 
-type Metadata = Resource & {
+export type Metadata = Resource & {
   publicId: string;
   metadata: string; // YAML
 };
@@ -42,9 +42,7 @@ export const useResourceStore = defineStore("resource", () => {
   // forget the old state. The actual number doesn't really matter, as long as
   // it's a new one.
   const resourcesRef = useStorage("mink@230208.resources", {});
-  const resources: Record<string, Partial<Resource>> = reactive(
-    resourcesRef.value,
-  );
+  const resources: Record<string, {} | Resource> = reactive(resourcesRef.value);
 
   const corpora = computed<Record<string, Partial<Corpus>>>(() =>
     filterResources("corpus"),
@@ -57,10 +55,13 @@ export const useResourceStore = defineStore("resource", () => {
     type: ResourceType,
   ): Record<string, Partial<T>> =>
     Object.keys(resources).reduce(
-      (filtered, resourceId) =>
-        resources[resourceId].type == type
-          ? { ...filtered, [resourceId]: resources[resourceId] }
-          : filtered,
+      (filtered, resourceId) => {
+        const resource = resources[resourceId];
+        return "type" in resource && resource.type == type
+          ? { ...filtered, [resourceId]: resource }
+          : filtered;
+      },
+
       {},
     );
 
@@ -79,11 +80,10 @@ export const useResourceStore = defineStore("resource", () => {
 
   /** Store new state for a given resource. */
   function setResource(info: ResourceInfo): Resource {
-    // Patch any existing record, otherwise create a new one.
-    const resource =
-      info.resource.id in resources ? resources[info.resource.id] : {};
-    resource.type = info.resource.type;
-    resource.name = info.resource.name;
+    const resource = {
+      type: info.resource.type,
+      name: info.resource.name,
+    };
 
     if (isCorpus(resource)) {
       resource.sources = info.resource.source_files;
