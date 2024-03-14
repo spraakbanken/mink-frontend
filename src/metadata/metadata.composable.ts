@@ -9,13 +9,13 @@ const isFresh: Record<string, true> = {};
 export default function useMetadata(resourceId: string) {
   const mink = useMinkBackend();
   const resourceStore = useResourceStore();
-  const { loadResources } = useResources();
+  const { loadResource } = useResources();
   const { alertError } = useMessenger();
 
   /** Load data about a metadata and store it. */
   async function loadMetadata(): Promise<void> {
     // Make sure the resource has an entry in the store.
-    await loadResources();
+    await loadResource(resourceId);
 
     // Skip if already loaded.
     if (isFresh[resourceId]) return;

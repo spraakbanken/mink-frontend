@@ -121,6 +121,7 @@ metadata: Metadata
 texts: Source texts
 configuration: Settings
 result: Result
+resources: Resources
 corpus: Corpus
 corpuses: Corpora
 files: No files | 1 file | {count} files
@@ -220,6 +221,8 @@ annotations.info: |
   <p>You can find some more information about the annotations in the 
     <a href="https://spraakbanken.gu.se/sparv/#/user-manual/available-analyses">Sparv documentation</a>.
   </p>
+admin.page.subtitle: Administration
+admin.goto: Shortcuts
 accessdenied: Access denied
 accessdenied.contact: If you have questions, or you want to report a bug, please contact sb-info{'@'}svenska.gu.se. Thank you!
 notfound: Page not found

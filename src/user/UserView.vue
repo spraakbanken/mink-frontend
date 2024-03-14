@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { getLogoutUrl } from "@/auth/auth";
 import { useAuth } from "@/auth/auth.composable";
-import useAdmin from "./admin.composable";
 import AdminModeSwitcher from "./AdminModeSwitcher.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import UrlButton from "@/components/UrlButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 
-const { requireAuthentication, isAuthenticated, payload } = useAuth();
-const { isAdmin } = useAdmin();
+const { requireAuthentication, isAuthenticated, payload, canUserAdmin } =
+  useAuth();
 
 const logoutUrl = getLogoutUrl();
 
@@ -26,7 +25,7 @@ requireAuthentication();
       </UrlButton>
     </div>
 
-    <LayoutBox v-if="isAdmin" :title="$t('user.settings')">
+    <LayoutBox v-if="canUserAdmin" :title="$t('user.settings')">
       <div class="my-4">
         <AdminModeSwitcher />
       </div>

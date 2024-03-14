@@ -68,29 +68,34 @@ export const useResourceStore = defineStore("resource", () => {
     setKeys(resources, resourceIds, {});
   }
 
+  /** Update state to match fresh data. */
   function setResources(infos: ResourceInfo[]) {
     // Drop old keys, assign empty records for each new id
     const ids = infos.map((info) => info.resource.id);
     setKeys(resources, ids, {});
 
-    for (const infoNew of infos) {
-      // Patch any existing record, otherwise create a new one.
-      const info =
-        infoNew.resource.id in resources ? resources[infoNew.resource.id] : {};
-      info.type = infoNew.resource.type;
-      info.name = infoNew.resource.name;
+    infos.forEach(setResource);
+  }
 
-      if (isCorpus(info)) {
-        info.sources = infoNew.resource.source_files;
-        info.status = infoNew.job;
-      }
+  /** Store new state for a given resource. */
+  function setResource(info: ResourceInfo): Resource {
+    // Patch any existing record, otherwise create a new one.
+    const resource =
+      info.resource.id in resources ? resources[info.resource.id] : {};
+    resource.type = info.resource.type;
+    resource.name = info.resource.name;
 
-      if (isMetadata(info)) {
-        info.publicId = infoNew.resource.public_id;
-      }
-
-      resources[infoNew.resource.id] = info;
+    if (isCorpus(resource)) {
+      resource.sources = info.resource.source_files;
+      resource.status = info.job;
     }
+
+    if (isMetadata(resource)) {
+      resource.publicId = info.resource.public_id;
+    }
+
+    resources[info.resource.id] = resource;
+    return resource;
   }
 
   const hasCorpora = computed(() => !!Object.keys(corpora).length);
@@ -101,6 +106,7 @@ export const useResourceStore = defineStore("resource", () => {
     metadatas,
     setResourceIds,
     setResources,
+    setResource,
     hasCorpora,
   };
 });

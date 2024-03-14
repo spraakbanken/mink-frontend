@@ -7,13 +7,13 @@ const isCorpusFresh: Record<string, boolean> = {};
 
 export default function useCorpus(corpusId: string) {
   const resourceStore = useResourceStore();
-  const { loadResources } = useResources();
+  const { loadResource } = useResources();
   const { loadConfig } = useConfig(corpusId);
 
   /** Load data about a corpus and store it. */
   async function loadCorpus(): Promise<void> {
     // Make sure the corpus has an entry in the store.
-    await loadResources();
+    await loadResource(corpusId);
 
     // Skip if already loaded.
     if (isCorpusFresh[corpusId]) return;

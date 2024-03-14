@@ -13,6 +13,14 @@ export default function useResources() {
   const { alertError } = useMessenger();
   const mink = useMinkBackend();
 
+  /** Load and store data about a given resource. */
+  async function loadResource(resourceId: string) {
+    const data = await mink.resourceInfoOne(resourceId).catch(alertError);
+    if (!data) return;
+    return resourceStore.setResource(data);
+  }
+
+  /** Load and store data about all the user's resources, with caching. */
   async function loadResources() {
     // Skip if already loaded.
     if (isFresh) return;
@@ -50,9 +58,9 @@ export default function useResources() {
   }
 
   return {
+    loadResource,
     loadResources,
     loadResourceIds,
-    loadResourceInfo,
     refreshResources,
   };
 }

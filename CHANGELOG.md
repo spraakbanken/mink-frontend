@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Added
+
+- A quick, brief resource listing view for admin [#146](https://github.com/spraakbanken/mink-frontend/issues/146)
+
 ## [1.4.0] (2024-03-11)
 
 ### Added

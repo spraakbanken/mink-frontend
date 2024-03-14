@@ -122,6 +122,7 @@ metadata: Metadata
 texts: Källtexter
 configuration: Inställningar
 result: Resultat
+resources: Resurser
 corpus: Korpus
 corpuses: Korpusar
 files: Inga filer | 1 fil | {count} filer
@@ -222,6 +223,8 @@ annotations.info: |
   <p>Du kan hitta lite mer info om annotationerna i
     <a href="https://spraakbanken.gu.se/sparv/#/user-manual/available-analyses">Sparvs dokumentation</a>.
   </p>
+admin.page.subtitle: Administration
+admin.goto: Genvägar
 accessdenied: Åtkomst nekad
 accessdenied.contact: Om du har frågor eller vill rapportera en bugg, kontakta gärna sb-info{'@'}svenska.gu.se. Tack!
 notfound: Sidan kan inte hittas

@@ -5,7 +5,7 @@ import PendingContent from "@/spin/PendingContent.vue";
 
 const { enableAdminMode, disableAdminMode, adminMode } = useAdmin();
 
-const localValue = ref(false);
+const localValue = ref<boolean>();
 
 watchEffect(() => (localValue.value = adminMode.value));
 
@@ -14,7 +14,12 @@ watch(localValue, (value) => (value ? enableAdminMode() : disableAdminMode()));
 
 <template>
   <PendingContent on="admin-mode" blocking>
-    <input id="admin-mode" v-model="localValue" type="checkbox" />
+    <input
+      id="admin-mode"
+      v-model="localValue"
+      type="checkbox"
+      :disabled="localValue === undefined"
+    />
     <label for="admin-mode" class="ml-2">
       {{ $t("user.settings.admin_mode") }}
     </label>
