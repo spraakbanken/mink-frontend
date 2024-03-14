@@ -128,7 +128,7 @@ files: No files | 1 file | {count} files
 none: None
 new_corpus: New corpus
 fileName: Name
-fileType: Type
+type: Type
 uploaded: Uploaded
 lastModify: Last modified
 fileSize: Size
@@ -175,6 +175,7 @@ docx: Microsoft Word
 odt: OpenDocument Text
 pdf: PDF
 load: Load
+not_loaded: Not loaded
 file.archive: Archive
 file.singles: Single files
 name: Name
@@ -223,6 +224,7 @@ annotations.info: |
   </p>
 admin.page.subtitle: Administration
 admin.goto: Shortcuts
+admin.resources.help: In this administrative listing, you need to load detailed information manually, because loading everything takes a long time.
 accessdenied: Access denied
 accessdenied.contact: If you have questions, or you want to report a bug, please contact sb-info{'@'}svenska.gu.se. Thank you!
 notfound: Page not found

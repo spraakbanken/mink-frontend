@@ -129,7 +129,7 @@ files: Inga filer | 1 fil | {count} filer
 none: Inget
 new_corpus: Ny korpus
 fileName: Filnamn
-fileType: Typ
+type: Typ
 uploaded: Uppladdad
 lastModify: Senast ändrad
 fileSize: Storlek
@@ -176,6 +176,7 @@ docx: Microsoft Word
 odt: OpenDocument Text
 pdf: PDF
 load: Ladda in
+not_loaded: Ej laddad
 file.archive: Arkivfil
 file.singles: Enskilda filer
 name: Namn
@@ -225,6 +226,7 @@ annotations.info: |
   </p>
 admin.page.subtitle: Administration
 admin.goto: Genvägar
+admin.resources.help: I denna administrativa resurslista behöver du ladda in detaljerad resursinformation manuellt, eftersom det tar lång tid att ladda allt.
 accessdenied: Åtkomst nekad
 accessdenied.contact: Om du har frågor eller vill rapportera en bugg, kontakta gärna sb-info{'@'}svenska.gu.se. Tack!
 notfound: Sidan kan inte hittas

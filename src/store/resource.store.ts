@@ -19,9 +19,9 @@ export type Resource = {
 export type Corpus = Resource & {
   type: "corpus";
   sources: FileMeta[];
-  config: ConfigOptions;
+  config?: ConfigOptions;
   status: CorpusStatus;
-  exports: FileMeta[];
+  exports?: FileMeta[];
 };
 
 export type Metadata = Resource & {
@@ -31,9 +31,9 @@ export type Metadata = Resource & {
 
 // User-defined type guards to help inform TypeScript
 // See https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards
-const isCorpus = (resource: Partial<Resource>): resource is Corpus =>
+export const isCorpus = (resource: Partial<Resource>): resource is Corpus =>
   resource.type == "corpus";
-const isMetadata = (resource: Partial<Resource>): resource is Metadata =>
+export const isMetadata = (resource: Partial<Resource>): resource is Metadata =>
   resource.type == "metadata";
 
 export const useResourceStore = defineStore("resource", () => {
