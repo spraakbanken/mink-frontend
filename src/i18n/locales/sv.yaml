@@ -57,6 +57,7 @@ resource.loading: Laddar resurs
 resource.delete.ask: Är du säker på att du vill ta bort den här resursen?
 config.metadata.help: Metadata är information om datan, och fungerar som underlag för potentiellt intresserade användare (om du publicerar datan) samt underlättar katalogiseringen i datarepositorier.
 config.configuration.help: Dessa inställningar blir instruktioner till den automatiska analysen.
+corpus.config.parse.error: Korpusens config kunde inte läsas. Prova att redigera inställningarna eller metadatan igen. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 config.loading: Hämtar metadata
 config.saving: Sparar metadata
 job.run: Starta annotering

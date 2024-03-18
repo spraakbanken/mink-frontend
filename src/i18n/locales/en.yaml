@@ -56,6 +56,7 @@ resource.loading: Loading resource
 resource.delete.ask: Are you sure you want to delete this resource?
 config.metadata.help: Metadata is information about the data, meant for assessment by interested users (if you release the data), and for categorization in data repositories.
 config.configuration.help: These settings are information for the automatic analysis; they will affect the parsing or annotation.
+corpus.config.parse.error: The config of this corpus could not be parsed. Try editing the settings or metadata again. If you need help, please contact sb-info{'@'}svenska.gu.se
 config.loading: Loading metadata
 config.saving: Saving metadata
 job.run: Run annotation

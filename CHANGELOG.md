@@ -20,6 +20,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Fixed
 
 - Use the new Språkbanken Text logo
+- Show hint if parsing config fails
 
 ## [1.4.0] (2024-03-11)
 

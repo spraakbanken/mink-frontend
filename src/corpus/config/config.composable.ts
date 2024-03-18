@@ -1,4 +1,5 @@
 import { computed } from "vue";
+import { useI18n } from "vue-i18n";
 import {
   emptyConfig,
   makeConfig,
@@ -8,11 +9,14 @@ import {
 import useLocale from "@/i18n/locale.composable";
 import useMinkBackend from "@/api/backend.composable";
 import { useResourceStore } from "@/store/resource.store";
+import useMessenger from "@/message/messenger.composable";
 
 export default function useConfig(corpusId: string) {
   const resourceStore = useResourceStore();
+  const { t } = useI18n();
   const { th } = useLocale();
   const mink = useMinkBackend();
+  const { alert } = useMessenger();
 
   const corpus = computed(() => resourceStore.corpora[corpusId]);
   const config = computed(() => corpus.value?.config);
@@ -21,7 +25,15 @@ export default function useConfig(corpusId: string) {
   async function loadConfig() {
     const config = await mink
       .loadConfig(corpusId)
-      .then(parseConfig)
+      .then(async (yaml: string) => {
+        try {
+          return await parseConfig(yaml);
+        } catch (e) {
+          console.error(`Parsing config failed: ${e}`);
+          alert(t("corpus.config.parse.error"));
+          return emptyConfig();
+        }
+      })
       // 404 means no config which is fine, rethrow other errors.
       .catch((error) => {
         if (error.response?.status == 404) return emptyConfig();
