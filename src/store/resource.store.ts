@@ -14,6 +14,12 @@ import type { ConfigOptions } from "@/api/corpusConfig";
 export type Resource = {
   type: ResourceType;
   name: ByLang;
+  owner?: User;
+};
+
+export type User = {
+  name: string;
+  id: string;
 };
 
 export type Corpus = Resource & {
@@ -41,7 +47,7 @@ export const useResourceStore = defineStore("resource", () => {
   // current date (YYMMDD) if the state shape is changed, to make the browser
   // forget the old state. The actual number doesn't really matter, as long as
   // it's a new one.
-  const resourcesRef = useStorage("mink@230208.resources", {});
+  const resourcesRef = useStorage("mink@240318.resources", {});
   const resources: Record<string, {} | Resource> = reactive(resourcesRef.value);
 
   const corpora = computed<Record<string, Partial<Corpus>>>(() =>
@@ -83,6 +89,9 @@ export const useResourceStore = defineStore("resource", () => {
     const resource = {
       type: info.resource.type,
       name: info.resource.name,
+      owner: info.owner
+        ? { name: info.owner.name, id: info.owner.id }
+        : undefined,
     };
 
     if (isCorpus(resource)) {
@@ -91,6 +100,7 @@ export const useResourceStore = defineStore("resource", () => {
     }
 
     if (isMetadata(resource)) {
+      resource.owner = info.owner;
       resource.publicId = info.resource.public_id;
     }
 

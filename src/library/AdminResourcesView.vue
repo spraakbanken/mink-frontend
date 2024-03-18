@@ -81,7 +81,7 @@ async function load(resourceId: string) {
             <!-- Show a few selected details if loaded -->
             <div class="ml-4">
               <div v-if="'type' in resource" class="flex gap-4">
-                {{ $t(resource.type) }}
+                <span v-if="resource.owner">{{ resource.owner.name }}</span>
                 <span
                   v-if="
                     isCorpus(resource) &&
