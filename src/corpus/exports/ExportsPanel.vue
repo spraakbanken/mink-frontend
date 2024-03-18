@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
+import useExports from "@/corpus/exports/exports.composable";
+import ToolPanel from "@/corpus/exports/ToolPanel.vue";
 import { ensureTrailingSlash } from "@/util";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import useExports from "./exports.composable";
 import { useCorpusState } from "@/corpus/corpusState.composable";
 import useJob from "@/corpus/job/job.composable";
 import PendingContent from "@/spin/PendingContent.vue";
-import ToolPanel from "./ToolPanel.vue";
 import useLocale from "@/i18n/locale.composable";
 
 const corpusId = useCorpusIdParam();

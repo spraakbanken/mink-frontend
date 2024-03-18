@@ -1,6 +1,6 @@
 import { useResourceStore } from "@/store/resource.store";
 import useResources from "@/library/resources.composable";
-import useConfig from "./config/config.composable";
+import useConfig from "@/corpus/config/config.composable";
 
 /** Let data be refreshed initially, but skip subsequent load calls. */
 const isCorpusFresh: Record<string, boolean> = {};

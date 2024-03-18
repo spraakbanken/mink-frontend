@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import { useAuth } from "@/auth/auth.composable";
-import useResourceIdParam from "./resourceIdParam.composable";
 import useResources from "@/library/resources.composable";
 
 const router = useRouter();

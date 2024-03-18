@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import useMetadata from "@/metadata/metadata.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useResourceStore } from "@/store/resource.store";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
-import useMetadata from "./metadata.composable";
 import LayoutBox from "@/components/LayoutBox.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import TextData from "@/components/TextData.vue";

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import MinkLogo from "@/page/MinkLogo.vue";
 import { getLogoutUrl } from "@/auth/auth";
 import { useAuth } from "@/auth/auth.composable";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
@@ -6,7 +7,6 @@ import AdminModeBanner from "@/user/AdminModeBanner.vue";
 // Asset path transformation doesn't work in <source srcset> like in <img src>
 import logoSbxLight from "@/assets/sprakbankentext-light.svg";
 import SpinIndicator from "@/spin/SpinIndicator.vue";
-import MinkLogo from "./MinkLogo.vue";
 
 defineProps<{
   large: boolean;

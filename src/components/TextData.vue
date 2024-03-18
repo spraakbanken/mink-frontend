@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TerminalOutput from "./TerminalOutput.vue";
+import TerminalOutput from "@/components/TerminalOutput.vue";
 
 defineProps<{
   text: string;

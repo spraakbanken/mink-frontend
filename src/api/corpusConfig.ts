@@ -1,7 +1,10 @@
 const yaml = import("js-yaml").then((m) => m.default);
 
 import type { ByLang } from "@/util.types";
-import type { ConfigSentenceSegmenter, SparvConfig } from "./sparvConfig.types";
+import type {
+  ConfigSentenceSegmenter,
+  SparvConfig,
+} from "@/api/sparvConfig.types";
 
 export type FileFormat = "txt" | "xml" | "odt" | "docx" | "pdf";
 

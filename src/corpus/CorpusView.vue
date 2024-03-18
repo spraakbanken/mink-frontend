@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useAuth } from "@/auth/auth.composable";
+import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import useCorpus from "@/corpus/corpus.composable.js";
+import useConfig from "@/corpus/config/config.composable";
 import { useResourceStore } from "@/store/resource.store";
-import useCorpusIdParam from "./corpusIdParam.composable";
-import useCorpus from "./corpus.composable.js";
-import useConfig from "./config/config.composable";
+import { useAuth } from "@/auth/auth.composable";
 import PageTitle from "@/components/PageTitle.vue";
 
 const resourceStore = useResourceStore();

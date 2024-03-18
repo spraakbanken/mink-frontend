@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import useAdmin from "@/user/admin.composable";
 import { useAuth } from "@/auth/auth.composable";
 import ActionButton from "@/components/ActionButton.vue";
-import useAdmin from "./admin.composable";
 
 const { refreshJwt, canUserAdmin } = useAuth();
 const { adminMode, checkAdminMode, disableAdminMode } = useAdmin();

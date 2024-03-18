@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import items from "@/home/news.yaml";
 import useLocale from "@/i18n/locale.composable";
-import items from "./news.yaml";
 
 const { th2 } = useLocale();
 

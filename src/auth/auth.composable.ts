@@ -1,10 +1,10 @@
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter, useRoute } from "vue-router";
-import { checkLogin } from "./auth";
+import { checkLogin } from "@/auth/auth";
 import api from "@/api/api";
 import useSpin from "@/spin/spin.composable";
-import { canAdmin, decodeJwt, type JwtSbPayload } from "./jwtSb";
+import { canAdmin, decodeJwt, type JwtSbPayload } from "@/auth/jwtSb";
 
 /**
  * JWT request slot.

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { AxiosProgressEvent } from "axios";
+import FileDropArea from "@/components/FileDropArea.vue";
+import ProgressBar from "@/components/ProgressBar.vue";
 import useMessenger from "@/message/messenger.composable";
-import FileDropArea from "./FileDropArea.vue";
-import ProgressBar from "./ProgressBar.vue";
 import type { ProgressHandler } from "@/api/api.types";
 
 const props = defineProps<{

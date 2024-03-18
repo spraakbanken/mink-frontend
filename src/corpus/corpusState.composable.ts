@@ -1,9 +1,9 @@
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { validateConfig } from "@/api/corpusConfig";
-import useConfig from "./config/config.composable";
-import useJob from "./job/job.composable";
-import useSources from "./sources/sources.composable";
+import useConfig from "@/corpus/config/config.composable";
+import useJob from "@/corpus/job/job.composable";
+import useSources from "@/corpus/sources/sources.composable";
 import { getException } from "@/util";
 
 /** The "corpus state" is related to the job status, but is more about predicting what action the user needs to take. */

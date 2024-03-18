@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import useDeleteMetadata from "@/metadata/deleteMetadata.composable";
 import useMetadataIdParam from "@/resource/resourceIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import useDeleteMetadata from "./deleteMetadata.composable";
 import { useResourceStore } from "@/store/resource.store";
 
 const router = useRouter();

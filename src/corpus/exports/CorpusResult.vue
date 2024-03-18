@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import useExports from "@/corpus/exports/exports.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
-import useExports from "./exports.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import useLocale from "@/i18n/locale.composable";
 

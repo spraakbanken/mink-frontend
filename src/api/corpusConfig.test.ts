@@ -5,7 +5,7 @@ import {
   parseConfig,
   type ConfigOptions,
   validateConfig,
-} from "./corpusConfig";
+} from "@/api/corpusConfig";
 
 describe("makeConfig", () => {
   test("sets minimal info", async () => {

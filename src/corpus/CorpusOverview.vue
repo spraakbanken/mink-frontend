@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import useCorpusIdParam from "./corpusIdParam.composable";
-import { useCorpusState } from "./corpusState.composable";
-import MetadataPanel from "./config/MetadataPanel.vue";
-import LayoutBox from "@/components/LayoutBox.vue";
-import ActionButton from "@/components/ActionButton.vue";
+import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import { useCorpusState } from "@/corpus/corpusState.composable";
+import MetadataPanel from "@/corpus/config/MetadataPanel.vue";
+import ConfigPanel from "@/corpus/config/ConfigPanel.vue";
+import SourcesPanel from "@/corpus/sources/SourcesPanel.vue";
+import JobStatus from "@/corpus/job/JobStatus.vue";
+import ExportsPanel from "@/corpus/exports/ExportsPanel.vue";
+import CorpusStateHelp from "@/corpus/CorpusStateHelp.vue";
 import RouteButton from "@/components/RouteButton.vue";
-import ConfigPanel from "./config/ConfigPanel.vue";
-import SourcesPanel from "./sources/SourcesPanel.vue";
-import JobStatus from "./job/JobStatus.vue";
-import ExportsPanel from "./exports/ExportsPanel.vue";
-import CorpusStateHelp from "./CorpusStateHelp.vue";
+import ActionButton from "@/components/ActionButton.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
 
 const corpusId = useCorpusIdParam();
 const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);

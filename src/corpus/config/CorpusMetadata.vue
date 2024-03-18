@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import useConfig from "@/corpus/config/config.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import LayoutSection from "@/components/LayoutSection.vue";
-import useConfig from "./config.composable";
 import useMessenger from "@/message/messenger.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import LayoutBox from "@/components/LayoutBox.vue";

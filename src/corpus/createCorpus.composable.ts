@@ -2,7 +2,7 @@ import { useRouter } from "vue-router";
 import useMinkBackend from "@/api/backend.composable";
 import { useResourceStore } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
-import useDeleteCorpus from "./deleteCorpus.composable";
+import useDeleteCorpus from "@/corpus/deleteCorpus.composable";
 import { getFilenameExtension } from "@/util";
 import {
   makeConfig,

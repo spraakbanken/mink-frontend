@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import useMetadata from "@/metadata/metadata.composable.js";
 import { useAuth } from "@/auth/auth.composable";
 import { useResourceStore } from "@/store/resource.store";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
-import useMetadata from "./metadata.composable.js";
 import PageTitle from "@/components/PageTitle.vue";
 
 const resourceStore = useResourceStore();

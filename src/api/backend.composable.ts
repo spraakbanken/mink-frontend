@@ -1,7 +1,7 @@
 import { useI18n } from "vue-i18n";
-import api from "./api";
+import api from "@/api/api";
 import useSpin from "@/spin/spin.composable";
-import type { ProgressHandler } from "./api.types";
+import type { ProgressHandler } from "@/api/api.types";
 
 /** Wraps API endpoints with Spin. */
 export default function useMinkBackend() {

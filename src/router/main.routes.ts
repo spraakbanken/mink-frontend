@@ -9,8 +9,8 @@ const UserView = () => import("@/user/UserView.vue");
 const AdminResourcesView = () => import("@/library/AdminResourcesView.vue");
 import AccessDenied from "@/auth/AccessDenied.vue";
 import NotFound from "@/page/NotFound.vue";
-import corpusRoutes from "./corpus.routes";
-import metadataRoutes from "./metadata.routes";
+import corpusRoutes from "@/router/corpus.routes";
+import metadataRoutes from "@/router/metadata.routes";
 
 const routes: RouteRecordRaw[] = [
   {

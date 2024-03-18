@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import HomeNews from "@/home/HomeNews.vue";
 import { useAuth } from "@/auth/auth.composable";
 import LayoutSection from "@/components/LayoutSection.vue";
 import { getLogoutUrl } from "@/auth/auth";
 import LoginButton from "@/auth/LoginButton.vue";
 import UrlButton from "@/components/UrlButton.vue";
-import HomeNews from "./HomeNews.vue";
 import RouteButton from "@/components/RouteButton.vue";
 
 const { isAuthenticated, canUserWrite, payload } = useAuth();

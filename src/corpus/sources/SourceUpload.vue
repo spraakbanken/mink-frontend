@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import useConfig from "@/corpus/config/config.composable";
+import useSources from "@/corpus/sources/sources.composable";
+import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
 import { getFilenameExtension } from "@/util";
 import useMessenger from "@/message/messenger.composable";
-import useSources from "./sources.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import UploadSizeLimits from "./UploadSizeLimits.vue";
-import useConfig from "../config/config.composable";
 import type { FileFormat } from "@/api/corpusConfig";
 import FileUpload from "@/components/FileUpload.vue";
 import type { ProgressHandler } from "@/api/api.types";

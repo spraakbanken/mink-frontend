@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import useJob from "@/corpus/job/job.composable";
+import JobStatusMessage from "@/corpus/job/JobStatusMessage.vue";
 import { formatDate } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import { useCorpusState } from "@/corpus/corpusState.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
-import useJob from "./job.composable";
-import JobStatusMessage from "./JobStatusMessage.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
 
 const corpusId = useCorpusIdParam();

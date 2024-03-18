@@ -13,7 +13,7 @@ import type {
   AdminModeStatusData,
   CreateMetadataData,
   ProgressHandler,
-} from "./api.types";
+} from "@/api/api.types";
 
 /** Mink backend API client */
 class MinkApi {

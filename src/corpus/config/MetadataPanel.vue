@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useConfig from "./config.composable";
+import useConfig from "@/corpus/config/config.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";

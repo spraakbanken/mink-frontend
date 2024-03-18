@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import useSources from "@/corpus/sources/sources.composable";
+import SourceUpload from "@/corpus/sources/SourceUpload.vue";
 import useMinkBackendInfo from "@/api/backendInfo.composable";
-import useSources from "./sources.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import { useCorpusState } from "@/corpus/corpusState.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import SourceUpload from "./SourceUpload.vue";
 import useLocale from "@/i18n/locale.composable";
 
 const corpusId = useCorpusIdParam();

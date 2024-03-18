@@ -11,7 +11,7 @@ import {
   randomString,
   setKeys,
   unarray,
-} from "./util";
+} from "@/util";
 
 describe("formatDate", () => {
   test("formats a date", () => {

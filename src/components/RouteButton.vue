@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import ActionButton from "./ActionButton.vue";
 import type { RouteLocationRaw } from "vue-router";
+import ActionButton from "@/components/ActionButton.vue";
 
 defineProps<{
   to: RouteLocationRaw;

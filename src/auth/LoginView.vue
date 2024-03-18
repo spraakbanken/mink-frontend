@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import LoginButton from "@/auth/LoginButton.vue";
 import PageTitle from "@/components/PageTitle.vue";
-import LoginButton from "./LoginButton.vue";
 </script>
 
 <template>

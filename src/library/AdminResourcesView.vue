@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { reactive, watch } from "vue";
 import { useRouter } from "vue-router";
+import useResources from "@/library/resources.composable";
+import AdminResourcePreview from "@/library/AdminResourcePreview.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import useResources from "./resources.composable";
 import { useAuth } from "@/auth/auth.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import { isCorpus, useResourceStore } from "@/store/resource.store";
 import useAdmin from "@/user/admin.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import ActionButton from "@/components/ActionButton.vue";
-import AdminResourcePreview from "./AdminResourcePreview.vue";
 
 const router = useRouter();
 const resourceStore = useResourceStore();

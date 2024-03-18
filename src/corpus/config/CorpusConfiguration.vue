@@ -1,25 +1,25 @@
 <script setup lang="ts">
+import type { FormKitOptionsList } from "@formkit/inputs";
+import type { AxiosError } from "axios";
 import { computed } from "vue";
-import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
+import type { MinkResponse } from "@/api/api.types";
+import {
+  type ConfigOptions,
+  FORMATS_EXT,
+  type FileFormat,
+  SEGMENTERS,
+} from "@/api/corpusConfig";
+import type { ConfigSentenceSegmenter } from "@/api/sparvConfig.types";
+import HelpBox from "@/components/HelpBox.vue";
+import LayoutSection from "@/components/LayoutSection.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import RouteButton from "@/components/RouteButton.vue";
-import LayoutSection from "@/components/LayoutSection.vue";
-import PendingContent from "@/spin/PendingContent.vue";
-import useConfig from "./config.composable";
-import {
-  FORMATS_EXT,
-  SEGMENTERS,
-  type FileFormat,
-  type ConfigOptions,
-} from "@/api/corpusConfig";
 import useMessenger from "@/message/messenger.composable";
-import HelpBox from "@/components/HelpBox.vue";
-import useSources from "../sources/sources.composable";
-import type { AxiosError } from "axios";
-import type { FormKitOptionsList } from "@formkit/inputs";
-import type { ConfigSentenceSegmenter } from "@/api/sparvConfig.types";
-import type { MinkResponse } from "@/api/api.types";
+import PendingContent from "@/spin/PendingContent.vue";
+import useSources from "@/corpus/sources/sources.composable";
+import useConfig from "@/corpus/config/config.composable";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
@@ -133,8 +133,8 @@ async function submit(fields: Form) {
           input-class="w-40 font-mono"
           :help="$t('config.text_annotation.help')"
         >
-          <template #prefix>&lt;</template>
-          <template #suffix>&gt;</template>
+          <template #prefix> &lt; </template>
+          <template #suffix> &gt; </template>
         </FormKit>
 
         <FormKit

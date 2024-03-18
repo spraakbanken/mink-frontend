@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import useResources from "@/library/resources.composable";
+import CorpusButton from "@/library/CorpusButton.vue";
 import useLocale from "@/i18n/locale.composable";
 import PadButton from "@/components/PadButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import useResources from "./resources.composable";
-import CorpusButton from "./CorpusButton.vue";
 import { useAuth } from "@/auth/auth.composable";
 import useAdmin from "@/user/admin.composable";
 import SourceUpload from "@/corpus/sources/SourceUpload.vue";

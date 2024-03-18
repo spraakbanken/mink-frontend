@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, watchEffect } from "vue";
-import useAdmin from "./admin.composable";
+import useAdmin from "@/user/admin.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 
 const { enableAdminMode, disableAdminMode, adminMode } = useAdmin();
