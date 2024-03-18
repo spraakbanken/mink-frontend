@@ -2,7 +2,7 @@
 import useLocale from "@/i18n/locale.composable";
 import items from "./news.yaml";
 
-const { th } = useLocale();
+const { th2 } = useLocale();
 
 function getDate(date: Date) {
   return date.toISOString().slice(0, 10);
@@ -16,9 +16,9 @@ function getDate(date: Date) {
       :key="i"
       class="bg-sky-50 dark:bg-sky-800 shadow shadow-sky-200 dark:shadow-sky-600 text-sky-800 dark:text-sky-200 p-1 px-2 my-2"
     >
-      <strong>{{ getDate(item.date) }}: {{ th(item.title) }}</strong>
+      <strong>{{ getDate(item.date) }}: {{ th2(item.title) }}</strong>
       <!-- eslint-disable-next-line vue/no-v-html -->
-      <div v-html="th(item.body)"></div>
+      <div v-html="th2(item.body)"></div>
     </article>
   </div>
 </template>

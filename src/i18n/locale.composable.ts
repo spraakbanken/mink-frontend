@@ -3,8 +3,9 @@ import { useI18n } from "vue-i18n";
 import { filesize } from "filesize";
 import { useStorage } from "@vueuse/core";
 import { configSymbol } from "@formkit/vue";
+import type { ByLang, SvEn, SweEng } from "@/util.types";
 
-const storedLocale = useStorage("locale", "");
+const storedLocale = useStorage<SvEn | "">("locale", "");
 
 export default function useLocale() {
   const { locale } = useI18n();
@@ -18,7 +19,9 @@ export default function useLocale() {
   };
 
   // The ISO 639-3 code is used in many parts of the Språkbanken infrastructure.
-  const locale3 = computed(() => (locale.value == "en" ? "eng" : "swe"));
+  const locale3 = computed<SweEng>(() =>
+    locale.value == "en" ? "eng" : "swe",
+  );
 
   // Sync from storage once, if present
   if (storedLocale.value) {
@@ -28,22 +31,20 @@ export default function useLocale() {
 
   // Then sync from switcher continually
   watch(locale, () => {
-    storedLocale.value = locale.value;
+    storedLocale.value = (locale.value as SvEn) || "";
     exportLocale();
   });
 
   /** Translate here - picks the current language out of a strings-by-language object. */
-  function th(stringsByLang?: Record<string, string>) {
-    if (!stringsByLang) return undefined;
-    if (typeof stringsByLang == "string") return stringsByLang;
-    const lang3 = { sv: "swe", en: "eng" }[locale.value];
-    return (
-      stringsByLang[locale.value] ||
-      (lang3 && stringsByLang[lang3]) ||
-      stringsByLang.eng ||
-      stringsByLang.swe ||
-      Object.values(stringsByLang)[0]
-    );
+  function th(map?: ByLang): string | undefined {
+    if (!map) return undefined;
+    return th2({ sv: map.swe, en: map.eng });
+  }
+
+  /** Translate here - picks the current language out of a strings-by-language object. */
+  function th2(map?: Record<SvEn, string>): string | undefined {
+    if (!map) return undefined;
+    return map[locale.value as SvEn];
   }
 
   /** Wrap the filesize lib with some sane defaults and avoiding exponential notation. */
@@ -58,6 +59,7 @@ export default function useLocale() {
     locale,
     locale3,
     th,
+    th2,
     filesize: myFilesize,
   };
 }
