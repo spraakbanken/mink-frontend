@@ -17,6 +17,10 @@ As this project is a user-facing application, the places in the semantic version
 
 - A quick, brief resource listing view for admin [#146](https://github.com/spraakbanken/mink-frontend/issues/146)
 
+### Fixed
+
+- Use the new Språkbanken Text logo
+
 ## [1.4.0] (2024-03-11)
 
 ### Added

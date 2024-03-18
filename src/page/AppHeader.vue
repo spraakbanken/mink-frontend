@@ -4,7 +4,7 @@ import { useAuth } from "@/auth/auth.composable";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
 // Asset path transformation doesn't work in <source srcset> like in <img src>
-import logoSbxLight from "@/assets/sbx1r-light.svg";
+import logoSbxLight from "@/assets/sprakbankentext-light.svg";
 import SpinIndicator from "@/spin/SpinIndicator.vue";
 import MinkLogo from "./MinkLogo.vue";
 
@@ -36,7 +36,10 @@ const { isAuthenticating, payload, canUserWrite } = useAuth();
                   media="(prefers-color-scheme: dark)"
                   :srcset="logoSbxLight"
                 />
-                <img src="@/assets/sbx1r.svg" alt="Språkbanken Text" />
+                <img
+                  src="@/assets/sprakbankentext.svg"
+                  alt="Språkbanken Text"
+                />
               </picture>
             </a>
           </div>
