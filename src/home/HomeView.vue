@@ -29,7 +29,11 @@ const logoutUrl = getLogoutUrl();
             scope="global"
             tag="p"
             class="my-2"
-          />
+          >
+            <a :href="$t('home.hero.privacy.link.url')">
+              {{ $t("home.hero.privacy.link.label") }}
+            </a>
+          </i18n-t>
 
           <div class="flex justify-center gap-4 p-4 text-center text-xl">
             <div v-if="!isAuthenticated">

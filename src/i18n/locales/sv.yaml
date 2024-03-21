@@ -1,7 +1,9 @@
 home: Hem
 home.hero.sb: "{0} är en forskningsinfrastruktur för språkdata. Med språkteknologiska metoder i framkant skapar vi och underhåller språkresurser för forskare världen över, och vi använder fri och öppen access såvitt det går."
 home.hero.mink: "{0} är vår insats för att lägga infrastrukturen i forskarnas händer. Här kan du applicera våra språkteknologiska metoder på texter som du själv har samlat in. Resultaten kan du ladda ner eller föra in i våra forskningsverktyg såsom Korp och Strix bakom inloggning."
-home.hero.privacy: Dina källdata och resultaten är privata. I kommande versioner kommer du att kunna dela datamängder med kollegor och publicera dem för allmän åtkomst.
+home.hero.privacy: Dina källdata och resultaten är privata (se {0}). I kommande versioner kommer du att kunna dela datamängder med kollegor och publicera dem för allmän åtkomst.
+home.hero.privacy.link.url: https://spraakbanken.gu.se/verktyg/mink/data-policy
+home.hero.privacy.link.label: integritets- och datapolicyn
 home.features.sparv.title: Anpassningsbara analyser
 home.features.sparv.body: Dina texter analyseras av vår språkteknologiska plattform {sparv} med de inställningar du väljer.
 home.features.upload.title: Ladda upp din text
