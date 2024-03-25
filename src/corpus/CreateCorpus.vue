@@ -41,7 +41,7 @@ async function submit(fields: Form) {
     fields.format,
     fields.textAnnotation,
   );
-  await spin(createPromise, null, "create");
+  await spin(createPromise, "create");
 }
 </script>
 

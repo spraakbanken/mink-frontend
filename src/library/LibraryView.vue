@@ -34,7 +34,7 @@ requireAuthentication(() => {
 });
 
 async function createCorpusFromFiles(files: FileList) {
-  await spin(createFromUpload(files), null, "create");
+  await spin(createFromUpload(files), "create");
 }
 </script>
 

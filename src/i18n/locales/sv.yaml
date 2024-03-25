@@ -24,11 +24,7 @@ library.help.corpora.none: >-
   Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en korpus: använd knappen "@:{'new_corpus'}" eller dra textfiler till uppladdningsrutan nedan.
 library.help.metadata: Ett metadataobjekt har information som beskriver en godtycklig resurs. Mink bearbetar ingen data för dessa objekt, men de kan exporteras till en datakatalog.
 corpus.create.help: Korpusen kommer bara att vara synlig för dig. Du kan alltid uppdatera de här uppgifterna senare.
-corpus.creating: Skapar korpus
-corpus.configuring: Konfigurerar korpus
 corpus.delete: Radera korpus
-corpus.deleting: Raderar korpus
-corpus.list.loading: Hämtar korpusar
 corpus.state.unknown: Okänt
 corpus.state.empty: Inga filer
 corpus.state.needing_config: Behöver konfigureras
@@ -55,20 +51,15 @@ metadata.new: Ny metadata
 metadata.public_id.help: Varje resurs i Mink har en förutbestämd identifierare. Den publika identifieraren är vad denna resurs kommer at få när den exporteras till en datakatalog. Välj gärna något unikt och beskrivande, men inte för långt. Den får endast innehålla små bokstäver, siffror och bindestreck, och måste börja med ditt tilldelade organisationsprefix.
 metadata.public_id.error.format: Den publika identifieraren får endast innehålla små bokstäver (a-z), siffror (0-9) och bindestreck (-). Den får inte börja eller sluta med bindestreck.
 metadata.delete: Radera metadata
-resource.loading: Laddar resurs
 resource.delete.ask: Är du säker på att du vill ta bort den här resursen?
 config.metadata.help: Metadata är information om datan, och fungerar som underlag för potentiellt intresserade användare (om du publicerar datan) samt underlättar katalogiseringen i datarepositorier.
 config.configuration.help: Dessa inställningar blir instruktioner till den automatiska analysen.
 corpus.config.parse.error: Korpusens config kunde inte läsas. Prova att redigera inställningarna eller metadatan igen. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
-config.loading: Hämtar metadata
 config.saving: Sparar metadata
 job.run: Starta annotering
 job.rerun: Starta om annotering
 job.rerun.overwrite: Tidigare resultat kommer att skrivas över
 job.abort: Avbryt
-job.aborting: Avbryter annotering
-job.starting: Lägger annotering i kö
-job.installing: Installerar i Korp
 job.status: Status
 job.priority: Plats i kön
 job.last_run_started: Senast startad
@@ -77,16 +68,12 @@ job.time_taken: Tidsåtgång
 job.process.sparv: Annotering
 job.process.korp: Installation i Korp
 job.process.strix: Installation i Strix
-source.deleting: Raderar text
-source.downloading: Laddar ner text
-source.downloading_plain: Laddar ner extraherad text
 source.limit.file.recommended: Rekommenderad filstorlek
 source.limit.file.max: Högsta tillåtna filstorlek
 source.limit.upload.max: Största tillåtna uppladdning
 source.limit.corpus.recommended: Rekommenderad korpusstorlek
 source.limit.corpus.max: Största tillåtna korpus
 source.notfound: Denna källfil kunde inte hittas
-source.uploading: Laddar upp källfil | Laddar upp källfiler
 source.list.loading: Hämtar textlista
 source.content: Innehåll
 upload.label.single: Lägg till fil
@@ -94,9 +81,7 @@ upload.label.multiple: Lägg till filer
 upload.dnd.single: Dra och släpp en fil hit, eller klicka här för att välja
 upload.dnd.multiple: Dra och släpp filer hit, eller klicka här för att välja
 upload.drop.empty: Ingen fil släpptes. Dra-och-släpp kanske inte stöds på ditt system.
-jwt.refreshing: Uppdaterar konto
 tools: Utforska
-exports.loading: Hämtar resultatlista
 exports.tools.help: Använd den här datan i Språkbankens korpusverktyg. Din data visas bara för dig, i ett särskilt Mink-läge.
 exports.tools.help.korp: I Korp finns konkordanssökning, detaljerade sökfrågor, frekvensstatistik med mera.
 exports.tools.help.korp.manual.url: https://spraakbanken.gu.se/verktyg/korp/anvandarhandledning
@@ -106,7 +91,6 @@ exports.tools.install: Installera
 exports.tools.reinstall: Installera om
 exports.tools.view: Visa
 exports.download.help: Resultatet kan laddas ner som maskinläsbara filer för bearbetning i script eller speciella program.
-exports.downloading: Laddar ner analysresultat
 exports.help: Annoteringsprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen. De lagras på servern tillsvidare, men ersätts med nya om du kör om annoteringen på nytt.
 exports.help.more.label: Läs mer om exportfiler i användarhandledningen
 user.settings: Inställningar

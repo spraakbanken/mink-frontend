@@ -74,8 +74,7 @@ export function useAuth() {
       }
     }
     // Reuse current JWT request or make a new one.
-    jwtPromise =
-      jwtPromise || spin(fetchAndStoreJwt(), t("jwt.refreshing"), "jwt");
+    jwtPromise = jwtPromise || spin(fetchAndStoreJwt(), "jwt");
     await jwtPromise;
     // Free the slot for subsequent refreshes.
     jwtPromise = undefined;

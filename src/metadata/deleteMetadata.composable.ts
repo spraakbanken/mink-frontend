@@ -25,7 +25,7 @@ export default function useDeleteMetadata() {
    */
   async function deleteMetadata(resourceId: string) {
     // Wrap deletion as well as refreshing in spin, for visual feedback.
-    return spin(doDeleteMetadata(resourceId), null, `resource/${resourceId}`);
+    return spin(doDeleteMetadata(resourceId), `resource/${resourceId}`);
   }
 
   return { deleteMetadata };

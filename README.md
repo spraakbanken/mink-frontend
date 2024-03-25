@@ -23,7 +23,7 @@ It is a [Vue 3](https://v3.vuejs.org/) app using [Vite](https://vitejs.dev/).
 - Visualization of API calls:
   1. Wrap async calls in [`spin`](src/spin/spin.composable.js):
      ```js
-     spin(loadCorpora(), "Loading corpora", "corpora");
+     spin(loadCorpora(), "corpora");
      ```
   2. For markup that might change after the call, wrap it in [`<PendingContent>`](src/spin/PendingContent.vue) to apply animation:
      ```html
