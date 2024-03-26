@@ -37,43 +37,24 @@ export function decodeJwt(jwt: string): JwtSb | undefined {
 
 export function assertValidPayload(payload: any): payload is JwtSbPayload {
   const isValid =
-    payload &&
-    payload.scope &&
+    payload?.scope &&
     payload.levels &&
     payload.levels.ADMIN &&
     payload.levels.WRITE &&
     payload.levels.READ;
 
-  if (!isValid) {
+  if (!isValid)
     throw new TypeError("Malformed jwt payload: " + JSON.stringify(payload));
-  }
 
   return true;
 }
 
-export function canAdmin(
+export function hasAccess(
   payload: JwtSbPayload,
   resourceType: string,
   resourceName: string,
+  level: keyof JwtSbPayload["levels"],
 ) {
   assertValidPayload(payload);
-  return payload.scope[resourceType]?.[resourceName] >= payload.levels.ADMIN;
-}
-
-export function canWrite(
-  payload: JwtSbPayload,
-  resourceType: string,
-  resourceName: string,
-) {
-  assertValidPayload(payload);
-  return payload.scope[resourceType]?.[resourceName] >= payload.levels.WRITE;
-}
-
-export function canRead(
-  payload: JwtSbPayload,
-  resourceType: string,
-  resourceName: string,
-) {
-  assertValidPayload(payload);
-  return payload.scope[resourceType]?.[resourceName] >= payload.levels.READ;
+  return payload.scope[resourceType]?.[resourceName] >= payload.levels[level];
 }

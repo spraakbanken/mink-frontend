@@ -3,7 +3,7 @@ import { useRouter, useRoute } from "vue-router";
 import { checkLogin } from "@/auth/auth";
 import api from "@/api/api";
 import useSpin from "@/spin/spin.composable";
-import { canAdmin, decodeJwt, type JwtSbPayload } from "@/auth/jwtSb";
+import { hasAccess, decodeJwt, type JwtSbPayload } from "@/auth/jwtSb";
 
 /**
  * JWT request slot.
@@ -32,7 +32,8 @@ export function useAuth() {
     jwt.value ? decodeJwt(jwt.value)?.payload : undefined,
   );
   const canUserAdmin = computed<boolean>(
-    () => !!payload.value && canAdmin(payload.value, "other", "mink-app"),
+    () =>
+      !!payload.value && hasAccess(payload.value, "other", "mink-app", "ADMIN"),
   );
   const canUserWrite = computed(() => isAuthenticated.value);
   /** Indicates whether a jwt request is currently loading. */
