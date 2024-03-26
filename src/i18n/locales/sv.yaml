@@ -141,6 +141,7 @@ job.status.running: Arbetar
 login: Logga in
 login.required: Den här sidan kräver autentisering.
 login.help: De flesta med akademisk anknytning kan logga in direkt.
+login.fail: Autentiseringsfrågan misslyckades
 logout: Logga ut
 signup: Skapa konto
 signup.help: Andra användare behöver i regel registrera ett konto.

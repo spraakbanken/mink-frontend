@@ -1,5 +1,7 @@
 import { computed, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import { useI18n } from "vue-i18n";
+import { retry } from "@/util";
 import api from "@/api/api";
 import useSpin from "@/spin/spin.composable";
 import {
@@ -8,6 +10,7 @@ import {
   decodeJwt,
   type JwtSbPayload,
 } from "@/auth/sbAuth";
+import useMessenger from "@/message/messenger.composable";
 
 /**
  * JWT request slot.
@@ -30,6 +33,8 @@ export function useAuth() {
   const router = useRouter();
   const route = useRoute();
   const { spin, pending } = useSpin();
+  const { alert } = useMessenger();
+  const { t } = useI18n();
 
   const isAuthenticated = computed<boolean>(() => !!payload.value);
   const canUserAdmin = computed<boolean>(
@@ -56,11 +61,19 @@ export function useAuth() {
     callback?.();
   }
 
-  /** Fetch JWT, store it and use it for API client. */
+  /**
+   * Fetch JWT, store it and use it for API client.
+   *
+   * @throws If the JWT request fails (auth server down?).
+   */
   async function refreshJwt() {
     async function fetchAndStoreJwt() {
-      // Fetch JWT.
-      const jwtValue = await fetchJwt();
+      // Fetch JWT. Occasionally it times out, so try a few times before giving up.
+      const jwtValue = await retry(fetchJwt).catch((error) => {
+        // On error, show message and treat as not authenticated
+        alert(`${t("login.fail")}: ${error?.message || error}`);
+        return undefined;
+      });
       // Store it to make username etc available to GUI.
       payload.value = jwtValue ? decodeJwt(jwtValue)?.payload : undefined;
       // Register it with the API client.

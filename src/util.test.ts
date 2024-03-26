@@ -9,6 +9,7 @@ import {
   objsToDict,
   pathJoin,
   randomString,
+  retry,
   setKeys,
   unarray,
 } from "@/util";
@@ -50,6 +51,39 @@ describe("pathJoin", () => {
   test("joins paths", () => {
     expect(pathJoin("a", "b")).toBe("a/b");
     expect(pathJoin("//a//", "//b//")).toBe("a/b");
+  });
+});
+
+describe("retry", () => {
+  test("default 3 times", async () => {
+    let count: number = 0;
+    const f = async () => {
+      count += 1;
+      throw Error("f error");
+    };
+    await expect(async () => await retry(f)).rejects.toThrowError("f error");
+    expect(count).toBe(3);
+  });
+
+  test("adjustable number of times", async () => {
+    let count: number = 0;
+    const f = async () => {
+      count += 1;
+      throw Error("f error");
+    };
+    await expect(async () => await retry(f, 5)).rejects.toThrowError("f error");
+    expect(count).toBe(5);
+  });
+
+  test("finishes on success", async () => {
+    let count: number = 0;
+    const f = async () => {
+      count += 1;
+      if (count == 1) throw Error("This is caught and ignored");
+      return "hello";
+    };
+    expect(await retry(f)).toBe("hello");
+    expect(count).toBe(2);
   });
 });
 

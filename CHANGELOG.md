@@ -16,10 +16,11 @@ As this project is a user-facing application, the places in the semantic version
 ### Added
 
 - A quick, brief resource listing view for admin [#146](https://github.com/spraakbanken/mink-frontend/issues/146)
+- Group export files by folder [#95](https://github.com/spraakbanken/mink-frontend/issues/95)
+- JWT request now has a 2s timeout and two retries [#124](https://github.com/spraakbanken/mink-frontend/issues/124)
 
 ### Changed
 
-- Group export files by folder [#95](https://github.com/spraakbanken/mink-frontend/issues/95)
 - Removed unused `message` param from `spin()` [#157](https://github.com/spraakbanken/mink-frontend/issues/157)
 - Updated dependencies
 

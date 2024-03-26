@@ -53,6 +53,23 @@ export function pathJoin(...parts: string[]) {
     .join("/");
 }
 
+/**
+ * Calls an async function, and if it is rejected, retries a given number of times.
+ *
+ * @throws The last rejection if the number of retries is exhausted.
+ */
+export async function retry<T>(
+  f: () => Promise<T>,
+  retries: number = 3,
+): Promise<T> {
+  try {
+    return await f();
+  } catch (error) {
+    if (retries - 1) return retry(f, retries - 1);
+    else throw error;
+  }
+}
+
 /** Remove and add properties in `obj` in-place, to match names in `keys`. */
 export function setKeys<T>(
   obj: Record<string, T>,
