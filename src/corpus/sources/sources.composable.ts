@@ -1,4 +1,4 @@
-import { computed } from "@vue/reactivity";
+import { computed } from "vue";
 import uniq from "lodash/uniq";
 import useMinkBackend from "@/api/backend.composable";
 import { useResourceStore } from "@/store/resource.store";

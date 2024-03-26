@@ -1,5 +1,4 @@
 import { computed, ref } from "vue";
-import { useI18n } from "vue-i18n";
 import { useRouter, useRoute } from "vue-router";
 import { checkLogin } from "@/auth/auth";
 import api from "@/api/api";
@@ -27,7 +26,6 @@ export function useAuth() {
   const router = useRouter();
   const route = useRoute();
   const { spin, pending } = useSpin();
-  const { t } = useI18n();
 
   const isAuthenticated = computed<boolean>(() => !!jwt.value);
   const payload = computed<JwtSbPayload | undefined>(() =>

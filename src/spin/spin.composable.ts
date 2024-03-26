@@ -1,4 +1,4 @@
-import { computed, ref } from "@vue/reactivity";
+import { computed, ref } from "vue";
 import uniq from "lodash/uniq";
 
 const unsettled = ref<SpinItem[]>([]);

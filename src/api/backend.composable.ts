@@ -1,4 +1,3 @@
-import { useI18n } from "vue-i18n";
 import api from "@/api/api";
 import useSpin from "@/spin/spin.composable";
 import type { ProgressHandler } from "@/api/api.types";
@@ -6,7 +5,6 @@ import type { ProgressHandler } from "@/api/api.types";
 /** Wraps API endpoints with Spin. */
 export default function useMinkBackend() {
   const { spin } = useSpin();
-  const { t } = useI18n();
 
   const loadCorpusIds = () => spin(api.listCorpora(), "corpora");
 
