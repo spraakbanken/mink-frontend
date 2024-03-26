@@ -8,9 +8,9 @@ export default function useExports(corpusId: string) {
   const resourceStore = useResourceStore();
   const corpus = computed(() => resourceStore.corpora[corpusId]);
   /** Exports sorted alphabetically by path, but "stats_*" first. */
-  // TODO Do not sort in place.
   const exports = computed(() =>
-    corpus.value?.exports
+    // Shallow-clone list to avoid modifying the computed value.
+    [...(corpus.value?.exports || [])]
       ?.sort((a, b) => a.path.localeCompare(b.path))
       .sort((a, b) => b.path.indexOf("stats_") - a.path.indexOf("stats_")),
   );
