@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import MinkLogo from "@/page/MinkLogo.vue";
-import { getLogoutUrl } from "@/auth/auth";
+import { getLogoutUrl } from "@/auth/sbAuth";
 import { useAuth } from "@/auth/auth.composable";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";

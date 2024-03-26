@@ -191,6 +191,7 @@ class MinkApi {
         params: { corpus_id: corpusId },
       })
       // Errors are okay.
+      // TODO Use the `validateStatus` config option instead
       .catch((reason) => reason.response);
     return response.data;
   }

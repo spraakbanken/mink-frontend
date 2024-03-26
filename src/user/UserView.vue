@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AdminModeSwitcher from "@/user/AdminModeSwitcher.vue";
-import { getLogoutUrl } from "@/auth/auth";
+import { getLogoutUrl } from "@/auth/sbAuth";
 import { useAuth } from "@/auth/auth.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import UrlButton from "@/components/UrlButton.vue";

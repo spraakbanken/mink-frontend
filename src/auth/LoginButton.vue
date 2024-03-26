@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import { getLoginUrl } from "@/auth/auth";
+import { getLoginUrl } from "@/auth/sbAuth";
 import { unarray } from "@/util";
 import UrlButton from "@/components/UrlButton.vue";
 

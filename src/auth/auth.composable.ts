@@ -1,9 +1,13 @@
 import { computed, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { checkLogin } from "@/auth/auth";
 import api from "@/api/api";
 import useSpin from "@/spin/spin.composable";
-import { hasAccess, decodeJwt, type JwtSbPayload } from "@/auth/jwtSb";
+import {
+  fetchJwt,
+  hasAccess,
+  decodeJwt,
+  type JwtSbPayload,
+} from "@/auth/sbAuth";
 
 /**
  * JWT request slot.
@@ -20,17 +24,14 @@ let jwtPromise: Promise<unknown> | undefined = undefined;
  */
 let refreshTimer: NodeJS.Timeout | undefined = undefined;
 
-const jwt = ref<string | undefined>(undefined);
+const payload = ref<JwtSbPayload>();
 
 export function useAuth() {
   const router = useRouter();
   const route = useRoute();
   const { spin, pending } = useSpin();
 
-  const isAuthenticated = computed<boolean>(() => !!jwt.value);
-  const payload = computed<JwtSbPayload | undefined>(() =>
-    jwt.value ? decodeJwt(jwt.value)?.payload : undefined,
-  );
+  const isAuthenticated = computed<boolean>(() => !!payload.value);
   const canUserAdmin = computed<boolean>(
     () =>
       !!payload.value && hasAccess(payload.value, "other", "mink-app", "ADMIN"),
@@ -42,11 +43,11 @@ export function useAuth() {
   /** If not authenticated, redirect to the login page. */
   async function requireAuthentication(callback?: () => void) {
     // First, ensure the jwt has been fetched.
-    if (!jwt.value) {
+    if (!payload.value) {
       await refreshJwt();
     }
     // If still no jwt, it means the user hasn't authenticated. Show our login page.
-    if (!jwt.value) {
+    if (!payload.value) {
       // By passing current page as destination param, the user will then be redirected back to where they first attempted to go.
       router.push(`/login?destination=${route.fullPath}`);
       return;
@@ -59,15 +60,15 @@ export function useAuth() {
   async function refreshJwt() {
     async function fetchAndStoreJwt() {
       // Fetch JWT.
-      const jwtValue = (await checkLogin()) || undefined;
+      const jwtValue = await fetchJwt();
       // Store it to make username etc available to GUI.
-      jwt.value = jwtValue;
+      payload.value = jwtValue ? decodeJwt(jwtValue)?.payload : undefined;
       // Register it with the API client.
       api.setJwt(jwtValue);
 
       // Schedule next request shortly before expiration time.
       refreshTimer && clearTimeout(refreshTimer);
-      if (payload.value && payload.value.exp) {
+      if (payload.value?.exp) {
         const timeoutMs = (payload.value.exp - 10) * 1000 - Date.now();
         refreshTimer = setTimeout(refreshJwt, timeoutMs);
       }
