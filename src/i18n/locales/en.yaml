@@ -148,10 +148,15 @@ signup.existing.title: You may already have an account
 signup.existing.login: "If your university account is connected to eduGAIN, you can directly use Mink by simply signing in:"
 signup.existing.tip: (If you are not sure, click the button and search for your university or organization.)
 signup.new: No account
-signup.new.create: If you are not affiliated with any of the available identity providers, you can {register} and then sign in here, selecting {eduid} as identity provider.
+signup.new.create: "If you are not affiliated with any of the available identity providers, you can:"
+# " {register} and then sign in here, selecting {eduid} as identity provider.
 signup.new.register.url: https://eduid.se/en/
-signup.new.register.label: create an eduID account
 signup.new.eduid: eduID Sweden
+signup.new.steps.create_eduid: Create an eduID account
+signup.new.steps.skip_verification: you do {em} need to verify your identity to use Mink
+signup.new.steps.skip_verification.em: not
+signup.new.steps.login: Go back to this page and click {login}
+signup.new.steps.idp: Choose {eduid} as identity provider
 account: Account
 enable: Enable
 enabled: Enabled

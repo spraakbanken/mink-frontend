@@ -1,5 +1,5 @@
-import type { ByLang, SweEng } from "@/util.types";
 import type { AxiosProgressEvent } from "axios";
+import type { ByLang, SweEng } from "@/util.types";
 
 /** Properties common to most backend responses */
 export type MinkResponse<T extends { [k: string]: any } = {}> = T & {

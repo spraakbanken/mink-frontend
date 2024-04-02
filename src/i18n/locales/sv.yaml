@@ -149,10 +149,14 @@ signup.existing.title: Du kanske redan har ett konto
 signup.existing.login: "Om ditt universitetskonto är kopplat till Edugain kan du redan nu använda Mink genom att logga in:"
 signup.existing.tip: (Om du inte är säker kan du alltid klicka på knappen och söka efter ditt universitet eller organisation i listan över identitetsintygare.)
 signup.new: Inget konto
-signup.new.create: Om du inte tillhör någon av de kopplade identitetsintygarna kan du {register} och sedan logga in här genom att välja {eduid} som identitetsintygare.
+signup.new.create: "Om du inte tillhör någon av de kopplade identitetsintygarna kan du:"
 signup.new.register.url: https://eduid.se/
-signup.new.register.label: skapa ett EduID-konto
 signup.new.eduid: eduID Sweden
+signup.new.steps.create_eduid: Skapa ett EduID-konto
+signup.new.steps.skip_verification: du behöver {em} verifiera din identitet för att använda Mink
+signup.new.steps.skip_verification.em: inte
+signup.new.steps.login: Gå tillbaka till den här sidan och klicka på {login}
+signup.new.steps.idp: Välj {eduid} som identitetsintygare
 account: Konto
 enable: Aktivera
 enabled: På
