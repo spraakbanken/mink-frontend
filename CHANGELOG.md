@@ -28,6 +28,7 @@ As this project is a user-facing application, the places in the semantic version
 
 - Use the new Språkbanken Text logo
 - Unallowed file format sometimes saved to local config [#153](https://github.com/spraakbanken/mink-frontend/issues/153)
+- Make language switcher more visible [#90](https://github.com/spraakbanken/mink-frontend/issues/90)
 - Show hint if parsing config fails
 
 ## [1.4.0] (2024-03-11)
