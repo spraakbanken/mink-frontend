@@ -284,7 +284,7 @@ api.code.failed_uploading_sources: Failed to upload source files
 api.code.failed_uploading_sources_file_size: Some files could not be uploaded, because they exceed the maximum file size of {max_file_size} MB
 api.code.failed_uploading_sources_invalid_file_extension: 'File "{file}" could not be uploaded, because it has an invalid filename extension. Please use any of the supported file formats: xml, txt, odt, docx, pdf.'
 api.code.failed_uploading_sources_invalid_xml: File "{file}" could not be uploaded, because it contains invalid XML
-api.code.failed_uploading_sources_incompatible_file_extension: File "{file}" could not be uploaded, because it has a different filename extension. Please check that the file format of this corpus is configured to agree with your source files.
+api.code.failed_uploading_sources_incompatible_file_extension: File "{file}" could not be uploaded, because it has a different filename extension. A corpus can only handle source files of the same type.
 api.code.uploaded_sources: The source files were successfully added
 api.code.data_too_large: Request data too large (max {max_content_length} MB per upload)
 api.code.listing_sources: Listing current source files for the corpus "{corpus_id}"

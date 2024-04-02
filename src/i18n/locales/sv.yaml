@@ -285,7 +285,7 @@ api.code.failed_uploading_sources: Det gick inte att ladda upp källfiler
 api.code.failed_uploading_sources_file_size: Några filer gick inte att ladda upp eftersom de överstiger högsta tillåtna filstorlek, {max_file_size} MB.
 api.code.failed_uploading_sources_invalid_file_extension: 'Filen "{file}" gick inte att ladda upp eftersom filändelsen är ogiltig. Använd något av de giltiga filformaten: xml, txt, odt, docx, pdf.'
 api.code.failed_uploading_sources_invalid_xml: Filen "{file}" gick inte att ladda upp eftersom den innehåller ogiltig XML.
-api.code.failed_uploading_sources_incompatible_file_extension: Filen "{file}" gick inte att ladda upp eftersom filändelsen är annorlunda. Kontrollera att korpusen är inställd på ett filformat som överensstämmer med dina textfiler.
+api.code.failed_uploading_sources_incompatible_file_extension: Filen "{file}" gick inte att ladda upp eftersom filändelsen är annorlunda. En korpus kan bara hantera källfiler av samma typ.
 api.code.uploaded_sources: Källfilerna är tillagda
 api.code.data_too_large: Frågan är för stor (högst {max_content_length} MB per uppladdning)
 api.code.listing_sources: Listar källfiler för korpusen "{corpus_id}"
