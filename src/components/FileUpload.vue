@@ -57,9 +57,9 @@ function onProgress(progressEvent: AxiosProgressEvent) {
             ? [
                 'bg-blue-50',
                 'border-blue-100',
-                'dark:bg-blue-200',
-                'dark:border-blue-300',
-                'dark:text-blue-800',
+                'dark:bg-sky-900',
+                'dark:border-sky-600',
+                'dark:text-sky-200',
               ]
             : [
                 'bg-zinc-100',

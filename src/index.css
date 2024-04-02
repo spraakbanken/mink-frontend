@@ -102,6 +102,7 @@ select {
   }
   .button-primary {
     @apply bg-blue-400 shadow-blue-700 text-white;
+    @apply dark:bg-sky-600 text-sky-100;
   }
   .button-danger {
     @apply bg-red-400 shadow-red-700 text-white;
