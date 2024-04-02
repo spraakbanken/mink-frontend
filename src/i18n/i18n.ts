@@ -12,3 +12,11 @@ export default createI18n({
   fallbackLocale: ["en", "sv"],
   messages: { en, sv },
 });
+
+export type LocaleId = "sv" | "en";
+
+/** Each UI language name, written in that language, keyed by its 2-letter locale id. */
+export const languageNames = {
+  sv: "Svenska",
+  en: "English",
+};
