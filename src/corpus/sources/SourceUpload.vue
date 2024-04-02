@@ -6,7 +6,7 @@ import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
 import { getFilenameExtension } from "@/util";
 import useMessenger from "@/message/messenger.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import type { FileFormat } from "@/api/corpusConfig";
+import { FORMATS_EXT, type FileFormat } from "@/api/corpusConfig";
 import FileUpload from "@/components/FileUpload.vue";
 import type { ProgressHandler } from "@/api/api.types";
 
@@ -31,8 +31,13 @@ async function defaultFileHandler(
   const requests = [uploadSources(files, onProgress).catch(alertError)];
 
   // Also update format setting in config if needed
-  const format = getFilenameExtension(files[0]?.name) as FileFormat;
-  if (config.value && format != config.value?.format) {
+  const extension = getFilenameExtension(files[0]?.name);
+  const format = extension.toLowerCase() as FileFormat;
+  if (
+    config.value &&
+    format != config.value.format &&
+    FORMATS_EXT.includes(format)
+  ) {
     requests.push(uploadConfig({ ...config.value, format }));
   }
 
