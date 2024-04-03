@@ -28,6 +28,7 @@
     "@vueuse/core": "^10.7.2",
     "autoprefixer": "^10.4.7",
     "axios": "^1",
+    "datatransfer-files-promise": "^2.0.0",
     "eslint": "^8.15.0",
     "filesize": "^10.0.6",
     "js-yaml": "^4.1.0",

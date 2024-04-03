@@ -115,11 +115,11 @@ class MinkApi {
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Sources/operation/uploadsources */
   async uploadSources(
     corpusId: string,
-    files: FileList,
+    files: File[],
     onProgress?: ProgressHandler,
   ) {
     const formData = new FormData();
-    [...files].forEach((file) => formData.append("files[]", file));
+    files.forEach((file) => formData.append("files[]", file));
     const response = await this.axios.put<MinkResponse>(
       "upload-sources",
       formData,

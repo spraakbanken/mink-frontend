@@ -15,8 +15,8 @@ const { uploadYaml } = useMetadata(resourceId);
 
 const metadata = computed(() => resourceStore.metadatas[resourceId]);
 
-async function uploadMetadata(files: FileList) {
-  const yaml = await files.item(0)!.text();
+async function uploadMetadata(files: File[]) {
+  const yaml = await files[0]!.text();
   await uploadYaml(yaml);
 }
 </script>

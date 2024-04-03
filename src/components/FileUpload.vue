@@ -10,7 +10,7 @@ const props = defineProps<{
   /**
    * A function that presumably uploads given file(s) to the appropriate API.
    */
-  fileHandler: (files: FileList, onProgress: ProgressHandler) => Promise<void>;
+  fileHandler: (files: File[], onProgress: ProgressHandler) => Promise<void>;
   primary?: boolean;
   accept?: string;
   multiple?: boolean;
@@ -27,13 +27,15 @@ async function handleFileInput(event: Event) {
     throw new RangeError("No file found in the file input");
   }
 
-  await handleUpload(fileInput.files!);
+  // Convert from FileList to File[]
+  const files = [...fileInput.files!];
+  await handleUpload(files);
   // Empty the input value to enable selecting the same file again.
   fileInput.value = "";
 }
 
 /** Call upload function. */
-async function handleUpload(files: FileList) {
+async function handleUpload(files: File[]) {
   clear();
   try {
     await props.fileHandler(files, onProgress);

@@ -29,7 +29,7 @@ export default function useCreateCorpus() {
     return corpusId;
   }
 
-  async function createFromUpload(files: FileList) {
+  async function createFromUpload(files: File[]) {
     const corpusId = await createCorpus().catch(alertError);
     if (!corpusId) return;
 
@@ -70,7 +70,7 @@ export default function useCreateCorpus() {
 
   // Like the `uploadSources` in `sources.composable.ts` but takes `corpusId` as argument.
   async function uploadSources(
-    files: FileList,
+    files: File[],
     corpusId: string,
     onProgress?: ProgressHandler,
   ) {

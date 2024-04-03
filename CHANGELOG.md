@@ -18,6 +18,7 @@ As this project is a user-facing application, the places in the semantic version
 - A quick, brief resource listing view for admin [#146](https://github.com/spraakbanken/mink-frontend/issues/146)
 - Group export files by folder [#95](https://github.com/spraakbanken/mink-frontend/issues/95)
 - JWT request now has a 2s timeout and two retries [#124](https://github.com/spraakbanken/mink-frontend/issues/124)
+- Upload an entire folder of source files [#97](https://github.com/spraakbanken/mink-frontend/issues/97)
 
 ### Changed
 

@@ -39,7 +39,7 @@ export default function useMinkBackend() {
 
   const uploadSources = (
     corpusId: string,
-    files: FileList,
+    files: File[],
     onProgress?: ProgressHandler,
   ) =>
     spin(

@@ -11,7 +11,7 @@ import FileUpload from "@/components/FileUpload.vue";
 import type { ProgressHandler } from "@/api/api.types";
 
 const props = defineProps<{
-  fileHandler?: (files: FileList) => Promise<void>;
+  fileHandler?: (files: File[]) => Promise<void>;
   primary?: boolean;
 }>();
 
@@ -24,10 +24,7 @@ const extensionsAccept = computed(() =>
   extensions.value?.map((ext) => `.${ext}`).join(),
 );
 
-async function defaultFileHandler(
-  files: FileList,
-  onProgress: ProgressHandler,
-) {
+async function defaultFileHandler(files: File[], onProgress: ProgressHandler) {
   const requests = [uploadSources(files, onProgress).catch(alertError)];
 
   // Also update format setting in config if needed
