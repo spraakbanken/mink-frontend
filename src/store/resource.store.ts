@@ -107,7 +107,7 @@ export const useResourceStore = defineStore("resource", () => {
     // Merge with any existing record.
     resources[info.resource.id] = {
       ...(resources[info.resource.id] || {}),
-      resource,
+      ...resource,
     };
     return resource;
   }
