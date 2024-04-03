@@ -19,9 +19,14 @@ async function drop(event: DragEvent) {
     return;
   }
 
-  const files = await getFilesFromDataTransferItems(event.dataTransfer.items);
+  // In contrast to `event.dataTransfer.files`, this traverses directories.
+  const items: DataTransferItemList = event.dataTransfer.items;
+  const files: File[] = await getFilesFromDataTransferItems(items);
 
-  emit("drop", files);
+  // Skip hidden files like .DS_Store
+  const filesAllowed = files.filter((file: File) => file.name[0] != ".");
+
+  emit("drop", filesAllowed);
 }
 
 const { isDragover } = useDropToPage(drop);
