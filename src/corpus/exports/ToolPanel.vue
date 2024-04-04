@@ -28,6 +28,7 @@ defineEmits<{
           :class="{ 'button-primary': canInstall && !isInstalled }"
           @click="$emit('install')"
         >
+          <icon :icon="['fas', 'gears']" class="mr-1" />
           {{
             $t(
               !isInstalled
