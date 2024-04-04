@@ -21,6 +21,8 @@ import useMessenger from "@/message/messenger.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import useSources from "@/corpus/sources/sources.composable";
 import useConfig from "@/corpus/config/config.composable";
+import type { ByLang } from "@/util.types";
+import LayoutBox from "@/components/LayoutBox.vue";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
@@ -30,6 +32,8 @@ const { extensions } = useSources(corpusId);
 const { t } = useI18n();
 
 type Form = {
+  name: ByLang;
+  description: ByLang;
   format: FileFormat;
   textAnnotation: string;
   sentenceSegmenter: ConfigSentenceSegmenter;
@@ -51,7 +55,8 @@ const formatOptions = computed<FormKitOptionsList>(() =>
 
 // Auto-select the file format present among source files, if any.
 const selectedFormat = computed<FileFormat | undefined>(() =>
-  config.value?.format && extensions.value.includes(config.value?.format)
+  config.value?.format &&
+  (!extensions.value.length || extensions.value.includes(config.value?.format))
     ? config.value?.format
     : undefined,
 );
@@ -67,12 +72,13 @@ const segmenterOptions = computed<SegmenterOptions>(() => {
 });
 
 async function submit(fields: Form) {
-  const corpusIdFixed = corpusId;
   // If there is no previous config file, start from a minimal one.
   const configOld = config.value || emptyConfig();
   // Merge new form values with existing config.
   const configNew: ConfigOptions = {
     ...configOld,
+    name: fields.name,
+    description: fields.description,
     format: fields.format,
     textAnnotation: fields.textAnnotation,
     sentenceSegmenter: fields.sentenceSegmenter,
@@ -80,11 +86,13 @@ async function submit(fields: Form) {
     datetimeTo: fields.datetimeTo,
     enableNer: fields.enableNer,
   };
+
   try {
     await uploadConfig(configNew);
-    router.push(`/library/corpus/${corpusIdFixed}`);
+    router.push(`/library/corpus/${corpusId}`);
   } catch (e) {
     if (e instanceof TypeError) {
+      // Error from config serialization
       alert(e.message, "error");
     } else alertError(e as AxiosError<MinkResponse>);
   }
@@ -103,6 +111,53 @@ async function submit(fields: Form) {
       }"
       @submit="submit"
     >
+      <LayoutSection :title="$t('metadata')">
+        <HelpBox>
+          <p>{{ $t("config.metadata.help") }}</p>
+        </HelpBox>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <LayoutBox
+            v-for="(lang2, lang3) of { swe: 'sv', eng: 'en' }"
+            :key="lang3"
+            :title="$t(lang2)"
+          >
+            <FormKit type="group" name="name">
+              <FormKit
+                :name="lang3"
+                :label="$t('name')"
+                :value="config?.name?.[lang3]"
+                :help="$t('metadata.name.help')"
+                type="text"
+                input-class="w-72"
+                validation="required:trim"
+              />
+            </FormKit>
+
+            <FormKit type="group" name="description">
+              <FormKit
+                :name="lang3"
+                :label="$t('description')"
+                :value="config?.description?.[lang3]"
+                :help="$t('metadata.description.help')"
+                type="textarea"
+                input-class="w-full h-20"
+              />
+            </FormKit>
+          </LayoutBox>
+        </div>
+
+        <FormKit
+          :label="$t('identifier')"
+          type="text"
+          name="identifier"
+          disabled
+          :value="corpusId"
+          :help="$t('metadata.identifier.help')"
+          input-class="font-mono bg-stone-600 text-lime-50 text-xs p-2 rounded"
+        />
+      </LayoutSection>
+
       <LayoutSection :title="$t('configuration')">
         <HelpBox>
           <p>{{ $t("config.configuration.help") }}</p>

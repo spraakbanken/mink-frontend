@@ -107,7 +107,8 @@ en: Engelska
 sv: Svenska
 metadata: Metadata
 texts: Källtexter
-configuration: Inställningar
+configuration: Konfiguration
+settings: Inställningar
 result: Resultat
 resources: Resurser
 corpus: Korpus
@@ -188,7 +189,7 @@ config.text_annotation.help: Vilket XML-element i dina källfiler representerar 
 segmenter_sentence: Existerande meningssegmentering
 segmenter_sentence_help: Är källtexterna redan formaterade så att varje mening börjar på en ny rad?
 segmenter_linebreaks: En per rad
-timespan: Tidsutsträckning
+timespan: Tidsspann
 timespan_help: Datum för tidigaste och senaste innehållet i korpusen.
 timespan_from: Från
 timespan_to: Till

@@ -106,7 +106,8 @@ en: English
 sv: Swedish
 metadata: Metadata
 texts: Source texts
-configuration: Settings
+configuration: Configuration
+settings: Settings
 result: Result
 resources: Resources
 corpus: Corpus

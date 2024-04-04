@@ -23,6 +23,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Changed
 
 - Removed unused `message` param from `spin()` [#157](https://github.com/spraakbanken/mink-frontend/issues/157)
+- Merged the corpus Metadata and Configuration panels/forms
 - Updated dependencies
 
 ### Fixed

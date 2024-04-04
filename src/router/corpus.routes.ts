@@ -2,7 +2,6 @@ import { type RouteRecordRaw } from "vue-router";
 const CreateCorpus = () => import("@/corpus/CreateCorpus.vue");
 const CorpusView = () => import("@/corpus/CorpusView.vue");
 const CorpusOverview = () => import("@/corpus/CorpusOverview.vue");
-const CorpusMetadata = () => import("@/corpus/config/CorpusMetadata.vue");
 const CorpusConfiguration = () =>
   import("@/corpus/config/CorpusConfiguration.vue");
 const CorpusResult = () => import("@/corpus/exports/CorpusResult.vue");
@@ -31,11 +30,6 @@ const corpusRoutes: RouteRecordRaw[] = [
         path: "",
         component: CorpusOverview,
         meta: { createTitle: (params, resourceName) => resourceName },
-      },
-      {
-        path: "metadata",
-        component: CorpusMetadata,
-        meta: { title: "metadata" },
       },
       {
         path: "config",
