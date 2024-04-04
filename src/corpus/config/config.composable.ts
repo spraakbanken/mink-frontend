@@ -31,12 +31,12 @@ export default function useConfig(corpusId: string) {
         } catch (e) {
           console.error(`Parsing config failed: ${e}`);
           alert(t("corpus.config.parse.error"));
-          return emptyConfig();
+          return undefined;
         }
       })
       // 404 means no config which is fine, rethrow other errors.
       .catch((error) => {
-        if (error.response?.status == 404) return emptyConfig();
+        if (error.response?.status == 404) return undefined;
         throw error;
       });
     corpus.value.config = config;

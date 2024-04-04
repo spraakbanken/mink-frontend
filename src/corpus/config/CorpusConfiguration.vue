@@ -10,6 +10,7 @@ import {
   FORMATS_EXT,
   type FileFormat,
   SEGMENTERS,
+  emptyConfig,
 } from "@/api/corpusConfig";
 import type { ConfigSentenceSegmenter } from "@/api/sparvConfig.types";
 import HelpBox from "@/components/HelpBox.vue";
@@ -29,8 +30,6 @@ const { extensions } = useSources(corpusId);
 const { t } = useI18n();
 
 type Form = {
-  name: string;
-  description: string;
   format: FileFormat;
   textAnnotation: string;
   sentenceSegmenter: ConfigSentenceSegmenter;
@@ -69,8 +68,11 @@ const segmenterOptions = computed<SegmenterOptions>(() => {
 
 async function submit(fields: Form) {
   const corpusIdFixed = corpusId;
+  // If there is no previous config file, start from a minimal one.
+  const configOld = config.value || emptyConfig();
+  // Merge new form values with existing config.
   const configNew: ConfigOptions = {
-    ...config.value!,
+    ...configOld,
     format: fields.format,
     textAnnotation: fields.textAnnotation,
     sentenceSegmenter: fields.sentenceSegmenter,
@@ -90,7 +92,7 @@ async function submit(fields: Form) {
 </script>
 
 <template>
-  <PendingContent v-if="config" :on="`corpus/${corpusId}/config`">
+  <PendingContent :on="`corpus/${corpusId}/config`">
     <FormKit
       id="corpus-config"
       v-slot="{ value }"
@@ -128,7 +130,7 @@ async function submit(fields: Form) {
           name="textAnnotation"
           :label="$t('config.text_annotation')"
           type="text"
-          :value="config.textAnnotation"
+          :value="config?.textAnnotation"
           validation="required:trim|matches:/^[^<>\s]*$/"
           input-class="w-40 font-mono"
           :help="$t('config.text_annotation.help')"
@@ -140,7 +142,7 @@ async function submit(fields: Form) {
         <FormKit
           name="sentenceSegmenter"
           :label="$t('segmenter_sentence')"
-          :value="config.sentenceSegmenter || ''"
+          :value="config?.sentenceSegmenter || ''"
           type="radio"
           :options="segmenterOptions"
           :help="$t('segmenter_sentence_help')"
@@ -150,13 +152,13 @@ async function submit(fields: Form) {
           name="datetimeFrom"
           type="date"
           :label="`${$t('timespan')}: ${$t('timespan_from')}`"
-          :value="config.datetimeFrom"
+          :value="config?.datetimeFrom"
         />
         <FormKit
           name="datetimeTo"
           type="date"
           :label="`${$t('timespan')}: ${$t('timespan_to')}`"
-          :value="config.datetimeTo"
+          :value="config?.datetimeTo"
           :help="$t('timespan_help')"
         />
 
@@ -164,7 +166,7 @@ async function submit(fields: Form) {
           <FormKit
             name="enableNer"
             :label="$t('annotations.ner')"
-            :value="config.enableNer"
+            :value="config?.enableNer"
             type="checkbox"
             :help="$t('annotations.ner.help')"
           />

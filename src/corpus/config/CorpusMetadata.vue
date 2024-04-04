@@ -8,6 +8,7 @@ import useMessenger from "@/message/messenger.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import type { ByLang } from "@/util.types";
+import { emptyConfig } from "@/api/corpusConfig";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
@@ -20,8 +21,11 @@ type Form = {
 };
 
 async function submit(fields: Form) {
+  // If there is no previous config file, start from a minimal one.
+  const configOld = config.value || emptyConfig();
+  // Merge new form values with existing config.
   const configNew = {
-    ...config.value!,
+    ...configOld,
     name: fields.name,
     description: fields.description,
   };
@@ -32,7 +36,7 @@ async function submit(fields: Form) {
 </script>
 
 <template>
-  <PendingContent v-if="config" :on="`corpus/${corpusId}/config`">
+  <PendingContent :on="`corpus/${corpusId}/config`">
     <FormKit
       id="corpus-config"
       type="form"
@@ -57,7 +61,7 @@ async function submit(fields: Form) {
               <FormKit
                 :name="lang3"
                 :label="$t('name')"
-                :value="config.name?.[lang3]"
+                :value="config?.name?.[lang3]"
                 :help="$t('metadata.name.help')"
                 type="text"
                 input-class="w-72"
@@ -69,7 +73,7 @@ async function submit(fields: Form) {
               <FormKit
                 :name="lang3"
                 :label="$t('description')"
-                :value="config.description?.[lang3]"
+                :value="config?.description?.[lang3]"
                 :help="$t('metadata.description.help')"
                 type="textarea"
                 input-class="w-full h-20"

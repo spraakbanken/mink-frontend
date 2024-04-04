@@ -173,13 +173,14 @@ export async function parseConfig(configYaml: string): Promise<ConfigOptions> {
     throw new TypeError(`Parsing config failed, returned "${config}"`);
 
   // Throw specific errors if required parts are missing.
+  if (!config.import?.importer) throw new TypeError(`Importer setting missing`);
   const format = (Object.keys(FORMATS) as FileFormat[]).find(
     (ext) => FORMATS[ext as FileFormat] == config.import.importer,
   );
   if (!format)
     throw new TypeError(`Unrecognized importer: "${config.import.importer}"`);
 
-  const name = config.metadata.name;
+  const name = config.metadata?.name;
   if (!name)
     throw new TypeError(`Name missing in metadata: ${config.metadata}`);
   if (!name.swe || !name.eng)
