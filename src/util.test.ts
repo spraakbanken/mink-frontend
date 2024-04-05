@@ -1,5 +1,6 @@
 import { describe, expect, test } from "vitest";
 import {
+  enarray,
   ensureExtension,
   formatDate,
   formatSeconds,
@@ -13,6 +14,21 @@ import {
   setKeys,
   unarray,
 } from "@/util";
+
+describe("enarray", () => {
+  test("leaves array unchanged", () => {
+    expect(enarray([1, 2, 3])).toStrictEqual([1, 2, 3]);
+    expect(enarray([1])).toStrictEqual([1]);
+    expect(enarray([])).toStrictEqual([]);
+  });
+  test("turns non-array into array", () => {
+    expect(enarray("A")).toStrictEqual(["A"]);
+    expect(enarray("ABC")).toStrictEqual(["ABC"]);
+    expect(enarray(null)).toStrictEqual([null]);
+    expect(enarray(undefined)).toStrictEqual([undefined]);
+    expect(enarray(new Set([1, 2, 3]))).toStrictEqual([new Set([1, 2, 3])]);
+  });
+});
 
 describe("formatDate", () => {
   test("formats a date", () => {

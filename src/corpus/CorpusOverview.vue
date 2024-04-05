@@ -4,7 +4,8 @@ import { useCorpusState } from "@/corpus/corpusState.composable";
 import ConfigPanel from "@/corpus/config/ConfigPanel.vue";
 import SourcesPanel from "@/corpus/sources/SourcesPanel.vue";
 import JobStatus from "@/corpus/job/JobStatus.vue";
-import ExportsPanel from "@/corpus/exports/ExportsPanel.vue";
+import AnalysisPanel from "@/corpus/analysis/AnalysisPanel.vue";
+import ExplorePanel from "@/corpus/explore/ExplorePanel.vue";
 import CorpusStateHelp from "@/corpus/CorpusStateHelp.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
@@ -14,13 +15,13 @@ const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
 </script>
 
 <template>
-  <div class="flex flex-wrap">
+  <div class="flex flex-wrap gap-4">
     <div class="w-full">
       <CorpusStateHelp />
     </div>
 
-    <div class="w-full lg:w-1/2 lg:pr-2">
-      <LayoutBox :title="$t('configuration')" class="mb-4">
+    <div class="w-96 grow flex flex-col gap-4">
+      <LayoutBox :title="$t('settings')">
         <ConfigPanel />
         <template #controls>
           <RouteButton
@@ -32,22 +33,27 @@ const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
           </RouteButton>
         </template>
       </LayoutBox>
+
+      <LayoutBox :title="$t('texts')">
+        <SourcesPanel />
+      </LayoutBox>
     </div>
 
-    <div class="w-full lg:w-1/2 lg:pl-2">
+    <div class="w-96 grow flex flex-col gap-4">
       <LayoutBox
         :title="$t('job.status')"
-        class="mb-4 bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
+        class="bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
       >
         <JobStatus />
       </LayoutBox>
 
-      <LayoutBox :title="$t('result')" class="mb-4">
-        <ExportsPanel />
+      <LayoutBox :title="$t('analysis')">
+        <AnalysisPanel />
+      </LayoutBox>
+
+      <LayoutBox :title="$t('tools')">
+        <ExplorePanel />
       </LayoutBox>
     </div>
   </div>
-  <LayoutBox :title="$t('texts')">
-    <SourcesPanel />
-  </LayoutBox>
 </template>

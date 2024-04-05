@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import useJob from "@/corpus/job/job.composable";
 import JobStatusMessage from "@/corpus/job/JobStatusMessage.vue";
 import { formatDate } from "@/util";
@@ -11,14 +11,9 @@ import TerminalOutput from "@/components/TerminalOutput.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
 
 const corpusId = useCorpusIdParam();
-const { runJob, abortJob, jobStatus, jobState, isJobRunning } =
-  useJob(corpusId);
-const { canBeReady, isFailed } = useCorpusState(corpusId);
+const { abortJob, jobStatus, isJobRunning } = useJob(corpusId);
+const { isFailed } = useCorpusState(corpusId);
 
-const isPending = ref(false);
-const canRun = computed(
-  () => canBeReady.value && !isPending.value && !isJobRunning.value,
-);
 const hasStarted = computed(
   () =>
     Object.values(jobStatus.value?.status || {}).some(
@@ -26,15 +21,16 @@ const hasStarted = computed(
     ) || jobStatus.value?.priority,
 );
 
-async function doRunJob() {
-  isPending.value = true;
-  await runJob();
-  isPending.value = false;
-}
+const spinTokens = [
+  `corpus/${corpusId}/job`,
+  `corpus/${corpusId}/info`,
+  `corpus/${corpusId}/install/korp`,
+  `corpus/${corpusId}/install/strix`,
+];
 </script>
 
 <template>
-  <PendingContent v-if="jobStatus" :on="`corpus/${corpusId}/job`">
+  <PendingContent v-if="jobStatus" :on="spinTokens">
     <div class="flex gap-4 justify-between items-baseline">
       <div class="text-lg">
         <span v-if="jobStatus.current_process">
@@ -43,28 +39,13 @@ async function doRunJob() {
         <JobStatusMessage :corpus-id="corpusId" class="font-bold" />
       </div>
 
-      <div class="text-sm text-right">
-        <ActionButton
-          v-if="!isJobRunning"
-          :disabled="!canRun"
-          :class="{
-            'button-primary':
-              jobState?.sparv == 'none' || jobState?.sparv == 'aborted',
-          }"
-          @click="canRun ? doRunJob() : null"
-        >
-          <icon :icon="['fas', 'gears']" class="mr-1" />
-          {{ jobState?.sparv != "done" ? $t("job.run") : $t("job.rerun") }}
-        </ActionButton>
-
-        <ActionButton v-else class="button-danger ml-2" @click="abortJob">
-          {{ $t("job.abort") }}
-        </ActionButton>
-
-        <div v-if="!isJobRunning && jobState?.sparv == 'done'">
-          <icon icon="circle-info" /> {{ $t("job.rerun.overwrite") }}
-        </div>
-      </div>
+      <ActionButton
+        v-if="isJobRunning"
+        class="button-danger ml-2"
+        @click="abortJob"
+      >
+        {{ $t("job.abort") }}
+      </ActionButton>
     </div>
 
     <ProgressBar
@@ -73,7 +54,7 @@ async function doRunJob() {
       class="w-full my-2"
     />
 
-    <table v-if="hasStarted" class="w-full mt-4">
+    <table v-if="hasStarted" class="w-full">
       <thead></thead>
       <tbody>
         <tr v-if="jobStatus.errors">

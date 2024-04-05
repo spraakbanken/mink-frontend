@@ -65,16 +65,16 @@ export default function useMinkBackend() {
   const resourceInfoAll = () => spin(api.resourceInfoAll(), "corpora");
 
   const resourceInfoOne = (corpusId: string) =>
-    spin(api.resourceInfoOne(corpusId), `corpus/${corpusId}/job`);
+    spin(api.resourceInfoOne(corpusId), `corpus/${corpusId}/info`);
 
   const runJob = (corpusId: string) =>
     spin(api.runSparv(corpusId), `corpus/${corpusId}/job`);
 
   const installKorp = (corpusId: string) =>
-    spin(api.installKorp(corpusId), `corpus/${corpusId}/job`);
+    spin(api.installKorp(corpusId), `corpus/${corpusId}/install/korp`);
 
   const installStrix = (corpusId: string) =>
-    spin(api.installStrix(corpusId), `corpus/${corpusId}/job`);
+    spin(api.installStrix(corpusId), `corpus/${corpusId}/install/strix`);
 
   const abortJob = (corpusId: string) =>
     spin(api.abortJob(corpusId), `corpus/${corpusId}/job`);
@@ -83,7 +83,7 @@ export default function useMinkBackend() {
     spin(api.listExports(corpusId), `corpus/${corpusId}/exports`);
 
   const downloadExports = (corpusId: string) =>
-    spin(api.downloadExports(corpusId), `corpus/${corpusId}/exports`);
+    spin(api.downloadExports(corpusId), `corpus/${corpusId}/exports/download`);
 
   const downloadExportFiles = (corpusId: string, filename: string) =>
     spin(

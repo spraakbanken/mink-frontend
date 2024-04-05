@@ -20,6 +20,9 @@ export function downloadFile(data: string | Blob, filename: string) {
   window.URL.revokeObjectURL(url);
 }
 
+/** Leaves an array unchanged but returns [x] for a non-array value x. */
+export const enarray = <T>(x: T | T[]): T[] => (Array.isArray(x) ? x : [x]);
+
 /** Formats an ISO 8601 date as "YYYY-MM-DD hh:mm:ss" */
 export function formatDate(dateStr: string) {
   return dateStr.slice(0, 19).replace("T", " ");

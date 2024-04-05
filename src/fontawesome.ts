@@ -19,6 +19,7 @@ import {
   faRightToBracket,
   faRotate,
   faTriangleExclamation,
+  faUpRightFromSquare,
   faUserPlus,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
@@ -38,6 +39,7 @@ library.add(
   faSquarePlus,
   faTrashCan,
   faTriangleExclamation,
+  faUpRightFromSquare,
   faUserPlus,
   faXmark,
 );

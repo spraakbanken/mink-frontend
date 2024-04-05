@@ -13,6 +13,16 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Changed
+
+- Restructured panels on corpus overview to better match backend concepts:
+  - New _Analysis_ panel with the run button from _Status_ and the downloads from _Results_
+  - Renamed _Result_ to _Explore_ [#115](https://github.com/spraakbanken/mink-frontend/issues/115)
+
+### Fixed
+
+- Clarify that data installed in tools is outdated after annotation re-run [#154](https://github.com/spraakbanken/mink-frontend/issues/154)
+
 ## [1.5.0] (2024-04-23)
 
 ### Added

@@ -56,16 +56,19 @@ config.metadata.help: Metadata är information om datan, och fungerar som underl
 config.configuration.help: Dessa inställningar blir instruktioner till den automatiska analysen.
 corpus.config.parse.error: Korpusens config kunde inte läsas. Prova att redigera inställningarna eller metadatan igen. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 config.saving: Sparar metadata
+analysis.help: Kör automatiska språkteknologiska analyser på din textdata enligt inställningarna. Mink använder {sparv} i bakgrunden.
+analysis.sparv.url: https://spraakbanken.gu.se/verktyg/sparv
 job.run: Starta annotering
 job.rerun: Starta om annotering
-job.rerun.overwrite: Tidigare resultat kommer att skrivas över
+job.rerun.overwrite: Tidigare resultat kommer att skrivas över.
+job.rerun.tools_outdated: Verktygen kommer att behålla det gamla resultatet. Glöm inte att installera om vid behov.
 job.abort: Avbryt
 job.status: Status
 job.priority: Plats i kön
 job.last_run_started: Senast startad
 job.last_run_ended: Senast avslutad
 job.time_taken: Tidsåtgång
-job.process.sparv: Annotering
+job.process.sparv: Analys
 job.process.korp: Installation i Korp
 job.process.strix: Installation i Strix
 source.limit.file.recommended: Rekommenderad filstorlek
@@ -90,8 +93,9 @@ exports.tools.help.korp.manual.text: Användarhandledning
 exports.tools.help.strix: I Strix kan de berikade texterna undersökas i sin helhet.
 exports.tools.install: Installera
 exports.tools.reinstall: Installera om
-exports.tools.view: Visa
+exports.tools.view: Öppna
 exports.download.help: Resultatet kan laddas ner som maskinläsbara filer för bearbetning i script eller speciella program.
+exports.download.placeholder: Nedladdningar finns här efter slutförd annotering.
 exports.help: Annoteringsprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen. De lagras på servern tillsvidare, men ersätts med nya om du kör om annoteringen på nytt.
 exports.help.more.label: Läs mer om exportfiler i användarhandledningen
 user.settings: Inställningar
@@ -110,6 +114,7 @@ metadata: Metadata
 texts: Källtexter
 configuration: Konfiguration
 settings: Inställningar
+analysis: Analys
 result: Resultat
 resources: Resurser
 corpus: Korpus

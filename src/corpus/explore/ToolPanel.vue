@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import ActionButton from "@/components/ActionButton.vue";
 import UrlButton from "@/components/UrlButton.vue";
+import PendingContent from "@/spin/PendingContent.vue";
 
 defineProps<{
   name: string;
+  spinToken: string;
   info: string;
   canInstall?: boolean;
   isInstalled?: boolean;
@@ -17,11 +19,11 @@ defineEmits<{
 </script>
 
 <template>
-  <div class="flex flex-col gap-2 my-4">
+  <PendingContent :on="spinToken" class="flex flex-col gap-2">
     <div class="flex flex-wrap gap-2 justify-between items-baseline">
       <h3 class="font-bold">{{ name }}</h3>
 
-      <div class="flex gap-2 justify-end">
+      <div class="flex gap-2 justify-end items-baseline">
         <ActionButton
           :disabled="!canInstall"
           class="whitespace-nowrap"
@@ -39,11 +41,12 @@ defineEmits<{
         </ActionButton>
 
         <UrlButton
+          v-if="isInstalled"
           :href="showUrl"
           target="_blank"
-          :disabled="!isInstalled"
           class="button-primary"
         >
+          <icon icon="up-right-from-square" size="sm" class="mr-1" />
           {{ $t("exports.tools.view") }}
         </UrlButton>
       </div>
@@ -55,5 +58,5 @@ defineEmits<{
         {{ linkText }}
       </a>
     </div>
-  </div>
+  </PendingContent>
 </template>

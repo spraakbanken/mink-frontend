@@ -55,16 +55,19 @@ config.metadata.help: Metadata is information about the data, meant for assessme
 config.configuration.help: These settings are information for the automatic analysis; they will affect the parsing or annotation.
 corpus.config.parse.error: The config of this corpus could not be parsed. Try editing the settings or metadata again. If you need help, please contact sb-info{'@'}svenska.gu.se
 config.saving: Saving metadata
+analysis.help: Run automated language technology methods on your text data according to your settings. Mink uses {sparv} under the hood.
+analysis.sparv.url: https://spraakbanken.gu.se/en/tools/sparv
 job.run: Run annotation
 job.rerun: Re-run annotation
-job.rerun.overwrite: Previous results will be overwritten
+job.rerun.overwrite: Previous results will be overwritten.
+job.rerun.tools_outdated: The old results will remain in the tools. Do not forget to re-install it if needed.
 job.abort: Abort
 job.status: Status
 job.priority: Place in queue
 job.last_run_started: Last run started
 job.last_run_ended: Last run ended
 job.time_taken: Time taken
-job.process.sparv: Annotation
+job.process.sparv: Analysis
 job.process.korp: Installation to Korp
 job.process.strix: Installation to Strix
 source.limit.file.recommended: Recommended max file size
@@ -89,8 +92,9 @@ exports.tools.help.korp.manual.text: User manual
 exports.tools.help.strix: In Strix, the enriched texts can be examined in full.
 exports.tools.install: Install
 exports.tools.reinstall: Reinstall
-exports.tools.view: View
+exports.tools.view: Open
 exports.download.help: Results can be downloaded as machine-readable files for processing in scripts or other specialized software.
+exports.download.placeholder: Downloads will be available here after successful analysis.
 exports.help: The annotation process yields export files for each input file. You can download each single export file or all of them in a bundle. The exact structure of the files depends on the input files as well as the configuration. They are stored on the server indefinitely, but re-running the annotation will replace them with new ones.
 exports.help.more.label: Read more about export files in the user manual
 user.settings: Settings
@@ -109,6 +113,7 @@ metadata: Metadata
 texts: Source texts
 configuration: Configuration
 settings: Settings
+analysis: Analysis
 result: Result
 resources: Resources
 corpus: Corpus
