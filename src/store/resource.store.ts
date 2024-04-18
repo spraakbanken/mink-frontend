@@ -9,7 +9,6 @@ import type {
   ResourceInfo,
   ResourceType,
 } from "@/api/api.types";
-import type { ConfigOptions } from "@/api/corpusConfig";
 
 export type Resource = {
   type: ResourceType;
@@ -25,7 +24,7 @@ export type User = {
 export type Corpus = Resource & {
   type: "corpus";
   sources: FileMeta[];
-  config?: ConfigOptions;
+  config?: string;
   status: CorpusStatus;
   exports?: FileMeta[];
 };
@@ -47,7 +46,7 @@ export const useResourceStore = defineStore("resource", () => {
   // current date (YYMMDD) if the state shape is changed, to make the browser
   // forget the old state. The actual number doesn't really matter, as long as
   // it's a new one.
-  const resourcesRef = useStorage("mink@240318.resources", {});
+  const resourcesRef = useStorage("mink@240417.resources", {});
   const resources: Record<string, {} | Resource> = reactive(resourcesRef.value);
 
   const corpora = computed<Record<string, Partial<Corpus>>>(() =>

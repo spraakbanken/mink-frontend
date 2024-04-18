@@ -95,9 +95,7 @@ const logoutUrl = getLogoutUrl();
           >
             <i18n-t keypath="home.features.sparv.body" scope="global" tag="p">
               <template #sparv>
-                <a href="https://spraakbanken.gu.se/en/tools/sparv">
-                  <strong>Sparv</strong>
-                </a>
+                <a :href="$t('sparv.url')"><strong>Sparv</strong></a>
               </template>
             </i18n-t>
           </LayoutSection>

@@ -6,7 +6,7 @@ import PendingContent from "@/spin/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 
 const corpusId = useCorpusIdParam();
-const { config } = useConfig(corpusId);
+const { configOptions } = useConfig(corpusId);
 const { th } = useLocale();
 </script>
 
@@ -19,13 +19,13 @@ const { th } = useLocale();
       <tr>
         <th>{{ $t("name") }}</th>
         <td>
-          {{ th(config?.name) || "—" }}
+          {{ th(configOptions?.name) || "—" }}
         </td>
       </tr>
       <tr>
         <th>{{ $t("description") }}</th>
         <td>
-          {{ th(config?.description) || "—" }}
+          {{ th(configOptions?.description) || "—" }}
         </td>
       </tr>
       <tr>
@@ -44,27 +44,27 @@ const { th } = useLocale();
       </tr>
       <tr>
         <th>{{ $t("fileFormat") }}</th>
-        <td v-if="config?.format">
-          {{ $t(config.format) }}
-          (<code>.{{ config.format }}</code
+        <td v-if="configOptions?.format">
+          {{ $t(configOptions.format) }}
+          (<code>.{{ configOptions.format }}</code
           >)
         </td>
         <td v-else>—</td>
       </tr>
-      <tr v-if="config?.textAnnotation">
+      <tr v-if="configOptions?.textAnnotation">
         <th>{{ $t("config.text_annotation") }}</th>
         <td>
           <TerminalOutput class="inline leading-loose"
-            >&lt;{{ config.textAnnotation }}&gt;</TerminalOutput
+            >&lt;{{ configOptions.textAnnotation }}&gt;</TerminalOutput
           >
         </td>
       </tr>
-      <tr v-if="config?.format != 'xml'">
+      <tr v-if="configOptions?.format != 'xml'">
         <th>{{ $t("segmenter_sentence") }}</th>
-        <td v-if="config">
+        <td v-if="configOptions">
           {{
-            config.sentenceSegmenter
-              ? $t(`segmenter_${config.sentenceSegmenter}`)
+            configOptions.sentenceSegmenter
+              ? $t(`segmenter_${configOptions.sentenceSegmenter}`)
               : $t("none")
           }}
         </td>
@@ -72,17 +72,19 @@ const { th } = useLocale();
       </tr>
       <tr>
         <th>{{ $t("timespan") }}</th>
-        <td v-if="config?.datetimeFrom || config?.datetimeTo">
-          <span class="whitespace-nowrap">{{ config.datetimeFrom }}</span>
+        <td v-if="configOptions?.datetimeFrom || configOptions?.datetimeTo">
+          <span class="whitespace-nowrap">{{
+            configOptions.datetimeFrom
+          }}</span>
           –
-          <span class="whitespace-nowrap">{{ config.datetimeTo }}</span>
+          <span class="whitespace-nowrap">{{ configOptions.datetimeTo }}</span>
         </td>
         <td v-else>—</td>
       </tr>
       <tr>
         <th>{{ $t("annotations.ner") }}</th>
-        <td v-if="config">
-          {{ config.enableNer ? $t("enabled") : $t("disabled") }}
+        <td v-if="configOptions">
+          {{ configOptions.enableNer ? $t("enabled") : $t("disabled") }}
         </td>
         <td v-else>—</td>
       </tr>

@@ -9,7 +9,7 @@ import { getException } from "@/util";
 /** The "corpus state" is related to the job status, but is more about predicting what action the user needs to take. */
 export function useCorpusState(corpusId: string) {
   const { sources } = useSources(corpusId);
-  const { config } = useConfig(corpusId);
+  const { configOptions } = useConfig(corpusId);
   const { jobState } = useJob(corpusId);
   const { t } = useI18n();
 
@@ -54,11 +54,13 @@ export function useCorpusState(corpusId: string) {
   });
 
   const isConfigValid = computed(
-    () => config.value && !getException(() => validateConfig(config.value!)),
+    () =>
+      configOptions.value &&
+      !getException(() => validateConfig(configOptions.value!)),
   );
 
   const hasMetadata = computed(
-    () => config.value?.name?.swe || config.value?.name?.eng,
+    () => configOptions.value?.name?.swe || configOptions.value?.name?.eng,
   );
 
   const isEmpty = computed(() => corpusState.value == CorpusState.EMPTY);

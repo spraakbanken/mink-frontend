@@ -76,6 +76,7 @@ source.limit.corpus.max: Största tillåtna korpus
 source.notfound: Denna källfil kunde inte hittas
 source.list.loading: Hämtar textlista
 source.content: Innehåll
+source.upload.config_format.trigger_change: "Korpuskonfigurationen uppdateras för att stämma med filformatet: {format}"
 upload.label.single: Lägg till fil
 upload.label.multiple: Lägg till filer
 upload.dnd.single: Dra och släpp en fil hit, eller klicka här för att välja
@@ -118,6 +119,7 @@ none: Inget
 new_corpus: Ny korpus
 fileName: Filnamn
 type: Typ
+upload: Ladda upp
 uploaded: Uppladdad
 lastModify: Senast ändrad
 fileSize: Storlek
@@ -130,6 +132,7 @@ save: Spara
 create: Skapa
 cancel: Avbryt
 message: Meddelande
+sparv.url: https://spraakbanken.gu.se/verktyg/sparv
 sparvOutput: Output från Sparv
 download: Ladda ner
 download_export: Ladda ner all utdata
@@ -159,6 +162,7 @@ signup.new.steps.skip_verification.em: inte
 signup.new.steps.login: Gå tillbaka till den här sidan och klicka på {login}
 signup.new.steps.idp: Välj {eduid} som identitetsintygare
 account: Konto
+advanced: Avancerat
 enable: Aktivera
 enabled: På
 disable: Stäng av
@@ -182,6 +186,9 @@ metadata.description.help: |
   Om du vill distribuera eller publicera resultatet rekommenderar vi en eller två meningar
   som sammanfattar innehållet eller syftet för en potentiell användare.
 fileFormat: Källformat
+config.custom: Egen konfiguration
+config.custom.help: Mink använder {sparv}, en modulär och konfigurerbar pipeline för textanalys, för att processa korpusen. Det vanliga formuläret visar endast en liten del av alla inställningar. På den här sidan kan du undersöka den faktiska configfilen och ladda upp en egen, i formatet YAML. Använd Sparvdokumentationens avsnitt {topic} för att tolka filens struktur.
+config.custom.upload.help: Notera att en ogiltig configfil kan leda till oväntat beteende. Om du sparar i det vanliga formuläret igen kan den egna konfigurationen skrivas över.
 config.format.help: Ange vilket filformat källtexterna har. Alla filer måste ha det valda formatet.
 config.format.note.pdf: PDF-formatet är byggt främst för visuell presentation. Text som extraheras från PDF-filer kan ibland ge bristfälliga resultat. OCR-behandling av scannade dokument är (för närvarande) inget som Mink stödjer.
 config.text_annotation: Textelement

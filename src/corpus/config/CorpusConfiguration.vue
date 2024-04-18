@@ -4,6 +4,7 @@ import type { AxiosError } from "axios";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
+import { computedAsync } from "@vueuse/core";
 import type { MinkResponse } from "@/api/api.types";
 import {
   type ConfigOptions,
@@ -11,6 +12,7 @@ import {
   type FileFormat,
   SEGMENTERS,
   emptyConfig,
+  parseConfig,
 } from "@/api/corpusConfig";
 import type { ConfigSentenceSegmenter } from "@/api/sparvConfig.types";
 import HelpBox from "@/components/HelpBox.vue";
@@ -42,6 +44,8 @@ type Form = {
   enableNer: boolean;
 };
 
+const configOptions = computedAsync(getParsedConfig);
+
 const formatOptions = computed<FormKitOptionsList>(() =>
   FORMATS_EXT.map((ext) => ({
     value: ext,
@@ -55,9 +59,10 @@ const formatOptions = computed<FormKitOptionsList>(() =>
 
 // Auto-select the file format present among source files, if any.
 const selectedFormat = computed<FileFormat | undefined>(() =>
-  config.value?.format &&
-  (!extensions.value.length || extensions.value.includes(config.value?.format))
-    ? config.value?.format
+  configOptions.value?.format &&
+  (!extensions.value.length ||
+    extensions.value.includes(configOptions.value?.format))
+    ? configOptions.value?.format
     : undefined,
 );
 
@@ -71,9 +76,20 @@ const segmenterOptions = computed<SegmenterOptions>(() => {
   return options as SegmenterOptions;
 });
 
+async function getParsedConfig() {
+  if (!config.value) return undefined;
+  try {
+    const parsed = await parseConfig(config.value);
+    return parsed;
+  } catch (error) {
+    alert(t("corpus.config.parse.error"), "error");
+    console.error(`Error parsing config for "${corpusId}":`, error);
+  }
+}
+
 async function submit(fields: Form) {
   // If there is no previous config file, start from a minimal one.
-  const configOld = config.value || emptyConfig();
+  const configOld = configOptions.value || emptyConfig();
   // Merge new form values with existing config.
   const configNew: ConfigOptions = {
     ...configOld,
@@ -101,9 +117,11 @@ async function submit(fields: Form) {
 
 <template>
   <PendingContent :on="`corpus/${corpusId}/config`">
+    <!-- Using the key attribute to re-render whole form when async parseConfig is done -->
     <FormKit
       id="corpus-config"
       v-slot="{ value }"
+      :key="JSON.stringify(configOptions)"
       type="form"
       :submit-label="$t('save')"
       :submit-attrs="{
@@ -126,7 +144,7 @@ async function submit(fields: Form) {
               <FormKit
                 :name="lang3"
                 :label="$t('name')"
-                :value="config?.name?.[lang3]"
+                :value="configOptions?.name?.[lang3]"
                 :help="$t('metadata.name.help')"
                 type="text"
                 input-class="w-72"
@@ -138,7 +156,7 @@ async function submit(fields: Form) {
               <FormKit
                 :name="lang3"
                 :label="$t('description')"
-                :value="config?.description?.[lang3]"
+                :value="configOptions?.description?.[lang3]"
                 :help="$t('metadata.description.help')"
                 type="textarea"
                 input-class="w-full h-20"
@@ -185,7 +203,7 @@ async function submit(fields: Form) {
           name="textAnnotation"
           :label="$t('config.text_annotation')"
           type="text"
-          :value="config?.textAnnotation"
+          :value="configOptions?.textAnnotation"
           validation="required:trim|matches:/^[^<>\s]*$/"
           input-class="w-40 font-mono"
           :help="$t('config.text_annotation.help')"
@@ -197,7 +215,7 @@ async function submit(fields: Form) {
         <FormKit
           name="sentenceSegmenter"
           :label="$t('segmenter_sentence')"
-          :value="config?.sentenceSegmenter || ''"
+          :value="configOptions?.sentenceSegmenter || ''"
           type="radio"
           :options="segmenterOptions"
           :help="$t('segmenter_sentence_help')"
@@ -207,13 +225,13 @@ async function submit(fields: Form) {
           name="datetimeFrom"
           type="date"
           :label="`${$t('timespan')}: ${$t('timespan_from')}`"
-          :value="config?.datetimeFrom"
+          :value="configOptions?.datetimeFrom"
         />
         <FormKit
           name="datetimeTo"
           type="date"
           :label="`${$t('timespan')}: ${$t('timespan_to')}`"
-          :value="config?.datetimeTo"
+          :value="configOptions?.datetimeTo"
           :help="$t('timespan_help')"
         />
 
@@ -221,7 +239,7 @@ async function submit(fields: Form) {
           <FormKit
             name="enableNer"
             :label="$t('annotations.ner')"
-            :value="config?.enableNer"
+            :value="configOptions?.enableNer"
             type="checkbox"
             :help="$t('annotations.ner.help')"
           />
@@ -231,7 +249,12 @@ async function submit(fields: Form) {
         </LayoutSection>
       </LayoutSection>
     </FormKit>
-    <div class="flex justify-center">
+
+    <div class="flex justify-center items-baseline gap-4">
+      <RouteButton :to="`/library/corpus/${corpusId}/config/custom`">
+        {{ $t("config.custom") }}
+      </RouteButton>
+
       <RouteButton
         :to="`/library/corpus/${corpusId}/delete`"
         class="button-danger"

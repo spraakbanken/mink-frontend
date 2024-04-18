@@ -95,6 +95,7 @@ export function setKeys<T>(
 export const randomString = () => Math.random().toString(36).slice(2);
 
 /** Execute callback, catch and return any exception, otherwise return undefined. */
+// TODO Use attempt and isError from Lodash instead
 export const getException = (f: () => any): any | undefined => {
   try {
     f();

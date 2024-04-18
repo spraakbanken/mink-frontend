@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { useI18n } from "vue-i18n";
 import useConfig from "@/corpus/config/config.composable";
 import useSources from "@/corpus/sources/sources.composable";
 import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
@@ -17,8 +18,9 @@ const props = defineProps<{
 
 const corpusId = useCorpusIdParam();
 const { uploadSources, extensions } = useSources(corpusId);
-const { config, uploadConfig } = useConfig(corpusId);
-const { alertError } = useMessenger();
+const { configOptions, uploadConfig } = useConfig(corpusId);
+const { alert, alertError } = useMessenger();
+const { t } = useI18n();
 
 const extensionsAccept = computed(() =>
   extensions.value?.map((ext) => `.${ext}`).join(),
@@ -31,11 +33,14 @@ async function defaultFileHandler(files: File[], onProgress: ProgressHandler) {
   const extension = getFilenameExtension(files[0]?.name);
   const format = extension.toLowerCase() as FileFormat;
   if (
-    config.value &&
-    format != config.value.format &&
+    configOptions.value &&
+    format != configOptions.value.format &&
     FORMATS_EXT.includes(format)
   ) {
-    requests.push(uploadConfig({ ...config.value, format }));
+    alert(
+      t("source.upload.config_format.trigger_change", { format: t(format) }),
+    );
+    requests.push(uploadConfig({ ...configOptions.value, format }));
   }
 
   await Promise.all(requests);

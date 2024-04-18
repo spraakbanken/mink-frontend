@@ -75,6 +75,7 @@ source.limit.corpus.max: Maximum corpus size
 source.notfound: This source file was not found
 source.list.loading: Listing source texts
 source.content: Content
+source.upload.config_format.trigger_change: "Corpus configuration is updated to match the file format: {format}"
 upload.label.single: Add file
 upload.label.multiple: Add files
 upload.dnd.single: Drag and drop file here, or click here to choose
@@ -117,6 +118,7 @@ none: None
 new_corpus: New corpus
 fileName: Name
 type: Type
+upload: Upload
 uploaded: Uploaded
 lastModify: Last modified
 fileSize: Size
@@ -129,6 +131,7 @@ save: Save
 create: Create
 cancel: Cancel
 message: Message
+sparv.url: https://spraakbanken.gu.se/en/tools/sparv
 sparvOutput: Sparv output
 download: Download
 download_export: Download full result
@@ -182,6 +185,9 @@ metadata.description.help: |
   If you aim to share or publish the results, we recommend entering one or two sentences
   to summarize the content or purpose to a potential user.
 fileFormat: Source format
+config.custom: Custom configuration
+config.custom.help: Mink uses {sparv}, a modular and configurable pipeline for text analysis, to process your corpus. The standard configuration form only exposes a few of the available Sparv options. On this page, you can view and submit your own config file, written in the YAML format. Please refer to the Sparv documentation on {topic} for more information.
+config.custom.upload.help: Please note that submitting an invalid config file may cause unexpected behaviour. Saving the standard configuration form may overwrite your custom config.
 config.format.help: Select the file format of the source texts. All files must be of the selected format.
 config.format.note.pdf: The PDF file format is primarily designed for display. Please note that extracting text from them can sometimes give unsatisfactory results. Performing OCR on scanned documents is (currently) outside the scope of Mink.
 config.text_annotation: Text element

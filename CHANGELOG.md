@@ -15,6 +15,7 @@ As this project is a user-facing application, the places in the semantic version
 
 ### Added
 
+- Upload custom corpus config [#99](https://github.com/spraakbanken/mink-frontend/issues/99)
 - A quick, brief resource listing view for admin [#146](https://github.com/spraakbanken/mink-frontend/issues/146)
 - Group export files by folder [#95](https://github.com/spraakbanken/mink-frontend/issues/95)
 - JWT request now has a 2s timeout and two retries [#124](https://github.com/spraakbanken/mink-frontend/issues/124)
