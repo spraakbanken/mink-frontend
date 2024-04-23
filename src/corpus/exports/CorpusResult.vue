@@ -29,7 +29,7 @@ loadExports();
 </script>
 
 <template>
-  <PendingContent :on="`corpus/${corpusId}/exports`">
+  <PendingContent :on="`corpus/${corpusId}/exports/list`">
     <LayoutSection :title="$t('result')">
       <HelpBox>
         <p>{{ $t("exports.help") }}</p>

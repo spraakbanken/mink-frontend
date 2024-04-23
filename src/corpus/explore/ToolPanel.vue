@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import ActionButton from "@/components/ActionButton.vue";
 import UrlButton from "@/components/UrlButton.vue";
-import PendingContent from "@/spin/PendingContent.vue";
 
 defineProps<{
   name: string;
-  spinToken: string;
   info: string;
   canInstall?: boolean;
   isInstalled?: boolean;
@@ -19,7 +17,7 @@ defineEmits<{
 </script>
 
 <template>
-  <PendingContent :on="spinToken" class="flex flex-col gap-2">
+  <div class="flex flex-col gap-2">
     <div class="flex flex-wrap gap-2 justify-between items-baseline">
       <h3 class="font-bold">{{ name }}</h3>
 
@@ -58,5 +56,5 @@ defineEmits<{
         {{ linkText }}
       </a>
     </div>
-  </PendingContent>
+  </div>
 </template>

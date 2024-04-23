@@ -32,7 +32,7 @@ const totalSize = computed(() =>
       {{ filesize(info.file_size_limits.max_corpus_length.value) }}
     </span>
   </div>
-  <PendingContent :on="`corpus/${corpusId}/sources`">
+  <PendingContent :on="`corpus/${corpusId}/sources/list`">
     <table v-if="sources.length" class="w-full mt-4 striped">
       <thead>
         <tr>
@@ -66,7 +66,7 @@ const totalSize = computed(() =>
     </table>
   </PendingContent>
 
-  <PendingContent :on="`corpus/${corpusId}/sources`" blocking>
+  <PendingContent :on="`corpus/${corpusId}/sources/upload`" blocking>
     <SourceUpload :primary="isEmpty" />
   </PendingContent>
 </template>

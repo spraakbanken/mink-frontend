@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { computed } from "vue";
 import SpinIndicator from "@/spin/SpinIndicator.vue";
 import useSpin from "@/spin/spin.composable";
-import { enarray } from "@/util";
 
-const props = defineProps<{
+defineProps<{
   /** Tokens that may have been used with `spin()`. */
   on: string | string[];
   /**
@@ -17,17 +15,14 @@ const props = defineProps<{
   blocking?: boolean;
 }>();
 
-const { pending } = useSpin();
-const isPending = computed(() =>
-  enarray(props.on).some((token) => pending.value.includes(token)),
-);
+const { isPending } = useSpin();
 </script>
 
 <template>
-  <div class="relative" :class="{ 'animate-pulse2': isPending }">
+  <div class="relative" :class="{ 'animate-pulse2': isPending(on) }">
     <slot />
     <div
-      v-if="isPending"
+      v-if="isPending(on)"
       class="absolute top-0 left-0 right-0 bottom-0 z-30 flex justify-center items-center"
       :class="{ 'pointer-events-none': !blocking }"
     >

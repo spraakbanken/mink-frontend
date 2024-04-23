@@ -50,7 +50,7 @@ async function load(resourceId: string) {
         <PendingContent
           v-for="(resource, resourceId) of resourceStore.resources"
           :key="resourceId"
-          :on="`corpus/${resourceId}/job`"
+          :on="`corpus/${resourceId}/info`"
         >
           <div class="flex items-baseline gap-2">
             <router-link :to="`/library/resource/${resourceId}`">

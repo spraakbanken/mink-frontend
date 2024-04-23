@@ -61,7 +61,7 @@ async function loadPlain() {
         <tr>
           <th>{{ $t("source.content") }}</th>
           <td>
-            <PendingContent :on="`corpus/${corpusId}/sources/${filename}`">
+            <PendingContent :on="`corpus/${corpusId}/sources/${filename}/raw`">
               <SourceText
                 :load="loadRaw"
                 :filename="metadata.name"

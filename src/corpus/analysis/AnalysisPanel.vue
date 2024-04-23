@@ -38,7 +38,7 @@ watch(isDone, () => {
 <template>
   <div>
     <PendingContent
-      :on="`corpus/${corpusId}/job`"
+      :on="`corpus/${corpusId}/job/sparv`"
       class="flex flex-wrap gap-3 items-baseline"
     >
       <i18n-t keypath="analysis.help" scope="global" tag="p">

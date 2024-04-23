@@ -20,17 +20,13 @@ const hasStarted = computed(
       (status) => status != "none",
     ) || jobStatus.value?.priority,
 );
-
-const spinTokens = [
-  `corpus/${corpusId}/job`,
-  `corpus/${corpusId}/info`,
-  `corpus/${corpusId}/install/korp`,
-  `corpus/${corpusId}/install/strix`,
-];
 </script>
 
 <template>
-  <PendingContent v-if="jobStatus" :on="spinTokens">
+  <PendingContent
+    v-if="jobStatus"
+    :on="[`corpus/${corpusId}/job`, `corpus/${corpusId}/info`]"
+  >
     <div class="flex gap-4 justify-between items-baseline">
       <div class="text-lg">
         <span v-if="jobStatus.current_process">

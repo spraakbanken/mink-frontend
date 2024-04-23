@@ -1,5 +1,5 @@
-import { computed, ref } from "vue";
-import uniq from "lodash/uniq";
+import { ref } from "vue";
+import { enarray } from "@/util";
 
 const unsettled = ref<SpinItem[]>([]);
 
@@ -10,7 +10,7 @@ type SpinItem<T = any> = {
 
 export default function useSpin() {
   /**
-   * Track a pending promise with a message.
+   * Track a pending promise with a token.
    *
    * @param {Promise} promise A promise which may take a while.
    * @param {string} token A string identifying this request; use the same token with the PendingContent component around any content that may be affected by the promise.
@@ -31,17 +31,16 @@ export default function useSpin() {
     });
   }
 
-  /**
-   * Reactive list of pending tokens.
-   */
-  const pending = computed<string[]>(() =>
-    uniq(
-      unsettled.value.filter((item) => item.token).map((item) => item.token!),
-    ),
-  );
+  /** Match tokens against pending items. */
+  function isPending(tokens: string | string[]) {
+    // Pending if any of the pending tokens begins with any of the watched tokens.
+    return enarray(tokens).some((token) =>
+      unsettled.value.some((item) => item.token?.indexOf(token) === 0),
+    );
+  }
 
   return {
     spin,
-    pending,
+    isPending,
   };
 }
