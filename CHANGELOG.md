@@ -13,6 +13,8 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+## [1.5.0] (2024-04-23)
+
 ### Added
 
 - Upload custom corpus config [#99](https://github.com/spraakbanken/mink-frontend/issues/99)
@@ -181,7 +183,8 @@ The frontend is now open to the general public! This version allows users to:
 
 Code changes up until this point are not documented other than in the git commit log.
 
-[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.4.0...HEAD
+[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.1.0...v1.2.0
