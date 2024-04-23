@@ -10,6 +10,8 @@ import {
   faTrashCan,
 } from "@fortawesome/free-regular-svg-icons";
 import {
+  faAnglesDown,
+  faAnglesUp,
   faCircleInfo,
   faDownload,
   faGears,
@@ -25,6 +27,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
+  faAnglesDown,
+  faAnglesUp,
   faCircleInfo,
   faDownload,
   faFile,

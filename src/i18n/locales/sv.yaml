@@ -104,8 +104,8 @@ user.admin_mode.warning: Administratörsläget är aktiverat. Var försiktig!
 errors: Fel
 warnings: Varningar
 error.message: Ett fel uppstod
-expand.open: Visa mer
-expand.close: Visa mindre
+expand.open: Visa allt
+expand.close: Göm en del
 show: Visa
 select: Välj...
 en: Engelska

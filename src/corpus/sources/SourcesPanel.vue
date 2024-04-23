@@ -8,6 +8,7 @@ import { useCorpusState } from "@/corpus/corpusState.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
+import MaxHeight from "@/components/MaxHeight.vue";
 
 const corpusId = useCorpusIdParam();
 const { sources, deleteSource } = useSources(corpusId);
@@ -32,39 +33,41 @@ const totalSize = computed(() =>
       {{ filesize(info.file_size_limits.max_corpus_length.value) }}
     </span>
   </div>
-  <PendingContent :on="`corpus/${corpusId}/sources/list`">
-    <table v-if="sources.length" class="w-full mt-4 striped">
-      <thead>
-        <tr>
-          <th class="w-full">{{ $t("fileName") }}</th>
-          <th class="text-right">{{ $t("fileSize") }}</th>
-          <th />
-        </tr>
-      </thead>
-      <tbody class="border-b-0">
-        <tr v-for="source in sources" :key="source.path">
-          <td>
-            <router-link
-              :to="`/library/corpus/${corpusId}/sources/${source.name}`"
-            >
-              {{ source.name }}
-            </router-link>
-          </td>
-          <td class="text-right whitespace-nowrap">
-            {{ filesize(source.size) }}
-          </td>
-          <td class="text-right">
-            <ActionButton
-              class="button-danger button-mute button-slim"
-              @click="deleteSource(source)"
-            >
-              <icon :icon="['far', 'trash-can']" />
-            </ActionButton>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </PendingContent>
+  <MaxHeight :max-height="400">
+    <PendingContent :on="`corpus/${corpusId}/sources/list`">
+      <table v-if="sources.length" class="w-full mt-4 striped">
+        <thead>
+          <tr>
+            <th class="w-full">{{ $t("fileName") }}</th>
+            <th class="text-right">{{ $t("fileSize") }}</th>
+            <th />
+          </tr>
+        </thead>
+        <tbody class="border-b-0">
+          <tr v-for="source in sources" :key="source.path">
+            <td>
+              <router-link
+                :to="`/library/corpus/${corpusId}/sources/${source.name}`"
+              >
+                {{ source.name }}
+              </router-link>
+            </td>
+            <td class="text-right whitespace-nowrap">
+              {{ filesize(source.size) }}
+            </td>
+            <td class="text-right">
+              <ActionButton
+                class="button-danger button-mute button-slim"
+                @click="deleteSource(source)"
+              >
+                <icon :icon="['far', 'trash-can']" />
+              </ActionButton>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </PendingContent>
+  </MaxHeight>
 
   <PendingContent :on="`corpus/${corpusId}/sources/upload`" blocking>
     <SourceUpload :primary="isEmpty" />
