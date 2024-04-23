@@ -1,5 +1,5 @@
-import type { ByLang } from "@/util.types";
 import type { AxiosProgressEvent } from "axios";
+import type { ByLang, SweEng } from "@/util.types";
 
 /** Properties common to most backend responses */
 export type MinkResponse<T extends { [k: string]: any } = {}> = T & {
@@ -61,8 +61,17 @@ export type ResourceInfoOneData = ResourceInfo;
 
 /** Data about a resource and its job status */
 export type ResourceInfo = {
+  owner?: UserData;
   resource: ResourceData;
   job: CorpusStatus;
+};
+
+/** Data about a Mink user */
+export type UserData = {
+  id: string;
+  name: string;
+  email: string;
+  ui_language: SweEng;
 };
 
 /** Basic data about a resource */

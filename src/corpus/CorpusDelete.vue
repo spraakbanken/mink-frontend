@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import useCorpusIdParam from "./corpusIdParam.composable";
+import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import useDeleteCorpus from "@/corpus/deleteCorpus.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import useDeleteCorpus from "./deleteCorpus.composable";
 import { useResourceStore } from "@/store/resource.store";
 
 const router = useRouter();

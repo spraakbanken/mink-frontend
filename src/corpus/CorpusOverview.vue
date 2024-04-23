@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import useCorpusIdParam from "./corpusIdParam.composable";
-import { useCorpusState } from "./corpusState.composable";
-import MetadataPanel from "./config/MetadataPanel.vue";
-import LayoutBox from "@/components/LayoutBox.vue";
-import ActionButton from "@/components/ActionButton.vue";
+import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import { useCorpusState } from "@/corpus/corpusState.composable";
+import ConfigPanel from "@/corpus/config/ConfigPanel.vue";
+import SourcesPanel from "@/corpus/sources/SourcesPanel.vue";
+import JobStatus from "@/corpus/job/JobStatus.vue";
+import ExportsPanel from "@/corpus/exports/ExportsPanel.vue";
+import CorpusStateHelp from "@/corpus/CorpusStateHelp.vue";
 import RouteButton from "@/components/RouteButton.vue";
-import ConfigPanel from "./config/ConfigPanel.vue";
-import SourcesPanel from "./sources/SourcesPanel.vue";
-import JobStatus from "./job/JobStatus.vue";
-import ExportsPanel from "./exports/ExportsPanel.vue";
-import CorpusStateHelp from "./CorpusStateHelp.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
 
 const corpusId = useCorpusIdParam();
 const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
@@ -27,29 +25,11 @@ const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
         <template #controls>
           <RouteButton
             :to="`/library/corpus/${corpusId}/config`"
-            :class="{ 'button-primary': isNeedingConfig }"
+            :class="{ 'button-primary': isNeedingConfig || isNeedingMeta }"
           >
             <icon :icon="['fas', 'pen']" class="mr-1" />
             {{ $t("edit") }}
           </RouteButton>
-        </template>
-      </LayoutBox>
-
-      <LayoutBox :title="$t('metadata')" class="mb-4">
-        <MetadataPanel />
-        <template #controls>
-          <RouteButton
-            v-if="!isNeedingConfig"
-            :to="`/library/corpus/${corpusId}/metadata`"
-            :class="{ 'button-primary': isNeedingMeta }"
-          >
-            <icon :icon="['fas', 'pen']" class="mr-1" />
-            {{ $t("edit") }}
-          </RouteButton>
-          <ActionButton v-else disabled>
-            <icon :icon="['fas', 'pen']" class="mr-1" />
-            {{ $t("edit") }}
-          </ActionButton>
         </template>
       </LayoutBox>
     </div>

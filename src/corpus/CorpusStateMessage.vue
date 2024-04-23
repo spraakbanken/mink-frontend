@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useCorpusState } from "./corpusState.composable";
+import { useCorpusState } from "@/corpus/corpusState.composable";
 
 const props = defineProps<{
   corpusId: string;

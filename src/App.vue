@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { useTitle } from "@vueuse/core";
+import AppHeader from "@/page/AppHeader.vue";
 import api from "@/api/api";
 import * as util from "@/util";
 import { useAuth } from "@/auth/auth.composable";
@@ -10,7 +11,6 @@ import { useResourceStore } from "@/store/resource.store";
 import MessageToasts from "@/message/MessageToasts.vue";
 import usePageTitle from "@/page/title.composable";
 import BreadcrumbBar from "@/page/BreadcrumbBar.vue";
-import AppHeader from "./page/AppHeader.vue";
 
 const { refreshJwt } = useAuth();
 useLocale();

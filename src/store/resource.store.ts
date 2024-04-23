@@ -9,31 +9,36 @@ import type {
   ResourceInfo,
   ResourceType,
 } from "@/api/api.types";
-import type { ConfigOptions } from "@/api/corpusConfig";
 
-type Resource = {
+export type Resource = {
   type: ResourceType;
   name: ByLang;
+  owner?: User;
 };
 
-type Corpus = Resource & {
+export type User = {
+  name: string;
+  id: string;
+};
+
+export type Corpus = Resource & {
   type: "corpus";
   sources: FileMeta[];
-  config: ConfigOptions;
+  config?: string;
   status: CorpusStatus;
-  exports: FileMeta[];
+  exports?: FileMeta[];
 };
 
-type Metadata = Resource & {
+export type Metadata = Resource & {
   publicId: string;
   metadata: string; // YAML
 };
 
 // User-defined type guards to help inform TypeScript
 // See https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards
-const isCorpus = (resource: Partial<Resource>): resource is Corpus =>
+export const isCorpus = (resource: Partial<Resource>): resource is Corpus =>
   resource.type == "corpus";
-const isMetadata = (resource: Partial<Resource>): resource is Metadata =>
+export const isMetadata = (resource: Partial<Resource>): resource is Metadata =>
   resource.type == "metadata";
 
 export const useResourceStore = defineStore("resource", () => {
@@ -41,10 +46,8 @@ export const useResourceStore = defineStore("resource", () => {
   // current date (YYMMDD) if the state shape is changed, to make the browser
   // forget the old state. The actual number doesn't really matter, as long as
   // it's a new one.
-  const resourcesRef = useStorage("mink@230208.resources", {});
-  const resources: Record<string, Partial<Resource>> = reactive(
-    resourcesRef.value,
-  );
+  const resourcesRef = useStorage("mink@240417.resources", {});
+  const resources: Record<string, {} | Resource> = reactive(resourcesRef.value);
 
   const corpora = computed<Record<string, Partial<Corpus>>>(() =>
     filterResources("corpus"),
@@ -57,10 +60,13 @@ export const useResourceStore = defineStore("resource", () => {
     type: ResourceType,
   ): Record<string, Partial<T>> =>
     Object.keys(resources).reduce(
-      (filtered, resourceId) =>
-        resources[resourceId].type == type
-          ? { ...filtered, [resourceId]: resources[resourceId] }
-          : filtered,
+      (filtered, resourceId) => {
+        const resource = resources[resourceId];
+        return "type" in resource && resource.type == type
+          ? { ...filtered, [resourceId]: resource }
+          : filtered;
+      },
+
       {},
     );
 
@@ -68,29 +74,41 @@ export const useResourceStore = defineStore("resource", () => {
     setKeys(resources, resourceIds, {});
   }
 
+  /** Update state to match fresh data. */
   function setResources(infos: ResourceInfo[]) {
     // Drop old keys, assign empty records for each new id
     const ids = infos.map((info) => info.resource.id);
     setKeys(resources, ids, {});
 
-    for (const infoNew of infos) {
-      // Patch any existing record, otherwise create a new one.
-      const info =
-        infoNew.resource.id in resources ? resources[infoNew.resource.id] : {};
-      info.type = infoNew.resource.type;
-      info.name = infoNew.resource.name;
+    infos.forEach(setResource);
+  }
 
-      if (isCorpus(info)) {
-        info.sources = infoNew.resource.source_files;
-        info.status = infoNew.job;
-      }
+  /** Store new state for a given resource. */
+  function setResource(info: ResourceInfo): Resource {
+    const resource = {
+      type: info.resource.type,
+      name: info.resource.name,
+      owner: info.owner
+        ? { name: info.owner.name, id: info.owner.id }
+        : undefined,
+    };
 
-      if (isMetadata(info)) {
-        info.publicId = infoNew.resource.public_id;
-      }
-
-      resources[infoNew.resource.id] = info;
+    if (isCorpus(resource)) {
+      resource.sources = info.resource.source_files;
+      resource.status = info.job;
     }
+
+    if (isMetadata(resource)) {
+      resource.owner = info.owner;
+      resource.publicId = info.resource.public_id;
+    }
+
+    // Merge with any existing record.
+    resources[info.resource.id] = {
+      ...(resources[info.resource.id] || {}),
+      ...resource,
+    };
+    return resource;
   }
 
   const hasCorpora = computed(() => !!Object.keys(corpora).length);
@@ -101,6 +119,7 @@ export const useResourceStore = defineStore("resource", () => {
     metadatas,
     setResourceIds,
     setResources,
+    setResource,
     hasCorpora,
   };
 });

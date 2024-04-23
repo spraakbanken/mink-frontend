@@ -1,6 +1,6 @@
 {
   "name": "mink-frontend",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "license": "MIT",
   "scripts": {
     "dev": "vite",
@@ -28,6 +28,7 @@
     "@vueuse/core": "^10.7.2",
     "autoprefixer": "^10.4.7",
     "axios": "^1",
+    "datatransfer-files-promise": "^2.0.0",
     "eslint": "^8.15.0",
     "filesize": "^10.0.6",
     "js-yaml": "^4.1.0",
@@ -50,6 +51,7 @@
     "@types/node": "^20.10.6",
     "@vue/eslint-config-typescript": "^12.0.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-vue": "^9.0",
     "happy-dom": "^12.10.3",
     "prettier": "^3.2.4",

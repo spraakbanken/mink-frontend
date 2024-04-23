@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import useMessenger, { type MessageLevel } from "./messenger.composable";
+import useMessenger, {
+  type MessageLevel,
+} from "@/message/messenger.composable";
 
 const props = defineProps<{
   message: string;

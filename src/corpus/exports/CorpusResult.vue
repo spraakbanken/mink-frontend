@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import groupBy from "lodash/groupBy";
+import useExports from "@/corpus/exports/exports.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
-import useExports from "./exports.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import useLocale from "@/i18n/locale.composable";
 
@@ -16,6 +18,12 @@ const {
   downloadResultFile,
   getDownloadFilename,
 } = useExports(corpusId);
+
+const exportsByFolder = computed(() =>
+  exports.value
+    ? groupBy(exports.value, (meta) => meta.path.split("/").shift())
+    : undefined,
+);
 
 loadExports();
 </script>
@@ -54,17 +62,22 @@ loadExports();
           </tr>
         </thead>
         <tbody>
-          <tr v-for="file in exports" :key="file.name">
-            <td>
-              <a href="#" @click.prevent="downloadResultFile(file.path)">
-                <icon :icon="['fas', 'download']" />
-                {{ file.path }}
-              </a>
-            </td>
-            <td class="text-right whitespace-nowrap">
-              {{ filesize(file.size) }}
-            </td>
-          </tr>
+          <template v-for="(exports_, folder) in exportsByFolder" :key="folder">
+            <tr>
+              <td colspan="2">{{ folder }}/</td>
+            </tr>
+            <tr v-for="file in exports_" :key="file.name">
+              <td class="!pl-6">
+                <a href="#" @click.prevent="downloadResultFile(file.path)">
+                  <icon :icon="['fas', 'download']" />
+                  {{ file.path.split("/").slice(1).join("/") }}
+                </a>
+              </td>
+              <td class="text-right whitespace-nowrap">
+                {{ filesize(file.size) }}
+              </td>
+            </tr>
+          </template>
         </tbody>
       </table>
     </LayoutSection>

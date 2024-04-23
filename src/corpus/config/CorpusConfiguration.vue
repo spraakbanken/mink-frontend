@@ -1,25 +1,30 @@
 <script setup lang="ts">
+import type { FormKitOptionsList } from "@formkit/inputs";
+import type { AxiosError } from "axios";
 import { computed } from "vue";
-import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
+import { computedAsync } from "@vueuse/core";
+import type { MinkResponse } from "@/api/api.types";
+import {
+  type ConfigOptions,
+  FORMATS_EXT,
+  type FileFormat,
+  SEGMENTERS,
+  emptyConfig,
+  parseConfig,
+} from "@/api/corpusConfig";
+import type { ConfigSentenceSegmenter } from "@/api/sparvConfig.types";
+import HelpBox from "@/components/HelpBox.vue";
+import LayoutSection from "@/components/LayoutSection.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import RouteButton from "@/components/RouteButton.vue";
-import LayoutSection from "@/components/LayoutSection.vue";
-import PendingContent from "@/spin/PendingContent.vue";
-import useConfig from "./config.composable";
-import {
-  FORMATS_EXT,
-  SEGMENTERS,
-  type FileFormat,
-  type ConfigOptions,
-} from "@/api/corpusConfig";
 import useMessenger from "@/message/messenger.composable";
-import HelpBox from "@/components/HelpBox.vue";
-import useSources from "../sources/sources.composable";
-import type { AxiosError } from "axios";
-import type { FormKitOptionsList } from "@formkit/inputs";
-import type { ConfigSentenceSegmenter } from "@/api/sparvConfig.types";
-import type { MinkResponse } from "@/api/api.types";
+import PendingContent from "@/spin/PendingContent.vue";
+import useSources from "@/corpus/sources/sources.composable";
+import useConfig from "@/corpus/config/config.composable";
+import type { ByLang } from "@/util.types";
+import LayoutBox from "@/components/LayoutBox.vue";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
@@ -29,8 +34,8 @@ const { extensions } = useSources(corpusId);
 const { t } = useI18n();
 
 type Form = {
-  name: string;
-  description: string;
+  name: ByLang;
+  description: ByLang;
   format: FileFormat;
   textAnnotation: string;
   sentenceSegmenter: ConfigSentenceSegmenter;
@@ -38,6 +43,8 @@ type Form = {
   datetimeTo: string;
   enableNer: boolean;
 };
+
+const configOptions = computedAsync(getParsedConfig);
 
 const formatOptions = computed<FormKitOptionsList>(() =>
   FORMATS_EXT.map((ext) => ({
@@ -52,8 +59,10 @@ const formatOptions = computed<FormKitOptionsList>(() =>
 
 // Auto-select the file format present among source files, if any.
 const selectedFormat = computed<FileFormat | undefined>(() =>
-  config.value?.format && extensions.value.includes(config.value?.format)
-    ? config.value?.format
+  configOptions.value?.format &&
+  (!extensions.value.length ||
+    extensions.value.includes(configOptions.value?.format))
+    ? configOptions.value?.format
     : undefined,
 );
 
@@ -67,10 +76,25 @@ const segmenterOptions = computed<SegmenterOptions>(() => {
   return options as SegmenterOptions;
 });
 
+async function getParsedConfig() {
+  if (!config.value) return undefined;
+  try {
+    const parsed = await parseConfig(config.value);
+    return parsed;
+  } catch (error) {
+    alert(t("corpus.config.parse.error"), "error");
+    console.error(`Error parsing config for "${corpusId}":`, error);
+  }
+}
+
 async function submit(fields: Form) {
-  const corpusIdFixed = corpusId;
+  // If there is no previous config file, start from a minimal one.
+  const configOld = configOptions.value || emptyConfig();
+  // Merge new form values with existing config.
   const configNew: ConfigOptions = {
-    ...config.value!,
+    ...configOld,
+    name: fields.name,
+    description: fields.description,
     format: fields.format,
     textAnnotation: fields.textAnnotation,
     sentenceSegmenter: fields.sentenceSegmenter,
@@ -78,11 +102,13 @@ async function submit(fields: Form) {
     datetimeTo: fields.datetimeTo,
     enableNer: fields.enableNer,
   };
+
   try {
     await uploadConfig(configNew);
-    router.push(`/library/corpus/${corpusIdFixed}`);
+    router.push(`/library/corpus/${corpusId}`);
   } catch (e) {
     if (e instanceof TypeError) {
+      // Error from config serialization
       alert(e.message, "error");
     } else alertError(e as AxiosError<MinkResponse>);
   }
@@ -90,10 +116,12 @@ async function submit(fields: Form) {
 </script>
 
 <template>
-  <PendingContent v-if="config" :on="`corpus/${corpusId}/config`">
+  <PendingContent :on="`corpus/${corpusId}/config`">
+    <!-- Using the key attribute to re-render whole form when async parseConfig is done -->
     <FormKit
       id="corpus-config"
       v-slot="{ value }"
+      :key="JSON.stringify(configOptions)"
       type="form"
       :submit-label="$t('save')"
       :submit-attrs="{
@@ -101,6 +129,53 @@ async function submit(fields: Form) {
       }"
       @submit="submit"
     >
+      <LayoutSection :title="$t('metadata')">
+        <HelpBox>
+          <p>{{ $t("config.metadata.help") }}</p>
+        </HelpBox>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <LayoutBox
+            v-for="(lang2, lang3) of { swe: 'sv', eng: 'en' }"
+            :key="lang3"
+            :title="$t(lang2)"
+          >
+            <FormKit type="group" name="name">
+              <FormKit
+                :name="lang3"
+                :label="$t('name')"
+                :value="configOptions?.name?.[lang3]"
+                :help="$t('metadata.name.help')"
+                type="text"
+                input-class="w-72"
+                validation="required:trim"
+              />
+            </FormKit>
+
+            <FormKit type="group" name="description">
+              <FormKit
+                :name="lang3"
+                :label="$t('description')"
+                :value="configOptions?.description?.[lang3]"
+                :help="$t('metadata.description.help')"
+                type="textarea"
+                input-class="w-full h-20"
+              />
+            </FormKit>
+          </LayoutBox>
+        </div>
+
+        <FormKit
+          :label="$t('identifier')"
+          type="text"
+          name="identifier"
+          disabled
+          :value="corpusId"
+          :help="$t('metadata.identifier.help')"
+          input-class="font-mono bg-stone-600 text-lime-50 text-xs p-2 rounded"
+        />
+      </LayoutSection>
+
       <LayoutSection :title="$t('configuration')">
         <HelpBox>
           <p>{{ $t("config.configuration.help") }}</p>
@@ -128,19 +203,19 @@ async function submit(fields: Form) {
           name="textAnnotation"
           :label="$t('config.text_annotation')"
           type="text"
-          :value="config.textAnnotation"
+          :value="configOptions?.textAnnotation"
           validation="required:trim|matches:/^[^<>\s]*$/"
           input-class="w-40 font-mono"
           :help="$t('config.text_annotation.help')"
         >
-          <template #prefix>&lt;</template>
-          <template #suffix>&gt;</template>
+          <template #prefix> &lt; </template>
+          <template #suffix> &gt; </template>
         </FormKit>
 
         <FormKit
           name="sentenceSegmenter"
           :label="$t('segmenter_sentence')"
-          :value="config.sentenceSegmenter || ''"
+          :value="configOptions?.sentenceSegmenter || ''"
           type="radio"
           :options="segmenterOptions"
           :help="$t('segmenter_sentence_help')"
@@ -150,13 +225,13 @@ async function submit(fields: Form) {
           name="datetimeFrom"
           type="date"
           :label="`${$t('timespan')}: ${$t('timespan_from')}`"
-          :value="config.datetimeFrom"
+          :value="configOptions?.datetimeFrom"
         />
         <FormKit
           name="datetimeTo"
           type="date"
           :label="`${$t('timespan')}: ${$t('timespan_to')}`"
-          :value="config.datetimeTo"
+          :value="configOptions?.datetimeTo"
           :help="$t('timespan_help')"
         />
 
@@ -164,7 +239,7 @@ async function submit(fields: Form) {
           <FormKit
             name="enableNer"
             :label="$t('annotations.ner')"
-            :value="config.enableNer"
+            :value="configOptions?.enableNer"
             type="checkbox"
             :help="$t('annotations.ner.help')"
           />
@@ -174,7 +249,12 @@ async function submit(fields: Form) {
         </LayoutSection>
       </LayoutSection>
     </FormKit>
-    <div class="flex justify-center">
+
+    <div class="flex justify-center items-baseline gap-4">
+      <RouteButton :to="`/library/corpus/${corpusId}/config/custom`">
+        {{ $t("config.custom") }}
+      </RouteButton>
+
       <RouteButton
         :to="`/library/corpus/${corpusId}/delete`"
         class="button-danger"

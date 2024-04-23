@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import SpinIndicator from "./SpinIndicator.vue";
-import useSpin from "./spin.composable";
+import SpinIndicator from "@/spin/SpinIndicator.vue";
+import useSpin from "@/spin/spin.composable";
 
 const props = defineProps<{
   /** A token that may have been used with `spin()`. */

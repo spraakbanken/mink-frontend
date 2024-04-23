@@ -23,7 +23,7 @@ It is a [Vue 3](https://v3.vuejs.org/) app using [Vite](https://vitejs.dev/).
 - Visualization of API calls:
   1. Wrap async calls in [`spin`](src/spin/spin.composable.js):
      ```js
-     spin(loadCorpora(), "Loading corpora", "corpora");
+     spin(loadCorpora(), "corpora");
      ```
   2. For markup that might change after the call, wrap it in [`<PendingContent>`](src/spin/PendingContent.vue) to apply animation:
      ```html
@@ -37,21 +37,26 @@ It is a [Vue 3](https://v3.vuejs.org/) app using [Vite](https://vitejs.dev/).
 
 ## Recommended IDE setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar).
+[VSCode](https://code.visualstudio.com/) with the plugins
+[ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint),
+[Vue](https://marketplace.visualstudio.com/items?itemName=Vue.volar) and
+[Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
 
 VSCode settings:
 
 ```json
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll": "explicit"
   },
-  "vetur.validation.template": false,
   "editor.formatOnSave": true,
-  "[vue]": {
+  "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[javascript]": {
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

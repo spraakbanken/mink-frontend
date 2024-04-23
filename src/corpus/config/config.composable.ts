@@ -1,6 +1,6 @@
 import { computed } from "vue";
+import { computedAsync } from "@vueuse/core";
 import {
-  emptyConfig,
   makeConfig,
   parseConfig,
   type ConfigOptions,
@@ -16,30 +16,48 @@ export default function useConfig(corpusId: string) {
 
   const corpus = computed(() => resourceStore.corpora[corpusId]);
   const config = computed(() => corpus.value?.config);
-  const corpusName = computed(() => th(config.value?.name));
+  const configOptions = computedAsync(getParsedConfig);
+  const corpusName = computed(() => th(configOptions.value?.name));
 
   async function loadConfig() {
     const config = await mink
       .loadConfig(corpusId)
-      .then(parseConfig)
       // 404 means no config which is fine, rethrow other errors.
       .catch((error) => {
-        if (error.response?.status == 404) return emptyConfig();
+        if (error.response?.status == 404) return undefined;
         throw error;
       });
     corpus.value.config = config;
   }
 
-  async function uploadConfig(config: ConfigOptions) {
-    // This may throw, either from makeConfig or saveConfig.
-    await mink.saveConfig(corpusId, await makeConfig(corpusId, config));
-    resourceStore.corpora[corpusId].config = config;
+  async function uploadConfig(configOptions: ConfigOptions) {
+    const configYaml = await makeConfig(corpusId, configOptions);
+    await uploadConfigRaw(configYaml);
+  }
+
+  async function uploadConfigRaw(configYaml: string) {
+    await mink.saveConfig(corpusId, configYaml);
+    // Backend may modify uploaded config. Store our version immediately, but also fetch the real one unawaited.
+    resourceStore.corpora[corpusId].config = configYaml;
+    loadConfig();
+  }
+
+  async function getParsedConfig() {
+    if (!config.value) return undefined;
+    try {
+      const parsed = await parseConfig(config.value);
+      return parsed;
+    } catch (error) {
+      console.error(`Error parsing config for "${corpusId}":`, error);
+    }
   }
 
   return {
     config,
+    configOptions,
     corpusName,
     loadConfig,
     uploadConfig,
+    uploadConfigRaw,
   };
 }

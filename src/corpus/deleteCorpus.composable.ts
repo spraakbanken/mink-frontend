@@ -25,7 +25,7 @@ export default function useDeleteCorpus() {
    */
   async function deleteCorpus(corpusId: string) {
     // Wrap deletion as well as refreshing in spin, for visual feedback.
-    return spin(doDeleteCorpus(corpusId), null, `corpus/${corpusId}`);
+    return spin(doDeleteCorpus(corpusId), `corpus/${corpusId}`);
   }
 
   return { deleteCorpus };

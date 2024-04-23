@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import routes from "./main.routes";
+import routes from "@/router/main.routes";
 
 // Specify typing for router meta.
 import "vue-router";

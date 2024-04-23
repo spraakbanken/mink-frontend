@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import useJob from "./job.composable";
 import { computed } from "vue";
+import useJob from "@/corpus/job/job.composable";
 
 const props = defineProps<{
   corpusId: string;

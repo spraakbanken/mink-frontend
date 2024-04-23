@@ -13,6 +13,29 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+## [1.5.0] (2024-04-23)
+
+### Added
+
+- Upload custom corpus config [#99](https://github.com/spraakbanken/mink-frontend/issues/99)
+- A quick, brief resource listing view for admin [#146](https://github.com/spraakbanken/mink-frontend/issues/146)
+- Group export files by folder [#95](https://github.com/spraakbanken/mink-frontend/issues/95)
+- JWT request now has a 2s timeout and two retries [#124](https://github.com/spraakbanken/mink-frontend/issues/124)
+- Upload an entire folder of source files [#97](https://github.com/spraakbanken/mink-frontend/issues/97)
+
+### Changed
+
+- Removed unused `message` param from `spin()` [#157](https://github.com/spraakbanken/mink-frontend/issues/157)
+- Merged the corpus Metadata and Configuration panels/forms
+- Updated dependencies
+
+### Fixed
+
+- Use the new Språkbanken Text logo
+- Unallowed file format sometimes saved to local config [#153](https://github.com/spraakbanken/mink-frontend/issues/153)
+- Make language switcher more visible [#90](https://github.com/spraakbanken/mink-frontend/issues/90)
+- Show hint if parsing config fails
+
 ## [1.4.0] (2024-03-11)
 
 ### Added
@@ -160,7 +183,8 @@ The frontend is now open to the general public! This version allows users to:
 
 Code changes up until this point are not documented other than in the git commit log.
 
-[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.4.0...HEAD
+[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.1.0...v1.2.0

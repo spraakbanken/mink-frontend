@@ -1,10 +1,16 @@
 import { computed, ref } from "vue";
-import { useI18n } from "vue-i18n";
 import { useRouter, useRoute } from "vue-router";
-import { checkLogin } from "./auth";
+import { useI18n } from "vue-i18n";
+import { retry } from "@/util";
 import api from "@/api/api";
 import useSpin from "@/spin/spin.composable";
-import { canAdmin, decodeJwt, type JwtSbPayload } from "./jwtSb";
+import {
+  fetchJwt,
+  hasAccess,
+  decodeJwt,
+  type JwtSbPayload,
+} from "@/auth/sbAuth";
+import useMessenger from "@/message/messenger.composable";
 
 /**
  * JWT request slot.
@@ -21,20 +27,19 @@ let jwtPromise: Promise<unknown> | undefined = undefined;
  */
 let refreshTimer: NodeJS.Timeout | undefined = undefined;
 
-const jwt = ref<string | undefined>(undefined);
+const payload = ref<JwtSbPayload>();
 
 export function useAuth() {
   const router = useRouter();
   const route = useRoute();
   const { spin, pending } = useSpin();
+  const { alert } = useMessenger();
   const { t } = useI18n();
 
-  const isAuthenticated = computed<boolean>(() => !!jwt.value);
-  const payload = computed<JwtSbPayload | undefined>(() =>
-    jwt.value ? decodeJwt(jwt.value)?.payload : undefined,
-  );
+  const isAuthenticated = computed<boolean>(() => !!payload.value);
   const canUserAdmin = computed<boolean>(
-    () => !!payload.value && canAdmin(payload.value, "other", "mink-app"),
+    () =>
+      !!payload.value && hasAccess(payload.value, "other", "mink-app", "ADMIN"),
   );
   const canUserWrite = computed(() => isAuthenticated.value);
   /** Indicates whether a jwt request is currently loading. */
@@ -43,11 +48,11 @@ export function useAuth() {
   /** If not authenticated, redirect to the login page. */
   async function requireAuthentication(callback?: () => void) {
     // First, ensure the jwt has been fetched.
-    if (!jwt.value) {
+    if (!payload.value) {
       await refreshJwt();
     }
     // If still no jwt, it means the user hasn't authenticated. Show our login page.
-    if (!jwt.value) {
+    if (!payload.value) {
       // By passing current page as destination param, the user will then be redirected back to where they first attempted to go.
       router.push(`/login?destination=${route.fullPath}`);
       return;
@@ -56,26 +61,33 @@ export function useAuth() {
     callback?.();
   }
 
-  /** Fetch JWT, store it and use it for API client. */
+  /**
+   * Fetch JWT, store it and use it for API client.
+   *
+   * @throws If the JWT request fails (auth server down?).
+   */
   async function refreshJwt() {
     async function fetchAndStoreJwt() {
-      // Fetch JWT.
-      const jwtValue = (await checkLogin()) || undefined;
+      // Fetch JWT. Occasionally it times out, so try a few times before giving up.
+      const jwtValue = await retry(fetchJwt).catch((error) => {
+        // On error, show message and treat as not authenticated
+        alert(`${t("login.fail")}: ${error?.message || error}`);
+        return undefined;
+      });
       // Store it to make username etc available to GUI.
-      jwt.value = jwtValue;
+      payload.value = jwtValue ? decodeJwt(jwtValue)?.payload : undefined;
       // Register it with the API client.
       api.setJwt(jwtValue);
 
       // Schedule next request shortly before expiration time.
       refreshTimer && clearTimeout(refreshTimer);
-      if (payload.value && payload.value.exp) {
+      if (payload.value?.exp) {
         const timeoutMs = (payload.value.exp - 10) * 1000 - Date.now();
         refreshTimer = setTimeout(refreshJwt, timeoutMs);
       }
     }
     // Reuse current JWT request or make a new one.
-    jwtPromise =
-      jwtPromise || spin(fetchAndStoreJwt(), t("jwt.refreshing"), "jwt");
+    jwtPromise = jwtPromise || spin(fetchAndStoreJwt(), "jwt");
     await jwtPromise;
     // Free the slot for subsequent refreshes.
     jwtPromise = undefined;

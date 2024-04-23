@@ -1,9 +1,12 @@
 import useMinkBackend from "@/api/backend.composable";
-import { useResourceStore } from "@/store/resource.store";
+import { useResourceStore, type Resource } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
 
 /** Let resource list be refreshed initially, but skip subsequent load calls. */
 let isFresh = false;
+
+/** List of freshly loaded resources. */
+const freshResources: Record<string, true> = {};
 
 /** Use this module-scope variable for the request, so that simultaneous calls don't procude multiple requests. */
 let loadPromise: Promise<unknown> | null = null;
@@ -13,6 +16,20 @@ export default function useResources() {
   const { alertError } = useMessenger();
   const mink = useMinkBackend();
 
+  /** Load and store data about a given resource. */
+  async function loadResource(
+    resourceId: string,
+  ): Promise<Resource | undefined> {
+    if (!freshResources[resourceId]) {
+      const data = await mink.resourceInfoOne(resourceId).catch(alertError);
+      if (!data) return;
+      resourceStore.setResource(data);
+      freshResources[resourceId] = true;
+    }
+    return resourceStore.resources[resourceId] as Resource;
+  }
+
+  /** Load and store data about all the user's resources, with caching. */
   async function loadResources() {
     // Skip if already loaded.
     if (isFresh) return;
@@ -50,9 +67,9 @@ export default function useResources() {
   }
 
   return {
+    loadResource,
     loadResources,
     loadResourceIds,
-    loadResourceInfo,
     refreshResources,
   };
 }

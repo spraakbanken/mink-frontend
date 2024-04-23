@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { AxiosProgressEvent } from "axios";
+import FileDropArea from "@/components/FileDropArea.vue";
+import ProgressBar from "@/components/ProgressBar.vue";
 import useMessenger from "@/message/messenger.composable";
-import FileDropArea from "./FileDropArea.vue";
-import ProgressBar from "./ProgressBar.vue";
 import type { ProgressHandler } from "@/api/api.types";
 
 const props = defineProps<{
   /**
    * A function that presumably uploads given file(s) to the appropriate API.
    */
-  fileHandler: (files: FileList, onProgress: ProgressHandler) => Promise<void>;
+  fileHandler: (files: File[], onProgress: ProgressHandler) => Promise<void>;
   primary?: boolean;
   accept?: string;
   multiple?: boolean;
@@ -27,13 +27,15 @@ async function handleFileInput(event: Event) {
     throw new RangeError("No file found in the file input");
   }
 
-  await handleUpload(fileInput.files!);
+  // Convert from FileList to File[]
+  const files = [...fileInput.files!];
+  await handleUpload(files);
   // Empty the input value to enable selecting the same file again.
   fileInput.value = "";
 }
 
 /** Call upload function. */
-async function handleUpload(files: FileList) {
+async function handleUpload(files: File[]) {
   clear();
   try {
     await props.fileHandler(files, onProgress);
@@ -57,9 +59,9 @@ function onProgress(progressEvent: AxiosProgressEvent) {
             ? [
                 'bg-blue-50',
                 'border-blue-100',
-                'dark:bg-blue-200',
-                'dark:border-blue-300',
-                'dark:text-blue-800',
+                'dark:bg-sky-900',
+                'dark:border-sky-600',
+                'dark:text-sky-200',
               ]
             : [
                 'bg-zinc-100',

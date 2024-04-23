@@ -1,4 +1,4 @@
-import { computed } from "@vue/reactivity";
+import { computed } from "vue";
 import uniq from "lodash/uniq";
 import useMinkBackend from "@/api/backend.composable";
 import { useResourceStore } from "@/store/resource.store";
@@ -29,7 +29,7 @@ export default function useSources(corpusId: string) {
     return mink.downloadPlaintext(corpusId, source.name).catch(alertError);
   }
 
-  async function uploadSources(files: FileList, onProgress?: ProgressHandler) {
+  async function uploadSources(files: File[], onProgress?: ProgressHandler) {
     await mink.uploadSources(corpusId, files, onProgress);
     loadSources();
   }

@@ -17,7 +17,7 @@ const { corpusName } = useConfig(props.id);
 
 const corpus = resourceStore.corpora[props.id];
 
-spin(loadCorpus(), null, "corpora");
+spin(loadCorpus(), "corpora");
 </script>
 
 <template>

@@ -1,8 +1,8 @@
 import { computed } from "vue";
 import { useRoute, type RouteLocation } from "vue-router";
 import { useI18n } from "vue-i18n";
-import useLocale from "../i18n/locale.composable";
-import { useResourceStore } from "../store/resource.store";
+import useLocale from "@/i18n/locale.composable";
+import { useResourceStore } from "@/store/resource.store";
 
 /** Handle the custom title/createTitle route meta options. */
 export default function usePageTitle() {

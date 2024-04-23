@@ -13,7 +13,7 @@ import type {
   AdminModeStatusData,
   CreateMetadataData,
   ProgressHandler,
-} from "./api.types";
+} from "@/api/api.types";
 
 /** Mink backend API client */
 class MinkApi {
@@ -115,11 +115,11 @@ class MinkApi {
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Sources/operation/uploadsources */
   async uploadSources(
     corpusId: string,
-    files: FileList,
+    files: File[],
     onProgress?: ProgressHandler,
   ) {
     const formData = new FormData();
-    [...files].forEach((file) => formData.append("files[]", file));
+    files.forEach((file) => formData.append("files[]", file));
     const response = await this.axios.put<MinkResponse>(
       "upload-sources",
       formData,
@@ -191,6 +191,7 @@ class MinkApi {
         params: { corpus_id: corpusId },
       })
       // Errors are okay.
+      // TODO Use the `validateStatus` config option instead
       .catch((reason) => reason.response);
     return response.data;
   }

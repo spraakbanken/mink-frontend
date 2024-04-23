@@ -1,6 +1,6 @@
 import { createI18n } from "vue-i18n";
-import en from "./locales/en.yaml";
-import sv from "./locales/sv.yaml";
+import en from "@/i18n/locales/en.yaml";
+import sv from "@/i18n/locales/sv.yaml";
 
 export default createI18n({
   legacy: false,
@@ -12,3 +12,11 @@ export default createI18n({
   fallbackLocale: ["en", "sv"],
   messages: { en, sv },
 });
+
+export type LocaleId = "sv" | "en";
+
+/** Each UI language name, written in that language, keyed by its 2-letter locale id. */
+export const languageNames = {
+  sv: "Svenska",
+  en: "English",
+};

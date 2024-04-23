@@ -1,6 +1,6 @@
 import { computed, readonly, ref } from "vue";
-import api from "./api";
-import type { InfoData } from "./api.types";
+import api from "@/api/api";
+import type { InfoData } from "@/api/api.types";
 import { keyBy, objsToDict } from "@/util";
 
 export type Info = {

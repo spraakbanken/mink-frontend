@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import useCorpusIdParam from "./corpusIdParam.composable";
-import { useCorpusState } from "./corpusState.composable";
+import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import { useCorpusState } from "@/corpus/corpusState.composable";
 import HelpBox from "@/components/HelpBox.vue";
 
 const corpusId = useCorpusIdParam();

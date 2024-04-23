@@ -1,13 +1,11 @@
 import { readonly, ref } from "vue";
 import useMinkBackend from "@/api/backend.composable";
-import { useAuth } from "@/auth/auth.composable";
 import useResources from "@/library/resources.composable";
 import useMessenger from "@/message/messenger.composable";
 
-const adminModeRef = ref(false);
+const adminModeRef = ref<boolean>();
 
 export default function useAdmin() {
-  const { canUserAdmin } = useAuth();
   const { refreshResources } = useResources();
   const mink = useMinkBackend();
   const { alertError } = useMessenger();
@@ -34,6 +32,5 @@ export default function useAdmin() {
     enableAdminMode,
     disableAdminMode,
     adminMode: readonly(adminModeRef),
-    isAdmin: canUserAdmin,
   };
 }

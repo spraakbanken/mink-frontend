@@ -1,7 +1,9 @@
 home: Home
 home.hero.sb: "{0} is a research infrastructure for language data. We create and maintain language data analysed with state-of-the-art language technology methods for researchers everywhere, and take pride in providing free and open access where possible."
 home.hero.mink: "{0} is our effort to put Språkbanken Text’s research infrastructure into the hands of the researchers. You can use Mink to apply our language technology methods on texts that you have collected yourself. The resulting data can be downloaded or made available through our research tools, such as Korp and Strix, behind login."
-home.hero.privacy: Your source data and the results are private. Forthcoming versions will include features for sharing datasets with teams and publishing them publicly.
+home.hero.privacy: Your source data and the results are private (see {0}). Forthcoming versions will include features for sharing datasets with teams and publishing them publicly.
+home.hero.privacy.link.url: https://spraakbanken.gu.se/en/tools/mink/data-policy
+home.hero.privacy.link.label: Privacy and data policy
 home.features.sparv.title: Configurable language technology analysis
 home.features.sparv.body: Your language data are analyzed by our language technology platform {sparv} according to your settings.
 home.features.upload.title: Deposit your text
@@ -21,11 +23,7 @@ library.help.corpora: These are the corpora that you have created. Only you can 
 library.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "@:{'new_corpus'}" button or drop text files into the upload field below.
 library.help.metadata: A metadata record holds information describing an arbitrary resource. Mink will not process any data for this resource, but you can export the metadata to a repository.
 corpus.create.help: The corpus will be accessible by you only. You can always change these values later.
-corpus.creating: Creating corpus
-corpus.configuring: Configuring corpus
 corpus.delete: Delete corpus
-corpus.deleting: Deleting corpus
-corpus.list.loading: Listing corpora
 corpus.state.unknown: Unknown
 corpus.state.empty: No files
 corpus.state.needing_config: Configuration needed
@@ -52,19 +50,15 @@ metadata.new: New metadata
 metadata.public_id.help: In Mink, all resources have fixed, unmodifiable identifiers. The public identifier is what this resource will get once it is exported to a repository. Try to make it recognizable and descriptive, but not too long. It must only contain lowercase letters, numbers and dashes, and start with your assigned organization prefix.
 metadata.public_id.error.format: The public identifier must only contain lowercase letters (a-z), numbers (0-9) and dashes (-). It must not start or end with a dash.
 metadata.delete: Delete metadata
-resource.loading: Loading resource
 resource.delete.ask: Are you sure you want to delete this resource?
 config.metadata.help: Metadata is information about the data, meant for assessment by interested users (if you release the data), and for categorization in data repositories.
 config.configuration.help: These settings are information for the automatic analysis; they will affect the parsing or annotation.
-config.loading: Loading metadata
+corpus.config.parse.error: The config of this corpus could not be parsed. Try editing the settings or metadata again. If you need help, please contact sb-info{'@'}svenska.gu.se
 config.saving: Saving metadata
 job.run: Run annotation
 job.rerun: Re-run annotation
 job.rerun.overwrite: Previous results will be overwritten
 job.abort: Abort
-job.aborting: Aborting annotation job
-job.starting: Queueing annotation job
-job.installing: Installing to Korp
 job.status: Status
 job.priority: Place in queue
 job.last_run_started: Last run started
@@ -73,26 +67,21 @@ job.time_taken: Time taken
 job.process.sparv: Annotation
 job.process.korp: Installation to Korp
 job.process.strix: Installation to Strix
-source.deleting: Deleting text
-source.downloading: Downloading text
-source.downloading_plain: Downloading extracted text
 source.limit.file.recommended: Recommended max file size
 source.limit.file.max: Maximum file size
 source.limit.upload.max: Maximum batch upload size
 source.limit.corpus.recommended: Recommended max corpus size
 source.limit.corpus.max: Maximum corpus size
 source.notfound: This source file was not found
-source.uploading: Uploading text file | Uploading text files
 source.list.loading: Listing source texts
 source.content: Content
+source.upload.config_format.trigger_change: "Corpus configuration is updated to match the file format: {format}"
 upload.label.single: Add file
 upload.label.multiple: Add files
 upload.dnd.single: Drag and drop file here, or click here to choose
 upload.dnd.multiple: Drag and drop files here, or click here to choose
 upload.drop.empty: No file was dropped. Drag-and-drop may not be supported on your system.
-jwt.refreshing: Refreshing account
 tools: Explore
-exports.loading: Listing result files
 exports.tools.help: Use this data in Språkbanken's corpus tools. Your data will be available to you only, in a special Mink mode.
 exports.tools.help.korp: Korp offers concordance search, detailed queries, frequency statistics and more.
 exports.tools.help.korp.manual.url: https://spraakbanken.gu.se/en/tools/korp/user-manual
@@ -102,7 +91,6 @@ exports.tools.install: Install
 exports.tools.reinstall: Reinstall
 exports.tools.view: View
 exports.download.help: Results can be downloaded as machine-readable files for processing in scripts or other specialized software.
-exports.downloading: Downloading results
 exports.help: The annotation process yields export files for each input file. You can download each single export file or all of them in a bundle. The exact structure of the files depends on the input files as well as the configuration. They are stored on the server indefinitely, but re-running the annotation will replace them with new ones.
 exports.help.more.label: Read more about export files in the user manual
 user.settings: Settings
@@ -119,15 +107,18 @@ en: English
 sv: Swedish
 metadata: Metadata
 texts: Source texts
-configuration: Settings
+configuration: Configuration
+settings: Settings
 result: Result
+resources: Resources
 corpus: Corpus
 corpuses: Corpora
 files: No files | 1 file | {count} files
 none: None
 new_corpus: New corpus
 fileName: Name
-fileType: Type
+type: Type
+upload: Upload
 uploaded: Uploaded
 lastModify: Last modified
 fileSize: Size
@@ -140,6 +131,7 @@ save: Save
 create: Create
 cancel: Cancel
 message: Message
+sparv.url: https://spraakbanken.gu.se/en/tools/sparv
 sparvOutput: Sparv output
 download: Download
 download_export: Download full result
@@ -152,6 +144,7 @@ job.status.running: Working
 login: Sign in
 login.required: This page requires you to authenticate.
 login.help: Most university users can sign in directly.
+login.fail: Authentication check failed
 logout: Logout
 signup: Create account
 signup.help: Most non-university users need to set up an account first.
@@ -159,10 +152,15 @@ signup.existing.title: You may already have an account
 signup.existing.login: "If your university account is connected to eduGAIN, you can directly use Mink by simply signing in:"
 signup.existing.tip: (If you are not sure, click the button and search for your university or organization.)
 signup.new: No account
-signup.new.create: If you are not affiliated with any of the available identity providers, you can {register} and then sign in here, selecting {eduid} as identity provider.
+signup.new.create: "If you are not affiliated with any of the available identity providers, you can:"
+# " {register} and then sign in here, selecting {eduid} as identity provider.
 signup.new.register.url: https://eduid.se/en/
-signup.new.register.label: create an eduID account
 signup.new.eduid: eduID Sweden
+signup.new.steps.create_eduid: Create an eduID account
+signup.new.steps.skip_verification: you do {em} need to verify your identity to use Mink
+signup.new.steps.skip_verification.em: not
+signup.new.steps.login: Go back to this page and click {login}
+signup.new.steps.idp: Choose {eduid} as identity provider
 account: Account
 enable: Enable
 enabled: Enabled
@@ -174,6 +172,7 @@ docx: Microsoft Word
 odt: OpenDocument Text
 pdf: PDF
 load: Load
+not_loaded: Not loaded
 file.archive: Archive
 file.singles: Single files
 name: Name
@@ -186,6 +185,9 @@ metadata.description.help: |
   If you aim to share or publish the results, we recommend entering one or two sentences
   to summarize the content or purpose to a potential user.
 fileFormat: Source format
+config.custom: Custom configuration
+config.custom.help: Mink uses {sparv}, a modular and configurable pipeline for text analysis, to process your corpus. The standard configuration form only exposes a few of the available Sparv options. On this page, you can view and submit your own config file, written in the YAML format. Please refer to the Sparv documentation on {topic} for more information.
+config.custom.upload.help: Please note that submitting an invalid config file may cause unexpected behaviour. Saving the standard configuration form may overwrite your custom config.
 config.format.help: Select the file format of the source texts. All files must be of the selected format.
 config.format.note.pdf: The PDF file format is primarily designed for display. Please note that extracting text from them can sometimes give unsatisfactory results. Performing OCR on scanned documents is (currently) outside the scope of Mink.
 config.text_annotation: Text element
@@ -220,6 +222,9 @@ annotations.info: |
   <p>You can find some more information about the annotations in the 
     <a href="https://spraakbanken.gu.se/sparv/#/user-manual/available-analyses">Sparv documentation</a>.
   </p>
+admin.page.subtitle: Administration
+admin.goto: Shortcuts
+admin.resources.help: In this administrative listing, you need to load detailed information manually, because loading everything takes a long time.
 accessdenied: Access denied
 accessdenied.contact: If you have questions, or you want to report a bug, please contact sb-info{'@'}svenska.gu.se. Thank you!
 notfound: Page not found
@@ -286,7 +291,7 @@ api.code.failed_uploading_sources: Failed to upload source files
 api.code.failed_uploading_sources_file_size: Some files could not be uploaded, because they exceed the maximum file size of {max_file_size} MB
 api.code.failed_uploading_sources_invalid_file_extension: 'File "{file}" could not be uploaded, because it has an invalid filename extension. Please use any of the supported file formats: xml, txt, odt, docx, pdf.'
 api.code.failed_uploading_sources_invalid_xml: File "{file}" could not be uploaded, because it contains invalid XML
-api.code.failed_uploading_sources_incompatible_file_extension: File "{file}" could not be uploaded, because it has a different filename extension. Please check that the file format of this corpus is configured to agree with your source files.
+api.code.failed_uploading_sources_incompatible_file_extension: File "{file}" could not be uploaded, because it has a different filename extension. A corpus can only handle source files of the same type.
 api.code.uploaded_sources: The source files were successfully added
 api.code.data_too_large: Request data too large (max {max_content_length} MB per upload)
 api.code.listing_sources: Listing current source files for the corpus "{corpus_id}"

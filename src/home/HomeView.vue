@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import HomeNews from "@/home/HomeNews.vue";
 import { useAuth } from "@/auth/auth.composable";
 import LayoutSection from "@/components/LayoutSection.vue";
-import { getLogoutUrl } from "@/auth/auth";
+import { getLogoutUrl } from "@/auth/sbAuth";
 import LoginButton from "@/auth/LoginButton.vue";
 import UrlButton from "@/components/UrlButton.vue";
-import HomeNews from "./HomeNews.vue";
 import RouteButton from "@/components/RouteButton.vue";
 
 const { isAuthenticated, canUserWrite, payload } = useAuth();
@@ -29,7 +29,11 @@ const logoutUrl = getLogoutUrl();
             scope="global"
             tag="p"
             class="my-2"
-          />
+          >
+            <a :href="$t('home.hero.privacy.link.url')">
+              {{ $t("home.hero.privacy.link.label") }}
+            </a>
+          </i18n-t>
 
           <div class="flex justify-center gap-4 p-4 text-center text-xl">
             <div v-if="!isAuthenticated">
@@ -91,9 +95,7 @@ const logoutUrl = getLogoutUrl();
           >
             <i18n-t keypath="home.features.sparv.body" scope="global" tag="p">
               <template #sparv>
-                <a href="https://spraakbanken.gu.se/en/tools/sparv">
-                  <strong>Sparv</strong>
-                </a>
+                <a :href="$t('sparv.url')"><strong>Sparv</strong></a>
               </template>
             </i18n-t>
           </LayoutSection>

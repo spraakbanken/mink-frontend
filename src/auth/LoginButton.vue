@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
+import { getLoginUrl } from "@/auth/sbAuth";
 import { unarray } from "@/util";
-import { getLoginUrl } from "./auth";
 import UrlButton from "@/components/UrlButton.vue";
 
 const route = useRoute();
