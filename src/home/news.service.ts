@@ -1,6 +1,6 @@
 const Yaml = import("js-yaml").then((m) => m.default);
 import once from "lodash/once";
-import { retry } from "@/util";
+import { addDays, retry } from "@/util";
 import type { ByLang } from "@/util.types";
 
 const NEWS_URL: string = import.meta.env.VITE_NEWS_URL;
@@ -40,10 +40,11 @@ export const fetchAllNews = once(async (): Promise<NewsItem[]> => {
  * @throws Fetch or parse errors
  */
 export async function fetchNews(filterFeatured?: boolean): Promise<NewsItem[]> {
-  // Get news and skip items that have expired
-  // TODO Also skip items older than 6 months
+  const now = new Date();
   let items = (await fetchAllNews()).filter(
-    (item) => !item.expires || item.expires > new Date(),
+    (item) =>
+      (!item.expires || item.expires > now) && // Skip expired items
+      item.created > addDays(now, -365 / 2), // Skip items older than 6 months
   );
 
   // Filter by the "featured" tag if specified

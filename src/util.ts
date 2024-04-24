@@ -1,6 +1,18 @@
 import clone from "lodash/clone";
 import round from "lodash/round";
 
+/** The number of milliseconds in a full day. */
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * Add or subtract a number of days to a date
+ *
+ * Works with 24-hour cycles, so the hour (and possibly date) will change across DST changes.
+ **/
+export function addDays(date: Date, days: number) {
+  return new Date(date.getTime() + days * DAY_MS);
+}
+
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 /** Trigger a file download in the browser by adding a temporary link and click it */

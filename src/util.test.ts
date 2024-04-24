@@ -1,5 +1,6 @@
 import { describe, expect, test } from "vitest";
 import {
+  addDays,
   enarray,
   ensureExtension,
   formatDate,
@@ -14,6 +15,19 @@ import {
   setKeys,
   unarray,
 } from "@/util";
+
+describe("addDays", () => {
+  const d = new Date("24 April 2024 15:50 (CEST)");
+  test("across a month", () => {
+    expect(addDays(d, 10)).toEqual(new Date("4 May 2024 15:50 (CEST)"));
+    expect(addDays(d, -24)).toEqual(new Date("31 March 2024 15:50 (CEST)"));
+  });
+  test("across DST", () => {
+    // Notice the hour is different
+    expect(addDays(d, 200)).toEqual(new Date("10 November 2024 14:50 (CET)"));
+    expect(addDays(d, -25)).toEqual(new Date("30 March 2024 14:50 (CET)"));
+  });
+});
 
 describe("enarray", () => {
   test("leaves array unchanged", () => {
