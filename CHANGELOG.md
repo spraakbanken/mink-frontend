@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Added
+
+- News shown in two places on home page: featured on top, others under the intro text
+
 ### Changed
 
 - Restructured panels on corpus overview to better match backend concepts:

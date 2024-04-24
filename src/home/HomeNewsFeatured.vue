@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import { onMounted, reactive } from "vue";
 import useLocale from "@/i18n/locale.composable";
-import { fetchFeaturedNews, type NewsItem } from "@/home/news.service";
+import { fetchNews, type NewsItem } from "@/home/news.service";
 
 const { locale, th } = useLocale();
 const items = reactive<NewsItem[]>([]);
 
 onMounted(async () => {
   try {
-    items.push(...(await fetchFeaturedNews()));
+    items.push(...(await fetchNews(true)));
   } catch (error) {
     console.error("Could not fetch and parse news", error);
   }
 });
 
 function getDate(date: Date) {
-  return date.toLocaleDateString(locale.value, { dateStyle: "short" });
+  return date.toLocaleDateString(locale.value, { dateStyle: "long" });
 }
 </script>
 

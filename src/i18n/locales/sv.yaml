@@ -18,6 +18,7 @@ home.otherdata.body: Tänk på att först undersöka andra språkdatamängder so
 home.otherdata.sbdata.title: "Språkbanken Text: Language resources"
 welcome: Välkommen, {name}!
 mydata: Mina data
+news: Nyheter
 library: Bibliotek
 library.help.corpora: Här listas de korpusar du har skapat. De är bara synliga för dig. Klicka på dem för att visa mer.
 library.help.corpora.none: >-

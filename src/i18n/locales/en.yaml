@@ -18,6 +18,7 @@ home.otherdata.body: Make sure to first get acquainted with any existing languag
 home.otherdata.sbdata.title: "Språkbanken Text: Language resources"
 welcome: Welcome, {name}!
 mydata: My data
+news: News
 library: Library
 library.help.corpora: These are the corpora that you have created. Only you can see them. Click them to view more details.
 library.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "@:{'new_corpus'}" button or drop text files into the upload field below.

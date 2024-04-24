@@ -33,20 +33,24 @@ export const fetchAllNews = once(async (): Promise<NewsItem[]> => {
 /**
  * Fetch news and select recent items
  *
- * @returns News items considered interesting for users
+ * @param filterFeatured If true, select items having the "featured" tag;
+ *   if false, select items *not* having the "featured" tag;
+ *   if undefined, select all recent items.
+ * @returns Recent news items
  * @throws Fetch or parse errors
  */
-export async function fetchNews(): Promise<NewsItem[]> {
-  const items = await fetchAllNews();
-  return items.filter((item) => !item.expires || item.expires > new Date());
-}
+export async function fetchNews(filterFeatured?: boolean): Promise<NewsItem[]> {
+  // Get news and skip items that have expired
+  // TODO Also skip items older than 6 months
+  let items = (await fetchAllNews()).filter(
+    (item) => !item.expires || item.expires > new Date(),
+  );
 
-/**
- * Fetch news and select *featured* recent items
- *
- * @returns News items that the user really should see
- * @throws Fetch or parse errors
- */
-export async function fetchFeaturedNews(): Promise<NewsItem[]> {
-  return (await fetchNews()).filter((item) => item.tags?.includes("featured"));
+  // Filter by the "featured" tag if specified
+  if (filterFeatured != null)
+    items = items.filter(
+      (item) => !!item.tags?.includes("featured") == filterFeatured,
+    );
+
+  return items;
 }
