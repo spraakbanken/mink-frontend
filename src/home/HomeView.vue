@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HomeNews from "@/home/HomeNews.vue";
+import HomeNewsFeatured from "@/home/HomeNewsFeatured.vue";
 import { useAuth } from "@/auth/auth.composable";
 import LayoutSection from "@/components/LayoutSection.vue";
 import { getLogoutUrl } from "@/auth/sbAuth";
@@ -13,7 +13,7 @@ const logoutUrl = getLogoutUrl();
 
 <template>
   <div>
-    <HomeNews />
+    <HomeNewsFeatured />
 
     <div class="flex flex-wrap gap-20 my-10">
       <div class="w-full flex flex-row-reverse flex-wrap items-center gap-20">
