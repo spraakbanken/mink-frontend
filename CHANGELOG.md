@@ -18,6 +18,7 @@ As this project is a user-facing application, the places in the semantic version
 - Restructured panels on corpus overview to better match backend concepts:
   - New _Analysis_ panel with the run button from _Status_ and the downloads from _Results_
   - Renamed _Result_ to _Explore_ [#115](https://github.com/spraakbanken/mink-frontend/issues/115)
+- Fetching news from the Newsdesk repo on page load, instead of a static file at build time
 - The `on` prop of `PendingContent` now matches by start of string
 
 ### Fixed

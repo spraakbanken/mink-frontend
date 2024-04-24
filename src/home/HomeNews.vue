@@ -1,11 +1,21 @@
 <script setup lang="ts">
-import items from "@/home/news.yaml";
+import { onMounted, reactive } from "vue";
 import useLocale from "@/i18n/locale.composable";
+import { fetchFeaturedNews, type NewsItem } from "@/home/news.service";
 
-const { th2 } = useLocale();
+const { locale, th } = useLocale();
+const items = reactive<NewsItem[]>([]);
+
+onMounted(async () => {
+  try {
+    items.push(...(await fetchFeaturedNews()));
+  } catch (error) {
+    console.error("Could not fetch and parse news", error);
+  }
+});
 
 function getDate(date: Date) {
-  return date.toISOString().slice(0, 10);
+  return date.toLocaleDateString(locale.value, { dateStyle: "short" });
 }
 </script>
 
@@ -16,9 +26,14 @@ function getDate(date: Date) {
       :key="i"
       class="bg-sky-50 dark:bg-sky-800 shadow shadow-sky-200 dark:shadow-sky-600 text-sky-800 dark:text-sky-200 p-1 px-2 my-2"
     >
-      <strong>{{ getDate(item.date) }}: {{ th2(item.title) }}</strong>
+      <header class="font-bold">{{ th(item.title) }}</header>
+
+      <time :datetime="item.created.toString()" class="my-1 text-sm italic">
+        {{ getDate(item.created) }}
+      </time>
+
       <!-- eslint-disable-next-line vue/no-v-html -->
-      <div v-html="th2(item.body)"></div>
+      <div v-html="th(item.body)"></div>
     </article>
   </div>
 </template>

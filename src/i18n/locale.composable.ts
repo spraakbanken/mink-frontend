@@ -36,15 +36,10 @@ export default function useLocale() {
   });
 
   /** Translate here - picks the current language out of a strings-by-language object. */
-  function th(map?: ByLang): string | undefined {
+  function th(map?: ByLang | string): string | undefined {
     if (!map) return undefined;
-    return th2({ sv: map.swe, en: map.eng });
-  }
-
-  /** Translate here - picks the current language out of a strings-by-language object. */
-  function th2(map?: Record<SvEn, string>): string | undefined {
-    if (!map) return undefined;
-    return map[locale.value as SvEn];
+    if (typeof map == "string") return map;
+    return map[locale3.value];
   }
 
   /** Wrap the filesize lib with some sane defaults and avoiding exponential notation. */
@@ -59,7 +54,6 @@ export default function useLocale() {
     locale,
     locale3,
     th,
-    th2,
     filesize: myFilesize,
   };
 }

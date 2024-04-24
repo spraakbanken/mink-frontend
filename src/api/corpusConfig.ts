@@ -1,4 +1,4 @@
-const yaml = import("js-yaml").then((m) => m.default);
+const Yaml = import("js-yaml").then((m) => m.default);
 
 import type { ByLang } from "@/util.types";
 import type {
@@ -150,7 +150,7 @@ export async function makeConfig(id: string, options: ConfigOptions) {
     );
   }
 
-  return (await yaml).dump(config as SparvConfig);
+  return (await Yaml).dump(config as SparvConfig);
 }
 
 export function emptyConfig(): ConfigOptions {
@@ -167,7 +167,7 @@ export function emptyConfig(): ConfigOptions {
  * May throw all kinds of errors, the sky is the limit.
  */
 export async function parseConfig(configYaml: string): Promise<ConfigOptions> {
-  const config = (await yaml).load(configYaml) as any;
+  const config = (await Yaml).load(configYaml) as any;
 
   if (!config)
     throw new TypeError(`Parsing config failed, returned "${config}"`);
