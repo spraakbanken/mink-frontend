@@ -265,12 +265,3 @@ async function submit(fields: Form) {
     </div>
   </PendingContent>
 </template>
-
-<style scoped>
-.prose :deep(ul) {
-  padding-left: 2em;
-}
-.prose :deep(ul li) {
-  list-style-type: bullet;
-}
-</style>
