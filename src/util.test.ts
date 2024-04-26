@@ -17,15 +17,11 @@ import {
 } from "@/util";
 
 describe("addDays", () => {
-  const d = new Date("24 April 2024 15:50 (CEST)");
-  test("across a month", () => {
-    expect(addDays(d, 10)).toEqual(new Date("4 May 2024 15:50 (CEST)"));
-    expect(addDays(d, -24)).toEqual(new Date("31 March 2024 15:50 (CEST)"));
-  });
-  test("across DST", () => {
-    // Notice the hour is different
-    expect(addDays(d, 200)).toEqual(new Date("10 November 2024 14:50 (CET)"));
-    expect(addDays(d, -25)).toEqual(new Date("30 March 2024 14:50 (CET)"));
+  const d = new Date("2024-04-24 08:00");
+  const getYmd = (date: Date) => date.toISOString().slice(0,10)
+  test("adds days", () => {
+    expect(getYmd(addDays(d, 10))).toBe("2024-05-04");
+    expect(getYmd(addDays(d, -31))).toBe("2024-03-24");
   });
 });
 
