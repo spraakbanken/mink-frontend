@@ -95,6 +95,13 @@ select {
   @apply font-normal;
 }
 
+.prose ul {
+  padding-left: 2em;
+}
+.prose ul li {
+  list-style-type: disc;
+}
+
 @layer components {
   .mink-button {
     @apply p-1 px-2 rounded shadow bg-zinc-100 text-gray-700 cursor-pointer hover:drop-shadow-md hover:brightness-110 transition-all;

@@ -1,5 +1,7 @@
 import { describe, expect, test } from "vitest";
 import {
+  addDays,
+  enarray,
   ensureExtension,
   formatDate,
   formatSeconds,
@@ -13,6 +15,30 @@ import {
   setKeys,
   unarray,
 } from "@/util";
+
+describe("addDays", () => {
+  const d = new Date("2024-04-24 08:00");
+  const getYmd = (date: Date) => date.toISOString().slice(0,10)
+  test("adds days", () => {
+    expect(getYmd(addDays(d, 10))).toBe("2024-05-04");
+    expect(getYmd(addDays(d, -31))).toBe("2024-03-24");
+  });
+});
+
+describe("enarray", () => {
+  test("leaves array unchanged", () => {
+    expect(enarray([1, 2, 3])).toStrictEqual([1, 2, 3]);
+    expect(enarray([1])).toStrictEqual([1]);
+    expect(enarray([])).toStrictEqual([]);
+  });
+  test("turns non-array into array", () => {
+    expect(enarray("A")).toStrictEqual(["A"]);
+    expect(enarray("ABC")).toStrictEqual(["ABC"]);
+    expect(enarray(null)).toStrictEqual([null]);
+    expect(enarray(undefined)).toStrictEqual([undefined]);
+    expect(enarray(new Set([1, 2, 3]))).toStrictEqual([new Set([1, 2, 3])]);
+  });
+});
 
 describe("formatDate", () => {
   test("formats a date", () => {

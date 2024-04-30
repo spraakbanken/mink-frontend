@@ -16,7 +16,7 @@ export default function useSources(corpusId: string) {
   );
 
   async function loadSources() {
-    const info = await mink.resourceInfoOne(corpusId).catch(alertError);
+    const info = await mink.listSources(corpusId).catch(alertError);
     if (!info) return;
     resourceStore.corpora[corpusId].sources = info.resource.source_files;
   }

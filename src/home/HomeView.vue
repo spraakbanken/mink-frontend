@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import HomeNews from "@/home/HomeNews.vue";
+import HomeNewsFeatured from "@/home/HomeNewsFeatured.vue";
 import { useAuth } from "@/auth/auth.composable";
 import LayoutSection from "@/components/LayoutSection.vue";
 import { getLogoutUrl } from "@/auth/sbAuth";
 import LoginButton from "@/auth/LoginButton.vue";
 import UrlButton from "@/components/UrlButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
+import HomeNews from "./HomeNews.vue";
 
 const { isAuthenticated, canUserWrite, payload } = useAuth();
 const logoutUrl = getLogoutUrl();
@@ -13,9 +14,9 @@ const logoutUrl = getLogoutUrl();
 
 <template>
   <div>
-    <HomeNews />
+    <HomeNewsFeatured />
 
-    <div class="flex flex-wrap gap-20 my-10">
+    <div class="flex flex-col gap-10 my-10">
       <div class="w-full flex flex-row-reverse flex-wrap items-center gap-20">
         <div class="w-full lg:flex-1 text-lg">
           <i18n-t keypath="home.hero.sb" scope="global" tag="p" class="my-2">
@@ -76,6 +77,8 @@ const logoutUrl = getLogoutUrl();
           </div>
         </div>
       </div>
+
+      <HomeNews />
 
       <div
         class="flex flex-col 2xl:flex-row my-20 gap-20 md:w-4/5 lg:w-2/3 2xl:w-full mx-auto"

@@ -39,7 +39,7 @@ const { th } = useLocale();
 
       <tr>
         <td colspan="2">
-          <h3 class="text-lg uppercase my-2">{{ $t("settings") }}</h3>
+          <h3 class="text-lg uppercase my-2">{{ $t("analysis") }}</h3>
         </td>
       </tr>
       <tr>

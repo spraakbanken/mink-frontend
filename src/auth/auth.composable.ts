@@ -32,7 +32,7 @@ const payload = ref<JwtSbPayload>();
 export function useAuth() {
   const router = useRouter();
   const route = useRoute();
-  const { spin, pending } = useSpin();
+  const { spin, isPending } = useSpin();
   const { alert } = useMessenger();
   const { t } = useI18n();
 
@@ -43,7 +43,7 @@ export function useAuth() {
   );
   const canUserWrite = computed(() => isAuthenticated.value);
   /** Indicates whether a jwt request is currently loading. */
-  const isAuthenticating = computed(() => pending.value.includes("jwt"));
+  const isAuthenticating = computed(() => isPending("jwt"));
 
   /** If not authenticated, redirect to the login page. */
   async function requireAuthentication(callback?: () => void) {
