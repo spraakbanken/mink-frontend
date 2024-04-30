@@ -52,7 +52,7 @@ defineEmits<{
 
     <div class="text-sm text-gray-500 dark:text-gray-400">
       <div>{{ info }}</div>
-      <a v-if="linkUrl && linkText" :href="linkUrl">
+      <a v-if="linkUrl && linkText" :href="linkUrl" target="_blank">
         {{ linkText }}
       </a>
     </div>
