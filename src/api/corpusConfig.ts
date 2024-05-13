@@ -1,4 +1,4 @@
-const Yaml = import("js-yaml").then((m) => m.default);
+import Yaml from "js-yaml";
 
 import type { ByLang } from "@/util.types";
 import type {
@@ -32,7 +32,7 @@ export const FORMATS_EXT = Object.keys(FORMATS);
 
 export const SEGMENTERS: ConfigSentenceSegmenter[] = ["linebreaks"];
 
-export async function makeConfig(id: string, options: ConfigOptions) {
+export function makeConfig(id: string, options: ConfigOptions): string {
   const {
     format,
     name,
@@ -150,7 +150,7 @@ export async function makeConfig(id: string, options: ConfigOptions) {
     );
   }
 
-  return (await Yaml).dump(config as SparvConfig);
+  return Yaml.dump(config as SparvConfig);
 }
 
 export function emptyConfig(): ConfigOptions {
@@ -166,8 +166,8 @@ export function emptyConfig(): ConfigOptions {
  *
  * May throw all kinds of errors, the sky is the limit.
  */
-export async function parseConfig(configYaml: string): Promise<ConfigOptions> {
-  const config = (await Yaml).load(configYaml) as any;
+export function parseConfig(configYaml: string): ConfigOptions {
+  const config = Yaml.load(configYaml) as any;
 
   if (!config)
     throw new TypeError(`Parsing config failed, returned "${config}"`);

@@ -4,7 +4,6 @@ import type { AxiosError } from "axios";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
-import { computedAsync } from "@vueuse/core";
 import type { MinkResponse } from "@/api/api.types";
 import {
   type ConfigOptions,
@@ -44,7 +43,7 @@ type Form = {
   enableNer: boolean;
 };
 
-const configOptions = computedAsync(getParsedConfig);
+const configOptions = computed(getParsedConfig);
 
 const formatOptions = computed<FormKitOptionsList>(() =>
   FORMATS_EXT.map((ext) => ({
@@ -76,10 +75,10 @@ const segmenterOptions = computed<SegmenterOptions>(() => {
   return options as SegmenterOptions;
 });
 
-async function getParsedConfig() {
+function getParsedConfig() {
   if (!config.value) return undefined;
   try {
-    const parsed = await parseConfig(config.value);
+    const parsed = parseConfig(config.value);
     return parsed;
   } catch (error) {
     alert(t("corpus.config.parse.error"), "error");
@@ -117,11 +116,11 @@ async function submit(fields: Form) {
 
 <template>
   <PendingContent :on="`corpus/${corpusId}/config`">
-    <!-- Using the key attribute to re-render whole form when async parseConfig is done -->
+    <!-- Using the key attribute to re-render whole form after fetching config -->
     <FormKit
       id="corpus-config"
       v-slot="{ value }"
-      :key="JSON.stringify(configOptions)"
+      :key="config"
       type="form"
       :submit-label="$t('save')"
       :submit-attrs="{

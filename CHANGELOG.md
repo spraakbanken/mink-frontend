@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Changed
+
+- Drop unnecessary async usage of the `js-yaml` package
+
 ## [1.6.0] (2024-04-30)
 
 ### Added

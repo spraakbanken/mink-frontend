@@ -63,7 +63,7 @@ export default function useCreateCorpus() {
 
   // Like the `uploadConfig` in `config.composable.ts` but takes `corpusId` as argument.
   async function uploadConfig(configOptions: ConfigOptions, corpusId: string) {
-    const configYaml = await makeConfig(corpusId, configOptions);
+    const configYaml = makeConfig(corpusId, configOptions);
     await mink.saveConfig(corpusId, configYaml);
     resourceStore.corpora[corpusId].config = configYaml;
   }
