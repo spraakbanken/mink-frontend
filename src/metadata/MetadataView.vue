@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import useMetadata from "@/metadata/metadata.composable.js";
+import useMetadata from "@/metadata/metadata.composable";
 import { useAuth } from "@/auth/auth.composable";
 import { useResourceStore } from "@/store/resource.store";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";

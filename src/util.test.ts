@@ -18,7 +18,7 @@ import {
 
 describe("addDays", () => {
   const d = new Date("2024-04-24 08:00");
-  const getYmd = (date: Date) => date.toISOString().slice(0,10)
+  const getYmd = (date: Date) => date.toISOString().slice(0, 10);
   test("adds days", () => {
     expect(getYmd(addDays(d, 10))).toBe("2024-05-04");
     expect(getYmd(addDays(d, -31))).toBe("2024-03-24");

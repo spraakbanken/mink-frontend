@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import HomeNews from "./HomeNews.vue";
 import HomeNewsFeatured from "@/home/HomeNewsFeatured.vue";
 import { useAuth } from "@/auth/auth.composable";
 import LayoutSection from "@/components/LayoutSection.vue";
@@ -6,7 +7,6 @@ import { getLogoutUrl } from "@/auth/sbAuth";
 import LoginButton from "@/auth/LoginButton.vue";
 import UrlButton from "@/components/UrlButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
-import HomeNews from "./HomeNews.vue";
 
 const { isAuthenticated, canUserWrite, payload } = useAuth();
 const logoutUrl = getLogoutUrl();

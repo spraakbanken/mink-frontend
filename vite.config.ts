@@ -1,9 +1,9 @@
+import path from "path";
+import { ServerOptions as HttpsServerOptions } from "https";
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
-import path from "path";
 import ViteYaml from "@modyfi/vite-plugin-yaml";
 import { visualizer } from "rollup-plugin-visualizer";
-import { ServerOptions as HttpsServerOptions } from "https";
 
 // https://vitejs.dev/config/
 export default defineConfig(async ({ mode }) => {

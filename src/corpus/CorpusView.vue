@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import useCorpus from "@/corpus/corpus.composable.js";
+import useCorpus from "@/corpus/corpus.composable";
 import useConfig from "@/corpus/config/config.composable";
 import { useResourceStore } from "@/store/resource.store";
 import { useAuth } from "@/auth/auth.composable";

@@ -1,4 +1,5 @@
 import { useRouter } from "vue-router";
+import type { AxiosError } from "axios";
 import useMinkBackend from "@/api/backend.composable";
 import { useResourceStore } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
@@ -9,7 +10,6 @@ import {
   type FileFormat,
   type ConfigOptions,
 } from "@/api/corpusConfig";
-import type { AxiosError } from "axios";
 import type { MinkResponse, ProgressHandler } from "@/api/api.types";
 import useCreateResource from "@/resource/createResource.composable";
 
