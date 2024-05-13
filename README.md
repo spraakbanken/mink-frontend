@@ -50,13 +50,10 @@ VSCode settings:
     "source.fixAll": "explicit"
   },
   "editor.formatOnSave": true,
-  "[javascript]": {
+  "[javascript][typescript][vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[vue]": {
+  "[json][jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
