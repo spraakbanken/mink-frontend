@@ -108,11 +108,8 @@ export function makeConfig(id: string, options: ConfigOptions): string {
     if (!datetimeFrom || !datetimeTo) {
       throw new TypeError("Both or none of the timespan dates must be set.");
     }
-    config.dateformat = {
-      datetime_from: "<text>:misc.datefrom",
-      datetime_to: "<text>:misc.dateto",
-      datetime_informat: "%Y-%m-%d",
-    };
+
+    // Add annotations on the text level with custom values
     config.custom_annotations = [
       {
         annotator: "misc:constant",
@@ -131,12 +128,21 @@ export function makeConfig(id: string, options: ConfigOptions): string {
         },
       },
     ];
+
+    // Enable annotations from the `dateformat` module
     config.export.annotations!.push(
       "<text>:dateformat.datefrom",
       "<text>:dateformat.dateto",
       "<text>:dateformat.timefrom",
       "<text>:dateformat.timeto",
     );
+
+    // Configure the annotators to use the custom attributes
+    config.dateformat = {
+      datetime_from: "<text>:misc.datefrom",
+      datetime_to: "<text>:misc.dateto",
+      datetime_informat: "%Y-%m-%d",
+    };
   }
 
   // Enable named entity recognition.
