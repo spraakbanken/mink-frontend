@@ -17,6 +17,10 @@ As this project is a user-facing application, the places in the semantic version
 
 - Drop unnecessary async usage of the `js-yaml` package
 
+### Fixed
+
+- Require authentication for the custom config page
+
 ## [1.6.0] (2024-04-30)
 
 ### Added

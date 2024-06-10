@@ -8,10 +8,14 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import type { MinkResponse } from "@/api/api.types";
 import useMessenger from "@/message/messenger.composable";
+import { useAuth } from "@/auth/auth.composable";
 
 const corpusId = useCorpusIdParam();
 const { config, uploadConfigRaw } = useConfig(corpusId);
 const { alertError } = useMessenger();
+const { requireAuthentication } = useAuth();
+
+requireAuthentication();
 
 async function upload(files: File[]) {
   const configYaml = await files[0].text();
