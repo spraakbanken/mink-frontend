@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Added
+
+- Code highlighting for XML and YAML [#30](https://github.com/spraakbanken/mink-frontend/issues/30)
+
 ### Changed
 
 - Drop unnecessary async usage of the `js-yaml` package

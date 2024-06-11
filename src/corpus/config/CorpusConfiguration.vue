@@ -24,6 +24,7 @@ import useSources from "@/corpus/sources/sources.composable";
 import useConfig from "@/corpus/config/config.composable";
 import type { ByLang } from "@/util.types";
 import LayoutBox from "@/components/LayoutBox.vue";
+import TerminalOutput from "@/components/TerminalOutput.vue";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
@@ -171,8 +172,13 @@ async function submit(fields: Form) {
           disabled
           :value="corpusId"
           :help="$t('metadata.identifier.help')"
-          input-class="font-mono bg-stone-600 text-lime-50 text-xs p-2 rounded"
-        />
+        >
+          <template #input>
+            <TerminalOutput class="inline leading-loose">
+              {{ corpusId }}
+            </TerminalOutput>
+          </template>
+        </FormKit>
       </LayoutSection>
 
       <LayoutSection :title="$t('configuration')">

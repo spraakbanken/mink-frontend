@@ -4,6 +4,7 @@ import once from "lodash/once";
 import { downloadFile } from "@/util";
 import ActionButton from "@/components/ActionButton.vue";
 import TextData from "@/components/TextData.vue";
+import type { SyntaxLanguage } from "@/highlight";
 
 /** Defer loading if file is large. */
 const AUTOLOAD_LIMIT = 500_000;
@@ -13,6 +14,7 @@ const props = defineProps<{
   filename: string;
   size?: number;
   noLoad?: boolean;
+  language?: SyntaxLanguage & "xml";
 }>();
 
 const text = ref();
@@ -38,7 +40,7 @@ async function download() {
 </script>
 
 <template>
-  <TextData v-if="text" :text="text" />
+  <TextData v-if="text" :text="text" :language="language" />
 
   <div class="my-2 flex gap-2">
     <ActionButton v-if="!noLoad && text === undefined" @click="show()">

@@ -26,6 +26,7 @@ const metadata = computed(() =>
 );
 const isBinary = computed(() => metadata.value?.type.indexOf("text/") !== 0);
 const isPlaintext = computed(() => metadata.value?.type == "text/plain");
+const isXml = computed(() => /\/xml$/.test(metadata.value?.type || ""));
 
 async function loadRaw() {
   return (
@@ -67,6 +68,7 @@ async function loadPlain() {
                 :filename="metadata.name"
                 :no-load="isBinary"
                 :size="metadata.size"
+                :language="isXml ? 'xml' : undefined"
               />
             </PendingContent>
           </td>
