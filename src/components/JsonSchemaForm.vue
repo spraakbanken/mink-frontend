@@ -1,17 +1,16 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="D extends any">
 import Form from "@rjsf/core";
 import validator from "@rjsf/validator-ajv8";
 import { applyPureReactInVue } from "veaury";
-import type { FormEvent } from "react";
 import useMessenger from "@/message/messenger.composable";
 
 const VeauryForm = applyPureReactInVue(Form);
 
 defineProps<{
   schema: any;
-  data: any;
-  onChange?: (event: FormEvent, fieldId: string) => {};
-  onSubmit?: (event: FormEvent) => {};
+  data: D;
+  onChange?: (event: { formData: D }, fieldId: string) => {};
+  onSubmit?: (event: { formData: D }) => {};
 }>();
 
 type Error = {
