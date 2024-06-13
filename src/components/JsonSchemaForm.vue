@@ -2,16 +2,30 @@
 import Form from "@rjsf/core";
 import validator from "@rjsf/validator-ajv8";
 import { applyPureReactInVue } from "veaury";
+import { FormEvent } from "react";
+import useMessenger from "@/message/messenger.composable";
 
 const VeauryForm = applyPureReactInVue(Form);
 
 defineProps<{
   schema: any;
   data: any;
-  onChange?: () => {};
-  onSubmit?: () => {};
-  onError?: () => {};
+  onChange?: (event: FormEvent, fieldId: string) => {};
+  onSubmit?: (event: FormEvent) => {};
 }>();
+
+type Error = {
+  message: string;
+  property: string;
+};
+
+const { alert } = useMessenger();
+
+function onError(errors: Error[]) {
+  errors.forEach((error) =>
+    alert(`${error.property.split(".").pop()} ${error.message}`, "error"),
+  );
+}
 </script>
 
 <template>
@@ -23,7 +37,7 @@ defineProps<{
     :formData="data"
     :onChange
     :onSubmit
-    :onError
+    :onError="onError"
     :experimental_defaultFormStateBehavior="{
       allOf: 'populateDefaults',
     }"
@@ -53,6 +67,9 @@ defineProps<{
   @apply text-2xl;
 }
 ::v-deep(.unsupported-field) {
+  @apply bg-red-50;
+}
+::v-deep(.has-error) {
   @apply bg-red-50;
 }
 </style>

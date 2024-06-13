@@ -1,25 +1,30 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useI18n } from "vue-i18n";
-import { useRouter } from "vue-router";
 import Yaml from "js-yaml";
+import { FormEvent } from "react";
 import schema from "@/assets/sparvconfig.schema.json";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import useMessenger from "@/message/messenger.composable";
 import useConfig from "@/corpus/config/config.composable";
 import JsonSchemaForm from "@/components/JsonSchemaForm.vue";
 
-const router = useRouter();
 const corpusId = useCorpusIdParam();
-const { config, uploadConfig } = useConfig(corpusId);
-const { alert, alertError } = useMessenger();
-const { t } = useI18n();
+const { config, uploadConfigRaw } = useConfig(corpusId);
 
 const configParsed = computed(() =>
   config.value ? Yaml.load(config.value) : undefined,
 );
+
+async function onSubmit(event: FormEvent) {
+  const configYaml = Yaml.dump(event.formData);
+  await uploadConfigRaw(configYaml);
+}
 </script>
 
 <template>
-  <JsonSchemaForm v-if="configParsed" :schema="schema" :data="configParsed" />
+  <JsonSchemaForm
+    v-if="configParsed"
+    :schema="schema"
+    :data="configParsed"
+    :on-submit="onSubmit"
+  />
 </template>
