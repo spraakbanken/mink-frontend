@@ -2,7 +2,7 @@
 import Form from "@rjsf/core";
 import validator from "@rjsf/validator-ajv8";
 import { applyPureReactInVue } from "veaury";
-import { FormEvent } from "react";
+import type { FormEvent } from "react";
 import useMessenger from "@/message/messenger.composable";
 
 const VeauryForm = applyPureReactInVue(Form);

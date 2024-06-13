@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import Yaml from "js-yaml";
-import { FormEvent } from "react";
+import type { FormEvent } from "react";
 import schema from "@/assets/sparvconfig.schema.json";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import useConfig from "@/corpus/config/config.composable";
