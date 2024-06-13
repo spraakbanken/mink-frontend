@@ -4,6 +4,7 @@ import validator from "@rjsf/validator-ajv8";
 import { applyPureReactInVue } from "veaury";
 import useMessenger from "@/message/messenger.composable";
 
+// Wrap React component, see https://github.com/gloriasoft/veaury
 const VeauryForm = applyPureReactInVue(Form);
 
 defineProps<{
@@ -30,13 +31,14 @@ function onError(errors: Error[]) {
 <template>
   <!-- eslint-disable -->
   <!-- (needed to keep React-friendly attr casing) -->
+  <!-- See https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/form-props -->
   <VeauryForm
     :schema
     :validator="validator"
     :formData="data"
     :onChange
     :onSubmit
-    :onError="onError"
+    :onError
     :experimental_defaultFormStateBehavior="{
       allOf: 'populateDefaults',
     }"
