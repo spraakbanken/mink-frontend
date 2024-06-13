@@ -1,0 +1,2088 @@
+{
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spraakbanken.gu.se/sparv/schema.json",
+  "properties": {
+    "classes": {
+      "type": "object",
+      "properties": {}
+    },
+    "custom_annotations": {
+      "type": "array"
+    },
+    "install": {
+      "type": "array"
+    },
+    "parent": {
+      "type": "string"
+    },
+    "threads": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "properties": {}
+    },
+    "preload": {
+      "type": "array"
+    },
+    "uninstall": {
+      "type": "array"
+    },
+    "export": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "default": {
+          "type": "array",
+          "description": "List of exporters to use by default"
+        },
+        "annotations": {
+          "type": "array",
+          "description": "List of automatic annotations to include in export"
+        },
+        "source_annotations": {
+          "type": "array",
+          "description": "List of annotations and attributes from the source to include"
+        },
+        "word": {
+          "type": "string",
+          "description": "Annotation to use as token text in export"
+        },
+        "remove_module_namespaces": {
+          "type": "boolean",
+          "description": "Remove module name prefixes from annotation names in export"
+        },
+        "sparv_namespace": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Prefix to add to the names of all automatically created annotations"
+        },
+        "source_namespace": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Prefix to add to the names of all annotations from source"
+        },
+        "scramble_on": {
+          "type": "string",
+          "description": "What annotation to use as the smallest unit when scrambling"
+        }
+      }
+    },
+    "import": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text_annotation": {
+          "type": "string",
+          "description": "Annotation representing a text"
+        },
+        "source_dir": {
+          "type": "string",
+          "description": "Directory containing corpus source files",
+          "default": "source"
+        },
+        "importer": {
+          "type": "string",
+          "description": "Name of importer to use"
+        },
+        "keep_control_chars": {
+          "type": "boolean",
+          "description": "Set to True to keep control characters",
+          "default": false
+        },
+        "normalize": {
+          "type": "string",
+          "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'",
+          "default": "NFC",
+          "enum": [
+            "NFC",
+            "NFKC",
+            "NFD",
+            "NFKD"
+          ]
+        },
+        "encoding": {
+          "type": "string",
+          "description": "Encoding of source files",
+          "default": "UTF-8"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "General metadata about corpus.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Machine name of corpus (a-z, 0-9, -)",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Human readable name of corpus",
+          "properties": {}
+        },
+        "language": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Language of source files (ISO 639-3)",
+          "enum": [
+            "ast",
+            "bul",
+            "cat",
+            "deu",
+            "eng",
+            "est",
+            "fin",
+            "fra",
+            "glg",
+            "ita",
+            "lat",
+            "nld",
+            "nob",
+            "pol",
+            "por",
+            "ron",
+            "rus",
+            "slk",
+            "slv",
+            "spa",
+            "swe",
+            null
+          ]
+        },
+        "variety": {
+          "type": "string",
+          "description": "Language variety of source files (if applicable)",
+          "enum": [
+            "1800",
+            "fsv"
+          ]
+        },
+        "description": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Description of corpus",
+          "properties": {}
+        },
+        "short_description": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Short description of corpus (one line)",
+          "properties": {}
+        }
+      }
+    },
+    "sparv": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Settings related to core Sparv functionality.",
+      "properties": {
+        "compression": {
+          "type": "string",
+          "description": "Compression to use for files in work-dir ('none', 'gzip', 'bzip2' or 'lzma'. Default: 'gzip')",
+          "default": "gzip",
+          "enum": [
+            "none",
+            "gzip",
+            "bzip2",
+            "lzma"
+          ]
+        }
+      }
+    },
+    "csv_export": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "CSV file export.",
+      "properties": {
+        "delimiter": {
+          "type": "string",
+          "description": "Delimiter separating fields.",
+          "default": "\t"
+        },
+        "source_annotations": {
+          "type": "array",
+          "description": "List of annotations and attributes from the source data to include. Everything will be included by default.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "annotations": {
+          "type": "array",
+          "description": "Sparv annotations to include.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "cwb": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Exports, encodes and aligns corpora for Corpus Workbench.",
+      "properties": {
+        "remote_host": {
+          "type": "string",
+          "description": "Remote host to install CWB files to"
+        },
+        "remote_registry_dir": {
+          "type": "string",
+          "description": "CWB registry path on remote host"
+        },
+        "remote_data_dir": {
+          "type": "string",
+          "description": "CWB datadir path on remote host"
+        },
+        "source_annotations": {
+          "type": "array",
+          "description": "List of annotations and attributes from the source data to include. Everything will be included by default.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "annotations": {
+          "type": "array",
+          "description": "Sparv annotations to include.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "scramble_on": {
+          "type": "string",
+          "description": "Annotation to use for scrambling."
+        },
+        "bin_path": {
+          "type": "string",
+          "description": "Path to directory containing the CWB executables",
+          "default": ""
+        },
+        "encoding": {
+          "type": "string",
+          "description": "Encoding to use",
+          "default": "utf8"
+        },
+        "skip_compression": {
+          "type": "boolean",
+          "description": "Whether to skip compression",
+          "default": false
+        },
+        "skip_validation": {
+          "type": "boolean",
+          "description": "Whether to skip validation",
+          "default": false
+        }
+      }
+    },
+    "dateformat": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Formats dates and times.",
+      "properties": {
+        "datetime_from": {
+          "description": "Annotation attribute containing from-dates (and times)"
+        },
+        "datetime_to": {
+          "description": "Annotation attribute containing to-dates (and times)"
+        },
+        "datetime_informat": {
+          "description": "Format of the source date/time values. Several formats can be specified separated by |. They will be tried in order."
+        },
+        "splitter": {
+          "description": "One or more characters separating two dates in 'datetime_from', treating them as from-date and to-date."
+        },
+        "pre_regex": {
+          "description": "Regular expression with a catching group whose content will be used in the parsing instead of the whole string. Applied before splitting."
+        },
+        "regex": {
+          "description": "Regular expression with a catching group whose content will be used in the parsing instead of the whole string. Applied on each value after splitting."
+        },
+        "date_outformat": {
+          "description": "Desired format of the formatted dates. Several formats can be specified separated by |. They will be tied to their respective in-format.",
+          "default": "%Y%m%d"
+        },
+        "out_annotation": {
+          "description": "Annotation on which the resulting formatted date attributes will be written.",
+          "default": "<text>"
+        },
+        "time_outformat": {
+          "description": "Desired format of the formatted times. Several formats can be specified separated by |. They will be tied to their respective in-format.",
+          "default": "%H%M%S"
+        }
+      }
+    },
+    "docx_import": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Import of docx source files.",
+      "properties": {
+        "prefix": {
+          "type": "string",
+          "description": "Optional prefix to add to annotation names."
+        },
+        "keep_control_chars": {
+          "type": "boolean",
+          "description": "Set to True if control characters should not be removed from the text.",
+          "default": false
+        },
+        "normalize": {
+          "type": "string",
+          "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
+          "default": "NFC",
+          "enum": [
+            "NFC",
+            "NFKC",
+            "NFD",
+            "NFKD"
+          ]
+        }
+      }
+    },
+    "geo": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Annotates geographical features.",
+      "properties": {
+        "metadata_source": {
+          "description": "Source attribute for location metadata"
+        },
+        "model": {
+          "description": "Path to model",
+          "default": "geo/geo.pickle"
+        }
+      }
+    },
+    "hunpos": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Part of Speech annotation using Hunpos.",
+      "properties": {
+        "binary": {
+          "description": "Hunpos executable",
+          "default": "hunpos-tag"
+        },
+        "encoding": {
+          "description": "Encoding of the input text",
+          "default": "UTF-8"
+        },
+        "model": {
+          "description": "Path to Hunpos model",
+          "default": "hunpos/suc3_suc-tags_default-setting_utf8.model"
+        },
+        "morphtable": {
+          "description": "Path to optional Hunpos morphtable file",
+          "default": "hunpos/saldo_suc-tags.morphtable"
+        },
+        "patterns": {
+          "description": "Path to optional patterns file",
+          "default": "hunpos/suc.patterns"
+        },
+        "tag_mapping": {
+          "description": "Optional tag mapping for translating the output tags"
+        },
+        "model_hist": {
+          "description": "Path to Hunpos model (older Swedish)",
+          "default": "hunpos/suc3_suc-tags_default-setting_utf8.model"
+        },
+        "morphtable_hist": {
+          "description": "Path to optional Hunpos morphtable file (older Swedish)",
+          "default": "hunpos/hist/dalinm-swedberg_saldo_suc-tags.morphtable"
+        },
+        "tag_mapping_hist": {
+          "description": "Optional tag mapping for translating the output tags (older Swedish)"
+        }
+      }
+    },
+    "misc": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Miscellaneous annotations.",
+      "properties": {
+        "keep_formatting_chars": {
+          "description": "Set to True if you don't want formatting characters (e.g. soft hyphens) to be removed from tokens in the output.",
+          "default": false
+        },
+        "head_tail_max_length": {
+          "description": "If set to an int misc.head and misc.tail will be truncated to that many characters."
+        }
+      }
+    },
+    "odt_import": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Import of odt source files.",
+      "properties": {
+        "prefix": {
+          "type": "string",
+          "description": "Optional prefix to add to annotation names."
+        },
+        "keep_control_chars": {
+          "type": "boolean",
+          "description": "Set to True if control characters should not be removed from the text.",
+          "default": false
+        },
+        "normalize": {
+          "type": "string",
+          "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
+          "default": "NFC",
+          "enum": [
+            "NFC",
+            "NFKC",
+            "NFD",
+            "NFKD"
+          ]
+        }
+      }
+    },
+    "passthrough": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "export_path": {
+          "description": "TODO"
+        },
+        "export_host": {
+          "description": "TODO"
+        }
+      }
+    },
+    "pdf_import": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Import of pdf source files.",
+      "properties": {
+        "prefix": {
+          "type": "string",
+          "description": "Optional prefix to add to annotation names."
+        },
+        "keep_control_chars": {
+          "type": "boolean",
+          "description": "Set to True if control characters should not be removed from the text.",
+          "default": false
+        },
+        "normalize": {
+          "type": "string",
+          "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
+          "default": "NFC",
+          "enum": [
+            "NFC",
+            "NFKC",
+            "NFD",
+            "NFKD"
+          ]
+        }
+      }
+    },
+    "stanza": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "POS tagging, lemmatisation and dependency parsing with Stanza.",
+      "properties": {
+        "resources_file": {
+          "type": "string",
+          "description": "Stanza resources file",
+          "default": "stanza/[metadata.language]/resources.json"
+        },
+        "use_gpu": {
+          "type": "boolean",
+          "description": "Use GPU instead of CPU if available",
+          "default": true
+        },
+        "batch_size": {
+          "type": "integer",
+          "description": "Limit Stanza batch size. Sentences with a token count exceeding this value will be excluded from analysis.",
+          "default": 5000
+        },
+        "max_sentence_length": {
+          "type": "integer",
+          "description": "Max length (in number of tokens) of sentences that will get dependence annotations (set to 0 for no limit)",
+          "default": 250
+        },
+        "cpu_fallback": {
+          "type": "boolean",
+          "description": "Fall back to CPU for sentences exceeding the max_sentence_length, instead of excluding them from dependence parsing. Only usable with use_gpu enabled.",
+          "default": false
+        },
+        "max_token_length": {
+          "type": "integer",
+          "description": "Max number of characters per token. Any sentence containing a token exceeding this limit will be excluded from analysis. Disabled by default.",
+          "default": 0
+        },
+        "sentence_chunk": {
+          "type": "string",
+          "description": "Text chunk (annotation) to use as input when segmenting sentences (not used for Swedish)",
+          "default": "<text>"
+        },
+        "sentence_annotation": {
+          "type": "string",
+          "description": "Optional existing sentence segmentation annotation (not used for Swedish)"
+        },
+        "token_annotation": {
+          "type": "string",
+          "description": "Optional existing token annotation (not used for Swedish)"
+        },
+        "swe_lem_model": {
+          "type": "string",
+          "description": "Stanza lemmatisation model for Swedish",
+          "default": "stanza/swe/lem/sv_suc_lemmatizer.pt"
+        },
+        "swe_pos_model": {
+          "type": "string",
+          "description": "Stanza POS model for Swedish",
+          "default": "stanza/swe/pos/sv_talbanken_tagger.pt"
+        },
+        "swe_pretrain_pos_model": {
+          "type": "string",
+          "description": "Stanza pretrain POS model for Swedish",
+          "default": "stanza/swe/sv_talbanken.pretrain.pt"
+        },
+        "swe_dep_model": {
+          "type": "string",
+          "description": "Stanza dependency model for Swedish",
+          "default": "stanza/swe/dep/sv_talbanken_parser.pt"
+        },
+        "swe_pretrain_dep_model": {
+          "type": "string",
+          "description": "Stanza pretrain dependency model for Swedish",
+          "default": "stanza/swe/sv_talbanken.pretrain.pt"
+        }
+      }
+    },
+    "stats_export": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Word frequency list generation.",
+      "properties": {
+        "annotations": {
+          "type": "array",
+          "description": "Sparv annotations to include.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_annotations": {
+          "type": "array",
+          "description": "List of annotations and attributes from the source data to include. None will be included by default.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "delimiter": {
+          "type": "string",
+          "description": "Delimiter separating columns",
+          "default": "\t"
+        },
+        "cutoff": {
+          "type": "integer",
+          "description": "The minimum frequency a word must have in order to be included in the result",
+          "default": 1
+        },
+        "remote_host": {
+          "type": "string",
+          "description": "Remote host to install to"
+        },
+        "remote_dir": {
+          "type": "string",
+          "description": "Path on remote host to install to"
+        }
+      }
+    },
+    "text_import": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Import of plain text source files.",
+      "properties": {
+        "prefix": {
+          "type": "string",
+          "description": "Optional prefix to add to annotation names."
+        },
+        "encoding": {
+          "type": "string",
+          "description": "Encoding of source file. Defaults to UTF-8.",
+          "default": "UTF-8"
+        },
+        "keep_control_chars": {
+          "type": "boolean",
+          "description": "Set to True if control characters should not be removed from the text.",
+          "default": false
+        },
+        "normalize": {
+          "type": "string",
+          "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
+          "default": "NFC",
+          "enum": [
+            "NFC",
+            "NFKC",
+            "NFD",
+            "NFKD"
+          ]
+        }
+      }
+    },
+    "xml_export": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "XML export in various formats.",
+      "properties": {
+        "filename_formatted": {
+          "type": "string",
+          "description": "Filename pattern for resulting XML files, with '{file}' representing the source name.",
+          "default": "{file}_export.xml",
+          "pattern": ".*\\{file\\}.*"
+        },
+        "filename": {
+          "type": "string",
+          "description": "Filename pattern for resulting XML files, with '{file}' representing the source name.",
+          "default": "{file}_export.xml",
+          "pattern": ".*\\{file\\}.*"
+        },
+        "annotations": {
+          "type": "array",
+          "description": "Sparv annotations to include.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_annotations": {
+          "type": "array",
+          "description": "List of annotations and attributes from the source data to include. Everything will be included by default.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "header_annotations": {
+          "type": "array",
+          "description": "List of headers from the source data to include. All headers will be included by default.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "include_empty_attributes": {
+          "type": "boolean",
+          "description": "Whether to include attributes even when they are empty.",
+          "default": false
+        },
+        "filename_combined": {
+          "type": "string",
+          "description": "Filename of resulting combined XML.",
+          "default": "[metadata.id].xml"
+        },
+        "include_version_info": {
+          "type": "boolean",
+          "description": "Whether to include annotation version info in the combined XML.",
+          "default": true
+        },
+        "filename_compressed": {
+          "type": "string",
+          "description": "Filename of resulting compressed combined XML.",
+          "default": "[metadata.id].xml.bz2"
+        },
+        "export_host": {
+          "type": "string",
+          "description": "Remote host to copy XML export to"
+        },
+        "export_path": {
+          "type": "string",
+          "description": "Target path to copy XML export to"
+        },
+        "scramble_on": {
+          "type": "string",
+          "description": "Annotation to use for scrambling."
+        },
+        "export_scrambled_host": {
+          "type": "string",
+          "description": "Remote host to copy scrambled XML export to"
+        },
+        "export_scrambled_path": {
+          "type": "string",
+          "description": "Target path to copy scrambled XML export to"
+        }
+      }
+    },
+    "xml_import": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Import of XML source files.",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "description": "List of elements and attributes in source file. Only needed for renaming or when used as input to other annotations, as everything is parsed whether listed or not.",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        },
+        "skip": {
+          "type": "array",
+          "description": "Elements and attributes to skip. Use elementname:@contents to skip contents as well.",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        },
+        "header_elements": {
+          "type": "array",
+          "description": "Elements containing header metadata. Contents will not be included in corpus text.",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        },
+        "header_data": {
+          "type": "array",
+          "description": "List of header elements and attributes from which to extract metadata.",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        },
+        "prefix": {
+          "type": "string",
+          "description": "Optional prefix to add to annotation names."
+        },
+        "remove_namespaces": {
+          "type": "boolean",
+          "description": "Remove XML namespaces upon import.",
+          "default": false
+        },
+        "encoding": {
+          "type": "string",
+          "description": "Encoding of source file. Defaults to UTF-8.",
+          "default": "UTF-8"
+        },
+        "keep_control_chars": {
+          "type": "boolean",
+          "description": "Set to True if control characters should not be removed from the text.",
+          "default": false
+        },
+        "normalize": {
+          "type": "string",
+          "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
+          "default": "NFC",
+          "enum": [
+            "NFC",
+            "NFKC",
+            "NFD",
+            "NFKD"
+          ]
+        }
+      }
+    },
+    "sbx_freeling": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Annotations from FreeLing for various languages.",
+      "properties": {
+        "binary": {
+          "description": "FreeLing executable",
+          "default": "analyze"
+        },
+        "conf": {
+          "description": "Path to FreeLing cfg file",
+          "default": "sbx_freeling/[metadata.language].cfg"
+        },
+        "sentence_chunk": {
+          "description": "Text chunk (annotation) to use as input when segmenting sentences",
+          "default": "<text>"
+        },
+        "sentence_annotation": {
+          "description": "Optional existing sentence segmentation annotation",
+          "default": ""
+        },
+        "timeout": {
+          "type": "integer",
+          "description": "Timeout (in seconds) after which to kill FreeLing if it does not respond",
+          "default": 300
+        }
+      }
+    }
+  },
+  "required": [],
+  "unevaluatedProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "type": "object",
+            "description": "General metadata about corpus.",
+            "properties": {
+              "language": {
+                "type": "string",
+                "enum": [
+                  "swe"
+                ]
+              }
+            },
+            "required": [
+              "language"
+            ]
+          }
+        },
+        "required": [
+          "metadata"
+        ]
+      },
+      "then": {
+        "properties": {
+          "conll_export": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "CoNLL file export.",
+            "properties": {
+              "source_annotations": {
+                "description": "List of annotations and attributes from the source data to include. Everything will be included by default."
+              },
+              "conll_fields": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "sentid": {
+                    "description": "Sentence ID",
+                    "default": "<sentence>:misc.id"
+                  },
+                  "id": {
+                    "description": "Annotation in ID field of CoNLL-U output",
+                    "default": "<token:ref>"
+                  },
+                  "lemma": {
+                    "description": "Annotation in LEMMA field of CoNLL-U output",
+                    "default": "<token:baseform>"
+                  },
+                  "upos": {
+                    "description": "Annotation in UPOS field of CoNLL-U output",
+                    "default": "<token:pos>"
+                  },
+                  "xpos": {
+                    "description": "Annotation in XPOS field of CoNLL-U output",
+                    "default": "<token:msd>"
+                  },
+                  "feats": {
+                    "description": "Annotation in FEATS field of CoNLL-U output",
+                    "default": "<token:ufeats>"
+                  },
+                  "head": {
+                    "description": "Annotation in HEAD field of CoNLL-U output",
+                    "default": "<token:dephead_ref>"
+                  },
+                  "deprel": {
+                    "description": "Annotation in DEPREL field of CoNLL-U output",
+                    "default": "<token:deprel>"
+                  },
+                  "deps": {
+                    "description": "Annotation in DEPS field of CoNLL-U output"
+                  },
+                  "misc": {
+                    "description": "Annotation in MISC field of CoNLL-U output"
+                  }
+                }
+              }
+            }
+          },
+          "lexical_classes": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Annotations lexical classes from Blingbring or SweFN.",
+            "properties": {
+              "bb_freq_model": {
+                "description": "Path to Blingbring frequency model",
+                "default": "lexical_classes/blingbring.freq.gp2008+suc3+romi.pickle"
+              },
+              "swefn_freq_model": {
+                "description": "Path to SweFN frequency model",
+                "default": "lexical_classes/swefn.freq.gp2008+suc3+romi.pickle"
+              },
+              "bb_word_model": {
+                "description": "Path to Blingbring model",
+                "default": "lexical_classes/blingbring.pickle"
+              },
+              "swefn_word_model": {
+                "description": "Path to SweFN model",
+                "default": "lexical_classes/swefn.pickle"
+              }
+            }
+          },
+          "malt": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Dependency parsing using MaltParser.",
+            "properties": {
+              "jar": {
+                "description": "Path name of the executable .jar file",
+                "default": "maltparser-1.7.2/maltparser-1.7.2.jar"
+              },
+              "model": {
+                "description": "Path to Malt model",
+                "default": "malt/swemalt-1.7.2.mco"
+              }
+            }
+          },
+          "saldo": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "SALDO-related annotations.",
+            "properties": {
+              "comp_model": {
+                "type": "string",
+                "description": "Path to SALDO compound model",
+                "default": "saldo/saldo.compound.pickle"
+              },
+              "comp_nst_model": {
+                "type": "string",
+                "description": "Path to NST part of speech compound model",
+                "default": "saldo/nst_comp_pos.pickle"
+              },
+              "comp_stats_model": {
+                "type": "string",
+                "description": "Path to statistics model",
+                "default": "saldo/stats.pickle"
+              },
+              "comp_use_source": {
+                "type": "boolean",
+                "description": "Also use source text as lexicon for compound analysis",
+                "default": true
+              },
+              "model": {
+                "type": "string",
+                "description": "Path to SALDO model",
+                "default": "saldo/saldo.pickle"
+              },
+              "delimiter": {
+                "type": "string",
+                "description": "Character to put between ambiguous results",
+                "default": "|"
+              },
+              "affix": {
+                "type": "string",
+                "description": "Character to put before and after sets of results",
+                "default": "|"
+              },
+              "precision": {
+                "type": "string",
+                "description": "Format string for appending precision to each value (e.g. ':%.3f')"
+              },
+              "precision_filter": {
+                "type": "string",
+                "description": "Precision filter with possible values 'max' (only use the most probable annotations), 'first' (only use the single most probable annotation), 'none' (use all annotations)",
+                "default": "max",
+                "enum": [
+                  "max",
+                  "first",
+                  "none"
+                ]
+              },
+              "min_precision": {
+                "type": "number",
+                "description": "Only use annotations with a probability score greater than or equal to this. 0.25: part-of-speech does not match, 0.5: part-of-speech is missing, 0.66: part-of-speech matches, 0.75: morphosyntactic descriptor matches",
+                "default": 0.66
+              },
+              "skip_multiword": {
+                "type": "boolean",
+                "description": "Whether to disable annotation of multiword expressions",
+                "default": false
+              },
+              "max_mwe_gaps": {
+                "type": "integer",
+                "description": "Max amount of gaps allowed within a multiword expression",
+                "default": 1
+              },
+              "allow_multiword_overlap": {
+                "type": "boolean",
+                "description": "Whether all multiword expressions may overlap with each other. If set to False, some cleanup is done.",
+                "default": false
+              },
+              "word_separator": {
+                "type": "string",
+                "description": "Character used to split the values of 'word' into several word variations"
+              }
+            }
+          },
+          "sensaldo": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Sentiment annotation using SenSALDO.",
+            "properties": {
+              "model": {
+                "description": "Path to SenSALDO model",
+                "default": "sensaldo/sensaldo.pickle"
+              }
+            }
+          },
+          "swener": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Named entity tagging with SweNER.",
+            "properties": {
+              "binary": {
+                "type": "string",
+                "description": "SweNER executable",
+                "default": "hfst-swener"
+              }
+            }
+          },
+          "wsd": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Word sense disambiguation based on SALDO annotation.",
+            "properties": {
+              "sense_model": {
+                "description": "Path to sense model",
+                "default": "wsd/ALL_512_128_w10_A2_140403_ctx1.bin"
+              },
+              "context_model": {
+                "description": "Path to context model",
+                "default": "wsd/lem_cbow0_s512_w10_NEW2_ctx.bin"
+              },
+              "default_prob": {
+                "description": "Default value for unanalyzed senses",
+                "default": -1.0
+              },
+              "jar": {
+                "description": "Path name of the executable .jar file",
+                "default": "wsd/saldowsd.jar"
+              },
+              "prob_format": {
+                "description": "Format string for how to print the sense probability",
+                "default": ":%.3f"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "allOf": [
+          {
+            "not": {
+              "type": "object",
+              "properties": {
+                "metadata": {
+                  "type": "object",
+                  "description": "General metadata about corpus.",
+                  "properties": {
+                    "variety": {
+                      "type": "string",
+                      "enum": [
+                        "1800"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "variety"
+                  ]
+                }
+              },
+              "required": [
+                "metadata"
+              ]
+            }
+          },
+          {
+            "not": {
+              "type": "object",
+              "properties": {
+                "metadata": {
+                  "type": "object",
+                  "description": "General metadata about corpus.",
+                  "properties": {
+                    "language": {
+                      "type": "string",
+                      "enum": [
+                        "swe"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "language"
+                  ]
+                }
+              },
+              "required": [
+                "metadata"
+              ]
+            }
+          },
+          {
+            "not": {
+              "type": "object",
+              "properties": {
+                "metadata": {
+                  "type": "object",
+                  "description": "General metadata about corpus.",
+                  "properties": {
+                    "variety": {
+                      "type": "string",
+                      "enum": [
+                        "fsv"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "variety"
+                  ]
+                }
+              },
+              "required": [
+                "metadata"
+              ]
+            }
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "hist": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Annotations for historical Swedish texts.",
+            "properties": {
+              "dalin_model": {
+                "description": "Path to Dalin model",
+                "default": "hist/dalin.pickle"
+              },
+              "swedberg_model": {
+                "description": "Path to Swedberg model",
+                "default": "hist/swedberg.pickle"
+              },
+              "fsv_model": {
+                "description": "Path to model for fornsvenska morphology",
+                "default": "hist/fsvm.pickle"
+              },
+              "fsv_spelling": {
+                "description": "Path to model for fornsvenska spelling variants",
+                "default": "hist/fsv-spelling-variants.txt"
+              },
+              "max_mwe_gaps": {
+                "description": "Max amount of gaps allowed within a multiword expression",
+                "default": 0
+              },
+              "delimiter": {
+                "description": "Character to put between ambiguous results",
+                "default": "|"
+              },
+              "affix": {
+                "description": "Character to put before and after sets of results",
+                "default": "|"
+              },
+              "extralemgrams": {
+                "description": "Additional lemgram annotation"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "metadata": {
+                "type": "object",
+                "description": "General metadata about corpus.",
+                "properties": {
+                  "language": {
+                    "type": "string",
+                    "enum": [
+                      "swe"
+                    ]
+                  }
+                },
+                "required": [
+                  "language"
+                ]
+              }
+            },
+            "required": [
+              "metadata"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "metadata": {
+                "type": "object",
+                "description": "General metadata about corpus.",
+                "properties": {
+                  "variety": {
+                    "type": "string",
+                    "enum": [
+                      "fsv"
+                    ]
+                  }
+                },
+                "required": [
+                  "variety"
+                ]
+              }
+            },
+            "required": [
+              "metadata"
+            ]
+          },
+          {
+            "not": {
+              "type": "object",
+              "properties": {
+                "metadata": {
+                  "type": "object",
+                  "description": "General metadata about corpus.",
+                  "properties": {
+                    "variety": {
+                      "type": "string",
+                      "enum": [
+                        "1800"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "variety"
+                  ]
+                }
+              },
+              "required": [
+                "metadata"
+              ]
+            }
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "hist": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Annotations for historical Swedish texts.",
+            "properties": {
+              "dalin_model": {
+                "description": "Path to Dalin model",
+                "default": "hist/dalin.pickle"
+              },
+              "swedberg_model": {
+                "description": "Path to Swedberg model",
+                "default": "hist/swedberg.pickle"
+              },
+              "fsv_model": {
+                "description": "Path to model for fornsvenska morphology",
+                "default": "hist/fsvm.pickle"
+              },
+              "fsv_spelling": {
+                "description": "Path to model for fornsvenska spelling variants",
+                "default": "hist/fsv-spelling-variants.txt"
+              },
+              "max_mwe_gaps": {
+                "description": "Max amount of gaps allowed within a multiword expression",
+                "default": 0
+              },
+              "delimiter": {
+                "description": "Character to put between ambiguous results",
+                "default": "|"
+              },
+              "affix": {
+                "description": "Character to put before and after sets of results",
+                "default": "|"
+              },
+              "extralemgrams": {
+                "description": "Additional lemgram annotation"
+              },
+              "fsv_min_precision": {
+                "description": "Only use annotations with a probability score higher than this",
+                "default": 0.25
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "metadata": {
+                "type": "object",
+                "description": "General metadata about corpus.",
+                "properties": {
+                  "variety": {
+                    "type": "string",
+                    "enum": [
+                      "1800"
+                    ]
+                  }
+                },
+                "required": [
+                  "variety"
+                ]
+              }
+            },
+            "required": [
+              "metadata"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "metadata": {
+                "type": "object",
+                "description": "General metadata about corpus.",
+                "properties": {
+                  "language": {
+                    "type": "string",
+                    "enum": [
+                      "swe"
+                    ]
+                  }
+                },
+                "required": [
+                  "language"
+                ]
+              }
+            },
+            "required": [
+              "metadata"
+            ]
+          },
+          {
+            "not": {
+              "type": "object",
+              "properties": {
+                "metadata": {
+                  "type": "object",
+                  "description": "General metadata about corpus.",
+                  "properties": {
+                    "variety": {
+                      "type": "string",
+                      "enum": [
+                        "fsv"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "variety"
+                  ]
+                }
+              },
+              "required": [
+                "metadata"
+              ]
+            }
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "hist": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Annotations for historical Swedish texts.",
+            "properties": {
+              "dalin_model": {
+                "description": "Path to Dalin model",
+                "default": "hist/dalin.pickle"
+              },
+              "swedberg_model": {
+                "description": "Path to Swedberg model",
+                "default": "hist/swedberg.pickle"
+              },
+              "fsv_model": {
+                "description": "Path to model for fornsvenska morphology",
+                "default": "hist/fsvm.pickle"
+              },
+              "fsv_spelling": {
+                "description": "Path to model for fornsvenska spelling variants",
+                "default": "hist/fsv-spelling-variants.txt"
+              },
+              "max_mwe_gaps": {
+                "description": "Max amount of gaps allowed within a multiword expression",
+                "default": 0
+              },
+              "delimiter": {
+                "description": "Character to put between ambiguous results",
+                "default": "|"
+              },
+              "affix": {
+                "description": "Character to put before and after sets of results",
+                "default": "|"
+              },
+              "extralemgrams": {
+                "description": "Additional lemgram annotation"
+              },
+              "lemgram_key": {
+                "description": "Key to lookup in the lexicon",
+                "default": "lem"
+              },
+              "baseform_key": {
+                "description": "Key to lookup in the lexicon",
+                "default": "gf"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "metadata": {
+                "type": "object",
+                "description": "General metadata about corpus.",
+                "properties": {
+                  "variety": {
+                    "type": "string",
+                    "enum": [
+                      "1800"
+                    ]
+                  }
+                },
+                "required": [
+                  "variety"
+                ]
+              }
+            },
+            "required": [
+              "metadata"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "metadata": {
+                "type": "object",
+                "description": "General metadata about corpus.",
+                "properties": {
+                  "language": {
+                    "type": "string",
+                    "enum": [
+                      "swe"
+                    ]
+                  }
+                },
+                "required": [
+                  "language"
+                ]
+              }
+            },
+            "required": [
+              "metadata"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "metadata": {
+                "type": "object",
+                "description": "General metadata about corpus.",
+                "properties": {
+                  "variety": {
+                    "type": "string",
+                    "enum": [
+                      "fsv"
+                    ]
+                  }
+                },
+                "required": [
+                  "variety"
+                ]
+              }
+            },
+            "required": [
+              "metadata"
+            ]
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "hist": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Annotations for historical Swedish texts.",
+            "properties": {
+              "dalin_model": {
+                "description": "Path to Dalin model",
+                "default": "hist/dalin.pickle"
+              },
+              "swedberg_model": {
+                "description": "Path to Swedberg model",
+                "default": "hist/swedberg.pickle"
+              },
+              "fsv_model": {
+                "description": "Path to model for fornsvenska morphology",
+                "default": "hist/fsvm.pickle"
+              },
+              "fsv_spelling": {
+                "description": "Path to model for fornsvenska spelling variants",
+                "default": "hist/fsv-spelling-variants.txt"
+              },
+              "max_mwe_gaps": {
+                "description": "Max amount of gaps allowed within a multiword expression",
+                "default": 0
+              },
+              "delimiter": {
+                "description": "Character to put between ambiguous results",
+                "default": "|"
+              },
+              "affix": {
+                "description": "Character to put before and after sets of results",
+                "default": "|"
+              },
+              "extralemgrams": {
+                "description": "Additional lemgram annotation"
+              },
+              "fsv_min_precision": {
+                "description": "Only use annotations with a probability score higher than this",
+                "default": 0.25
+              },
+              "lemgram_key": {
+                "description": "Key to lookup in the lexicon",
+                "default": "lem"
+              },
+              "baseform_key": {
+                "description": "Key to lookup in the lexicon",
+                "default": "gf"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "allOf": [
+          {
+            "not": {
+              "type": "object",
+              "properties": {
+                "metadata": {
+                  "type": "object",
+                  "description": "General metadata about corpus.",
+                  "properties": {
+                    "language": {
+                      "type": "string",
+                      "enum": [
+                        "swe"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "language"
+                  ]
+                }
+              },
+              "required": [
+                "metadata"
+              ]
+            }
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "korp": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Korp-related annotators, exporters and installers.",
+            "properties": {
+              "remote_host": {
+                "type": "string",
+                "description": "Remote host to install to. Leave blank to install locally."
+              },
+              "mysql_dbname": {
+                "type": "string",
+                "description": "Name of database where Korp data will be stored"
+              },
+              "modes": {
+                "type": "array",
+                "description": "The Korp modes in which the corpus will be published",
+                "default": [
+                  {
+                    "name": "default"
+                  }
+                ],
+                "items": {
+                  "type": "object",
+                  "properties": {}
+                }
+              },
+              "protected": {
+                "type": "boolean",
+                "description": "Whether this corpus should have limited access or not",
+                "default": false
+              },
+              "config_dir": {
+                "type": "string",
+                "description": "Path on remote host where Korp corpus configuration files are stored"
+              },
+              "wordpicture_table": {
+                "type": "string",
+                "description": "Prefix used for Word Picture database table names",
+                "default": "relations"
+              },
+              "annotations": {
+                "type": "array",
+                "description": "Sparv annotations to include. Leave blank to use cwb.annotations.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "source_annotations": {
+                "type": "array",
+                "description": "List of annotations and attributes from the source data to include. Leave blank to use cwb.source_annotations.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "annotation_definitions": {
+                "type": "object",
+                "description": "Frontend definitions of annotations in 'annotations' and 'source_annotations'. Classes and config keys are currently not supported.",
+                "properties": {}
+              },
+              "context": {
+                "type": "array",
+                "description": "Contexts to use in Korp, from smaller to bigger. Leave blank to detect automatically.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "within": {
+                "type": "array",
+                "description": "Search boundaries to use in Korp, from smaller to bigger. Leave blank to detect automatically.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "custom_annotations": {
+                "type": "array",
+                "description": "Custom Korp-annotations.",
+                "items": {
+                  "type": "object",
+                  "properties": {}
+                }
+              },
+              "morphology": {
+                "description": "Morphologies"
+              },
+              "reading_mode": {
+                "type": "object",
+                "description": "Reading mode configuration",
+                "properties": {}
+              },
+              "filters": {
+                "type": "array",
+                "description": "List of annotations to use for filtering in Korp",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "hidden_annotations": {
+                "type": "array",
+                "description": "List of annotations not to include in corpus config",
+                "default": [
+                  "<text>:dateformat.datefrom",
+                  "<text>:dateformat.dateto",
+                  "<text>:dateformat.timefrom",
+                  "<text>:dateformat.timeto",
+                  "<sentence>:misc.id",
+                  "<token>:sensaldo.sentiment_score",
+                  "<token>:stanza.msd_hunpos_backoff_info"
+                ],
+                "items": {
+                  "type": "string"
+                }
+              },
+              "keep_undefined_annotations": {
+                "type": "boolean",
+                "description": "Include all annotations in config, even those without an annotation definition/preset.",
+                "default": false
+              }
+            }
+          },
+          "segment": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Segmentation of text into smaller units.",
+            "properties": {
+              "token_segmenter": {
+                "description": "Token segmenter to use",
+                "default": "better_word"
+              },
+              "token_chunk": {
+                "description": "Text chunk (annotation) to use as input when tokenizing",
+                "default": "<sentence>"
+              },
+              "existing_tokens": {
+                "description": "Optional existing token annotation"
+              },
+              "tokenizer_config": {
+                "description": "Path to tokenizer config",
+                "default": "segment/bettertokenizer.sv"
+              },
+              "token_list": {
+                "description": "Path to optional token list file",
+                "default": "segment/bettertokenizer.sv.saldo-tokens"
+              },
+              "sentence_segmenter": {
+                "description": "Sentence segmenter to use",
+                "default": "punkt_sentence"
+              },
+              "sentence_chunk": {
+                "description": "Text chunk (annotation) to use as input when segmenting",
+                "default": "<paragraph>, <text>"
+              },
+              "existing_sentences": {
+                "description": "Optional existing sentence annotation"
+              },
+              "sentence_model": {
+                "description": "Path to model",
+                "default": "segment/punkt-nltk-svenska.pickle"
+              },
+              "paragraph_segmenter": {
+                "description": "Paragraph segmenter to use",
+                "default": "blanklines"
+              },
+              "paragraph_chunk": {
+                "description": "Text chunk (annotation) to use as input when segmenting",
+                "default": "<text>"
+              },
+              "existing_paragraphs": {
+                "description": "Optional existing paragraph annotation"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "metadata": {
+                "type": "object",
+                "description": "General metadata about corpus.",
+                "properties": {
+                  "language": {
+                    "type": "string",
+                    "enum": [
+                      "swe"
+                    ]
+                  }
+                },
+                "required": [
+                  "language"
+                ]
+              }
+            },
+            "required": [
+              "metadata"
+            ]
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "korp": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Korp-related annotators, exporters and installers.",
+            "properties": {
+              "remote_host": {
+                "type": "string",
+                "description": "Remote host to install to. Leave blank to install locally."
+              },
+              "mysql_dbname": {
+                "type": "string",
+                "description": "Name of database where Korp data will be stored"
+              },
+              "modes": {
+                "type": "array",
+                "description": "The Korp modes in which the corpus will be published",
+                "default": [
+                  {
+                    "name": "default"
+                  }
+                ],
+                "items": {
+                  "type": "object",
+                  "properties": {}
+                }
+              },
+              "protected": {
+                "type": "boolean",
+                "description": "Whether this corpus should have limited access or not",
+                "default": false
+              },
+              "config_dir": {
+                "type": "string",
+                "description": "Path on remote host where Korp corpus configuration files are stored"
+              },
+              "wordpicture_table": {
+                "type": "string",
+                "description": "Prefix used for Word Picture database table names",
+                "default": "relations"
+              },
+              "annotations": {
+                "type": "array",
+                "description": "Sparv annotations to include. Leave blank to use cwb.annotations.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "source_annotations": {
+                "type": "array",
+                "description": "List of annotations and attributes from the source data to include. Leave blank to use cwb.source_annotations.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "annotation_definitions": {
+                "type": "object",
+                "description": "Frontend definitions of annotations in 'annotations' and 'source_annotations'. Classes and config keys are currently not supported.",
+                "properties": {}
+              },
+              "context": {
+                "type": "array",
+                "description": "Contexts to use in Korp, from smaller to bigger. Leave blank to detect automatically.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "within": {
+                "type": "array",
+                "description": "Search boundaries to use in Korp, from smaller to bigger. Leave blank to detect automatically.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "custom_annotations": {
+                "type": "array",
+                "description": "Custom Korp-annotations.",
+                "items": {
+                  "type": "object",
+                  "properties": {}
+                }
+              },
+              "morphology": {
+                "description": "Morphologies"
+              },
+              "reading_mode": {
+                "type": "object",
+                "description": "Reading mode configuration",
+                "properties": {}
+              },
+              "filters": {
+                "type": "array",
+                "description": "List of annotations to use for filtering in Korp",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "hidden_annotations": {
+                "type": "array",
+                "description": "List of annotations not to include in corpus config",
+                "default": [
+                  "<text>:dateformat.datefrom",
+                  "<text>:dateformat.dateto",
+                  "<text>:dateformat.timefrom",
+                  "<text>:dateformat.timeto",
+                  "<sentence>:misc.id",
+                  "<token>:sensaldo.sentiment_score",
+                  "<token>:stanza.msd_hunpos_backoff_info"
+                ],
+                "items": {
+                  "type": "string"
+                }
+              },
+              "keep_undefined_annotations": {
+                "type": "boolean",
+                "description": "Include all annotations in config, even those without an annotation definition/preset.",
+                "default": false
+              },
+              "wordpicture_no_sentences": {
+                "type": "boolean",
+                "description": "Set to 'true' to skip generating sentences table.",
+                "default": false
+              }
+            }
+          },
+          "segment": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Segmentation of text into smaller units.",
+            "properties": {
+              "token_segmenter": {
+                "description": "Token segmenter to use",
+                "default": "better_word"
+              },
+              "token_chunk": {
+                "description": "Text chunk (annotation) to use as input when tokenizing",
+                "default": "<sentence>"
+              },
+              "existing_tokens": {
+                "description": "Optional existing token annotation"
+              },
+              "tokenizer_config": {
+                "description": "Path to tokenizer config",
+                "default": "segment/bettertokenizer.sv"
+              },
+              "token_list": {
+                "description": "Path to optional token list file",
+                "default": "segment/bettertokenizer.sv.saldo-tokens"
+              },
+              "sentence_segmenter": {
+                "description": "Sentence segmenter to use",
+                "default": "punkt_sentence"
+              },
+              "sentence_chunk": {
+                "description": "Text chunk (annotation) to use as input when segmenting",
+                "default": "<paragraph>, <text>"
+              },
+              "existing_sentences": {
+                "description": "Optional existing sentence annotation"
+              },
+              "sentence_model": {
+                "description": "Path to model",
+                "default": "segment/punkt-nltk-svenska.pickle"
+              },
+              "paragraph_segmenter": {
+                "description": "Paragraph segmenter to use",
+                "default": "blanklines"
+              },
+              "paragraph_chunk": {
+                "description": "Text chunk (annotation) to use as input when segmenting",
+                "default": "<text>"
+              },
+              "existing_paragraphs": {
+                "description": "Optional existing paragraph annotation"
+              },
+              "token_wordlist_segmenter": {
+                "description": "Segmenter to use when building wordlist",
+                "default": "better_word"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "type": "object",
+            "description": "General metadata about corpus.",
+            "properties": {
+              "language": {
+                "type": "string",
+                "enum": [
+                  "eng"
+                ]
+              }
+            },
+            "required": [
+              "language"
+            ]
+          }
+        },
+        "required": [
+          "metadata"
+        ]
+      },
+      "then": {
+        "properties": {
+          "stanford": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Annotations from Stanford Parser for English texts.",
+            "properties": {
+              "bin": {
+                "description": "Path to directory containing Stanford executables",
+                "default": "stanford_parser"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "type": "object",
+            "description": "General metadata about corpus.",
+            "properties": {
+              "language": {
+                "type": "string",
+                "enum": [
+                  "bul",
+                  "est",
+                  "fin",
+                  "lat",
+                  "nld",
+                  "pol",
+                  "ron",
+                  "slk",
+                  "deu",
+                  "eng",
+                  "fra",
+                  "spa",
+                  "ita",
+                  "rus"
+                ]
+              }
+            },
+            "required": [
+              "language"
+            ]
+          }
+        },
+        "required": [
+          "metadata"
+        ]
+      },
+      "then": {
+        "properties": {
+          "treetagger": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Annotations from TreeTagger for various languages.",
+            "properties": {
+              "binary": {
+                "description": "TreeTagger executable",
+                "default": "tree-tagger"
+              },
+              "model": {
+                "description": "Path to TreeTagger model",
+                "default": "treetagger/[metadata.language].par"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
