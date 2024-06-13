@@ -53,17 +53,11 @@
           "description": "Remove module name prefixes from annotation names in export"
         },
         "sparv_namespace": {
-          "type": [
-            "string",
-            "null"
-          ],
+          "type": ["string", "null"],
           "description": "Prefix to add to the names of all automatically created annotations"
         },
         "source_namespace": {
-          "type": [
-            "string",
-            "null"
-          ],
+          "type": ["string", "null"],
           "description": "Prefix to add to the names of all annotations from source"
         },
         "scramble_on": {
@@ -98,12 +92,7 @@
           "type": "string",
           "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'",
           "default": "NFC",
-          "enum": [
-            "NFC",
-            "NFKC",
-            "NFD",
-            "NFKD"
-          ]
+          "enum": ["NFC", "NFKC", "NFD", "NFKD"]
         },
         "encoding": {
           "type": "string",
@@ -131,10 +120,7 @@
           "properties": {}
         },
         "language": {
-          "type": [
-            "string",
-            "null"
-          ],
+          "type": ["string", "null"],
           "description": "Language of source files (ISO 639-3)",
           "enum": [
             "ast",
@@ -164,10 +150,7 @@
         "variety": {
           "type": "string",
           "description": "Language variety of source files (if applicable)",
-          "enum": [
-            "1800",
-            "fsv"
-          ]
+          "enum": ["1800", "fsv"]
         },
         "description": {
           "type": "object",
@@ -196,12 +179,7 @@
           "type": "string",
           "description": "Compression to use for files in work-dir ('none', 'gzip', 'bzip2' or 'lzma'. Default: 'gzip')",
           "default": "gzip",
-          "enum": [
-            "none",
-            "gzip",
-            "bzip2",
-            "lzma"
-          ]
+          "enum": ["none", "gzip", "bzip2", "lzma"]
         }
       }
     },
@@ -343,12 +321,7 @@
           "type": "string",
           "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
           "default": "NFC",
-          "enum": [
-            "NFC",
-            "NFKC",
-            "NFD",
-            "NFKD"
-          ]
+          "enum": ["NFC", "NFKC", "NFD", "NFKD"]
         }
       }
     },
@@ -439,12 +412,7 @@
           "type": "string",
           "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
           "default": "NFC",
-          "enum": [
-            "NFC",
-            "NFKC",
-            "NFD",
-            "NFKD"
-          ]
+          "enum": ["NFC", "NFKC", "NFD", "NFKD"]
         }
       }
     },
@@ -478,12 +446,7 @@
           "type": "string",
           "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
           "default": "NFC",
-          "enum": [
-            "NFC",
-            "NFKC",
-            "NFD",
-            "NFKD"
-          ]
+          "enum": ["NFC", "NFKC", "NFD", "NFKD"]
         }
       }
     },
@@ -624,12 +587,7 @@
           "type": "string",
           "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
           "default": "NFC",
-          "enum": [
-            "NFC",
-            "NFKC",
-            "NFD",
-            "NFKD"
-          ]
+          "enum": ["NFC", "NFKC", "NFD", "NFKD"]
         }
       }
     },
@@ -773,12 +731,7 @@
           "type": "string",
           "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
           "default": "NFC",
-          "enum": [
-            "NFC",
-            "NFKC",
-            "NFD",
-            "NFKD"
-          ]
+          "enum": ["NFC", "NFKC", "NFD", "NFKD"]
         }
       }
     },
@@ -824,19 +777,13 @@
             "properties": {
               "language": {
                 "type": "string",
-                "enum": [
-                  "swe"
-                ]
+                "enum": ["swe"]
               }
             },
-            "required": [
-              "language"
-            ]
+            "required": ["language"]
           }
         },
-        "required": [
-          "metadata"
-        ]
+        "required": ["metadata"]
       },
       "then": {
         "properties": {
@@ -980,11 +927,7 @@
                 "type": "string",
                 "description": "Precision filter with possible values 'max' (only use the most probable annotations), 'first' (only use the single most probable annotation), 'none' (use all annotations)",
                 "default": "max",
-                "enum": [
-                  "max",
-                  "first",
-                  "none"
-                ]
+                "enum": ["max", "first", "none"]
               },
               "min_precision": {
                 "type": "number",
@@ -1078,19 +1021,13 @@
                   "properties": {
                     "variety": {
                       "type": "string",
-                      "enum": [
-                        "1800"
-                      ]
+                      "enum": ["1800"]
                     }
                   },
-                  "required": [
-                    "variety"
-                  ]
+                  "required": ["variety"]
                 }
               },
-              "required": [
-                "metadata"
-              ]
+              "required": ["metadata"]
             }
           },
           {
@@ -1103,19 +1040,13 @@
                   "properties": {
                     "language": {
                       "type": "string",
-                      "enum": [
-                        "swe"
-                      ]
+                      "enum": ["swe"]
                     }
                   },
-                  "required": [
-                    "language"
-                  ]
+                  "required": ["language"]
                 }
               },
-              "required": [
-                "metadata"
-              ]
+              "required": ["metadata"]
             }
           },
           {
@@ -1128,19 +1059,13 @@
                   "properties": {
                     "variety": {
                       "type": "string",
-                      "enum": [
-                        "fsv"
-                      ]
+                      "enum": ["fsv"]
                     }
                   },
-                  "required": [
-                    "variety"
-                  ]
+                  "required": ["variety"]
                 }
               },
-              "required": [
-                "metadata"
-              ]
+              "required": ["metadata"]
             }
           }
         ]
@@ -1200,19 +1125,13 @@
                 "properties": {
                   "language": {
                     "type": "string",
-                    "enum": [
-                      "swe"
-                    ]
+                    "enum": ["swe"]
                   }
                 },
-                "required": [
-                  "language"
-                ]
+                "required": ["language"]
               }
             },
-            "required": [
-              "metadata"
-            ]
+            "required": ["metadata"]
           },
           {
             "type": "object",
@@ -1223,19 +1142,13 @@
                 "properties": {
                   "variety": {
                     "type": "string",
-                    "enum": [
-                      "fsv"
-                    ]
+                    "enum": ["fsv"]
                   }
                 },
-                "required": [
-                  "variety"
-                ]
+                "required": ["variety"]
               }
             },
-            "required": [
-              "metadata"
-            ]
+            "required": ["metadata"]
           },
           {
             "not": {
@@ -1247,19 +1160,13 @@
                   "properties": {
                     "variety": {
                       "type": "string",
-                      "enum": [
-                        "1800"
-                      ]
+                      "enum": ["1800"]
                     }
                   },
-                  "required": [
-                    "variety"
-                  ]
+                  "required": ["variety"]
                 }
               },
-              "required": [
-                "metadata"
-              ]
+              "required": ["metadata"]
             }
           }
         ]
@@ -1323,19 +1230,13 @@
                 "properties": {
                   "variety": {
                     "type": "string",
-                    "enum": [
-                      "1800"
-                    ]
+                    "enum": ["1800"]
                   }
                 },
-                "required": [
-                  "variety"
-                ]
+                "required": ["variety"]
               }
             },
-            "required": [
-              "metadata"
-            ]
+            "required": ["metadata"]
           },
           {
             "type": "object",
@@ -1346,19 +1247,13 @@
                 "properties": {
                   "language": {
                     "type": "string",
-                    "enum": [
-                      "swe"
-                    ]
+                    "enum": ["swe"]
                   }
                 },
-                "required": [
-                  "language"
-                ]
+                "required": ["language"]
               }
             },
-            "required": [
-              "metadata"
-            ]
+            "required": ["metadata"]
           },
           {
             "not": {
@@ -1370,19 +1265,13 @@
                   "properties": {
                     "variety": {
                       "type": "string",
-                      "enum": [
-                        "fsv"
-                      ]
+                      "enum": ["fsv"]
                     }
                   },
-                  "required": [
-                    "variety"
-                  ]
+                  "required": ["variety"]
                 }
               },
-              "required": [
-                "metadata"
-              ]
+              "required": ["metadata"]
             }
           }
         ]
@@ -1450,19 +1339,13 @@
                 "properties": {
                   "variety": {
                     "type": "string",
-                    "enum": [
-                      "1800"
-                    ]
+                    "enum": ["1800"]
                   }
                 },
-                "required": [
-                  "variety"
-                ]
+                "required": ["variety"]
               }
             },
-            "required": [
-              "metadata"
-            ]
+            "required": ["metadata"]
           },
           {
             "type": "object",
@@ -1473,19 +1356,13 @@
                 "properties": {
                   "language": {
                     "type": "string",
-                    "enum": [
-                      "swe"
-                    ]
+                    "enum": ["swe"]
                   }
                 },
-                "required": [
-                  "language"
-                ]
+                "required": ["language"]
               }
             },
-            "required": [
-              "metadata"
-            ]
+            "required": ["metadata"]
           },
           {
             "type": "object",
@@ -1496,19 +1373,13 @@
                 "properties": {
                   "variety": {
                     "type": "string",
-                    "enum": [
-                      "fsv"
-                    ]
+                    "enum": ["fsv"]
                   }
                 },
-                "required": [
-                  "variety"
-                ]
+                "required": ["variety"]
               }
             },
-            "required": [
-              "metadata"
-            ]
+            "required": ["metadata"]
           }
         ]
       },
@@ -1580,19 +1451,13 @@
                   "properties": {
                     "language": {
                       "type": "string",
-                      "enum": [
-                        "swe"
-                      ]
+                      "enum": ["swe"]
                     }
                   },
-                  "required": [
-                    "language"
-                  ]
+                  "required": ["language"]
                 }
               },
-              "required": [
-                "metadata"
-              ]
+              "required": ["metadata"]
             }
           }
         ]
@@ -1785,19 +1650,13 @@
                 "properties": {
                   "language": {
                     "type": "string",
-                    "enum": [
-                      "swe"
-                    ]
+                    "enum": ["swe"]
                   }
                 },
-                "required": [
-                  "language"
-                ]
+                "required": ["language"]
               }
             },
-            "required": [
-              "metadata"
-            ]
+            "required": ["metadata"]
           }
         ]
       },
@@ -1996,19 +1855,13 @@
             "properties": {
               "language": {
                 "type": "string",
-                "enum": [
-                  "eng"
-                ]
+                "enum": ["eng"]
               }
             },
-            "required": [
-              "language"
-            ]
+            "required": ["language"]
           }
         },
-        "required": [
-          "metadata"
-        ]
+        "required": ["metadata"]
       },
       "then": {
         "properties": {
@@ -2054,14 +1907,10 @@
                 ]
               }
             },
-            "required": [
-              "language"
-            ]
+            "required": ["language"]
           }
         },
-        "required": [
-          "metadata"
-        ]
+        "required": ["metadata"]
       },
       "then": {
         "properties": {
