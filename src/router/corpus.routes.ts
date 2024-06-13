@@ -4,6 +4,7 @@ const CorpusView = () => import("@/corpus/CorpusView.vue");
 const CorpusOverview = () => import("@/corpus/CorpusOverview.vue");
 const CorpusConfiguration = () =>
   import("@/corpus/config/CorpusConfiguration.vue");
+const SchemaConfig = () => import("@/corpus/config/SchemaConfig.vue");
 const CorpusConfigCustom = () =>
   import("@/corpus/config/CorpusConfigCustom.vue");
 const CorpusResult = () => import("@/corpus/exports/CorpusResult.vue");
@@ -36,6 +37,11 @@ const corpusRoutes: RouteRecordRaw[] = [
       {
         path: "config",
         component: CorpusConfiguration,
+        meta: { title: "configuration" },
+      },
+      {
+        path: "schemaconfig",
+        component: SchemaConfig,
         meta: { title: "configuration" },
       },
       {

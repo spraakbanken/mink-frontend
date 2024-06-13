@@ -278,6 +278,11 @@
     "@formkit/utils" "1.6.0"
     "@formkit/validation" "1.6.0"
 
+"@formschema/native@^2.0.0-beta.7":
+  version "2.0.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@formschema/native/-/native-2.0.0-beta.7.tgz#8333b0b6daf2f7d73b5c996d649be5d14a9fc694"
+  integrity sha512-7LfhKpQ06j2frQb3a8TkCeDqrKIXhIO7kQpxPWkxetmiLGyXLMup4m765qnTBN57GuufqAQXe70C/7CQ9bfvYw==
+
 "@fortawesome/fontawesome-common-types@6.5.1":
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-6.5.1.tgz#fdb1ec4952b689f5f7aa0bffe46180bb35490032"
