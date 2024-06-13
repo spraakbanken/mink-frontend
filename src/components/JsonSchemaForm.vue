@@ -15,13 +15,15 @@ defineProps<{
 </script>
 
 <template>
+  <!-- eslint-disable -->
+  <!-- (needed to keep React-friendly attr casing) -->
   <VeauryForm
     :schema
     :validator="validator"
-    :form-data="data"
-    :on-change
-    :on-submit
-    :on-error
+    :formData="data"
+    :onChange
+    :onSubmit
+    :onError
     :experimental_defaultFormStateBehavior="{
       allOf: 'populateDefaults',
     }"
