@@ -4,7 +4,7 @@ import Yaml from "js-yaml";
 import schema from "@/assets/sparvconfig.schema.json";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import useConfig from "@/corpus/config/config.composable";
-import JsonSchemaForm from "@/components/JsonSchemaForm.vue";
+import JsonSchemaForm from "@/components/schema-form/JsonSchemaForm.vue";
 import type { SparvConfig } from "@/api/sparvConfig.types";
 
 const corpusId = useCorpusIdParam();
