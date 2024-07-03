@@ -6,7 +6,12 @@ import type {
   IconButtonProps,
   RegistryFieldsType,
 } from "@rjsf/utils";
+import type { Component } from "vue";
 import AddButtonVue from "./AddButton.vue";
+
+// Rename and retype the Veaury converter to allow specifying return type better.
+const toReact = <P = {}>(component: Component) =>
+  applyPureVueInReact(component) as React.ComponentType<P>;
 
 class MyField extends React.Component<FieldProps> {
   constructor(props: FieldProps) {
@@ -25,13 +30,9 @@ class MyField extends React.Component<FieldProps> {
 
 const fields: RegistryFieldsType = { BooleanField: MyField };
 
-const AddButton = applyPureVueInReact(
-  AddButtonVue,
-) as React.ComponentType<IconButtonProps>;
-
 const templates = {
   ButtonTemplates: {
-    AddButton,
+    AddButton: toReact<IconButtonProps>(AddButtonVue),
   },
 };
 
