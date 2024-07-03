@@ -4,6 +4,6 @@ import ActionButton from "@/components/ActionButton.vue";
 
 <template>
   <ActionButton v-bind="$props">
-    <icon icon="plus" />
+    <icon :icon="['fas', 'angles-down']" />
   </ActionButton>
 </template>

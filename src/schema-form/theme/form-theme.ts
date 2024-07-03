@@ -1,6 +1,6 @@
 import React from "react";
 import { applyPureVueInReact } from "veaury";
-import type { ThemeProps } from "@rjsf/core";
+import type { FormProps, ThemeProps } from "@rjsf/core";
 import type {
   FieldProps,
   IconButtonProps,
@@ -8,6 +8,9 @@ import type {
 } from "@rjsf/utils";
 import type { Component } from "vue";
 import AddButtonVue from "./AddButton.vue";
+import RemoveButtonVue from "./RemoveButton.vue";
+import MoveUpButtonVue from "./MoveUpButton.vue";
+import MoveDownButtonVue from "./MoveDownButton.vue";
 
 // Rename and retype the Veaury converter to allow specifying return type better.
 const toReact = <P = {}>(component: Component) =>
@@ -30,9 +33,12 @@ class MyField extends React.Component<FieldProps> {
 
 const fields: RegistryFieldsType = { BooleanField: MyField };
 
-const templates = {
+const templates: FormProps["templates"] = {
   ButtonTemplates: {
     AddButton: toReact<IconButtonProps>(AddButtonVue),
+    RemoveButton: toReact<IconButtonProps>(RemoveButtonVue),
+    MoveUpButton: toReact<IconButtonProps>(MoveUpButtonVue),
+    MoveDownButton: toReact<IconButtonProps>(MoveDownButtonVue),
   },
 };
 

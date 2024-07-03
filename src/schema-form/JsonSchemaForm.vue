@@ -93,19 +93,4 @@ function onError(errors: Error[]) {
 ::v-deep(input[type="checkbox"], input[type="radio"]) {
   @apply mr-2;
 }
-::v-deep(.btn) {
-  @apply mink-button;
-}
-::v-deep(.btn-danger) {
-  @apply button-danger;
-}
-::v-deep(.array-item-remove::before) {
-  content: "–";
-}
-::v-deep(.array-item-move-up::before) {
-  content: "↑";
-}
-::v-deep(.array-item-move-down::before) {
-  content: "↓";
-}
 </style>
