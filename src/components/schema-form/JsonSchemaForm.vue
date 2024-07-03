@@ -1,8 +1,12 @@
 <script setup lang="ts" generic="D extends any">
-import Form from "@rjsf/core";
+import { withTheme } from "@rjsf/core";
 import validator from "@rjsf/validator-ajv8";
 import { applyPureReactInVue } from "veaury";
+import theme from "@/components/schema-form/form-theme";
 import useMessenger from "@/message/messenger.composable";
+
+// Construct a RJSF form with custom theme.
+const Form = withTheme(theme);
 
 // Wrap React component, see https://github.com/gloriasoft/veaury
 const VeauryForm = applyPureReactInVue(Form);
