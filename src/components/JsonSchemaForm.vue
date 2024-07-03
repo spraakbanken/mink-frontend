@@ -46,6 +46,9 @@ function onError(errors: Error[]) {
 </template>
 
 <style scoped>
+::v-deep(pre) {
+  @apply whitespace-pre-wrap;
+}
 ::v-deep(fieldset:not(#root):has(.field)) {
   @apply border p-2;
 }
@@ -72,5 +75,36 @@ function onError(errors: Error[]) {
 }
 ::v-deep(.has-error) {
   @apply bg-red-50;
+}
+::v-deep(.row) {
+  @apply flex flex-wrap gap-2;
+}
+::v-deep(.row.array-item-list) {
+  @apply flex-col;
+}
+::v-deep(.col-xs-3),
+::v-deep(.col-xs-9) {
+  @apply inline-block mr-2;
+}
+::v-deep(input[type="checkbox"], input[type="radio"]) {
+  @apply mr-2;
+}
+::v-deep(.btn) {
+  @apply mink-button;
+}
+::v-deep(.btn-danger) {
+  @apply button-danger;
+}
+::v-deep(.btn-add::before) {
+  content: "+";
+}
+::v-deep(.array-item-remove::before) {
+  content: "–";
+}
+::v-deep(.array-item-move-up::before) {
+  content: "↑";
+}
+::v-deep(.array-item-move-down::before) {
+  content: "↓";
 }
 </style>
