@@ -99,9 +99,6 @@ function onError(errors: Error[]) {
 ::v-deep(.btn-danger) {
   @apply button-danger;
 }
-::v-deep(.btn-add::before) {
-  content: "+";
-}
 ::v-deep(.array-item-remove::before) {
   content: "–";
 }

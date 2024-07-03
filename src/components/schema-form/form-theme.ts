@@ -1,5 +1,9 @@
 import type { ThemeProps } from "@rjsf/core";
-import type { FieldProps, RegistryFieldsType } from "@rjsf/utils";
+import type {
+  FieldProps,
+  IconButtonProps,
+  RegistryFieldsType,
+} from "@rjsf/utils";
 import React from "react";
 
 class MyField extends React.Component<FieldProps> {
@@ -19,5 +23,18 @@ class MyField extends React.Component<FieldProps> {
 
 const fields: RegistryFieldsType = { BooleanField: MyField };
 
-const theme: ThemeProps = { fields };
+function AddButton(props: IconButtonProps) {
+  return React.createElement("button", { class: "mink-button" }, ["+"]);
+}
+
+const templates = {
+  ButtonTemplates: {
+    AddButton,
+  },
+};
+
+const theme: ThemeProps = {
+  fields,
+  templates,
+};
 export default theme;
