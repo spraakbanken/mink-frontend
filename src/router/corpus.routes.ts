@@ -40,7 +40,7 @@ const corpusRoutes: RouteRecordRaw[] = [
         meta: { title: "configuration" },
       },
       {
-        path: "schemaconfig",
+        path: "config/full",
         component: SchemaConfig,
         meta: { title: "configuration" },
       },

@@ -194,6 +194,7 @@ fileFormat: Source format
 config.custom: Custom configuration
 config.custom.help: Mink uses {sparv}, a modular and configurable pipeline for text analysis, to process your corpus. The standard configuration form only exposes a few of the available Sparv options. On this page, you can view and submit your own config file, written in the YAML format. Please refer to the Sparv documentation on {topic} for more information.
 config.custom.upload.help: Please note that submitting an invalid config file may cause unexpected behaviour. Saving the standard configuration form may overwrite your custom config.
+config.full: Full configuration
 config.format.help: Select the file format of the source texts. All files must be of the selected format.
 config.format.note.pdf: The PDF file format is primarily designed for display. Please note that extracting text from them can sometimes give unsatisfactory results. Performing OCR on scanned documents is (currently) outside the scope of Mink.
 config.text_annotation: Text element

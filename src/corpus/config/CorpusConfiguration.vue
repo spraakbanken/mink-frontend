@@ -260,6 +260,10 @@ async function submit(fields: Form) {
         {{ $t("config.custom") }}
       </RouteButton>
 
+      <RouteButton :to="`/library/corpus/${corpusId}/config/full`">
+        {{ $t("config.full") }}
+      </RouteButton>
+
       <RouteButton
         :to="`/library/corpus/${corpusId}/delete`"
         class="button-danger"
