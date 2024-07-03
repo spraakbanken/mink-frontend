@@ -2,7 +2,7 @@
 import { withTheme } from "@rjsf/core";
 import validator from "@rjsf/validator-ajv8";
 import { applyPureReactInVue } from "veaury";
-import theme from "@/components/schema-form/form-theme";
+import theme from "@/schema-form/theme/form-theme";
 import useMessenger from "@/message/messenger.composable";
 
 // Construct a RJSF form with custom theme.

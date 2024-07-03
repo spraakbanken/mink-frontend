@@ -1,10 +1,12 @@
+import React from "react";
+import { applyPureVueInReact } from "veaury";
 import type { ThemeProps } from "@rjsf/core";
 import type {
   FieldProps,
   IconButtonProps,
   RegistryFieldsType,
 } from "@rjsf/utils";
-import React from "react";
+import AddButtonVue from "./AddButton.vue";
 
 class MyField extends React.Component<FieldProps> {
   constructor(props: FieldProps) {
@@ -23,9 +25,9 @@ class MyField extends React.Component<FieldProps> {
 
 const fields: RegistryFieldsType = { BooleanField: MyField };
 
-function AddButton(props: IconButtonProps) {
-  return React.createElement("button", { class: "mink-button" }, ["+"]);
-}
+const AddButton = applyPureVueInReact(
+  AddButtonVue,
+) as React.ComponentType<IconButtonProps>;
 
 const templates = {
   ButtonTemplates: {
