@@ -199,6 +199,22 @@ config.format.help: Select the file format of the source texts. All files must b
 config.format.note.pdf: The PDF file format is primarily designed for display. Please note that extracting text from them can sometimes give unsatisfactory results. Performing OCR on scanned documents is (currently) outside the scope of Mink.
 config.text_annotation: Text element
 config.text_annotation.help: In your source files, what XML element is most representative of a single text? Any text-level annotations will be attached to this element.
+config.schema.classes: Classes
+config.schema.parent: Parent
+config.schema.threads: Threads
+config.schema.export: Export
+config.schema.word: Word
+config.schema.remove_module_namespaces: Remove module namespaces
+config.schema.sparv_namespace: Sparv namespace
+config.schema.source_namespace: Source namespace
+config.schema.scramble_on: Scramble on
+config.schema.import: Import
+config.schema.text_annotation: Text annotation
+config.schema.source_dir: Source dir
+config.schema.importer: Importer
+config.schema.keep_control_chars: Keep control chars
+config.schema.normalize: Normalize
+config.schema.encoding: Encoding
 segmenter_sentence: Existing sentence segmentation
 segmenter_sentence_help: Are the text files already formatted such that sentences are separated by linebreaks?
 segmenter_linebreaks: One per line

@@ -5,12 +5,6 @@ import { applyPureReactInVue } from "veaury";
 import theme from "@/schema-form/theme/form-theme";
 import useMessenger from "@/message/messenger.composable";
 
-// Construct a RJSF form with custom theme.
-const Form = withTheme(theme);
-
-// Wrap React component, see https://github.com/gloriasoft/veaury
-const VeauryForm = applyPureReactInVue(Form);
-
 defineProps<{
   schema: any;
   data: D;
@@ -18,14 +12,25 @@ defineProps<{
   onSubmit?: (event: { formData: D }) => {};
 }>();
 
-type Error = {
+// Construct a RJSF form with custom theme.
+// The theme can override widget/field/template implementations.
+//  - widget: input element
+//  - field: form row, including widget, label etc
+//  - template: array/object wrappers, buttons etc
+// https://rjsf-team.github.io/react-jsonschema-form/docs/advanced-customization/custom-themes/
+const Form = withTheme(theme);
+
+// Wrap React component, see https://github.com/gloriasoft/veaury
+const VeauryForm = applyPureReactInVue(Form);
+
+type FormInvalidError = {
   message: string;
   property: string;
 };
 
 const { alert } = useMessenger();
 
-function onError(errors: Error[]) {
+function onError(errors: FormInvalidError[]) {
   errors.forEach((error) =>
     alert(`${error.property.split(".").pop()} ${error.message}`, "error"),
   );

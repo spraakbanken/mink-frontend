@@ -12,6 +12,13 @@ import MoveDownButtonVue from "./MoveDownButton.vue";
 const toReact = <P = {}>(component: Component) =>
   applyPureVueInReact(component) as React.ComponentType<P>;
 
+// https://rjsf-team.github.io/react-jsonschema-form/docs/advanced-customization/custom-widgets-fields
+const widgets: FormProps["widgets"] = {};
+
+// https://rjsf-team.github.io/react-jsonschema-form/docs/advanced-customization/custom-widgets-fields
+const fields: FormProps["fields"] = {};
+
+// https://rjsf-team.github.io/react-jsonschema-form/docs/advanced-customization/custom-themes/#templates
 const templates: FormProps["templates"] = {
   ButtonTemplates: {
     AddButton: toReact<IconButtonProps>(AddButtonVue),
@@ -22,6 +29,8 @@ const templates: FormProps["templates"] = {
 };
 
 const theme: ThemeProps = {
+  widgets,
+  fields,
   templates,
 };
 export default theme;
