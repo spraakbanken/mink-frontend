@@ -2,6 +2,8 @@
 import { withTheme } from "@rjsf/core";
 import validator from "@rjsf/validator-ajv8";
 import { applyPureReactInVue } from "veaury";
+import { TranslatableString } from "@rjsf/utils";
+import { useI18n } from "vue-i18n";
 import theme from "@/schema-form/theme/form-theme";
 import useMessenger from "@/message/messenger.composable";
 
@@ -11,6 +13,8 @@ defineProps<{
   onChange?: (event: { formData: D }, fieldId: string) => {};
   onSubmit?: (event: { formData: D }) => {};
 }>();
+
+const { t } = useI18n();
 
 // Construct a RJSF form with custom theme.
 // The theme can override widget/field/template implementations.
@@ -35,6 +39,13 @@ function onError(errors: FormInvalidError[]) {
     alert(`${error.property.split(".").pop()} ${error.message}`, "error"),
   );
 }
+
+function translateString(string: TranslatableString, params?: string[]) {
+  switch (string) {
+    case TranslatableString.KeyLabel:
+      return t("schemaform.KeyLabel");
+  }
+}
 </script>
 
 <template>
@@ -51,6 +62,7 @@ function onError(errors: FormInvalidError[]) {
     :experimental_defaultFormStateBehavior="{
       allOf: 'populateDefaults',
     }"
+    :translateString
   />
 </template>
 

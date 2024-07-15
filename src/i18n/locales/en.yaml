@@ -218,6 +218,7 @@ config.schema.import.normalize.title: Normalize
 config.schema.import.encoding.title: Encoding
 config.schema.conll_export.title: CoNLL export
 # TODO: Add more
+schemaform.KeyLabel: Key
 
 segmenter_sentence: Existing sentence segmentation
 segmenter_sentence_help: Are the text files already formatted such that sentences are separated by linebreaks?

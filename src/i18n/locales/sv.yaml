@@ -231,6 +231,7 @@ config.schema.import.encoding.description: Teckenkodning för källfiler
 config.schema.conll_export.title: CoNLL-export
 config.schema.conll_export.description: Export till CoNLL-fil
 # TODO: Add more
+schemaform.KeyLabel: Nyckel
 
 segmenter_sentence: Existerande meningssegmentering
 segmenter_sentence_help: Är källtexterna redan formaterade så att varje mening börjar på en ny rad?
