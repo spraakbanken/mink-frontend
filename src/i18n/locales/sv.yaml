@@ -200,33 +200,38 @@ config.format.help: Ange vilket filformat källtexterna har. Alla filer måste h
 config.format.note.pdf: PDF-formatet är byggt främst för visuell presentation. Text som extraheras från PDF-filer kan ibland ge bristfälliga resultat. OCR-behandling av scannade dokument är (för närvarande) inget som Mink stödjer.
 config.text_annotation: Textelement
 config.text_annotation.help: Vilket XML-element i dina källfiler representerar bäst en enskild text? Eventuella annotationer på textnivå kommer att sättas på det elementet.
-config.schema.classes: Klasser
-config.schema.parent: Förälder
-config.schema.threads: Trådar
-config.schema.export: Export
-config.schema.word: Ord
-config.schema.word.description: Annotering att använda för tokentext i exporten
-config.schema.remove_module_namespaces: Ta bort modulnamnrymder
-config.schema.remove_module_namespaces.description: Ta bort modulnamnsprefix från annoteringsnamn i exporten
-config.schema.sparv_namespace: Namnrymd för Sparv
-config.schema.sparv_namespace.description: Prefix att lägga till på namnen för alla automatiskt skapade annoteringar
-config.schema.source_namespace: Namnrymd för källa
-config.schema.source_namespace.description: Prefix att lägga till på namnen för alla annoteringar från källan
-config.schema.scramble_on: Nivå för omkastning
-config.schema.scramble_on.description: Vilken annotering som används som minsta element vid omkastning
-config.schema.import: Import
-config.schema.text_annotation: Textannotering
-config.schema.text_annotation.description: Annotering som representerar en text
-config.schema.source_dir: Källkatalog
-config.schema.source_dir.description: Katalog som innehåller korpuskällfiler
-config.schema.importer: Importerare
-config.schema.importer.description: Namnet på importerare att använda
-config.schema.keep_control_chars: Behåll kontrolltecken
-config.schema.keep_control_chars.description: Slå på för att behålla kontrolltecken
-config.schema.normalize: Normalisera
-config.schema.normalize.description: "Normalisera inmatning med någon av följande former: 'NFC', 'NFKC', 'NFD' eller 'NFKD'"
-config.schema.encoding: Teckenkodning
-config.schema.encoding.description: Teckenkodning för källfiler
+
+config.schema.classes.title: Klasser
+config.schema.parent.title: Förälder
+config.schema.threads.title: Trådar
+config.schema.export.title: Export
+config.schema.export.word.title: Ord
+config.schema.export.word.description: Annotering att använda för tokentext i exporten
+config.schema.export.remove_module_namespaces.title: Ta bort modulnamnrymder
+config.schema.export.remove_module_namespaces.description: Ta bort modulnamnsprefix från annoteringsnamn i exporten
+config.schema.export.sparv_namespace.title: Namnrymd för Sparv
+config.schema.export.sparv_namespace.description: Prefix att lägga till på namnen för alla automatiskt skapade annoteringar
+config.schema.export.source_namespace.title: Namnrymd för källa
+config.schema.export.source_namespace.description: Prefix att lägga till på namnen för alla annoteringar från källan
+config.schema.export.scramble_on.title: Nivå för omkastning
+config.schema.export.scramble_on.description: Vilken annotering som används som minsta element vid omkastning
+config.schema.import.title: Import
+config.schema.import.text_annotation.title: Textannotering
+config.schema.import.text_annotation.description: Annotering som representerar en text
+config.schema.import.source_dir.title: Källkatalog
+config.schema.import.source_dir.description: Katalog som innehåller korpuskällfiler
+config.schema.import.importer.title: Importerare
+config.schema.import.importer.description: Namnet på importerare att använda
+config.schema.import.keep_control_chars.title: Behåll kontrolltecken
+config.schema.import.keep_control_chars.description: Slå på för att behålla kontrolltecken
+config.schema.import.normalize.title: Normalisera
+config.schema.import.normalize.description: "Normalisera inmatning med någon av följande former: 'NFC', 'NFKC', 'NFD' eller 'NFKD'"
+config.schema.import.encoding.title: Teckenkodning
+config.schema.import.encoding.description: Teckenkodning för källfiler
+config.schema.conll_export.title: CoNLL-export
+config.schema.conll_export.description: Export till CoNLL-fil
+# TODO: Add more
+
 segmenter_sentence: Existerande meningssegmentering
 segmenter_sentence_help: Är källtexterna redan formaterade så att varje mening börjar på en ny rad?
 segmenter_linebreaks: En per rad

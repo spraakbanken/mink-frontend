@@ -16,7 +16,7 @@ export type MessageLevel = "error" | "success" | "debug";
 const alerts = ref<Alert[]>([]);
 
 export default function useMessenger() {
-  const { t, locale, messages } = useI18n();
+  const { t, te, locale, messages } = useI18n();
 
   function alert(message: string, level?: MessageLevel) {
     if (message && level !== "success") {
@@ -37,14 +37,6 @@ export default function useMessenger() {
     alerts.value = [];
   }
 
-  /** Check if there is a translation for the given key.
-   *
-   * This replaces `te` until https://github.com/kazupon/vue-i18n/issues/1521 is fixed.
-   */
-  function translationExists(key: string) {
-    return !!messages.value[locale.value][key];
-  }
-
   /** Display a backend error message. */
   const alertError = (err: AxiosError<MinkResponse>): undefined => {
     if (err.response?.data) {
@@ -53,7 +45,7 @@ export default function useMessenger() {
       // Use the return code to find a message, if available.
       if (data.return_code) {
         const translationKey = `api.code.${data.return_code}`;
-        if (translationExists(translationKey)) {
+        if (te(translationKey)) {
           // Pass the response data, plus request params, as variables to be replaced for "{placeholders}" in the translation message.
           const messageVariables = { ...err.config?.params, ...data };
           alert(t(translationKey, messageVariables), "error");

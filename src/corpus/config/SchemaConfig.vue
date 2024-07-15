@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import Yaml from "js-yaml";
+import type { JSONSchema6 } from "json-schema";
+import { useTransformSchema } from "./schema-transform";
 import schema from "@/assets/sparvconfig.schema.json";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import useConfig from "@/corpus/config/config.composable";
@@ -9,10 +11,13 @@ import type { SparvConfig } from "@/api/sparvConfig.types";
 
 const corpusId = useCorpusIdParam();
 const { config, uploadConfigRaw } = useConfig(corpusId);
+const { transformSchema } = useTransformSchema();
 
 const configParsed = computed(() =>
   config.value ? (Yaml.load(config.value) as SparvConfig) : undefined,
 );
+
+transformSchema(schema as JSONSchema6);
 
 async function onSubmit(event: { formData: SparvConfig }) {
   const configYaml = Yaml.dump(event.formData);

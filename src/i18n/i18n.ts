@@ -2,7 +2,7 @@ import { createI18n } from "vue-i18n";
 import en from "@/i18n/locales/en.yaml";
 import sv from "@/i18n/locales/sv.yaml";
 
-export default createI18n({
+const i18n = createI18n({
   legacy: false,
   globalInjection: true,
   // Prefer Swedish if it's among browser's preferred languages, even if English is ranked higher
@@ -13,10 +13,20 @@ export default createI18n({
   messages: { en, sv },
 });
 
+export default i18n;
+
 export type LocaleId = "sv" | "en";
 
 /** Each UI language name, written in that language, keyed by its 2-letter locale id. */
 export const languageNames = {
   sv: "Svenska",
   en: "English",
+};
+
+// Thanks @jclaveau: https://github.com/kazupon/vue-i18n/issues/1521#issuecomment-1799047164
+i18n.global.te = (key, locale?): boolean => {
+  const effectiveLocale =
+    locale && locale.length ? locale : i18n.global.locale.value;
+  const messages = i18n.global.messages.value[effectiveLocale];
+  return Object.prototype.hasOwnProperty.call(messages, key);
 };
