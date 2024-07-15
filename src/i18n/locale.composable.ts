@@ -8,7 +8,7 @@ import type { ByLang, SvEn, SweEng } from "@/util.types";
 const storedLocale = useStorage<SvEn | "">("locale", "");
 
 export default function useLocale() {
-  const { locale } = useI18n();
+  const { locale, messages } = useI18n();
   const formkitConfig = inject(configSymbol);
 
   const exportLocale = () => {
@@ -35,6 +35,14 @@ export default function useLocale() {
     exportLocale();
   });
 
+  /**
+   * Check if translation exists.
+   * Original `te` broken as per https://github.com/kazupon/vue-i18n/issues/1521
+   */
+  function te(key: string): boolean {
+    return !!messages.value[locale.value][key];
+  }
+
   /** Translate here - picks the current language out of a strings-by-language object. */
   function th(map?: ByLang | string): string | undefined {
     if (!map) return undefined;
@@ -53,6 +61,7 @@ export default function useLocale() {
   return {
     locale,
     locale3,
+    te,
     th,
     filesize: myFilesize,
   };

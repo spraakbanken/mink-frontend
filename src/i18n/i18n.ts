@@ -22,11 +22,3 @@ export const languageNames = {
   sv: "Svenska",
   en: "English",
 };
-
-// Thanks @jclaveau: https://github.com/kazupon/vue-i18n/issues/1521#issuecomment-1799047164
-i18n.global.te = (key, locale?): boolean => {
-  const effectiveLocale =
-    locale && locale.length ? locale : i18n.global.locale.value;
-  const messages = i18n.global.messages.value[effectiveLocale];
-  return Object.prototype.hasOwnProperty.call(messages, key);
-};

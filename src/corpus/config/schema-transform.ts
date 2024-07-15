@@ -2,13 +2,15 @@ import type { JSONSchema6 } from "json-schema";
 import { schemaWalk, type Visitor } from "@cloudflare/json-schema-walker";
 import { useI18n } from "vue-i18n";
 import { capitalize } from "lodash";
+import useLocale from "@/i18n/locale.composable";
 
 const isPropertyName = (name: string) =>
   !/^[0-9]*$/.test(name) &&
   !["properties", "allOf", "anyOf", "if", "then", "else", "not"].includes(name);
 
 export function useTransformSchema() {
-  const { t, te } = useI18n();
+  const { t } = useI18n();
+  const { te } = useLocale();
 
   function transformSchema(schema: JSONSchema6) {
     schemaWalk(schema, undefined, postFunc);

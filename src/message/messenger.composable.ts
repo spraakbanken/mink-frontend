@@ -4,6 +4,7 @@ import remove from "lodash/remove";
 import { AxiosError } from "axios";
 import { randomString } from "@/util";
 import type { MinkResponse } from "@/api/api.types";
+import useLocale from "@/i18n/locale.composable";
 
 export type Alert = {
   key: string;
@@ -16,7 +17,8 @@ export type MessageLevel = "error" | "success" | "debug";
 const alerts = ref<Alert[]>([]);
 
 export default function useMessenger() {
-  const { t, te, locale, messages } = useI18n();
+  const { t } = useI18n();
+  const { te } = useLocale();
 
   function alert(message: string, level?: MessageLevel) {
     if (message && level !== "success") {
