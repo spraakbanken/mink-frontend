@@ -6,7 +6,7 @@ declare module "@cloudflare/json-schema-walker" {
     schema: import("json-schema").JSONSchema7 | boolean,
     path: string[],
     parent?: import("json-schema").JSONSchema7,
-    parentPath?: string[],
+    parentPath: string[],
   ) => void;
 
   /** Modifies in place */
