@@ -2,13 +2,13 @@
 import { withTheme } from "@rjsf/core";
 import validator from "@rjsf/validator-ajv8";
 import { applyPureReactInVue } from "veaury";
-import { TranslatableString } from "@rjsf/utils";
+import { TranslatableString, type StrictRJSFSchema } from "@rjsf/utils";
 import { useI18n } from "vue-i18n";
 import theme from "@/schema-form/theme/form-theme";
 import useMessenger from "@/message/messenger.composable";
 
 defineProps<{
-  schema: any;
+  schema: StrictRJSFSchema;
   data: D;
   onChange?: (event: { formData: D }, fieldId: string) => {};
   onSubmit?: (event: { formData: D }) => {};

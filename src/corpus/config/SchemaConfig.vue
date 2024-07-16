@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import Yaml from "js-yaml";
-import type { JSONSchema6 } from "json-schema";
+import type { JSONSchema7 } from "json-schema";
 import { useTransformSchema } from "./schema-transform";
 import schema from "@/assets/sparvconfig.schema.json";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
@@ -17,7 +17,7 @@ const configParsed = computed(() =>
   config.value ? (Yaml.load(config.value) as SparvConfig) : undefined,
 );
 
-transformSchema(schema as JSONSchema6);
+transformSchema(schema as unknown as JSONSchema7);
 
 async function onSubmit(event: { formData: SparvConfig }) {
   const configYaml = Yaml.dump(event.formData);
@@ -28,7 +28,7 @@ async function onSubmit(event: { formData: SparvConfig }) {
 <template>
   <JsonSchemaForm
     v-if="configParsed"
-    :schema="schema"
+    :schema="schema as unknown as JSONSchema7"
     :data="configParsed"
     :on-submit="onSubmit"
   />

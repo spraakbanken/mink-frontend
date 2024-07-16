@@ -1,4 +1,4 @@
-import type { JSONSchema6 } from "json-schema";
+import type { JSONSchema7 } from "json-schema";
 import { schemaWalk, type Visitor } from "@cloudflare/json-schema-walker";
 import { useI18n } from "vue-i18n";
 import { capitalize } from "lodash";
@@ -12,7 +12,7 @@ export function useTransformSchema() {
   const { t } = useI18n();
   const { te } = useLocale();
 
-  function transformSchema(schema: JSONSchema6) {
+  function transformSchema(schema: JSONSchema7) {
     schemaWalk(schema, undefined, postFunc);
   }
 
