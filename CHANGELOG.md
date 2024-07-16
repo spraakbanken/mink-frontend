@@ -16,6 +16,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Added
 
 - Code highlighting for XML and YAML [#30](https://github.com/spraakbanken/mink-frontend/issues/30)
+- HTTP compression
 
 ### Changed
 
