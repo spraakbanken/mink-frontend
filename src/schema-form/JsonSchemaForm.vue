@@ -1,4 +1,14 @@
-<script setup lang="ts" generic="D extends any">
+<script lang="ts">
+export type JsonSchemaFormProps<D extends {}> = {
+  schema: StrictRJSFSchema;
+  data?: D;
+  uiSchema?: UiSchema;
+  onChange?: (event: { formData: D }, fieldId: string) => {};
+  onSubmit?: (event: { formData: D }) => {};
+};
+</script>
+
+<script setup lang="ts" generic="D extends {}">
 import { withTheme } from "@rjsf/core";
 import validator from "@rjsf/validator-ajv8";
 import { applyPureReactInVue } from "veaury";
@@ -12,13 +22,7 @@ import { useI18n } from "vue-i18n";
 import theme from "@/schema-form/theme/form-theme";
 import useMessenger from "@/message/messenger.composable";
 
-defineProps<{
-  schema: StrictRJSFSchema;
-  data: D;
-  uiSchema?: UiSchema;
-  onChange?: (event: { formData: D }, fieldId: string) => {};
-  onSubmit?: (event: { formData: D }) => {};
-}>();
+defineProps<JsonSchemaFormProps<D>>();
 
 const { t } = useI18n();
 
