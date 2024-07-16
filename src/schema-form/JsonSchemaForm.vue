@@ -2,7 +2,11 @@
 import { withTheme } from "@rjsf/core";
 import validator from "@rjsf/validator-ajv8";
 import { applyPureReactInVue } from "veaury";
-import { TranslatableString, type StrictRJSFSchema } from "@rjsf/utils";
+import {
+  englishStringTranslator,
+  TranslatableString,
+  type StrictRJSFSchema,
+} from "@rjsf/utils";
 import { useI18n } from "vue-i18n";
 import theme from "@/schema-form/theme/form-theme";
 import useMessenger from "@/message/messenger.composable";
@@ -45,6 +49,7 @@ function translateString(string: TranslatableString, params?: string[]) {
     case TranslatableString.KeyLabel:
       return t("schemaform.KeyLabel");
   }
+  return englishStringTranslator(string, params);
 }
 </script>
 
