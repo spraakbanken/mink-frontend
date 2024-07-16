@@ -1,20 +1,15 @@
-import { computed, inject, watch } from "vue";
+import { computed, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { filesize } from "filesize";
 import { useStorage } from "@vueuse/core";
-import { configSymbol } from "@formkit/vue";
 import type { ByLang, SvEn, SweEng } from "@/util.types";
 
 const storedLocale = useStorage<SvEn | "">("locale", "");
 
 export default function useLocale() {
   const { locale } = useI18n();
-  const formkitConfig = inject(configSymbol);
 
   const exportLocale = () => {
-    if (formkitConfig) {
-      formkitConfig.locale = locale.value;
-    }
     document.querySelector("html")?.setAttribute("lang", locale.value);
   };
 
