@@ -76,10 +76,10 @@ function translateString(string: TranslatableString, params?: string[]) {
 
 <style scoped>
 ::v-deep(pre) {
-  @apply whitespace-pre-wrap;
+  @apply whitespace-pre-wrap text-xs;
 }
 ::v-deep(fieldset:not(#root):has(.field)) {
-  @apply border p-2;
+  @apply border dark:border-zinc-600 p-2;
 }
 ::v-deep(* + fieldset) {
   @apply my-4;
@@ -89,6 +89,12 @@ function translateString(string: TranslatableString, params?: string[]) {
 }
 ::v-deep(label) {
   @apply font-bold;
+}
+::v-deep(.form-additional .control-label) {
+  @apply mr-1;
+}
+::v-deep(textarea) {
+  @apply align-baseline;
 }
 ::v-deep(fieldset:not(#root) legend) {
   @apply text-3xl;
@@ -100,10 +106,10 @@ function translateString(string: TranslatableString, params?: string[]) {
   @apply text-2xl;
 }
 ::v-deep(.unsupported-field) {
-  @apply bg-red-50;
+  @apply bg-red-50 dark:bg-red-900 dark:bg-opacity-30;
 }
 ::v-deep(.has-error) {
-  @apply bg-red-50;
+  @apply bg-red-50 dark:bg-red-900 dark:bg-opacity-30;
 }
 ::v-deep(.row) {
   @apply flex flex-wrap gap-2;
@@ -114,6 +120,9 @@ function translateString(string: TranslatableString, params?: string[]) {
 ::v-deep(.col-xs-3),
 ::v-deep(.col-xs-9) {
   @apply inline-block mr-2;
+}
+::v-deep(.btn-group) {
+  @apply gap-1;
 }
 ::v-deep(input[type="checkbox"], input[type="radio"]) {
   @apply mr-2;
