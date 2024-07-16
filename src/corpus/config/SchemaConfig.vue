@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import Yaml from "js-yaml";
 import type { JSONSchema7 } from "json-schema";
+import type { UiSchema } from "@rjsf/utils";
 import { useTransformSchema } from "./schema-transform";
 import schema from "@/assets/sparvconfig.schema.json";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
@@ -23,6 +24,24 @@ async function onSubmit(event: { formData: SparvConfig }) {
   const configYaml = Yaml.dump(event.formData);
   await uploadConfigRaw(configYaml);
 }
+
+const uiSchema: UiSchema = {
+  metadata: {
+    id: {
+      "ui:disabled": true,
+    },
+    description: {
+      additionalProperties: {
+        "ui:widget": "textarea",
+      },
+    },
+    short_description: {
+      additionalProperties: {
+        "ui:widget": "textarea",
+      },
+    },
+  },
+};
 </script>
 
 <template>
@@ -31,5 +50,6 @@ async function onSubmit(event: { formData: SparvConfig }) {
     :schema="schema as unknown as JSONSchema7"
     :data="configParsed"
     :on-submit="onSubmit"
+    :ui-schema="uiSchema"
   />
 </template>

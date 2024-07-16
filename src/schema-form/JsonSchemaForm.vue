@@ -6,6 +6,7 @@ import {
   englishStringTranslator,
   TranslatableString,
   type StrictRJSFSchema,
+  type UiSchema,
 } from "@rjsf/utils";
 import { useI18n } from "vue-i18n";
 import theme from "@/schema-form/theme/form-theme";
@@ -14,6 +15,7 @@ import useMessenger from "@/message/messenger.composable";
 defineProps<{
   schema: StrictRJSFSchema;
   data: D;
+  uiSchema?: UiSchema;
   onChange?: (event: { formData: D }, fieldId: string) => {};
   onSubmit?: (event: { formData: D }) => {};
 }>();
@@ -59,6 +61,7 @@ function translateString(string: TranslatableString, params?: string[]) {
   <!-- See https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/form-props -->
   <VeauryForm
     :schema
+    :uiSchema
     :validator="validator"
     :formData="data"
     :onChange
