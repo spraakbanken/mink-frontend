@@ -3,8 +3,9 @@ import { computed } from "vue";
 import Yaml from "js-yaml";
 import type { JSONSchema7 } from "json-schema";
 import type { UiSchema } from "@rjsf/utils";
-import { schemaWalk } from "@cloudflare/json-schema-walker";
-import { getPropertyPath, useTransformSchema } from "./schema-transform";
+import { useI18n } from "vue-i18n";
+import difference from "lodash/difference";
+import { getTopProperties, transformSchema } from "./config-schema";
 import schemaRaw from "@/assets/sparvconfig.schema.json";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import useConfig from "@/corpus/config/config.composable";
@@ -22,13 +23,14 @@ const props = defineProps<{
 
 const corpusId = useCorpusIdParam();
 const { config, uploadConfigRaw } = useConfig(corpusId);
-const { transformSchema } = useTransformSchema();
+const { t, te } = useI18n();
 
 const configParsed = computed(() =>
   config.value ? (Yaml.load(config.value) as SparvConfig) : undefined,
 );
 
-transformSchema(schema);
+transformSchema(schema, te, t);
+const topProperties = getTopProperties(schema);
 
 async function onSubmit(event: { formData: SparvConfig }) {
   const configYaml = Yaml.dump(event.formData);
@@ -43,21 +45,11 @@ const uiSchema: UiSchema = {
   },
 };
 
-const topProperties = computed(() => {
-  const names = new Set<string>();
-  schemaWalk(schema, (node, path, parent, parentPath) =>
-    names.add(getPropertyPath([...parentPath, ...path])[0]),
-  );
-  return [...names];
-});
-const hiddenProperties = computed(() =>
-  props.properties?.length
-    ? topProperties.value.filter((name) => !props.properties?.includes(name))
-    : [],
-);
 /** A UI Schema that hides all but the active fields. */
 const uiSchemaAddon = computed(() =>
-  fromKeys(hiddenProperties.value, () => ({ "ui:classNames": "hidden" })),
+  fromKeys(difference(topProperties, props.properties || []), () => ({
+    "ui:classNames": "hidden",
+  })),
 );
 const uiSchemaModified = computed(() => ({
   ...uiSchema.value,

@@ -1,27 +1,19 @@
 import type { JSONSchema7 } from "json-schema";
-import { schemaWalk, type Visitor } from "@cloudflare/json-schema-walker";
-import { useI18n } from "vue-i18n";
+import { schemaWalk } from "@cloudflare/json-schema-walker";
 import capitalize from "lodash/capitalize";
-import useLocale from "@/i18n/locale.composable";
+import type { VueI18n } from "vue-i18n";
 
+/** Get list of ancestor property names */
 export const getPropertyPath = (parts: string[]) =>
   parts.filter((value, index) => parts[index - 1] == "properties");
 
-/** Convert "foo_bar_baz" to "Foo bar baz" */
-const prettyName = (name: string): string =>
-  capitalize(name.replace(/_/g, " "));
-
-export function useTransformSchema() {
-  const { t } = useI18n();
-  const { te } = useLocale();
-
-  /** Set translated, human-readable titles and descriptions. */
-  function transformSchema(schema: JSONSchema7) {
-    schemaWalk(schema, undefined, postFunc);
-  }
-
-  /** Callback for massaging each schema node. */
-  const postFunc: Visitor = (schema, path, parent, parentPath) => {
+/** Set translated, human-readable titles and descriptions. */
+export function transformSchema(
+  schema: JSONSchema7,
+  te: VueI18n["te"],
+  t: VueI18n["t"],
+) {
+  schemaWalk(schema, undefined, (schema, path, parent, parentPath) => {
     if (typeof schema != "object") return;
     // For a property node, `path` will be `["properties", name]`
     if (path[0] != "properties") return;
@@ -38,7 +30,18 @@ export function useTransformSchema() {
     schema.title = te(titleKey) ? t(titleKey) : prettyName(name);
     // Set field description from translation, if any
     if (te(descrKey)) schema.description = t(descrKey);
-  };
-
-  return { transformSchema };
+  });
 }
+
+/** Convert "foo_bar_baz" to "Foo bar baz" */
+const prettyName = (name: string): string =>
+  capitalize(name.replace(/_/g, " "));
+
+/** Collect top-level peroperty names in schema */
+export const getTopProperties = (schema: JSONSchema7) => {
+  const names = new Set<string>();
+  schemaWalk(schema, (node, path, parent, parentPath) =>
+    names.add(getPropertyPath([...parentPath, ...path])[0]),
+  );
+  return [...names];
+};
