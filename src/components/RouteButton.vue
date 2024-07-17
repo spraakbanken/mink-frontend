@@ -9,8 +9,12 @@ defineProps<{
 </script>
 
 <template>
-  <router-link v-slot="{ navigate }" :to="to" custom>
-    <ActionButton :disabled="disabled" v-bind="$attrs" @click="navigate">
+  <router-link v-slot="{ navigate, isActive }" :to="to" custom>
+    <ActionButton
+      :disabled="disabled || isActive"
+      v-bind="$attrs"
+      @click="navigate"
+    >
       <slot />
     </ActionButton>
   </router-link>

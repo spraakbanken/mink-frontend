@@ -62,7 +62,7 @@ const uiSchemaModified = computed(() => ({
 </script>
 
 <template>
-  <nav class="flex gap-4 text-lg">
+  <nav class="flex flex-wrap gap-4 text-lg">
     <RouteButton
       v-for="{ key } in formSections"
       :key
