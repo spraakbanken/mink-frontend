@@ -50,13 +50,13 @@ const uiSchema: UiSchema = {
 };
 
 /** A UI Schema that hides all but the active fields. */
-const uiSchemaAddon = computed(() =>
-  fromKeys(difference(topProperties, props.properties || []), () => ({
-    "ui:classNames": "hidden",
-  })),
-);
+const uiSchemaAddon = computed(() => {
+  if (!props.properties) return {};
+  const inactiveProperties = difference(topProperties, props.properties);
+  return fromKeys(inactiveProperties, () => ({ "ui:classNames": "hidden" }));
+});
 const uiSchemaModified = computed(() => ({
-  ...uiSchema.value,
+  ...uiSchema,
   ...uiSchemaAddon.value,
 }));
 </script>
