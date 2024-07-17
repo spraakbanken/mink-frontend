@@ -1,12 +1,13 @@
 import React from "react";
 import { applyPureVueInReact } from "veaury";
 import type { FormProps, ThemeProps } from "@rjsf/core";
-import type { IconButtonProps } from "@rjsf/utils";
+import { type SubmitButtonProps, type IconButtonProps } from "@rjsf/utils";
 import type { Component } from "vue";
 import AddButtonVue from "./AddButton.vue";
 import RemoveButtonVue from "./RemoveButton.vue";
 import MoveUpButtonVue from "./MoveUpButton.vue";
 import MoveDownButtonVue from "./MoveDownButton.vue";
+import SubmitButtonVue from "./SubmitButton.vue";
 
 // Rename and retype the Veaury converter to allow specifying return type better.
 const toReact = <P = {}>(component: Component) =>
@@ -25,6 +26,7 @@ const templates: FormProps["templates"] = {
     RemoveButton: toReact<IconButtonProps>(RemoveButtonVue),
     MoveUpButton: toReact<IconButtonProps>(MoveUpButtonVue),
     MoveDownButton: toReact<IconButtonProps>(MoveDownButtonVue),
+    SubmitButton: toReact<SubmitButtonProps>(SubmitButtonVue),
   },
 };
 
