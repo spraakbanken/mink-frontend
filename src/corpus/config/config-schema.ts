@@ -2,12 +2,31 @@ import type { JSONSchema7 } from "json-schema";
 import { schemaWalk } from "@cloudflare/json-schema-walker";
 import capitalize from "lodash/capitalize";
 import type { VueI18n } from "vue-i18n";
+import type { UiSchema } from "@rjsf/utils";
+import cloneDeep from "lodash/cloneDeep";
+import schemaRaw from "@/assets/sparvconfig.schema.json";
+
+export const schema = schemaRaw as unknown as JSONSchema7;
+
+export const uiSchema: UiSchema = {
+  metadata: {
+    id: { "ui:disabled": true },
+    description: { additionalProperties: { "ui:widget": "textarea" } },
+    short_description: { additionalProperties: { "ui:widget": "textarea" } },
+  },
+};
+
+export function loadSchema(te: VueI18n["te"], t: VueI18n["t"]) {
+  const copy = cloneDeep(schema);
+  transformSchema(copy, te, t);
+  return copy;
+}
 
 /** Get list of ancestor property names */
 export const getPropertyPath = (parts: string[]) =>
   parts.filter((value, index) => parts[index - 1] == "properties");
 
-/** Set translated, human-readable titles and descriptions. */
+/** Set translated, human-readable titles and descriptions, and remove default values. */
 export function transformSchema(
   schema: JSONSchema7,
   te: VueI18n["te"],
