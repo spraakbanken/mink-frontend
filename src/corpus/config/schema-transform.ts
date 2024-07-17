@@ -4,7 +4,7 @@ import { useI18n } from "vue-i18n";
 import capitalize from "lodash/capitalize";
 import useLocale from "@/i18n/locale.composable";
 
-const getPropertyPath = (parts: string[]) =>
+export const getPropertyPath = (parts: string[]) =>
   parts.filter((value, index) => parts[index - 1] == "properties");
 
 /** Convert "foo_bar_baz" to "Foo bar baz" */

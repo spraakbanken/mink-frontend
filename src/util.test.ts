@@ -5,6 +5,7 @@ import {
   ensureExtension,
   formatDate,
   formatSeconds,
+  fromKeys,
   getException,
   getFilenameExtension,
   keyBy,
@@ -207,6 +208,25 @@ describe("objsToDict", () => {
     // @ts-expect-error
     const dict = objsToDict([{ k: "a" }], "k", "v");
     expect(dict).toEqual({ a: undefined });
+  });
+});
+
+describe("fromKeys", () => {
+  test("empty", () => {
+    expect(
+      fromKeys([], () => {
+        throw Error();
+      }),
+    ).toEqual({});
+  });
+  test("simple", () => {
+    const obj = fromKeys(["a", "b"], (key) => key.toUpperCase());
+    expect(obj).toEqual({ a: "A", b: "B" });
+  });
+  test("saves last of duplicate keys", () => {
+    let i = 1;
+    const obj = fromKeys(["a", "a"], (key) => key + i++);
+    expect(obj).toEqual({ a: "a2" });
   });
 });
 

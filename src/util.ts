@@ -145,6 +145,16 @@ export const objsToDict = <
     {},
   ) as Record<T[K1], T[K2]>;
 
+/** Create an object from a list of keys and a function that creates a corresponding value for each key. */
+export const fromKeys = <K extends string, V>(
+  keys: K[],
+  getValue: (key: K) => V,
+): Record<K, V> =>
+  keys.reduce(
+    (obj, key) => ({ ...obj, [key]: getValue(key) }),
+    {} as Record<K, V>,
+  );
+
 /** Like lodash/keyBy but slightly more restrictive in range and typing. */
 export const keyBy = <T extends Record<K, keyof any>, K extends keyof T>(
   objs: T[],

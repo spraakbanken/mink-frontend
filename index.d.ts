@@ -5,7 +5,7 @@ declare module "@cloudflare/json-schema-walker" {
   export type Visitor = (
     schema: import("json-schema").JSONSchema7 | boolean,
     path: string[],
-    parent?: import("json-schema").JSONSchema7,
+    parent: import("json-schema").JSONSchema7 | undefined,
     parentPath: string[],
   ) => void;
 
