@@ -45,3 +45,62 @@ export const getTopProperties = (schema: JSONSchema7) => {
   );
   return [...names];
 };
+
+/** Which form parts belong on which pages */
+export const formSections = [
+  {
+    key: "metadata",
+    properties: ["metadata"],
+  },
+  {
+    key: "import",
+    properties: [
+      "import",
+      "xml_import",
+      "docx_import",
+      "odt_import",
+      "pdf_import",
+      "text_import",
+      "xml_import",
+    ],
+  },
+  {
+    key: "annotations",
+    properties: [
+      "classes",
+      "custom_annotations",
+      "dateformat",
+      "geo",
+      "hist",
+      "hunpos",
+      "misc",
+      "segment",
+      "stanza",
+      "sbx_freeling",
+    ],
+  },
+  {
+    key: "export",
+    properties: [
+      "export",
+      "conll_export",
+      "csv_export",
+      "cwb",
+      "korp",
+      "passthrough",
+      "stats_export",
+      "xml_export",
+    ],
+  },
+  {
+    key: "process",
+    properties: [
+      "sparv",
+      "threads",
+      "parent",
+      "install",
+      "uninstall",
+      "preload",
+    ],
+  },
+];

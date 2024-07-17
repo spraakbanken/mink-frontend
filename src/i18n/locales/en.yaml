@@ -200,6 +200,11 @@ config.format.note.pdf: The PDF file format is primarily designed for display. P
 config.text_annotation: Text element
 config.text_annotation.help: In your source files, what XML element is most representative of a single text? Any text-level annotations will be attached to this element.
 
+config.section.metadata: Metadata
+config.section.import: Import
+config.section.annotations: Annotations
+config.section.export: Export
+config.section.process: Process
 config.schema.classes.title: Classes
 config.schema.parent.title: Parent
 config.schema.threads.title: Threads

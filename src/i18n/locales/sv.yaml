@@ -201,6 +201,11 @@ config.format.note.pdf: PDF-formatet är byggt främst för visuell presentation
 config.text_annotation: Textelement
 config.text_annotation.help: Vilket XML-element i dina källfiler representerar bäst en enskild text? Eventuella annotationer på textnivå kommer att sättas på det elementet.
 
+config.section.metadata: Metadata
+config.section.import: Import
+config.section.annotations: Annotationer
+config.section.export: Export
+config.section.process: Process
 config.schema.classes.title: Klasser
 config.schema.parent.title: Förälder
 config.schema.threads.title: Trådar

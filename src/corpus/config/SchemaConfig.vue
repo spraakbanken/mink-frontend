@@ -5,7 +5,11 @@ import type { JSONSchema7 } from "json-schema";
 import type { UiSchema } from "@rjsf/utils";
 import { useI18n } from "vue-i18n";
 import difference from "lodash/difference";
-import { getTopProperties, transformSchema } from "./config-schema";
+import {
+  formSections,
+  getTopProperties,
+  transformSchema,
+} from "./config-schema";
 import schemaRaw from "@/assets/sparvconfig.schema.json";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import useConfig from "@/corpus/config/config.composable";
@@ -59,20 +63,12 @@ const uiSchemaModified = computed(() => ({
 
 <template>
   <nav class="flex gap-4 text-lg">
-    <RouteButton :to="`/library/corpus/${corpusId}/config/full/metadata`">
-      {{ $t("metadata") }}
-    </RouteButton>
-    <RouteButton :to="`/library/corpus/${corpusId}/config/full/sparv`">
-      {{ $t("sparv") }}
-    </RouteButton>
-    <RouteButton :to="`/library/corpus/${corpusId}/config/full/annotations`">
-      {{ $t("annotations") }}
-    </RouteButton>
-    <RouteButton :to="`/library/corpus/${corpusId}/config/full/import`">
-      {{ $t("import") }}
-    </RouteButton>
-    <RouteButton :to="`/library/corpus/${corpusId}/config/full/export`">
-      {{ $t("export") }}
+    <RouteButton
+      v-for="{ key } in formSections"
+      :key
+      :to="`/library/corpus/${corpusId}/config/full/${key}`"
+    >
+      {{ $t(`config.section.${key}`) }}
     </RouteButton>
   </nav>
 

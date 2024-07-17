@@ -1,4 +1,5 @@
 import { type RouteRecordRaw } from "vue-router";
+import { formSections } from "@/corpus/config/config-schema";
 const CreateCorpus = () => import("@/corpus/CreateCorpus.vue");
 const CorpusView = () => import("@/corpus/CorpusView.vue");
 const CorpusOverview = () => import("@/corpus/CorpusOverview.vue");
@@ -44,81 +45,12 @@ const corpusRoutes: RouteRecordRaw[] = [
         component: SchemaConfig,
         meta: { title: "configuration" },
       },
-      {
-        path: "config/full/metadata",
+      ...formSections.map(({ key, properties }) => ({
+        path: `config/full/${key}`,
         component: SchemaConfig,
-        meta: { title: "metadata" },
-        props: {
-          properties: ["metadata"],
-        },
-      },
-      {
-        path: "config/full/sparv",
-        component: SchemaConfig,
-        meta: { title: "sparv" },
-        props: {
-          properties: [
-            "sparv",
-            "threads",
-            "parent",
-            "install",
-            "uninstall",
-            "preload",
-          ],
-        },
-      },
-      {
-        path: "config/full/annotations",
-        component: SchemaConfig,
-        meta: { title: "annotations" },
-        props: {
-          properties: [
-            "classes",
-            "custom_annotations",
-            "dateformat",
-            "geo",
-            "hist",
-            "hunpos",
-            "misc",
-            "segment",
-            "stanza",
-            "sbx_freeling",
-          ],
-        },
-      },
-      {
-        path: "config/full/import",
-        component: SchemaConfig,
-        meta: { title: "import" },
-        props: {
-          properties: [
-            "import",
-            "xml_import",
-            "docx_import",
-            "odt_import",
-            "pdf_import",
-            "text_import",
-            "xml_import",
-          ],
-        },
-      },
-      {
-        path: "config/full/export",
-        component: SchemaConfig,
-        meta: { title: "export" },
-        props: {
-          properties: [
-            "export",
-            "conll_export",
-            "csv_export",
-            "cwb",
-            "korp",
-            "passthrough",
-            "stats_export",
-            "xml_export",
-          ],
-        },
-      },
+        meta: { title: `config.section.${key}` },
+        props: { properties },
+      })),
       {
         path: "config/custom",
         component: CorpusConfigCustom,
