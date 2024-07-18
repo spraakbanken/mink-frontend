@@ -127,9 +127,9 @@ export const getFilenameExtension = (filename: string) =>
 /** If an array, return first element. Otherwise return the whole argument. */
 export const unarray = <T>(x: T[] | T): T => (Array.isArray(x) ? x[0] : x);
 
-/** Create {a: A, b: B} from [ {k: a, v: A}, {k: b, v: B} ] */
+/** Create dictionary by picking a key and a value from each object in a list. */
 export const objsToDict = <
-  T extends Record<keyof any, any>,
+  T extends Record<K1 | K2, any>,
   K1 extends keyof T,
   K2 extends keyof T,
 >(
@@ -138,12 +138,9 @@ export const objsToDict = <
   valueName: K2,
 ): Record<T[K1], T[K2]> =>
   objs.reduce(
-    (dict: Partial<Record<T[K1], T[K2]>>, item) => ({
-      ...dict,
-      [item[keyName]]: item[valueName],
-    }),
-    {},
-  ) as Record<T[K1], T[K2]>;
+    (dict, item) => ({ ...dict, [item[keyName]]: item[valueName] }),
+    {} as Record<T[K1], T[K2]>,
+  );
 
 /** Create an object from a list of keys and a function that creates a corresponding value for each key. */
 export const fromKeys = <K extends string, V>(

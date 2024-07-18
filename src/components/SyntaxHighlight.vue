@@ -1,4 +1,11 @@
 <script setup lang="ts">
+import { defineAsyncComponent } from "vue";
+
+// Import lib dynamically for chunking
+const Highlightjs = defineAsyncComponent(
+  async () => (await import("@/highlight")).default.component,
+);
+
 defineProps<{
   code: string;
   language?: string;
@@ -6,7 +13,7 @@ defineProps<{
 </script>
 
 <template>
-  <highlightjs
+  <Highlightjs
     :code
     :language
     :autodetect="false"

@@ -16,10 +16,12 @@ As this project is a user-facing application, the places in the semantic version
 ### Added
 
 - Code highlighting for XML and YAML [#30](https://github.com/spraakbanken/mink-frontend/issues/30)
+- HTTP compression
 
 ### Changed
 
 - Drop unnecessary async usage of the `js-yaml` package
+- The FormKit and Highlight.js libs are imported dynamically to allow for a smaller main asset chunk
 
 ### Fixed
 
