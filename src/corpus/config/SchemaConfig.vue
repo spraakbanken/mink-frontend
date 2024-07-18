@@ -16,6 +16,7 @@ import RouteButton from "@/components/RouteButton.vue";
 import JsonSchemaForm from "@/schema-form/JsonSchemaForm.vue";
 import { fromKeys } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
+import HelpBox from "@/components/HelpBox.vue";
 
 const props = defineProps<{
   /** A list of properties to include from the schema, the rest are hidden. */
@@ -51,15 +52,31 @@ const uiSchemaModified = computed(() => ({
 </script>
 
 <template>
-  <nav class="flex flex-wrap gap-4 text-lg">
-    <RouteButton
-      v-for="{ key } in formSections"
-      :key
-      :to="`/library/corpus/${corpusId}/config/full/${key}`"
-    >
-      {{ $t(`config.section.${key}`) }}
-    </RouteButton>
-  </nav>
+  <HelpBox>
+    <i18n-t keypath="config.full.help" scope="global">
+      <template #sparv_docs>
+        <a
+          href="https://spraakbanken.gu.se/sparv/#/user-manual/corpus-configuration"
+          target="_blank"
+          >Corpus Configuration</a
+        >
+      </template>
+    </i18n-t>
+  </HelpBox>
+
+  <div class="my-6 flex flex-wrap gap-4 items-baseline">
+    <h3 class="text-lg uppercase">{{ $t("config.section.select") }}</h3>
+
+    <nav class="flex flex-wrap gap-4 text-lg">
+      <RouteButton
+        v-for="{ key } in formSections"
+        :key
+        :to="`/library/corpus/${corpusId}/config/full/${key}`"
+      >
+        {{ $t(`config.section.${key}`) }}
+      </RouteButton>
+    </nav>
+  </div>
 
   <PendingContent :on="`corpus/${corpusId}/config`">
     <JsonSchemaForm

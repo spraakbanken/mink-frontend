@@ -1,5 +1,6 @@
 import { type RouteRecordRaw } from "vue-router";
 import { formSections } from "@/corpus/config/config-schema";
+import { pathJoin } from "@/util";
 const CreateCorpus = () => import("@/corpus/CreateCorpus.vue");
 const CorpusView = () => import("@/corpus/CorpusView.vue");
 const CorpusOverview = () => import("@/corpus/CorpusOverview.vue");
@@ -42,8 +43,8 @@ const corpusRoutes: RouteRecordRaw[] = [
       },
       {
         path: "config/full",
-        component: SchemaConfig,
-        meta: { title: "configuration" },
+        // Redirect into first section
+        redirect: (to) => pathJoin(to.fullPath, formSections[0].key),
       },
       ...formSections.map(({ key, properties }) => ({
         path: `config/full/${key}`,
