@@ -44,7 +44,7 @@ const corpusRoutes: RouteRecordRaw[] = [
       {
         path: "config/full",
         // Redirect into first section
-        redirect: (to) => pathJoin(to.fullPath, formSections[0].key),
+        redirect: pathJoin("config/full", formSections[0].key),
       },
       ...formSections.map(({ key, properties }) => ({
         path: `config/full/${key}`,
