@@ -15,6 +15,7 @@ import type { SparvConfig } from "@/api/sparvConfig.types";
 import RouteButton from "@/components/RouteButton.vue";
 import JsonSchemaForm from "@/schema-form/JsonSchemaForm.vue";
 import { fromKeys } from "@/util";
+import PendingContent from "@/spin/PendingContent.vue";
 
 const props = defineProps<{
   /** A list of properties to include from the schema, the rest are hidden. */
@@ -60,11 +61,13 @@ const uiSchemaModified = computed(() => ({
     </RouteButton>
   </nav>
 
-  <JsonSchemaForm
-    v-if="configParsed"
-    :schema
-    :data="configParsed"
-    :on-submit="onSubmit"
-    :ui-schema="uiSchemaModified"
-  />
+  <PendingContent :on="`corpus/${corpusId}/config`">
+    <JsonSchemaForm
+      v-if="configParsed"
+      :schema
+      :data="configParsed"
+      :on-submit="onSubmit"
+      :ui-schema="uiSchemaModified"
+    />
+  </PendingContent>
 </template>
