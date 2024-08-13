@@ -1,17 +1,21 @@
 <script setup lang="ts">
 import type { AxiosError } from "axios";
-import useCorpusIdParam from "../corpusIdParam.composable";
-import useConfig from "./config.composable";
+import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import useConfig from "@/corpus/config/config.composable";
+import { useAuth } from "@/auth/auth.composable";
 import FileUpload from "@/components/FileUpload.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
-import TerminalOutput from "@/components/TerminalOutput.vue";
 import type { MinkResponse } from "@/api/api.types";
 import useMessenger from "@/message/messenger.composable";
+import SyntaxHighlight from "@/components/SyntaxHighlight.vue";
 
 const corpusId = useCorpusIdParam();
 const { config, uploadConfigRaw } = useConfig(corpusId);
 const { alertError } = useMessenger();
+const { requireAuthentication } = useAuth();
+
+requireAuthentication();
 
 async function upload(files: File[]) {
   const configYaml = await files[0].text();
@@ -42,7 +46,7 @@ async function upload(files: File[]) {
 
   <div class="flex flex-wrap gap-4">
     <LayoutBox class="w-96 grow" :title="$t('show')">
-      <TerminalOutput v-if="config">{{ config }}</TerminalOutput>
+      <SyntaxHighlight v-if="config" language="yaml" :code="config" />
     </LayoutBox>
 
     <LayoutBox class="w-96 grow" :title="$t('upload')">

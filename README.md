@@ -21,7 +21,7 @@ It is a [Vue 3](https://v3.vuejs.org/) app using [Vite](https://vitejs.dev/).
 - [Composables](https://vuejs.org/guide/reusability/composables.html) to group state+logic for distinct features
 - Utility-first styling with [Tailwind CSS](https://tailwindcss.com/)
 - Visualization of API calls:
-  1. Wrap async calls in [`spin`](src/spin/spin.composable.js):
+  1. Wrap async calls in [`spin`](src/spin/spin.composable.ts):
      ```js
      spin(loadCorpora(), "corpora");
      ```
@@ -50,13 +50,10 @@ VSCode settings:
     "source.fixAll": "explicit"
   },
   "editor.formatOnSave": true,
-  "[javascript]": {
+  "[javascript][typescript][vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[vue]": {
+  "[json][jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
@@ -64,7 +61,7 @@ VSCode settings:
 
 ## SSL in development
 
-For SB-Auth to allow authentication requests, the dev server must use a hostname matching `*.spraakbanken.gu.se`, and HTTPS must be enabled. See the `server` section in [vite.config.js](vite.config.js). If needed, create certificates with [mkcert](https://mkcert.dev) and refer to them in `.env.local`:
+For SB-Auth to allow authentication requests, the dev server must use a hostname matching `*.spraakbanken.gu.se`, and HTTPS must be enabled. See the `server` section in [vite.config.ts](vite.config.ts). If needed, create certificates with [mkcert](https://mkcert.dev) and refer to them in `.env.local`:
 
 ```
 DEV_HTTPS_KEY=./local/spraakbanken.gu.se+1-key.pem

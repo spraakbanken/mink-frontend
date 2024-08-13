@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import yaml from "js-yaml";
+import Yaml from "js-yaml";
 import {
   makeConfig,
   parseConfig,
@@ -8,8 +8,8 @@ import {
 } from "@/api/corpusConfig";
 
 describe("makeConfig", () => {
-  test("sets minimal info", async () => {
-    const yaml = await makeConfig("mink-abc123", {
+  test("sets minimal info", () => {
+    const yaml = makeConfig("mink-abc123", {
       name: { swe: "Nyheter", eng: "News" },
       format: "txt",
     });
@@ -20,8 +20,8 @@ describe("makeConfig", () => {
     expect(yaml).toContain("- <token>:saldo.baseform2 as lemma");
   });
 
-  test("sets segmenter", async () => {
-    const yaml = await makeConfig("mink-abc123", {
+  test("sets segmenter", () => {
+    const yaml = makeConfig("mink-abc123", {
       name: { swe: "Nyheter", eng: "News" },
       format: "txt",
       sentenceSegmenter: "linebreaks",
@@ -29,8 +29,8 @@ describe("makeConfig", () => {
     expect(yaml).toContain("sentence_segmenter: linebreaks");
   });
 
-  test("sets text_annotation", async () => {
-    const yaml = await makeConfig("mink-abc123", {
+  test("sets text_annotation", () => {
+    const yaml = makeConfig("mink-abc123", {
       name: { swe: "Nyheter", eng: "News" },
       format: "xml",
       textAnnotation: "article",
@@ -39,8 +39,8 @@ describe("makeConfig", () => {
     expect(yaml).toContain("- article as text");
   });
 
-  test("sets pdf annotations", async () => {
-    const yaml = await makeConfig("mink-abc123", {
+  test("sets pdf annotations", () => {
+    const yaml = makeConfig("mink-abc123", {
       name: { swe: "Nyheter", eng: "News" },
       format: "pdf",
     });
@@ -48,14 +48,14 @@ describe("makeConfig", () => {
     expect(yaml).toContain("- page:number");
   });
 
-  test("requires complete timespan", async () => {
+  test("requires complete timespan", () => {
     const yamlFrom = () =>
       makeConfig("mink-abc123", {
         name: { swe: "Nyheter", eng: "News" },
         format: "pdf",
         datetimeFrom: "2024-02-01",
       });
-    expect(yamlFrom).rejects.toThrowError();
+    expect(yamlFrom).toThrowError();
 
     const yamlTo = () =>
       makeConfig("mink-abc123", {
@@ -63,11 +63,11 @@ describe("makeConfig", () => {
         format: "pdf",
         datetimeTo: "2024-02-01",
       });
-    expect(yamlTo).rejects.toThrowError();
+    expect(yamlTo).toThrowError();
   });
 
-  test("sets timespan info", async () => {
-    const yaml = await makeConfig("mink-abc123", {
+  test("sets timespan info", () => {
+    const yaml = makeConfig("mink-abc123", {
       name: { swe: "Nyheter", eng: "News" },
       format: "pdf",
       datetimeFrom: "2000-01-01",
@@ -81,8 +81,8 @@ describe("makeConfig", () => {
     expect(yaml).toContain("- <text>:dateformat.datefrom");
   });
 
-  test("sets NER info", async () => {
-    const yaml = await makeConfig("mink-abc123", {
+  test("sets NER info", () => {
+    const yaml = makeConfig("mink-abc123", {
       name: { swe: "Nyheter", eng: "News" },
       format: "pdf",
       enableNer: true,
@@ -92,32 +92,32 @@ describe("makeConfig", () => {
 });
 
 describe("parseConfig", () => {
-  test("handle minimal info", async () => {
-    const configYaml = await yaml.dump({
+  test("handle minimal info", () => {
+    const configYaml = Yaml.dump({
       metadata: { name: { swe: "Nyheter", eng: "News" } },
       import: { importer: "text_import:parse" },
     });
-    const config = await parseConfig(configYaml);
+    const config = parseConfig(configYaml);
     expect(config.name).toStrictEqual({ swe: "Nyheter", eng: "News" });
     expect(config.format).toBe("txt");
   });
 
-  test("requires format", async () => {
-    const configYaml = await yaml.dump({
+  test("requires format", () => {
+    const configYaml = Yaml.dump({
       metadata: { name: { swe: "Nyheter", eng: "News" } },
     });
-    expect(() => parseConfig(configYaml)).rejects.toThrowError();
+    expect(() => parseConfig(configYaml)).toThrowError();
   });
 
-  test("requires name", async () => {
-    const configYaml = await yaml.dump({
+  test("requires name", () => {
+    const configYaml = Yaml.dump({
       import: { importer: "text_import:parse" },
     });
-    expect(() => parseConfig(configYaml)).rejects.toThrowError();
+    expect(() => parseConfig(configYaml)).toThrowError();
   });
 
-  test("handle full info", async () => {
-    const configYaml = await yaml.dump({
+  test("handle full info", () => {
+    const configYaml = Yaml.dump({
       metadata: {
         name: { swe: "Nyheter", eng: "News" },
         description: { swe: "Senaste nytt", eng: "Latest news" },
@@ -135,7 +135,7 @@ describe("parseConfig", () => {
         annotations: ["swener.ne"],
       },
     });
-    const config = await parseConfig(configYaml);
+    const config = parseConfig(configYaml);
     const expected: ConfigOptions = {
       format: "xml",
       name: { swe: "Nyheter", eng: "News" },

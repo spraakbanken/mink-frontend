@@ -4,7 +4,6 @@ import { createPinia } from "pinia";
 import router from "@/router/router";
 import App from "@/App.vue";
 import i18n from "@/i18n/i18n";
-import { formkit, formkitConfig } from "@/formkit";
 import { FontAwesomeIcon } from "@/fontawesome";
 import "@/index.css";
 
@@ -14,7 +13,6 @@ const app = createApp(App) //
   .use(router)
   .use(pinia)
   .use(i18n)
-  .use(formkit, formkitConfig)
   .component("icon", FontAwesomeIcon);
 
 // Use the Matomo plugin only if configured in env.

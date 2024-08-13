@@ -1,8 +1,8 @@
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import remove from "lodash/remove";
-import { randomString } from "@/util";
 import { AxiosError } from "axios";
+import { randomString } from "@/util";
 import type { MinkResponse } from "@/api/api.types";
 
 export type Alert = {

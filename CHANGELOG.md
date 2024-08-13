@@ -13,6 +13,22 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+## [1.6.1] (2024-08-13)
+
+### Added
+
+- Code highlighting for XML and YAML [#30](https://github.com/spraakbanken/mink-frontend/issues/30)
+- HTTP compression
+
+### Changed
+
+- Drop unnecessary async usage of the `js-yaml` package
+- The FormKit and Highlight.js libs are imported dynamically to allow for a smaller main asset chunk
+
+### Fixed
+
+- Require authentication for the custom config page
+
 ## [1.6.0] (2024-04-30)
 
 ### Added
@@ -201,7 +217,8 @@ The frontend is now open to the general public! This version allows users to:
 
 Code changes up until this point are not documented other than in the git commit log.
 
-[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.6.0...HEAD
+[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.6.1...HEAD
+[1.6.1]: https://github.com/spraakbanken/mink-frontend/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.3.0...v1.4.0

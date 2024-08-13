@@ -1,4 +1,4 @@
-const Yaml = import("js-yaml").then((m) => m.default);
+import Yaml from "js-yaml";
 
 import type { ByLang } from "@/util.types";
 import type {
@@ -32,7 +32,7 @@ export const FORMATS_EXT = Object.keys(FORMATS);
 
 export const SEGMENTERS: ConfigSentenceSegmenter[] = ["linebreaks"];
 
-export async function makeConfig(id: string, options: ConfigOptions) {
+export function makeConfig(id: string, options: ConfigOptions): string {
   const {
     format,
     name,
@@ -108,11 +108,8 @@ export async function makeConfig(id: string, options: ConfigOptions) {
     if (!datetimeFrom || !datetimeTo) {
       throw new TypeError("Both or none of the timespan dates must be set.");
     }
-    config.dateformat = {
-      datetime_from: "<text>:misc.datefrom",
-      datetime_to: "<text>:misc.dateto",
-      datetime_informat: "%Y-%m-%d",
-    };
+
+    // Add annotations on the text level with custom values
     config.custom_annotations = [
       {
         annotator: "misc:constant",
@@ -131,12 +128,21 @@ export async function makeConfig(id: string, options: ConfigOptions) {
         },
       },
     ];
+
+    // Enable annotations from the `dateformat` module
     config.export.annotations!.push(
       "<text>:dateformat.datefrom",
       "<text>:dateformat.dateto",
       "<text>:dateformat.timefrom",
       "<text>:dateformat.timeto",
     );
+
+    // Configure the annotators to use the custom attributes
+    config.dateformat = {
+      datetime_from: "<text>:misc.datefrom",
+      datetime_to: "<text>:misc.dateto",
+      datetime_informat: "%Y-%m-%d",
+    };
   }
 
   // Enable named entity recognition.
@@ -150,7 +156,7 @@ export async function makeConfig(id: string, options: ConfigOptions) {
     );
   }
 
-  return (await Yaml).dump(config as SparvConfig);
+  return Yaml.dump(config as SparvConfig);
 }
 
 export function emptyConfig(): ConfigOptions {
@@ -166,8 +172,8 @@ export function emptyConfig(): ConfigOptions {
  *
  * May throw all kinds of errors, the sky is the limit.
  */
-export async function parseConfig(configYaml: string): Promise<ConfigOptions> {
-  const config = (await Yaml).load(configYaml) as any;
+export function parseConfig(configYaml: string): ConfigOptions {
+  const config = Yaml.load(configYaml) as any;
 
   if (!config)
     throw new TypeError(`Parsing config failed, returned "${config}"`);

@@ -9,6 +9,7 @@ import { useCorpusState } from "@/corpus/corpusState.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
+import TextData from "@/components/TextData.vue";
 
 const corpusId = useCorpusIdParam();
 const { abortJob, jobStatus, isJobRunning } = useJob(corpusId);
@@ -58,9 +59,7 @@ const hasStarted = computed(
         </tr>
         <tr v-if="jobStatus.errors">
           <td colspan="2">
-            <TerminalOutput class="mb-2 h-fit max-h-20 resize-y">
-              {{ jobStatus.errors }}
-            </TerminalOutput>
+            <TextData :text="jobStatus.errors" class="mb-2" />
           </td>
         </tr>
 
@@ -69,9 +68,7 @@ const hasStarted = computed(
         </tr>
         <tr v-if="jobStatus.warnings">
           <td colspan="2">
-            <TerminalOutput class="mb-2 h-fit max-h-20 resize-y">
-              {{ jobStatus.warnings }}
-            </TerminalOutput>
+            <TextData :text="jobStatus.warnings" class="mb-2" />
           </td>
         </tr>
 
@@ -80,9 +77,7 @@ const hasStarted = computed(
         </tr>
         <tr v-if="isFailed && jobStatus.sparv_output">
           <td colspan="2">
-            <TerminalOutput class="mb-2 h-fit max-h-20 resize-y">
-              {{ jobStatus.sparv_output }}
-            </TerminalOutput>
+            <TextData :text="jobStatus.sparv_output" class="mb-2" />
           </td>
         </tr>
 

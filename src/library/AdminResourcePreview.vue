@@ -4,6 +4,7 @@ import { type Resource, isCorpus } from "@/store/resource.store";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import useConfig from "@/corpus/config/config.composable";
 import PendingContent from "@/spin/PendingContent.vue";
+import TextData from "@/components/TextData.vue";
 
 const props = defineProps<{
   resourceId: string;
@@ -59,14 +60,12 @@ onMounted(() => {
       </tbody>
     </table>
     <PendingContent
-      v-if="isCorpus(resource)"
+      v-if="isCorpus(resource) && resource.config"
       :on="`corpus/${resourceId}/config`"
       class="flex-1"
     >
       <h3 class="font-bold">{{ $t("configuration") }}</h3>
-      <TerminalOutput class="max-h-80">
-        {{ resource.config }}
-      </TerminalOutput>
+      <TextData :text="resource.config" language="yaml" />
     </PendingContent>
   </div>
 </template>

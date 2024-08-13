@@ -1,5 +1,4 @@
 import { computed } from "vue";
-import { computedAsync } from "@vueuse/core";
 import {
   makeConfig,
   parseConfig,
@@ -16,7 +15,7 @@ export default function useConfig(corpusId: string) {
 
   const corpus = computed(() => resourceStore.corpora[corpusId]);
   const config = computed(() => corpus.value?.config);
-  const configOptions = computedAsync(getParsedConfig);
+  const configOptions = computed(getParsedConfig);
   const corpusName = computed(() => th(configOptions.value?.name));
 
   async function loadConfig() {
@@ -31,7 +30,7 @@ export default function useConfig(corpusId: string) {
   }
 
   async function uploadConfig(configOptions: ConfigOptions) {
-    const configYaml = await makeConfig(corpusId, configOptions);
+    const configYaml = makeConfig(corpusId, configOptions);
     await uploadConfigRaw(configYaml);
   }
 
@@ -42,10 +41,10 @@ export default function useConfig(corpusId: string) {
     loadConfig();
   }
 
-  async function getParsedConfig() {
+  function getParsedConfig() {
     if (!config.value) return undefined;
     try {
-      const parsed = await parseConfig(config.value);
+      const parsed = parseConfig(config.value);
       return parsed;
     } catch (error) {
       console.error(`Error parsing config for "${corpusId}":`, error);

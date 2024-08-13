@@ -39,7 +39,7 @@ function getDate(date: Date) {
         </time>
 
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div v-html="th(item.body)" class="prose"></div>
+        <div class="prose" v-html="th(item.body)"></div>
       </article>
     </div>
   </LayoutSection>
