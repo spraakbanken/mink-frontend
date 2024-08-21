@@ -15,7 +15,7 @@ As this project is a user-facing application, the places in the semantic version
 
 ### Added
 
-- Track some events to Matomo (run/abort annotation) [#166](https://github.com/spraakbanken/mink-frontend/issues/166)
+- Track some events to Matomo [#166](https://github.com/spraakbanken/mink-frontend/issues/166)
 
 ### Fixed
 

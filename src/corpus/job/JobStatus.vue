@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useMatomo } from "@/matomo";
 import useJob from "@/corpus/job/job.composable";
 import JobStatusMessage from "@/corpus/job/JobStatusMessage.vue";
 import { formatDate } from "@/util";
@@ -14,7 +13,6 @@ import TextData from "@/components/TextData.vue";
 const corpusId = useCorpusIdParam();
 const { abortJob, jobStatus, isJobRunning } = useJob(corpusId);
 const { isFailed } = useCorpusState(corpusId);
-const matomo = useMatomo();
 
 const hasStarted = computed(
   () =>
@@ -22,11 +20,6 @@ const hasStarted = computed(
       (status) => status != "none",
     ) || jobStatus.value?.priority,
 );
-
-async function doAbortJob() {
-  matomo?.trackEvent("Corpus", "Abort annotation", corpusId);
-  await abortJob();
-}
 </script>
 
 <template>
@@ -45,7 +38,7 @@ async function doAbortJob() {
       <ActionButton
         v-if="isJobRunning"
         class="button-danger ml-2"
-        @click="doAbortJob"
+        @click="abortJob"
       >
         {{ $t("job.abort") }}
       </ActionButton>
