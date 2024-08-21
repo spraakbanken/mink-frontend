@@ -16,6 +16,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Fixed
 
 - Show loading spinners on the custom config page
+- Strip slash from Matomo url
 
 ## [1.6.1] (2024-08-13)
 
