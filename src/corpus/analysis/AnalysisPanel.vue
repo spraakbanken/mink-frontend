@@ -6,6 +6,7 @@ import useExports from "../exports/exports.composable";
 import useJob from "../job/job.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
+import { useMatomo } from "@/matomo";
 
 const corpusId = useCorpusIdParam();
 const { runJob, jobState, isJobRunning } = useJob(corpusId);
@@ -13,6 +14,7 @@ const { canBeReady } = useCorpusState(corpusId);
 const { exports, loadExports, downloadResult, getDownloadFilename } =
   useExports(corpusId);
 const { isDone } = useCorpusState(corpusId);
+const matomo = useMatomo();
 
 const isPending = ref(false);
 const canRun = computed(
@@ -23,6 +25,7 @@ loadExports();
 
 async function doRunJob() {
   isPending.value = true;
+  matomo?.trackEvent("Corpus", "Run annotation", corpusId);
   await runJob();
   isPending.value = false;
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { useMatomo } from "@/matomo";
 import useJob from "@/corpus/job/job.composable";
 import JobStatusMessage from "@/corpus/job/JobStatusMessage.vue";
 import { formatDate } from "@/util";
@@ -7,13 +8,13 @@ import PendingContent from "@/spin/PendingContent.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import { useCorpusState } from "@/corpus/corpusState.composable";
 import ActionButton from "@/components/ActionButton.vue";
-import TerminalOutput from "@/components/TerminalOutput.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
 import TextData from "@/components/TextData.vue";
 
 const corpusId = useCorpusIdParam();
 const { abortJob, jobStatus, isJobRunning } = useJob(corpusId);
 const { isFailed } = useCorpusState(corpusId);
+const matomo = useMatomo();
 
 const hasStarted = computed(
   () =>
@@ -21,6 +22,11 @@ const hasStarted = computed(
       (status) => status != "none",
     ) || jobStatus.value?.priority,
 );
+
+async function doAbortJob() {
+  matomo?.trackEvent("Corpus", "Abort annotation", corpusId);
+  await abortJob();
+}
 </script>
 
 <template>
@@ -39,7 +45,7 @@ const hasStarted = computed(
       <ActionButton
         v-if="isJobRunning"
         class="button-danger ml-2"
-        @click="abortJob"
+        @click="doAbortJob"
       >
         {{ $t("job.abort") }}
       </ActionButton>
