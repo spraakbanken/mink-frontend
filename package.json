@@ -9,8 +9,7 @@
     "typecheck": "vue-tsc --noEmit",
     "lint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore --fix src",
     "format": "prettier . --write --ignore-path .gitignore",
-    "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "test": "vitest"
   },
   "engines": {
     "node": ">=18.0.0"
