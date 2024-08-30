@@ -1,22 +1,24 @@
 <img src="https://spraakbanken.gu.se/themes/sb/images/mink.svg" width="200" alt="Mink logo" />
 
-With Mink, we are putting Språkbanken's research infrastructure into the hands of the researchers.
+Mink is our effort to put Språkbanken Text’s research infrastructure into the hands of the researchers.
 You can use Mink to apply our language technology methods on texts that you have collected yourself.
-The resulting data can be downloaded or made available through our research tools.
+The resulting data can be downloaded or made available through our research tools, such as Korp and Strix, behind login.
 
 [Use Mink](https://spraakbanken.gu.se/mink/)
-• [About](https://spraakbanken.gu.se/en/tools/mink)
-• [User manual](https://spraakbanken.gu.se/en/tools/mink/manual)
-• [Tutorial](https://spraakbanken.gu.se/en/tools/mink/tutorial)
 • [Language data](https://spraakbanken.gu.se/en/resources)
 • [Tools](https://spraakbanken.gu.se/en/tools)
 
 # Mink frontend
 
 This code makes up the user interface at [spraakbanken.gu.se/mink](https://spraakbanken.gu.se/mink/).
-It is a [Vue 3](https://v3.vuejs.org/) app using [Vite](https://vitejs.dev/).
 
-## Documentation
+## User documentation
+
+- [Mink](https://spraakbanken.gu.se/en/tools/mink)
+- [User manual](https://spraakbanken.gu.se/en/tools/mink/manual)
+- [Tutorial](https://spraakbanken.gu.se/en/tools/mink/tutorial)
+
+## Developer documentation
 
 - [CHANGELOG.md](CHANGELOG.md)
 - [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)
