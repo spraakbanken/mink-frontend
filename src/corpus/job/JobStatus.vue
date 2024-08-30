@@ -98,10 +98,3 @@ const hasStarted = computed(
     </table>
   </PendingContent>
 </template>
-
-<style scoped>
-/* Override max-height when user is resizing. */
-.resize-y[style*="height"] {
-  max-height: unset;
-}
-</style>

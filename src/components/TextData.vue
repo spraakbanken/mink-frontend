@@ -16,10 +16,3 @@ defineProps<{
     <TerminalOutput v-else>{{ text }}</TerminalOutput>
   </HeightResizable>
 </template>
-
-<style scoped>
-/* Override max-height when user is resizing. */
-.resize-y[style*="height"] {
-  max-height: unset;
-}
-</style>

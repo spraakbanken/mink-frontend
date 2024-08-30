@@ -203,10 +203,6 @@ const logoutUrl = getLogoutUrl();
 </template>
 
 <style scoped>
-.mt-0 {
-  margin-top: 0;
-}
-
 .image3d {
   transform: scale(0.9) perspective(500px) rotateY(3deg);
   transition: transform ease-in-out 300ms;
