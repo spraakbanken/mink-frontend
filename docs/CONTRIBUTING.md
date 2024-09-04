@@ -24,12 +24,6 @@ An _enhancement_ could be a new feature, or another improvement that doesn't cla
 
 [Create an issue](https://github.com/spraakbanken/mink-frontend/issues/new) and add at least the `enhancement` label.
 
-Also consider adding any of these labels:
-
-- `documentation` if something is poorly documented
-- `ux` (User Experience) for usability improvements
-- `performance` if the speed of things can be improved
-
 ## Writing some code
 
 Read up on [DEVELOPMENT.md](DEVELOPMENT.md), pick an [issue](https://github.com/spraakbanken/mink-frontend/issues) and get hacking! 👩🏽‍💻

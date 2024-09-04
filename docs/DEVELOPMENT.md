@@ -11,16 +11,16 @@ Contents:
 
 ## Setting up a development environment
 
-### Recommended IDE setup
+### Editor
 
 As a suggestion, run
-[VSCode](https://code.visualstudio.com/) with the plugins
+[Visual Studio Code](https://code.visualstudio.com/) with the plugins
 [Vue](https://marketplace.visualstudio.com/items?itemName=Vue.volar),
 [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint),
 [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) and
 [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss).
 
-VSCode settings:
+Recommended VSCode settings (see [docs on settings.json](https://code.visualstudio.com/docs/getstarted/settings#_settingsjson)):
 
 ```json
 {
