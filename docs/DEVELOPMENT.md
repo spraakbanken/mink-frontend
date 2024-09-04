@@ -64,21 +64,6 @@ Vite will read variables from [.env](../.env), see [Vite docs](https://vitejs.de
 
 The dev server might not properly pick up on changes to these, so better kill and rerun the `yarn dev` command.
 
-| Env variable     | Description                                                                                          |
-| ---------------- | ---------------------------------------------------------------------------------------------------- |
-| BASE             | Path where the frontend is served                                                                    |
-| VITE_BACKEND_URL | Url to the Mink backend                                                                              |
-| VITE_AUTH_URL    | Url to SB-Auth                                                                                       |
-| VITE_LOGOUT_URL  | SB-Auth logout url                                                                                   |
-| VITE_JWT_URL     | Url to SB-Auth-JWT                                                                                   |
-| VITE_KORP_URL    | Url to Korp frontend                                                                                 |
-| VITE_STRIX_URL   | Url to Strix frontend                                                                                |
-| VITE_NEWS_URL    | Url to a new YAML of the format in [spraakbanken/newsdesk](https://github.com/spraakbanken/newsdesk) |
-| VITE_MATOMO_URL  | Url to Matomo backend                                                                                |
-| VITE_MATOMO_ID   | Matomo site id                                                                                       |
-
-Why are they named like this? Vite always reads `BASE`, and all variables beginning with `VITE_` are automatically made available to app code.
-
 ## Development tasks
 
 ### Install dependencies
