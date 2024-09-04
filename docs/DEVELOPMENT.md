@@ -37,70 +37,44 @@ VSCode settings:
 }
 ```
 
-### SSL in local development
+### SSL in development
 
-For SB-Auth to allow authentication requests, the frontend must be served under `spraakbanken.gu.se`, and HTTPS must be enabled.
+For SB-Auth to allow authentication requests, the frontend must be served under spraakbanken.gu.se, and HTTPS must be enabled.
 
-The configuration in [vite.config.ts](../vite.config.ts) therefore expects
-
-Point the hostname `minkdev.spraakbanken.gu.se` to `localhost`. On a UNIX system, you can do this by editing `/etc/hosts`.
-
-Create certificates with [mkcert](https://mkcert.dev):
-
-```sh
-mkcert "*.spraakbanken.gu.se"
-```
-
-and refer to them in `.env.local`:
-
-```sh
-DEV_HTTPS_KEY=../spraakbanken.gu.se+1-key.pem
-DEV_HTTPS_CERT=../spraakbanken.gu.se+1.pem
-```
+1. Point the hostname minkdev.spraakbanken.gu.se to localhost. On a UNIX system, you can do this by editing /etc/hosts.
+2. Create certificate files with [mkcert](https://mkcert.dev):
+   ```sh
+   mkcert "*.spraakbanken.gu.se"
+   ```
+   and refer to them in .env.local, as per examples in [.env](../.env).
 
 ### Environment variables
 
 Vite will read variables from [.env](../.env), see [Vite docs](https://vitejs.dev/guide/env-and-mode). It will also read from .env.local, which is ignored by Git, so you can create it locally to override .env.
 
-The dev server might not properly pick up on changes to these, so better kill and rerun the `yarn dev` command.
+The dev server might not properly pick up on changes to these, so better restart `yarn dev`.
 
 ## Development tasks
 
 ### Install dependencies
 
-Install the dependencies needed to run the code (Vite, Vue, etc):
-
-```sh
-yarn
-# or
-yarn install
-```
+Install the dependencies needed to run the code (Vite, Vue, etc): `yarn` or `yarn install`
 
 ### Run dev server
 
-Serve the frontend from a temporary local development server:
-
-```sh
-yarn dev
-```
+Serve the frontend from a temporary local development server: `yarn dev`
 
 Now you can open the frontend in a web browser at https://minkdev.spraakbanken.gu.se:5173/mink/
 
 ### Run tests
 
-```sh
-yarn test
-```
+Run tests and watch to rerun on changes: `yarn test`
 
 Note that test coverage is very low so far. One thing that makes testing difficult is that most API calls require authentication.
 
 ### Build
 
-Build the frontend as optimized static HTML+JS+CSS assets:
-
-```sh
-yarn build
-```
+Build the frontend as optimized static HTML+JS+CSS assets: `yarn build`
 
 The files in `dist/` can now be copied to the web server. The `rsync` command is useful for copying across servers and including hidden files like `.htaccess`.
 
