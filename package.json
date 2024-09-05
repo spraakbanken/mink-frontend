@@ -17,12 +17,9 @@
   "type": "module",
   "dependencies": {
     "@formkit/vue": "^1.0.0-beta.14",
-    "@fortawesome/fontawesome-svg-core": "^6.1.1",
-    "@fortawesome/free-regular-svg-icons": "^6.1.1",
-    "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@fortawesome/vue-fontawesome": "^3.0.1",
     "@highlightjs/vue-plugin": "^2.1.0",
     "@modyfi/vite-plugin-yaml": "^1.0.4",
+    "@phosphor-icons/vue": "^2.2.1",
     "@vitejs/plugin-vue": "^5",
     "@vue/tsconfig": "^0.5.1",
     "@vueuse/core": "^10.7.2",

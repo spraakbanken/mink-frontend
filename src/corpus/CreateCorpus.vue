@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { FormKit } from "@formkit/vue";
+import { PhLightbulbFilament } from "@phosphor-icons/vue";
 import PageTitle from "@/components/PageTitle.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import useSpin from "@/spin/spin.composable";
@@ -92,7 +93,7 @@ async function submit(fields: Form) {
           />
 
           <HelpBox v-if="value!.format === 'pdf'" important>
-            <icon :icon="['far', 'lightbulb']" class="mr-1" />
+            <PhLightbulbFilament class="inline mb-1" />
             {{ $t("config.format.note.pdf") }}
           </HelpBox>
 

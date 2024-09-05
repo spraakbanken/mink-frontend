@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { PhSignOut } from "@phosphor-icons/vue";
 import AdminModeSwitcher from "@/user/AdminModeSwitcher.vue";
 import { getLogoutUrl } from "@/auth/sbAuth";
 import { useAuth } from "@/auth/auth.composable";
@@ -20,7 +21,7 @@ requireAuthentication();
 
     <div class="my-4">
       <UrlButton class="button-warning" :href="logoutUrl">
-        <icon :icon="['fas', 'person-running']" class="mr-1" />
+        <PhSignOut class="inline mb-1" />
         {{ $t("logout") }}
       </UrlButton>
     </div>

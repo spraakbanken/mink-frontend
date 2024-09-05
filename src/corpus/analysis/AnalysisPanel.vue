@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
+import { PhDownload, PhGearFine, PhInfo } from "@phosphor-icons/vue";
 import useCorpusIdParam from "../corpusIdParam.composable";
 import { useCorpusState } from "../corpusState.composable";
 import useExports from "../exports/exports.composable";
@@ -52,13 +53,14 @@ watch(isDone, () => {
         :class="{ 'button-primary': !exports?.length }"
         @click="!isJobRunning && canRun ? doRunJob() : null"
       >
-        <icon :icon="['fas', 'gears']" class="mr-1" />
+        <PhGearFine class="inline mb-1" />
         {{ !exports?.length ? $t("job.run") : $t("job.rerun") }}
       </ActionButton>
 
       <div>
         <div v-if="!isJobRunning && exports?.length" class="text-sm">
-          <icon icon="circle-info" /> {{ $t("job.rerun.overwrite") }}
+          <PhInfo class="inline mb-0.5" />
+          {{ $t("job.rerun.overwrite") }}
         </div>
 
         <div
@@ -68,7 +70,8 @@ watch(isDone, () => {
           "
           class="text-sm"
         >
-          <icon icon="circle-info" /> {{ $t("job.rerun.tools_outdated") }}
+          <PhInfo class="inline mb-0.5" />
+          {{ $t("job.rerun.tools_outdated") }}
         </div>
       </div>
     </PendingContent>
@@ -83,7 +86,7 @@ watch(isDone, () => {
           <td>
             <PendingContent :on="`corpus/${corpusId}/exports/download`">
               <ActionButton class="button-primary" @click="downloadResult">
-                <icon :icon="['fas', 'download']" class="mr-1" />
+                <PhDownload class="inline mb-1" />
                 {{ getDownloadFilename() }}
               </ActionButton>
             </PendingContent>

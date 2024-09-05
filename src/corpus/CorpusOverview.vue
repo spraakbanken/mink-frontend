@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { PhPencilSimple } from "@phosphor-icons/vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import { useCorpusState } from "@/corpus/corpusState.composable";
 import ConfigPanel from "@/corpus/config/ConfigPanel.vue";
@@ -28,7 +29,7 @@ const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
             :to="`/library/corpus/${corpusId}/config`"
             :class="{ 'button-primary': isNeedingConfig || isNeedingMeta }"
           >
-            <icon :icon="['fas', 'pen']" class="mr-1" />
+            <PhPencilSimple class="inline mb-1" />
             {{ $t("edit") }}
           </RouteButton>
         </template>

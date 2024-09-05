@@ -110,7 +110,7 @@ These are referenced from [main.ts](../src/main.ts). (Tailwind via `index.css`, 
 - Reactive app state with [Pinia](https://pinia.vuejs.org/)
 - UI translation with [vue-i18n](https://vue-i18n.intlify.dev/)
 - Utility-first styling with [Tailwind CSS](https://tailwindcss.com/), see [STYLE.md](STYLE.md)
-- Icons with [FontAwesome](https://fontawesome.com/docs/web/use-with/vue/add-icons)
+- Icons with [Phosphor Icons](https://github.com/phosphor-icons/vue)
 - Form handling with [FormKit](https://formkit.com/getting-started)
 - Visitor statistics tracking with [vue-matomo](https://github.com/AmazingDreams/vue-matomo)
 

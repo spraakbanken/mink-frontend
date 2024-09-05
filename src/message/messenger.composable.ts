@@ -13,7 +13,9 @@ export type Alert = {
 
 export type MessageLevel = "error" | "success" | "debug";
 
-const alerts = ref<Alert[]>([]);
+const alerts = ref<Alert[]>([
+  { key: "foobar", message: "test", level: "debug" },
+]);
 
 export default function useMessenger() {
   const { t, locale, messages } = useI18n();

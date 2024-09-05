@@ -4,7 +4,6 @@ import { createPinia } from "pinia";
 import router from "@/router/router";
 import App from "@/App.vue";
 import i18n from "@/i18n/i18n";
-import { FontAwesomeIcon } from "@/fontawesome";
 import "@/index.css";
 
 const pinia = createPinia();
@@ -12,8 +11,7 @@ const pinia = createPinia();
 const app = createApp(App) //
   .use(router)
   .use(pinia)
-  .use(i18n)
-  .component("icon", FontAwesomeIcon);
+  .use(i18n);
 
 // Use the Matomo plugin only if configured in env.
 if (import.meta.env.VITE_MATOMO_URL && import.meta.env.VITE_MATOMO_ID) {

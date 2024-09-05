@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import once from "lodash/once";
+import { PhArrowsClockwise, PhDownload } from "@phosphor-icons/vue";
 import { downloadFile } from "@/util";
 import ActionButton from "@/components/ActionButton.vue";
 import TextData from "@/components/TextData.vue";
@@ -44,12 +45,12 @@ async function download() {
 
   <div class="my-2 flex gap-2">
     <ActionButton v-if="!noLoad && text === undefined" @click="show()">
-      <icon :icon="['fas', 'rotate']" class="mr-1" />
+      <PhArrowsClockwise class="inline mb-1" />
       {{ $t("load") }}
     </ActionButton>
 
     <ActionButton @click="download">
-      <icon :icon="['far', 'file']" class="mr-1" />
+      <PhDownload class="inline mb-1" />
       {{ $t("download") }}
     </ActionButton>
   </div>

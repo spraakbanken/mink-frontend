@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import { PhPlusCircle } from "@phosphor-icons/vue";
 import useResources from "@/library/resources.composable";
 import CorpusButton from "@/library/CorpusButton.vue";
 import useLocale from "@/i18n/locale.composable";
@@ -60,7 +61,7 @@ async function createCorpusFromFiles(files: File[]) {
         />
 
         <PadButton to="/library/corpus/new">
-          <icon :icon="['far', 'square-plus']" size="2xl" class="mb-2" />
+          <PhPlusCircle size="2em" class="mb-2" />
           {{ $t("new_corpus") }}
         </PadButton>
       </PendingContent>
@@ -89,7 +90,7 @@ async function createCorpusFromFiles(files: File[]) {
         </template>
 
         <PadButton to="/library/metadata/new">
-          <icon :icon="['far', 'square-plus']" size="2xl" class="mb-2" />
+          <PhPlusCircle size="2em" class="mb-2" />
           {{ $t("metadata.new") }}
         </PadButton>
       </div>
