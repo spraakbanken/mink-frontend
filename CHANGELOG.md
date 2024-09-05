@@ -20,6 +20,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Changed
 
 - Improved repo documentation
+- Replaced Font Awesome with Phosphor Icons
 
 ### Fixed
 
