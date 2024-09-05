@@ -108,7 +108,7 @@ where
 | Keyword    | Purpose                                                                        |
 | ---------- | ------------------------------------------------------------------------------ |
 | `fix`      | something broken is being fixed                                                |
-| `feat`     | something non-broken is being improved                                         |
+| `feat`     | a new feature is added                                                         |
 | `docs`     | help text is being changed                                                     |
 | `style`    | the change concerns style (of code, prose, appearance or graphics)             |
 | `perf`     | the change makes something faster                                              |
@@ -116,6 +116,7 @@ where
 | `build`    | the build process is affected                                                  |
 | `refactor` | code is being restructured for DX, sustainability or similar reasons           |
 | `chore`    | for changes that do not affect code, behavior, docs, appearance or performance |
+| `merge`    | for merge commits                                                              |
 | `revert`   | for revert commits (`git revert`)                                              |
 
 ### Branches
