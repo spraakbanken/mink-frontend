@@ -61,7 +61,7 @@ const totalSize = computed(() =>
                 class="button-danger button-mute button-slim text-sm"
                 @click="deleteSource(source)"
               >
-                <PhTrash class="inline mb-0.5 mr-1" />
+                <PhTrash class="inline mb-0.5" />
               </ActionButton>
             </td>
           </tr>
