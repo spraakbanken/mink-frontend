@@ -73,7 +73,9 @@ const logoutUrl = getLogoutUrl();
           </div>
         </div>
         <div class="flex-1">
-          <div class="bg-sborange rounded-full aspect-square flex items-center">
+          <div
+            class="bg-sborange-600 rounded-full aspect-square flex items-center"
+          >
             <img src="@/assets/mink-screen.png" class="shadow-lg image3d" />
           </div>
         </div>
