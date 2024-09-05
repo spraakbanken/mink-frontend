@@ -47,7 +47,7 @@ const logoutUrl = getLogoutUrl();
 
             <div v-if="!isAuthenticated">
               <RouteButton to="/signup" class="button-success">
-                <PhUserPlus class="inline mb-1" />
+                <PhUserPlus weight="fill" class="inline mb-0.5 mr-1" />
                 {{ $t("signup") }}
               </RouteButton>
               <div class="my-1 text-sm opacity-70">
@@ -66,7 +66,7 @@ const logoutUrl = getLogoutUrl();
               </RouteButton>
 
               <UrlButton :href="logoutUrl">
-                <PhSignOut class="inline mb-1" />
+                <PhSignOut class="inline mb-1 mr-1" />
                 {{ $t("logout") }}
               </UrlButton>
             </div>

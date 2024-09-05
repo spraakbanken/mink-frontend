@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import groupBy from "lodash/groupBy";
-import { PhDownload } from "@phosphor-icons/vue";
+import { PhDownloadSimple } from "@phosphor-icons/vue";
 import useExports from "@/corpus/exports/exports.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
@@ -50,7 +50,7 @@ loadExports();
           class="button-primary mr-2"
           @click="downloadResult"
         >
-          <PhDownload class="inline mb-1" />
+          <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
           {{ getDownloadFilename() }}
         </ActionButton>
       </div>
@@ -70,7 +70,7 @@ loadExports();
             <tr v-for="file in exports_" :key="file.name">
               <td class="!pl-6">
                 <a href="#" @click.prevent="downloadResultFile(file.path)">
-                  <PhDownload class="inline mb-1" />
+                  <PhDownloadSimple weight="fill" class="inline mb-0.5 mr-1" />
                   {{ file.path.split("/").slice(1).join("/") }}
                 </a>
               </td>

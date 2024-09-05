@@ -13,7 +13,7 @@ const route = useRoute();
     class="button-primary"
     :href="getLoginUrl(unarray(route.query.destination) || '/corpus')"
   >
-    <PhSignIn class="inline mb-1" />
+    <PhSignIn weight="bold" class="inline mb-1 mr-1" />
     {{ $t("login") }}
   </UrlButton>
 </template>

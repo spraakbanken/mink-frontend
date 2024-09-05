@@ -21,7 +21,7 @@ requireAuthentication();
 
     <div class="my-4">
       <UrlButton class="button-warning" :href="logoutUrl">
-        <PhSignOut class="inline mb-1" />
+        <PhSignOut weight="bold" class="inline mb-1 mr-1" />
         {{ $t("logout") }}
       </UrlButton>
     </div>

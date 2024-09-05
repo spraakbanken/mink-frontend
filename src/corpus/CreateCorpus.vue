@@ -93,7 +93,7 @@ async function submit(fields: Form) {
           />
 
           <HelpBox v-if="value!.format === 'pdf'" important>
-            <PhLightbulbFilament class="inline mb-1" />
+            <PhLightbulbFilament weight="bold" class="inline mb-1 mr-1" />
             {{ $t("config.format.note.pdf") }}
           </HelpBox>
 

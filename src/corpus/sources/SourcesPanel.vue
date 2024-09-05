@@ -58,10 +58,10 @@ const totalSize = computed(() =>
             </td>
             <td class="text-right">
               <ActionButton
-                class="button-danger button-mute button-slim"
+                class="button-danger button-mute button-slim text-sm"
                 @click="deleteSource(source)"
               >
-                <PhTrash class="inline" />
+                <PhTrash class="inline mb-0.5 mr-1" />
               </ActionButton>
             </td>
           </tr>

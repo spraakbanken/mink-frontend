@@ -5,7 +5,7 @@ import { languageNames, type LocaleId } from "./i18n";
 
 <template>
   <div>
-    <PhGlobe class="inline mb-1" />
+    <PhGlobe class="inline mb-0.5" />
     <select
       v-model="$i18n.locale"
       class="bg-transparent border-0 appearance-none"

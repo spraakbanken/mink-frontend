@@ -32,8 +32,8 @@ const [expanded, toggleExpanded] = useToggle();
 
     <div v-if="height > maxHeight" class="text-center p-2 text-sm">
       <ActionButton class="button-slim" @click="toggleExpanded()">
-        <PhCaretDoubleUp v-if="expanded" class="inline mb-1" />
-        <PhCaretDoubleDown v-else class="inline mb-1" />
+        <PhCaretDoubleUp v-if="expanded" class="inline mb-1 mr-0.5" />
+        <PhCaretDoubleDown v-else class="inline mb-1 mr-0.5" />
         {{ expanded ? $t("expand.close") : $t("expand.open") }}
       </ActionButton>
     </div>

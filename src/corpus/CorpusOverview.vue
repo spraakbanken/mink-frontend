@@ -29,7 +29,7 @@ const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
             :to="`/library/corpus/${corpusId}/config`"
             :class="{ 'button-primary': isNeedingConfig || isNeedingMeta }"
           >
-            <PhPencilSimple class="inline mb-1" />
+            <PhPencilSimple weight="bold" class="inline mb-1 mr-1" />
             {{ $t("edit") }}
           </RouteButton>
         </template>

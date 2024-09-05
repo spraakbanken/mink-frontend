@@ -32,7 +32,7 @@ async function uploadMetadata(files: File[]) {
           class="button-danger"
           :to="`/library/metadata/${resourceId}/delete`"
         >
-          <PhTrash class="inline mb-1" />
+          <PhTrash class="inline mb-1 mr-1" />
           {{ $t("delete") }}
         </RouteButton>
       </LayoutBox>

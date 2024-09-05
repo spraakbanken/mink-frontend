@@ -10,7 +10,7 @@ const { stateHelp, isActionNeeded } = useCorpusState(corpusId);
 
 <template>
   <HelpBox v-if="stateHelp" :important="isActionNeeded">
-    <PhLightbulbFilament class="inline mb-1" />
+    <PhLightbulbFilament weight="bold" class="inline mb-1 mr-1" />
     {{ stateHelp }}
   </HelpBox>
 </template>

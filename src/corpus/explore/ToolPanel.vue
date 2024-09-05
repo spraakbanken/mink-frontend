@@ -29,7 +29,7 @@ defineEmits<{
           :class="{ 'button-primary': canInstall && !isInstalled }"
           @click="$emit('install')"
         >
-          <PhGearFine class="inline mb-1" />
+          <PhGearFine weight="bold" class="inline mb-1 mr-1" />
           {{
             $t(
               !isInstalled
@@ -45,7 +45,7 @@ defineEmits<{
           target="_blank"
           class="button-primary"
         >
-          <PhArrowSquareOut class="inline mb-1" />
+          <PhArrowSquareOut weight="bold" class="inline mb-1 mr-1" />
           {{ $t("exports.tools.view") }}
         </UrlButton>
       </div>

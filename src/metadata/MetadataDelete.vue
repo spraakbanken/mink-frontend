@@ -29,7 +29,7 @@ async function doDelete() {
 
       <div>
         <ActionButton class="button-danger mr-4" @click="doDelete">
-          <PhTrash class="inline mb-1" />
+          <PhTrash class="inline mb-1 mr-1" />
           {{ $t("metadata.delete") }}
         </ActionButton>
 
