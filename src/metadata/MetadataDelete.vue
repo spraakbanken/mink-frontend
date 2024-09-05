@@ -39,5 +39,3 @@ async function doDelete() {
     </LayoutSection>
   </PendingContent>
 </template>
-
-<style></style>
