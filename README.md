@@ -1,4 +1,4 @@
-<img src="https://spraakbanken.gu.se/themes/sb/images/mink.svg" width="200" alt="Mink logo" />
+<img src="src/assets/mink-slogan-en.svg" width="200" alt="Mink - Språkbanken's data platform" />
 
 Mink is our effort to put Språkbanken Text’s research infrastructure into the hands of the researchers.
 You can use Mink to apply our language technology methods on texts that you have collected yourself.
