@@ -46,9 +46,14 @@ export default function useMessenger() {
   }
 
   /** Display a backend error message. */
-  const alertError = (err: AxiosError<MinkResponse>): undefined => {
+  const alertError = async (
+    err: AxiosError<MinkResponse | Blob>,
+  ): Promise<void> => {
     if (err.response?.data) {
-      const data = err.response.data;
+      const data =
+        err.response.data instanceof Blob
+          ? (JSON.parse(await err.response.data.text()) as MinkResponse)
+          : err.response.data;
 
       // Use the return code to find a message, if available.
       if (data.return_code) {
