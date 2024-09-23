@@ -151,3 +151,9 @@ export const keyBy = <T extends Record<K, keyof any>, K extends keyof T>(
     (obj, item) => ({ ...obj, [String(item[prop])]: item }),
     {} as Record<T[K], T>,
   );
+
+function filesFormData(file: File) {
+  const formData = new FormData();
+  formData.append("files[]", file);
+  return formData;
+}

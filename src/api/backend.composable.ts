@@ -65,7 +65,7 @@ export default function useMinkBackend() {
 
   const downloadMetadata = (resourceId: string) =>
     spin(
-      api.downloadMetaataYaml(resourceId),
+      api.downloadMetadataYaml(resourceId),
       `resource/${resourceId}/metadata`,
     );
 
