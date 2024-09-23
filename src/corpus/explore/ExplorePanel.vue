@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { computed, watch } from "vue";
+import { computed } from "vue";
 import useExports from "@/corpus/exports/exports.composable";
 import ToolPanel from "@/corpus/explore/ToolPanel.vue";
 import { ensureTrailingSlash } from "@/util";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import { useCorpusState } from "@/corpus/corpusState.composable";
 import useJob from "@/corpus/job/job.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
@@ -12,8 +11,7 @@ import useSpin from "@/spin/spin.composable";
 
 const corpusId = useCorpusIdParam();
 const { isPending } = useSpin();
-const { exports, loadExports } = useExports(corpusId);
-const { isDone } = useCorpusState(corpusId);
+const { exports } = useExports(corpusId);
 const { installKorp, installStrix, isJobRunning, jobState } = useJob(corpusId);
 const { locale3 } = useLocale();
 
@@ -27,8 +25,6 @@ const canInstall = computed(
     !isPending(`corpus/${corpusId}/job`),
 );
 
-loadExports();
-
 async function korpInstall() {
   await installKorp();
 }
@@ -36,13 +32,6 @@ async function korpInstall() {
 async function strixInstall() {
   await installStrix();
 }
-
-// When a job finishes, show download button.
-watch(isDone, () => {
-  if (isDone.value) {
-    loadExports();
-  }
-});
 </script>
 
 <template>
