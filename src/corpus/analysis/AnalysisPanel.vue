@@ -76,7 +76,7 @@ watch(isDone, () => {
       </div>
     </PendingContent>
 
-    <div class="mt-4">
+    <PendingContent :on="`corpus/${corpusId}/exports/list`" class="mt-4">
       <h3 class="text-lg uppercase">{{ $t("download") }}</h3>
       <p>{{ $t("exports.download.help") }}</p>
 
@@ -104,6 +104,6 @@ watch(isDone, () => {
       <p v-else class="opacity-70 italic">
         {{ $t("exports.download.placeholder") }}
       </p>
-    </div>
+    </PendingContent>
   </div>
 </template>
