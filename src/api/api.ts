@@ -7,13 +7,23 @@ import type {
   CreateCorpusData,
   ResourceInfoAllData,
   ResourceInfoOneData,
-  JobState,
-  JobType,
   ListExportsData,
   AdminModeStatusData,
   CreateMetadataData,
   ProgressHandler,
+  JobStateMap,
 } from "@/api/api.types";
+
+/** Create a `text/yaml` file object with content */
+const yamlAsFile = (filename: string, yaml: string): File =>
+  new File([yaml], filename, { type: "text/yaml" });
+
+/** Create a form data object with one or more files under `"files[]"` */
+function filesFormData(...files: File[]): FormData {
+  const formData = new FormData();
+  files.forEach((file) => formData.append("files[]", file));
+  return formData;
+}
 
 /** Handle an exception from an API call that may be encoded as Blob */
 async function rethrowBlobError(error: any): Promise<never> {
@@ -94,9 +104,7 @@ class MinkApi {
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Config/operation/uploadconfig */
   async uploadConfig(corpusId: string, config: string) {
-    const configFile = new File([config], "config.yaml", { type: "text/yaml" });
-    const formData = new FormData();
-    formData.append("files[]", configFile);
+    const formData = filesFormData(yamlAsFile("config.yaml", config));
     const response = await this.axios.put<MinkResponse>(
       "upload-config",
       formData,
@@ -106,9 +114,13 @@ class MinkApi {
   }
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Sources/operation/downloadsources */
-  async downloadSources(corpusId: string, filename: string, binary = false) {
+  async downloadSources<B extends boolean>(
+    corpusId: string,
+    filename: string,
+    binary: B,
+  ) {
     const response = await this.axios
-      .get<string | Blob>("download-sources", {
+      .get<B extends true ? Blob : string>("download-sources", {
         params: { corpus_id: corpusId, file: filename, zip: false },
         responseType: binary ? "blob" : "text",
       })
@@ -130,8 +142,7 @@ class MinkApi {
     files: File[],
     onProgress?: ProgressHandler,
   ) {
-    const formData = new FormData();
-    files.forEach((file) => formData.append("files[]", file));
+    const formData = filesFormData(...files);
     const response = await this.axios.put<MinkResponse>(
       "upload-sources",
       formData,
@@ -161,9 +172,7 @@ class MinkApi {
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Metadata/operation/uploadmetadatayaml */
   async uploadMetadataYaml(resourceId: string, yaml: string) {
-    const file = new File([yaml], "metadata.yaml", { type: "text/yaml" });
-    const formData = new FormData();
-    formData.append("files[]", file);
+    const formData = filesFormData(yamlAsFile("metadata.yaml", yaml));
     const response = await this.axios.put<MinkResponse>(
       "upload-metadata-yaml",
       formData,
@@ -210,11 +219,11 @@ class MinkApi {
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Process-Corpus/operation/abortjob */
   async abortJob(corpusId: string) {
-    const response = await this.axios.post<
-      MinkResponse<Record<JobType, JobState>>
-    >("abort-job", null, {
-      params: { corpus_id: corpusId },
-    });
+    const response = await this.axios.post<MinkResponse<JobStateMap>>(
+      "abort-job",
+      null,
+      { params: { corpus_id: corpusId } },
+    );
     return response.data;
   }
 

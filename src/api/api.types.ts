@@ -89,7 +89,7 @@ export type ResourceType = "corpus" | "metadata";
 // There's more but we're not using everything.
 export type CorpusStatus = {
   current_process: JobType | null;
-  status: Record<JobType, JobState>;
+  status: JobStateMap;
   warnings: string;
   errors: string;
   sparv_output: string;
@@ -106,6 +106,8 @@ export type CorpusStatus = {
   /** Percentage of job completion, if running */
   progress: `${number}%` | "";
 };
+
+export type JobStateMap = Record<JobType, JobState>;
 
 /** File metadata */
 export type FileMeta = {
