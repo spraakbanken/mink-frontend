@@ -97,9 +97,9 @@ class MinkApi {
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Sources/operation/downloadsources */
   async downloadSources(corpusId: string, filename: string, binary = false) {
-    const response = await this.axios.get<string>("download-sources", {
+    const response = await this.axios.get<string | Blob>("download-sources", {
       params: { corpus_id: corpusId, file: filename, zip: false },
-      responseType: binary ? "arraybuffer" : "text",
+      responseType: binary ? "blob" : "text",
     });
     return response.data;
   }

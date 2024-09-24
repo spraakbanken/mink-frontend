@@ -11,7 +11,7 @@ import type { SyntaxLanguage } from "@/highlight";
 const AUTOLOAD_LIMIT = 500_000;
 
 const props = defineProps<{
-  load: () => Promise<string | undefined>;
+  load: () => Promise<string | Blob | undefined>;
   filename: string;
   size?: number;
   noLoad?: boolean;
@@ -26,7 +26,14 @@ const load = once(() => props.load());
 
 /** Load text and store it for showing. */
 async function show() {
-  text.value = await load();
+  const content = await load();
+
+  if (typeof content != "string") {
+    console.error("Source text is not string, use `<SourceText no-load>`");
+    return;
+  }
+
+  text.value = content;
 }
 
 // Load the text unless it is disabled or only manual.
