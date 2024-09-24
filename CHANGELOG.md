@@ -16,6 +16,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Added
 
 - Track some events to Matomo [#166](https://github.com/spraakbanken/mink-frontend/issues/166)
+- Added `.editorconfig`
 
 ### Changed
 
@@ -25,8 +26,9 @@ As this project is a user-facing application, the places in the semantic version
 ### Fixed
 
 - Show loading spinners on the custom config page
+- Show loading spinners when downloading export files
 - Strip slash from Matomo url
-- Added `.editorconfig`
+- Backend error messages are ignored when fetching files with "blob" as responseType [#171](https://github.com/spraakbanken/mink-frontend/issues/171)
 
 ## [1.6.1] (2024-08-13)
 

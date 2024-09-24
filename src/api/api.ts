@@ -15,6 +15,16 @@ import type {
   ProgressHandler,
 } from "@/api/api.types";
 
+/** Handle an exception from an API call that may be encoded as Blob */
+async function rethrowBlobError(error: any): Promise<never> {
+  if (error.response?.data instanceof Blob) {
+    // Parse JSON and replace the blob
+    const text = await error.response.data.text();
+    error.response.data = JSON.parse(text) as MinkResponse;
+  }
+  throw error;
+}
+
 /** Mink backend API client */
 class MinkApi {
   /** An instance of the Axios HTTP client. */
@@ -97,10 +107,12 @@ class MinkApi {
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Sources/operation/downloadsources */
   async downloadSources(corpusId: string, filename: string, binary = false) {
-    const response = await this.axios.get<string | Blob>("download-sources", {
-      params: { corpus_id: corpusId, file: filename, zip: false },
-      responseType: binary ? "blob" : "text",
-    });
+    const response = await this.axios
+      .get<string | Blob>("download-sources", {
+        params: { corpus_id: corpusId, file: filename, zip: false },
+        responseType: binary ? "blob" : "text",
+      })
+      .catch(rethrowBlobError);
     return response.data;
   }
 
@@ -217,19 +229,23 @@ class MinkApi {
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Exports/operation/downloadexports */
   async downloadExports(corpusId: string) {
-    const response = await this.axios.get<Blob>("download-exports", {
-      params: { corpus_id: corpusId },
-      responseType: "blob",
-    });
+    const response = await this.axios
+      .get<Blob>("download-exports", {
+        params: { corpus_id: corpusId },
+        responseType: "blob",
+      })
+      .catch(rethrowBlobError);
     return response.data;
   }
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/api-doc#tag/Manage-Exports/operation/downloadexports */
   async downloadExportFile(corpusId: string, path: string) {
-    const response = await this.axios.get<Blob>("download-exports", {
-      params: { corpus_id: corpusId, file: path, zip: false },
-      responseType: "blob",
-    });
+    const response = await this.axios
+      .get<Blob>("download-exports", {
+        params: { corpus_id: corpusId, file: path, zip: false },
+        responseType: "blob",
+      })
+      .catch(rethrowBlobError);
     return response.data;
   }
 
