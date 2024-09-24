@@ -18,7 +18,7 @@ The Mink system consists of these pieces of software:
 - **[Mink backend](https://github.com/spraakbanken/mink-backend)** runs on a server where it manages stored data and executes data processing operations
 - **[Sparv](https://github.com/spraakbanken/sparv-pipeline)** is the NLP pipeline used for text analysis, operated by the Mink backend. (Sparv lives independently from Mink, but it is listed here because it is essential to Mink.)
 
-The frontend communicates with the backend using the [Mink API](https://ws.spraakbanken.gu.se/ws/mink/api-doc). The API can also be used directly from command-line or scripts.
+The frontend communicates with the backend using the [Mink API](https://ws.spraakbanken.gu.se/docs/mink). The API can also be used directly from command-line or scripts.
 
 The Mink system is connected to these other systems:
 
