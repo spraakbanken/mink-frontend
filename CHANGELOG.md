@@ -22,6 +22,7 @@ As this project is a user-facing application, the places in the semantic version
 
 - Improved repo documentation
 - Replaced Font Awesome with Phosphor Icons
+- Clearer message of caution next to custom config upload form
 
 ### Fixed
 

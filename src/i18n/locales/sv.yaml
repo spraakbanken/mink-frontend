@@ -194,7 +194,8 @@ metadata.description.help: |
 fileFormat: Källformat
 config.custom: Egen konfiguration
 config.custom.help: Mink använder {sparv}, en modulär och konfigurerbar pipeline för textanalys, för att processa korpusen. Det vanliga formuläret visar endast en liten del av alla inställningar. På den här sidan kan du undersöka den faktiska configfilen och ladda upp en egen, i formatet YAML. Använd Sparvdokumentationens avsnitt {topic} för att tolka filens struktur.
-config.custom.upload.help: Notera att en ogiltig configfil kan leda till oväntat beteende. Om du sparar i det vanliga formuläret igen kan den egna konfigurationen skrivas över.
+config.custom.upload.caution: Notera att en ogiltig configfil kan leda till oväntat beteende.
+config.custom.upload.overwrite: Om du sparar i det vanliga formuläret igen kan den egna konfigurationen skrivas över.
 config.format.help: Ange vilket filformat källtexterna har. Alla filer måste ha det valda formatet.
 config.format.note.pdf: PDF-formatet är byggt främst för visuell presentation. Text som extraheras från PDF-filer kan ibland ge bristfälliga resultat. OCR-behandling av scannade dokument är (för närvarande) inget som Mink stödjer.
 config.text_annotation: Textelement

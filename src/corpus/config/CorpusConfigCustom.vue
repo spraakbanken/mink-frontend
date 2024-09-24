@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { AxiosError } from "axios";
+import { PhWarning } from "@phosphor-icons/vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import useConfig from "@/corpus/config/config.composable";
 import { useAuth } from "@/auth/auth.composable";
@@ -53,7 +54,14 @@ async function upload(files: File[]) {
     </LayoutBox>
 
     <LayoutBox class="w-96 grow" :title="$t('upload')">
-      <HelpBox>{{ $t("config.custom.upload.help") }}</HelpBox>
+      <HelpBox important>
+        <PhWarning class="inline mb-1 mr-1" />
+        {{ $t("config.custom.upload.caution") }}
+      </HelpBox>
+      <HelpBox important>
+        <PhWarning class="inline mb-1 mr-1" />
+        {{ $t("config.custom.upload.overwrite") }}
+      </HelpBox>
       <PendingContent :on="`corpus/${corpusId}/config`" blocking>
         <FileUpload :file-handler="upload" accept=".yaml,.yml" />
       </PendingContent>
