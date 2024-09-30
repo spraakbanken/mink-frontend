@@ -30,6 +30,7 @@ As this project is a user-facing application, the places in the semantic version
 - Show loading spinners when downloading export files
 - Strip slash from Matomo url
 - Backend error messages are ignored when fetching files with "blob" as responseType [#171](https://github.com/spraakbanken/mink-frontend/issues/171)
+- Remove unnecessary scroll bars from HeightResizable, used in code boxes
 
 ## [1.6.1] (2024-08-13)
 
