@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { watch } from "vue";
 import { useRoute } from "vue-router";
+import { PhX } from "@phosphor-icons/vue";
 import useMessenger from "@/message/messenger.composable";
 
 const { alerts, dismiss, clear } = useMessenger();
@@ -24,10 +25,10 @@ watch(
         {{ message }}
       </div>
       <div
-        class="p-1 cursor-pointer rounded bg-white bg-opacity-40 hover:bg-opacity-50 transition-all"
+        class="p-1 cursor-pointer rounded bg-white bg-opacity-20 hover:bg-opacity-50 transition-all"
         @click="dismiss(key)"
       >
-        <icon icon="xmark" class="block aspect-square" />
+        <PhX weight="bold" />
       </div>
     </div>
   </aside>

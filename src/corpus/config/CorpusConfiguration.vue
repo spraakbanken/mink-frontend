@@ -4,6 +4,8 @@ import type { AxiosError } from "axios";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
+import { FormKit } from "@formkit/vue";
+import { PhLightbulbFilament, PhTrash } from "@phosphor-icons/vue";
 import type { MinkResponse } from "@/api/api.types";
 import {
   type ConfigOptions,
@@ -26,7 +28,6 @@ import useConfig from "@/corpus/config/config.composable";
 import type { ByLang } from "@/util.types";
 import LayoutBox from "@/components/LayoutBox.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
-import { FormKit } from "@formkit/vue";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
@@ -201,7 +202,7 @@ async function submit(fields: Form) {
           />
 
           <HelpBox v-if="value!.format === 'pdf'" important>
-            <icon :icon="['far', 'lightbulb']" class="mr-1" />
+            <PhLightbulbFilament weight="bold" class="inline mb-1 mr-1" />
             {{ $t("config.format.note.pdf") }}
           </HelpBox>
 
@@ -267,7 +268,7 @@ async function submit(fields: Form) {
         :to="`/library/corpus/${corpusId}/delete`"
         class="button-danger"
       >
-        <icon :icon="['far', 'trash-can']" class="mr-1" />
+        <PhTrash weight="fill" class="inline mb-1 mr-1" />
         {{ $t("corpus.delete") }}
       </RouteButton>
     </div>

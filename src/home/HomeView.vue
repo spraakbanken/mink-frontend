@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { PhSignOut, PhUserPlus } from "@phosphor-icons/vue";
 import HomeNews from "./HomeNews.vue";
 import HomeNewsFeatured from "@/home/HomeNewsFeatured.vue";
 import { useAuth } from "@/auth/auth.composable";
@@ -46,7 +47,7 @@ const logoutUrl = getLogoutUrl();
 
             <div v-if="!isAuthenticated">
               <RouteButton to="/signup" class="button-success">
-                <icon :icon="['fas', 'user-plus']" />
+                <PhUserPlus weight="fill" class="inline mb-0.5 mr-1" />
                 {{ $t("signup") }}
               </RouteButton>
               <div class="my-1 text-sm opacity-70">
@@ -65,14 +66,16 @@ const logoutUrl = getLogoutUrl();
               </RouteButton>
 
               <UrlButton :href="logoutUrl">
-                <icon :icon="['fas', 'person-running']" />
+                <PhSignOut class="inline mb-1 mr-1" />
                 {{ $t("logout") }}
               </UrlButton>
             </div>
           </div>
         </div>
         <div class="flex-1">
-          <div class="bg-sborange rounded-full aspect-square flex items-center">
+          <div
+            class="bg-sborange-600 rounded-full aspect-square flex items-center"
+          >
             <img src="@/assets/mink-screen.png" class="shadow-lg image3d" />
           </div>
         </div>
@@ -203,10 +206,6 @@ const logoutUrl = getLogoutUrl();
 </template>
 
 <style scoped>
-.mt-0 {
-  margin-top: 0;
-}
-
 .image3d {
   transform: scale(0.9) perspective(500px) rotateY(3deg);
   transition: transform ease-in-out 300ms;

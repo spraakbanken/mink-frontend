@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { PhTrash } from "@phosphor-icons/vue";
 import useSources from "@/corpus/sources/sources.composable";
 import SourceUpload from "@/corpus/sources/SourceUpload.vue";
 import useMinkBackendInfo from "@/api/backendInfo.composable";
@@ -57,10 +58,10 @@ const totalSize = computed(() =>
             </td>
             <td class="text-right">
               <ActionButton
-                class="button-danger button-mute button-slim"
+                class="button-danger button-mute button-slim text-sm"
                 @click="deleteSource(source)"
               >
-                <icon :icon="['far', 'trash-can']" />
+                <PhTrash class="inline mb-0.5" />
               </ActionButton>
             </td>
           </tr>

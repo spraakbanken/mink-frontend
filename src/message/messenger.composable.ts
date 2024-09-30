@@ -18,13 +18,13 @@ const alerts = ref<Alert[]>([]);
 export default function useMessenger() {
   const { t, locale, messages } = useI18n();
 
-  function alert(message: string, level?: MessageLevel) {
+  function alert(message: string, level: MessageLevel = "debug") {
     if (message && level !== "success") {
       // Add message.
       alerts.value.push({
         key: randomString(),
         message,
-        level: level || "debug",
+        level,
       });
     }
   }

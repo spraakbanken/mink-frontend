@@ -9,7 +9,15 @@ export default <Config>{
     },
     extend: {
       colors: {
-        sborange: "#f2581a",
+        sborange: {
+          600: "#f2581a",
+          100: "#f2dbd1",
+        },
+        sbteal: {
+          900: "#1b3c3e",
+          600: "#1e989f",
+          100: "#d7ebeb",
+        },
       },
       keyframes: {
         pulse2: {

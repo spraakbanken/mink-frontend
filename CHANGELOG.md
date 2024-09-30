@@ -13,6 +13,27 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+## [1.7.0] (2024-09-30)
+
+### Added
+
+- Track some events to Matomo [#166](https://github.com/spraakbanken/mink-frontend/issues/166)
+- Added `.editorconfig`
+
+### Changed
+
+- Improved repo documentation
+- Replaced Font Awesome with Phosphor Icons
+- Clearer message of caution next to custom config upload form
+
+### Fixed
+
+- Show loading spinners on the custom config page
+- Show loading spinners when downloading export files
+- Strip slash from Matomo url
+- Backend error messages are ignored when fetching files with "blob" as responseType [#171](https://github.com/spraakbanken/mink-frontend/issues/171)
+- Remove unnecessary scroll bars from HeightResizable, used in code boxes
+
 ## [1.6.1] (2024-08-13)
 
 ### Added
@@ -217,7 +238,8 @@ The frontend is now open to the general public! This version allows users to:
 
 Code changes up until this point are not documented other than in the git commit log.
 
-[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.6.1...HEAD
+[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.7.0...HEAD
+[1.7.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/spraakbanken/mink-frontend/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.4.0...v1.5.0

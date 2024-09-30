@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import groupBy from "lodash/groupBy";
+import { PhDownloadSimple } from "@phosphor-icons/vue";
 import useExports from "@/corpus/exports/exports.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
@@ -29,7 +30,7 @@ loadExports();
 </script>
 
 <template>
-  <PendingContent :on="`corpus/${corpusId}/exports/list`">
+  <PendingContent :on="`corpus/${corpusId}/exports`">
     <LayoutSection :title="$t('result')">
       <HelpBox>
         <p>{{ $t("exports.help") }}</p>
@@ -49,7 +50,7 @@ loadExports();
           class="button-primary mr-2"
           @click="downloadResult"
         >
-          <icon :icon="['fas', 'download']" class="mr-1" />
+          <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
           {{ getDownloadFilename() }}
         </ActionButton>
       </div>
@@ -69,7 +70,7 @@ loadExports();
             <tr v-for="file in exports_" :key="file.name">
               <td class="!pl-6">
                 <a href="#" @click.prevent="downloadResultFile(file.path)">
-                  <icon :icon="['fas', 'download']" />
+                  <PhDownloadSimple weight="fill" class="inline mb-0.5 mr-1" />
                   {{ file.path.split("/").slice(1).join("/") }}
                 </a>
               </td>

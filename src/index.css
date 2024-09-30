@@ -12,7 +12,7 @@ body {
 }
 
 a {
-  @apply text-sborange hover:brightness-110;
+  @apply text-sborange-600 hover:brightness-110;
 }
 
 h1 {
@@ -104,7 +104,7 @@ select {
 
 @layer components {
   .mink-button {
-    @apply p-1 px-2 rounded shadow bg-zinc-100 text-gray-700 cursor-pointer hover:drop-shadow-md hover:brightness-110 transition-all;
+    @apply p-1 px-2 rounded shadow bg-zinc-100 text-gray-700 cursor-pointer font-medium hover:drop-shadow-md hover:brightness-110 transition-all;
     @apply dark:bg-zinc-700 dark:text-zinc-300;
   }
   .button-primary {
