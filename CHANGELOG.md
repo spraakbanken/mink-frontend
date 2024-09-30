@@ -13,6 +13,8 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+## [1.7.0] (2024-09-30)
+
 ### Added
 
 - Track some events to Matomo [#166](https://github.com/spraakbanken/mink-frontend/issues/166)
@@ -236,7 +238,8 @@ The frontend is now open to the general public! This version allows users to:
 
 Code changes up until this point are not documented other than in the git commit log.
 
-[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.6.1...HEAD
+[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.7.0...HEAD
+[1.7.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/spraakbanken/mink-frontend/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.4.0...v1.5.0
