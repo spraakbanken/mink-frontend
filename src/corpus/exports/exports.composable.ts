@@ -26,7 +26,7 @@ export default function useExports(corpusId: string) {
   }
 
   async function downloadResult() {
-    matomo?.trackEvent("Corpus result", "Download export archive", corpusId);
+    matomo?.trackEvent("Corpus", "Download", "Export archive");
     const data = await mink.downloadExports(corpusId).catch(alertError);
     if (!data) return;
     downloadFile(data, getDownloadFilename());
@@ -38,7 +38,7 @@ export default function useExports(corpusId: string) {
 
   async function downloadResultFile(path: string) {
     const filename = path.split("/").pop()!;
-    matomo?.trackEvent("Corpus result", "Download export file", filename);
+    matomo?.trackEvent("Corpus", "Download", "Export file");
     const data = await mink
       .downloadExportFiles(corpusId, path)
       .catch(alertError);
