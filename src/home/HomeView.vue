@@ -76,7 +76,11 @@ const logoutUrl = getLogoutUrl();
           <div
             class="bg-sborange-600 rounded-full aspect-square flex items-center"
           >
-            <img src="@/assets/mink-screen.png" class="shadow-lg image3d" />
+            <img
+              src="@/assets/mink-screen.png"
+              class="shadow-lg image3d"
+              :alt="$t('home.hero.alt')"
+            />
           </div>
         </div>
       </div>
@@ -92,7 +96,10 @@ const logoutUrl = getLogoutUrl();
           <figure
             class="md:w-1/2 2xl:w-4/5 shadow-lg hover:scale-110 transition-transform"
           >
-            <img src="@/assets/sparv-screen.png" />
+            <img
+              src="@/assets/sparv-screen.png"
+              :alt="$t('home.features.sparv.alt')"
+            />
           </figure>
 
           <LayoutSection
@@ -113,7 +120,10 @@ const logoutUrl = getLogoutUrl();
           <figure
             class="md:w-1/2 2xl:w-4/5 shadow-lg hover:scale-110 transition-transform"
           >
-            <img src="@/assets/texts.png" />
+            <img
+              src="@/assets/texts.png"
+              :alt="$t('home.features.upload.alt')"
+            />
           </figure>
 
           <LayoutSection
@@ -134,7 +144,10 @@ const logoutUrl = getLogoutUrl();
           <figure
             class="md:w-1/2 2xl:w-4/5 shadow-lg hover:scale-110 transition-transform"
           >
-            <img src="@/assets/korp-screen.png" />
+            <img
+              src="@/assets/korp-screen.png"
+              :alt="$t('home.features.explore.alt')"
+            />
           </figure>
 
           <LayoutSection
@@ -165,7 +178,10 @@ const logoutUrl = getLogoutUrl();
           <figure
             class="md:w-1/2 2xl:w-4/5 shadow-lg hover:scale-110 transition-transform"
           >
-            <img src="@/assets/share.png" />
+            <img
+              src="@/assets/share.png"
+              :alt="$t('home.features.share.alt')"
+            />
           </figure>
 
           <LayoutSection

@@ -1,4 +1,6 @@
+logo.alt: Mink-logotyp
 home: Hem
+home.hero.alt: Skärmbild av Minks användargränssnitt
 home.hero.sb: "{0} är en forskningsinfrastruktur för språkdata. Med språkteknologiska metoder i framkant skapar vi och underhåller språkresurser för forskare världen över, och vi använder fri och öppen access såvitt det går."
 home.hero.mink: "{0} är vår insats för att lägga infrastrukturen i forskarnas händer. Här kan du applicera våra språkteknologiska metoder på texter som du själv har samlat in. Resultaten kan du ladda ner eller föra in i våra forskningsverktyg såsom Korp och Strix bakom inloggning."
 home.hero.privacy: Dina källdata och resultaten är privata (se {0}). I kommande versioner kommer du att kunna dela datamängder med kollegor och publicera dem för allmän åtkomst.
@@ -6,13 +8,17 @@ home.hero.privacy.link.url: https://spraakbanken.gu.se/verktyg/mink/data-policy
 home.hero.privacy.link.label: integritets- och datapolicyn
 home.features.sparv.title: Anpassningsbara analyser
 home.features.sparv.body: Dina texter analyseras av vår språkteknologiska plattform {sparv} med de inställningar du väljer.
+home.features.sparv.alt: Skärmbild av en konfigurationssida många knappar
 home.features.upload.title: Ladda upp din text
 home.features.upload.body: Ladda upp ordbehandlingsdokument, pdf:er, ren text eller XML. Om du använder XML läggs analyserna in utan att påverka strukturen från originalfilerna.
+home.features.upload.alt: Skärmbild av en lista med filnamn och en uppladdningsruta
 home.features.explore.title: Utforska i Korp och Strix
 home.features.explore.body: Exportera den färdiga datan för sökning och statistiska undersökningar i {korp} och {strix}.
+home.features.explore.alt: Skärmbild från sökverktyget Korp
 home.features.share.title: Dela och samarbeta
 home.features.share.body: Bjud in andra forskare att ta del av dina data i våra forskningsverktyg, skyddat bakom inloggning. Om du vill göra dina data tillgängliga för alla kan du kontakta oss för att diskutera publicering.
 home.features.share.upcoming: De här funktionerna planeras till kommande Mink-versioner.
+home.features.share.alt: Skärmbild från ett behörighetshanteringssystem
 home.otherdata.title: Mink eller icke Mink?
 home.otherdata.body: Tänk på att först undersöka andra språkdatamängder som eventuellt uppfyller dina behov! Språkbankens växande samling av forskningsdata kan du se på sidan {0} på vår webbplats. I ett större perspektiv bildar Språkbanken en del av CLARIN ERIC, vars samlade data kan utforskas i {1}.
 home.otherdata.sbdata.title: "Språkbanken Text: Language resources"

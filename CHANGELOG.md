@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Fixed
+
+- Added alt attributes to all img tags
+
 ## [1.7.0] (2024-09-30)
 
 ### Added
