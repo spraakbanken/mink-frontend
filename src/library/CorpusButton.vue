@@ -28,7 +28,7 @@ spin(loadCorpus(), "corpora");
       {{ $t("files", corpus.sources.length) }}
     </span>
 
-    <div class="flex mt-2 text-sm text-gray-500">
+    <div class="flex mt-2 text-sm">
       <CorpusStateMessage :corpus-id="id" />
     </div>
   </PadButton>

@@ -20,7 +20,7 @@ const percentStr = computed(() =>
       class="bg-sborange-600 h-6 absolute"
       :style="{ width: percent + '%' }"
     ></div>
-    <div class="text-white text-center relative z-10">
+    <div class="font-bold text-white text-center relative z-10">
       {{ percentStr }}
     </div>
   </div>

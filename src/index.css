@@ -12,7 +12,7 @@ body {
 }
 
 a {
-  @apply text-sborange-600 hover:brightness-110;
+  @apply text-sborange-600 font-bold hover:brightness-110;
 }
 
 h1 {
@@ -104,19 +104,19 @@ select {
 
 @layer components {
   .mink-button {
-    @apply p-1 px-2 rounded shadow bg-zinc-100 text-gray-700 cursor-pointer font-medium hover:drop-shadow-md hover:brightness-110 transition-all;
+    @apply p-1 px-2 rounded shadow bg-zinc-100 shadow-zinc-400 text-gray-700 cursor-pointer font-medium hover:drop-shadow-md hover:brightness-110 transition-all;
     @apply dark:bg-zinc-700 dark:text-zinc-300;
   }
   .button-primary {
-    @apply bg-blue-400 shadow-blue-700 text-white;
+    @apply bg-sky-700 shadow-sky-900 text-white;
     @apply dark:bg-sky-600 dark:text-sky-100;
   }
   .button-danger {
-    @apply bg-red-400 shadow-red-700 text-white;
+    @apply bg-red-600 shadow-red-700 text-white;
     @apply dark:bg-red-700;
   }
   .button-success {
-    @apply bg-green-300 shadow-green-600 text-green-900;
+    @apply bg-green-600 shadow-green-800 text-white;
   }
   .button-warning {
     @apply bg-amber-300 shadow-amber-600 text-amber-900;

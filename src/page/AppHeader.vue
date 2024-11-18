@@ -46,10 +46,14 @@ const { isAuthenticating, payload, canUserWrite } = useAuth();
 
           <div class="mt-2 flex flex-wrap gap-4 items-baseline justify-end">
             <template v-if="payload">
-              <router-link v-if="canUserWrite" to="/user" class="text-inherit">
+              <router-link
+                v-if="canUserWrite"
+                to="/user"
+                class="text-inherit font-normal"
+              >
                 {{ payload.name }}
               </router-link>
-              <a v-else :href="getLogoutUrl()" class="text-inherit">
+              <a v-else :href="getLogoutUrl()" class="text-inherit font-normal">
                 {{ $t("logout") }}
               </a>
             </template>

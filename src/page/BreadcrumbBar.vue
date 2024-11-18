@@ -31,7 +31,10 @@ const crumbs = computed(() =>
   <div v-if="crumbs.length > 1" class="container opacity-70">
     <template v-for="(crumb, i) in crumbs" :key="i">
       <template v-if="i"> &raquo; </template>
-      <router-link :to="crumb.path" class="text-inherit hover:underline">
+      <router-link
+        :to="crumb.path"
+        class="text-inherit hover:underline font-normal"
+      >
         {{ crumb.title }}
       </router-link>
     </template>

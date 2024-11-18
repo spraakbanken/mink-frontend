@@ -17,11 +17,12 @@ const message = computed(() => t(`job.status.${status.value || "none"}`));
 <template>
   <span
     v-if="message"
+    class="text-white rounded-full px-2 py-1"
     :class="{
-      'text-gray-400': !status || status == 'none' || status == 'aborted',
-      'text-red-500': status == 'error',
-      'text-yellow-500': status == 'waiting' || status == 'running',
-      'text-lime-600': status == 'done',
+      'bg-gray-400': !status || status == 'none' || status == 'aborted',
+      'bg-red-600': status == 'error',
+      'bg-yellow-500': status == 'waiting' || status == 'running',
+      'bg-lime-700': status == 'done',
     }"
   >
     {{ message }}
