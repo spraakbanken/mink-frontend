@@ -136,6 +136,7 @@ upload: Ladda upp
 uploaded: Uppladdad
 lastModify: Senast ändrad
 fileSize: Storlek
+file.operations: Operationer
 delete: Radera
 original: Original
 public_id: Publik identifierare

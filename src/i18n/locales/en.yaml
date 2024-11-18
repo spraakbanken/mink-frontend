@@ -135,6 +135,7 @@ upload: Upload
 uploaded: Uploaded
 lastModify: Last modified
 fileSize: Size
+file.operations: Operations
 delete: Delete
 original: Original
 public_id: Public identifier

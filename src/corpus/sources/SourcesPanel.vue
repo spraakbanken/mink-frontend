@@ -41,7 +41,7 @@ const totalSize = computed(() =>
           <tr>
             <th class="w-full">{{ $t("fileName") }}</th>
             <th class="text-right">{{ $t("fileSize") }}</th>
-            <th />
+            <th class="sr-only">{{ $t("file.operations") }}</th>
           </tr>
         </thead>
         <tbody class="border-b-0">
@@ -62,6 +62,7 @@ const totalSize = computed(() =>
                 @click="deleteSource(source)"
               >
                 <PhTrash class="inline mb-0.5" />
+                <span class="sr-only">{{ $t("delete") }}</span>
               </ActionButton>
             </td>
           </tr>
