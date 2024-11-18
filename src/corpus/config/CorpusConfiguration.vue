@@ -176,6 +176,10 @@ async function submit(fields: Form) {
             :value="corpusId"
             :help="$t('metadata.identifier.help')"
           >
+            <template #label>
+              <!-- Avoid orphaned <label> for better accessibility -->
+              <span class="formkit-label">{{ $t("identifier") }}</span>
+            </template>
             <template #input>
               <TerminalOutput class="inline leading-loose">
                 {{ corpusId }}
