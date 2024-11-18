@@ -12,7 +12,7 @@ body {
 }
 
 a {
-  @apply text-sborange-600 font-bold hover:brightness-110;
+  @apply text-sborange-700 font-medium hover:brightness-110;
 }
 
 h1 {

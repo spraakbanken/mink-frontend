@@ -10,6 +10,9 @@ export default <Config>{
     extend: {
       colors: {
         sborange: {
+          900: "#4a1804",
+          800: "#7a2807",
+          700: "#c6410b",
           600: "#f2581a",
           100: "#f2dbd1",
         },
