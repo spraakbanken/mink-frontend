@@ -114,6 +114,7 @@ expand.open: Show all
 expand.close: Hide some
 show: Show
 select: Select...
+locale.switcher.label: Interface language
 en: English
 sv: Swedish
 metadata: Metadata

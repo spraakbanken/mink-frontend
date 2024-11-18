@@ -115,6 +115,7 @@ expand.open: Visa allt
 expand.close: Göm en del
 show: Visa
 select: Välj...
+locale.switcher.label: Gränssnittsspråk
 en: Engelska
 sv: Svenska
 metadata: Metadata
