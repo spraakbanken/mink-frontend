@@ -17,7 +17,7 @@ const { isAuthenticating, payload, canUserWrite } = useAuth();
 
 <template>
   <header
-    class="mb-2 shadow bg-white text-gray-600 dark:bg-zinc-700 dark:text-zinc-400"
+    class="mb-2 shadow bg-white text-gray-600 dark:bg-zinc-800 dark:text-zinc-200"
   >
     <div class="container py-4 flex justify-between flex-wrap gap-4">
       <div class="text-4xl">

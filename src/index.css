@@ -8,11 +8,11 @@
 
 body {
   @apply bg-gray-50 text-gray-900;
-  @apply dark:bg-zinc-800 dark:text-zinc-300;
+  @apply dark:bg-zinc-900 dark:text-zinc-200;
 }
 
 a {
-  @apply text-sborange-700 font-medium hover:brightness-110;
+  @apply text-sborange-700 dark:text-sborange-500 font-medium hover:brightness-110;
 }
 
 h1 {
@@ -37,13 +37,11 @@ thead {
   @apply uppercase text-sm;
 }
 
-table.striped tbody,
-.bg-white table.striped tbody tr:nth-child(2n) {
-  @apply bg-gray-100 dark:bg-zinc-700;
+table.striped tbody tr:nth-child(2n + 1) {
+  @apply bg-gray-100 dark:bg-zinc-800;
 }
-table.striped tbody tr:nth-child(2n),
-.bg-white table.striped tbody {
-  @apply bg-gray-50 dark:bg-zinc-800;
+table.striped tbody tr:nth-child(2n) {
+  @apply bg-gray-50 dark:bg-zinc-800 dark:bg-opacity-50;
 }
 
 table.striped th,
@@ -105,11 +103,11 @@ select {
 @layer components {
   .mink-button {
     @apply p-1 px-2 rounded shadow bg-zinc-100 shadow-zinc-400 text-gray-700 cursor-pointer font-medium hover:drop-shadow-md hover:brightness-110 transition-all;
-    @apply dark:bg-zinc-700 dark:text-zinc-300;
+    @apply dark:bg-zinc-800 dark:shadow-none dark:text-zinc-300;
   }
   .button-primary {
     @apply bg-sky-700 shadow-sky-900 text-white;
-    @apply dark:bg-sky-600 dark:text-sky-100;
+    @apply dark:text-sky-50;
   }
   .button-danger {
     @apply bg-red-600 shadow-red-700 text-white;
@@ -120,6 +118,7 @@ select {
   }
   .button-warning {
     @apply bg-amber-300 shadow-amber-600 text-amber-900;
+    @apply dark:bg-amber-700 shadow-amber-800 text-white;
   }
 
   .mink-button[disabled],

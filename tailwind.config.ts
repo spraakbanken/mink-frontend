@@ -14,6 +14,7 @@ export default <Config>{
           800: "#7a2807",
           700: "#c6410b",
           600: "#f2581a",
+          500: "#F46D37",
           100: "#f2dbd1",
         },
         sbteal: {

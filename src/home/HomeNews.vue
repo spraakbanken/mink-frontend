@@ -30,7 +30,7 @@ function getDate(date: Date) {
       <article
         v-for="(item, i) in items"
         :key="i"
-        class="w-96 bg-white dark:bg-zinc-700 shadow p-2 px-3 my-2"
+        class="w-96 bg-white dark:bg-zinc-800 shadow p-2 px-3 my-2"
       >
         <header class="mb-2">
           <h3 class="font-bold">{{ th(item.title) }}</h3>
