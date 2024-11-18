@@ -15,7 +15,7 @@ As this project is a user-facing application, the places in the semantic version
 
 ### Fixed
 
-- Added alt attributes to all img tags
+- Accessibility improvements (alt attributes, keyboard navigation, etc)
 
 ## [1.7.0] (2024-09-30)
 
