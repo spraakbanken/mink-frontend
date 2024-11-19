@@ -49,11 +49,15 @@ const { isAuthenticating, payload, canUserWrite } = useAuth();
               <router-link
                 v-if="canUserWrite"
                 to="/user"
-                class="text-inherit font-normal"
+                class="text-inherit font-normal no-underline hover:underline"
               >
                 {{ payload.name }}
               </router-link>
-              <a v-else :href="getLogoutUrl()" class="text-inherit font-normal">
+              <a
+                v-else
+                :href="getLogoutUrl()"
+                class="text-inherit font-normal no-underline hover:underline"
+              >
                 {{ $t("logout") }}
               </a>
             </template>

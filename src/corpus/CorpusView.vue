@@ -27,7 +27,7 @@ requireAuthentication(async () => {
         <router-link
           v-if="$route.path != `/library/corpus/${corpusId}`"
           :to="`/library/corpus/${corpusId}`"
-          class="text-inherit hover:underline"
+          class="text-inherit no-underline hover:underline"
         >
           {{ corpusName || corpusId }}
         </router-link>

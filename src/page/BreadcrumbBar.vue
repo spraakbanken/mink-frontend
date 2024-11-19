@@ -33,7 +33,7 @@ const crumbs = computed(() =>
       <template v-if="i"> &raquo; </template>
       <router-link
         :to="crumb.path"
-        class="text-inherit hover:underline font-normal"
+        class="text-inherit no-underline hover:underline font-normal"
       >
         {{ crumb.title }}
       </router-link>
