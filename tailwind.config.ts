@@ -7,6 +7,9 @@ export default <Config>{
       center: true,
       padding: "2rem",
     },
+    fontFamily: {
+      sans: ['"Source Sans 3 Variable"', "sans-serif"],
+    },
     extend: {
       colors: {
         sborange: {

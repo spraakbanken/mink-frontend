@@ -7,7 +7,7 @@
 }
 
 body {
-  @apply bg-gray-50 text-gray-900;
+  @apply bg-gray-50 text-gray-900 font-sans;
   @apply dark:bg-zinc-900 dark:text-zinc-200;
 }
 
@@ -31,6 +31,10 @@ p:first-child {
 }
 p:last-child {
   @apply mb-0;
+}
+
+strong {
+  @apply font-semibold;
 }
 
 thead {

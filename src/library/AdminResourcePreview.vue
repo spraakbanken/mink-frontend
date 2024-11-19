@@ -63,7 +63,7 @@ onMounted(() => {
       :on="`corpus/${resourceId}/config`"
       class="flex-1"
     >
-      <h3 class="font-bold">{{ $t("configuration") }}</h3>
+      <h3 class="font-semibold">{{ $t("configuration") }}</h3>
       <TextData :text="resource.config" language="yaml" />
     </PendingContent>
   </div>

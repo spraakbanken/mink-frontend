@@ -205,6 +205,11 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.57.1.tgz#de633db3ec2ef6a3c89e2f19038063e8a122e2c2"
   integrity sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==
 
+"@fontsource-variable/source-sans-3@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/source-sans-3/-/source-sans-3-5.1.0.tgz#b478ea4fd5bec6b89e29b65849cfc44bbd9b5cc2"
+  integrity sha512-nGkPIJYgWeVZyIAKrJsBrTUyYRF+Dun4MGBh9k5ZAqCKJN3fCi37BLIjpXL5rApgvY3gjNBo8a+MbjBMuy75bg==
+
 "@formkit/core@1.6.7":
   version "1.6.7"
   resolved "https://registry.yarnpkg.com/@formkit/core/-/core-1.6.7.tgz#78bb83e9b8aa31e725fed5950edeffa65667e5d8"
