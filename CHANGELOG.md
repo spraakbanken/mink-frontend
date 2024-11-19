@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Added
+
+- Add geotagging to the NER option [#174](https://github.com/spraakbanken/mink-frontend/issues/174)
+
 ### Fixed
 
 - Accessibility improvements (contrast, alt attributes, keyboard navigation, etc)

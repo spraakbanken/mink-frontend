@@ -217,8 +217,8 @@ timespan_from: Från
 timespan_to: Till
 edit: Redigera
 annotations: Annotationer
-annotations.ner: Namngivna entiteter
-annotations.ner.help: Namngivna entitetsigenkänning (named entity recognition, NER) hittar personer, platser, datum och liknande i dina texter. Däremot tar analysen ganska lång tid.
+annotations.ner: Namngivna entiteter och geotaggning
+annotations.ner.help: Namngivna entitetsigenkänning (named entity recognition, NER) hittar personer, platser, datum och liknande i dina texter. Däremot tar analysen ganska lång tid. När NER är aktiverat görs även geotaggning, vilket aktiverar kartfunktionen i Korp.
 annotations.info: |
   <p>
     Vi jobbar på möjligheten att välja bland fler analysmetoder, annotationer och modeller.

@@ -216,8 +216,8 @@ timespan_from: From
 timespan_to: To
 edit: Edit
 annotations: Annotations
-annotations.ner: Named entity recognition
-annotations.ner.help: Named entity recognition (NER) finds individuals, places, dates and more in your texts. However, it significantly slows down processing.
+annotations.ner: Named entity recognition and geotagging
+annotations.ner.help: Named entity recognition (NER) finds individuals, places, dates and more in your texts. However, it significantly slows down processing. Enabling NER also enables geotagging and, in turn, the map feature in Korp.
 annotations.info: |
   <p>
     We are working on making it possible to choose among more methods, annotations and models to be used in the analysis.

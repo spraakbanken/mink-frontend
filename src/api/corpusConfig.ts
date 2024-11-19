@@ -153,6 +153,7 @@ export function makeConfig(id: string, options: ConfigOptions): string {
       "swener.ne:swener.ex",
       "swener.ne:swener.type",
       "swener.ne:swener.subtype",
+      "<sentence>:geo.geo_context as _geocontext",
     );
   }
 
