@@ -118,7 +118,7 @@ select {
   }
   .button-warning {
     @apply bg-amber-300 shadow-amber-600 text-amber-900;
-    @apply dark:bg-amber-700 shadow-amber-800 text-white;
+    @apply dark:bg-amber-700 dark:shadow-amber-800 dark:text-white;
   }
 
   .mink-button[disabled],
