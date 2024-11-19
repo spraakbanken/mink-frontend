@@ -15,13 +15,17 @@ const percentStr = computed(() =>
 </script>
 
 <template>
-  <div class="inline-block bg-slate-500 rounded h-6 relative overflow-hidden">
+  <div
+    class="inline-block bg-slate-500 rounded h-6 relative text-center overflow-hidden"
+  >
     <div
-      class="bg-sborange-700 h-6 absolute"
+      class="bg-sborange-600 h-6 absolute"
       :style="{ width: percent + '%' }"
     ></div>
-    <div class="font-bold text-white text-center relative z-10">
-      {{ percentStr }}
+    <div class="font-bold text-white relative z-10">
+      <span class="bg-zinc-700 bg-opacity-40 rounded px-0.5">
+        {{ percentStr }}
+      </span>
     </div>
   </div>
 </template>
