@@ -16,6 +16,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Fixed
 
 - Accessibility improvements (contrast, alt attributes, keyboard navigation, etc)
+- Use corpus name in breadcrumbs
 
 ## [1.7.0] (2024-09-30)
 

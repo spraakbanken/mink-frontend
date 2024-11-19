@@ -31,7 +31,6 @@ const corpusRoutes: RouteRecordRaw[] = [
       {
         path: "",
         component: CorpusOverview,
-        meta: { createTitle: (params, resourceName) => resourceName },
       },
       {
         path: "config",
