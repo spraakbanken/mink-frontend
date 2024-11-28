@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AxiosError } from "axios";
-import { PhWarning } from "@phosphor-icons/vue";
+import { PhPencilSimple, PhWarning } from "@phosphor-icons/vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import useConfig from "@/corpus/config/config.composable";
 import { useAuth } from "@/auth/auth.composable";
@@ -11,6 +11,8 @@ import type { MinkResponse } from "@/api/api.types";
 import useMessenger from "@/message/messenger.composable";
 import SyntaxHighlight from "@/components/SyntaxHighlight.vue";
 import PendingContent from "@/spin/PendingContent.vue";
+import RouteButton from "@/components/RouteButton.vue";
+import CorpusConfigCustomHelp from "./CorpusConfigCustomHelp.vue";
 
 const corpusId = useCorpusIdParam();
 const { config, uploadConfigRaw } = useConfig(corpusId);
@@ -31,20 +33,7 @@ async function upload(files: File[]) {
 </script>
 
 <template>
-  <HelpBox>
-    <i18n-t scope="global" keypath="config.custom.help">
-      <template #sparv>
-        <a :href="$t('sparv.url')">Sparv</a>
-      </template>
-      <template #topic>
-        <a
-          href="https://spraakbanken.gu.se/sparv/#/user-manual/corpus-configuration"
-        >
-          Corpus Configuration
-        </a>
-      </template>
-    </i18n-t>
-  </HelpBox>
+  <CorpusConfigCustomHelp />
 
   <div class="flex flex-wrap gap-4 items-start">
     <LayoutBox class="w-96 grow" :title="$t('upload')">
@@ -52,12 +41,14 @@ async function upload(files: File[]) {
         <PhWarning class="inline mb-1 mr-1" />
         {{ $t("config.custom.upload.caution") }}
       </HelpBox>
+
       <HelpBox important>
         <PhWarning class="inline mb-1 mr-1" />
         {{ $t("config.custom.upload.overwrite") }}
       </HelpBox>
+
       <PendingContent :on="`corpus/${corpusId}/config`" blocking>
-        <FileUpload :file-handler="upload" accept=".yaml,.yml" />
+        <FileUpload :file-handler="upload" accept=".yaml,.yml" primary />
       </PendingContent>
     </LayoutBox>
 
@@ -65,6 +56,16 @@ async function upload(files: File[]) {
       <PendingContent :on="`corpus/${corpusId}/config`">
         <SyntaxHighlight v-if="config" language="yaml" :code="config" />
       </PendingContent>
+
+      <template #controls>
+        <RouteButton
+          :to="`/library/corpus/${corpusId}/config/custom/edit`"
+          class="button-primary"
+        >
+          <PhPencilSimple weight="bold" class="inline mb-1 mr-1" />
+          {{ $t("edit") }}
+        </RouteButton>
+      </template>
     </LayoutBox>
   </div>
 </template>

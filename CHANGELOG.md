@@ -16,6 +16,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Added
 
 - Add geotagging to the NER option [#174](https://github.com/spraakbanken/mink-frontend/issues/174)
+- Editable config file in browser [#178](https://github.com/spraakbanken/mink-frontend/issues/178)
 
 ### Fixed
 

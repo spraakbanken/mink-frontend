@@ -7,9 +7,6 @@ export default <Config>{
       center: true,
       padding: "2rem",
     },
-    fontFamily: {
-      sans: ['"Source Sans 3 Variable"', "sans-serif"],
-    },
     extend: {
       colors: {
         sborange: {
@@ -25,6 +22,9 @@ export default <Config>{
           600: "#1e989f",
           100: "#d7ebeb",
         },
+      },
+      fontFamily: {
+        sans: ['"Source Sans 3 Variable"', "sans-serif"],
       },
       keyframes: {
         pulse2: {

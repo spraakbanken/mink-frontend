@@ -189,6 +189,7 @@ load: Load
 not_loaded: Not loaded
 file.archive: Archive
 file.singles: Single files
+save.no_changes: There are no changes to save
 name: Name
 metadata.name.help: You can use spaces and special characters.
 identifier: Identifier
@@ -199,7 +200,7 @@ metadata.description.help: |
   If you aim to share or publish the results, we recommend entering one or two sentences
   to summarize the content or purpose to a potential user.
 fileFormat: Source format
-config.custom: Custom configuration
+config.custom: Custom config
 config.custom.help: Mink uses {sparv}, a modular and configurable pipeline for text analysis, to process your corpus. The standard configuration form only exposes a few of the available Sparv options. On this page, you can view and submit your own config file, written in the YAML format. Please refer to the Sparv documentation on {topic} for more information.
 config.custom.upload.caution: Please note that submitting an invalid config file may cause unexpected behaviour.
 config.custom.upload.overwrite: Saving the standard configuration form may overwrite your custom config.
@@ -245,6 +246,8 @@ accessdenied.contact: If you have questions, or you want to report a bug, please
 notfound: Page not found
 notfound.description: Something went wrong, and there is nothing to see at this address.
 notfound.contact: If you have questions, or you want to report a bug, please contact sb-info{'@'}svenska.gu.se. Thank you!
+yaml.valid: YAML is valid
+yaml.invalid: YAML is invalid
 
 # These correspond to the `return_code` param of backend responses
 api.code.missing_auth_token: Missing authorization token
