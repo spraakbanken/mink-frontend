@@ -46,13 +46,7 @@ async function upload(files: File[]) {
     </i18n-t>
   </HelpBox>
 
-  <div class="flex flex-wrap gap-4">
-    <LayoutBox class="w-96 grow" :title="$t('show')">
-      <PendingContent :on="`corpus/${corpusId}/config`">
-        <SyntaxHighlight v-if="config" language="yaml" :code="config" />
-      </PendingContent>
-    </LayoutBox>
-
+  <div class="flex flex-wrap gap-4 items-start">
     <LayoutBox class="w-96 grow" :title="$t('upload')">
       <HelpBox important>
         <PhWarning class="inline mb-1 mr-1" />
@@ -64,6 +58,12 @@ async function upload(files: File[]) {
       </HelpBox>
       <PendingContent :on="`corpus/${corpusId}/config`" blocking>
         <FileUpload :file-handler="upload" accept=".yaml,.yml" />
+      </PendingContent>
+    </LayoutBox>
+
+    <LayoutBox class="w-96 grow" :title="$t('show')">
+      <PendingContent :on="`corpus/${corpusId}/config`">
+        <SyntaxHighlight v-if="config" language="yaml" :code="config" />
       </PendingContent>
     </LayoutBox>
   </div>
