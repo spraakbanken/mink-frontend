@@ -13,6 +13,8 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+## [1.7.1] (2024-12-03)
+
 ### Added
 
 - Add geotagging to the NER option [#174](https://github.com/spraakbanken/mink-frontend/issues/174)
@@ -248,7 +250,8 @@ The frontend is now open to the general public! This version allows users to:
 
 Code changes up until this point are not documented other than in the git commit log.
 
-[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.7.0...HEAD
+[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.7.1...HEAD
+[1.7.1]: https://github.com/spraakbanken/mink-frontend/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/spraakbanken/mink-frontend/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.5.0...v1.6.0
