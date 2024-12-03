@@ -6,6 +6,8 @@ const CorpusConfiguration = () =>
   import("@/corpus/config/CorpusConfiguration.vue");
 const CorpusConfigCustom = () =>
   import("@/corpus/config/CorpusConfigCustom.vue");
+const CorpusConfigCustomEdit = () =>
+  import("@/corpus/config/CorpusConfigCustomEdit.vue");
 const CorpusResult = () => import("@/corpus/exports/CorpusResult.vue");
 const CorpusDelete = () => import("@/corpus/CorpusDelete.vue");
 const SourceView = () => import("@/corpus/sources/SourceView.vue");
@@ -31,7 +33,6 @@ const corpusRoutes: RouteRecordRaw[] = [
       {
         path: "",
         component: CorpusOverview,
-        meta: { createTitle: (params, resourceName) => resourceName },
       },
       {
         path: "config",
@@ -42,6 +43,11 @@ const corpusRoutes: RouteRecordRaw[] = [
         path: "config/custom",
         component: CorpusConfigCustom,
         meta: { title: "config.custom" },
+      },
+      {
+        path: "config/custom/edit",
+        component: CorpusConfigCustomEdit,
+        meta: { title: "edit" },
       },
       {
         path: "sources/:filename",

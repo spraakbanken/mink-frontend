@@ -1,4 +1,6 @@
+logo.alt: Mink logo
 home: Home
+home.hero.alt: Screenshot of Mink's user interface
 home.hero.sb: "{0} is a research infrastructure for language data. We create and maintain language data analysed with state-of-the-art language technology methods for researchers everywhere, and take pride in providing free and open access where possible."
 home.hero.mink: "{0} is our effort to put Språkbanken Text’s research infrastructure into the hands of the researchers. You can use Mink to apply our language technology methods on texts that you have collected yourself. The resulting data can be downloaded or made available through our research tools, such as Korp and Strix, behind login."
 home.hero.privacy: Your source data and the results are private (see {0}). Forthcoming versions will include features for sharing datasets with teams and publishing them publicly.
@@ -6,13 +8,17 @@ home.hero.privacy.link.url: https://spraakbanken.gu.se/en/tools/mink/data-policy
 home.hero.privacy.link.label: Privacy and data policy
 home.features.sparv.title: Configurable language technology analysis
 home.features.sparv.body: Your language data are analyzed by our language technology platform {sparv} according to your settings.
+home.features.sparv.alt: Screenshot of a configuration form with labels and buttons
 home.features.upload.title: Deposit your text
 home.features.upload.body: Upload your word-processor documents, PDFs, plain text files or XML data. When using XML, the output of the analyses is added while keeping the input structure intact.
+home.features.upload.alt: Screenshot of a list of filenames and an upload area
 home.features.explore.title: Explore in Korp and Strix
 home.features.explore.body: Export the resulting data, for search and statistical analysis, to {korp} and {strix}.
+home.features.explore.alt: Screenshot of the Korp search tool
 home.features.share.title: Share and collaborate
 home.features.share.body: Invite fellow researchers to view your data in our research tools, protected by login. If you want to share your data with the research community, contact us to discuss publication.
 home.features.share.upcoming: These features are scheduled for upcoming versions of Mink.
+home.features.share.alt: Screenshot from an access management system
 home.otherdata.title: Mink or no Mink?
 home.otherdata.body: Make sure to first get acquainted with any existing language data sets related to your interests! Språkbanken's growing collection of research data can be browsed on the {0} section of our website. At a larger scale, Språkbanken forms a part of the CLARIN ERIC, whose collected assortment of data can be browsed in the {1}.
 home.otherdata.sbdata.title: "Språkbanken Text: Language resources"
@@ -108,6 +114,7 @@ expand.open: Show all
 expand.close: Hide some
 show: Show
 select: Select...
+locale.switcher.label: Interface language
 en: English
 sv: Swedish
 metadata: Metadata
@@ -128,6 +135,7 @@ upload: Upload
 uploaded: Uploaded
 lastModify: Last modified
 fileSize: Size
+file.operations: Operations
 delete: Delete
 original: Original
 public_id: Public identifier
@@ -181,6 +189,7 @@ load: Load
 not_loaded: Not loaded
 file.archive: Archive
 file.singles: Single files
+save.no_changes: There are no changes to save
 name: Name
 metadata.name.help: You can use spaces and special characters.
 identifier: Identifier
@@ -191,7 +200,7 @@ metadata.description.help: |
   If you aim to share or publish the results, we recommend entering one or two sentences
   to summarize the content or purpose to a potential user.
 fileFormat: Source format
-config.custom: Custom configuration
+config.custom: Custom config
 config.custom.help: Mink uses {sparv}, a modular and configurable pipeline for text analysis, to process your corpus. The standard configuration form only exposes a few of the available Sparv options. On this page, you can view and submit your own config file, written in the YAML format. Please refer to the Sparv documentation on {topic} for more information.
 config.custom.upload.caution: Please note that submitting an invalid config file may cause unexpected behaviour.
 config.custom.upload.overwrite: Saving the standard configuration form may overwrite your custom config.
@@ -208,8 +217,8 @@ timespan_from: From
 timespan_to: To
 edit: Edit
 annotations: Annotations
-annotations.ner: Named entity recognition
-annotations.ner.help: Named entity recognition (NER) finds individuals, places, dates and more in your texts. However, it significantly slows down processing.
+annotations.ner: Named entity recognition and geotagging
+annotations.ner.help: Named entity recognition (NER) finds individuals, places, dates and more in your texts. However, it significantly slows down processing. Enabling NER also enables geotagging and, in turn, the map feature in Korp.
 annotations.info: |
   <p>
     We are working on making it possible to choose among more methods, annotations and models to be used in the analysis.
@@ -237,6 +246,8 @@ accessdenied.contact: If you have questions, or you want to report a bug, please
 notfound: Page not found
 notfound.description: Something went wrong, and there is nothing to see at this address.
 notfound.contact: If you have questions, or you want to report a bug, please contact sb-info{'@'}svenska.gu.se. Thank you!
+yaml.valid: YAML is valid
+yaml.invalid: YAML is invalid
 
 # These correspond to the `return_code` param of backend responses
 api.code.missing_auth_token: Missing authorization token

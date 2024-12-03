@@ -5,6 +5,7 @@ import router from "@/router/router";
 import App from "@/App.vue";
 import i18n from "@/i18n/i18n";
 import "@/index.css";
+import "@fontsource-variable/source-sans-3";
 
 const pinia = createPinia();
 

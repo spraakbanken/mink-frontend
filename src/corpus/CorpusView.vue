@@ -25,11 +25,15 @@ requireAuthentication(async () => {
     <template v-if="corpus">
       <PageTitle subtitle="corpus">
         <router-link
+          v-if="$route.path != `/library/corpus/${corpusId}`"
           :to="`/library/corpus/${corpusId}`"
-          class="text-inherit hover:underline"
+          class="text-inherit no-underline hover:underline"
         >
           {{ corpusName || corpusId }}
         </router-link>
+        <template v-else>
+          {{ corpusName || corpusId }}
+        </template>
       </PageTitle>
       <router-view />
     </template>

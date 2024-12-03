@@ -20,7 +20,7 @@ defineEmits<{
 <template>
   <div class="flex flex-col gap-2">
     <div class="flex flex-wrap gap-2 justify-between items-baseline">
-      <h3 class="font-bold">{{ name }}</h3>
+      <h3 class="font-semibold">{{ name }}</h3>
 
       <div class="flex gap-2 justify-end items-baseline">
         <ActionButton

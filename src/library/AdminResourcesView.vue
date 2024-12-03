@@ -54,7 +54,7 @@ async function load(resourceId: string) {
         >
           <div class="flex items-baseline gap-2">
             <router-link :to="`/library/resource/${resourceId}`">
-              <header class="text-lg font-bold font-mono">
+              <header class="text-lg font-semibold font-mono">
                 {{ resourceId }}
               </header>
             </router-link>

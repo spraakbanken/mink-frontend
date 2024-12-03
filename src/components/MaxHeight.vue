@@ -18,6 +18,7 @@ const [expanded, toggleExpanded] = useToggle();
   <div>
     <!-- Outer wrapper, whose height gets limited -->
     <div
+      class="overflow-auto"
       :class="{ mask: !expanded && height > maxHeight }"
       :style="{
         // Set max height to slightly less than requested, to avoid ridiculously small differences between closed and expanded heights.

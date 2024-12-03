@@ -6,7 +6,10 @@ import "vue-router";
 declare module "vue-router" {
   interface RouteMeta {
     title?: string;
-    createTitle?: (params: RouteParams, corpusId: string) => string;
+    createTitle?: (
+      params: RouteParams,
+      resourceName?: string,
+    ) => string | undefined;
   }
 }
 

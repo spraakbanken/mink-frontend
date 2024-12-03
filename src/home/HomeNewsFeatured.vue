@@ -26,7 +26,7 @@ function getDate(date: Date) {
       :key="i"
       class="bg-sky-50 dark:bg-sky-800 shadow shadow-sky-200 dark:shadow-sky-600 text-sky-800 dark:text-sky-200 p-1 px-2 my-2"
     >
-      <header class="font-bold">{{ th(item.title) }}</header>
+      <header class="font-semibold">{{ th(item.title) }}</header>
 
       <time :datetime="item.created.toString()" class="my-1 text-sm italic">
         {{ getDate(item.created) }}

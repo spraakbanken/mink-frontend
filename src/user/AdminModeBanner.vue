@@ -29,15 +29,9 @@ function disable() {
         {{ $t("disable") }}
       </ActionButton>
       {{ $t("admin.goto") }}:
-      <router-link to="/admin/resources">
+      <router-link to="/admin/resources" class="text-inherit">
         {{ $t("resources") }}
       </router-link>
     </div>
   </div>
 </template>
-
-<style scoped>
-a {
-  @apply text-indigo-600;
-}
-</style>

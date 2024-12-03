@@ -32,7 +32,7 @@ const hasStarted = computed(
         <span v-if="jobStatus.current_process">
           {{ $t(`job.process.${jobStatus.current_process}`) }}:
         </span>
-        <JobStatusMessage :corpus-id="corpusId" class="font-bold" />
+        <JobStatusMessage :corpus-id="corpusId" />
       </div>
 
       <ActionButton

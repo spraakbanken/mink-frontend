@@ -26,27 +26,27 @@ export default function useJob(corpusId: string) {
   }
 
   async function runJob() {
-    matomo?.trackEvent("Corpus", "Run annotation", corpusId);
+    matomo?.trackEvent("Corpus", "Annotation", "Start");
     const info = await mink.runJob(corpusId).catch(alertError);
     corpus.value.status = info.job;
   }
 
   async function installKorp() {
-    matomo?.trackEvent("Tool", "Install corpus in Korp", corpusId);
+    matomo?.trackEvent("Corpus", "Tool install", "Korp");
     const info = await mink.installKorp(corpusId).catch(alertError);
     if (!info) return;
     corpus.value.status = info.job;
   }
 
   async function installStrix() {
-    matomo?.trackEvent("Tool", "Install corpus in Strix", corpusId);
+    matomo?.trackEvent("Corpus", "Tool install", "Strix");
     const info = await mink.installStrix(corpusId).catch(alertError);
     if (!info) return;
     corpus.value.status = info.job;
   }
 
   async function abortJob() {
-    matomo?.trackEvent("Corpus", "Abort annotation", corpusId);
+    matomo?.trackEvent("Corpus", "Annotation", "Abort");
     await mink.abortJob(corpusId).catch(alertError);
     await loadJob();
   }

@@ -29,6 +29,6 @@ const srcLight = computed(() =>
 <template>
   <picture>
     <source media="(prefers-color-scheme: dark)" :srcset="srcLight" />
-    <img :src="src" alt="Språkbanken Text" :class="[large ? 'h-24' : 'h-16']" />
+    <img :src="src" :alt="$t('logo.alt')" :class="[large ? 'h-24' : 'h-16']" />
   </picture>
 </template>
