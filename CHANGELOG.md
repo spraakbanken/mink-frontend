@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Fixed
+
+- Updated screenshots
+
 ## [1.7.1] (2024-12-03)
 
 ### Added
