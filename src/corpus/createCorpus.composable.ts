@@ -9,6 +9,7 @@ import {
   makeConfig,
   type FileFormat,
   type ConfigOptions,
+  emptyConfig,
 } from "@/api/corpusConfig";
 import type { MinkResponse, ProgressHandler } from "@/api/api.types";
 import useCreateResource from "@/resource/createResource.composable";
@@ -37,7 +38,8 @@ export default function useCreateCorpus() {
     const format = getFilenameExtension(files[0]?.name) as FileFormat;
 
     // Create a minimal config.
-    const config: ConfigOptions = {
+    const config = {
+      ...emptyConfig(),
       name: { swe: corpusId, eng: corpusId },
       format,
     };
@@ -87,6 +89,7 @@ export default function useCreateCorpus() {
     textAnnotation?: string,
   ): Promise<string | undefined> {
     const config = {
+      ...emptyConfig(),
       name: { swe: name, eng: name },
       description: { swe: description, eng: description },
       format,

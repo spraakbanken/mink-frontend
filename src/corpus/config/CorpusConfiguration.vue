@@ -101,9 +101,20 @@ async function submit(fields: Form) {
     format: fields.format,
     textAnnotation: fields.textAnnotation,
     sentenceSegmenter: fields.sentenceSegmenter,
-    datetimeFrom: fields.datetimeFrom,
-    datetimeTo: fields.datetimeTo,
-    enableNer: fields.enableNer,
+    annotations: {
+      datetime: {
+        from: fields.datetimeFrom,
+        to: fields.datetimeTo,
+      },
+      // TODO Configurable
+      lexical_classes: true,
+      readability: true,
+      saldo: true,
+      sensaldo: true,
+      stanza: true,
+      swener: fields.enableNer,
+      wsd: true,
+    },
   };
 
   try {
@@ -237,13 +248,13 @@ async function submit(fields: Form) {
             name="datetimeFrom"
             type="date"
             :label="`${$t('timespan')}: ${$t('timespan_from')}`"
-            :value="configOptions?.datetimeFrom"
+            :value="configOptions?.annotations.datetime?.from"
           />
           <FormKit
             name="datetimeTo"
             type="date"
             :label="`${$t('timespan')}: ${$t('timespan_to')}`"
-            :value="configOptions?.datetimeTo"
+            :value="configOptions?.annotations.datetime?.to"
             :help="$t('timespan_help')"
           />
 
@@ -251,7 +262,7 @@ async function submit(fields: Form) {
             <FormKit
               name="enableNer"
               :label="$t('annotations.ner')"
-              :value="configOptions?.enableNer"
+              :value="configOptions?.annotations.swener"
               type="checkbox"
               :help="$t('annotations.ner.help')"
             />

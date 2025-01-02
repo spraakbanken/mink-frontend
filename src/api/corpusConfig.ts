@@ -20,8 +20,8 @@ export type ConfigOptions = {
 
 export type AnnotationOptions = {
   datetime?: {
-    datetimeFrom: string;
-    datetimeTo: string;
+    from: string;
+    to: string;
   };
   lexical_classes?: boolean;
   readability?: boolean;
@@ -159,7 +159,7 @@ export function makeConfig(id: string, options: ConfigOptions): string {
         params: {
           out: "<text>:misc.datefrom",
           chunk: "<text>",
-          value: annotations.datetime.datetimeFrom,
+          value: annotations.datetime.from,
         },
       },
       {
@@ -167,7 +167,7 @@ export function makeConfig(id: string, options: ConfigOptions): string {
         params: {
           out: "<text>:misc.dateto",
           chunk: "<text>",
-          value: annotations.datetime.datetimeTo,
+          value: annotations.datetime.to,
         },
       },
     ];
@@ -257,7 +257,7 @@ export function parseConfig(configYaml: string): ConfigOptions {
     (a: any) => a.params.out == "<text>:misc.dateto",
   )?.params.value;
   if (datetimeFrom && datetimeTo)
-    options.annotations.datetime = { datetimeFrom, datetimeTo };
+    options.annotations.datetime = { from: datetimeFrom, to: datetimeTo };
 
   options.annotations.swener =
     config.export?.annotations?.includes("swener.ne");

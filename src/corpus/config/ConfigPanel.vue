@@ -72,19 +72,23 @@ const { th } = useLocale();
       </tr>
       <tr>
         <th>{{ $t("timespan") }}</th>
-        <td v-if="configOptions?.datetimeFrom || configOptions?.datetimeTo">
+        <td v-if="configOptions?.annotations.datetime">
           <span class="whitespace-nowrap">{{
-            configOptions.datetimeFrom
+            configOptions.annotations.datetime.from
           }}</span>
           –
-          <span class="whitespace-nowrap">{{ configOptions.datetimeTo }}</span>
+          <span class="whitespace-nowrap">{{
+            configOptions.annotations.datetime.to
+          }}</span>
         </td>
         <td v-else>—</td>
       </tr>
       <tr>
         <th>{{ $t("annotations.ner") }}</th>
         <td v-if="configOptions">
-          {{ configOptions.enableNer ? $t("enabled") : $t("disabled") }}
+          {{
+            configOptions.annotations.swener ? $t("enabled") : $t("disabled")
+          }}
         </td>
         <td v-else>—</td>
       </tr>

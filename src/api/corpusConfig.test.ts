@@ -58,8 +58,8 @@ describe("makeConfig", () => {
       format: "pdf",
       annotations: {
         datetime: {
-          datetimeFrom: "2000-01-01",
-          datetimeTo: "2023-12-31",
+          from: "2000-01-01",
+          to: "2023-12-31",
         },
       },
     });
@@ -136,8 +136,8 @@ describe("parseConfig", () => {
       sentenceSegmenter: "linebreaks",
       annotations: {
         datetime: {
-          datetimeFrom: "2000-01-01",
-          datetimeTo: "2023-12-31",
+          from: "2000-01-01",
+          to: "2023-12-31",
         },
         lexical_classes: true,
         saldo: true,
