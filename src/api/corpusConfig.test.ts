@@ -139,13 +139,14 @@ describe("parseConfig", () => {
           from: "2000-01-01",
           to: "2023-12-31",
         },
-        lexical_classes: true,
+        lexicalClasses: true,
+        msd: true,
+        readability: true,
         saldo: true,
         sensaldo: true,
-        stanza: true,
         swener: true,
+        ud: true,
         wsd: true,
-        readability: true,
       },
     };
     expect(config).toStrictEqual(expected);

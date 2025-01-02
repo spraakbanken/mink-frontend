@@ -44,7 +44,14 @@ type Form = {
   sentenceSegmenter: ConfigSentenceSegmenter;
   datetimeFrom: string;
   datetimeTo: string;
-  enableNer: boolean;
+  lexicalClasses: boolean;
+  msd: boolean;
+  readability: boolean;
+  saldo: boolean;
+  sensaldo: boolean;
+  swener: boolean;
+  ud: boolean;
+  wsd: boolean;
 };
 
 const configOptions = computed(getParsedConfig);
@@ -93,6 +100,7 @@ function getParsedConfig() {
 async function submit(fields: Form) {
   // If there is no previous config file, start from a minimal one.
   const configOld = configOptions.value || emptyConfig();
+
   // Merge new form values with existing config.
   const configNew: ConfigOptions = {
     ...configOld,
@@ -102,18 +110,23 @@ async function submit(fields: Form) {
     textAnnotation: fields.textAnnotation,
     sentenceSegmenter: fields.sentenceSegmenter,
     annotations: {
-      datetime: {
-        from: fields.datetimeFrom,
-        to: fields.datetimeTo,
-      },
+      // TODO Warn if only one is set
+      datetime:
+        fields.datetimeFrom && fields.datetimeTo
+          ? {
+              from: fields.datetimeFrom,
+              to: fields.datetimeTo,
+            }
+          : undefined,
       // TODO Configurable
-      lexical_classes: true,
-      readability: true,
-      saldo: true,
-      sensaldo: true,
-      stanza: true,
-      swener: fields.enableNer,
-      wsd: true,
+      lexicalClasses: fields.lexicalClasses,
+      msd: fields.msd,
+      readability: fields.readability,
+      saldo: fields.saldo,
+      sensaldo: fields.sensaldo,
+      swener: fields.swener,
+      ud: fields.ud,
+      wsd: fields.wsd,
     },
   };
 
@@ -259,16 +272,97 @@ async function submit(fields: Form) {
           />
 
           <LayoutSection :title="$t('annotations')">
+            <div class="prose">
+              <i18n-t tag="p" keypath="annotations.info">
+                <template #custom_config>
+                  <router-link
+                    :to="`/library/corpus/${corpusId}/config/custom`"
+                  >
+                    {{ $t("config.custom") }}
+                  </router-link>
+                </template>
+              </i18n-t>
+            </div>
+
+            <!-- Annotation options in some sort of order of usefulness -->
+
             <FormKit
-              name="enableNer"
-              :label="$t('annotations.ner')"
-              :value="configOptions?.annotations.swener"
+              name="saldo"
+              :label="$t('annotations.saldo')"
+              :value="configOptions?.annotations.saldo"
               type="checkbox"
-              :help="$t('annotations.ner.help')"
+              :help="$t('annotations.saldo.help')"
+            >
+              <template #help>
+                <i18n-t
+                  keypath="annotations.saldo.help"
+                  tag="div"
+                  class="formkit-help"
+                >
+                  <template #saldo>
+                    <a :href="$t('annotations.saldo.saldo_url')" target="_blank"
+                      >SALDO</a
+                    >
+                  </template>
+                </i18n-t>
+              </template>
+            </FormKit>
+
+            <FormKit
+              name="msd"
+              :label="$t('annotations.msd')"
+              :value="configOptions?.annotations.msd"
+              type="checkbox"
+              :help="$t('annotations.msd.help')"
             />
 
-            <!-- eslint-disable-next-line vue/no-v-html -->
-            <div class="prose" v-html="$t('annotations.info')" />
+            <FormKit
+              name="ud"
+              :label="$t('annotations.ud')"
+              :value="configOptions?.annotations.ud"
+              type="checkbox"
+              :help="$t('annotations.ud.help')"
+            />
+
+            <FormKit
+              name="readability"
+              :label="$t('annotations.readability')"
+              :value="configOptions?.annotations.readability"
+              type="checkbox"
+              :help="$t('annotations.readability.help')"
+            />
+
+            <FormKit
+              name="wsd"
+              :label="$t('annotations.wsd')"
+              :value="configOptions?.annotations.wsd"
+              type="checkbox"
+              :help="$t('annotations.wsd.help')"
+            />
+
+            <FormKit
+              name="sensaldo"
+              :label="$t('annotations.sensaldo')"
+              :value="configOptions?.annotations.sensaldo"
+              type="checkbox"
+              :help="$t('annotations.sensaldo.help')"
+            />
+
+            <FormKit
+              name="lexicalClasses"
+              :label="$t('annotations.lexical_classes')"
+              :value="configOptions?.annotations.lexicalClasses"
+              type="checkbox"
+              :help="$t('annotations.lexical_classes.help')"
+            />
+
+            <FormKit
+              name="swener"
+              :label="$t('annotations.swener')"
+              :value="configOptions?.annotations.swener"
+              type="checkbox"
+              :help="$t('annotations.swener.help')"
+            />
           </LayoutSection>
         </LayoutSection>
       </FormKit>
