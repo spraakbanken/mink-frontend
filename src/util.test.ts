@@ -4,7 +4,6 @@ import {
   enarray,
   ensureExtension,
   formatDate,
-  formatSeconds,
   getException,
   getFilenameExtension,
   keyBy,
@@ -43,18 +42,6 @@ describe("enarray", () => {
 describe("formatDate", () => {
   test("formats a date", () => {
     expect(formatDate("2022-11-30T12:44:37.735Z")).toBe("2022-11-30 12:44:37");
-  });
-});
-
-describe("formatSeconds", () => {
-  test("less than a minute", () => {
-    expect(formatSeconds(59.4)).toBe("59 s");
-  });
-  test("a minute", () => {
-    expect(formatSeconds(59.5)).toBe("1 min 0 s");
-  });
-  test("more than two minutes", () => {
-    expect(formatSeconds(121)).toBe("2 min 1 s");
   });
 });
 
