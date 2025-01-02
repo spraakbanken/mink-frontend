@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
 import useLocale from "@/i18n/locale.composable";
 import useConfig from "@/corpus/config/config.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
@@ -8,6 +10,22 @@ import TerminalOutput from "@/components/TerminalOutput.vue";
 const corpusId = useCorpusIdParam();
 const { configOptions } = useConfig(corpusId);
 const { th } = useLocale();
+const { t } = useI18n();
+
+const annotationsSummary = computed(() => {
+  const annotations = configOptions.value?.annotations || {};
+  const selected: string[] = [];
+  if (annotations.lexicalClasses) selected.push("lexical_classes");
+  if (annotations.msd) selected.push("msd");
+  if (annotations.readability) selected.push("readability");
+  if (annotations.saldo) selected.push("saldo");
+  if (annotations.sensaldo) selected.push("sensaldo");
+  if (annotations.swener) selected.push("swener");
+  if (annotations.ud) selected.push("ud");
+  if (annotations.wsd) selected.push("wsd");
+  if (!selected.length) return "—";
+  return selected.map((key) => t(`annotations.${key}`)).join(", ");
+});
 </script>
 
 <template>
@@ -84,11 +102,9 @@ const { th } = useLocale();
         <td v-else>—</td>
       </tr>
       <tr>
-        <th>{{ $t("annotations.ner") }}</th>
+        <th>{{ $t("annotations") }}</th>
         <td v-if="configOptions">
-          {{
-            configOptions.annotations.swener ? $t("enabled") : $t("disabled")
-          }}
+          {{ annotationsSummary }}
         </td>
         <td v-else>—</td>
       </tr>
