@@ -15,9 +15,21 @@ export type ConfigOptions = {
   description?: ByLang;
   textAnnotation?: string;
   sentenceSegmenter?: ConfigSentenceSegmenter;
-  datetimeFrom?: string;
-  datetimeTo?: string;
-  enableNer?: boolean;
+  annotations: AnnotationOptions;
+};
+
+export type AnnotationOptions = {
+  datetime?: {
+    datetimeFrom: string;
+    datetimeTo: string;
+  };
+  lexical_classes?: boolean;
+  readability?: boolean;
+  saldo?: boolean;
+  sensaldo?: boolean;
+  stanza?: boolean;
+  swener?: boolean;
+  wsd?: boolean;
 };
 
 const FORMATS: Record<FileFormat, string> = {
@@ -39,61 +51,27 @@ export function makeConfig(id: string, options: ConfigOptions): string {
     description,
     textAnnotation,
     sentenceSegmenter,
-    datetimeFrom,
-    datetimeTo,
-    enableNer,
+    annotations,
   } = options;
-
-  const config: Partial<SparvConfig> = {
-    metadata: {
-      id,
-      name,
-      description,
-    },
-  };
 
   if (!format) {
     throw new TypeError("File format must be set.");
   }
 
-  config.import = {
-    importer: FORMATS[format],
+  const config: SparvConfig = {
+    metadata: {
+      id,
+      name,
+      description,
+    },
+    import: {
+      importer: FORMATS[format],
+    },
+    segment: sentenceSegmenter ? { sentence_segmenter: sentenceSegmenter } : {},
+    export: {},
   };
 
-  if (sentenceSegmenter) {
-    config.segment = { sentence_segmenter: sentenceSegmenter };
-  }
-
-  config.export = {
-    annotations: [
-      "<token>:saldo.baseform2 as lemma",
-      "<token>:saldo.lemgram as lex",
-      "<token>:wsd.sense",
-      "<token>:saldo.compwf",
-      "<token>:saldo.complemgram",
-      "<token>:stanza.dephead_ref as dephead",
-      "<token>:stanza.ufeats",
-      "<token>:stanza.deprel",
-      "<token>:stanza.msd",
-      "<token>:stanza.pos",
-      "<token>:stanza.ref",
-      "<token>:sensaldo.sentiment_score",
-      "<token>:sensaldo.sentiment_label",
-      "<token>:lexical_classes.blingbring",
-      "<token>:lexical_classes.swefn",
-      "<token>:misc.tail as _tail",
-      "<token>:misc.head as _head",
-      "<sentence>:misc.id",
-      "<text>:lexical_classes.blingbring",
-      "<text>:lexical_classes.swefn",
-      "<text>:readability.lix",
-      "<text>:readability.ovix",
-      "<text>:readability.nk",
-      "<text>:misc.source",
-      "<text>:misc.id as _id",
-    ],
-  };
-
+  // Format-dependent settings
   if (format == "xml") {
     // The text annotation setting is required if XML, but it may be set later
     if (textAnnotation) {
@@ -104,11 +82,76 @@ export function makeConfig(id: string, options: ConfigOptions): string {
     config.export.source_annotations = ["text", "page:number"];
   }
 
-  if (datetimeFrom || datetimeTo) {
-    if (!datetimeFrom || !datetimeTo) {
-      throw new TypeError("Both or none of the timespan dates must be set.");
-    }
+  // Annotations
+  config.export.annotations = [
+    "<token>:misc.tail as _tail",
+    "<token>:misc.head as _head",
+    "<sentence>:misc.id",
+    "<text>:misc.source",
+    "<text>:misc.id as _id",
+  ];
 
+  if (annotations.lexical_classes) {
+    config.export.annotations.push(
+      "<token>:lexical_classes.blingbring",
+      "<token>:lexical_classes.swefn",
+      "<text>:lexical_classes.blingbring",
+      "<text>:lexical_classes.swefn",
+    );
+  }
+
+  if (annotations.readability) {
+    config.export.annotations.push(
+      "<text>:readability.lix",
+      "<text>:readability.ovix",
+      "<text>:readability.nk",
+    );
+  }
+
+  if (annotations.saldo) {
+    config.export.annotations.push(
+      "<token>:saldo.baseform2 as lemma",
+      "<token>:saldo.lemgram as lex",
+      "<token>:saldo.compwf",
+      "<token>:saldo.complemgram",
+    );
+  }
+
+  if (annotations.sensaldo) {
+    config.export.annotations.push(
+      "<token>:sensaldo.sentiment_score",
+      "<token>:sensaldo.sentiment_label",
+    );
+  }
+
+  if (annotations.stanza) {
+    config.export.annotations.push(
+      "<token>:stanza.dephead_ref as dephead",
+      "<token>:stanza.ufeats",
+      "<token>:stanza.deprel",
+      "<token>:stanza.msd",
+      "<token>:stanza.pos",
+      "<token>:stanza.ref",
+    );
+  }
+
+  // Enable named entity recognition.
+  if (annotations.swener) {
+    config.export.annotations.push(
+      "swener.ne",
+      "swener.ne:swener.name",
+      "swener.ne:swener.ex",
+      "swener.ne:swener.type",
+      "swener.ne:swener.subtype",
+      "<sentence>:geo.geo_context as _geocontext",
+    );
+  }
+
+  if (annotations.wsd) {
+    config.export.annotations.push("<token>:wsd.sense");
+  }
+
+  if (annotations.datetime) {
     // Add annotations on the text level with custom values
     config.custom_annotations = [
       {
@@ -116,7 +159,7 @@ export function makeConfig(id: string, options: ConfigOptions): string {
         params: {
           out: "<text>:misc.datefrom",
           chunk: "<text>",
-          value: datetimeFrom,
+          value: annotations.datetime.datetimeFrom,
         },
       },
       {
@@ -124,13 +167,13 @@ export function makeConfig(id: string, options: ConfigOptions): string {
         params: {
           out: "<text>:misc.dateto",
           chunk: "<text>",
-          value: datetimeTo,
+          value: annotations.datetime.datetimeTo,
         },
       },
     ];
 
     // Enable annotations from the `dateformat` module
-    config.export.annotations!.push(
+    config.export.annotations.push(
       "<text>:dateformat.datefrom",
       "<text>:dateformat.dateto",
       "<text>:dateformat.timefrom",
@@ -145,33 +188,35 @@ export function makeConfig(id: string, options: ConfigOptions): string {
     };
   }
 
-  // Enable named entity recognition.
-  if (enableNer) {
-    config.export.annotations!.push(
-      "swener.ne",
-      "swener.ne:swener.name",
-      "swener.ne:swener.ex",
-      "swener.ne:swener.type",
-      "swener.ne:swener.subtype",
-      "<sentence>:geo.geo_context as _geocontext",
-    );
-  }
-
   return Yaml.dump(config as SparvConfig);
 }
 
+/** Default values */
 export function emptyConfig(): ConfigOptions {
   return {
     name: { swe: "", eng: "" },
     description: { swe: "", eng: "" },
     format: "txt",
+    annotations: {
+      datetime: undefined,
+      lexical_classes: true,
+      readability: true,
+      saldo: true,
+      sensaldo: true,
+      stanza: true,
+      swener: false,
+      wsd: true,
+    },
   };
 }
 
 /**
  * Parse a Sparv config YAML string.
  *
- * May throw all kinds of errors, the sky is the limit.
+ * This is designed to reinflate a yaml written by `makeConfig()`.
+ * When parsing a hand-written yaml, the result may be incomplete or excessive.
+ *
+ * May throw all kinds of errors, the sky is the limit (:
  */
 export function parseConfig(configYaml: string): ConfigOptions {
   const config = Yaml.load(configYaml) as any;
@@ -187,26 +232,37 @@ export function parseConfig(configYaml: string): ConfigOptions {
   if (!format)
     throw new TypeError(`Unrecognized importer: "${config.import.importer}"`);
 
+  // Extract metadata
   const name = config.metadata?.name;
   if (!name)
     throw new TypeError(`Name missing in metadata: ${config.metadata}`);
   if (!name.swe || !name.eng)
     throw new TypeError(`Name must contain swe and eng: ${name}`);
 
-  return {
+  // Build options object
+  const options = {
+    ...emptyConfig(),
     format,
     name,
     description: config.metadata.description,
-    textAnnotation: config.import?.text_annotation,
+    textAnnotation: config.import.text_annotation,
     sentenceSegmenter: config.segment?.sentence_segmenter,
-    datetimeFrom: config.custom_annotations?.find(
-      (a: any) => a.params.out == "<text>:misc.datefrom",
-    )?.params.value,
-    datetimeTo: config.custom_annotations?.find(
-      (a: any) => a.params.out == "<text>:misc.dateto",
-    )?.params.value,
-    enableNer: config.export?.annotations?.includes("swener.ne"),
   };
+
+  // Identify annotations
+  const datetimeFrom = config.custom_annotations?.find(
+    (a: any) => a.params.out == "<text>:misc.datefrom",
+  )?.params.value;
+  const datetimeTo = config.custom_annotations?.find(
+    (a: any) => a.params.out == "<text>:misc.dateto",
+  )?.params.value;
+  if (datetimeFrom && datetimeTo)
+    options.annotations.datetime = { datetimeFrom, datetimeTo };
+
+  options.annotations.swener =
+    config.export?.annotations?.includes("swener.ne");
+
+  return options;
 }
 
 /** Check if the config looks ready to run. May throw anything. */
