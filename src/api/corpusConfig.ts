@@ -263,26 +263,27 @@ export function parseConfig(configYaml: string): ConfigOptions {
   if (datetimeFrom && datetimeTo)
     options.annotations.datetime = { from: datetimeFrom, to: datetimeTo };
 
-  options.annotations.lexicalClasses = config.export.annotations.includes(
+  options.annotations.lexicalClasses = config.export?.annotations?.includes(
     "<token>:lexical_classes.swefn",
   );
   options.annotations.msd =
-    config.export.annotations.includes("<token>:stanza.msd");
-  options.annotations.readability = config.export.annotations.includes(
+    config.export?.annotations?.includes("<token>:stanza.msd");
+  options.annotations.readability = config.export?.annotations?.includes(
     "<text>:readability.lix",
   );
-  options.annotations.saldo = config.export.annotations.includes(
+  options.annotations.saldo = config.export?.annotations?.includes(
     "<token>:saldo.baseform2 as lemma",
   );
-  options.annotations.sensaldo = config.export.annotations.includes(
+  options.annotations.sensaldo = config.export?.annotations?.includes(
     "<token>:sensaldo.sentiment_score",
   );
-  options.annotations.swener = config.export.annotations.includes("swener.ne");
-  options.annotations.ud = config.export.annotations.includes(
+  options.annotations.swener =
+    config.export?.annotations?.includes("swener.ne");
+  options.annotations.ud = config.export?.annotations?.includes(
     "<token>:stanza.dephead_ref as dephead",
   );
   options.annotations.wsd =
-    config.export.annotations.includes("<token>:wsd.sense");
+    config.export?.annotations?.includes("<token>:wsd.sense");
 
   return options;
 }

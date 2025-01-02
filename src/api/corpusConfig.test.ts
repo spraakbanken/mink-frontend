@@ -124,7 +124,7 @@ describe("parseConfig", () => {
         { params: { out: "<text>:misc.dateto", value: "2023-12-31" } },
       ],
       export: {
-        annotations: ["swener.ne"],
+        annotations: ["<text>:readability.lix", "swener.ne"],
       },
     });
     const config = parseConfig(configYaml);
@@ -139,14 +139,14 @@ describe("parseConfig", () => {
           from: "2000-01-01",
           to: "2023-12-31",
         },
-        lexicalClasses: true,
-        msd: true,
+        lexicalClasses: false,
+        msd: false,
         readability: true,
-        saldo: true,
-        sensaldo: true,
+        saldo: false,
+        sensaldo: false,
         swener: true,
-        ud: true,
-        wsd: true,
+        ud: false,
+        wsd: false,
       },
     };
     expect(config).toStrictEqual(expected);
