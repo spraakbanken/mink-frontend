@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import once from "lodash/once";
+import { once } from "es-toolkit";
 import { PhArrowsClockwise, PhDownloadSimple } from "@phosphor-icons/vue";
 import { downloadFile } from "@/util";
 import ActionButton from "@/components/ActionButton.vue";

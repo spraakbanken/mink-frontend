@@ -6,7 +6,6 @@ import {
   formatDate,
   getException,
   getFilenameExtension,
-  keyBy,
   objsToDict,
   pathJoin,
   randomString,
@@ -194,46 +193,5 @@ describe("objsToDict", () => {
     // @ts-expect-error
     const dict = objsToDict([{ k: "a" }], "k", "v");
     expect(dict).toEqual({ a: undefined });
-  });
-});
-
-describe("keyBy", () => {
-  test("string keys", () => {
-    const objs = [
-      { name: "Alice", age: 40 },
-      { name: "Bob", age: 50 },
-    ];
-    const dict = {
-      Alice: { name: "Alice", age: 40 },
-      Bob: { name: "Bob", age: 50 },
-    };
-    expect(keyBy(objs, "name")).toEqual(dict);
-  });
-  test("number keys", () => {
-    const objs = [
-      { name: "Alice", age: 40 },
-      { name: "Bob", age: 50 },
-    ];
-    const dict = {
-      40: { name: "Alice", age: 40 },
-      50: { name: "Bob", age: 50 },
-    };
-    expect(keyBy(objs, "age")).toEqual(dict);
-  });
-  test("key collision", () => {
-    const objs = [
-      { name: "Alice", age: 40 },
-      { name: "Bob", age: 40 },
-    ];
-    const dict = {
-      40: { name: "Bob", age: 40 },
-    };
-    expect(keyBy(objs, "age")).toEqual(dict);
-  });
-  test("key missing", () => {
-    const objs = [{ age: 40 }];
-    const dict = { undefined: { age: 40 } };
-    // @ts-expect-error
-    expect(keyBy(objs, "name")).toEqual(dict);
   });
 });

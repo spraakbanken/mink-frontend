@@ -1,4 +1,4 @@
-import clone from "lodash/clone";
+import { clone } from "es-toolkit";
 
 /** The number of milliseconds in a full day. */
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -131,14 +131,4 @@ export const objsToDict = <
   objs.reduce(
     (dict, item) => ({ ...dict, [item[keyName]]: item[valueName] }),
     {} as Record<T[K1], T[K2]>,
-  );
-
-/** Like lodash/keyBy but slightly more restrictive in range and typing. */
-export const keyBy = <T extends Record<K, keyof any>, K extends keyof T>(
-  objs: T[],
-  prop: K,
-): Record<T[K], T> =>
-  objs.reduce(
-    (obj, item) => ({ ...obj, [String(item[prop])]: item }),
-    {} as Record<T[K], T>,
   );
