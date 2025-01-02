@@ -220,7 +220,7 @@ edit: Redigera
 annotations: Annotationer
 annotations.info: Här listas tillval för några av de tillgängliga analyserna. Mer utförlig konfiguration kan göras på sidan {custom_config}.
 annotations.lexical_classes: Lexikala klasser
-annotations.lexical_classes.help: Mappar ord till Blingbring och Svenskt frasnät (SweFN).
+annotations.lexical_classes.help: Mappar till Blingbring och Svenskt frasnät (SweFN).
 annotations.msd: Morfologi
 annotations.msd.help: Ordklass och morfosyntaktiska egenskaper.
 annotations.readability: Läsbarhet

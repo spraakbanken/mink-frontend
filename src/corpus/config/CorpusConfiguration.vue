@@ -273,7 +273,7 @@ async function submit(fields: Form) {
 
           <LayoutSection :title="$t('annotations')">
             <div class="prose">
-              <i18n-t tag="p" keypath="annotations.info">
+              <i18n-t tag="p" keypath="annotations.info" scope="global">
                 <template #custom_config>
                   <router-link
                     :to="`/library/corpus/${corpusId}/config/custom`"
@@ -295,8 +295,9 @@ async function submit(fields: Form) {
             >
               <template #help>
                 <i18n-t
-                  keypath="annotations.saldo.help"
                   tag="div"
+                  keypath="annotations.saldo.help"
+                  scope="global"
                   class="formkit-help"
                 >
                   <template #saldo>

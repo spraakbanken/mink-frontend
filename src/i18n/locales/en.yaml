@@ -219,7 +219,7 @@ edit: Edit
 annotations: Annotations
 annotations.info: Listed for selection here are some of the available analyses. For more detailed configuration, please use the {custom_config} page.
 annotations.lexical_classes: Lexical classes
-annotations.lexical_classes.help: Maps words to Blingbring and the Swedish FrameNet (SweFN).
+annotations.lexical_classes.help: Maps units to Blingbring and the Swedish FrameNet (SweFN).
 annotations.msd: Morphology
 annotations.msd.help: Parts-of-speech and morphosyntactic features.
 annotations.readability: Readability
