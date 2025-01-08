@@ -118,7 +118,6 @@ async function submit(fields: Form) {
               to: fields.datetimeTo,
             }
           : undefined,
-      // TODO Configurable
       lexicalClasses: fields.lexicalClasses,
       msd: fields.msd,
       readability: fields.readability,
