@@ -145,7 +145,7 @@ describe("parseConfig", () => {
         saldo: false,
         sensaldo: false,
         swener: true,
-        ud: false,
+        syntax: false,
         wsd: false,
       },
     };

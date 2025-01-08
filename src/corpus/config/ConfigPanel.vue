@@ -21,7 +21,7 @@ const annotationsSummary = computed(() => {
   if (annotations.saldo) selected.push("saldo");
   if (annotations.sensaldo) selected.push("sensaldo");
   if (annotations.swener) selected.push("swener");
-  if (annotations.ud) selected.push("ud");
+  if (annotations.syntax) selected.push("syntax");
   if (annotations.wsd) selected.push("wsd");
   if (!selected.length) return "—";
   return selected.map((key) => t(`annotations.${key}`)).join(", ");

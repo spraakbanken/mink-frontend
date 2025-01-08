@@ -50,7 +50,7 @@ type Form = {
   saldo: boolean;
   sensaldo: boolean;
   swener: boolean;
-  ud: boolean;
+  syntax: boolean;
   wsd: boolean;
 };
 
@@ -124,7 +124,7 @@ async function submit(fields: Form) {
       saldo: fields.saldo,
       sensaldo: fields.sensaldo,
       swener: fields.swener,
-      ud: fields.ud,
+      syntax: fields.syntax,
       wsd: fields.wsd,
     },
   };
@@ -317,11 +317,11 @@ async function submit(fields: Form) {
             />
 
             <FormKit
-              name="ud"
-              :label="$t('annotations.ud')"
-              :value="configOptions?.annotations.ud"
+              name="syntax"
+              :label="$t('annotations.syntax')"
+              :value="configOptions?.annotations.syntax"
               type="checkbox"
-              :help="$t('annotations.ud.help')"
+              :help="$t('annotations.syntax.help')"
             />
 
             <FormKit

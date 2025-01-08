@@ -232,10 +232,10 @@ annotations.sensaldo: Sentiment
 annotations.sensaldo.help: Taggar token som positiv/neutral/negativ.
 annotations.swener: Namngivna entiteter och geotaggning
 annotations.swener.help: Namngivna entitetsigenkänning (named entity recognition, NER) hittar personer, platser, datum och liknande i dina texter genom att använda SweNER. Däremot tar analysen ganska lång tid. När NER är aktiverat görs även geotaggning, vilket aktiverar kartfunktionen i Korp.
-annotations.ud: Universal Dependencies
-annotations.ud.help: Syntaxanalys med Stanza.
-annotations.wsd: Disambiguering
-annotations.wsd.help: Använder SALDO.
+annotations.syntax: Dependenser
+annotations.syntax.help: Syntaxanalys med Stanza.
+annotations.wsd: Betydelser
+annotations.wsd.help: Ordbetydelsedisambiguering med SALDO.
 admin.page.subtitle: Administration
 admin.goto: Genvägar
 admin.resources.help: I denna administrativa resurslista behöver du ladda in detaljerad resursinformation manuellt, eftersom det tar lång tid att ladda allt.

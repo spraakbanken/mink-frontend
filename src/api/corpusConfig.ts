@@ -29,7 +29,7 @@ export type AnnotationOptions = {
   saldo?: boolean;
   sensaldo?: boolean;
   swener?: boolean;
-  ud?: boolean;
+  syntax?: boolean;
   wsd?: boolean;
 };
 
@@ -102,7 +102,11 @@ export function makeConfig(id: string, options: ConfigOptions): string {
   }
 
   if (annotations.msd) {
-    config.export.annotations.push("<token>:stanza.msd", "<token>:stanza.pos");
+    config.export.annotations.push(
+      "<token>:stanza.msd",
+      "<token>:stanza.pos",
+      "<token>:stanza.ufeats",
+    );
   }
 
   if (annotations.readability) {
@@ -141,10 +145,9 @@ export function makeConfig(id: string, options: ConfigOptions): string {
     );
   }
 
-  if (annotations.ud) {
+  if (annotations.syntax) {
     config.export.annotations.push(
       "<token>:stanza.dephead_ref as dephead",
-      "<token>:stanza.ufeats",
       "<token>:stanza.deprel",
       "<token>:stanza.ref",
     );
@@ -206,7 +209,7 @@ export function emptyConfig(): ConfigOptions {
       readability: true,
       saldo: true,
       sensaldo: true,
-      ud: true,
+      syntax: true,
       msd: true,
       swener: false,
       wsd: true,
@@ -279,7 +282,7 @@ export function parseConfig(configYaml: string): ConfigOptions {
   );
   options.annotations.swener =
     config.export?.annotations?.includes("swener.ne");
-  options.annotations.ud = config.export?.annotations?.includes(
+  options.annotations.syntax = config.export?.annotations?.includes(
     "<token>:stanza.dephead_ref as dephead",
   );
   options.annotations.wsd =

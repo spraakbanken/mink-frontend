@@ -231,8 +231,8 @@ annotations.sensaldo: Sentiment
 annotations.sensaldo.help: Tags tokens as positive/neutral/negative.
 annotations.swener: Named entities and geotagging
 annotations.swener.help: Named entity recognition (NER) finds individuals, places, dates and more in your texts using SweNER. However, it significantly slows down processing. Enabling NER also enables geotagging and, in turn, the map feature in Korp.
-annotations.ud: Universal Dependencies
-annotations.ud.help: Syntactic analysis using Stanza.
+annotations.syntax: Dependencies
+annotations.syntax.help: Syntactic analysis using Stanza.
 annotations.wsd: Word sense disambiguation
 annotations.wsd.help: Using SALDO.
 admin.page.subtitle: Administration
