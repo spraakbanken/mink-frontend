@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Added
+
+- Checkboxes to disable groups of the default annotations [#182](https://github.com/spraakbanken/mink-frontend/pull/182)
+
 ### Fixed
 
 - Updated screenshots
