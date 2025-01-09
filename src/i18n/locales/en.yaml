@@ -204,6 +204,7 @@ config.custom: Custom config
 config.custom.help: Mink uses {sparv}, a modular and configurable pipeline for text analysis, to process your corpus. The standard configuration form only exposes a few of the available Sparv options. On this page, you can view and submit your own config file, written in the YAML format. Please refer to the Sparv documentation on {topic} for more information.
 config.custom.upload.caution: Please note that submitting an invalid config file may cause unexpected behaviour.
 config.custom.upload.overwrite: Saving the standard configuration form may overwrite your custom config.
+config.datetime.validate_both: Both or none of these dates must be set.
 config.format.help: Select the file format of the source texts. All files must be of the selected format.
 config.format.note.pdf: The PDF file format is primarily designed for display. Please note that extracting text from them can sometimes give unsatisfactory results. Performing OCR on scanned documents is (currently) outside the scope of Mink.
 config.text_annotation: Text element
@@ -217,27 +218,24 @@ timespan_from: From
 timespan_to: To
 edit: Edit
 annotations: Annotations
-annotations.ner: Named entity recognition and geotagging
-annotations.ner.help: Named entity recognition (NER) finds individuals, places, dates and more in your texts. However, it significantly slows down processing. Enabling NER also enables geotagging and, in turn, the map feature in Korp.
-annotations.info: |
-  <p>
-    We are working on making it possible to choose among more methods, annotations and models to be used in the analysis.
-    At this time, apart from the options above, the analysis will enrich the texts with the following annotations:</p>
-  <ul>
-    <li>Part-of-speech tags</li>
-    <li>Morphosyntactic tags</li>
-    <li>Base form</li>
-    <li>Lemgram</li>
-    <li>Saldo sense</li>
-    <li>Compound word analysis</li>
-    <li>Dependency parsing</li>
-    <li>Sentiment analysis</li>
-    <li>Lexical classes from SweFN and Blingbring</li>
-    <li>Readability values per text</li>
-  </ul>
-  <p>You can find some more information about the annotations in the 
-    <a href="https://spraakbanken.gu.se/sparv/#/user-manual/available-analyses">Sparv documentation</a>.
-  </p>
+annotations.info: Listed for selection here are some of the available analyses. For more detailed configuration, please use the {custom_config} page.
+annotations.lexical_classes: Lexical classes
+annotations.lexical_classes.help: Maps units to Blingbring and the Swedish FrameNet (SweFN).
+annotations.msd: Morphology
+annotations.msd.help: Parts-of-speech and morphosyntactic features.
+annotations.readability: Readability
+annotations.readability.help: Computes the readability measures LIX, OVIX and NK.
+annotations.saldo: Lemmatization
+annotations.saldo.help: Uses the {saldo} resource for finding baseforms, inflection patterns and compound words.
+annotations.saldo.saldo_url: https://spraakbanken.gu.se/en/resources/saldo
+annotations.sensaldo: Sentiment
+annotations.sensaldo.help: Tags tokens as positive/neutral/negative.
+annotations.swener: Named entities and geotagging
+annotations.swener.help: Named entity recognition (NER) finds individuals, places, dates and more in your texts using SweNER. However, it significantly slows down processing. Enabling NER also enables geotagging and, in turn, the map feature in Korp.
+annotations.syntax: Dependencies
+annotations.syntax.help: Syntactic analysis using Stanza.
+annotations.wsd: Word sense disambiguation
+annotations.wsd.help: Using SALDO.
 admin.page.subtitle: Administration
 admin.goto: Shortcuts
 admin.resources.help: In this administrative listing, you need to load detailed information manually, because loading everything takes a long time.

@@ -12,12 +12,13 @@ describe("makeConfig", () => {
     const yaml = makeConfig("mink-abc123", {
       name: { swe: "Nyheter", eng: "News" },
       format: "txt",
+      annotations: {},
     });
     expect(yaml).toContain("id: mink-abc123");
     expect(yaml).toContain("swe: Nyheter");
     expect(yaml).toContain("eng: News");
     expect(yaml).toContain("importer: text_import:parse");
-    expect(yaml).toContain("- <token>:saldo.baseform2 as lemma");
+    expect(yaml).not.toContain("- <token>:saldo.baseform2 as lemma");
   });
 
   test("sets segmenter", () => {
@@ -25,6 +26,7 @@ describe("makeConfig", () => {
       name: { swe: "Nyheter", eng: "News" },
       format: "txt",
       sentenceSegmenter: "linebreaks",
+      annotations: {},
     });
     expect(yaml).toContain("sentence_segmenter: linebreaks");
   });
@@ -34,6 +36,7 @@ describe("makeConfig", () => {
       name: { swe: "Nyheter", eng: "News" },
       format: "xml",
       textAnnotation: "article",
+      annotations: {},
     });
     expect(yaml).toContain("text_annotation: article");
     expect(yaml).toContain("- article as text");
@@ -43,35 +46,22 @@ describe("makeConfig", () => {
     const yaml = makeConfig("mink-abc123", {
       name: { swe: "Nyheter", eng: "News" },
       format: "pdf",
+      annotations: {},
     });
     expect(yaml).toContain("- text");
     expect(yaml).toContain("- page:number");
-  });
-
-  test("requires complete timespan", () => {
-    const yamlFrom = () =>
-      makeConfig("mink-abc123", {
-        name: { swe: "Nyheter", eng: "News" },
-        format: "pdf",
-        datetimeFrom: "2024-02-01",
-      });
-    expect(yamlFrom).toThrowError();
-
-    const yamlTo = () =>
-      makeConfig("mink-abc123", {
-        name: { swe: "Nyheter", eng: "News" },
-        format: "pdf",
-        datetimeTo: "2024-02-01",
-      });
-    expect(yamlTo).toThrowError();
   });
 
   test("sets timespan info", () => {
     const yaml = makeConfig("mink-abc123", {
       name: { swe: "Nyheter", eng: "News" },
       format: "pdf",
-      datetimeFrom: "2000-01-01",
-      datetimeTo: "2023-12-31",
+      annotations: {
+        datetime: {
+          from: "2000-01-01",
+          to: "2023-12-31",
+        },
+      },
     });
     expect(yaml).toContain("datetime_from: <text>:misc.datefrom");
     expect(yaml).toContain("datetime_to: <text>:misc.dateto");
@@ -85,7 +75,9 @@ describe("makeConfig", () => {
     const yaml = makeConfig("mink-abc123", {
       name: { swe: "Nyheter", eng: "News" },
       format: "pdf",
-      enableNer: true,
+      annotations: {
+        swener: true,
+      },
     });
     expect(yaml).toContain("- swener.ne:swener.name");
   });
@@ -132,7 +124,7 @@ describe("parseConfig", () => {
         { params: { out: "<text>:misc.dateto", value: "2023-12-31" } },
       ],
       export: {
-        annotations: ["swener.ne"],
+        annotations: ["<text>:readability.lix", "swener.ne"],
       },
     });
     const config = parseConfig(configYaml);
@@ -142,9 +134,20 @@ describe("parseConfig", () => {
       description: { swe: "Senaste nytt", eng: "Latest news" },
       textAnnotation: "article",
       sentenceSegmenter: "linebreaks",
-      datetimeFrom: "2000-01-01",
-      datetimeTo: "2023-12-31",
-      enableNer: true,
+      annotations: {
+        datetime: {
+          from: "2000-01-01",
+          to: "2023-12-31",
+        },
+        lexicalClasses: false,
+        msd: false,
+        readability: true,
+        saldo: false,
+        sensaldo: false,
+        swener: true,
+        syntax: false,
+        wsd: false,
+      },
     };
     expect(config).toStrictEqual(expected);
   });
@@ -155,6 +158,7 @@ describe("validateConfig", () => {
     const options: ConfigOptions = {
       name: { swe: "Nyheter", eng: "News" },
       format: "xml",
+      annotations: {},
     };
 
     // Config can be handled
