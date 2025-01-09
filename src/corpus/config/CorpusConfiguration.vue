@@ -260,6 +260,7 @@ async function submit(fields: Form) {
             type="date"
             :label="`${$t('timespan')}: ${$t('timespan_from')}`"
             :value="configOptions?.annotations.datetime?.from"
+            :max="(value as Form).datetimeTo"
             validation="onlyif:datetimeTo"
             :validation-messages="{
               onlyif: $t('config.datetime.validate_both'),
@@ -270,6 +271,7 @@ async function submit(fields: Form) {
             type="date"
             :label="`${$t('timespan')}: ${$t('timespan_to')}`"
             :value="configOptions?.annotations.datetime?.to"
+            :min="(value as Form).datetimeFrom"
             validation="onlyif:datetimeFrom"
             :validation-messages="{
               onlyif: $t('config.datetime.validate_both'),
