@@ -110,7 +110,6 @@ async function submit(fields: Form) {
     textAnnotation: fields.textAnnotation,
     sentenceSegmenter: fields.sentenceSegmenter,
     annotations: {
-      // TODO Warn if only one is set
       datetime:
         fields.datetimeFrom && fields.datetimeTo
           ? {
@@ -261,12 +260,20 @@ async function submit(fields: Form) {
             type="date"
             :label="`${$t('timespan')}: ${$t('timespan_from')}`"
             :value="configOptions?.annotations.datetime?.from"
+            validation="onlyif:datetimeTo"
+            :validation-messages="{
+              onlyif: $t('config.datetime.validate_both'),
+            }"
           />
           <FormKit
             name="datetimeTo"
             type="date"
             :label="`${$t('timespan')}: ${$t('timespan_to')}`"
             :value="configOptions?.annotations.datetime?.to"
+            validation="onlyif:datetimeFrom"
+            :validation-messages="{
+              onlyif: $t('config.datetime.validate_both'),
+            }"
             :help="$t('timespan_help')"
           />
 
