@@ -46,9 +46,8 @@ function onlyif(node: FormKitNode, othersComma: string) {
   }
 
   for (const other of othersComma.split(",")) {
-    if (other in parent.value) {
-      if (!!parent.value[other] != !!node.value) return false;
-    }
+    if (other in parent.value && !!parent.value[other] != !!node.value)
+      return false;
   }
   return true;
 }
