@@ -2,7 +2,7 @@ import { computed, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { filesize } from "filesize";
 import { useStorage } from "@vueuse/core";
-import { once } from "lodash";
+import { once } from "es-toolkit";
 import type { Ref } from "vue";
 import type { ByLang, SvEn, SweEng } from "@/util.types";
 

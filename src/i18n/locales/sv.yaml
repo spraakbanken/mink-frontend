@@ -205,6 +205,7 @@ config.custom: Egen config
 config.custom.help: Mink använder {sparv}, en modulär och konfigurerbar pipeline för textanalys, för att processa korpusen. Det vanliga formuläret visar endast en liten del av alla inställningar. På den här sidan kan du undersöka den faktiska configfilen och ladda upp en egen, i formatet YAML. Använd Sparvdokumentationens avsnitt {topic} för att tolka filens struktur.
 config.custom.upload.caution: Notera att en ogiltig configfil kan leda till oväntat beteende.
 config.custom.upload.overwrite: Om du sparar i det vanliga formuläret igen kan den egna configen skrivas över.
+config.datetime.validate_both: Båda eller inget av dessa datum måste anges.
 config.format.help: Ange vilket filformat källtexterna har. Alla filer måste ha det valda formatet.
 config.format.note.pdf: PDF-formatet är byggt främst för visuell presentation. Text som extraheras från PDF-filer kan ibland ge bristfälliga resultat. OCR-behandling av scannade dokument är (för närvarande) inget som Mink stödjer.
 config.text_annotation: Textelement
@@ -218,28 +219,24 @@ timespan_from: Från
 timespan_to: Till
 edit: Redigera
 annotations: Annotationer
-annotations.ner: Namngivna entiteter och geotaggning
-annotations.ner.help: Namngivna entitetsigenkänning (named entity recognition, NER) hittar personer, platser, datum och liknande i dina texter. Däremot tar analysen ganska lång tid. När NER är aktiverat görs även geotaggning, vilket aktiverar kartfunktionen i Korp.
-annotations.info: |
-  <p>
-    Vi jobbar på möjligheten att välja bland fler analysmetoder, annotationer och modeller.
-    Förutom alternativen ovan kommer analysen automatiskt att berika texten med följande annotationer:
-  </p>
-  <ul>
-    <li>ordklasstaggar</li>
-    <li>morfosyntaktiska taggar</li>
-    <li>grundform</li>
-    <li>lemgram</li>
-    <li>saldo-betydelse</li>
-    <li>sammansättningsanalys</li>
-    <li>dependensparsning</li>
-    <li>attitydanalys</li>
-    <li>lexikala klasser från SweFN och Blingbring</li>
-    <li>läsbarhetsvärden för hela texten</li>
-  </ul>
-  <p>Du kan hitta lite mer info om annotationerna i
-    <a href="https://spraakbanken.gu.se/sparv/#/user-manual/available-analyses">Sparvs dokumentation</a>.
-  </p>
+annotations.info: Här listas tillval för några av de tillgängliga analyserna. Mer utförlig konfiguration kan göras på sidan {custom_config}.
+annotations.lexical_classes: Lexikala klasser
+annotations.lexical_classes.help: Mappar till Blingbring och Svenskt frasnät (SweFN).
+annotations.msd: Morfologi
+annotations.msd.help: Ordklass och morfosyntaktiska egenskaper.
+annotations.readability: Läsbarhet
+annotations.readability.help: Räknar ut läsbarhetsvärdena LIX, OVIX och NK.
+annotations.saldo: Lemmatisering
+annotations.saldo.help: Använder resursen {saldo} för att finna grundformer, böjningsmönster och sammansatta ord.
+annotations.saldo.saldo_url: https://spraakbanken.gu.se/resurser/saldo
+annotations.sensaldo: Sentiment
+annotations.sensaldo.help: Taggar token som positiv/neutral/negativ.
+annotations.swener: Namngivna entiteter och geotaggning
+annotations.swener.help: Namngivna entitetsigenkänning (named entity recognition, NER) hittar personer, platser, datum och liknande i dina texter genom att använda SweNER. Däremot tar analysen ganska lång tid. När NER är aktiverat görs även geotaggning, vilket aktiverar kartfunktionen i Korp.
+annotations.syntax: Dependenser
+annotations.syntax.help: Syntaxanalys med Stanza.
+annotations.wsd: Betydelser
+annotations.wsd.help: Ordbetydelsedisambiguering med SALDO.
 admin.page.subtitle: Administration
 admin.goto: Genvägar
 admin.resources.help: I denna administrativa resurslista behöver du ladda in detaljerad resursinformation manuellt, eftersom det tar lång tid att ladda allt.

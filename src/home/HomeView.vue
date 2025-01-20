@@ -8,6 +8,8 @@ import { getLogoutUrl } from "@/auth/sbAuth";
 import LoginButton from "@/auth/LoginButton.vue";
 import UrlButton from "@/components/UrlButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
+import minkScreen from "@/assets/mink-screen.png";
+import minkScreenDark from "@/assets/mink-screen-dark.png";
 
 const { isAuthenticated, canUserWrite, payload } = useAuth();
 const logoutUrl = getLogoutUrl();
@@ -74,13 +76,15 @@ const logoutUrl = getLogoutUrl();
         </div>
         <div class="flex-1">
           <div
-            class="bg-sborange-600 rounded-full aspect-square flex items-center"
+            class="bg-sborange-600 dark:bg-sbteal-900 rounded-full aspect-square flex items-center"
           >
-            <img
-              src="@/assets/mink-screen.png"
-              class="shadow-lg image3d"
-              :alt="$t('home.hero.alt')"
-            />
+            <picture class="shadow-lg image3d">
+              <source
+                media="(prefers-color-scheme: dark)"
+                :srcset="minkScreenDark"
+              />
+              <img :src="minkScreen" :alt="$t('home.hero.alt')" />
+            </picture>
           </div>
         </div>
       </div>

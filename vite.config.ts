@@ -2,6 +2,7 @@ import path from "path";
 import { ServerOptions } from "https";
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
+import checker from "vite-plugin-checker";
 import ViteYaml from "@modyfi/vite-plugin-yaml";
 import { visualizer } from "rollup-plugin-visualizer";
 
@@ -27,6 +28,8 @@ export default defineConfig(async ({ mode }) => {
     plugins: [
       vue(),
       ViteYaml(),
+      // Enable typechecking, see https://vite-plugin-checker.netlify.app/introduction/getting-started.html
+      checker({ vueTsc: true }),
       visualizer(), // Keep visualizer last.
     ],
     resolve: {

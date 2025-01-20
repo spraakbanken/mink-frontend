@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import groupBy from "lodash/groupBy";
+import { groupBy } from "es-toolkit";
 import { PhDownloadSimple } from "@phosphor-icons/vue";
 import useExports from "@/corpus/exports/exports.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
@@ -22,7 +22,7 @@ const {
 
 const exportsByFolder = computed(() =>
   exports.value
-    ? groupBy(exports.value, (meta) => meta.path.split("/").shift())
+    ? groupBy(exports.value, (meta) => meta.path.split("/").shift()!)
     : undefined,
 );
 

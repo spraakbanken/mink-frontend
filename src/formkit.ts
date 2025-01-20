@@ -5,8 +5,9 @@ import type { FormKitNode, FormKitExtendableSchemaRoot } from "@formkit/core";
 
 // Configure FormKit
 export const formkitConfig = defaultConfig({
-  plugins: [addAsteriskPlugin],
   locales: { en, sv },
+  plugins: [addAsteriskPlugin],
+  rules: { onlyif },
 });
 
 /** A Formkit plugin that adds a red asterisk to required fields. */
@@ -35,3 +36,20 @@ function addAsteriskPlugin(node: FormKitNode) {
     };
   });
 }
+
+/** Validation rule to require that all or none of a group of fields are set. */
+function onlyif(node: FormKitNode, othersComma: string) {
+  const parent = node.at("$parent") as FormKitNode<Record<string, any>>;
+  if (!parent?.value) {
+    console.error("onlyif rule missing parent");
+    return true;
+  }
+
+  for (const other of othersComma.split(",")) {
+    if (other in parent.value && !!parent.value[other] != !!node.value)
+      return false;
+  }
+  return true;
+}
+
+onlyif.skipEmpty = false;
