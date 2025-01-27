@@ -23,7 +23,7 @@ const percentStr = computed(() =>
       :style="{ width: percent + '%' }"
     ></div>
     <div class="font-semibold text-white relative z-10">
-      <span class="bg-zinc-700 bg-opacity-40 rounded-sm px-1">
+      <span class="bg-zinc-700/40 rounded-sm px-1">
         {{ percentStr }}
       </span>
     </div>

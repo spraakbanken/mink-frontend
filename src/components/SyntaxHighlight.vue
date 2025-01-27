@@ -22,6 +22,8 @@ defineProps<{
 </template>
 
 <style>
+@reference "tailwindcss";
+
 pre code.hljs {
   @apply p-2 bg-stone-800;
 }
