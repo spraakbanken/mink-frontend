@@ -59,7 +59,7 @@ const logoutUrl = getLogoutUrl();
 
             <div
               v-if="payload && canUserWrite"
-              class="bg-sky-100 dark:bg-sky-900 p-4 rounded shadow-inner flex flex-wrap justify-center items-baseline gap-4"
+              class="bg-sky-100 dark:bg-sky-900 p-4 rounded-sm shadow-inner flex flex-wrap justify-center items-baseline gap-4"
             >
               <div>{{ $t("welcome", { name: payload.name }) }}</div>
 

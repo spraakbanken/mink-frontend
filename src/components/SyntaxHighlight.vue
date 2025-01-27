@@ -17,7 +17,7 @@ defineProps<{
     :code
     :language
     :autodetect="false"
-    class="text-xs rounded whitespace-pre-wrap [overflow-wrap:anywhere]"
+    class="text-xs rounded-sm whitespace-pre-wrap [overflow-wrap:anywhere]"
   />
 </template>
 

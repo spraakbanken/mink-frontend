@@ -20,11 +20,11 @@ function getDate(date: Date) {
 </script>
 
 <template>
-  <div v-if="items.length" class="max-w-screen-md mx-auto">
+  <div v-if="items.length" class="max-w-(--breakpoint-md) mx-auto">
     <article
       v-for="(item, i) in items"
       :key="i"
-      class="bg-sky-50 dark:bg-sky-800 shadow shadow-sky-200 dark:shadow-sky-600 text-sky-800 dark:text-sky-200 p-1 px-2 my-2"
+      class="bg-sky-50 dark:bg-sky-800 shadow-sm shadow-sky-200 dark:shadow-sky-600 text-sky-800 dark:text-sky-200 p-1 px-2 my-2"
     >
       <header class="font-semibold">{{ th(item.title) }}</header>
 
