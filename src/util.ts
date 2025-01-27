@@ -1,5 +1,4 @@
-import clone from "lodash/clone";
-import round from "lodash/round";
+import { clone } from "es-toolkit";
 
 /** The number of milliseconds in a full day. */
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -38,14 +37,6 @@ export const enarray = <T>(x: T | T[]): T[] => (Array.isArray(x) ? x : [x]);
 /** Formats an ISO 8601 date as "YYYY-MM-DD hh:mm:ss" */
 export function formatDate(dateStr: string) {
   return dateStr.slice(0, 19).replace("T", " ");
-}
-
-/** Formats a number of seconds as "X min Y s" */
-export function formatSeconds(secs: number) {
-  secs = round(secs);
-  return secs < 60
-    ? `${secs} s`
-    : `${Math.floor(secs / 60)} min ${secs % 60} s`;
 }
 
 /** Add or change a filename extension */
@@ -150,14 +141,4 @@ export const fromKeys = <K extends string, V>(
   keys.reduce(
     (obj, key) => ({ ...obj, [key]: getValue(key) }),
     {} as Record<K, V>,
-  );
-
-/** Like lodash/keyBy but slightly more restrictive in range and typing. */
-export const keyBy = <T extends Record<K, keyof any>, K extends keyof T>(
-  objs: T[],
-  prop: K,
-): Record<T[K], T> =>
-  objs.reduce(
-    (obj, item) => ({ ...obj, [String(item[prop])]: item }),
-    {} as Record<T[K], T>,
   );

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { PhTrash } from "@phosphor-icons/vue";
 import useMetadata from "@/metadata/metadata.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useResourceStore } from "@/store/resource.store";
@@ -31,7 +32,7 @@ async function uploadMetadata(files: File[]) {
           class="button-danger"
           :to="`/library/metadata/${resourceId}/delete`"
         >
-          <icon :icon="['far', 'trash-can']" class="mr-1" />
+          <PhTrash class="inline mb-1 mr-1" />
           {{ $t("delete") }}
         </RouteButton>
       </LayoutBox>

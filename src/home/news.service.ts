@@ -1,5 +1,5 @@
 const Yaml = import("js-yaml").then((m) => m.default);
-import once from "lodash/once";
+import { once } from "es-toolkit";
 import { addDays, retry } from "@/util";
 import type { ByLang } from "@/util.types";
 

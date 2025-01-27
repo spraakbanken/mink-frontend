@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { PhSignOut, PhUserPlus } from "@phosphor-icons/vue";
 import HomeNews from "./HomeNews.vue";
 import HomeNewsFeatured from "@/home/HomeNewsFeatured.vue";
 import { useAuth } from "@/auth/auth.composable";
@@ -7,6 +8,8 @@ import { getLogoutUrl } from "@/auth/sbAuth";
 import LoginButton from "@/auth/LoginButton.vue";
 import UrlButton from "@/components/UrlButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
+import minkScreen from "@/assets/mink-screen.png";
+import minkScreenDark from "@/assets/mink-screen-dark.png";
 
 const { isAuthenticated, canUserWrite, payload } = useAuth();
 const logoutUrl = getLogoutUrl();
@@ -46,7 +49,7 @@ const logoutUrl = getLogoutUrl();
 
             <div v-if="!isAuthenticated">
               <RouteButton to="/signup" class="button-success">
-                <icon :icon="['fas', 'user-plus']" />
+                <PhUserPlus weight="fill" class="inline mb-0.5 mr-1" />
                 {{ $t("signup") }}
               </RouteButton>
               <div class="my-1 text-sm opacity-70">
@@ -65,15 +68,23 @@ const logoutUrl = getLogoutUrl();
               </RouteButton>
 
               <UrlButton :href="logoutUrl">
-                <icon :icon="['fas', 'person-running']" />
+                <PhSignOut class="inline mb-1 mr-1" />
                 {{ $t("logout") }}
               </UrlButton>
             </div>
           </div>
         </div>
         <div class="flex-1">
-          <div class="bg-sborange rounded-full aspect-square flex items-center">
-            <img src="@/assets/mink-screen.png" class="shadow-lg image3d" />
+          <div
+            class="bg-sborange-600 dark:bg-sbteal-900 rounded-full aspect-square flex items-center"
+          >
+            <picture class="shadow-lg image3d">
+              <source
+                media="(prefers-color-scheme: dark)"
+                :srcset="minkScreenDark"
+              />
+              <img :src="minkScreen" :alt="$t('home.hero.alt')" />
+            </picture>
           </div>
         </div>
       </div>
@@ -89,7 +100,10 @@ const logoutUrl = getLogoutUrl();
           <figure
             class="md:w-1/2 2xl:w-4/5 shadow-lg hover:scale-110 transition-transform"
           >
-            <img src="@/assets/sparv-screen.png" />
+            <img
+              src="@/assets/sparv-screen.png"
+              :alt="$t('home.features.sparv.alt')"
+            />
           </figure>
 
           <LayoutSection
@@ -110,7 +124,10 @@ const logoutUrl = getLogoutUrl();
           <figure
             class="md:w-1/2 2xl:w-4/5 shadow-lg hover:scale-110 transition-transform"
           >
-            <img src="@/assets/texts.png" />
+            <img
+              src="@/assets/texts.png"
+              :alt="$t('home.features.upload.alt')"
+            />
           </figure>
 
           <LayoutSection
@@ -131,7 +148,10 @@ const logoutUrl = getLogoutUrl();
           <figure
             class="md:w-1/2 2xl:w-4/5 shadow-lg hover:scale-110 transition-transform"
           >
-            <img src="@/assets/korp-screen.png" />
+            <img
+              src="@/assets/korp-screen.png"
+              :alt="$t('home.features.explore.alt')"
+            />
           </figure>
 
           <LayoutSection
@@ -162,7 +182,10 @@ const logoutUrl = getLogoutUrl();
           <figure
             class="md:w-1/2 2xl:w-4/5 shadow-lg hover:scale-110 transition-transform"
           >
-            <img src="@/assets/share.png" />
+            <img
+              src="@/assets/share.png"
+              :alt="$t('home.features.share.alt')"
+            />
           </figure>
 
           <LayoutSection
@@ -203,10 +226,6 @@ const logoutUrl = getLogoutUrl();
 </template>
 
 <style scoped>
-.mt-0 {
-  margin-top: 0;
-}
-
 .image3d {
   transform: scale(0.9) perspective(500px) rotateY(3deg);
   transition: transform ease-in-out 300ms;

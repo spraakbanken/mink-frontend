@@ -72,7 +72,7 @@ function onProgress(progressEvent: AxiosProgressEvent) {
         "
         class="border-dashed border-4"
       >
-        <span class="absolute uppercase opacity-70 text-sm font-bold p-1">
+        <span class="absolute uppercase opacity-70 text-sm font-semibold p-1">
           {{
             multiple ? $t("upload.label.multiple") : $t("upload.label.single")
           }}

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { PhArrowSquareOut, PhGearFine } from "@phosphor-icons/vue";
 import ActionButton from "@/components/ActionButton.vue";
 import UrlButton from "@/components/UrlButton.vue";
 
@@ -19,7 +20,7 @@ defineEmits<{
 <template>
   <div class="flex flex-col gap-2">
     <div class="flex flex-wrap gap-2 justify-between items-baseline">
-      <h3 class="font-bold">{{ name }}</h3>
+      <h3 class="font-semibold">{{ name }}</h3>
 
       <div class="flex gap-2 justify-end items-baseline">
         <ActionButton
@@ -28,7 +29,7 @@ defineEmits<{
           :class="{ 'button-primary': canInstall && !isInstalled }"
           @click="$emit('install')"
         >
-          <icon :icon="['fas', 'gears']" class="mr-1" />
+          <PhGearFine weight="bold" class="inline mb-1 mr-1" />
           {{
             $t(
               !isInstalled
@@ -44,7 +45,7 @@ defineEmits<{
           target="_blank"
           class="button-primary"
         >
-          <icon icon="up-right-from-square" size="sm" class="mr-1" />
+          <PhArrowSquareOut weight="bold" class="inline mb-1 mr-1" />
           {{ $t("exports.tools.view") }}
         </UrlButton>
       </div>

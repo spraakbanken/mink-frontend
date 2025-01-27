@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { type Resource, isCorpus } from "@/store/resource.store";
-import TerminalOutput from "@/components/TerminalOutput.vue";
 import useConfig from "@/corpus/config/config.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import TextData from "@/components/TextData.vue";
@@ -64,7 +63,7 @@ onMounted(() => {
       :on="`corpus/${resourceId}/config`"
       class="flex-1"
     >
-      <h3 class="font-bold">{{ $t("configuration") }}</h3>
+      <h3 class="font-semibold">{{ $t("configuration") }}</h3>
       <TextData :text="resource.config" language="yaml" />
     </PendingContent>
   </div>

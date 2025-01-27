@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useElementSize, useToggle } from "@vueuse/core";
+import { PhCaretDoubleDown, PhCaretDoubleUp } from "@phosphor-icons/vue";
 import ActionButton from "./ActionButton.vue";
 
 defineProps<{
@@ -17,6 +18,7 @@ const [expanded, toggleExpanded] = useToggle();
   <div>
     <!-- Outer wrapper, whose height gets limited -->
     <div
+      class="overflow-auto"
       :class="{ mask: !expanded && height > maxHeight }"
       :style="{
         // Set max height to slightly less than requested, to avoid ridiculously small differences between closed and expanded heights.
@@ -31,7 +33,8 @@ const [expanded, toggleExpanded] = useToggle();
 
     <div v-if="height > maxHeight" class="text-center p-2 text-sm">
       <ActionButton class="button-slim" @click="toggleExpanded()">
-        <icon :icon="expanded ? 'angles-up' : 'angles-down'" />
+        <PhCaretDoubleUp v-if="expanded" class="inline mb-1 mr-0.5" />
+        <PhCaretDoubleDown v-else class="inline mb-1 mr-0.5" />
         {{ expanded ? $t("expand.close") : $t("expand.open") }}
       </ActionButton>
     </div>

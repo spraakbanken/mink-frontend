@@ -1,9 +1,8 @@
 import type { JSONSchema7 } from "json-schema";
 import { schemaWalk } from "@cloudflare/json-schema-walker";
-import capitalize from "lodash/capitalize";
 import type { VueI18n } from "vue-i18n";
 import type { UiSchema } from "@rjsf/utils";
-import cloneDeep from "lodash/cloneDeep";
+import { capitalize, cloneDeep } from "es-toolkit";
 import schemaRaw from "@/assets/sparvconfig.schema.json";
 
 export const schema = schemaRaw as unknown as JSONSchema7;

@@ -17,10 +17,6 @@ const metadataRoutes: RouteRecordRaw[] = [
       {
         path: "",
         component: MetadataOverview,
-        meta: {
-          createTitle: (params, resourceName) =>
-            resourceName || (params.resourceId as string),
-        },
       },
       {
         path: "delete",

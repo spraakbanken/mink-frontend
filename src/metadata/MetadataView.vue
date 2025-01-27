@@ -22,7 +22,7 @@ requireAuthentication(loadMetadata);
       <PageTitle subtitle="metadata">
         <router-link
           :to="`/library/metadata/${resourceId}`"
-          class="text-inherit hover:underline"
+          class="text-inherit no-underline hover:underline"
         >
           {{ resourceId }}
         </router-link>

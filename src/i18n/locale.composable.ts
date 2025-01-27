@@ -2,37 +2,45 @@ import { computed, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { filesize } from "filesize";
 import { useStorage } from "@vueuse/core";
+import { once } from "es-toolkit";
+import type { Ref } from "vue";
 import type { ByLang, SvEn, SweEng } from "@/util.types";
 
 const storedLocale = useStorage<SvEn | "">("locale", "");
 
+/** Set up locale sync */
+const setupLocale = once((locale: Ref<string>) => {
+  // Sync from storage once, if present
+  if (storedLocale.value) {
+    locale.value = storedLocale.value;
+  }
+  exportLocale(locale.value);
+
+  // Then sync from switcher continually
+  watch(locale, () => {
+    storedLocale.value = (locale.value as SvEn) || "";
+    exportLocale(locale.value);
+  });
+});
+
+const exportLocale = (lang: string) =>
+  document.querySelector("html")?.setAttribute("lang", lang);
+
+/** Set up locale sync and provide helpers */
 export default function useLocale() {
   const { locale, messages } = useI18n();
 
-  const exportLocale = () => {
-    document.querySelector("html")?.setAttribute("lang", locale.value);
-  };
+  setupLocale(locale);
 
   // The ISO 639-3 code is used in many parts of the Språkbanken infrastructure.
   const locale3 = computed<SweEng>(() =>
     locale.value == "en" ? "eng" : "swe",
   );
 
-  // Sync from storage once, if present
-  if (storedLocale.value) {
-    locale.value = storedLocale.value;
-  }
-  exportLocale();
-
-  // Then sync from switcher continually
-  watch(locale, () => {
-    storedLocale.value = (locale.value as SvEn) || "";
-    exportLocale();
-  });
-
   /**
    * Check if translation exists.
    * Original `te` broken as per https://github.com/kazupon/vue-i18n/issues/1521
+   * TODO Check if this is still needed.
    */
   function te(key: string): boolean {
     return !!messages.value[locale.value][key];

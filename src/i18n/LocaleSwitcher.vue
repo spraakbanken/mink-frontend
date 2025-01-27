@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import { PhGlobe } from "@phosphor-icons/vue";
 import { languageNames, type LocaleId } from "./i18n";
 </script>
 
 <template>
   <div>
-    <icon icon="language" />
+    <PhGlobe class="inline mb-0.5" />
+    <label class="sr-only" for="locale-select">
+      {{ $t("locale.switcher.label") }}
+    </label>
     <select
+      id="locale-select"
       v-model="$i18n.locale"
       class="bg-transparent border-0 appearance-none"
     >

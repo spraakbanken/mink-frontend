@@ -7,7 +7,6 @@ import PendingContent from "@/spin/PendingContent.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import { useCorpusState } from "@/corpus/corpusState.composable";
 import ActionButton from "@/components/ActionButton.vue";
-import TerminalOutput from "@/components/TerminalOutput.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
 import TextData from "@/components/TextData.vue";
 
@@ -33,7 +32,7 @@ const hasStarted = computed(
         <span v-if="jobStatus.current_process">
           {{ $t(`job.process.${jobStatus.current_process}`) }}:
         </span>
-        <JobStatusMessage :corpus-id="corpusId" class="font-bold" />
+        <JobStatusMessage :corpus-id="corpusId" />
       </div>
 
       <ActionButton
@@ -99,10 +98,3 @@ const hasStarted = computed(
     </table>
   </PendingContent>
 </template>
-
-<style scoped>
-/* Override max-height when user is resizing. */
-.resize-y[style*="height"] {
-  max-height: unset;
-}
-</style>

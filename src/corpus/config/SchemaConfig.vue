@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import Yaml from "js-yaml";
 import { useI18n } from "vue-i18n";
-import difference from "lodash/difference";
+import { difference } from "es-toolkit";
 import {
   formSections,
   getTopProperties,

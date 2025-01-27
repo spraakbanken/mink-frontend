@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
+import { PhDownloadSimple, PhGearFine, PhInfo } from "@phosphor-icons/vue";
 import useCorpusIdParam from "../corpusIdParam.composable";
 import { useCorpusState } from "../corpusState.composable";
 import useExports from "../exports/exports.composable";
@@ -52,13 +53,14 @@ watch(isDone, () => {
         :class="{ 'button-primary': !exports?.length }"
         @click="!isJobRunning && canRun ? doRunJob() : null"
       >
-        <icon :icon="['fas', 'gears']" class="mr-1" />
+        <PhGearFine weight="bold" class="inline mb-1 mr-1" />
         {{ !exports?.length ? $t("job.run") : $t("job.rerun") }}
       </ActionButton>
 
       <div>
         <div v-if="!isJobRunning && exports?.length" class="text-sm">
-          <icon icon="circle-info" /> {{ $t("job.rerun.overwrite") }}
+          <PhInfo class="inline mb-0.5 mr-1" />
+          {{ $t("job.rerun.overwrite") }}
         </div>
 
         <div
@@ -68,12 +70,13 @@ watch(isDone, () => {
           "
           class="text-sm"
         >
-          <icon icon="circle-info" /> {{ $t("job.rerun.tools_outdated") }}
+          <PhInfo class="inline mb-0.5 mr-1" />
+          {{ $t("job.rerun.tools_outdated") }}
         </div>
       </div>
     </PendingContent>
 
-    <div class="mt-4">
+    <PendingContent :on="`corpus/${corpusId}/exports/list`" class="mt-4">
       <h3 class="text-lg uppercase">{{ $t("download") }}</h3>
       <p>{{ $t("exports.download.help") }}</p>
 
@@ -83,7 +86,7 @@ watch(isDone, () => {
           <td>
             <PendingContent :on="`corpus/${corpusId}/exports/download`">
               <ActionButton class="button-primary" @click="downloadResult">
-                <icon :icon="['fas', 'download']" class="mr-1" />
+                <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
                 {{ getDownloadFilename() }}
               </ActionButton>
             </PendingContent>
@@ -101,6 +104,6 @@ watch(isDone, () => {
       <p v-else class="opacity-70 italic">
         {{ $t("exports.download.placeholder") }}
       </p>
-    </div>
+    </PendingContent>
   </div>
 </template>

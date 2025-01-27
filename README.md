@@ -1,77 +1,31 @@
-# Mink frontend
+<img src="src/assets/mink-slogan-en.svg" width="300" alt="Mink - Språkbanken's data platform" />
 
-<img src="https://spraakbanken.gu.se/themes/sb/images/mink.svg" width="200" alt="Mink logo" />
-
-With Mink, we are putting Språkbanken's research infrastructure into the hands of the researchers.
+Mink is our effort to put Språkbanken Text’s research infrastructure into the hands of the researchers.
 You can use Mink to apply our language technology methods on texts that you have collected yourself.
-The resulting data can be downloaded or made available through our research tools.
+The resulting data can be downloaded or made available through our research tools, such as Korp and Strix, behind login.
 
 [Use Mink](https://spraakbanken.gu.se/mink/)
-– [Language data](https://spraakbanken.gu.se/en/resources)
-– [Tools](https://spraakbanken.gu.se/en/tools)
+• [Language data](https://spraakbanken.gu.se/en/resources)
+• [Tools](https://spraakbanken.gu.se/en/tools)
 
-## Code
+# Mink frontend
 
-This repo makes up the frontend at [spraakbanken.gu.se/mink](https://spraakbanken.gu.se/mink/).
-It is a [Vue 3](https://v3.vuejs.org/) app using [Vite](https://vitejs.dev/).
+This code makes up the user interface at [spraakbanken.gu.se/mink](https://spraakbanken.gu.se/mink/).
 
-### Design patterns
+## User documentation
 
-- Single-file components with [`<script setup>`](https://v3.vuejs.org/api/sfc-script-setup.html)
-- [Composables](https://vuejs.org/guide/reusability/composables.html) to group state+logic for distinct features
-- Utility-first styling with [Tailwind CSS](https://tailwindcss.com/)
-- Visualization of API calls:
-  1. Wrap async calls in [`spin`](src/spin/spin.composable.ts):
-     ```js
-     spin(loadCorpora(), "corpora");
-     ```
-  2. For markup that might change after the call, wrap it in [`<PendingContent>`](src/spin/PendingContent.vue) to apply animation:
-     ```html
-     <PendingContent on="corpora"> {{ corpora.length }} </PendingContent>
-     ```
+- [Mink](https://spraakbanken.gu.se/en/tools/mink)
+- [User manual](https://spraakbanken.gu.se/en/tools/mink/manual)
+- [Tutorial](https://spraakbanken.gu.se/en/tools/mink/tutorial)
 
-### Futher reading
+## Developer documentation
 
-- [Mink API documentation](https://ws.spraakbanken.gu.se/ws/mink/api-doc)
-- [Mink project board](https://github.com/orgs/spraakbanken/projects/10)
+- [CHANGELOG.md](CHANGELOG.md)
+- [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)
+- [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- [docs/STYLE.md](docs/STYLE.md)
 
-## Recommended IDE setup
+## Contact
 
-[VSCode](https://code.visualstudio.com/) with the plugins
-[ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint),
-[Vue](https://marketplace.visualstudio.com/items?itemName=Vue.volar) and
-[Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
-
-VSCode settings:
-
-```json
-{
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
-  },
-  "editor.formatOnSave": true,
-  "[javascript][typescript][vue]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json][jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
-}
-```
-
-## SSL in development
-
-For SB-Auth to allow authentication requests, the dev server must use a hostname matching `*.spraakbanken.gu.se`, and HTTPS must be enabled. See the `server` section in [vite.config.ts](vite.config.ts). If needed, create certificates with [mkcert](https://mkcert.dev) and refer to them in `.env.local`:
-
-```
-DEV_HTTPS_KEY=./local/spraakbanken.gu.se+1-key.pem
-DEV_HTTPS_CERT=./local/spraakbanken.gu.se+1.pem
-```
-
-## Testing
-
-See:
-
-- [Vue testing guide](https://vuejs.org/guide/scaling-up/testing.html)
-- [Vitest API](https://vitest.dev/api/)
-- [Vue testing library](https://testing-library.com/docs/vue-testing-library/intro)
+Email Språkbanken Text at: [sb-info@svenska.gu.se](mailto:sb-info@svenska.gu.se)

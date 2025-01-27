@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="overflow-scroll h-fit max-h-60 resize-y"><slot /></div>
+  <div class="overflow-auto h-fit max-h-60 resize-y"><slot /></div>
 </template>
 
 <style scoped>

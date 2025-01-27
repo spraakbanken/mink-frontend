@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import { PhTrash } from "@phosphor-icons/vue";
 import useDeleteMetadata from "@/metadata/deleteMetadata.composable";
 import useMetadataIdParam from "@/resource/resourceIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
@@ -28,7 +29,7 @@ async function doDelete() {
 
       <div>
         <ActionButton class="button-danger mr-4" @click="doDelete">
-          <icon :icon="['far', 'trash-can']" />
+          <PhTrash class="inline mb-1 mr-1" />
           {{ $t("metadata.delete") }}
         </ActionButton>
 
@@ -39,5 +40,3 @@ async function doDelete() {
     </LayoutSection>
   </PendingContent>
 </template>
-
-<style></style>

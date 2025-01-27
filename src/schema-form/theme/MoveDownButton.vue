@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { PhCaretDown } from "@phosphor-icons/vue";
 import ActionButton from "@/components/ActionButton.vue";
 </script>
 
 <template>
   <ActionButton v-bind="$props">
-    <icon :icon="['fas', 'angles-down']" />
+    <PhCaretDoubleDown />
   </ActionButton>
 </template>

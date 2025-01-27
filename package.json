@@ -1,6 +1,6 @@
 {
   "name": "mink-frontend",
-  "version": "1.6.0",
+  "version": "1.8.0",
   "license": "MIT",
   "scripts": {
     "dev": "vite",
@@ -9,8 +9,7 @@
     "typecheck": "vue-tsc --noEmit",
     "lint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore --fix src",
     "format": "prettier . --write --ignore-path .gitignore",
-    "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "test": "vitest"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -18,13 +17,11 @@
   "type": "module",
   "dependencies": {
     "@cloudflare/json-schema-walker": "^0.1.1",
+    "@fontsource-variable/source-sans-3": "^5.1.0",
     "@formkit/vue": "^1.0.0-beta.14",
-    "@fortawesome/fontawesome-svg-core": "^6.1.1",
-    "@fortawesome/free-regular-svg-icons": "^6.1.1",
-    "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@fortawesome/vue-fontawesome": "^3.0.1",
     "@highlightjs/vue-plugin": "^2.1.0",
     "@modyfi/vite-plugin-yaml": "^1.0.4",
+    "@phosphor-icons/vue": "^2.2.1",
     "@rjsf/core": "^5.18.4",
     "@rjsf/utils": "^5.18.4",
     "@rjsf/validator-ajv8": "^5.18.4",
@@ -35,11 +32,11 @@
     "autoprefixer": "^10.4.7",
     "axios": "^1",
     "datatransfer-files-promise": "^2.0.0",
+    "es-toolkit": "^1.31.0",
     "eslint": "^8.15.0",
     "filesize": "^10.0.6",
     "highlight.js": "^11",
     "js-yaml": "^4.1.0",
-    "lodash": "^4.17.21",
     "pinia": "^2.0.28",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -52,20 +49,20 @@
     "vue-i18n": "9",
     "vue-matomo": "^4.2.0",
     "vue-router": "4",
-    "vue-tsc": "^1.8.27"
+    "vue-tsc": "^2.0.28"
   },
   "devDependencies": {
     "@testing-library/vue": "^8.0.1",
     "@types/js-yaml": "^4.0.9",
-    "@types/lodash": "^4.14.202",
     "@types/node": "^20.10.6",
     "@types/react": "^18.3.3",
     "@vue/eslint-config-typescript": "^12.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-vue": "^9.0",
-    "happy-dom": "^12.10.3",
+    "happy-dom": "^15.10.2",
     "prettier": "^3.2.4",
+    "vite-plugin-checker": "^0.8.0",
     "vitest": "^1.2.2"
   },
   "prettier": {

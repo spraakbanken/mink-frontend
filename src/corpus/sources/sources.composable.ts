@@ -1,5 +1,5 @@
 import { computed } from "vue";
-import uniq from "lodash/uniq";
+import { uniq } from "es-toolkit";
 import useMinkBackend from "@/api/backend.composable";
 import { useResourceStore } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
@@ -44,7 +44,7 @@ export default function useSources(corpusId: string) {
     uniq(
       resourceStore.corpora[corpusId]?.sources?.map((source) =>
         getFilenameExtension(source.name),
-      ),
+      ) || [],
     ),
   );
 

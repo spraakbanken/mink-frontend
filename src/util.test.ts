@@ -4,11 +4,9 @@ import {
   enarray,
   ensureExtension,
   formatDate,
-  formatSeconds,
   fromKeys,
   getException,
   getFilenameExtension,
-  keyBy,
   objsToDict,
   pathJoin,
   randomString,
@@ -44,18 +42,6 @@ describe("enarray", () => {
 describe("formatDate", () => {
   test("formats a date", () => {
     expect(formatDate("2022-11-30T12:44:37.735Z")).toBe("2022-11-30 12:44:37");
-  });
-});
-
-describe("formatSeconds", () => {
-  test("less than a minute", () => {
-    expect(formatSeconds(59.4)).toBe("59 s");
-  });
-  test("a minute", () => {
-    expect(formatSeconds(59.5)).toBe("1 min 0 s");
-  });
-  test("more than two minutes", () => {
-    expect(formatSeconds(121)).toBe("2 min 1 s");
   });
 });
 
@@ -227,46 +213,5 @@ describe("fromKeys", () => {
     let i = 1;
     const obj = fromKeys(["a", "a"], (key) => key + i++);
     expect(obj).toEqual({ a: "a2" });
-  });
-});
-
-describe("keyBy", () => {
-  test("string keys", () => {
-    const objs = [
-      { name: "Alice", age: 40 },
-      { name: "Bob", age: 50 },
-    ];
-    const dict = {
-      Alice: { name: "Alice", age: 40 },
-      Bob: { name: "Bob", age: 50 },
-    };
-    expect(keyBy(objs, "name")).toEqual(dict);
-  });
-  test("number keys", () => {
-    const objs = [
-      { name: "Alice", age: 40 },
-      { name: "Bob", age: 50 },
-    ];
-    const dict = {
-      40: { name: "Alice", age: 40 },
-      50: { name: "Bob", age: 50 },
-    };
-    expect(keyBy(objs, "age")).toEqual(dict);
-  });
-  test("key collision", () => {
-    const objs = [
-      { name: "Alice", age: 40 },
-      { name: "Bob", age: 40 },
-    ];
-    const dict = {
-      40: { name: "Bob", age: 40 },
-    };
-    expect(keyBy(objs, "age")).toEqual(dict);
-  });
-  test("key missing", () => {
-    const objs = [{ age: 40 }];
-    const dict = { undefined: { age: 40 } };
-    // @ts-expect-error
-    expect(keyBy(objs, "name")).toEqual(dict);
   });
 });

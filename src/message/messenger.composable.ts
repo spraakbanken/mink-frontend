@@ -1,6 +1,5 @@
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
-import remove from "lodash/remove";
 import { AxiosError } from "axios";
 import { randomString } from "@/util";
 import type { MinkResponse } from "@/api/api.types";
@@ -20,19 +19,19 @@ export default function useMessenger() {
   const { t } = useI18n();
   const { te } = useLocale();
 
-  function alert(message: string, level?: MessageLevel) {
+  function alert(message: string, level: MessageLevel = "debug") {
     if (message && level !== "success") {
       // Add message.
       alerts.value.push({
         key: randomString(),
         message,
-        level: level || "debug",
+        level,
       });
     }
   }
 
   function dismiss(key: string) {
-    remove(alerts.value, (item) => item.key == key);
+    alerts.value = alerts.value.filter((item) => item.key != key);
   }
 
   function clear() {

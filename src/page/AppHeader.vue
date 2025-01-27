@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import { useRoute } from "vue-router";
 import MinkLogo from "@/page/MinkLogo.vue";
 import { getLogoutUrl } from "@/auth/sbAuth";
 import { useAuth } from "@/auth/auth.composable";
@@ -13,18 +15,21 @@ defineProps<{
 }>();
 
 const { isAuthenticating, payload, canUserWrite } = useAuth();
+
+const route = useRoute();
+const isHome = computed(() => route.path == "/");
 </script>
 
 <template>
   <header
-    class="mb-2 shadow bg-white text-gray-600 dark:bg-zinc-700 dark:text-zinc-400"
+    class="mb-2 shadow bg-white text-gray-600 dark:bg-zinc-800 dark:text-zinc-200"
   >
     <div class="container py-4 flex justify-between flex-wrap gap-4">
-      <div class="text-4xl">
+      <component :is="isHome ? 'h1' : 'div'" class="text-4xl">
         <router-link to="/" class="text-current">
           <MinkLogo :large="large" />
         </router-link>
-      </div>
+      </component>
 
       <div class="flex items-center gap-4">
         <SpinIndicator v-if="isAuthenticating" />
@@ -46,10 +51,18 @@ const { isAuthenticating, payload, canUserWrite } = useAuth();
 
           <div class="mt-2 flex flex-wrap gap-4 items-baseline justify-end">
             <template v-if="payload">
-              <router-link v-if="canUserWrite" to="/user" class="text-inherit">
+              <router-link
+                v-if="canUserWrite"
+                to="/user"
+                class="text-inherit font-normal no-underline hover:underline"
+              >
                 {{ payload.name }}
               </router-link>
-              <a v-else :href="getLogoutUrl()" class="text-inherit">
+              <a
+                v-else
+                :href="getLogoutUrl()"
+                class="text-inherit font-normal no-underline hover:underline"
+              >
                 {{ $t("logout") }}
               </a>
             </template>

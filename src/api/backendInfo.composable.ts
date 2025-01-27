@@ -1,7 +1,8 @@
 import { computed, readonly, ref } from "vue";
+import { keyBy } from "es-toolkit";
 import api from "@/api/api";
 import type { InfoData } from "@/api/api.types";
-import { keyBy, objsToDict } from "@/util";
+import { objsToDict } from "@/util";
 
 export type Info = {
   status_codes: Record<string, string>;
@@ -34,10 +35,13 @@ api.getInfo().then((original: InfoData) => {
     "file_extension",
     "importer",
   );
-  const file_size_limits = keyBy(original.file_size_limits.data, "name");
+  const file_size_limits = keyBy(
+    original.file_size_limits.data,
+    (item) => item.name,
+  );
   const recommended_file_size = keyBy(
     original.recommended_file_size.data,
-    "name",
+    (item) => item.name,
   );
   info.value = {
     status_codes,

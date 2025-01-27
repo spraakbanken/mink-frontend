@@ -30,13 +30,17 @@ function getDate(date: Date) {
       <article
         v-for="(item, i) in items"
         :key="i"
-        class="w-96 bg-white dark:bg-zinc-700 shadow p-2 px-3 my-2"
+        class="w-96 bg-white dark:bg-zinc-800 shadow p-2 px-3 my-2"
       >
-        <header class="font-bold">{{ th(item.title) }}</header>
-
-        <time :datetime="item.created.toString()" class="my-1 text-sm italic">
-          {{ getDate(item.created) }}
-        </time>
+        <header class="mb-2">
+          <h3 class="font-semibold">{{ th(item.title) }}</h3>
+          <time
+            :datetime="item.created.toString()"
+            class="block text-sm italic"
+          >
+            {{ getDate(item.created) }}
+          </time>
+        </header>
 
         <!-- eslint-disable-next-line vue/no-v-html -->
         <div class="prose" v-html="th(item.body)"></div>

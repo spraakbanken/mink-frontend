@@ -4,6 +4,7 @@ import useMinkBackend from "@/api/backend.composable";
 import { useResourceStore } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
 import type { JobType } from "@/api/api.types";
+import { useMatomo } from "@/matomo";
 
 // Module-scope ticker, can be watched to perform task intermittently
 const pollTick = useInterval(2000);
@@ -16,6 +17,7 @@ export default function useJob(corpusId: string) {
   const corpus = computed(() => resourceStore.corpora[corpusId]);
   const mink = useMinkBackend();
   const { alertError } = useMessenger();
+  const matomo = useMatomo();
 
   async function loadJob() {
     const info = await mink.resourceInfoOne(corpusId).catch(alertError);
@@ -24,23 +26,27 @@ export default function useJob(corpusId: string) {
   }
 
   async function runJob() {
+    matomo?.trackEvent("Corpus", "Annotation", "Start");
     const info = await mink.runJob(corpusId).catch(alertError);
     corpus.value.status = info.job;
   }
 
   async function installKorp() {
+    matomo?.trackEvent("Corpus", "Tool install", "Korp");
     const info = await mink.installKorp(corpusId).catch(alertError);
     if (!info) return;
     corpus.value.status = info.job;
   }
 
   async function installStrix() {
+    matomo?.trackEvent("Corpus", "Tool install", "Strix");
     const info = await mink.installStrix(corpusId).catch(alertError);
     if (!info) return;
     corpus.value.status = info.job;
   }
 
   async function abortJob() {
+    matomo?.trackEvent("Corpus", "Annotation", "Abort");
     await mink.abortJob(corpusId).catch(alertError);
     await loadJob();
   }
