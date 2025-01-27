@@ -1,5 +1,6 @@
 {
   "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://spraakbanken.gu.se/sparv/schema.json",
   "properties": {
     "classes": {
@@ -10,7 +11,8 @@
       "type": "array"
     },
     "install": {
-      "type": "array"
+      "type": "array",
+      "description": "List of default installers to run"
     },
     "parent": {
       "type": "string"
@@ -31,6 +33,7 @@
     "export": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Settings related to export.",
       "properties": {
         "default": {
           "type": "array",
@@ -53,11 +56,17 @@
           "description": "Remove module name prefixes from annotation names in export"
         },
         "sparv_namespace": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Prefix to add to the names of all automatically created annotations"
         },
         "source_namespace": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Prefix to add to the names of all annotations from source"
         },
         "scramble_on": {
@@ -69,6 +78,7 @@
     "import": {
       "type": "object",
       "additionalProperties": false,
+      "description": "Settings related to import.",
       "properties": {
         "text_annotation": {
           "type": "string",
@@ -92,7 +102,12 @@
           "type": "string",
           "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'",
           "default": "NFC",
-          "enum": ["NFC", "NFKC", "NFD", "NFKD"]
+          "enum": [
+            "NFC",
+            "NFKC",
+            "NFD",
+            "NFKD"
+          ]
         },
         "encoding": {
           "type": "string",
@@ -120,7 +135,10 @@
           "properties": {}
         },
         "language": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Language of source files (ISO 639-3)",
           "enum": [
             "ast",
@@ -150,7 +168,10 @@
         "variety": {
           "type": "string",
           "description": "Language variety of source files (if applicable)",
-          "enum": ["1800", "fsv"]
+          "enum": [
+            "1800",
+            "fsv"
+          ]
         },
         "description": {
           "type": "object",
@@ -179,7 +200,12 @@
           "type": "string",
           "description": "Compression to use for files in work-dir ('none', 'gzip', 'bzip2' or 'lzma'. Default: 'gzip')",
           "default": "gzip",
-          "enum": ["none", "gzip", "bzip2", "lzma"]
+          "enum": [
+            "none",
+            "gzip",
+            "bzip2",
+            "lzma"
+          ]
         }
       }
     },
@@ -206,6 +232,38 @@
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "csv_import": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Import of CSV files.",
+      "properties": {
+        "prefix": {
+          "type": "string",
+          "description": "Optional prefix to add to annotation names."
+        },
+        "encoding": {
+          "type": "string",
+          "description": "Encoding of source file. Defaults to UTF-8.",
+          "default": "UTF-8"
+        },
+        "keep_control_chars": {
+          "type": "boolean",
+          "description": "Set to True if control characters should not be removed from the text.",
+          "default": false
+        },
+        "normalize": {
+          "type": "string",
+          "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
+          "default": "NFC",
+          "enum": [
+            "NFC",
+            "NFKC",
+            "NFD",
+            "NFKD"
+          ]
         }
       }
     },
@@ -272,32 +330,41 @@
       "description": "Formats dates and times.",
       "properties": {
         "datetime_from": {
+          "type": "string",
           "description": "Annotation attribute containing from-dates (and times)"
         },
         "datetime_to": {
+          "type": "string",
           "description": "Annotation attribute containing to-dates (and times)"
         },
         "datetime_informat": {
-          "description": "Format of the source date/time values. Several formats can be specified separated by |. They will be tried in order."
+          "type": "string",
+          "description": "Format of the source date/time values, using format codes from https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes. Several formats can be specified separated by '|'. They will be tried in order."
         },
         "splitter": {
+          "type": "string",
           "description": "One or more characters separating two dates in 'datetime_from', treating them as from-date and to-date."
         },
         "pre_regex": {
+          "type": "string",
           "description": "Regular expression with a catching group whose content will be used in the parsing instead of the whole string. Applied before splitting."
         },
         "regex": {
+          "type": "string",
           "description": "Regular expression with a catching group whose content will be used in the parsing instead of the whole string. Applied on each value after splitting."
         },
         "date_outformat": {
-          "description": "Desired format of the formatted dates. Several formats can be specified separated by |. They will be tied to their respective in-format.",
+          "type": "string",
+          "description": "Desired format of the formatted dates, specified using the same format codes as for the in-format. Several formats can be specified separated by '|'. They will be tied to their respective in-format.",
           "default": "%Y%m%d"
         },
         "out_annotation": {
+          "type": "string",
           "description": "Annotation on which the resulting formatted date attributes will be written.",
           "default": "<text>"
         },
         "time_outformat": {
+          "type": "string",
           "description": "Desired format of the formatted times. Several formats can be specified separated by |. They will be tied to their respective in-format.",
           "default": "%H%M%S"
         }
@@ -321,7 +388,12 @@
           "type": "string",
           "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
           "default": "NFC",
-          "enum": ["NFC", "NFKC", "NFD", "NFKD"]
+          "enum": [
+            "NFC",
+            "NFKC",
+            "NFD",
+            "NFKD"
+          ]
         }
       }
     },
@@ -331,9 +403,11 @@
       "description": "Annotates geographical features.",
       "properties": {
         "metadata_source": {
+          "type": "string",
           "description": "Source attribute for location metadata"
         },
         "model": {
+          "type": "string",
           "description": "Path to model",
           "default": "geo/geo.pickle"
         }
@@ -345,37 +419,46 @@
       "description": "Part of Speech annotation using Hunpos.",
       "properties": {
         "binary": {
+          "type": "string",
           "description": "Hunpos executable",
           "default": "hunpos-tag"
         },
         "encoding": {
+          "type": "string",
           "description": "Encoding of the input text",
           "default": "UTF-8"
         },
         "model": {
+          "type": "string",
           "description": "Path to Hunpos model",
           "default": "hunpos/suc3_suc-tags_default-setting_utf8.model"
         },
         "morphtable": {
+          "type": "string",
           "description": "Path to optional Hunpos morphtable file",
           "default": "hunpos/saldo_suc-tags.morphtable"
         },
         "patterns": {
+          "type": "string",
           "description": "Path to optional patterns file",
           "default": "hunpos/suc.patterns"
         },
         "tag_mapping": {
+          "type": "string",
           "description": "Optional tag mapping for translating the output tags"
         },
         "model_hist": {
+          "type": "string",
           "description": "Path to Hunpos model (older Swedish)",
           "default": "hunpos/suc3_suc-tags_default-setting_utf8.model"
         },
         "morphtable_hist": {
+          "type": "string",
           "description": "Path to optional Hunpos morphtable file (older Swedish)",
           "default": "hunpos/hist/dalinm-swedberg_saldo_suc-tags.morphtable"
         },
         "tag_mapping_hist": {
+          "type": "string",
           "description": "Optional tag mapping for translating the output tags (older Swedish)"
         }
       }
@@ -386,11 +469,18 @@
       "description": "Miscellaneous annotations.",
       "properties": {
         "keep_formatting_chars": {
+          "type": "boolean",
           "description": "Set to True if you don't want formatting characters (e.g. soft hyphens) to be removed from tokens in the output.",
           "default": false
         },
         "head_tail_max_length": {
-          "description": "If set to an int misc.head and misc.tail will be truncated to that many characters."
+          "type": "integer",
+          "description": "Truncate misc.head and misc.tail to this number of characters."
+        },
+        "fake_headtail_line_length": {
+          "type": "integer",
+          "description": "Max line length",
+          "default": 120
         }
       }
     },
@@ -412,19 +502,12 @@
           "type": "string",
           "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
           "default": "NFC",
-          "enum": ["NFC", "NFKC", "NFD", "NFKD"]
-        }
-      }
-    },
-    "passthrough": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "export_path": {
-          "description": "TODO"
-        },
-        "export_host": {
-          "description": "TODO"
+          "enum": [
+            "NFC",
+            "NFKC",
+            "NFD",
+            "NFKD"
+          ]
         }
       }
     },
@@ -446,7 +529,12 @@
           "type": "string",
           "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
           "default": "NFC",
-          "enum": ["NFC", "NFKC", "NFD", "NFKD"]
+          "enum": [
+            "NFC",
+            "NFKC",
+            "NFD",
+            "NFKD"
+          ]
         }
       }
     },
@@ -587,7 +675,12 @@
           "type": "string",
           "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
           "default": "NFC",
-          "enum": ["NFC", "NFKC", "NFD", "NFKD"]
+          "enum": [
+            "NFC",
+            "NFKC",
+            "NFD",
+            "NFKD"
+          ]
         }
       }
     },
@@ -731,7 +824,12 @@
           "type": "string",
           "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
           "default": "NFC",
-          "enum": ["NFC", "NFKC", "NFD", "NFKD"]
+          "enum": [
+            "NFC",
+            "NFKC",
+            "NFD",
+            "NFKD"
+          ]
         }
       }
     },
@@ -741,18 +839,22 @@
       "description": "Annotations from FreeLing for various languages.",
       "properties": {
         "binary": {
+          "type": "string",
           "description": "FreeLing executable",
           "default": "analyze"
         },
         "conf": {
+          "type": "string",
           "description": "Path to FreeLing cfg file",
           "default": "sbx_freeling/[metadata.language].cfg"
         },
         "sentence_chunk": {
+          "type": "string",
           "description": "Text chunk (annotation) to use as input when segmenting sentences",
           "default": "<text>"
         },
         "sentence_annotation": {
+          "type": "string",
           "description": "Optional existing sentence segmentation annotation",
           "default": ""
         },
@@ -760,6 +862,184 @@
           "type": "integer",
           "description": "Timeout (in seconds) after which to kill FreeLing if it does not respond",
           "default": 300
+        }
+      }
+    },
+    "sbx_word_prediction_kb_bert": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Calculating word predictions by mask a word in a BERT model.",
+      "properties": {
+        "num_predictions": {
+          "description": "The number of predictions to list",
+          "default": 5
+        },
+        "num_decimals": {
+          "description": "The number of decimals to round the score to",
+          "default": 3
+        }
+      }
+    },
+    "sbx_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Metadata export (SBX specific).",
+      "properties": {
+        "script": {
+          "type": "string",
+          "description": "Writing system used to represent the language of the corpus (ISO-15924)",
+          "default": "Latn"
+        },
+        "language": {
+          "type": "string",
+          "description": "Language of source files (ISO 639-3). Use this to override metadata.language, for language codes not supported by Sparv.",
+          "default": ""
+        },
+        "xml_export": {
+          "type": [
+            "string",
+            "boolean"
+          ],
+          "description": "Whether XML export may be published. Values: scrambled, original, false",
+          "enum": [
+            "scrambled",
+            "original",
+            "false",
+            false
+          ]
+        },
+        "stats_export": {
+          "type": "boolean",
+          "description": "Whether token frequency export may be published"
+        },
+        "korp": {
+          "type": "boolean",
+          "description": "Whether the corpus will be published in Korp",
+          "default": true
+        },
+        "downloads": {
+          "type": "array",
+          "description": "Downloadable files belonging to the corpus",
+          "default": []
+        },
+        "interface": {
+          "type": "array",
+          "description": "List of interfaces where the corpus is available",
+          "default": []
+        },
+        "contact_info": {
+          "type": [
+            "string",
+            "object"
+          ],
+          "description": "Object containing information about the contact person for the resource",
+          "default": "sbx-default",
+          "properties": {}
+        },
+        "trainingdata": {
+          "type": "boolean",
+          "description": "Whether the corpus is intended as training data",
+          "default": false
+        },
+        "unlisted": {
+          "type": "boolean",
+          "description": "If set to 'true', the resource won't be listed on the Spr\u00e5kbanken Text web page, but it will be accessible via its URL",
+          "default": false
+        },
+        "in_collections": {
+          "type": "array",
+          "description": "List of material collections that this corpus is a part of",
+          "default": []
+        },
+        "annotation": {
+          "type": "object",
+          "default": {
+            "swe": "",
+            "eng": ""
+          },
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Anything worth to note about the annotations in this corpus. Especially important for corpora with gold annotations.",
+          "properties": {}
+        },
+        "keywords": {
+          "type": "array",
+          "description": "List of keywords (in English) that may be used for filering. Keep them short!",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        },
+        "caveats": {
+          "type": "object",
+          "default": {
+            "swe": "",
+            "eng": ""
+          },
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Caveats and disclaimers",
+          "properties": {}
+        },
+        "creators": {
+          "type": "array",
+          "description": "List of people that created the resource (format: lastname, firstname)",
+          "default": [],
+          "items": {
+            "type": "string"
+          }
+        },
+        "standard_reference": {
+          "type": "string",
+          "description": "A standard reference or link to a publication describing the resource",
+          "default": ""
+        },
+        "other_references": {
+          "type": "array",
+          "description": "List of references or links to publications describing the resource",
+          "default": []
+        },
+        "intended_uses": {
+          "type": "object",
+          "default": {
+            "swe": "",
+            "eng": ""
+          },
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "The intended uses for this resource",
+          "properties": {}
+        },
+        "yaml_export_host": {
+          "type": "string",
+          "description": "Remote host to copy YAML metadata export to.",
+          "default": "fksparv@bark.spraakdata.gu.se"
+        },
+        "yaml_export_path": {
+          "type": "string",
+          "description": "Path on remote host to copy YAML metadata export to.",
+          "default": "/home/fksparv/metadata/yaml/corpus"
+        },
+        "created": {
+          "type": "string",
+          "description": "Corpus creation date (YYYY-MM-DD). Today's date will be used by default.",
+          "default": "",
+          "pattern": "^(\\d{4}-\\d{2}-\\d{2}|)$"
+        },
+        "updated": {
+          "type": "string",
+          "description": "Corpus update date (YYYY-MM-DD). Today's date will be used by default.",
+          "default": "",
+          "pattern": "^(\\d{4}-\\d{2}-\\d{2}|)$"
+        },
+        "doi": {
+          "type": "string",
+          "description": "Digital Object Identifier (DOI) of the resource",
+          "default": "",
+          "pattern": "^(.+/.+|)$"
         }
       }
     }
@@ -777,13 +1057,19 @@
             "properties": {
               "language": {
                 "type": "string",
-                "enum": ["swe"]
+                "enum": [
+                  "swe"
+                ]
               }
             },
-            "required": ["language"]
+            "required": [
+              "language"
+            ]
           }
         },
-        "required": ["metadata"]
+        "required": [
+          "metadata"
+        ]
       },
       "then": {
         "properties": {
@@ -793,48 +1079,62 @@
             "description": "CoNLL file export.",
             "properties": {
               "source_annotations": {
-                "description": "List of annotations and attributes from the source data to include. Everything will be included by default."
+                "type": "array",
+                "description": "List of annotations and attributes from the source data to include. Everything will be included by default.",
+                "items": {
+                  "type": "string"
+                }
               },
               "conll_fields": {
                 "type": "object",
                 "additionalProperties": false,
                 "properties": {
                   "sentid": {
+                    "type": "string",
                     "description": "Sentence ID",
                     "default": "<sentence>:misc.id"
                   },
                   "id": {
+                    "type": "string",
                     "description": "Annotation in ID field of CoNLL-U output",
                     "default": "<token:ref>"
                   },
                   "lemma": {
+                    "type": "string",
                     "description": "Annotation in LEMMA field of CoNLL-U output",
                     "default": "<token:baseform>"
                   },
                   "upos": {
+                    "type": "string",
                     "description": "Annotation in UPOS field of CoNLL-U output",
                     "default": "<token:pos>"
                   },
                   "xpos": {
+                    "type": "string",
                     "description": "Annotation in XPOS field of CoNLL-U output",
                     "default": "<token:msd>"
                   },
                   "feats": {
+                    "type": "string",
                     "description": "Annotation in FEATS field of CoNLL-U output",
                     "default": "<token:ufeats>"
                   },
                   "head": {
+                    "type": "string",
                     "description": "Annotation in HEAD field of CoNLL-U output",
                     "default": "<token:dephead_ref>"
                   },
                   "deprel": {
+                    "type": "string",
                     "description": "Annotation in DEPREL field of CoNLL-U output",
                     "default": "<token:deprel>"
                   },
                   "deps": {
+                    "type": "string",
                     "description": "Annotation in DEPS field of CoNLL-U output"
                   },
                   "misc": {
+                    "type": "string",
                     "description": "Annotation in MISC field of CoNLL-U output"
                   }
                 }
@@ -847,18 +1147,22 @@
             "description": "Annotations lexical classes from Blingbring or SweFN.",
             "properties": {
               "bb_freq_model": {
+                "type": "string",
                 "description": "Path to Blingbring frequency model",
                 "default": "lexical_classes/blingbring.freq.gp2008+suc3+romi.pickle"
               },
               "swefn_freq_model": {
+                "type": "string",
                 "description": "Path to SweFN frequency model",
                 "default": "lexical_classes/swefn.freq.gp2008+suc3+romi.pickle"
               },
               "bb_word_model": {
+                "type": "string",
                 "description": "Path to Blingbring model",
                 "default": "lexical_classes/blingbring.pickle"
               },
               "swefn_word_model": {
+                "type": "string",
                 "description": "Path to SweFN model",
                 "default": "lexical_classes/swefn.pickle"
               }
@@ -870,10 +1174,12 @@
             "description": "Dependency parsing using MaltParser.",
             "properties": {
               "jar": {
+                "type": "string",
                 "description": "Path name of the executable .jar file",
                 "default": "maltparser-1.7.2/maltparser-1.7.2.jar"
               },
               "model": {
+                "type": "string",
                 "description": "Path to Malt model",
                 "default": "malt/swemalt-1.7.2.mco"
               }
@@ -927,7 +1233,11 @@
                 "type": "string",
                 "description": "Precision filter with possible values 'max' (only use the most probable annotations), 'first' (only use the single most probable annotation), 'none' (use all annotations)",
                 "default": "max",
-                "enum": ["max", "first", "none"]
+                "enum": [
+                  "max",
+                  "first",
+                  "none"
+                ]
               },
               "min_precision": {
                 "type": "number",
@@ -961,6 +1271,7 @@
             "description": "Sentiment annotation using SenSALDO.",
             "properties": {
               "model": {
+                "type": "string",
                 "description": "Path to SenSALDO model",
                 "default": "sensaldo/sensaldo.pickle"
               }
@@ -984,22 +1295,27 @@
             "description": "Word sense disambiguation based on SALDO annotation.",
             "properties": {
               "sense_model": {
+                "type": "string",
                 "description": "Path to sense model",
                 "default": "wsd/ALL_512_128_w10_A2_140403_ctx1.bin"
               },
               "context_model": {
+                "type": "string",
                 "description": "Path to context model",
                 "default": "wsd/lem_cbow0_s512_w10_NEW2_ctx.bin"
               },
               "default_prob": {
+                "type": "number",
                 "description": "Default value for unanalyzed senses",
                 "default": -1.0
               },
               "jar": {
+                "type": "string",
                 "description": "Path name of the executable .jar file",
                 "default": "wsd/saldowsd.jar"
               },
               "prob_format": {
+                "type": "string",
                 "description": "Format string for how to print the sense probability",
                 "default": ":%.3f"
               }
@@ -1019,34 +1335,21 @@
                   "type": "object",
                   "description": "General metadata about corpus.",
                   "properties": {
-                    "variety": {
-                      "type": "string",
-                      "enum": ["1800"]
-                    }
-                  },
-                  "required": ["variety"]
-                }
-              },
-              "required": ["metadata"]
-            }
-          },
-          {
-            "not": {
-              "type": "object",
-              "properties": {
-                "metadata": {
-                  "type": "object",
-                  "description": "General metadata about corpus.",
-                  "properties": {
                     "language": {
                       "type": "string",
-                      "enum": ["swe"]
+                      "enum": [
+                        "swe"
+                      ]
                     }
                   },
-                  "required": ["language"]
+                  "required": [
+                    "language"
+                  ]
                 }
               },
-              "required": ["metadata"]
+              "required": [
+                "metadata"
+              ]
             }
           },
           {
@@ -1059,13 +1362,44 @@
                   "properties": {
                     "variety": {
                       "type": "string",
-                      "enum": ["fsv"]
+                      "enum": [
+                        "1800"
+                      ]
                     }
                   },
-                  "required": ["variety"]
+                  "required": [
+                    "variety"
+                  ]
                 }
               },
-              "required": ["metadata"]
+              "required": [
+                "metadata"
+              ]
+            }
+          },
+          {
+            "not": {
+              "type": "object",
+              "properties": {
+                "metadata": {
+                  "type": "object",
+                  "description": "General metadata about corpus.",
+                  "properties": {
+                    "variety": {
+                      "type": "string",
+                      "enum": [
+                        "fsv"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "variety"
+                  ]
+                }
+              },
+              "required": [
+                "metadata"
+              ]
             }
           }
         ]
@@ -1078,34 +1412,42 @@
             "description": "Annotations for historical Swedish texts.",
             "properties": {
               "dalin_model": {
+                "type": "string",
                 "description": "Path to Dalin model",
                 "default": "hist/dalin.pickle"
               },
               "swedberg_model": {
+                "type": "string",
                 "description": "Path to Swedberg model",
                 "default": "hist/swedberg.pickle"
               },
               "fsv_model": {
+                "type": "string",
                 "description": "Path to model for fornsvenska morphology",
                 "default": "hist/fsvm.pickle"
               },
               "fsv_spelling": {
+                "type": "string",
                 "description": "Path to model for fornsvenska spelling variants",
                 "default": "hist/fsv-spelling-variants.txt"
               },
               "max_mwe_gaps": {
+                "type": "integer",
                 "description": "Max amount of gaps allowed within a multiword expression",
                 "default": 0
               },
               "delimiter": {
+                "type": "string",
                 "description": "Character to put between ambiguous results",
                 "default": "|"
               },
               "affix": {
+                "type": "string",
                 "description": "Character to put before and after sets of results",
                 "default": "|"
               },
               "extralemgrams": {
+                "type": "string",
                 "description": "Additional lemgram annotation"
               }
             }
@@ -1125,13 +1467,19 @@
                 "properties": {
                   "language": {
                     "type": "string",
-                    "enum": ["swe"]
+                    "enum": [
+                      "swe"
+                    ]
                   }
                 },
-                "required": ["language"]
+                "required": [
+                  "language"
+                ]
               }
             },
-            "required": ["metadata"]
+            "required": [
+              "metadata"
+            ]
           },
           {
             "type": "object",
@@ -1142,13 +1490,19 @@
                 "properties": {
                   "variety": {
                     "type": "string",
-                    "enum": ["fsv"]
+                    "enum": [
+                      "fsv"
+                    ]
                   }
                 },
-                "required": ["variety"]
+                "required": [
+                  "variety"
+                ]
               }
             },
-            "required": ["metadata"]
+            "required": [
+              "metadata"
+            ]
           },
           {
             "not": {
@@ -1160,13 +1514,19 @@
                   "properties": {
                     "variety": {
                       "type": "string",
-                      "enum": ["1800"]
+                      "enum": [
+                        "1800"
+                      ]
                     }
                   },
-                  "required": ["variety"]
+                  "required": [
+                    "variety"
+                  ]
                 }
               },
-              "required": ["metadata"]
+              "required": [
+                "metadata"
+              ]
             }
           }
         ]
@@ -1179,34 +1539,42 @@
             "description": "Annotations for historical Swedish texts.",
             "properties": {
               "dalin_model": {
+                "type": "string",
                 "description": "Path to Dalin model",
                 "default": "hist/dalin.pickle"
               },
               "swedberg_model": {
+                "type": "string",
                 "description": "Path to Swedberg model",
                 "default": "hist/swedberg.pickle"
               },
               "fsv_model": {
+                "type": "string",
                 "description": "Path to model for fornsvenska morphology",
                 "default": "hist/fsvm.pickle"
               },
               "fsv_spelling": {
+                "type": "string",
                 "description": "Path to model for fornsvenska spelling variants",
                 "default": "hist/fsv-spelling-variants.txt"
               },
               "max_mwe_gaps": {
+                "type": "integer",
                 "description": "Max amount of gaps allowed within a multiword expression",
                 "default": 0
               },
               "delimiter": {
+                "type": "string",
                 "description": "Character to put between ambiguous results",
                 "default": "|"
               },
               "affix": {
+                "type": "string",
                 "description": "Character to put before and after sets of results",
                 "default": "|"
               },
               "extralemgrams": {
+                "type": "string",
                 "description": "Additional lemgram annotation"
               },
               "fsv_min_precision": {
@@ -1228,15 +1596,21 @@
                 "type": "object",
                 "description": "General metadata about corpus.",
                 "properties": {
-                  "variety": {
+                  "language": {
                     "type": "string",
-                    "enum": ["1800"]
+                    "enum": [
+                      "swe"
+                    ]
                   }
                 },
-                "required": ["variety"]
+                "required": [
+                  "language"
+                ]
               }
             },
-            "required": ["metadata"]
+            "required": [
+              "metadata"
+            ]
           },
           {
             "type": "object",
@@ -1245,15 +1619,21 @@
                 "type": "object",
                 "description": "General metadata about corpus.",
                 "properties": {
-                  "language": {
+                  "variety": {
                     "type": "string",
-                    "enum": ["swe"]
+                    "enum": [
+                      "1800"
+                    ]
                   }
                 },
-                "required": ["language"]
+                "required": [
+                  "variety"
+                ]
               }
             },
-            "required": ["metadata"]
+            "required": [
+              "metadata"
+            ]
           },
           {
             "not": {
@@ -1265,13 +1645,19 @@
                   "properties": {
                     "variety": {
                       "type": "string",
-                      "enum": ["fsv"]
+                      "enum": [
+                        "fsv"
+                      ]
                     }
                   },
-                  "required": ["variety"]
+                  "required": [
+                    "variety"
+                  ]
                 }
               },
-              "required": ["metadata"]
+              "required": [
+                "metadata"
+              ]
             }
           }
         ]
@@ -1284,34 +1670,42 @@
             "description": "Annotations for historical Swedish texts.",
             "properties": {
               "dalin_model": {
+                "type": "string",
                 "description": "Path to Dalin model",
                 "default": "hist/dalin.pickle"
               },
               "swedberg_model": {
+                "type": "string",
                 "description": "Path to Swedberg model",
                 "default": "hist/swedberg.pickle"
               },
               "fsv_model": {
+                "type": "string",
                 "description": "Path to model for fornsvenska morphology",
                 "default": "hist/fsvm.pickle"
               },
               "fsv_spelling": {
+                "type": "string",
                 "description": "Path to model for fornsvenska spelling variants",
                 "default": "hist/fsv-spelling-variants.txt"
               },
               "max_mwe_gaps": {
+                "type": "integer",
                 "description": "Max amount of gaps allowed within a multiword expression",
                 "default": 0
               },
               "delimiter": {
+                "type": "string",
                 "description": "Character to put between ambiguous results",
                 "default": "|"
               },
               "affix": {
+                "type": "string",
                 "description": "Character to put before and after sets of results",
                 "default": "|"
               },
               "extralemgrams": {
+                "type": "string",
                 "description": "Additional lemgram annotation"
               },
               "lemgram_key": {
@@ -1337,32 +1731,21 @@
                 "type": "object",
                 "description": "General metadata about corpus.",
                 "properties": {
-                  "variety": {
-                    "type": "string",
-                    "enum": ["1800"]
-                  }
-                },
-                "required": ["variety"]
-              }
-            },
-            "required": ["metadata"]
-          },
-          {
-            "type": "object",
-            "properties": {
-              "metadata": {
-                "type": "object",
-                "description": "General metadata about corpus.",
-                "properties": {
                   "language": {
                     "type": "string",
-                    "enum": ["swe"]
+                    "enum": [
+                      "swe"
+                    ]
                   }
                 },
-                "required": ["language"]
+                "required": [
+                  "language"
+                ]
               }
             },
-            "required": ["metadata"]
+            "required": [
+              "metadata"
+            ]
           },
           {
             "type": "object",
@@ -1373,13 +1756,42 @@
                 "properties": {
                   "variety": {
                     "type": "string",
-                    "enum": ["fsv"]
+                    "enum": [
+                      "1800"
+                    ]
                   }
                 },
-                "required": ["variety"]
+                "required": [
+                  "variety"
+                ]
               }
             },
-            "required": ["metadata"]
+            "required": [
+              "metadata"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "metadata": {
+                "type": "object",
+                "description": "General metadata about corpus.",
+                "properties": {
+                  "variety": {
+                    "type": "string",
+                    "enum": [
+                      "fsv"
+                    ]
+                  }
+                },
+                "required": [
+                  "variety"
+                ]
+              }
+            },
+            "required": [
+              "metadata"
+            ]
           }
         ]
       },
@@ -1391,34 +1803,42 @@
             "description": "Annotations for historical Swedish texts.",
             "properties": {
               "dalin_model": {
+                "type": "string",
                 "description": "Path to Dalin model",
                 "default": "hist/dalin.pickle"
               },
               "swedberg_model": {
+                "type": "string",
                 "description": "Path to Swedberg model",
                 "default": "hist/swedberg.pickle"
               },
               "fsv_model": {
+                "type": "string",
                 "description": "Path to model for fornsvenska morphology",
                 "default": "hist/fsvm.pickle"
               },
               "fsv_spelling": {
+                "type": "string",
                 "description": "Path to model for fornsvenska spelling variants",
                 "default": "hist/fsv-spelling-variants.txt"
               },
               "max_mwe_gaps": {
+                "type": "integer",
                 "description": "Max amount of gaps allowed within a multiword expression",
                 "default": 0
               },
               "delimiter": {
+                "type": "string",
                 "description": "Character to put between ambiguous results",
                 "default": "|"
               },
               "affix": {
+                "type": "string",
                 "description": "Character to put before and after sets of results",
                 "default": "|"
               },
               "extralemgrams": {
+                "type": "string",
                 "description": "Additional lemgram annotation"
               },
               "fsv_min_precision": {
@@ -1451,13 +1871,19 @@
                   "properties": {
                     "language": {
                       "type": "string",
-                      "enum": ["swe"]
+                      "enum": [
+                        "swe"
+                      ]
                     }
                   },
-                  "required": ["language"]
+                  "required": [
+                    "language"
+                  ]
                 }
               },
-              "required": ["metadata"]
+              "required": [
+                "metadata"
+              ]
             }
           }
         ]
@@ -1527,14 +1953,22 @@
                 "type": "array",
                 "description": "Contexts to use in Korp, from smaller to bigger. Leave blank to detect automatically.",
                 "items": {
-                  "type": "string"
+                  "type": [
+                    "object",
+                    "string"
+                  ],
+                  "properties": {}
                 }
               },
               "within": {
                 "type": "array",
                 "description": "Search boundaries to use in Korp, from smaller to bigger. Leave blank to detect automatically.",
                 "items": {
-                  "type": "string"
+                  "type": [
+                    "object",
+                    "string"
+                  ],
+                  "properties": {}
                 }
               },
               "custom_annotations": {
@@ -1546,7 +1980,8 @@
                 }
               },
               "morphology": {
-                "description": "Morphologies"
+                "type": "string",
+                "description": "Pipe-separated list of morphologies used by the corpus"
               },
               "reading_mode": {
                 "type": "object",
@@ -1589,48 +2024,93 @@
             "description": "Segmentation of text into smaller units.",
             "properties": {
               "token_segmenter": {
+                "type": "string",
                 "description": "Token segmenter to use",
-                "default": "better_word"
+                "default": "better_word",
+                "enum": [
+                  "better_word",
+                  "blanklines",
+                  "crf_tokenizer",
+                  "fsv_paragraph",
+                  "linebreaks",
+                  "punctuation",
+                  "punkt_sentence",
+                  "simple_word_punkt",
+                  "whitespace"
+                ]
               },
               "token_chunk": {
+                "type": "string",
                 "description": "Text chunk (annotation) to use as input when tokenizing",
                 "default": "<sentence>"
               },
               "existing_tokens": {
+                "type": "string",
                 "description": "Optional existing token annotation"
               },
               "tokenizer_config": {
+                "type": "string",
                 "description": "Path to tokenizer config",
                 "default": "segment/bettertokenizer.sv"
               },
               "token_list": {
+                "type": "string",
                 "description": "Path to optional token list file",
                 "default": "segment/bettertokenizer.sv.saldo-tokens"
               },
               "sentence_segmenter": {
+                "type": "string",
                 "description": "Sentence segmenter to use",
-                "default": "punkt_sentence"
+                "default": "punkt_sentence",
+                "enum": [
+                  "better_word",
+                  "blanklines",
+                  "crf_tokenizer",
+                  "fsv_paragraph",
+                  "linebreaks",
+                  "punctuation",
+                  "punkt_sentence",
+                  "simple_word_punkt",
+                  "whitespace"
+                ]
               },
               "sentence_chunk": {
+                "type": "string",
                 "description": "Text chunk (annotation) to use as input when segmenting",
                 "default": "<paragraph>, <text>"
               },
               "existing_sentences": {
+                "type": "string",
                 "description": "Optional existing sentence annotation"
               },
               "sentence_model": {
+                "type": "string",
                 "description": "Path to model",
                 "default": "segment/punkt-nltk-svenska.pickle"
               },
               "paragraph_segmenter": {
+                "type": "string",
                 "description": "Paragraph segmenter to use",
-                "default": "blanklines"
+                "default": "blanklines",
+                "enum": [
+                  "better_word",
+                  "blanklines",
+                  "crf_tokenizer",
+                  "fsv_paragraph",
+                  "linebreaks",
+                  "punctuation",
+                  "punkt_sentence",
+                  "simple_word_punkt",
+                  "whitespace"
+                ]
               },
               "paragraph_chunk": {
+                "type": "string",
                 "description": "Text chunk (annotation) to use as input when segmenting",
                 "default": "<text>"
               },
               "existing_paragraphs": {
+                "type": "string",
                 "description": "Optional existing paragraph annotation"
               }
             }
@@ -1650,13 +2130,19 @@
                 "properties": {
                   "language": {
                     "type": "string",
-                    "enum": ["swe"]
+                    "enum": [
+                      "swe"
+                    ]
                   }
                 },
-                "required": ["language"]
+                "required": [
+                  "language"
+                ]
               }
             },
-            "required": ["metadata"]
+            "required": [
+              "metadata"
+            ]
           }
         ]
       },
@@ -1725,14 +2211,22 @@
                 "type": "array",
                 "description": "Contexts to use in Korp, from smaller to bigger. Leave blank to detect automatically.",
                 "items": {
-                  "type": "string"
+                  "type": [
+                    "object",
+                    "string"
+                  ],
+                  "properties": {}
                 }
               },
               "within": {
                 "type": "array",
                 "description": "Search boundaries to use in Korp, from smaller to bigger. Leave blank to detect automatically.",
                 "items": {
-                  "type": "string"
+                  "type": [
+                    "object",
+                    "string"
+                  ],
+                  "properties": {}
                 }
               },
               "custom_annotations": {
@@ -1744,7 +2238,8 @@
                 }
               },
               "morphology": {
-                "description": "Morphologies"
+                "type": "string",
+                "description": "Pipe-separated list of morphologies used by the corpus"
               },
               "reading_mode": {
                 "type": "object",
@@ -1792,53 +2287,110 @@
             "description": "Segmentation of text into smaller units.",
             "properties": {
               "token_segmenter": {
+                "type": "string",
                 "description": "Token segmenter to use",
-                "default": "better_word"
+                "default": "better_word",
+                "enum": [
+                  "better_word",
+                  "blanklines",
+                  "crf_tokenizer",
+                  "fsv_paragraph",
+                  "linebreaks",
+                  "punctuation",
+                  "punkt_sentence",
+                  "simple_word_punkt",
+                  "whitespace"
+                ]
               },
               "token_chunk": {
+                "type": "string",
                 "description": "Text chunk (annotation) to use as input when tokenizing",
                 "default": "<sentence>"
               },
               "existing_tokens": {
+                "type": "string",
                 "description": "Optional existing token annotation"
               },
               "tokenizer_config": {
+                "type": "string",
                 "description": "Path to tokenizer config",
                 "default": "segment/bettertokenizer.sv"
               },
               "token_list": {
+                "type": "string",
                 "description": "Path to optional token list file",
                 "default": "segment/bettertokenizer.sv.saldo-tokens"
               },
               "sentence_segmenter": {
+                "type": "string",
                 "description": "Sentence segmenter to use",
-                "default": "punkt_sentence"
+                "default": "punkt_sentence",
+                "enum": [
+                  "better_word",
+                  "blanklines",
+                  "crf_tokenizer",
+                  "fsv_paragraph",
+                  "linebreaks",
+                  "punctuation",
+                  "punkt_sentence",
+                  "simple_word_punkt",
+                  "whitespace"
+                ]
               },
               "sentence_chunk": {
+                "type": "string",
                 "description": "Text chunk (annotation) to use as input when segmenting",
                 "default": "<paragraph>, <text>"
               },
               "existing_sentences": {
+                "type": "string",
                 "description": "Optional existing sentence annotation"
               },
               "sentence_model": {
+                "type": "string",
                 "description": "Path to model",
                 "default": "segment/punkt-nltk-svenska.pickle"
               },
               "paragraph_segmenter": {
+                "type": "string",
                 "description": "Paragraph segmenter to use",
-                "default": "blanklines"
+                "default": "blanklines",
+                "enum": [
+                  "better_word",
+                  "blanklines",
+                  "crf_tokenizer",
+                  "fsv_paragraph",
+                  "linebreaks",
+                  "punctuation",
+                  "punkt_sentence",
+                  "simple_word_punkt",
+                  "whitespace"
+                ]
               },
               "paragraph_chunk": {
+                "type": "string",
                 "description": "Text chunk (annotation) to use as input when segmenting",
                 "default": "<text>"
               },
               "existing_paragraphs": {
+                "type": "string",
                 "description": "Optional existing paragraph annotation"
               },
               "token_wordlist_segmenter": {
+                "type": "string",
                 "description": "Segmenter to use when building wordlist",
-                "default": "better_word"
+                "default": "better_word",
+                "enum": [
+                  "better_word",
+                  "blanklines",
+                  "crf_tokenizer",
+                  "fsv_paragraph",
+                  "linebreaks",
+                  "punctuation",
+                  "punkt_sentence",
+                  "simple_word_punkt",
+                  "whitespace"
+                ]
               }
             }
           }
@@ -1855,13 +2407,19 @@
             "properties": {
               "language": {
                 "type": "string",
-                "enum": ["eng"]
+                "enum": [
+                  "eng"
+                ]
               }
             },
-            "required": ["language"]
+            "required": [
+              "language"
+            ]
           }
         },
-        "required": ["metadata"]
+        "required": [
+          "metadata"
+        ]
       },
       "then": {
         "properties": {
@@ -1907,10 +2465,14 @@
                 ]
               }
             },
-            "required": ["language"]
+            "required": [
+              "language"
+            ]
           }
         },
-        "required": ["metadata"]
+        "required": [
+          "metadata"
+        ]
       },
       "then": {
         "properties": {
