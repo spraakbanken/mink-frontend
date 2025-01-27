@@ -22,7 +22,7 @@ const isHome = computed(() => route.path == "/");
 
 <template>
   <header
-    class="mb-2 shadow bg-white text-gray-600 dark:bg-zinc-800 dark:text-zinc-200"
+    class="mb-2 shadow-sm bg-white text-gray-600 dark:bg-zinc-800 dark:text-zinc-200"
   >
     <div class="container py-4 flex justify-between flex-wrap gap-4">
       <component :is="isHome ? 'h1' : 'div'" class="text-4xl">

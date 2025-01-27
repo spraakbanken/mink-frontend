@@ -70,7 +70,7 @@ watchEffect(() => (input.value = config.value || ""));
 
       <PendingContent :on="`corpus/${corpusId}/config`" blocking>
         <div class="flex gap-2 items-baseline my-2">
-          <div class="flex-grow"></div>
+          <div class="grow"></div>
           <div v-if="!isValid" :title="$t('yaml.invalid')">
             <PhFileX class="inline text-xl text-red-600" />
           </div>

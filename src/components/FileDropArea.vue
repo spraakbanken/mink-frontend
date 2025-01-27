@@ -33,13 +33,7 @@ const { isDragover } = useDropToPage(drop);
 </script>
 
 <template>
-  <div :class="{ dragover: isDragover }">
+  <div :class="{ 'shadow-lg': isDragover }">
     <slot />
   </div>
 </template>
-
-<style scoped>
-.dragover {
-  @apply shadow-lg;
-}
-</style>

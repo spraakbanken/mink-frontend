@@ -79,6 +79,8 @@ function translateString(string: TranslatableString, params?: string[]) {
 </template>
 
 <style scoped>
+@reference "tailwindcss";
+
 ::v-deep(pre) {
   @apply whitespace-pre-wrap text-xs;
 }

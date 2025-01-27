@@ -70,6 +70,8 @@ onMounted(() => {
 </template>
 
 <style scoped>
+@reference "tailwindcss";
+
 * + tr > th,
 * + tr > td {
   @apply pt-2;
