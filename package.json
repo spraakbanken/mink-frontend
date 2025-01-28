@@ -3,6 +3,7 @@
   "version": "1.8.0",
   "license": "MIT",
   "scripts": {
+    "postinstall": "patch-package",
     "dev": "vite",
     "build": "yarn typecheck && vite build",
     "serve": "vite preview",
@@ -61,6 +62,8 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-vue": "^9.32.0",
     "happy-dom": "^16.7.3",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "prettier": "^3.4.2",
     "vite-plugin-checker": "^0.8.0",
     "vitest": "^3.0.4"

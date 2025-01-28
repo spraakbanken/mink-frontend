@@ -1,0 +1,13 @@
+diff --git a/node_modules/veaury/types/veaury.d.ts b/node_modules/veaury/types/veaury.d.ts
+index 351ee8f..5783c82 100644
+--- a/node_modules/veaury/types/veaury.d.ts
++++ b/node_modules/veaury/types/veaury.d.ts
+@@ -76,7 +76,7 @@ export const lazyPureReactInVue: typeof lazyReactInVue;
+ export const lazyPureVueInReact: typeof lazyVueInReact;
+ export const injectSyncUpdateForPureReactInVue: (ReactComponent: ReactComponent, syncUpdateHooks: SyncUpdateHooks) => SyncUpdateStates;
+ 
+-declare module '@vue/runtime-core' {
++declare module 'vue' {
+     interface ComponentCustomProperties {
+         __veauryReactRef__?: any;
+     }
