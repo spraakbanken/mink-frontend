@@ -28,6 +28,7 @@
     "@rjsf/validator-ajv8": "^5.18.4",
     "@tailwindcss/postcss": "^4.0.0",
     "@types/json-schema": "^7.0.15",
+    "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/tsconfig": "^0.7.0",
     "@vueuse/core": "^12.5.0",

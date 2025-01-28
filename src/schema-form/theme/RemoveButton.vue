@@ -5,6 +5,6 @@ import ActionButton from "@/components/ActionButton.vue";
 
 <template>
   <ActionButton v-bind="$props">
-    <PhTrash>
+    <PhTrash />
   </ActionButton>
 </template>

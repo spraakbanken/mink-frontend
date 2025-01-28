@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PhCaretDown } from "@phosphor-icons/vue";
+import { PhCaretDoubleDown } from "@phosphor-icons/vue";
 import ActionButton from "@/components/ActionButton.vue";
 </script>
 

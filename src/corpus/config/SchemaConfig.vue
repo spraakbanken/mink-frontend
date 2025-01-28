@@ -17,6 +17,7 @@ import JsonSchemaForm from "@/schema-form/JsonSchemaForm.vue";
 import { fromKeys } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
 import HelpBox from "@/components/HelpBox.vue";
+import useLocale from "@/i18n/locale.composable";
 
 const props = defineProps<{
   /** A list of properties to include from the schema, the rest are hidden. */
@@ -25,7 +26,8 @@ const props = defineProps<{
 
 const corpusId = useCorpusIdParam();
 const { config, uploadConfigRaw } = useConfig(corpusId);
-const { t, te } = useI18n();
+const { t } = useI18n();
+const { te } = useLocale();
 
 const configParsed = computed(() =>
   config.value ? (Yaml.load(config.value) as SparvConfig) : undefined,

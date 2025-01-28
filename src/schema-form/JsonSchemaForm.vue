@@ -11,7 +11,8 @@ export type JsonSchemaFormProps<D extends {}> = {
 <script setup lang="ts" generic="D extends {}">
 import { withTheme } from "@rjsf/core";
 import validator from "@rjsf/validator-ajv8";
-import { applyPureReactInVue } from "veaury";
+import { applyPureReactInVue, setVeauryOptions } from "veaury";
+import { createRoot } from "react-dom/client";
 import {
   englishStringTranslator,
   TranslatableString,
@@ -35,6 +36,7 @@ const { t } = useI18n();
 const Form = withTheme(theme);
 
 // Wrap React component, see https://github.com/gloriasoft/veaury
+setVeauryOptions({ react: { createRoot } });
 const VeauryForm = applyPureReactInVue(Form);
 
 type FormInvalidError = {
@@ -112,10 +114,10 @@ function translateString(string: TranslatableString, params?: string[]) {
   @apply text-2xl;
 }
 ::v-deep(.unsupported-field) {
-  @apply bg-red-50 dark:bg-red-900 dark:bg-opacity-30;
+  @apply bg-red-50 dark:bg-red-900/30;
 }
 ::v-deep(.has-error) {
-  @apply bg-red-50 dark:bg-red-900 dark:bg-opacity-30;
+  @apply bg-red-50 dark:bg-red-900/30;
 }
 ::v-deep(.row) {
   @apply flex flex-wrap gap-2;
