@@ -609,33 +609,6 @@
         }
       }
     },
-    "text_import": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Import of plain text source files.",
-      "properties": {
-        "prefix": {
-          "type": "string",
-          "description": "Optional prefix to add to annotation names."
-        },
-        "encoding": {
-          "type": "string",
-          "description": "Encoding of source file. Defaults to UTF-8.",
-          "default": "UTF-8"
-        },
-        "keep_control_chars": {
-          "type": "boolean",
-          "description": "Set to True if control characters should not be removed from the text.",
-          "default": false
-        },
-        "normalize": {
-          "type": "string",
-          "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
-          "default": "NFC",
-          "enum": ["NFC", "NFKC", "NFD", "NFKD"]
-        }
-      }
-    },
     "xml_export": {
       "type": "object",
       "additionalProperties": false,
@@ -1261,12 +1234,12 @@
                   "type": "object",
                   "description": "General metadata about corpus.",
                   "properties": {
-                    "language": {
+                    "variety": {
                       "type": "string",
-                      "enum": ["swe"]
+                      "enum": ["1800"]
                     }
                   },
-                  "required": ["language"]
+                  "required": ["variety"]
                 }
               },
               "required": ["metadata"]
@@ -1280,12 +1253,12 @@
                   "type": "object",
                   "description": "General metadata about corpus.",
                   "properties": {
-                    "variety": {
+                    "language": {
                       "type": "string",
-                      "enum": ["1800"]
+                      "enum": ["swe"]
                     }
                   },
-                  "required": ["variety"]
+                  "required": ["language"]
                 }
               },
               "required": ["metadata"]
@@ -1486,12 +1459,12 @@
                 "type": "object",
                 "description": "General metadata about corpus.",
                 "properties": {
-                  "language": {
+                  "variety": {
                     "type": "string",
-                    "enum": ["swe"]
+                    "enum": ["1800"]
                   }
                 },
-                "required": ["language"]
+                "required": ["variety"]
               }
             },
             "required": ["metadata"]
@@ -1503,12 +1476,12 @@
                 "type": "object",
                 "description": "General metadata about corpus.",
                 "properties": {
-                  "variety": {
+                  "language": {
                     "type": "string",
-                    "enum": ["1800"]
+                    "enum": ["swe"]
                   }
                 },
-                "required": ["variety"]
+                "required": ["language"]
               }
             },
             "required": ["metadata"]
@@ -1603,12 +1576,12 @@
                 "type": "object",
                 "description": "General metadata about corpus.",
                 "properties": {
-                  "language": {
+                  "variety": {
                     "type": "string",
-                    "enum": ["swe"]
+                    "enum": ["1800"]
                   }
                 },
-                "required": ["language"]
+                "required": ["variety"]
               }
             },
             "required": ["metadata"]
@@ -1620,12 +1593,12 @@
                 "type": "object",
                 "description": "General metadata about corpus.",
                 "properties": {
-                  "variety": {
+                  "language": {
                     "type": "string",
-                    "enum": ["1800"]
+                    "enum": ["swe"]
                   }
                 },
-                "required": ["variety"]
+                "required": ["language"]
               }
             },
             "required": ["metadata"]
@@ -2255,6 +2228,55 @@
               "bin": {
                 "description": "Path to directory containing Stanford executables",
                 "default": "stanford_parser"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "type": "object",
+        "properties": {
+          "import": {
+            "type": "object",
+            "description": "Settings related to import.",
+            "properties": {
+              "importer": {
+                "const": "text_import:parse"
+              }
+            },
+            "required": ["importer"]
+          }
+        },
+        "required": ["import"]
+      },
+      "then": {
+        "properties": {
+          "text_import": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Import of plain text source files.",
+            "properties": {
+              "prefix": {
+                "type": "string",
+                "description": "Optional prefix to add to annotation names."
+              },
+              "encoding": {
+                "type": "string",
+                "description": "Encoding of source file. Defaults to UTF-8.",
+                "default": "UTF-8"
+              },
+              "keep_control_chars": {
+                "type": "boolean",
+                "description": "Set to True if control characters should not be removed from the text.",
+                "default": false
+              },
+              "normalize": {
+                "type": "string",
+                "description": "Normalize input using any of the following forms: 'NFC', 'NFKC', 'NFD', and 'NFKD'.",
+                "default": "NFC",
+                "enum": ["NFC", "NFKC", "NFD", "NFKD"]
               }
             }
           }
