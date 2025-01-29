@@ -10,7 +10,7 @@ import MoveDownButtonVue from "./MoveDownButton.vue";
 import SubmitButtonVue from "./SubmitButton.vue";
 
 // Rename and retype the Veaury converter to allow specifying return type better.
-const toReact = <P = {}>(component: Component) =>
+const toReact = <P>(component: Component) =>
   applyPureVueInReact(component) as React.ComponentType<P>;
 
 // https://rjsf-team.github.io/react-jsonschema-form/docs/advanced-customization/custom-widgets-fields

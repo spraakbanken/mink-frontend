@@ -1,10 +1,10 @@
 <script lang="ts">
-export type JsonSchemaFormProps<D extends {}> = {
+export type JsonSchemaFormProps<D extends object> = {
   schema: StrictRJSFSchema;
   data?: D;
   uiSchema?: UiSchema;
-  onChange?: (event: { formData: D }, fieldId: string) => {};
-  onSubmit?: (event: { formData: D }) => {};
+  onChange?: (event: { formData: D }, fieldId: string) => void;
+  onSubmit?: (event: { formData: D }) => void;
 };
 </script>
 

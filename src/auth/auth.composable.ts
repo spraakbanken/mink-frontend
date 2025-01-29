@@ -80,7 +80,7 @@ export function useAuth() {
       api.setJwt(jwtValue);
 
       // Schedule next request shortly before expiration time.
-      refreshTimer && clearTimeout(refreshTimer);
+      if (refreshTimer) clearTimeout(refreshTimer);
       if (payload.value?.exp) {
         const timeoutMs = (payload.value.exp - 10) * 1000 - Date.now();
         refreshTimer = setTimeout(refreshJwt, timeoutMs);

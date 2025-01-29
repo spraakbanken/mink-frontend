@@ -26,8 +26,8 @@ function filesFormData(...files: File[]): FormData {
 }
 
 /** Handle an exception from an API call that may be encoded as Blob */
-async function rethrowBlobError(error: any): Promise<never> {
-  if (error.response?.data instanceof Blob) {
+async function rethrowBlobError(error: unknown): Promise<never> {
+  if (Axios.isAxiosError(error) && error.response?.data instanceof Blob) {
     // Parse JSON and replace the blob
     const text = await error.response.data.text();
     error.response.data = JSON.parse(text) as MinkResponse;

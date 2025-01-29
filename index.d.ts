@@ -1,3 +1,14 @@
+interface Window {
+  // Matomo queue
+  _paq?: (string | number | undefined)[][];
+
+  // Stuff exposed in dev
+  api?: import("@/api/api");
+  resourceStore?: import("pinia").Store;
+  util?: import("@/util");
+}
+declare const window: Window;
+
 declare module "vue-matomo" {
   // See https://github.com/AmazingDreams/vue-matomo/blob/master/src/utils.js
 
@@ -46,6 +57,6 @@ declare module "@cloudflare/json-schema-walker" {
     schema: import("json-schema").JSONSchema7,
     preFunc?: Visitor,
     postFunc?: Visitor,
-    vocabulary?: any,
+    vocabulary?: unknown,
   ): void;
 }

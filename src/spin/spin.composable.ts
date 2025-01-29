@@ -3,7 +3,7 @@ import { enarray } from "@/util";
 
 const unsettled = ref<SpinItem[]>([]);
 
-type SpinItem<T = any> = {
+type SpinItem<T = unknown> = {
   promise: Promise<T>;
   token?: string;
 };

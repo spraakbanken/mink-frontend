@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import Yaml from "js-yaml";
-import { useAuth } from "@/auth/auth.composable";
-import useConfig from "./config.composable";
-import useCorpusIdParam from "../corpusIdParam.composable";
 import { ref, watchEffect } from "vue";
-import useMessenger from "@/message/messenger.composable";
 import type { AxiosError } from "axios";
+import { PhFileX, PhWarning } from "@phosphor-icons/vue";
+import useCorpusIdParam from "../corpusIdParam.composable";
+import useConfig from "./config.composable";
+import CorpusConfigCustomHelp from "./CorpusConfigCustomHelp.vue";
+import { useAuth } from "@/auth/auth.composable";
+import useMessenger from "@/message/messenger.composable";
 import type { MinkResponse } from "@/api/api.types";
 import LayoutBox from "@/components/LayoutBox.vue";
 import HelpBox from "@/components/HelpBox.vue";
-import { PhFileX, PhWarning } from "@phosphor-icons/vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import { getException } from "@/util";
-import CorpusConfigCustomHelp from "./CorpusConfigCustomHelp.vue";
 import RouteButton from "@/components/RouteButton.vue";
 
 const corpusId = useCorpusIdParam();

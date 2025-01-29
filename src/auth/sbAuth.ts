@@ -12,7 +12,7 @@ const JWT_URL: string = import.meta.env.VITE_JWT_URL || AUTH_URL + "jwt";
 export type stringJwt = `${string}.${string}.${string}`;
 
 export type JwtSb = {
-  header: any;
+  header: unknown;
   payload: JwtSbPayload;
 };
 
@@ -72,13 +72,18 @@ export function decodeJwt(jwt: stringJwt): JwtSb {
   };
 }
 
-function assertValidPayload(payload: any): payload is JwtSbPayload {
+function assertValidPayload(payload: unknown): payload is JwtSbPayload {
   const isValid =
+    payload instanceof Object &&
+    "scope" in payload &&
     payload?.scope &&
-    payload.levels &&
-    payload.levels.ADMIN &&
-    payload.levels.WRITE &&
-    payload.levels.READ;
+    "levels" in payload &&
+    payload.levels instanceof Object &&
+    ["READ", "WRITE", "ADMIN"].every(
+      (level) =>
+        level in (payload.levels as object) &&
+        (payload.levels as Record<string, unknown>)[level],
+    );
 
   if (!isValid)
     throw new TypeError("Malformed jwt payload: " + JSON.stringify(payload));
