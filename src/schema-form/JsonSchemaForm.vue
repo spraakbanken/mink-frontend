@@ -10,7 +10,8 @@ export type JsonSchemaFormProps<D extends object> = {
 
 <script setup lang="ts" generic="D extends {}">
 import { withTheme } from "@rjsf/core";
-import validator from "@rjsf/validator-ajv8";
+import { customizeValidator } from "@rjsf/validator-ajv8";
+import Ajv2020 from "ajv/dist/2020";
 import { applyPureReactInVue, setVeauryOptions } from "veaury";
 import { createRoot } from "react-dom/client";
 import {
@@ -45,6 +46,8 @@ type FormInvalidError = {
 };
 
 const { alert } = useMessenger();
+
+const validator = customizeValidator({ AjvClass: Ajv2020 });
 
 function onError(errors: FormInvalidError[]) {
   errors.forEach((error) =>
