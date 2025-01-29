@@ -9,7 +9,7 @@ export type JsonSchemaFormProps<D extends object> = {
 </script>
 
 <script setup lang="ts" generic="D extends {}">
-import { withTheme } from "@rjsf/core";
+import { withTheme, type FormProps } from "@rjsf/core";
 import { customizeValidator } from "@rjsf/validator-ajv8";
 import Ajv2020 from "ajv/dist/2020";
 import { applyPureReactInVue, setVeauryOptions } from "veaury";
@@ -21,12 +21,17 @@ import {
   type UiSchema,
 } from "@rjsf/utils";
 import { useI18n } from "vue-i18n";
+import type { Component } from "vue";
+import { findKey } from "es-toolkit";
 import theme from "@/schema-form/theme/form-theme";
 import useMessenger from "@/message/messenger.composable";
+import useLocale from "@/i18n/locale.composable";
 
 defineProps<JsonSchemaFormProps<D>>();
 
 const { t } = useI18n();
+const { te } = useLocale();
+const { alert } = useMessenger();
 
 // Construct a RJSF form with custom theme.
 // The theme can override widget/field/template implementations.
@@ -38,30 +43,23 @@ const Form = withTheme(theme);
 
 // Wrap React component, see https://github.com/gloriasoft/veaury
 setVeauryOptions({ react: { createRoot } });
-const VeauryForm = applyPureReactInVue(Form);
-
-type FormInvalidError = {
-  message: string;
-  property: string;
-};
-
-const { alert } = useMessenger();
+const VeauryForm: Component<FormProps> = applyPureReactInVue(Form);
 
 const validator = customizeValidator({ AjvClass: Ajv2020 });
 
-function onError(errors: FormInvalidError[]) {
+const onError: FormProps["onError"] = (errors) => {
+  console.log(errors);
   errors.forEach((error) =>
-    alert(`${error.property.split(".").pop()} ${error.message}`, "error"),
+    alert(`${error.property?.split(".").pop()} ${error.message}`, "error"),
   );
-}
+};
 
-function translateString(string: TranslatableString, params?: string[]) {
-  switch (string) {
-    case TranslatableString.KeyLabel:
-      return t("schemaform.KeyLabel");
-  }
-  return englishStringTranslator(string, params);
-}
+const translateString: FormProps["translateString"] = (string, params) => {
+  const key = findKey(TranslatableString, (s) => s == string);
+  return te(`schemaform.${key}`)
+    ? t(`schemaform.${key}`)
+    : englishStringTranslator(string, params);
+};
 </script>
 
 <template>
