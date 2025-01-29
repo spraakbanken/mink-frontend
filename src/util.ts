@@ -101,8 +101,8 @@ export function setKeys<T>(
 export const randomString = () => Math.random().toString(36).slice(2);
 
 /** Execute callback, catch and return any exception, otherwise return undefined. */
-// TODO Use attempt and isError from Lodash instead
-export const getException = (f: () => any): any | undefined => {
+// TODO Use attempt and isError from es-toolkit instead
+export const getException = (f: () => void): unknown | undefined => {
   try {
     f();
   } catch (e) {
@@ -120,15 +120,11 @@ export const unarray = <T>(x: T[] | T): T => (Array.isArray(x) ? x[0] : x);
 
 /** Create dictionary by picking a key and a value from each object in a list. */
 export const objsToDict = <
-  T extends Record<K1 | K2, any>,
-  K1 extends keyof T,
-  K2 extends keyof T,
+  T extends Record<K, string> & Record<VK, unknown>,
+  K extends PropertyKey,
+  VK extends PropertyKey,
 >(
   objs: T[],
-  keyName: K1,
-  valueName: K2,
-): Record<T[K1], T[K2]> =>
-  objs.reduce(
-    (dict, item) => ({ ...dict, [item[keyName]]: item[valueName] }),
-    {} as Record<T[K1], T[K2]>,
-  );
+  keyName: K,
+  valueName: VK,
+) => Object.fromEntries(objs.map((item) => [item[keyName], item[valueName]]));

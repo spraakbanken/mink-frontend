@@ -127,8 +127,9 @@ describe("getException", () => {
       throw new EvalError("Leverpastej");
     };
     const exception = getException(f);
-    expect(exception.name).toBe("EvalError");
-    expect(exception.message).toBe("Leverpastej");
+    expect(exception).toBeInstanceOf(EvalError);
+    expect((exception as EvalError).name).toBe("EvalError");
+    expect((exception as EvalError).message).toBe("Leverpastej");
   });
 });
 
@@ -160,11 +161,10 @@ describe("unarray", () => {
   test("empty list", () => {
     expect(unarray([])).toBe(undefined);
   });
-  test("empty arg"),
-    () => {
-      expect(unarray(null)).toBe(null);
-      expect(unarray(undefined)).toBe(undefined);
-    };
+  test("empty arg", () => {
+    expect(unarray(null)).toBe(null);
+    expect(unarray(undefined)).toBe(undefined);
+  });
 });
 
 describe("objsToDict", () => {
@@ -185,12 +185,12 @@ describe("objsToDict", () => {
     expect(objsToDict(objs, "k", "v")).toEqual(dict);
   });
   test("missing key", () => {
-    // @ts-expect-error
+    // @ts-expect-error The key "k" is missing in the object
     const dict = objsToDict([{ v: "A" }], "k", "v");
     expect(dict).toEqual({ undefined: "A" });
   });
   test("missing value", () => {
-    // @ts-expect-error
+    // @ts-expect-error The key "v" is missing in the object
     const dict = objsToDict([{ k: "a" }], "k", "v");
     expect(dict).toEqual({ a: undefined });
   });

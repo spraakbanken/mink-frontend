@@ -7,7 +7,7 @@ export type SparvConfig = {
   segment: ConfigSegment;
   export: ConfigExport;
   dateformat?: ConfigDateformat;
-  custom_annotations?: ConfigCustomAnnotations[];
+  custom_annotations?: ConfigCustomAnnotation[];
   korp?: ConfigKorp;
   sbx_strix?: ConfigStrix;
 };
@@ -40,13 +40,9 @@ type ConfigDateformat = {
   datetime_informat?: string;
 };
 
-type ConfigCustomAnnotations = {
+type ConfigCustomAnnotation = {
   annotator: string;
-  params: {
-    out: string;
-    chunk: string;
-    value: string;
-  };
+  params?: Record<string, unknown>;
 };
 
 type ConfigKorp = {

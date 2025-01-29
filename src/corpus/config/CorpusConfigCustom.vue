@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { AxiosError } from "axios";
 import { PhPencilSimple, PhWarning } from "@phosphor-icons/vue";
+import CorpusConfigCustomHelp from "./CorpusConfigCustomHelp.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import useConfig from "@/corpus/config/config.composable";
 import { useAuth } from "@/auth/auth.composable";
@@ -12,7 +13,6 @@ import useMessenger from "@/message/messenger.composable";
 import SyntaxHighlight from "@/components/SyntaxHighlight.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import RouteButton from "@/components/RouteButton.vue";
-import CorpusConfigCustomHelp from "./CorpusConfigCustomHelp.vue";
 
 const corpusId = useCorpusIdParam();
 const { config, uploadConfigRaw } = useConfig(corpusId);

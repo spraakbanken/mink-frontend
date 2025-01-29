@@ -27,9 +27,9 @@ const isHome = computed(() => route.path == "/");
 refreshJwt();
 
 if (import.meta.env.DEV) {
-  (window as any).api = api;
-  (window as any).resourceStore = resourceStore;
-  (window as any).util = util;
+  window.api = api;
+  window.resourceStore = resourceStore;
+  window.util = util;
 }
 </script>
 

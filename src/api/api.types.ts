@@ -2,7 +2,9 @@ import type { AxiosProgressEvent } from "axios";
 import type { ByLang, SweEng } from "@/util.types";
 
 /** Properties common to most backend responses */
-export type MinkResponse<T extends { [k: string]: any } = {}> = T & {
+export type MinkResponse<
+  T extends Record<string, unknown> = Record<string, unknown>,
+> = T & {
   status: "success" | "error";
   return_code: string;
   message: string;

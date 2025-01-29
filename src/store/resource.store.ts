@@ -47,7 +47,9 @@ export const useResourceStore = defineStore("resource", () => {
   // forget the old state. The actual number doesn't really matter, as long as
   // it's a new one.
   const resourcesRef = useStorage("mink@240417.resources", {});
-  const resources: Record<string, {} | Resource> = reactive(resourcesRef.value);
+  const resources: Record<string, object | Resource> = reactive(
+    resourcesRef.value,
+  );
 
   const corpora = computed<Record<string, Partial<Corpus>>>(() =>
     filterResources("corpus"),
