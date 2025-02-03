@@ -21,7 +21,8 @@ home.features.share.upcoming: De här funktionerna planeras till kommande Mink-v
 home.features.share.alt: Skärmbild från ett behörighetshanteringssystem
 home.otherdata.title: Mink eller icke Mink?
 home.otherdata.body: Tänk på att först undersöka andra språkdatamängder som eventuellt uppfyller dina behov! Språkbankens växande samling av forskningsdata kan du se på sidan {0} på vår webbplats. I ett större perspektiv bildar Språkbanken en del av CLARIN ERIC, vars samlade data kan utforskas i {1}.
-home.otherdata.sbdata.title: "Språkbanken Text: Language resources"
+home.otherdata.sbdata.url: "https://spraakbanken.gu.se/resurser"
+home.otherdata.sbdata.label: "Språkbanken Text: Språkliga data"
 welcome: Välkommen, {name}!
 mydata: Mina data
 news: Nyheter

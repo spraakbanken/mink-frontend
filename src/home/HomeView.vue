@@ -210,8 +210,8 @@ const logoutUrl = getLogoutUrl();
         {{ " " }}
         <i18n-t keypath="home.otherdata.body" scope="global">
           <a
-            href="https://spraakbanken.gu.se/en/resources"
-            :title="$t('home.otherdata.sbdata.title')"
+            :href="$t('home.otherdata.sbdata.url')"
+            :title="$t('home.otherdata.sbdata.label')"
             >Data</a
           >
           <a
