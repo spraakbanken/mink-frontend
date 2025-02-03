@@ -211,7 +211,7 @@ const logoutUrl = getLogoutUrl();
         <i18n-t keypath="home.otherdata.body" scope="global">
           <a
             :href="$t('home.otherdata.sbdata.url')"
-            :title="$t('home.otherdata.sbdata.label')"
+            :title="$t('home.otherdata.sbdata.title')"
             >Data</a
           >
           <a

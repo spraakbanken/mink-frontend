@@ -22,7 +22,7 @@ home.features.share.alt: Screenshot from an access management system
 home.otherdata.title: Mink or no Mink?
 home.otherdata.body: Make sure to first get acquainted with any existing language data sets related to your interests! Språkbanken's growing collection of research data can be browsed on the {0} section of our website. At a larger scale, Språkbanken forms a part of the CLARIN ERIC, whose collected assortment of data can be browsed in the {1}.
 home.otherdata.sbdata.url: "https://spraakbanken.gu.se/en/resources"
-home.otherdata.sbdata.label: "Språkbanken Text: Language resources"
+home.otherdata.sbdata.title: "Språkbanken Text: Language resources"
 welcome: Welcome, {name}!
 mydata: My data
 news: News
