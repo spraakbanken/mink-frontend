@@ -786,6 +786,98 @@
         }
       }
     },
+    "sbx_strix": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Strix config generation and corpus installation.",
+      "properties": {
+        "remote_host": {
+          "type": "string",
+          "description": "Remote host containing the Strix pipeline. This is where config files and XML files will be installed. Leave blank if local."
+        },
+        "config_dir": {
+          "type": "string",
+          "description": "Path on remote host where Strix corpus configuration files will be installed"
+        },
+        "attributes_dir": {
+          "type": "string",
+          "description": "Path on remote host where Strix attribute presets are stored"
+        },
+        "protected": {
+          "type": "boolean",
+          "description": "Whether this corpus should have limited access or not",
+          "default": false
+        },
+        "modes": {
+          "type": "array",
+          "description": "The Strix modes in which the corpus will be published",
+          "items": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        "annotations": {
+          "type": "array",
+          "description": "Sparv annotations to include. Leave blank to use korp.annotations or cwb.annotations.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_annotations": {
+          "type": "array",
+          "description": "List of annotations and attributes from the source data to include. Leave blank to use korp.source_annotations or cwb.source_annotations.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "annotation_definitions": {
+          "type": "object",
+          "description": "Frontend definitions of annotations in 'annotations' and 'source_annotations'. Classes and config keys are currently not supported. Leave blank to use korp.annotation_definitions.",
+          "properties": {}
+        },
+        "hidden_annotations": {
+          "type": "array",
+          "description": "List of annotations not to include in corpus config",
+          "default": [
+            "<text>:dateformat.datefrom",
+            "<text>:dateformat.dateto",
+            "<text>:dateformat.timefrom",
+            "<text>:dateformat.timeto",
+            "<sentence>:misc.id",
+            "<token>:sensaldo.sentiment_score",
+            "<token>:stanza.msd_hunpos_backoff_info"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "keep_undefined_annotations": {
+          "type": "boolean",
+          "description": "Include all annotations in config, even those without an annotation definition/preset.",
+          "default": false
+        },
+        "xml_host_temp": {
+          "type": "string",
+          "description": "Remote host to copy temporary XML export to"
+        },
+        "xml_dir_temp": {
+          "type": "string",
+          "description": "Target path to copy temporary XML export to"
+        },
+        "xml_dir": {
+          "type": "string",
+          "description": "Target path on remote host to copy XML export to"
+        },
+        "pipeline_command": {
+          "type": "string",
+          "description": "Command to run the Strix pipeline"
+        },
+        "pipeline_uninstall_command": {
+          "type": "string",
+          "description": "Command to run the Strix pipeline uninstaller"
+        }
+      }
+    },
     "sbx_word_prediction_kb_bert": {
       "type": "object",
       "additionalProperties": false,
