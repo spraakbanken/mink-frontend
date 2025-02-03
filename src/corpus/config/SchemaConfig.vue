@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import Yaml from "js-yaml";
 import { useI18n } from "vue-i18n";
-import { difference, omit } from "es-toolkit";
+import { difference } from "es-toolkit";
 import {
   formSections,
   getTopProperties,
@@ -84,7 +84,7 @@ const uiSchemaModified = computed(() => ({
     <JsonSchemaForm
       v-if="configParsed"
       :schema
-      :data="omit(configParsed, ['sbx_strix'])"
+      :data="configParsed"
       :on-submit="onSubmit"
       :ui-schema="uiSchemaModified"
     />
