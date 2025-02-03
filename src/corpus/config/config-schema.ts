@@ -110,15 +110,4 @@ export const formSections = [
       "xml_export",
     ],
   },
-  {
-    key: "process",
-    properties: [
-      "sparv",
-      "threads",
-      "parent",
-      "install",
-      "uninstall",
-      "preload",
-    ],
-  },
 ];

@@ -218,7 +218,6 @@ config.section.metadata: Metadata
 config.section.import: Import
 config.section.annotations: Annotationer
 config.section.export: Export
-config.section.process: Process
 config.schema.classes.title: Klasser
 config.schema.parent.title: Förälder
 config.schema.threads.title: Trådar
