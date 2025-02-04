@@ -2,9 +2,9 @@
 
 ## Code formatting
 
-Code can be automatically linted with `yarn lint` and formatted with `yarn format`. These use the `.editorconfig` and `.eslint.cjs` files and the `"prettier"` section of [package.json](../package.json).
+Code can be automatically checked for style problems with `yarn validate` and (partially) fixed with `yarn fix`. These use the `.editorconfig` and `eslint.config.mjs` files and the `"prettier"` section of [package.json](../package.json).
 
-Committed code must be formatted.
+Committed code must not have any style problems.
 
 If you can, set up your environment to lint and format automatically, see [DEVELOPMENT.md: Recommended IDE setup](DEVELOPMENT.md#recommended-ide-setup).
 

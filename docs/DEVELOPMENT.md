@@ -24,8 +24,9 @@ Recommended VSCode settings (see [docs on settings.json](https://code.visualstud
 
 ```json
 {
+  "css.lint.unknownAtRules": "ignore", // Ignore Tailwind's @apply etc
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
+    "source.fixAll.eslint": "always"
   },
   "editor.formatOnSave": true,
   "[javascript][typescript][vue]": {
@@ -56,6 +57,10 @@ The dev server might not properly pick up on changes to these, so better restart
 
 ## Development tasks
 
+Some of these use commands defined in the `scripts` section of `package.json`.
+See https://classic.yarnpkg.com/lang/en/docs/cli/run/
+(Note that `yarn <cmd>` will map to `yarn run <cmd>`, unless `cmd` is a built-in yarn command.)
+
 ### Install dependencies
 
 Install the dependencies needed to run the code (Vite, Vue, etc): `yarn` or `yarn install`
@@ -71,6 +76,12 @@ Now you can open the frontend in a web browser at https://minkdev.spraakbanken.g
 Run tests and watch to rerun on changes: `yarn test`
 
 Note that test coverage is very low so far. One thing that makes testing difficult is that most API calls require authentication.
+
+### Check code quality
+
+Lint, check formatting etc: `yarn validate`
+
+Some problems can be fixed automatically with: `yarn fix`
 
 ### Build
 
