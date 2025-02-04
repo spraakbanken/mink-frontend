@@ -139,6 +139,17 @@ const logoutUrl = getLogoutUrl();
               scope="global"
               tag="p"
             />
+
+            <i18n-t keypath="home.features.upload.xml" scope="global" tag="p">
+              <template #link>
+                <a
+                  :href="$t('home.features.upload.xml.link.url')"
+                  target="_blank"
+                >
+                  {{ $t("home.features.upload.xml.link.label") }}
+                </a>
+              </template>
+            </i18n-t>
           </LayoutSection>
         </div>
 

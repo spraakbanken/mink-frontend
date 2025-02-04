@@ -10,7 +10,10 @@ home.features.sparv.title: Anpassningsbara analyser
 home.features.sparv.body: Dina texter analyseras av vår språkteknologiska plattform {sparv} med de inställningar du väljer.
 home.features.sparv.alt: Skärmbild av en konfigurationssida många knappar
 home.features.upload.title: Ladda upp din text
-home.features.upload.body: Ladda upp ordbehandlingsdokument, pdf:er, ren text eller XML. Om du använder XML läggs analyserna in utan att påverka strukturen från originalfilerna.
+home.features.upload.body: Ladda upp ordbehandlingsdokument, pdf:er, ren text eller XML.
+home.features.upload.xml: "Om du använder XML läggs analyserna in utan att påverka strukturen från originalfilerna: {link}"
+home.features.upload.xml.link.url: https://spraakbanken.gu.se/blogg/20240820-anvand-mink-med-egen-berikning-i-kalldata
+home.features.upload.xml.link.label: Använd Mink med egen berikning i källdata
 home.features.upload.alt: Skärmbild av en lista med filnamn och en uppladdningsruta
 home.features.explore.title: Utforska i Korp och Strix
 home.features.explore.body: Exportera den färdiga datan för sökning och statistiska undersökningar i {korp} och {strix}.
