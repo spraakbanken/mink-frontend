@@ -1,19 +1,10 @@
 import type { JSONSchema7 } from "json-schema";
 import { schemaWalk } from "@cloudflare/json-schema-walker";
 import type { VueI18n } from "vue-i18n";
-import type { UiSchema } from "@rjsf/utils";
 import { capitalize, cloneDeep } from "es-toolkit";
 import schemaRaw from "@/assets/sparvconfig.schema.json";
 
 export const schema = schemaRaw as unknown as JSONSchema7;
-
-export const uiSchema: UiSchema = {
-  metadata: {
-    id: { "ui:disabled": true },
-    description: { additionalProperties: { "ui:widget": "textarea" } },
-    short_description: { additionalProperties: { "ui:widget": "textarea" } },
-  },
-};
 
 export function loadSchema(te: VueI18n["te"], t: VueI18n["t"]) {
   const copy = cloneDeep(schema);
@@ -65,10 +56,13 @@ export const getTopProperties = (schema: JSONSchema7) => {
 };
 
 export type FormSection = "metadata" | "import" | "annotations" | "export";
-export type FormSectionProperties = { key: FormSection; properties: string[] };
+export type FormSectionProperties = {
+  key: FormSection;
+  properties: readonly string[];
+};
 
 /** Which form parts belong on which pages */
-export const formSections: FormSectionProperties[] = [
+export const formSections: readonly Readonly<FormSectionProperties>[] = [
   {
     key: "metadata",
     properties: ["metadata"],

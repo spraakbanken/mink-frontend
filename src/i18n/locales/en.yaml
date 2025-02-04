@@ -212,27 +212,6 @@ config.format.note.pdf: The PDF file format is primarily designed for display. P
 config.text_annotation: Text element
 config.text_annotation.help: In your source files, what XML element is most representative of a single text? Any text-level annotations will be attached to this element.
 
-config.section.select: Choose section
-config.section.metadata: Metadata
-config.section.import: Import
-config.section.annotations: Annotations
-config.section.export: Export
-config.schema.classes.title: Classes
-config.schema.parent.title: Parent
-config.schema.threads.title: Threads
-config.schema.export.title: Export
-config.schema.export.word.title: Word
-config.schema.export.remove_module_namespaces.title: Remove module namespaces
-config.schema.export.sparv_namespace.title: Sparv namespace
-config.schema.export.source_namespace.title: Source namespace
-config.schema.export.scramble_on.title: Scramble on
-config.schema.import.title: Import
-config.schema.import.text_annotation.title: Text annotation
-config.schema.import.source_dir.title: Source dir
-config.schema.import.importer.title: Importer
-config.schema.import.keep_control_chars.title: Keep control chars
-config.schema.import.normalize.title: Normalize
-config.schema.import.encoding.title: Encoding
 config.schema.conll_export.title: CoNLL export
 # TODO: Add more
 schemaform.KeyLabel: Key
