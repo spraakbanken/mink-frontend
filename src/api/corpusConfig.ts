@@ -194,7 +194,7 @@ export function makeConfig(id: string, options: ConfigOptions): string {
     };
   }
 
-  return Yaml.dump(config as SparvConfig);
+  return Yaml.dump(config as SparvConfig, { noArrayIndent: true });
 }
 
 /** Default values */
