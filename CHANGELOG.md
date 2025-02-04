@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased]
 
+### Added
+
+- Validate edited YAML against Sparv config schema [#185](https://github.com/spraakbanken/mink-frontend/issues/185)
+
 ### Fixed
 
 - Update translation for footer on homepage [#184](https://github.com/spraakbanken/mink-frontend/issues/184)
