@@ -64,8 +64,11 @@ export const getTopProperties = (schema: JSONSchema7) => {
   return [...names];
 };
 
+export type FormSection = "metadata" | "import" | "annotations" | "export";
+export type FormSectionProperties = { key: FormSection; properties: string[] };
+
 /** Which form parts belong on which pages */
-export const formSections = [
+export const formSections: FormSectionProperties[] = [
   {
     key: "metadata",
     properties: ["metadata"],
