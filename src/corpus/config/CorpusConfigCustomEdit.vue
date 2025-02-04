@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Yaml from "js-yaml";
-import { computed, ref, watchEffect } from "vue";
+import { ref, watchEffect } from "vue";
 import type { AxiosError } from "axios";
 import Ajv2020 from "ajv/dist/2020";
 import { PhFileX, PhWarning } from "@phosphor-icons/vue";

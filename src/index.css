@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @config '../tailwind.config.ts';
 
@@ -157,14 +157,14 @@
   .formkit-message {
     @apply text-red-600;
   }
-  [data-type='radio'] .formkit-inner,
-  [data-type='checkbox'] .formkit-inner {
+  [data-type="radio"] .formkit-inner,
+  [data-type="checkbox"] .formkit-inner {
     @apply inline-block mr-2;
   }
-  [data-type='radio'] .formkit-legend {
+  [data-type="radio"] .formkit-legend {
     @apply font-medium;
   }
-  [data-type='radio'] .formkit-label {
+  [data-type="radio"] .formkit-label {
     @apply font-normal;
   }
 
