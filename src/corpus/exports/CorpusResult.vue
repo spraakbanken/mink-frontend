@@ -70,8 +70,10 @@ loadExports();
             <tr v-for="file in exports_" :key="file.name">
               <td class="pl-6!">
                 <a href="#" @click.prevent="downloadResultFile(file.path)">
-                  <PhDownloadSimple weight="fill" class="inline mb-0.5 mr-1" />
-                  {{ file.path.split("/").slice(1).join("/") }}
+                  <PhDownloadSimple
+                    weight="fill"
+                    class="inline mb-0.5 mr-1"
+                  />{{ file.path.split("/").slice(1).join("/") }}
                 </a>
               </td>
               <td class="text-right whitespace-nowrap">
