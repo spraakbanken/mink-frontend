@@ -75,7 +75,7 @@ export function useAuth() {
         return undefined;
       });
       // Store it to make username etc available to GUI.
-      payload.value = jwtValue ? decodeJwt(jwtValue)?.payload : undefined;
+      payload.value = jwtValue ? decodeJwt(jwtValue) : undefined;
       // Register it with the API client.
       api.setJwt(jwtValue);
 
