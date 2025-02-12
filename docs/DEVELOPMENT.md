@@ -129,20 +129,17 @@ where
 | `chore`    | for changes that do not affect code, behavior, docs, appearance or performance |
 | `merge`    | for merge commits                                                              |
 | `revert`   | for revert commits (`git revert`)                                              |
+| `release`  | marks a release, see [Releases](#releases)                                     |
 
 ### Branches
 
-Continual development happens on the **dev** branch. It should always be healthy, so any changes that break the build should be fixed as soon as possible. There is a GitHub action [ci.yml](../.github/workflows/ci.yml) for this purpose, meaning someone will be notified if the code is broken.
+Continual development happens on the **main** branch. It should always be healthy, so any changes that break the build should be fixed as soon as possible. There is a GitHub action [ci.yml](../.github/workflows/ci.yml) for this purpose, meaning someone will be notified if the code is broken.
 
-For a larger change, please create a specific branch, and merge to dev when ready. Merging without squash nor rebase is preferred but not mandatory.
-
-The **main** branch must only consist of release merges (see [#Releases](#releases)) and hotfix commits.
-
-A **hotfix** is an urgent fix that is small enough that making a new release seems overkill. Commit the fix to the main branch and deploy, and then cherry-pick it (`git cherry-pick`) to the dev branch.
+For a larger change, please create a specific branch, and merge to main when ready. Merging without squash nor rebase is preferred but not mandatory.
 
 ### Pull requests
 
-Change suggestions in the form of pull requests are very welcome. Fork the repo, create a branch, add your commits, push it to your fork, and then open a pull request against the dev branch.
+Change suggestions in the form of pull requests are very welcome. Fork the repo, create a branch, add your commits, push it to your fork, and then open a pull request against the main branch.
 
 Close collaborators can ask for write access to the repo, and do not need to fork it.
 
@@ -150,15 +147,25 @@ Close collaborators can ask for write access to the repo, and do not need to for
 
 The timing of a release is determined by maintainers, and may be more or less connected to the ongoing work at Språkbanken Text.
 
-1. Update [CHANGELOG.md](../CHANGELOG.md):
+1. Check and test the code carefully
+2. Update [CHANGELOG.md](../CHANGELOG.md):
    1. Update the list under _Unreleased_ to reflect changes made since the last release
    2. From the list of changes, determine whether this is a major, minor or patch release
    3. Add a release number heading directly under the _Unreleased_ heading
    4. Update the compare urls in the bottom of the file
-2. Update the version number in `package.json`
-3. Commit and include the new version number in the commit message
-4. Merge dev to main
-5. Tag the merge commit as `v` + version number, e.g. `git tag v1.2.3`
-6. Push both branches and the tag: `git push --tags origin main dev`
-7. Build the main branch and deploy to https://spraakbanken.gu.se/mink
+3. Update the version number in `package.json`
+4. Commit as `release: version <version>`
+5. Tag the commit as `v` + version number, e.g. `git tag v1.2.3`
+6. Push the branch and the tag: `git push --tags origin main`
+7. Build and deploy to https://spraakbanken.gu.se/mink
 8. Add a newsdesk entry to [mink.yaml](https://github.com/spraakbanken/newsdesk/blob/main/data/mink.yaml)
+
+#### Hotfix release
+
+Sometimes we need to release a fix quickly, without other changes that may be happening on the main branch.
+In such cases, it is okay to commit the fix on a new branch directly off the last release commit, and then do the release workflow on that branch.
+For this reason, the deploy build must happen on the _latest relase commit_, rather than the latest main branch commit.
+
+Get the latest release commit: `git tag --list 'v[0-9]*' --sort=version:refname | tail -n1`
+
+After the fix is deployed, merge the hotfix branch back into main.
