@@ -1,0 +1,1833 @@
+{
+  "annotators": {
+    "cwb": {
+      "functions": {
+        "info_date": {
+          "description": "datefirst and datelast files for .info",
+          "annotations": {
+            "cwb.datefirst": {
+              "description": "The earliest date in the corpus"
+            },
+            "cwb.datelast": {
+              "description": "The latest date in the corpus"
+            }
+          },
+          "config": {
+            "dateformat.out_annotation": {
+              "description": "Annotation on which the resulting formatted date attributes will be written.",
+              "default": "<text>",
+              "datatype": ["str"]
+            }
+          }
+        },
+        "info_date_unknown": {
+          "description": "Empty datefirst and datelast files for .info",
+          "annotations": {
+            "cwb.datefirst": {
+              "description": "Empty string"
+            },
+            "cwb.datelast": {
+              "description": "Empty string"
+            }
+          }
+        }
+      },
+      "description": "Exports, encodes and aligns corpora for Corpus Workbench."
+    },
+    "dateformat": {
+      "functions": {
+        "dateformat": {
+          "description": "Convert existing dates to specified output format",
+          "annotations": {
+            ":dateformat.datefrom": {
+              "description": "From-dates",
+              "resolved_name": "<text>:dateformat.datefrom"
+            }
+          },
+          "config": {
+            "dateformat.date_outformat": {
+              "description": "Desired format of the formatted dates, specified using the same format codes as for the in-format. Several formats can be specified separated by '|'. They will be tied to their respective in-format.",
+              "default": "%Y%m%d",
+              "datatype": ["str"]
+            },
+            "dateformat.datetime_from": {
+              "description": "Annotation attribute containing from-dates (and times)",
+              "datatype": ["str"]
+            },
+            "dateformat.datetime_informat": {
+              "description": "Format of the source date/time values, using format codes from https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes. Several formats can be specified separated by '|'. They will be tried in order.",
+              "datatype": ["str"]
+            },
+            "dateformat.datetime_to": {
+              "description": "Annotation attribute containing to-dates (and times)",
+              "datatype": ["str"]
+            },
+            "dateformat.out_annotation": {
+              "description": "Annotation on which the resulting formatted date attributes will be written.",
+              "default": "<text>",
+              "datatype": ["str"]
+            },
+            "dateformat.pre_regex": {
+              "description": "Regular expression with a catching group whose content will be used in the parsing instead of the whole string. Applied before splitting.",
+              "datatype": ["str"]
+            },
+            "dateformat.regex": {
+              "description": "Regular expression with a catching group whose content will be used in the parsing instead of the whole string. Applied on each value after splitting.",
+              "datatype": ["str"]
+            },
+            "dateformat.splitter": {
+              "description": "One or more characters separating two dates in 'datetime_from', treating them as from-date and to-date.",
+              "datatype": ["str"]
+            }
+          }
+        },
+        "dateformat_pretty": {
+          "description": "Convert existing dates to format YYYY-MM-DD",
+          "annotations": {
+            ":dateformat.date_pretty": {
+              "description": "Date without timestamp 'YYYY-MM-DD'",
+              "resolved_name": "<text>:dateformat.date_pretty"
+            }
+          },
+          "config": {
+            "dateformat.datetime_from": {
+              "description": "Annotation attribute containing from-dates (and times)",
+              "datatype": ["str"]
+            },
+            "dateformat.datetime_informat": {
+              "description": "Format of the source date/time values, using format codes from https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes. Several formats can be specified separated by '|'. They will be tried in order.",
+              "datatype": ["str"]
+            },
+            "dateformat.out_annotation": {
+              "description": "Annotation on which the resulting formatted date attributes will be written.",
+              "default": "<text>",
+              "datatype": ["str"]
+            },
+            "dateformat.pre_regex": {
+              "description": "Regular expression with a catching group whose content will be used in the parsing instead of the whole string. Applied before splitting.",
+              "datatype": ["str"]
+            },
+            "dateformat.regex": {
+              "description": "Regular expression with a catching group whose content will be used in the parsing instead of the whole string. Applied on each value after splitting.",
+              "datatype": ["str"]
+            },
+            "dateformat.splitter": {
+              "description": "One or more characters separating two dates in 'datetime_from', treating them as from-date and to-date.",
+              "datatype": ["str"]
+            }
+          }
+        },
+        "resolution": {
+          "description": "Get datetime resolutions from informat",
+          "annotations": {
+            "dateformat.resolution": {
+              "description": "Datetime resolution"
+            }
+          },
+          "config": {
+            "dateformat.datetime_informat": {
+              "description": "Format of the source date/time values, using format codes from https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes. Several formats can be specified separated by '|'. They will be tried in order.",
+              "datatype": ["str"]
+            }
+          }
+        },
+        "timeformat": {
+          "description": "Convert existing times to specified output format",
+          "annotations": {
+            ":dateformat.timefrom": {
+              "description": "From-times",
+              "resolved_name": "<text>:dateformat.timefrom"
+            }
+          },
+          "config": {
+            "dateformat.datetime_from": {
+              "description": "Annotation attribute containing from-dates (and times)",
+              "datatype": ["str"]
+            },
+            "dateformat.datetime_informat": {
+              "description": "Format of the source date/time values, using format codes from https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes. Several formats can be specified separated by '|'. They will be tried in order.",
+              "datatype": ["str"]
+            },
+            "dateformat.datetime_to": {
+              "description": "Annotation attribute containing to-dates (and times)",
+              "datatype": ["str"]
+            },
+            "dateformat.out_annotation": {
+              "description": "Annotation on which the resulting formatted date attributes will be written.",
+              "default": "<text>",
+              "datatype": ["str"]
+            },
+            "dateformat.pre_regex": {
+              "description": "Regular expression with a catching group whose content will be used in the parsing instead of the whole string. Applied before splitting.",
+              "datatype": ["str"]
+            },
+            "dateformat.regex": {
+              "description": "Regular expression with a catching group whose content will be used in the parsing instead of the whole string. Applied on each value after splitting.",
+              "datatype": ["str"]
+            },
+            "dateformat.splitter": {
+              "description": "One or more characters separating two dates in 'datetime_from', treating them as from-date and to-date.",
+              "datatype": ["str"]
+            },
+            "dateformat.time_outformat": {
+              "description": "Desired format of the formatted times. Several formats can be specified separated by |. They will be tied to their respective in-format.",
+              "default": "%H%M%S",
+              "datatype": ["str"]
+            }
+          }
+        }
+      },
+      "description": "Formats dates and times."
+    },
+    "geo": {
+      "functions": {
+        "contextual": {
+          "description": "Annotate {chunk} with location data, based on locations contained within the text",
+          "annotations": {
+            "{chunk}:geo.geo_context": {
+              "description": "Geographical places with coordinates"
+            }
+          },
+          "config": {
+            "geo.model": {
+              "description": "Path to model",
+              "default": "geo/geo.pickle",
+              "datatype": ["str"]
+            }
+          }
+        },
+        "metadata": {
+          "description": "Annotate {chunk} with location data, based on metadata containing location names",
+          "annotations": {
+            "{chunk}:geo.geo_metadata": {
+              "description": "Geographical places with coordinates"
+            }
+          },
+          "config": {
+            "geo.metadata_source": {
+              "description": "Source attribute for location metadata",
+              "datatype": ["str"]
+            },
+            "geo.model": {
+              "description": "Path to model",
+              "default": "geo/geo.pickle",
+              "datatype": ["str"]
+            }
+          }
+        }
+      },
+      "description": "Annotates geographical features."
+    },
+    "hunpos": {
+      "functions": {
+        "msdtag": {
+          "description": "Part-of-speech annotation with morphological descriptions",
+          "annotations": {
+            "<token>:hunpos.msd": {
+              "description": "Part-of-speeches with morphological descriptions",
+              "class": "token:msd",
+              "resolved_name": "segment.token:hunpos.msd"
+            }
+          },
+          "config": {
+            "hunpos.binary": {
+              "description": "Hunpos executable",
+              "default": "hunpos-tag",
+              "datatype": ["str"]
+            },
+            "hunpos.encoding": {
+              "description": "Encoding of the input text",
+              "default": "UTF-8",
+              "datatype": ["str"]
+            },
+            "hunpos.model": {
+              "description": "Path to Hunpos model",
+              "default": "hunpos/suc3_suc-tags_default-setting_utf8.model",
+              "datatype": ["str"]
+            },
+            "hunpos.morphtable": {
+              "description": "Path to optional Hunpos morphtable file",
+              "default": "hunpos/saldo_suc-tags.morphtable",
+              "datatype": ["str"]
+            },
+            "hunpos.patterns": {
+              "description": "Path to optional patterns file",
+              "default": "hunpos/suc.patterns",
+              "datatype": ["str"]
+            },
+            "hunpos.tag_mapping": {
+              "description": "Optional tag mapping for translating the output tags",
+              "datatype": ["str"]
+            }
+          }
+        },
+        "postag": {
+          "description": "Extract POS from MSD",
+          "annotations": {
+            "<token>:hunpos.pos": {
+              "description": "Part-of-speech tags",
+              "class": "token:pos",
+              "resolved_name": "segment.token:hunpos.pos"
+            }
+          }
+        }
+      },
+      "description": "Part of Speech annotation using Hunpos."
+    },
+    "korp": {
+      "functions": {
+        "wordpicture": {
+          "description": "Find dependencies for Korp's Word Picture",
+          "annotations": {
+            "korp.wordpicture": {
+              "description": "Wordpicture data"
+            }
+          }
+        }
+      },
+      "description": "Korp-related annotators, exporters and installers."
+    },
+    "lexical_classes": {
+      "functions": {
+        "blingbring_text": {
+          "description": "Annotate text chunks with Blingbring classes",
+          "annotations": {
+            "<text>:lexical_classes.blingbring": {
+              "description": "Lexical classes for text chunks from Blingbring"
+            }
+          },
+          "config": {
+            "lexical_classes.bb_freq_model": {
+              "description": "Path to Blingbring frequency model",
+              "default": "lexical_classes/blingbring.freq.gp2008+suc3+romi.pickle",
+              "datatype": ["str"]
+            }
+          }
+        },
+        "blingbring_words": {
+          "description": "Annotate tokens with Blingbring classes",
+          "annotations": {
+            "<token>:lexical_classes.blingbring": {
+              "description": "Lexical classes for tokens from Blingbring",
+              "resolved_name": "segment.token:lexical_classes.blingbring"
+            }
+          },
+          "config": {
+            "lexical_classes.bb_word_model": {
+              "description": "Path to Blingbring model",
+              "default": "lexical_classes/blingbring.pickle",
+              "datatype": ["str"]
+            }
+          }
+        },
+        "swefn_text": {
+          "description": "Annotate text chunks with SweFN classes",
+          "annotations": {
+            "<text>:lexical_classes.swefn": {
+              "description": "Lexical classes for text chunks from SweFN"
+            }
+          },
+          "config": {
+            "lexical_classes.swefn_freq_model": {
+              "description": "Path to SweFN frequency model",
+              "default": "lexical_classes/swefn.freq.gp2008+suc3+romi.pickle",
+              "datatype": ["str"]
+            }
+          }
+        },
+        "swefn_words": {
+          "description": "Annotate tokens with Blingbring classes",
+          "annotations": {
+            "<token>:lexical_classes.swefn": {
+              "description": "Lexical classes for tokens from SweFN",
+              "resolved_name": "segment.token:lexical_classes.swefn"
+            }
+          },
+          "config": {
+            "lexical_classes.swefn_word_model": {
+              "description": "Path to SweFN model",
+              "default": "lexical_classes/swefn.pickle",
+              "datatype": ["str"]
+            }
+          }
+        }
+      },
+      "description": "Annotations lexical classes from Blingbring or SweFN."
+    },
+    "malt": {
+      "functions": {
+        "annotate": {
+          "description": "Dependency parsing using MaltParser",
+          "annotations": {
+            "<token>:malt.dephead": {
+              "description": "Positions of the dependency heads",
+              "class": "token:dephead",
+              "resolved_name": "segment.token:malt.dephead"
+            },
+            "<token>:malt.dephead_ref": {
+              "description": "Sentence-relative positions of the dependency heads",
+              "class": "token:dephead_ref",
+              "resolved_name": "segment.token:malt.dephead_ref"
+            },
+            "<token>:malt.deprel": {
+              "description": "Dependency relations to the head",
+              "class": "token:deprel",
+              "resolved_name": "segment.token:malt.deprel"
+            }
+          },
+          "config": {
+            "malt.jar": {
+              "description": "Path name of the executable .jar file",
+              "default": "maltparser-1.7.2/maltparser-1.7.2.jar",
+              "datatype": ["str"]
+            },
+            "malt.model": {
+              "description": "Path to Malt model",
+              "default": "malt/swemalt-1.7.2.mco",
+              "datatype": ["str"]
+            }
+          }
+        },
+        "make_ref": {
+          "description": "Annotate tokens with IDs relative to their sentences",
+          "annotations": {
+            "<token>:malt.ref": {
+              "description": "Token IDs relative to their sentences",
+              "class": "token:ref",
+              "resolved_name": "segment.token:malt.ref"
+            }
+          }
+        }
+      },
+      "description": "Dependency parsing using MaltParser."
+    },
+    "misc": {
+      "functions": {
+        "affix": {
+          "description": "Add prefix and/or suffix to an annotation",
+          "custom_annotator": true,
+          "parameters": {
+            "chunk": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "prefix": {
+              "optional": false,
+              "type": "str",
+              "default": ""
+            },
+            "suffix": {
+              "optional": false,
+              "type": "str",
+              "default": ""
+            }
+          }
+        },
+        "anonymise": {
+          "description": "Replace every character in an annotation with an anonymous character",
+          "custom_annotator": true,
+          "parameters": {
+            "chunk": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "anonym_char": {
+              "optional": false,
+              "type": "str",
+              "default": "*"
+            }
+          }
+        },
+        "backoff": {
+          "description": "Replace empty values in 'chunk' with values from 'backoff'",
+          "custom_annotator": true,
+          "parameters": {
+            "chunk": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "backoff": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            }
+          }
+        },
+        "backoff_with_info": {
+          "description": "Replace empty values in 'chunk' with values from 'backoff' and output info about which annotator each annotation was produced with.",
+          "custom_annotator": true,
+          "parameters": {
+            "chunk": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "backoff": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "out_info": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "chunk_name": {
+              "optional": false,
+              "type": "str",
+              "default": ""
+            },
+            "backoff_name": {
+              "optional": false,
+              "type": "str",
+              "default": ""
+            }
+          }
+        },
+        "best_from_set": {
+          "description": "Get the best annotation from a cwb set with scores",
+          "custom_annotator": true,
+          "parameters": {
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "chunk": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "is_sorted": {
+              "optional": false,
+              "type": "bool",
+              "default": false
+            },
+            "score_sep": {
+              "optional": false,
+              "type": "_empty",
+              "default": ":"
+            }
+          }
+        },
+        "concat": {
+          "description": "Concatenate values from two annotations, with an optional separator",
+          "custom_annotator": true,
+          "parameters": {
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "left": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "right": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "separator": {
+              "optional": false,
+              "type": "str",
+              "default": ""
+            },
+            "merge_twins": {
+              "optional": false,
+              "type": "bool",
+              "default": false
+            }
+          }
+        },
+        "concat2": {
+          "description": "Concatenate two or more annotations, with an optional separator",
+          "custom_annotator": true,
+          "parameters": {
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "annotations": {
+              "optional": false,
+              "type": "list[Annotation]",
+              "default": null
+            },
+            "separator": {
+              "optional": false,
+              "type": "str",
+              "default": ""
+            }
+          }
+        },
+        "constant": {
+          "description": "Create an annotation with a constant value",
+          "custom_annotator": true,
+          "parameters": {
+            "chunk": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "value": {
+              "optional": false,
+              "type": "str",
+              "default": ""
+            }
+          }
+        },
+        "count_chunks": {
+          "description": "Chunk count file with number of {annotation} chunks in corpus",
+          "annotations": {
+            "misc.{annotation}_count": {
+              "description": "Number of {annotation} chunks in corpus"
+            }
+          }
+        },
+        "count_zero_chunks": {
+          "description": "Create chunk count file for non-existent {annotation} chunks",
+          "annotations": {
+            "misc.{annotation}_count": {
+              "description": "The value 0 for corpora without {annotation}"
+            }
+          }
+        },
+        "fake_text_headtail": {
+          "description": "Fake head and tail whitespace characters for tokens\n\nInstead of using the existing whitespace from the source text, this annotator annotates every token with a space as the 'tail' (encoded as '\\s'), up to a specified line length. When the line length is reached, a newline character (encoded as '\\n') is used instead, resetting the line length counter. The 'head' is always an empty string.\n\nThis is useful when 'head' and 'tail' annotations are needed, but the source text has no useful whitespace, such as source files with one token per line.",
+          "annotations": {
+            "<token>:misc.fake_head": {
+              "description": "Whitespace characters preceding every token",
+              "resolved_name": "segment.token:misc.fake_head"
+            },
+            "<token>:misc.fake_tail": {
+              "description": "Whitespace characters following every token",
+              "resolved_name": "segment.token:misc.fake_tail"
+            }
+          },
+          "config": {
+            "misc.fake_headtail_line_length": {
+              "description": "Max line length",
+              "default": 120,
+              "datatype": ["int"]
+            }
+          }
+        },
+        "file_id": {
+          "description": "Give every source file a unique ID",
+          "annotations": {
+            "misc.fileid": {
+              "description": "Unique IDs for every source file",
+              "class": "fileid"
+            }
+          }
+        },
+        "find_replace": {
+          "description": "Find and replace parts of or whole annotation",
+          "custom_annotator": true,
+          "parameters": {
+            "chunk": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "find": {
+              "optional": false,
+              "type": "str",
+              "default": ""
+            },
+            "sub": {
+              "optional": false,
+              "type": "str",
+              "default": ""
+            }
+          }
+        },
+        "find_replace_regex": {
+          "description": "Do find and replace in values of annotation using a regular expressions",
+          "custom_annotator": true,
+          "parameters": {
+            "chunk": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "find": {
+              "optional": false,
+              "type": "str",
+              "default": ""
+            },
+            "sub": {
+              "optional": false,
+              "type": "str",
+              "default": ""
+            }
+          }
+        },
+        "first_from_set": {
+          "description": "Get the first annotation from a cwb set",
+          "custom_annotator": true,
+          "parameters": {
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "chunk": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            }
+          }
+        },
+        "ids": {
+          "description": "Unique IDs for {annotation}",
+          "annotations": {
+            "{annotation}:misc.id": {
+              "description": "Unique ID for {annotation}"
+            }
+          }
+        },
+        "inherit": {
+          "description": "Inherit {attr} from {parent}:{attr} to {child}",
+          "annotations": {
+            "{child}:misc.inherit_{parent}_{attr}": {
+              "description": "Attribute on {child} inherited from {parent}:{attr}"
+            }
+          }
+        },
+        "make_ref": {
+          "description": "Annotate tokens with IDs relative to their sentences",
+          "annotations": {
+            "<token>:misc.ref": {
+              "description": "Token IDs relative to their sentences",
+              "class": "token:ref",
+              "resolved_name": "segment.token:misc.ref"
+            }
+          }
+        },
+        "merge_to_set": {
+          "description": "Merge two annotations (which may be sets) into one set",
+          "custom_annotator": true,
+          "parameters": {
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "left": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "right": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "unique": {
+              "optional": false,
+              "type": "bool",
+              "default": true
+            },
+            "sort": {
+              "optional": false,
+              "type": "bool",
+              "default": true
+            }
+          }
+        },
+        "number_by_attribute": {
+          "description": "Number {annotation}, with the order determined by {attribute}",
+          "annotations": {
+            "{annotation}:misc.number_by_{attribute}": {
+              "description": "Number determined by {attribute}"
+            }
+          }
+        },
+        "number_by_parent": {
+          "description": "Number {annotation} by ({parent_annotation}:{parent_attribute} order, {annotation} order)",
+          "annotations": {
+            "{annotation}:misc.number_by_parent_{parent_annotation}__{parent_attribute}": {
+              "description": "Order based on parent order"
+            }
+          }
+        },
+        "number_by_position": {
+          "description": "Number {annotation} by position",
+          "annotations": {
+            "{annotation}:misc.number_position": {
+              "description": "Position of {annotation} within file"
+            }
+          }
+        },
+        "number_random": {
+          "description": "Number {annotation} randomly",
+          "annotations": {
+            "{annotation}:misc.number_random": {
+              "description": "Random number, unique within file"
+            }
+          }
+        },
+        "number_relative": {
+          "description": "Number {annotation} by relative position within {parent}",
+          "annotations": {
+            "{annotation}:misc.number_rel_{parent}": {
+              "description": "Relative position of {annotation} within {parent}"
+            }
+          }
+        },
+        "override": {
+          "description": "Replace values in 'chunk' with non empty values from 'repl'",
+          "custom_annotator": true,
+          "parameters": {
+            "chunk": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "repl": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            }
+          }
+        },
+        "renumber_by_shuffle": {
+          "description": "Renumber already numbered {annotation}:{attribute}, in new random order",
+          "annotations": {
+            "{annotation}:misc.renumber_by_shuffle_{attribute}": {
+              "description": "New random order"
+            }
+          }
+        },
+        "replace": {
+          "description": "Find and replace whole annotation",
+          "custom_annotator": true,
+          "parameters": {
+            "chunk": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "find": {
+              "optional": false,
+              "type": "str",
+              "default": ""
+            },
+            "sub": {
+              "optional": false,
+              "type": "str",
+              "default": ""
+            }
+          }
+        },
+        "replace_list": {
+          "description": "Find and replace whole annotation values",
+          "custom_annotator": true,
+          "parameters": {
+            "chunk": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "find": {
+              "optional": false,
+              "type": "str",
+              "default": ""
+            },
+            "sub": {
+              "optional": false,
+              "type": "str",
+              "default": ""
+            }
+          }
+        },
+        "roundfloat": {
+          "description": "Round floats to the given number of decimals",
+          "custom_annotator": true,
+          "parameters": {
+            "chunk": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "decimals": {
+              "optional": false,
+              "type": "int",
+              "default": 2
+            }
+          }
+        },
+        "select": {
+          "description": "Select a specific index from the values of an annotation",
+          "custom_annotator": true,
+          "parameters": {
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "annotation": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "index": {
+              "optional": false,
+              "type": "int",
+              "default": 0
+            },
+            "separator": {
+              "optional": false,
+              "type": "str",
+              "default": " "
+            }
+          }
+        },
+        "source": {
+          "description": "Source filename as attribute on text annotation",
+          "annotations": {
+            "<text>:misc.source": {
+              "description": "Source filename"
+            }
+          }
+        },
+        "span_as_value": {
+          "description": "Create new annotation, with spans as values",
+          "custom_annotator": true,
+          "parameters": {
+            "chunk": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            }
+          }
+        },
+        "struct_to_token": {
+          "description": "Convert {struct}:{attr} into a token annotation",
+          "annotations": {
+            "<token>:misc.from_struct_{struct}_{attr}": {
+              "description": "Token attribute based on {struct}:{attr}",
+              "resolved_name": "segment.token:misc.from_struct_{struct}_{attr}"
+            }
+          }
+        },
+        "text_headtail": {
+          "description": "Head and tail whitespace characters for tokens\n\nSpaces are encoded as '\\s', newlines as '\\n', and tabs as '\\t'.\n\nThe whitespace doesn't overlap, meaning that whitespace covered by one token's 'tail' will not be included in the following token's 'head'.",
+          "annotations": {
+            "<token>:misc.head": {
+              "description": "Whitespace characters preceding every token",
+              "resolved_name": "segment.token:misc.head"
+            },
+            "<token>:misc.tail": {
+              "description": "Whitespace characters following every token",
+              "resolved_name": "segment.token:misc.tail"
+            }
+          },
+          "config": {
+            "misc.head_tail_max_length": {
+              "description": "Truncate misc.head and misc.tail to this number of characters.",
+              "datatype": ["int"]
+            }
+          }
+        },
+        "text_spans": {
+          "description": "Text content of tokens",
+          "annotations": {
+            "<token>:misc.word": {
+              "description": "Text content of every token",
+              "class": "token:word",
+              "resolved_name": "segment.token:misc.word"
+            }
+          },
+          "config": {
+            "misc.keep_formatting_chars": {
+              "description": "Set to True if you don't want formatting characters (e.g. soft hyphens) to be removed from tokens in the output.",
+              "default": false,
+              "datatype": ["bool"]
+            }
+          }
+        },
+        "translate_tag": {
+          "description": "Convert part-of-speech tags, specified by the mapping",
+          "custom_annotator": true,
+          "parameters": {
+            "out": {
+              "optional": false,
+              "type": "Output",
+              "default": null
+            },
+            "tag": {
+              "optional": false,
+              "type": "Annotation",
+              "default": null
+            },
+            "mapping": {
+              "optional": false,
+              "type": "dict",
+              "default": {}
+            }
+          }
+        },
+        "ufeatstag": {
+          "description": "Convert SUC MSD tags to universal features",
+          "annotations": {
+            "<token>:misc.ufeats": {
+              "description": "Universal morphological features",
+              "class": "token:ufeats",
+              "resolved_name": "segment.token:misc.ufeats"
+            }
+          }
+        },
+        "upostag": {
+          "description": "Convert SUC POS tags to UPOS",
+          "annotations": {
+            "<token>:misc.upos": {
+              "description": "Part-of-speeches in UD",
+              "class": "token:upos",
+              "resolved_name": "segment.token:misc.upos"
+            }
+          }
+        }
+      },
+      "description": "Miscellaneous annotations."
+    },
+    "phrase_structure": {
+      "functions": {
+        "annotate": {
+          "description": "Convert Mamba-Dep dependencies into phrase structure",
+          "annotations": {
+            "phrase_structure.phrase": {
+              "description": "Phrase segments"
+            },
+            "phrase_structure.phrase:phrase_structure.func": {
+              "description": "Phrase functions"
+            },
+            "phrase_structure.phrase:phrase_structure.name": {
+              "description": "Phrase names"
+            }
+          }
+        }
+      },
+      "description": "Phrase structure annotations."
+    },
+    "readability": {
+      "functions": {
+        "lix": {
+          "description": "Annotate text chunks with LIX values",
+          "annotations": {
+            "<text>:readability.lix": {
+              "description": "LIX values for text chunks"
+            }
+          }
+        },
+        "nominal_ratio": {
+          "description": "Annotate text chunks with nominal ratios",
+          "annotations": {
+            "<text>:readability.nk": {
+              "description": "Nominal ratios for text chunks"
+            }
+          }
+        },
+        "ovix": {
+          "description": "Annotate text chunks with OVIX values",
+          "annotations": {
+            "<text>:readability.ovix": {
+              "description": "OVIX values for text chunks"
+            }
+          }
+        }
+      },
+      "description": "Readability measures."
+    },
+    "saldo": {
+      "functions": {
+        "annotate": {
+          "description": "SALDO annotations",
+          "annotations": {
+            "<token>:saldo.baseform": {
+              "description": "Baseforms from SALDO",
+              "class": "token:baseform",
+              "resolved_name": "segment.token:saldo.baseform"
+            },
+            "<token>:saldo.lemgram": {
+              "description": "SALDO lemgrams",
+              "class": "token:lemgram",
+              "resolved_name": "segment.token:saldo.lemgram"
+            },
+            "<token>:saldo.sense": {
+              "description": "SALDO identifiers",
+              "class": "token:sense",
+              "resolved_name": "segment.token:saldo.sense"
+            }
+          },
+          "config": {
+            "saldo.affix": {
+              "description": "Character to put before and after sets of results",
+              "default": "|",
+              "datatype": ["str"]
+            },
+            "saldo.allow_multiword_overlap": {
+              "description": "Whether all multiword expressions may overlap with each other. If set to False, some cleanup is done.",
+              "default": false,
+              "datatype": ["bool"]
+            },
+            "saldo.delimiter": {
+              "description": "Character to put between ambiguous results",
+              "default": "|",
+              "datatype": ["str"]
+            },
+            "saldo.max_mwe_gaps": {
+              "description": "Max amount of gaps allowed within a multiword expression",
+              "default": 1,
+              "datatype": ["int"]
+            },
+            "saldo.min_precision": {
+              "description": "Only use annotations with a probability score greater than or equal to this. 0.25: part-of-speech does not match, 0.5: part-of-speech is missing, 0.66: part-of-speech matches, 0.75: morphosyntactic descriptor matches",
+              "default": 0.66,
+              "datatype": ["float"]
+            },
+            "saldo.model": {
+              "description": "Path to SALDO model",
+              "default": "saldo/saldo.pickle",
+              "datatype": ["str"]
+            },
+            "saldo.precision": {
+              "description": "Format string for appending precision to each value (e.g. ':%.3f')",
+              "datatype": ["str"]
+            },
+            "saldo.precision_filter": {
+              "description": "Precision filter with possible values 'max' (only use the most probable annotations), 'first' (only use the single most probable annotation), 'none' (use all annotations)",
+              "choices": ["max", "first", "none"],
+              "default": "max",
+              "datatype": ["str"]
+            },
+            "saldo.skip_multiword": {
+              "description": "Whether to disable annotation of multiword expressions",
+              "default": false,
+              "datatype": ["bool"]
+            },
+            "saldo.word_separator": {
+              "description": "Character used to split the values of 'word' into several word variations",
+              "datatype": ["str"]
+            }
+          }
+        },
+        "compound": {
+          "description": "Compound analysis",
+          "annotations": {
+            "<token>:saldo.baseform2": {
+              "description": "Baseform including baseforms derived from compounds",
+              "resolved_name": "segment.token:saldo.baseform2"
+            },
+            "<token>:saldo.complemgram": {
+              "description": "Compound analysis using lemgrams",
+              "resolved_name": "segment.token:saldo.complemgram"
+            },
+            "<token>:saldo.compwf": {
+              "description": "Compound analysis using wordforms",
+              "resolved_name": "segment.token:saldo.compwf"
+            }
+          },
+          "config": {
+            "saldo.comp_model": {
+              "description": "Path to SALDO compound model",
+              "default": "saldo/saldo.compound.pickle",
+              "datatype": ["str"]
+            },
+            "saldo.comp_nst_model": {
+              "description": "Path to NST part of speech compound model",
+              "default": "saldo/nst_comp_pos.pickle",
+              "datatype": ["str"]
+            },
+            "saldo.comp_stats_model": {
+              "description": "Path to statistics model",
+              "default": "saldo/stats.pickle",
+              "datatype": ["str"]
+            },
+            "saldo.comp_use_source": {
+              "description": "Also use source text as lexicon for compound analysis",
+              "default": true,
+              "datatype": ["bool"]
+            }
+          }
+        }
+      },
+      "description": "SALDO-related annotations."
+    },
+    "segment": {
+      "functions": {
+        "paragraph": {
+          "description": "Automatic segmentation of paragraphs",
+          "annotations": {
+            "segment.paragraph": {
+              "description": "Paragraph segments",
+              "class": "paragraph"
+            }
+          },
+          "config": {
+            "segment.existing_paragraphs": {
+              "description": "Optional existing paragraph annotation",
+              "datatype": ["str"]
+            },
+            "segment.paragraph_chunk": {
+              "description": "Text chunk (annotation) to use as input when segmenting",
+              "default": "<text>",
+              "datatype": ["str"]
+            },
+            "segment.paragraph_segmenter": {
+              "description": "Paragraph segmenter to use",
+              "choices": [
+                "better_word",
+                "blanklines",
+                "crf_tokenizer",
+                "fsv_paragraph",
+                "linebreaks",
+                "punctuation",
+                "punkt_sentence",
+                "simple_word_punkt",
+                "whitespace"
+              ],
+              "default": "blanklines",
+              "datatype": ["str"]
+            }
+          }
+        },
+        "sentence": {
+          "description": "Automatic segmentation of sentences",
+          "annotations": {
+            "segment.sentence": {
+              "description": "Sentence segments",
+              "class": "sentence"
+            }
+          },
+          "config": {
+            "segment.existing_sentences": {
+              "description": "Optional existing sentence annotation",
+              "datatype": ["str"]
+            },
+            "segment.sentence_chunk": {
+              "description": "Text chunk (annotation) to use as input when segmenting",
+              "default": "<paragraph>, <text>",
+              "datatype": ["str"]
+            },
+            "segment.sentence_model": {
+              "description": "Path to model",
+              "default": "segment/punkt-nltk-svenska.pickle",
+              "datatype": ["str"]
+            },
+            "segment.sentence_segmenter": {
+              "description": "Sentence segmenter to use",
+              "choices": [
+                "better_word",
+                "blanklines",
+                "crf_tokenizer",
+                "fsv_paragraph",
+                "linebreaks",
+                "punctuation",
+                "punkt_sentence",
+                "simple_word_punkt",
+                "whitespace"
+              ],
+              "default": "punkt_sentence",
+              "datatype": ["str"]
+            }
+          }
+        },
+        "tokenize": {
+          "description": "Automatic tokenization",
+          "annotations": {
+            "segment.token": {
+              "description": "Token segments",
+              "class": "token"
+            }
+          },
+          "config": {
+            "segment.existing_tokens": {
+              "description": "Optional existing token annotation",
+              "datatype": ["str"]
+            },
+            "segment.token_chunk": {
+              "description": "Text chunk (annotation) to use as input when tokenizing",
+              "default": "<sentence>",
+              "datatype": ["str"]
+            },
+            "segment.token_list": {
+              "description": "Path to optional token list file",
+              "default": "segment/bettertokenizer.sv.saldo-tokens",
+              "datatype": ["str"]
+            },
+            "segment.token_segmenter": {
+              "description": "Token segmenter to use",
+              "choices": [
+                "better_word",
+                "blanklines",
+                "crf_tokenizer",
+                "fsv_paragraph",
+                "linebreaks",
+                "punctuation",
+                "punkt_sentence",
+                "simple_word_punkt",
+                "whitespace"
+              ],
+              "default": "better_word",
+              "datatype": ["str"]
+            },
+            "segment.tokenizer_config": {
+              "description": "Path to tokenizer config",
+              "default": "segment/bettertokenizer.sv",
+              "datatype": ["str"]
+            }
+          }
+        }
+      },
+      "description": "Segmentation of text into smaller units."
+    },
+    "sensaldo": {
+      "functions": {
+        "annotate": {
+          "description": "Sentiment annotation per token using SenSALDO",
+          "annotations": {
+            "<token>:sensaldo.sentiment_label": {
+              "description": "SenSALDO sentiment label",
+              "resolved_name": "segment.token:sensaldo.sentiment_label"
+            },
+            "<token>:sensaldo.sentiment_score": {
+              "description": "SenSALDO sentiment score",
+              "resolved_name": "segment.token:sensaldo.sentiment_score"
+            }
+          },
+          "config": {
+            "sensaldo.model": {
+              "description": "Path to SenSALDO model",
+              "default": "sensaldo/sensaldo.pickle",
+              "datatype": ["str"]
+            }
+          }
+        }
+      },
+      "description": "Sentiment annotation using SenSALDO."
+    },
+    "stanza": {
+      "functions": {
+        "annotate_swe": {
+          "description": "POS, lemma and dependency relations from Stanza",
+          "annotations": {
+            "<token>:stanza.baseform": {
+              "description": "Baseform from Stanza",
+              "class": "token:baseform",
+              "resolved_name": "segment.token:stanza.baseform"
+            },
+            "<token>:stanza.dephead": {
+              "description": "Positions of the dependency heads",
+              "class": "token:dephead",
+              "resolved_name": "segment.token:stanza.dephead"
+            },
+            "<token>:stanza.dephead_ref": {
+              "description": "Sentence-relative positions of the dependency heads",
+              "class": "token:dephead_ref",
+              "resolved_name": "segment.token:stanza.dephead_ref"
+            },
+            "<token>:stanza.deprel": {
+              "description": "Dependency relations to the head",
+              "class": "token:deprel",
+              "resolved_name": "segment.token:stanza.deprel"
+            },
+            "<token>:stanza.msd": {
+              "description": "Part-of-speeches with morphological descriptions",
+              "class": "token:msd",
+              "resolved_name": "segment.token:stanza.msd"
+            },
+            "<token>:stanza.pos": {
+              "description": "Part-of-speech tags",
+              "class": "token:pos",
+              "resolved_name": "segment.token:stanza.pos"
+            },
+            "<token>:stanza.ufeats": {
+              "description": "Universal morphological features",
+              "class": "token:ufeats",
+              "resolved_name": "segment.token:stanza.ufeats"
+            }
+          },
+          "config": {
+            "metadata.language": {
+              "description": "Language of source files (ISO 639-3)",
+              "choices": [
+                "ast",
+                "bul",
+                "cat",
+                "deu",
+                "eng",
+                "est",
+                "fin",
+                "fra",
+                "glg",
+                "ita",
+                "lat",
+                "nld",
+                "nob",
+                "pol",
+                "por",
+                "ron",
+                "rus",
+                "slk",
+                "slv",
+                "spa",
+                "swe",
+                null
+              ],
+              "datatype": ["str", "NoneType"]
+            },
+            "stanza.batch_size": {
+              "description": "Limit Stanza batch size. Sentences with a token count exceeding this value will be excluded from analysis.",
+              "default": 5000,
+              "datatype": ["int"]
+            },
+            "stanza.cpu_fallback": {
+              "description": "Fall back to CPU for sentences exceeding the max_sentence_length, instead of excluding them from dependence parsing. Only usable with use_gpu enabled.",
+              "default": false,
+              "datatype": ["bool"]
+            },
+            "stanza.max_sentence_length": {
+              "description": "Max length (in number of tokens) of sentences that will get dependence annotations (set to 0 for no limit)",
+              "default": 250,
+              "datatype": ["int"]
+            },
+            "stanza.max_token_length": {
+              "description": "Max number of characters per token. Any sentence containing a token exceeding this limit will be excluded from analysis. Disabled by default.",
+              "default": 0,
+              "datatype": ["int"]
+            },
+            "stanza.resources_file": {
+              "description": "Stanza resources file",
+              "default": "stanza//resources.json",
+              "datatype": ["str"]
+            },
+            "stanza.swe_dep_model": {
+              "description": "Stanza dependency model for Swedish",
+              "default": "stanza/swe/dep/sv_talbanken_parser.pt",
+              "datatype": ["str"]
+            },
+            "stanza.swe_lem_model": {
+              "description": "Stanza lemmatisation model for Swedish",
+              "default": "stanza/swe/lem/sv_suc_lemmatizer.pt",
+              "datatype": ["str"]
+            },
+            "stanza.swe_pos_model": {
+              "description": "Stanza POS model for Swedish",
+              "default": "stanza/swe/pos/sv_talbanken_tagger.pt",
+              "datatype": ["str"]
+            },
+            "stanza.swe_pretrain_dep_model": {
+              "description": "Stanza pretrain dependency model for Swedish",
+              "default": "stanza/swe/sv_talbanken.pretrain.pt",
+              "datatype": ["str"]
+            },
+            "stanza.swe_pretrain_pos_model": {
+              "description": "Stanza pretrain POS model for Swedish",
+              "default": "stanza/swe/sv_talbanken.pretrain.pt",
+              "datatype": ["str"]
+            },
+            "stanza.use_gpu": {
+              "description": "Use GPU instead of CPU if available",
+              "default": true,
+              "datatype": ["bool"]
+            }
+          }
+        },
+        "dep_parse": {
+          "description": "Dependency parsing using Stanza",
+          "annotations": {
+            "<token>:stanza.dephead": {
+              "description": "Positions of the dependency heads",
+              "class": "token:dephead",
+              "resolved_name": "segment.token:stanza.dephead"
+            },
+            "<token>:stanza.dephead_ref": {
+              "description": "Sentence-relative positions of the dependency heads",
+              "class": "token:dephead_ref",
+              "resolved_name": "segment.token:stanza.dephead_ref"
+            },
+            "<token>:stanza.deprel": {
+              "description": "Dependency relations to the head",
+              "class": "token:deprel",
+              "resolved_name": "segment.token:stanza.deprel"
+            }
+          },
+          "config": {
+            "metadata.language": {
+              "description": "Language of source files (ISO 639-3)",
+              "choices": [
+                "ast",
+                "bul",
+                "cat",
+                "deu",
+                "eng",
+                "est",
+                "fin",
+                "fra",
+                "glg",
+                "ita",
+                "lat",
+                "nld",
+                "nob",
+                "pol",
+                "por",
+                "ron",
+                "rus",
+                "slk",
+                "slv",
+                "spa",
+                "swe",
+                null
+              ],
+              "datatype": ["str", "NoneType"]
+            },
+            "stanza.batch_size": {
+              "description": "Limit Stanza batch size. Sentences with a token count exceeding this value will be excluded from analysis.",
+              "default": 5000,
+              "datatype": ["int"]
+            },
+            "stanza.cpu_fallback": {
+              "description": "Fall back to CPU for sentences exceeding the max_sentence_length, instead of excluding them from dependence parsing. Only usable with use_gpu enabled.",
+              "default": false,
+              "datatype": ["bool"]
+            },
+            "stanza.max_sentence_length": {
+              "description": "Max length (in number of tokens) of sentences that will get dependence annotations (set to 0 for no limit)",
+              "default": 250,
+              "datatype": ["int"]
+            },
+            "stanza.resources_file": {
+              "description": "Stanza resources file",
+              "default": "stanza//resources.json",
+              "datatype": ["str"]
+            },
+            "stanza.swe_dep_model": {
+              "description": "Stanza dependency model for Swedish",
+              "default": "stanza/swe/dep/sv_talbanken_parser.pt",
+              "datatype": ["str"]
+            },
+            "stanza.swe_pretrain_dep_model": {
+              "description": "Stanza pretrain dependency model for Swedish",
+              "default": "stanza/swe/sv_talbanken.pretrain.pt",
+              "datatype": ["str"]
+            },
+            "stanza.use_gpu": {
+              "description": "Use GPU instead of CPU if available",
+              "default": true,
+              "datatype": ["bool"]
+            }
+          }
+        },
+        "make_ref": {
+          "description": "Annotate tokens with IDs relative to their sentences",
+          "annotations": {
+            "<token>:stanza.ref": {
+              "description": "Token IDs relative to their sentences",
+              "class": "token:ref",
+              "resolved_name": "segment.token:stanza.ref"
+            }
+          }
+        },
+        "msd_backoff_hunpos": {
+          "description": "Extract POS from MSD",
+          "annotations": {
+            "<token>:stanza.msd_hunpos_backoff": {
+              "description": "Part-of-speech tags with morphological descriptions from Stanza or Hunpos.",
+              "class": "token:msd",
+              "resolved_name": "segment.token:stanza.msd_hunpos_backoff"
+            },
+            "<token>:stanza.msd_hunpos_backoff_info": {
+              "description": "Info about which annotator each msd annotation was produced with.",
+              "resolved_name": "segment.token:stanza.msd_hunpos_backoff_info"
+            }
+          }
+        },
+        "msdtag": {
+          "description": "Part-of-speech annotation with morphological descriptions from Stanza",
+          "annotations": {
+            "<token>:stanza.msd": {
+              "description": "Part-of-speeches with morphological descriptions",
+              "class": "token:msd",
+              "resolved_name": "segment.token:stanza.msd"
+            },
+            "<token>:stanza.pos": {
+              "description": "Part-of-speech tags",
+              "class": "token:pos",
+              "resolved_name": "segment.token:stanza.pos"
+            },
+            "<token>:stanza.ufeats": {
+              "description": "Universal morphological features",
+              "class": "token:ufeats",
+              "resolved_name": "segment.token:stanza.ufeats"
+            }
+          },
+          "config": {
+            "metadata.language": {
+              "description": "Language of source files (ISO 639-3)",
+              "choices": [
+                "ast",
+                "bul",
+                "cat",
+                "deu",
+                "eng",
+                "est",
+                "fin",
+                "fra",
+                "glg",
+                "ita",
+                "lat",
+                "nld",
+                "nob",
+                "pol",
+                "por",
+                "ron",
+                "rus",
+                "slk",
+                "slv",
+                "spa",
+                "swe",
+                null
+              ],
+              "datatype": ["str", "NoneType"]
+            },
+            "stanza.batch_size": {
+              "description": "Limit Stanza batch size. Sentences with a token count exceeding this value will be excluded from analysis.",
+              "default": 5000,
+              "datatype": ["int"]
+            },
+            "stanza.resources_file": {
+              "description": "Stanza resources file",
+              "default": "stanza//resources.json",
+              "datatype": ["str"]
+            },
+            "stanza.swe_pos_model": {
+              "description": "Stanza POS model for Swedish",
+              "default": "stanza/swe/pos/sv_talbanken_tagger.pt",
+              "datatype": ["str"]
+            },
+            "stanza.swe_pretrain_pos_model": {
+              "description": "Stanza pretrain POS model for Swedish",
+              "default": "stanza/swe/sv_talbanken.pretrain.pt",
+              "datatype": ["str"]
+            },
+            "stanza.use_gpu": {
+              "description": "Use GPU instead of CPU if available",
+              "default": true,
+              "datatype": ["bool"]
+            }
+          }
+        },
+        "pos_backoff_hunpos": {
+          "description": "Extract POS from MSD",
+          "annotations": {
+            "<token>:stanza.pos_hunpos_backoff": {
+              "description": "Part-of-speech tags from Stanza or Hunpos.",
+              "class": "token:pos",
+              "resolved_name": "segment.token:stanza.pos_hunpos_backoff"
+            },
+            "<token>:stanza.pos_hunpos_backoff_info": {
+              "description": "Info about which annotator each pos annotation was produced with.",
+              "resolved_name": "segment.token:stanza.pos_hunpos_backoff_info"
+            }
+          }
+        }
+      },
+      "description": "POS tagging, lemmatisation and dependency parsing with Stanza."
+    },
+    "stats_export": {
+      "functions": {
+        "best_complemgram": {
+          "description": "Extract the complemgram with the highest score",
+          "annotations": {
+            "<token>:stats_export.complemgram_best": {
+              "description": "Complemgram annotation with highest score",
+              "resolved_name": "segment.token:stats_export.complemgram_best"
+            }
+          }
+        },
+        "best_sense": {
+          "description": "Extract the sense with the highest score",
+          "annotations": {
+            "<token>:stats_export.sense_best": {
+              "description": "Sense annotation with highest score",
+              "resolved_name": "segment.token:stats_export.sense_best"
+            }
+          }
+        },
+        "conditional_best_complemgram": {
+          "description": "Get the best complemgram if the token is lacking a sense annotation",
+          "annotations": {
+            "<token>:stats_export.complemgram_best_cond": {
+              "description": "Compound analysis using lemgrams",
+              "resolved_name": "segment.token:stats_export.complemgram_best_cond"
+            }
+          }
+        },
+        "first_baseform": {
+          "description": "Extract the first baseform annotation from a set of baseforms",
+          "annotations": {
+            "<token>:stats_export.baseform_first": {
+              "description": "First baseform from a set of baseforms",
+              "resolved_name": "segment.token:stats_export.baseform_first"
+            }
+          }
+        },
+        "first_lemgram": {
+          "description": "Extract the first lemgram annotation from a set of lemgrams",
+          "annotations": {
+            "<token>:stats_export.lemgram_first": {
+              "description": "First lemgram from a set of lemgrams",
+              "resolved_name": "segment.token:stats_export.lemgram_first"
+            }
+          }
+        }
+      },
+      "description": "Word frequency list generation."
+    },
+    "swener": {
+      "functions": {
+        "annotate": {
+          "description": "Named entity tagging with SweNER",
+          "annotations": {
+            "swener.ne": {
+              "description": "Named entity segments from SweNER",
+              "class": "named_entity"
+            },
+            "swener.ne:swener.ex": {
+              "description": "Named entity expressions from SweNER"
+            },
+            "swener.ne:swener.name": {
+              "description": "Names in SweNER named entities",
+              "class": "named_entity:name"
+            },
+            "swener.ne:swener.subtype": {
+              "description": "Named entity sub types from SweNER",
+              "class": "named_entity:subtype"
+            },
+            "swener.ne:swener.type": {
+              "description": "Named entity types from SweNER",
+              "class": "named_entity:type"
+            }
+          },
+          "config": {
+            "swener.binary": {
+              "description": "SweNER executable",
+              "default": "hfst-swener",
+              "datatype": ["str"]
+            }
+          }
+        }
+      },
+      "description": "Named entity tagging with SweNER."
+    },
+    "wsd": {
+      "functions": {
+        "annotate": {
+          "description": "Word sense disambiguation",
+          "annotations": {
+            "<token>:wsd.sense": {
+              "description": "Sense disambiguated SALDO identifiers",
+              "class": "token:sense",
+              "resolved_name": "segment.token:wsd.sense"
+            }
+          },
+          "config": {
+            "wsd.context_model": {
+              "description": "Path to context model",
+              "default": "wsd/lem_cbow0_s512_w10_NEW2_ctx.bin",
+              "datatype": ["str"]
+            },
+            "wsd.default_prob": {
+              "description": "Default value for unanalyzed senses",
+              "default": -1.0,
+              "datatype": ["float"]
+            },
+            "wsd.jar": {
+              "description": "Path name of the executable .jar file",
+              "default": "wsd/saldowsd.jar",
+              "datatype": ["str"]
+            },
+            "wsd.prob_format": {
+              "description": "Format string for how to print the sense probability",
+              "default": ":%.3f",
+              "datatype": ["str"]
+            },
+            "wsd.sense_model": {
+              "description": "Path to sense model",
+              "default": "wsd/ALL_512_128_w10_A2_140403_ctx1.bin",
+              "datatype": ["str"]
+            }
+          }
+        }
+      },
+      "description": "Word sense disambiguation based on SALDO annotation."
+    }
+  }
+}

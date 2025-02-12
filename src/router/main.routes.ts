@@ -11,6 +11,7 @@ import AccessDenied from "@/auth/AccessDenied.vue";
 import NotFound from "@/page/NotFound.vue";
 import corpusRoutes from "@/router/corpus.routes";
 import metadataRoutes from "@/router/metadata.routes";
+import AnnotatorsForm from "@/AnnotatorsForm.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -54,6 +55,11 @@ const routes: RouteRecordRaw[] = [
     path: "/admin/resources",
     component: AdminResourcesView,
     meta: { title: "resources" },
+  },
+  {
+    path: "/annotators",
+    component: AnnotatorsForm,
+    meta: { title: "annotators" },
   },
   ...corpusRoutes,
   ...metadataRoutes,
