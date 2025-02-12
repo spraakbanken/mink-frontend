@@ -46,7 +46,7 @@ export type Annotation = {
 export type Config = {
   description: string;
   default?: string | number | boolean | null;
-  datatype: string[];
+  datatype: [ConfigType] | [ConfigType, "NoneType"];
   choices?: string[];
 };
 
@@ -57,3 +57,4 @@ export type Parameter<T extends ValueType = ValueType> = {
 };
 
 export type ValueType = string | number | boolean | null;
+export type ConfigType = "bool" | "float" | "int" | "str";

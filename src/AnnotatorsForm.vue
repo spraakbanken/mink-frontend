@@ -9,7 +9,13 @@ import annotatorsFile from "@/assets/annotators.json";
 
 const data = (annotatorsFile as unknown as A.File).annotators;
 
-const selected = reactive(new Set<string>());
+const selected = reactive(
+  new Set<string>([
+    "hunpos-msdtag-<token>:hunpos.msd",
+    "saldo-annotate-<token>:saldo.baseform",
+    "stanza-annotate_swe-<token>:stanza.pos",
+  ]),
+);
 const functions = computed(() =>
   [...selected].reduce<Record<string, A.Annotator>>(
     (acc, name) => ({ ...acc, [name]: findFunction(name) }),
@@ -69,6 +75,11 @@ function toggleSelected(annotationName: string) {
               <input
                 :id="`${moduleName}-${functionName}-${annotationName}`"
                 type="checkbox"
+                :checked="
+                  selected.has(
+                    `${moduleName}-${functionName}-${annotationName}`,
+                  )
+                "
                 @change="
                   toggleSelected(
                     `${moduleName}-${functionName}-${annotationName}`,
@@ -92,12 +103,43 @@ function toggleSelected(annotationName: string) {
 
     <LayoutBox title="Configuration" class="w-96 grow">
       <FormKitWrapper>
-        <FormKit
-          v-for="(config, name) in configs"
-          :key="name"
-          :label="config.description"
-          :placeholder="String(config.default)"
-        />
+        <template v-for="(config, name) in configs" :key="name">
+          <FormKit
+            v-if="config.choices"
+            type="select"
+            :label="String(name)"
+            :help="config.description"
+            :options="
+              config.choices.map((choice) => ({
+                value: choice || '',
+                label: choice || '<empty>',
+              }))
+            "
+            :value="String(config.default || '')"
+            :placeholder="String(config.default || '')"
+          />
+          <FormKit
+            v-else-if="config.datatype[0] == 'str'"
+            type="text"
+            :label="String(name)"
+            :help="config.description"
+            :placeholder="String(config.default || '')"
+          />
+          <FormKit
+            v-else-if="config.datatype[0] == 'int'"
+            type="number"
+            :label="String(name)"
+            :help="config.description"
+            :placeholder="String(config.default || '')"
+          />
+          <FormKit
+            v-else-if="config.datatype[0] == 'bool'"
+            type="checkbox"
+            :label="String(name)"
+            :help="config.description"
+            :value="Boolean(config.default)"
+          />
+        </template>
       </FormKitWrapper>
     </LayoutBox>
   </div>
