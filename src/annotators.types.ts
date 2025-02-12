@@ -58,3 +58,10 @@ export type Parameter<T extends ValueType = ValueType> = {
 
 export type ValueType = string | number | boolean | null;
 export type ConfigType = "bool" | "float" | "int" | "str";
+export type ParamType =
+  | ConfigType
+  | "dict"
+  | `list[${string}]`
+  | "Annotation"
+  | "Output"
+  | "_empty";
