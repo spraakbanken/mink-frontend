@@ -11,7 +11,7 @@ As this project is a user-facing application, the places in the semantic version
 - `MINOR` denotes changes that may affect the user experience _or_ the development workflow
 - `PATCH` denotes changes that are insignificant to the user experience or the develpment workflow
 
-## [Unreleased]
+## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.8.0...HEAD)
 
 ### Added
 
@@ -22,7 +22,7 @@ As this project is a user-facing application, the places in the semantic version
 
 - Update translation for footer on homepage [#184](https://github.com/spraakbanken/mink-frontend/issues/184)
 
-## [1.8.0] (2025-01-20)
+## [1.8.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.8.0) (2025-01-20)
 
 ### Added
 
@@ -32,7 +32,7 @@ As this project is a user-facing application, the places in the semantic version
 
 - Updated screenshots
 
-## [1.7.1] (2024-12-03)
+## [1.7.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.7.1) (2024-12-03)
 
 ### Added
 
@@ -44,7 +44,7 @@ As this project is a user-facing application, the places in the semantic version
 - Accessibility improvements (contrast, alt attributes, keyboard navigation, etc)
 - Use corpus name in breadcrumbs
 
-## [1.7.0] (2024-09-30)
+## [1.7.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.7.0) (2024-09-30)
 
 ### Added
 
@@ -65,7 +65,7 @@ As this project is a user-facing application, the places in the semantic version
 - Backend error messages are ignored when fetching files with "blob" as responseType [#171](https://github.com/spraakbanken/mink-frontend/issues/171)
 - Remove unnecessary scroll bars from HeightResizable, used in code boxes
 
-## [1.6.1] (2024-08-13)
+## [1.6.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.6.1) (2024-08-13)
 
 ### Added
 
@@ -81,7 +81,7 @@ As this project is a user-facing application, the places in the semantic version
 
 - Require authentication for the custom config page
 
-## [1.6.0] (2024-04-30)
+## [1.6.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.6.0) (2024-04-30)
 
 ### Added
 
@@ -99,7 +99,7 @@ As this project is a user-facing application, the places in the semantic version
 
 - Clarify that data installed in tools is outdated after annotation re-run [#154](https://github.com/spraakbanken/mink-frontend/issues/154)
 
-## [1.5.0] (2024-04-23)
+## [1.5.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.5.0) (2024-04-23)
 
 ### Added
 
@@ -122,7 +122,7 @@ As this project is a user-facing application, the places in the semantic version
 - Make language switcher more visible [#90](https://github.com/spraakbanken/mink-frontend/issues/90)
 - Show hint if parsing config fails
 
-## [1.4.0] (2024-03-11)
+## [1.4.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.4.0) (2024-03-11)
 
 ### Added
 
@@ -141,7 +141,7 @@ As this project is a user-facing application, the places in the semantic version
 - Missing `type` in store caused new corpus form to crash
 - Fix visual feedback when saving config and deleting resource
 
-## [1.3.0] (2024-02-12)
+## [1.3.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.3.0) (2024-02-12)
 
 ### Added
 
@@ -158,7 +158,7 @@ As this project is a user-facing application, the places in the semantic version
 - Word wrapping in log output in status panel [#139](https://github.com/spraakbanken/mink-frontend/issues/139)
 - Upgraded dependencies
 
-## [1.2.0] (2024-01-17)
+## [1.2.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.2.0) (2024-01-17)
 
 ### Added
 
@@ -183,7 +183,7 @@ As this project is a user-facing application, the places in the semantic version
 
 - `useVariant`
 
-## [1.1.0] (2024-01-02)
+## [1.1.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.1.0) (2024-01-02)
 
 ### Added
 
@@ -200,7 +200,7 @@ As this project is a user-facing application, the places in the semantic version
 - Allow clicking most elements behind a loading spinner
 - Home page width on small screen
 
-## [1.0.5] (2023-11-28)
+## [1.0.5](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.0.5) (2023-11-28)
 
 ### Changed
 
@@ -210,13 +210,13 @@ As this project is a user-facing application, the places in the semantic version
 
 - Set `lang` param of Korp/Strix urls
 
-## [1.0.4] (2023-10-24)
+## [1.0.4](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.0.4) (2023-10-24)
 
 ### Fixed
 
 - Drop requirement of mink-app permission for write check
 
-## [1.0.3] (2023-10-19)
+## [1.0.3](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.0.3) (2023-10-19)
 
 ### Added
 
@@ -229,7 +229,7 @@ As this project is a user-facing application, the places in the semantic version
 - Correct file size outputs using binary base instead of decimal
 - Translate "Create account" page to Swedish
 
-## [1.0.2] (2023-10-03)
+## [1.0.2](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.0.2) (2023-10-03)
 
 ### Added
 
@@ -241,7 +241,7 @@ As this project is a user-facing application, the places in the semantic version
 - Dark-safe background color of welcome card on home page
 - Orange color of progress bar same as logo and links
 
-## [1.0.1] (2023-10-02)
+## [1.0.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.0.1) (2023-10-02)
 
 ### Fixed
 
@@ -258,7 +258,7 @@ As this project is a user-facing application, the places in the semantic version
 
 - New Mink logo, and added Göteborgs unversitet logo
 
-## [1.0.0] (2023-09-20)
+## [1.0.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.0.0) (2023-09-20)
 
 The frontend is now open to the general public! This version allows users to:
 
@@ -268,21 +268,3 @@ The frontend is now open to the general public! This version allows users to:
 - Export results into Korp and Strix
 
 Code changes up until this point are not documented other than in the git commit log.
-
-[unreleased]: https://github.com/spraakbanken/mink-frontend/compare/v1.8.0...HEAD
-[1.8.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.7.1...v1.8.0
-[1.7.1]: https://github.com/spraakbanken/mink-frontend/compare/v1.7.0...v1.7.1
-[1.7.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.6.1...v1.7.0
-[1.6.1]: https://github.com/spraakbanken/mink-frontend/compare/v1.6.0...v1.6.1
-[1.6.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.5.0...v1.6.0
-[1.5.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.4.0...v1.5.0
-[1.4.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.3.0...v1.4.0
-[1.3.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.2.0...v1.3.0
-[1.2.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.1.0...v1.2.0
-[1.1.0]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.5...v1.1.0
-[1.0.5]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.4...v1.0.5
-[1.0.4]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.3...v1.0.4
-[1.0.3]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.2...v1.0.3
-[1.0.2]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.1...v1.0.2
-[1.0.1]: https://github.com/spraakbanken/mink-frontend/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/spraakbanken/mink-frontend/releases/tag/v1.0.0
