@@ -68,6 +68,7 @@ function toggleSelected(annotationName: string) {
             <div
               v-for="(annotation, annotationName) in func.annotations"
               :key="annotationName"
+              class="list-none ml-4 -indent-4"
             >
               <input
                 :id="`${moduleName}-${functionName}-${annotationName}`"
@@ -91,13 +92,13 @@ function toggleSelected(annotationName: string) {
             </div>
           </details>
 
-          <div v-else>
+          <div v-else class="list-none ml-4 -indent-4">
             <input
               :id="`${moduleName}-${functionName}`"
               type="checkbox"
               :checked="selected.has(`${moduleName}-${functionName}`)"
               @change="toggleSelected(`${moduleName}-${functionName}`)"
-              class="mr-2"
+              class="mr-1"
             />
             <label :for="`${moduleName}-${functionName}`">
               <code>{{ functionName }}</code> –
@@ -232,7 +233,7 @@ details {
   padding-inline-start: 1rem;
 }
 summary {
-  margin-inline-start: -1rem;
+  text-indent: -1rem;
   cursor: pointer;
 }
 </style>
