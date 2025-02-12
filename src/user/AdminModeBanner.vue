@@ -20,7 +20,7 @@ function disable() {
 <template>
   <div
     v-if="adminMode"
-    class="bg-amber-300 shadow shadow-amber-600 text-amber-900 p-2 px-4 mb-4"
+    class="bg-amber-300 shadow-sm shadow-amber-600 text-amber-900 p-2 px-4 mb-4"
   >
     <div class="container py-1 flex flex-wrap items-center gap-2">
       <PhWarning />

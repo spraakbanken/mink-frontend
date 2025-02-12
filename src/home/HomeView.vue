@@ -59,7 +59,7 @@ const logoutUrl = getLogoutUrl();
 
             <div
               v-if="payload && canUserWrite"
-              class="bg-sky-100 dark:bg-sky-900 p-4 rounded shadow-inner flex flex-wrap justify-center items-baseline gap-4"
+              class="bg-sky-100 dark:bg-sky-900 p-4 rounded-sm shadow-inner flex flex-wrap justify-center items-baseline gap-4"
             >
               <div>{{ $t("welcome", { name: payload.name }) }}</div>
 
@@ -139,6 +139,17 @@ const logoutUrl = getLogoutUrl();
               scope="global"
               tag="p"
             />
+
+            <i18n-t keypath="home.features.upload.xml" scope="global" tag="p">
+              <template #link>
+                <a
+                  :href="$t('home.features.upload.xml.link.url')"
+                  target="_blank"
+                >
+                  {{ $t("home.features.upload.xml.link.label") }}
+                </a>
+              </template>
+            </i18n-t>
           </LayoutSection>
         </div>
 
@@ -210,7 +221,7 @@ const logoutUrl = getLogoutUrl();
         {{ " " }}
         <i18n-t keypath="home.otherdata.body" scope="global">
           <a
-            href="https://spraakbanken.gu.se/en/resources"
+            :href="$t('home.otherdata.sbdata.url')"
             :title="$t('home.otherdata.sbdata.title')"
             >Data</a
           >

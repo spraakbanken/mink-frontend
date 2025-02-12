@@ -194,7 +194,7 @@ export function makeConfig(id: string, options: ConfigOptions): string {
     };
   }
 
-  return Yaml.dump(config as SparvConfig);
+  return Yaml.dump(config as SparvConfig, { noArrayIndent: true });
 }
 
 /** Default values */
@@ -226,7 +226,7 @@ export function emptyConfig(): ConfigOptions {
  * May throw all kinds of errors, the sky is the limit (:
  */
 export function parseConfig(configYaml: string): ConfigOptions {
-  const config = Yaml.load(configYaml) as any;
+  const config = Yaml.load(configYaml) as unknown as Partial<SparvConfig>;
 
   if (!config)
     throw new TypeError(`Parsing config failed, returned "${config}"`);
@@ -234,7 +234,7 @@ export function parseConfig(configYaml: string): ConfigOptions {
   // Throw specific errors if required parts are missing.
   if (!config.import?.importer) throw new TypeError(`Importer setting missing`);
   const format = (Object.keys(FORMATS) as FileFormat[]).find(
-    (ext) => FORMATS[ext as FileFormat] == config.import.importer,
+    (ext) => FORMATS[ext as FileFormat] == config.import?.importer,
   );
   if (!format)
     throw new TypeError(`Unrecognized importer: "${config.import.importer}"`);
@@ -251,19 +251,24 @@ export function parseConfig(configYaml: string): ConfigOptions {
     ...emptyConfig(),
     format,
     name,
-    description: config.metadata.description,
+    description: config.metadata?.description,
     textAnnotation: config.import.text_annotation,
     sentenceSegmenter: config.segment?.sentence_segmenter,
   };
 
   // Identify annotations
   const datetimeFrom = config.custom_annotations?.find(
-    (a: any) => a.params.out == "<text>:misc.datefrom",
-  )?.params.value;
+    (a) => a.params?.out == "<text>:misc.datefrom",
+  )?.params?.value;
   const datetimeTo = config.custom_annotations?.find(
-    (a: any) => a.params.out == "<text>:misc.dateto",
-  )?.params.value;
-  if (datetimeFrom && datetimeTo)
+    (a) => a.params?.out == "<text>:misc.dateto",
+  )?.params?.value;
+  if (
+    datetimeFrom &&
+    typeof datetimeFrom == "string" &&
+    datetimeTo &&
+    typeof datetimeTo == "string"
+  )
     options.annotations.datetime = { from: datetimeFrom, to: datetimeTo };
 
   options.annotations.lexicalClasses = config.export?.annotations?.includes(

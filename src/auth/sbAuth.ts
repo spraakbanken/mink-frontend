@@ -3,18 +3,12 @@
  */
 
 import axios, { AxiosError } from "axios";
+import { jwtDecode } from "jwt-decode";
 import { ensureTrailingSlash, pathJoin } from "@/util";
 
 const AUTH_URL: string = ensureTrailingSlash(import.meta.env.VITE_AUTH_URL);
 const LOGOUT_URL: string = import.meta.env.VITE_LOGOUT_URL;
 const JWT_URL: string = import.meta.env.VITE_JWT_URL || AUTH_URL + "jwt";
-
-export type stringJwt = `${string}.${string}.${string}`;
-
-export type JwtSb = {
-  header: any;
-  payload: JwtSbPayload;
-};
 
 export type JwtSbPayload = {
   name: string;
@@ -47,9 +41,9 @@ export function getLoginUrl(redirectLocation = "") {
  *
  * @throws {import("axios").AxiosError} if the HTTP response code is 500 or above.
  */
-export async function fetchJwt(): Promise<stringJwt | undefined> {
+export async function fetchJwt(): Promise<string | undefined> {
   return await axios
-    .get<stringJwt>(JWT_URL, { withCredentials: true, timeout: 2_000 })
+    .get<string>(JWT_URL, { withCredentials: true, timeout: 2_000 })
     .then((response) => response.data)
     .catch((error: AxiosError) => {
       if (error.response?.status == 401) return undefined;
@@ -62,23 +56,20 @@ export function getLogoutUrl(): string {
   return LOGOUT_URL;
 }
 
-export function decodeJwt(jwt: stringJwt): JwtSb {
-  const parts = jwt.split(".");
-  if (parts.length != 3) throw new RangeError(`Not a JWT: "${jwt}"`);
+export const decodeJwt = jwtDecode<JwtSbPayload>;
 
-  return {
-    header: JSON.parse(atob(parts[0])),
-    payload: JSON.parse(atob(parts[1])),
-  };
-}
-
-function assertValidPayload(payload: any): payload is JwtSbPayload {
+function assertValidPayload(payload: unknown): payload is JwtSbPayload {
   const isValid =
+    payload instanceof Object &&
+    "scope" in payload &&
     payload?.scope &&
-    payload.levels &&
-    payload.levels.ADMIN &&
-    payload.levels.WRITE &&
-    payload.levels.READ;
+    "levels" in payload &&
+    payload.levels instanceof Object &&
+    ["READ", "WRITE", "ADMIN"].every(
+      (level) =>
+        level in (payload.levels as object) &&
+        (payload.levels as Record<string, unknown>)[level],
+    );
 
   if (!isValid)
     throw new TypeError("Malformed jwt payload: " + JSON.stringify(payload));

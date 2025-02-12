@@ -25,7 +25,7 @@ watch(
         {{ message }}
       </div>
       <div
-        class="p-1 cursor-pointer rounded bg-white bg-opacity-20 hover:bg-opacity-50 transition-all"
+        class="p-1 cursor-pointer rounded-sm bg-white/20 hover:bg-white/50 transition-all"
         @click="dismiss(key)"
       >
         <PhX weight="bold" />

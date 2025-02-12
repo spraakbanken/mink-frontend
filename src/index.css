@@ -1,144 +1,177 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  color-scheme: light dark;
-}
+@config '../tailwind.config.ts';
 
-body {
-  @apply bg-gray-50 text-gray-900 font-sans;
-  @apply dark:bg-zinc-900 dark:text-zinc-200;
-}
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
 
-a {
-  @apply underline hover:brightness-110;
-}
-
-h1 {
-  @apply text-4xl;
-}
-
-h2 {
-  @apply text-2xl;
-}
-
-p {
-  @apply my-2;
-}
-p:first-child {
-  @apply mt-0;
-}
-p:last-child {
-  @apply mb-0;
-}
-
-strong {
-  @apply font-semibold;
-}
-
-thead {
-  @apply uppercase text-sm;
-}
-
-table.striped tbody tr:nth-child(2n + 1) {
-  @apply bg-gray-100 dark:bg-zinc-800;
-}
-table.striped tbody tr:nth-child(2n) {
-  @apply bg-gray-50 dark:bg-zinc-800 dark:bg-opacity-50;
-}
-
-table.striped th,
-table.striped td {
-  @apply py-1 px-2;
-}
-
-tr {
-  @apply align-baseline;
-}
-
-th {
-  @apply text-left font-medium pr-2;
-}
-
-pre {
-  overflow: auto;
-}
-
-input,
-textarea,
-select {
-  @apply bg-white dark:bg-zinc-900 border dark:border-zinc-600 rounded p-1 px-2;
-}
-
-.formkit-outer {
-  @apply my-4;
-}
-.formkit-actions {
-  @apply flex justify-center gap-4;
-}
-.formkit-label {
-  @apply font-medium;
-}
-.formkit-help {
-  @apply text-sm py-1 opacity-70;
-}
-.formkit-message {
-  @apply text-red-600;
-}
-[data-type="radio"] .formkit-inner,
-[data-type="checkbox"] .formkit-inner {
-  @apply inline-block mr-2;
-}
-[data-type="radio"] .formkit-legend {
-  @apply font-medium;
-}
-[data-type="radio"] .formkit-label {
-  @apply font-normal;
-}
-
-.prose ul {
-  padding-left: 2em;
-}
-.prose ul li {
-  list-style-type: disc;
-}
-
-@layer components {
-  .mink-button {
-    @apply p-1 px-2 rounded shadow bg-zinc-100 shadow-zinc-400 text-gray-700 no-underline cursor-pointer font-medium hover:drop-shadow-md hover:brightness-110 transition-all;
-    @apply dark:bg-zinc-800 dark:shadow-none dark:text-zinc-300;
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
   }
-  .button-primary {
-    @apply bg-sky-700 shadow-sky-900 text-white;
-    @apply dark:text-sky-50;
-  }
-  .button-danger {
-    @apply bg-red-600 shadow-red-700 text-white;
-    @apply dark:bg-red-700;
-  }
-  .button-success {
-    @apply bg-green-600 shadow-green-800 text-white;
-  }
-  .button-warning {
-    @apply bg-amber-300 shadow-amber-600 text-amber-900;
-    @apply dark:bg-amber-700 dark:shadow-amber-800 dark:text-white;
+}
+
+@utility mink-button {
+  @apply p-1 px-2 rounded-sm shadow-sm bg-zinc-100 shadow-zinc-400 text-gray-700 no-underline cursor-pointer font-medium hover:drop-shadow-md hover:brightness-110 transition-all;
+  @apply dark:bg-zinc-800 dark:shadow-none dark:text-zinc-300;
+
+  &[disabled] {
+    @apply bg-slate-100! shadow-sm! text-slate-400! cursor-not-allowed! hover:drop-shadow-none! hover:brightness-100!;
+    @apply dark:bg-slate-600! dark:text-gray-400!;
   }
 
-  .mink-button[disabled],
-  .mink-button.disabled {
-    @apply bg-slate-100 shadow text-slate-400 cursor-not-allowed hover:drop-shadow-none hover:brightness-100 !important;
-    @apply dark:bg-slate-600 dark:text-gray-400 !important;
+  &.disabled {
+    @apply bg-slate-100! shadow-sm! text-slate-400! cursor-not-allowed! hover:drop-shadow-none! hover:brightness-100!;
+    @apply dark:bg-slate-600! dark:text-gray-400!;
+  }
+}
+
+@utility button-primary {
+  @apply bg-sky-700 shadow-sky-900 text-white;
+  @apply dark:text-sky-50;
+}
+
+@utility button-danger {
+  @apply bg-red-600 shadow-red-700 text-white;
+  @apply dark:bg-red-700;
+}
+
+@utility button-success {
+  @apply bg-green-600 shadow-green-800 text-white;
+}
+
+@utility button-warning {
+  @apply bg-amber-300 shadow-amber-600 text-amber-900;
+  @apply dark:bg-amber-700 dark:shadow-amber-800 dark:text-white;
+}
+
+@utility disabled {
+  & .mink-button {
+    @apply bg-slate-100! shadow-sm! text-slate-400! cursor-not-allowed! hover:drop-shadow-none! hover:brightness-100!;
+    @apply dark:bg-slate-600! dark:text-gray-400!;
+  }
+}
+
+@utility button-mute {
+  @apply border-0 shadow-none;
+  &:not(:hover) {
+    @apply bg-transparent! text-inherit!;
+  }
+}
+
+@utility button-slim {
+  @apply p-0 px-1;
+}
+
+@layer utilities {
+  :root {
+    color-scheme: light dark;
   }
 
-  .button-mute {
-    @apply border-0 shadow-none;
-  }
-  .button-mute:not(:hover) {
-    @apply !bg-transparent !text-inherit;
+  body {
+    @apply bg-gray-50 text-gray-900 font-sans;
+    @apply dark:bg-zinc-900 dark:text-zinc-200;
   }
 
-  .button-slim {
-    @apply p-0 px-1;
+  a {
+    @apply underline hover:brightness-110;
+  }
+
+  h1 {
+    @apply text-4xl;
+  }
+
+  h2 {
+    @apply text-2xl;
+  }
+
+  p {
+    @apply my-2;
+  }
+  p:first-child {
+    @apply mt-0;
+  }
+  p:last-child {
+    @apply mb-0;
+  }
+
+  strong {
+    @apply font-semibold;
+  }
+
+  thead {
+    @apply uppercase text-sm;
+  }
+
+  table.striped tbody tr:nth-child(2n + 1) {
+    @apply bg-gray-100 dark:bg-zinc-800;
+  }
+  table.striped tbody tr:nth-child(2n) {
+    @apply bg-gray-50/50 dark:bg-zinc-800;
+  }
+
+  table.striped th,
+  table.striped td {
+    @apply py-1 px-2;
+  }
+
+  tr {
+    @apply align-baseline;
+  }
+
+  th {
+    @apply text-left font-medium pr-2;
+  }
+
+  pre {
+    overflow: auto;
+  }
+
+  input,
+  textarea,
+  select {
+    @apply bg-white dark:bg-zinc-900 border dark:border-zinc-600 rounded-sm p-1 px-2;
+  }
+
+  .formkit-outer {
+    @apply my-4;
+  }
+  .formkit-actions {
+    @apply flex justify-center gap-4;
+  }
+  .formkit-label {
+    @apply font-medium;
+  }
+  .formkit-help {
+    @apply text-sm py-1 opacity-70;
+  }
+  .formkit-message {
+    @apply text-red-600;
+  }
+  [data-type="radio"] .formkit-inner,
+  [data-type="checkbox"] .formkit-inner {
+    @apply inline-block mr-2;
+  }
+  [data-type="radio"] .formkit-legend {
+    @apply font-medium;
+  }
+  [data-type="radio"] .formkit-label {
+    @apply font-normal;
+  }
+
+  .prose ul {
+    padding-left: 2em;
+  }
+  .prose ul li {
+    list-style-type: disc;
   }
 }

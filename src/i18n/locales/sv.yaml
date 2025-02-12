@@ -10,7 +10,10 @@ home.features.sparv.title: Anpassningsbara analyser
 home.features.sparv.body: Dina texter analyseras av vår språkteknologiska plattform {sparv} med de inställningar du väljer.
 home.features.sparv.alt: Skärmbild av en konfigurationssida många knappar
 home.features.upload.title: Ladda upp din text
-home.features.upload.body: Ladda upp ordbehandlingsdokument, pdf:er, ren text eller XML. Om du använder XML läggs analyserna in utan att påverka strukturen från originalfilerna.
+home.features.upload.body: Ladda upp ordbehandlingsdokument, pdf:er, ren text eller XML.
+home.features.upload.xml: "Om du använder XML läggs analyserna in utan att påverka strukturen från originalfilerna: {link}"
+home.features.upload.xml.link.url: https://spraakbanken.gu.se/blogg/20240820-anvand-mink-med-egen-berikning-i-kalldata
+home.features.upload.xml.link.label: Använd Mink med egen berikning i källdata
 home.features.upload.alt: Skärmbild av en lista med filnamn och en uppladdningsruta
 home.features.explore.title: Utforska i Korp och Strix
 home.features.explore.body: Exportera den färdiga datan för sökning och statistiska undersökningar i {korp} och {strix}.
@@ -21,7 +24,8 @@ home.features.share.upcoming: De här funktionerna planeras till kommande Mink-v
 home.features.share.alt: Skärmbild från ett behörighetshanteringssystem
 home.otherdata.title: Mink eller icke Mink?
 home.otherdata.body: Tänk på att först undersöka andra språkdatamängder som eventuellt uppfyller dina behov! Språkbankens växande samling av forskningsdata kan du se på sidan {0} på vår webbplats. I ett större perspektiv bildar Språkbanken en del av CLARIN ERIC, vars samlade data kan utforskas i {1}.
-home.otherdata.sbdata.title: "Språkbanken Text: Language resources"
+home.otherdata.sbdata.url: "https://spraakbanken.gu.se/resurser"
+home.otherdata.sbdata.title: "Språkbanken Text: Datamängder"
 welcome: Välkommen, {name}!
 mydata: Mina data
 news: Nyheter
@@ -245,8 +249,8 @@ accessdenied.contact: Om du har frågor eller vill rapportera en bugg, kontakta 
 notfound: Sidan kan inte hittas
 notfound.description: Något har gått fel, och det finns ingenting att visa på den här adressen.
 notfound.contact: Om du har frågor eller vill rapportera en bugg, kontakta gärna sb-info{'@'}svenska.gu.se. Tack!
-yaml.valid: YAML-koden är giltig
-yaml.invalid: YAML-koden är ogiltig
+config.invalid.yaml: Syntaxfel
+config.invalid.schema: Schemafel
 
 # These correspond to the `return_code` param of backend responses
 api.code.missing_auth_token: Auktoriseringstoken saknas

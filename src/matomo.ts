@@ -13,7 +13,7 @@ export function useMatomo(): Matomo | undefined {
  */
 export const MatomoProxy = new Proxy<Matomo>({} as Matomo, {
   get:
-    <F extends keyof Matomo>(target: {}, prop: F) =>
+    <F extends keyof Matomo>(target: object, prop: F) =>
     (...args: Parameters<Matomo[F]>) =>
-      (window as any)._paq?.push([prop, ...args]),
+      window._paq?.push([prop, ...args]),
 });

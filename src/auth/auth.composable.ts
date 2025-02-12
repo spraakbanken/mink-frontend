@@ -75,12 +75,12 @@ export function useAuth() {
         return undefined;
       });
       // Store it to make username etc available to GUI.
-      payload.value = jwtValue ? decodeJwt(jwtValue)?.payload : undefined;
+      payload.value = jwtValue ? decodeJwt(jwtValue) : undefined;
       // Register it with the API client.
       api.setJwt(jwtValue);
 
       // Schedule next request shortly before expiration time.
-      refreshTimer && clearTimeout(refreshTimer);
+      if (refreshTimer) clearTimeout(refreshTimer);
       if (payload.value?.exp) {
         const timeoutMs = (payload.value.exp - 10) * 1000 - Date.now();
         refreshTimer = setTimeout(refreshJwt, timeoutMs);

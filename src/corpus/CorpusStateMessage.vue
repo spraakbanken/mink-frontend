@@ -18,7 +18,7 @@ const {
 <template>
   <span
     v-if="stateMessage"
-    class="text-white rounded px-2 py-0.5"
+    class="text-white rounded-sm px-2 py-0.5"
     :class="[
       isEmpty || isNeedingConfig || isNeedingMeta
         ? 'bg-yellow-700'
@@ -26,7 +26,7 @@ const {
           ? 'bg-red-600'
           : isReady
             ? 'bg-lime-700'
-            : '!text-inherit',
+            : 'text-inherit!',
     ]"
   >
     {{ stateMessage }}

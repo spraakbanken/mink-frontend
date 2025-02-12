@@ -10,7 +10,10 @@ home.features.sparv.title: Configurable language technology analysis
 home.features.sparv.body: Your language data are analyzed by our language technology platform {sparv} according to your settings.
 home.features.sparv.alt: Screenshot of a configuration form with labels and buttons
 home.features.upload.title: Deposit your text
-home.features.upload.body: Upload your word-processor documents, PDFs, plain text files or XML data. When using XML, the output of the analyses is added while keeping the input structure intact.
+home.features.upload.body: Upload your word-processor documents, PDFs, plain text files or XML data.
+home.features.upload.xml: "When using XML, the output of the analyses is added while keeping the input structure intact: {link}"
+home.features.upload.xml.link.url: https://spraakbanken.gu.se/en/blog/20240820-anvand-mink-med-egen-berikning-i-kalldata
+home.features.upload.xml.link.label: Using Mink with custom annotations in source (blog entry in Swedish)
 home.features.upload.alt: Screenshot of a list of filenames and an upload area
 home.features.explore.title: Explore in Korp and Strix
 home.features.explore.body: Export the resulting data, for search and statistical analysis, to {korp} and {strix}.
@@ -21,6 +24,7 @@ home.features.share.upcoming: These features are scheduled for upcoming versions
 home.features.share.alt: Screenshot from an access management system
 home.otherdata.title: Mink or no Mink?
 home.otherdata.body: Make sure to first get acquainted with any existing language data sets related to your interests! Språkbanken's growing collection of research data can be browsed on the {0} section of our website. At a larger scale, Språkbanken forms a part of the CLARIN ERIC, whose collected assortment of data can be browsed in the {1}.
+home.otherdata.sbdata.url: "https://spraakbanken.gu.se/en/resources"
 home.otherdata.sbdata.title: "Språkbanken Text: Language resources"
 welcome: Welcome, {name}!
 mydata: My data
@@ -244,8 +248,8 @@ accessdenied.contact: If you have questions, or you want to report a bug, please
 notfound: Page not found
 notfound.description: Something went wrong, and there is nothing to see at this address.
 notfound.contact: If you have questions, or you want to report a bug, please contact sb-info{'@'}svenska.gu.se. Thank you!
-yaml.valid: YAML is valid
-yaml.invalid: YAML is invalid
+config.invalid.yaml: Syntax error
+config.invalid.schema: Schema error
 
 # These correspond to the `return_code` param of backend responses
 api.code.missing_auth_token: Missing authorization token

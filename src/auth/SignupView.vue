@@ -9,7 +9,7 @@ import PageTitle from "@/components/PageTitle.vue";
     <PageTitle>{{ $t("signup") }}</PageTitle>
     <div class="flex flex-wrap gap-6">
       <LayoutSection
-        class="!mt-0 w-64 flex-grow"
+        class="mt-0! w-64 grow"
         :title="$t('signup.existing.title')"
       >
         <p>
@@ -21,7 +21,7 @@ import PageTitle from "@/components/PageTitle.vue";
         </p>
       </LayoutSection>
 
-      <LayoutSection class="!mt-0 w-64 flex-grow" :title="$t('signup.new')">
+      <LayoutSection class="mt-0! w-64 grow" :title="$t('signup.new')">
         <p>{{ $t("signup.new.create") }}</p>
         <ol class="list-decimal pl-6">
           <li>
