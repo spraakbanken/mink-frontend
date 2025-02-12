@@ -17,24 +17,23 @@ const selected = reactive(
   ]),
 );
 const functions = computed(() =>
-  [...selected].reduce<Record<string, A.Annotator>>(
-    (acc, name) => ({ ...acc, [name]: findFunction(name) }),
-    {},
+  Object.fromEntries(
+    [...selected].map((name) => {
+      const [module, func] = name.split("-");
+      return [`${module}-${func}`, data[module].functions[func]];
+    }),
   ),
 );
 const analyses = computed(
   () => pickBy(functions.value, A.isAnalysis) as Record<string, A.Analysis>,
 );
-/** Merged config from selected analyses */
-const configs = computed(() => {
-  const configs = Object.values(analyses.value).map((a) => a.config!);
-  return configs.reduce((acc, c) => ({ ...acc, ...c }), {});
-});
-
-function findFunction(name: string): A.Annotator {
-  const [moduleName, functionName] = name.split("-");
-  return data[moduleName].functions[functionName];
-}
+const analysesWithConfig = computed(
+  () =>
+    pickBy(analyses.value, (a) => "config" in a) as Record<
+      string,
+      A.Analysis & { config: A.Analysis["config"] }
+    >,
+);
 
 function toggleSelected(annotationName: string) {
   if (selected.has(annotationName)) {
@@ -61,6 +60,7 @@ function toggleSelected(annotationName: string) {
         <details
           v-for="(func, functionName) in module.functions"
           :key="functionName"
+          class="has-checked:bg-sky-400/10"
         >
           <summary>
             <code>{{ functionName }}</code> –
@@ -103,54 +103,67 @@ function toggleSelected(annotationName: string) {
 
     <LayoutBox title="Configuration" class="w-96 grow">
       <FormKitWrapper>
-        <template v-for="(config, name) in configs" :key="name">
-          <FormKit
-            v-if="config.choices"
-            type="select"
-            :label="String(name)"
-            :help="config.description"
-            :options="
-              config.choices.map((choice) => ({
-                value: choice || '',
-                label: choice || '<empty>',
-              }))
-            "
-            :value="String(config.default || '')"
-            :placeholder="String(config.default || '')"
-          />
-          <FormKit
-            v-else-if="config.datatype[0] == 'str'"
-            type="text"
-            :label="String(name)"
-            :help="config.description"
-            :placeholder="String(config.default || '')"
-          />
-          <FormKit
-            v-else-if="config.datatype[0] == 'int'"
-            type="number"
-            :label="String(name)"
-            :help="config.description"
-            :placeholder="String(config.default || '')"
-          />
-          <FormKit
-            v-else-if="config.datatype[0] == 'bool'"
-            type="checkbox"
-            :label="String(name)"
-            :help="config.description"
-            :value="Boolean(config.default)"
-          />
-        </template>
+        <details
+          v-for="(analysis, functionName) in analysesWithConfig"
+          :key="functionName"
+          open
+          class="my-4"
+        >
+          <summary>
+            <code>{{ functionName.split("-")[0] }}</code> –
+            <code>{{ functionName.split("-")[1] }}</code> –
+            {{ analysis.description }}
+          </summary>
+          <template v-for="(config, name) in analysis.config" :key="name">
+            <FormKit
+              v-if="config.choices"
+              type="select"
+              :label="String(name)"
+              :help="config.description"
+              :options="
+                config.choices.map((choice) => ({
+                  value: choice || '',
+                  label: choice || '<empty>',
+                }))
+              "
+              :value="String(config.default || '')"
+              :placeholder="String(config.default || '')"
+            />
+            <FormKit
+              v-else-if="config.datatype[0] == 'str'"
+              type="text"
+              :label="String(name)"
+              :help="config.description"
+              :placeholder="String(config.default || '')"
+            />
+            <FormKit
+              v-else-if="config.datatype[0] == 'int'"
+              type="number"
+              :label="String(name)"
+              :help="config.description"
+              :placeholder="String(config.default || '')"
+            />
+            <FormKit
+              v-else-if="config.datatype[0] == 'bool'"
+              type="checkbox"
+              :label="String(name)"
+              :help="config.description"
+              :value="Boolean(config.default)"
+            />
+          </template>
+        </details>
       </FormKitWrapper>
     </LayoutBox>
   </div>
 </template>
 
 <style scoped>
+@reference "tailwindcss";
 code {
   font-size: smaller;
 }
 details {
-  margin-inline-start: 1rem;
+  padding-inline-start: 1rem;
 }
 summary {
   margin-inline-start: -1rem;
