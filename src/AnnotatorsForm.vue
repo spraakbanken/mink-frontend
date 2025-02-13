@@ -13,6 +13,17 @@ import annotatorsFile from "@/assets/annotators.json";
 
 const data = (annotatorsFile as unknown as A.File).annotators;
 
+const annotations = Object.fromEntries(
+  Object.entries(data).map(([module, moduleDef]) => [
+    module,
+    Object.fromEntries(
+      Object.values(moduleDef.functions).flatMap((funcDef) =>
+        A.isAnalysis(funcDef) ? Object.entries(funcDef.annotations) : [],
+      ),
+    ),
+  ]),
+);
+
 const getAnalysis = (moduleName: string, functionName: string): A.Analysis => {
   const annotator = data[moduleName].functions[functionName];
   if (!A.isAnalysis(annotator)) throw new Error("Not an analysis");
@@ -204,44 +215,31 @@ function decorateConfig(
             {{ module.description }}
           </summary>
 
-          <template
-            v-for="(func, functionName) in module.functions"
-            :key="functionName"
+          <div
+            v-for="(annotation, annotationName) in annotations[moduleName]"
+            :key="annotationName"
+            class="has-checked:bg-sky-400/10"
           >
-            <details
-              v-if="A.isAnalysis(func)"
-              class="has-checked:bg-sky-400/10"
-            >
-              <summary>
-                <code>{{ functionName }}</code> –
-                {{ func.description }}
-              </summary>
+            <div class="list-none ml-4 -indent-4">
+              <input
+                :id="String(annotationName)"
+                type="checkbox"
+                :checked="selectedAnnotations.includes(String(annotationName))"
+                @change="toggleAnnotation(String(annotationName))"
+                class="mr-2"
+              />
+              <label :for="String(annotationName)">
+                <code>{{ annotationName }}</code> –
+                {{ annotation.description }}
+              </label>
+            </div>
+          </div>
 
-              <div
-                v-for="(annotation, annotationName) in func.annotations"
-                :key="annotationName"
-                class="list-none ml-4 -indent-4"
-              >
-                <input
-                  :id="`${moduleName}-${functionName}-${annotationName}`"
-                  type="checkbox"
-                  :checked="
-                    selectedAnnotations.includes(String(annotationName))
-                  "
-                  @change="toggleAnnotation(String(annotationName))"
-                  class="mr-2"
-                />
-                <label :for="`${moduleName}-${functionName}-${annotationName}`">
-                  <code>{{ annotationName }}</code> –
-                  {{ annotation.description }}</label
-                >
-              </div>
-            </details>
-
+          <template v-for="(func, fname) in module.functions" :key="fname">
             <div
-              v-else
+              v-if="A.isCustom(func)"
               class="cursor-pointer has-checked:bg-sky-400/10"
-              @click="addCustom(`${moduleName}:${functionName}`)"
+              @click="addCustom(`${moduleName}:${fname}`)"
             >
               <div class="list-none ml-4 -indent-4">
                 <input
@@ -249,12 +247,12 @@ function decorateConfig(
                   class="hidden"
                   :checked="
                     !!selectedCustom.find(
-                      (c) => c.annotator === `${moduleName}:${functionName}`,
+                      (c) => c.annotator === `${moduleName}:${fname}`,
                     )
                   "
                 />
                 <PhPlusSquare class="text-sm inline -ml-0.5 mr-1" />
-                <code>{{ functionName }}</code> –
+                <code>{{ fname }}</code> –
                 {{ func.description }}
               </div>
             </div>
