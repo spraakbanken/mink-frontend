@@ -152,175 +152,168 @@ function decorateConfig(
 
 <template>
   <div class="flex flex-col gap-4">
-    <LayoutBox title="Annotators" collapsible>
-      <details
-        v-for="(module, moduleName) in data"
-        :key="moduleName"
-        class="has-checked:bg-sky-400/10"
-      >
-        <summary>
-          <code>{{ moduleName }}</code> –
-          {{ module.description }}
-        </summary>
-
-        <template
-          v-for="(func, functionName) in module.functions"
-          :key="functionName"
+    <FormKitWrapper>
+      <LayoutBox title="Annotators" collapsible>
+        <details
+          v-for="(module, moduleName) in data"
+          :key="moduleName"
+          class="has-checked:bg-sky-400/10"
         >
-          <details v-if="A.isAnalysis(func)" class="has-checked:bg-sky-400/10">
-            <summary>
-              <code>{{ functionName }}</code> –
-              {{ func.description }}
-            </summary>
+          <summary>
+            <code>{{ moduleName }}</code> –
+            {{ module.description }}
+          </summary>
+
+          <template
+            v-for="(func, functionName) in module.functions"
+            :key="functionName"
+          >
+            <details
+              v-if="A.isAnalysis(func)"
+              class="has-checked:bg-sky-400/10"
+            >
+              <summary>
+                <code>{{ functionName }}</code> –
+                {{ func.description }}
+              </summary>
+
+              <div
+                v-for="(annotation, annotationName) in func.annotations"
+                :key="annotationName"
+                class="list-none ml-4 -indent-4"
+              >
+                <input
+                  :id="`${moduleName}-${functionName}-${annotationName}`"
+                  type="checkbox"
+                  :checked="
+                    !!selectedAnnotations.find((a) =>
+                      isEqual(a, [moduleName, functionName, annotationName]),
+                    )
+                  "
+                  @change="
+                    toggleAnnotation([
+                      String(moduleName),
+                      String(functionName),
+                      String(annotationName),
+                    ])
+                  "
+                  class="mr-2"
+                />
+                <label :for="`${moduleName}-${functionName}-${annotationName}`">
+                  <code>{{ annotationName }}</code> –
+                  {{ annotation.description }}</label
+                >
+              </div>
+            </details>
 
             <div
-              v-for="(annotation, annotationName) in func.annotations"
-              :key="annotationName"
-              class="list-none ml-4 -indent-4"
+              v-else
+              class="cursor-pointer has-checked:bg-sky-400/10"
+              @click="addCustom(`${moduleName}:${functionName}`)"
             >
-              <input
-                :id="`${moduleName}-${functionName}-${annotationName}`"
-                type="checkbox"
-                :checked="
-                  !!selectedAnnotations.find((a) =>
-                    isEqual(a, [moduleName, functionName, annotationName]),
-                  )
-                "
-                @change="
-                  toggleAnnotation([
-                    String(moduleName),
-                    String(functionName),
-                    String(annotationName),
-                  ])
-                "
-                class="mr-2"
-              />
-              <label :for="`${moduleName}-${functionName}-${annotationName}`">
-                <code>{{ annotationName }}</code> –
-                {{ annotation.description }}</label
-              >
+              <div class="list-none ml-4 -indent-4">
+                <input
+                  type="checkbox"
+                  class="hidden"
+                  :checked="
+                    !!selectedCustom.find(
+                      (c) => c.annotator === `${moduleName}:${functionName}`,
+                    )
+                  "
+                />
+                <PhPlusSquare class="text-sm inline -ml-0.5 mr-1" />
+                <code>{{ functionName }}</code> –
+                {{ func.description }}
+              </div>
             </div>
-          </details>
+          </template>
+        </details>
+      </LayoutBox>
 
-          <div
-            v-else
-            class="cursor-pointer has-checked:bg-sky-400/10"
-            @click="addCustom(`${moduleName}:${functionName}`)"
-          >
-            <div class="list-none ml-4 -indent-4">
-              <input
-                type="checkbox"
-                class="hidden"
-                :checked="
-                  !!selectedCustom.find(
-                    (c) => c.annotator === `${moduleName}:${functionName}`,
-                  )
-                "
-              />
-              <PhPlusSquare class="text-sm inline -ml-0.5 mr-1" />
-              <code>{{ functionName }}</code> –
-              {{ func.description }}
-            </div>
-          </div>
-        </template>
-      </details>
-    </LayoutBox>
-
-    <LayoutBox
-      title="Settings"
-      :collapsible="!!selectedAnalyses.length || !!selectedCustom.length"
-    >
-      <FormKitWrapper>
+      <LayoutBox
+        title="Annotation settings"
+        :collapsible="!!selectedAnalyses.length"
+      >
         <details
-          v-for="{
-            annotator,
-            moduleName,
-            functionName,
-          } in selectedAnalysisObjects"
-          :key="`${moduleName}-${functionName}`"
+          v-for="namespace in uniq(selectedConfigs.map((c) => c._namespace))"
+          :key="namespace"
           open
           class="my-4"
         >
           <summary>
-            <code>{{ moduleName }}</code> – <code>{{ functionName }}</code> –
-            {{ annotator.description }}
+            <code>{{ namespace }}</code>
           </summary>
 
-          <template v-if="annotator.config">
-            <template
-              v-for="(config, name) in decorateConfig(annotator.config)"
-              :key="name"
+          <template
+            v-for="config in selectedConfigs.filter(
+              (c) => c._namespace == namespace,
+            )"
+            :key="config._name"
+          >
+            <FormKit
+              v-if="config.choices"
+              type="select"
+              :label="config._name"
+              v-model="configValues[config._namespace][config._name] as string"
+              :help="config.description"
+              :options="
+                config.choices.map((choice) => ({
+                  value: choice || '',
+                  label: choice || '<empty>',
+                }))
+              "
+              :placeholder="String(config.default || '')"
+            />
+            <FormKit
+              v-else-if="config.datatype[0] == 'str'"
+              type="text"
+              :label="config._name"
+              v-model="configValues[config._namespace][config._name] as string"
+              :help="config.description"
+              :placeholder="String(config.default || '')"
+            />
+            <FormKit
+              v-else-if="
+                config.datatype[0] == 'int' || config.datatype[0] == 'float'
+              "
+              type="number"
+              :number="config.datatype[0] == 'int' ? 'integer' : 'float'"
+              :label="config._name"
+              v-model="configValues[config._namespace][config._name] as number"
+              :help="config.description"
+              :placeholder="String(config.default || '')"
+            />
+            <FormKit
+              v-else-if="config.datatype[0] == 'bool'"
+              type="checkbox"
+              :label="config._name"
+              v-model="configValues[config._namespace][config._name] as boolean"
+              :help="config.description"
+              :value="Boolean(config.default)"
+            />
+            <FormKit
+              v-else
+              :label="config._name"
+              v-model="configValues[config._namespace][config._name] as string"
+              :placeholder="String(config.default || '')"
             >
-              <FormKit
-                v-if="config.choices"
-                type="select"
-                :label="String(name)"
-                v-model="
-                  configValues[config._namespace][config._name] as string
-                "
-                :help="config.description"
-                :options="
-                  config.choices.map((choice) => ({
-                    value: choice || '',
-                    label: choice || '<empty>',
-                  }))
-                "
-                :placeholder="String(config.default || '')"
-              />
-              <FormKit
-                v-else-if="config.datatype[0] == 'str'"
-                type="text"
-                :label="String(name)"
-                v-model="
-                  configValues[config._namespace][config._name] as string
-                "
-                :help="config.description"
-                :placeholder="String(config.default || '')"
-              />
-              <FormKit
-                v-else-if="
-                  config.datatype[0] == 'int' || config.datatype[0] == 'float'
-                "
-                type="number"
-                :number="config.datatype[0] == 'int' ? 'integer' : 'float'"
-                :label="String(name)"
-                v-model="
-                  configValues[config._namespace][config._name] as number
-                "
-                :help="config.description"
-                :placeholder="String(config.default || '')"
-              />
-              <FormKit
-                v-else-if="config.datatype[0] == 'bool'"
-                type="checkbox"
-                :label="String(name)"
-                v-model="
-                  configValues[config._namespace][config._name] as boolean
-                "
-                :help="config.description"
-                :value="Boolean(config.default)"
-              />
-              <FormKit
-                v-else
-                :label="String(name)"
-                v-model="
-                  configValues[config._namespace][config._name] as string
-                "
-                :placeholder="String(config.default || '')"
-              >
-                <template #help>
-                  <div class="formkit-help">{{ config.description }}</div>
-                  <div class="formkit-help">
-                    The type of this field is
-                    <code>{{ config.datatype }}</code
-                    >; please use YAML syntax.
-                  </div>
-                </template>
-              </FormKit>
-            </template>
+              <template #help>
+                <div class="formkit-help">{{ config.description }}</div>
+                <div class="formkit-help">
+                  The type of this field is
+                  <code>{{ config.datatype }}</code
+                  >; please use YAML syntax.
+                </div>
+              </template>
+            </FormKit>
           </template>
         </details>
+      </LayoutBox>
 
+      <LayoutBox
+        title="Custom annotation parameters"
+        :collapsible="!!selectedCustom.length"
+      >
         <details
           v-for="{
             moduleName,
@@ -342,7 +335,7 @@ function decorateConfig(
             :key="name"
           >
             <FormKit
-              v-if="parameter.type == 'str'"
+              v-if="['str', 'Annotation', 'Output'].includes(parameter.type)"
               type="text"
               v-model="parameters[name] as string"
               :label="String(name)"
@@ -377,12 +370,12 @@ function decorateConfig(
             </FormKit>
           </template>
         </details>
-      </FormKitWrapper>
-    </LayoutBox>
+      </LayoutBox>
 
-    <LayoutBox title="Config" collapsible>
-      <TextData :text="configOutput" language="yaml" />
-    </LayoutBox>
+      <LayoutBox title="Config">
+        <TextData :text="configOutput" language="yaml" />
+      </LayoutBox>
+    </FormKitWrapper>
   </div>
 </template>
 
