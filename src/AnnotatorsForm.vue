@@ -4,6 +4,7 @@ import { FormKit } from "@formkit/vue";
 import { PhPlusSquare } from "@phosphor-icons/vue";
 import { cloneDeep, isEqual, uniq } from "es-toolkit";
 import Yaml from "js-yaml";
+import { watchImmediate } from "@vueuse/core";
 import * as A from "./annotators.types";
 import LayoutBox from "./components/LayoutBox.vue";
 import FormKitWrapper from "./components/FormKitWrapper.vue";
@@ -24,7 +25,9 @@ const getCustom = (moduleName: string, functionName: string): A.Custom => {
   return annotator;
 };
 
-const selectedAnnotations = reactive<[string, string, string][]>([]);
+const selectedAnnotations = reactive<[string, string, string][]>([
+  ["misc", "inherit", "{child}:misc.inherit_{parent}_{attr}"],
+]);
 const selectedAnalyses = computed(() =>
   uniq(selectedAnnotations.map((name) => name.slice(0, 2))),
 );
@@ -35,7 +38,36 @@ const selectedAnalysisObjects = computed(() =>
     annotator: getAnalysis(moduleName, functionName),
   })),
 );
-// TODO Select chunk for {chunk}
+
+const wildcards = computed<Record<string, string[]>>(() =>
+  Object.fromEntries(
+    selectedAnnotations
+      .map(([, , annotation]) => [
+        annotation,
+        [...annotation.matchAll(/\{([^}]+)\}/g).map((a) => a[1])],
+      ])
+      .filter(([, names]) => names.length > 0),
+  ),
+);
+
+const wildcardValues = reactive<Record<string, Record<string, string>>>({});
+
+watchImmediate(wildcards, () => {
+  // Initialize new values to undefined
+  for (const annotation in wildcards.value) {
+    wildcardValues[annotation] ??= {};
+    for (const name of wildcards.value[annotation]) {
+      wildcardValues[annotation][name] ??= "";
+    }
+  }
+  // Remove old values
+  for (const annotation in wildcardValues) {
+    if (!wildcards.value[annotation]) {
+      delete wildcardValues[annotation];
+    }
+  }
+});
+
 // TODO Optionally rename output with `as {name}`
 
 type Custom = { annotator: string; parameters: Record<string, unknown> };
@@ -64,7 +96,7 @@ const findConfig = (namespace: string, name: string) =>
 
 const configValues = reactive<Record<string, Record<string, unknown>>>({});
 
-watch(selectedConfigs, () => {
+watchImmediate(selectedConfigs, () => {
   // Initialize new values to undefined
   for (const config of selectedConfigs.value) {
     configValues[config._namespace] ??= {};
@@ -83,12 +115,14 @@ watch(selectedConfigs, () => {
 });
 
 const configOutput = computed<string>(() => {
-  const annotations = Object.fromEntries(
-    selectedAnnotations.map((name) => [
-      name[2],
-      (data[name[0]].functions[name[1]] as A.Analysis).annotations[name[2]],
-    ]),
-  );
+  const annotations = selectedAnnotations.map(([, , annotation]) => {
+    for (const [name, value] of Object.entries(
+      wildcardValues[annotation] || {},
+    )) {
+      annotation = annotation.replace(`{${name}}`, value);
+    }
+    return annotation;
+  });
   const customAnnotations = selectedCustomObjects.value.map((c) => ({
     annotator: `${c.moduleName}:${c.functionName}`,
     parameters: c.parameters,
@@ -111,9 +145,7 @@ const configOutput = computed<string>(() => {
 
   const configData = {
     export: {
-      annotations: Object.entries(annotations).map(
-        ([name, a]) => a.resolved_name || name,
-      ),
+      annotations,
     },
     custom_annotations: customAnnotations,
     ...values,
@@ -231,8 +263,34 @@ function decorateConfig(
       </LayoutBox>
 
       <LayoutBox
+        title="Annotation wildcards"
+        :collapsible="!!Object.keys(wildcardValues).length"
+      >
+        <details
+          v-for="(values, annotation) in wildcardValues"
+          :key="annotation"
+          open
+        >
+          <summary>
+            <code>{{ annotation }}</code>
+          </summary>
+
+          <div class="flex flex-wrap gap-4">
+            <FormKit
+              v-for="(value, name) in values"
+              :key="name"
+              type="text"
+              :label="name"
+              v-model="wildcardValues[annotation][name]"
+              validation="required"
+            />
+          </div>
+        </details>
+      </LayoutBox>
+
+      <LayoutBox
         title="Annotation settings"
-        :collapsible="!!selectedAnalyses.length"
+        :collapsible="!!selectedConfigs.length"
       >
         <details
           v-for="namespace in uniq(selectedConfigs.map((c) => c._namespace))"
@@ -330,45 +388,47 @@ function decorateConfig(
             {{ annotator.description }}
           </summary>
 
-          <template
-            v-for="(parameter, name) in annotator.parameters"
-            :key="name"
-          >
-            <FormKit
-              v-if="['str', 'Annotation', 'Output'].includes(parameter.type)"
-              type="text"
-              v-model="parameters[name] as string"
-              :label="String(name)"
-              :validation="!parameter.optional ? 'required' : undefined"
-              :placeholder="String(parameter.default || '')"
-            />
-            <FormKit
-              v-else-if="parameter.type == 'int' || parameter.type == 'float'"
-              type="number"
-              :number="parameter.type == 'int' ? 'integer' : 'float'"
-              :label="String(name)"
-              :validation="!parameter.optional ? 'required' : undefined"
-            />
-            <FormKit
-              v-else-if="parameter.type == 'bool'"
-              type="checkbox"
-              :label="String(name)"
-            />
-            <FormKit
-              v-else
-              :label="String(name)"
-              v-model="parameters[name] as string"
-              :validation="!parameter.optional ? 'required' : undefined"
-              :placeholder="String(parameter.default || '')"
+          <div class="flex flex-wrap gap-4">
+            <template
+              v-for="(parameter, name) in annotator.parameters"
+              :key="name"
             >
-              <template #help>
-                <div class="formkit-help">
-                  The type of this field is <code>{{ parameter.type }}</code
-                  >; please use YAML syntax.
-                </div>
-              </template>
-            </FormKit>
-          </template>
+              <FormKit
+                v-if="['str', 'Annotation', 'Output'].includes(parameter.type)"
+                type="text"
+                v-model="parameters[name] as string"
+                :label="String(name)"
+                :validation="!parameter.optional ? 'required' : undefined"
+                :placeholder="String(parameter.default || '')"
+              />
+              <FormKit
+                v-else-if="parameter.type == 'int' || parameter.type == 'float'"
+                type="number"
+                :number="parameter.type == 'int' ? 'integer' : 'float'"
+                :label="String(name)"
+                :validation="!parameter.optional ? 'required' : undefined"
+              />
+              <FormKit
+                v-else-if="parameter.type == 'bool'"
+                type="checkbox"
+                :label="String(name)"
+              />
+              <FormKit
+                v-else
+                :label="String(name)"
+                v-model="parameters[name] as string"
+                :validation="!parameter.optional ? 'required' : undefined"
+                :placeholder="String(parameter.default || '')"
+              >
+                <template #help>
+                  <div class="formkit-help">
+                    The type of this field is <code>{{ parameter.type }}</code
+                    >; please use YAML syntax.
+                  </div>
+                </template>
+              </FormKit>
+            </template>
+          </div>
         </details>
       </LayoutBox>
 
