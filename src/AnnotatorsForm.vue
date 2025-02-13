@@ -1,44 +1,136 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import { FormKit } from "@formkit/vue";
 import { PhMinusSquare, PhPlusSquare } from "@phosphor-icons/vue";
-import { uniq } from "es-toolkit";
+import { cloneDeep, isEqual, uniq } from "es-toolkit";
+import Yaml from "js-yaml";
+import { watchDeep } from "@vueuse/core";
 import * as A from "./annotators.types";
 import LayoutBox from "./components/LayoutBox.vue";
 import FormKitWrapper from "./components/FormKitWrapper.vue";
 import ActionButton from "./components/ActionButton.vue";
+import TextData from "./components/TextData.vue";
 import annotatorsFile from "@/assets/annotators.json";
 
 const data = (annotatorsFile as unknown as A.File).annotators;
 
-const expandedAnnotators = ref(true);
-const expandedConfig = ref(false);
+const getAnalysis = (moduleName: string, functionName: string): A.Analysis => {
+  const annotator = data[moduleName].functions[functionName];
+  if (!A.isAnalysis(annotator)) throw new Error("Not an analysis");
+  return annotator;
+};
 
-const selectedAnnotations = ref<string[]>([]);
+const getCustom = (moduleName: string, functionName: string): A.Custom => {
+  const annotator = data[moduleName].functions[functionName];
+  if (!A.isCustom(annotator)) throw new Error("Not a custom annotator");
+  return annotator;
+};
+
+const expandedAnnotators = ref(true);
+const expandedSettings = ref(true);
+const expandedConfig = ref(true);
+
+const selectedAnnotations = reactive<[string, string, string][]>([]);
 const selectedAnalyses = computed(() =>
-  uniq(selectedAnnotations.value.map((name) => name.split("-").slice(0, 2))),
+  uniq(selectedAnnotations.map((name) => name.slice(0, 2))),
 );
 const selectedAnalysisObjects = computed(() =>
-  selectedAnalyses.value.map(([moduleName, functionName]) => {
-    const annotatorDef = data[moduleName].functions[functionName] as A.Analysis;
-    return { moduleName, functionName, annotator: annotatorDef };
-  }),
+  selectedAnalyses.value.map(([moduleName, functionName]) => ({
+    moduleName,
+    functionName,
+    annotator: getAnalysis(moduleName, functionName),
+  })),
 );
+// TODO Select chunk for {chunk}
+// TODO Optionally rename output with `as {name}`
 
 type Custom = { annotator: string; parameters: Record<string, unknown> };
 const selectedCustom = ref<Custom[]>([]);
 const selectedCustomObjects = computed(() =>
   selectedCustom.value.map(({ annotator: name, parameters }) => {
     const [moduleName, functionName] = name.split(":");
-    const annotator = data[moduleName].functions[functionName] as A.Custom;
+    const annotator = getCustom(moduleName, functionName);
     return { moduleName, functionName, parameters, annotator };
   }),
 );
 
-function toggleAnnotation(name: string) {
-  const index = selectedAnnotations.value.indexOf(name);
-  if (index === -1) selectedAnnotations.value.push(name);
-  else selectedAnnotations.value.splice(index, 1);
+const selectedConfigs = computed<DecoratedConfig[]>(() => {
+  const configs: DecoratedConfig[] = [];
+  for (const { annotator } of selectedAnalysisObjects.value) {
+    if (!annotator.config) continue;
+    configs.push(...Object.values(decorateConfig(annotator.config)));
+  }
+  return configs;
+});
+
+const findConfig = (namespace: string, name: string) =>
+  selectedConfigs.value.find(
+    (c) => c._namespace == namespace && c._name == name,
+  );
+
+const configValues = reactive<Record<string, Record<string, unknown>>>({});
+
+watch(selectedConfigs, () => {
+  // Initialize new values to undefined
+  for (const config of selectedConfigs.value) {
+    configValues[config._namespace] ??= {};
+    configValues[config._namespace][config._name] ??= undefined;
+  }
+  // Remove old values
+  for (const namespace in configValues) {
+    for (const name in configValues[namespace]) {
+      const config = findConfig(namespace, name);
+      if (!config) delete configValues[namespace][name];
+    }
+    if (!Object.keys(configValues[namespace]).length) {
+      delete configValues[namespace];
+    }
+  }
+});
+
+const configOutput = computed<string>(() => {
+  const annotations = Object.fromEntries(
+    selectedAnnotations.map((name) => [
+      name[2],
+      (data[name[0]].functions[name[1]] as A.Analysis).annotations[name[2]],
+    ]),
+  );
+  const customAnnotations = selectedCustomObjects.value.map((c) => ({
+    annotator: `${c.moduleName}:${c.functionName}`,
+    parameters: c.parameters,
+  }));
+
+  const values = cloneDeep(configValues);
+  // Remove unchanged entries
+  for (const namespace in values) {
+    for (const name in values[namespace]) {
+      // TODO Differentiate between empty string and null
+      const value = values[namespace][name];
+      const config = findConfig(namespace, name)!;
+      const hasChanged =
+        value !== undefined && value !== "" && value != config.default;
+      if (!hasChanged) delete values[namespace][name];
+    }
+    const isEmpty = Object.keys(values[namespace]).length === 0;
+    if (isEmpty) delete values[namespace];
+  }
+
+  const configData = {
+    export: {
+      annotations: Object.entries(annotations).map(
+        ([name, a]) => a.resolved_name || name,
+      ),
+    },
+    custom_annotations: customAnnotations,
+    ...values,
+  };
+  return Yaml.dump(configData);
+});
+
+function toggleAnnotation(path: [string, string, string]) {
+  const index = selectedAnnotations.findIndex((a) => isEqual(a, path));
+  if (index === -1) selectedAnnotations.push(path);
+  else selectedAnnotations.splice(index, 1);
 }
 
 function addCustom(name: string) {
@@ -49,6 +141,18 @@ function addCustom(name: string) {
     Object.keys(annotator.parameters).map((key) => [key, undefined]),
   );
   selectedCustom.value.push({ annotator: name, parameters });
+}
+
+type DecoratedConfig = A.Config & { _namespace: string; _name: string };
+function decorateConfig(
+  configMap: Record<string, A.Config>,
+): Record<string, DecoratedConfig> {
+  const decorated: Record<string, DecoratedConfig> = {};
+  for (const name in configMap) {
+    const [_namespace, _name] = name.split(".");
+    decorated[name] = { ...configMap[name], _namespace, _name };
+  }
+  return decorated;
 }
 </script>
 
@@ -99,14 +203,16 @@ function addCustom(name: string) {
                   :id="`${moduleName}-${functionName}-${annotationName}`"
                   type="checkbox"
                   :checked="
-                    selectedAnnotations.includes(
-                      `${moduleName}-${functionName}-${annotationName}`,
+                    !!selectedAnnotations.find((a) =>
+                      isEqual(a, [moduleName, functionName, annotationName]),
                     )
                   "
                   @change="
-                    toggleAnnotation(
-                      `${moduleName}-${functionName}-${annotationName}`,
-                    )
+                    toggleAnnotation([
+                      String(moduleName),
+                      String(functionName),
+                      String(annotationName),
+                    ])
                   "
                   class="mr-2"
                 />
@@ -142,20 +248,20 @@ function addCustom(name: string) {
       </div>
     </LayoutBox>
 
-    <LayoutBox title="Configuration">
+    <LayoutBox title="Settings">
       <template #controls>
         <ActionButton
-          @click="expandedConfig = !expandedConfig"
+          @click="expandedSettings = !expandedSettings"
           class="button-mute"
         >
-          <PhMinusSquare v-if="expandedConfig" class="inline mr-1" />
+          <PhMinusSquare v-if="expandedSettings" class="inline mr-1" />
 
           <PhPlusSquare v-else class="inline mr-1" />
-          {{ expandedConfig ? "Close" : "Open" }}
+          {{ expandedSettings ? "Close" : "Open" }}
         </ActionButton>
       </template>
 
-      <div v-show="expandedConfig">
+      <div v-show="expandedSettings">
         <FormKitWrapper>
           <details
             v-for="{
@@ -172,12 +278,18 @@ function addCustom(name: string) {
               {{ annotator.description }}
             </summary>
 
-            <template v-if="'config' in annotator">
-              <template v-for="(config, name) in annotator.config" :key="name">
+            <template v-if="annotator.config">
+              <template
+                v-for="(config, name) in decorateConfig(annotator.config)"
+                :key="name"
+              >
                 <FormKit
                   v-if="config.choices"
                   type="select"
                   :label="String(name)"
+                  v-model="
+                    configValues[config._namespace][config._name] as string
+                  "
                   :help="config.description"
                   :options="
                     config.choices.map((choice) => ({
@@ -185,13 +297,15 @@ function addCustom(name: string) {
                       label: choice || '<empty>',
                     }))
                   "
-                  :value="String(config.default || '')"
                   :placeholder="String(config.default || '')"
                 />
                 <FormKit
                   v-else-if="config.datatype[0] == 'str'"
                   type="text"
                   :label="String(name)"
+                  v-model="
+                    configValues[config._namespace][config._name] as string
+                  "
                   :help="config.description"
                   :placeholder="String(config.default || '')"
                 />
@@ -202,6 +316,9 @@ function addCustom(name: string) {
                   type="number"
                   :number="config.datatype[0] == 'int' ? 'integer' : 'float'"
                   :label="String(name)"
+                  v-model="
+                    configValues[config._namespace][config._name] as number
+                  "
                   :help="config.description"
                   :placeholder="String(config.default || '')"
                 />
@@ -209,12 +326,18 @@ function addCustom(name: string) {
                   v-else-if="config.datatype[0] == 'bool'"
                   type="checkbox"
                   :label="String(name)"
+                  v-model="
+                    configValues[config._namespace][config._name] as boolean
+                  "
                   :help="config.description"
                   :value="Boolean(config.default)"
                 />
                 <FormKit
                   v-else
                   :label="String(name)"
+                  v-model="
+                    configValues[config._namespace][config._name] as string
+                  "
                   :placeholder="String(config.default || '')"
                 >
                   <template #help>
@@ -287,6 +410,23 @@ function addCustom(name: string) {
             </template>
           </details>
         </FormKitWrapper>
+      </div>
+    </LayoutBox>
+
+    <LayoutBox title="Config">
+      <template #controls>
+        <ActionButton
+          @click="expandedConfig = !expandedConfig"
+          class="button-mute"
+        >
+          <PhMinusSquare v-if="expandedConfig" class="inline mr-1" />
+          <PhPlusSquare v-else class="inline mr-1" />
+          {{ expandedConfig ? "Close" : "Open" }}
+        </ActionButton>
+      </template>
+
+      <div v-show="expandedConfig">
+        <TextData :text="configOutput" language="yaml" />
       </div>
     </LayoutBox>
   </div>
