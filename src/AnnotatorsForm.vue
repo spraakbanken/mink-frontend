@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue";
+import { computed, ref } from "vue";
 import { FormKit } from "@formkit/vue";
 import { PhMinusSquare, PhPlusSquare } from "@phosphor-icons/vue";
+import { uniq } from "es-toolkit";
 import * as A from "./annotators.types";
 import LayoutBox from "./components/LayoutBox.vue";
 import FormKitWrapper from "./components/FormKitWrapper.vue";
@@ -13,29 +14,41 @@ const data = (annotatorsFile as unknown as A.File).annotators;
 const expandedAnnotators = ref(true);
 const expandedConfig = ref(false);
 
-const selected = reactive(
-  new Set<string>([
-    "misc-affix",
-    "hunpos-msdtag-<token>:hunpos.msd",
-    "saldo-annotate-<token>:saldo.baseform",
-    "stanza-annotate_swe-<token>:stanza.pos",
-  ]),
+const selectedAnnotations = ref<string[]>([]);
+const selectedAnalyses = computed(() =>
+  uniq(selectedAnnotations.value.map((name) => name.split("-").slice(0, 2))),
 );
-const functions = computed(() =>
-  Object.fromEntries(
-    [...selected].map((name) => {
-      const [module, func] = name.split("-");
-      return [`${module}-${func}`, data[module].functions[func]];
-    }),
-  ),
+const selectedAnalysisObjects = computed(() =>
+  selectedAnalyses.value.map(([moduleName, functionName]) => {
+    const annotatorDef = data[moduleName].functions[functionName] as A.Analysis;
+    return { moduleName, functionName, annotator: annotatorDef };
+  }),
 );
 
-function toggleSelected(annotationName: string) {
-  if (selected.has(annotationName)) {
-    selected.delete(annotationName);
-  } else {
-    selected.add(annotationName);
-  }
+type Custom = { annotator: string; parameters: Record<string, unknown> };
+const selectedCustom = ref<Custom[]>([]);
+const selectedCustomObjects = computed(() =>
+  selectedCustom.value.map(({ annotator: name, parameters }) => {
+    const [moduleName, functionName] = name.split(":");
+    const annotator = data[moduleName].functions[functionName] as A.Custom;
+    return { moduleName, functionName, parameters, annotator };
+  }),
+);
+
+function toggleAnnotation(name: string) {
+  const index = selectedAnnotations.value.indexOf(name);
+  if (index === -1) selectedAnnotations.value.push(name);
+  else selectedAnnotations.value.splice(index, 1);
+}
+
+function addCustom(name: string) {
+  const [moduleName, functionName] = name.split(":");
+  const annotator = data[moduleName].functions[functionName];
+  if (!A.isCustom(annotator)) return; // For type inference.
+  const parameters = Object.fromEntries(
+    Object.keys(annotator.parameters).map((key) => [key, undefined]),
+  );
+  selectedCustom.value.push({ annotator: name, parameters });
 }
 </script>
 
@@ -86,12 +99,12 @@ function toggleSelected(annotationName: string) {
                   :id="`${moduleName}-${functionName}-${annotationName}`"
                   type="checkbox"
                   :checked="
-                    selected.has(
+                    selectedAnnotations.includes(
                       `${moduleName}-${functionName}-${annotationName}`,
                     )
                   "
                   @change="
-                    toggleSelected(
+                    toggleAnnotation(
                       `${moduleName}-${functionName}-${annotationName}`,
                     )
                   "
@@ -104,18 +117,25 @@ function toggleSelected(annotationName: string) {
               </div>
             </details>
 
-            <div v-else class="list-none ml-4 -indent-4">
-              <input
-                :id="`${moduleName}-${functionName}`"
-                type="checkbox"
-                :checked="selected.has(`${moduleName}-${functionName}`)"
-                @change="toggleSelected(`${moduleName}-${functionName}`)"
-                class="mr-1"
-              />
-              <label :for="`${moduleName}-${functionName}`">
+            <div
+              v-else
+              class="cursor-pointer has-checked:bg-sky-400/10"
+              @click="addCustom(`${moduleName}:${functionName}`)"
+            >
+              <div class="list-none ml-4 -indent-4">
+                <input
+                  type="checkbox"
+                  class="hidden"
+                  :checked="
+                    !!selectedCustom.find(
+                      (c) => c.annotator === `${moduleName}:${functionName}`,
+                    )
+                  "
+                />
+                <PhPlusSquare class="text-sm inline -ml-0.5 mr-1" />
                 <code>{{ functionName }}</code> –
                 {{ func.description }}
-              </label>
+              </div>
             </div>
           </template>
         </details>
@@ -138,18 +158,21 @@ function toggleSelected(annotationName: string) {
       <div v-show="expandedConfig">
         <FormKitWrapper>
           <details
-            v-for="(annotator, annotatorName) in functions"
-            :key="annotatorName"
+            v-for="{
+              annotator,
+              moduleName,
+              functionName,
+            } in selectedAnalysisObjects"
+            :key="`${moduleName}-${functionName}`"
             open
             class="my-4"
           >
             <summary>
-              <code>{{ String(annotatorName).split("-")[0] }}</code> –
-              <code>{{ String(annotatorName).split("-")[1] }}</code> –
+              <code>{{ moduleName }}</code> – <code>{{ functionName }}</code> –
               {{ annotator.description }}
             </summary>
 
-            <template v-if="A.isAnalysis(annotator) && 'config' in annotator">
+            <template v-if="'config' in annotator">
               <template v-for="(config, name) in annotator.config" :key="name">
                 <FormKit
                   v-if="config.choices"
@@ -205,47 +228,62 @@ function toggleSelected(annotationName: string) {
                 </FormKit>
               </template>
             </template>
+          </details>
 
-            <template v-else-if="A.isCustom(annotator)">
-              <template
-                v-for="(parameter, name) in annotator.parameters"
-                :key="name"
+          <details
+            v-for="{
+              moduleName,
+              functionName,
+              annotator,
+              parameters,
+            } in selectedCustomObjects"
+            :key="`${moduleName}-${functionName}`"
+            open
+            class="my-4"
+          >
+            <summary>
+              <code>{{ moduleName }}</code> – <code>{{ functionName }}</code> –
+              {{ annotator.description }}
+            </summary>
+
+            <template
+              v-for="(parameter, name) in annotator.parameters"
+              :key="name"
+            >
+              <FormKit
+                v-if="parameter.type == 'str'"
+                type="text"
+                v-model="parameters[name] as string"
+                :label="String(name)"
+                :validation="!parameter.optional ? 'required' : undefined"
+                :placeholder="String(parameter.default || '')"
+              />
+              <FormKit
+                v-else-if="parameter.type == 'int' || parameter.type == 'float'"
+                type="number"
+                :number="parameter.type == 'int' ? 'integer' : 'float'"
+                :label="String(name)"
+                :validation="!parameter.optional ? 'required' : undefined"
+              />
+              <FormKit
+                v-else-if="parameter.type == 'bool'"
+                type="checkbox"
+                :label="String(name)"
+              />
+              <FormKit
+                v-else
+                :label="String(name)"
+                v-model="parameters[name] as string"
+                :validation="!parameter.optional ? 'required' : undefined"
+                :placeholder="String(parameter.default || '')"
               >
-                <FormKit
-                  v-if="parameter.type == 'str'"
-                  type="text"
-                  :label="String(name)"
-                  :validation="!parameter.optional ? 'required' : undefined"
-                  :placeholder="String(parameter.default || '')"
-                />
-                <FormKit
-                  v-else-if="
-                    parameter.type == 'int' || parameter.type == 'float'
-                  "
-                  type="number"
-                  :number="parameter.type == 'int' ? 'integer' : 'float'"
-                  :label="String(name)"
-                  :validation="!parameter.optional ? 'required' : undefined"
-                />
-                <FormKit
-                  v-else-if="parameter.type == 'bool'"
-                  type="checkbox"
-                  :label="String(name)"
-                />
-                <FormKit
-                  v-else
-                  :label="String(name)"
-                  :validation="!parameter.optional ? 'required' : undefined"
-                  :placeholder="String(parameter.default || '')"
-                >
-                  <template #help>
-                    <div class="formkit-help">
-                      The type of this field is <code>{{ parameter.type }}</code
-                      >; please use YAML syntax.
-                    </div>
-                  </template>
-                </FormKit>
-              </template>
+                <template #help>
+                  <div class="formkit-help">
+                    The type of this field is <code>{{ parameter.type }}</code
+                    >; please use YAML syntax.
+                  </div>
+                </template>
+              </FormKit>
             </template>
           </details>
         </FormKitWrapper>
