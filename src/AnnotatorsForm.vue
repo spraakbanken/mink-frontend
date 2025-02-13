@@ -13,17 +13,81 @@ import annotatorsFile from "@/assets/annotators.json";
 
 const data = (annotatorsFile as unknown as A.File).annotators;
 
-const annotations = Object.fromEntries(
-  Object.entries(data).map(([module, moduleDef]) => [
-    module,
-    Object.fromEntries(
-      Object.values(moduleDef.functions).flatMap((funcDef) =>
-        A.isAnalysis(funcDef) ? Object.entries(funcDef.annotations) : [],
-      ),
-    ),
-  ]),
+type Listing = {
+  key: string;
+  module: string;
+  moduleDef: A.Module;
+  func: string;
+  funcDef: A.Annotator;
+};
+
+type AnalysisListing = Listing & { funcDef: A.Analysis };
+type CustomListing = Listing & { type: "custom"; funcDef: A.Custom };
+type AnnotationListing = Listing & {
+  type: "annotation";
+  funcDef: A.Analysis;
+  annotation: string;
+  annotationDef: A.Annotation;
+};
+
+const annotators: Listing[] = Object.entries(data).flatMap(
+  ([module, moduleDef]) =>
+    Object.entries(moduleDef.functions).flatMap(([func, funcDef]) => ({
+      key: func,
+      module,
+      moduleDef,
+      func,
+      funcDef,
+    })),
 );
 
+const analyses = annotators.filter(({ funcDef }) =>
+  A.isAnalysis(funcDef),
+) as AnalysisListing[];
+const customs = annotators
+  .filter(({ funcDef }) => A.isCustom(funcDef))
+  .map((item) => ({ ...item, type: "custom" })) as CustomListing[];
+
+const annotations: AnnotationListing[] = analyses.flatMap((a) =>
+  Object.entries(a.funcDef.annotations).map(([annotation, annotationDef]) => ({
+    ...a,
+    type: "annotation",
+    key: annotation,
+    annotation,
+    annotationDef,
+  })),
+);
+
+const annotationOptions = [...annotations, ...customs].sort((a, b) =>
+  a.key.localeCompare(b.key),
+);
+
+const filterText = ref("ma");
+
+const annotationsFiltered = computed(() =>
+  annotationOptions.filter((a) => {
+    const strs = [
+      a.module,
+      a.moduleDef.description,
+      a.func,
+      a.funcDef.description,
+    ];
+    if ("annotation" in a) strs.push(a.annotation, a.annotationDef.description);
+    const words = filterText.value.split(/\s+/);
+    return words.every((word) =>
+      strs.some((s) => s.toLowerCase().includes(word.toLowerCase())),
+    );
+  }),
+);
+
+const modulesFiltered = computed(() =>
+  uniqBy(annotationsFiltered.value, (a) => a.module).map(
+    ({ module, moduleDef }) => ({
+      module,
+      moduleDef,
+    }),
+  ),
+);
 const getAnalysis = (moduleName: string, functionName: string): A.Analysis => {
   const annotator = data[moduleName].functions[functionName];
   if (!A.isAnalysis(annotator)) throw new Error("Not an analysis");
@@ -205,58 +269,67 @@ function decorateConfig(
   <div class="flex flex-col gap-4">
     <FormKitWrapper>
       <LayoutBox title="Annotators" collapsible>
+        <div class="flex flex-wrap gap-4">
+          <FormKit type="text" v-model="filterText" label="Filter" />
+        </div>
+
         <details
-          v-for="(module, moduleName) in data"
-          :key="moduleName"
+          v-for="{ module, moduleDef } in modulesFiltered"
+          :key="module"
           class="has-checked:bg-sky-400/10"
+          open
         >
           <summary>
-            <code>{{ moduleName }}</code> –
-            {{ module.description }}
+            <code>{{ module }}</code> –
+            {{ moduleDef.description }}
           </summary>
 
           <div
-            v-for="(annotation, annotationName) in annotations[moduleName]"
-            :key="annotationName"
+            v-for="a in uniqBy(
+              annotationsFiltered.filter((a) => a.module == module),
+              (a) => a.func,
+            )"
+            :key="a.key"
             class="has-checked:bg-sky-400/10"
           >
-            <div class="list-none ml-4 -indent-4">
-              <input
-                :id="String(annotationName)"
-                type="checkbox"
-                :checked="selectedAnnotations.includes(String(annotationName))"
-                @change="toggleAnnotation(String(annotationName))"
-                class="mr-2"
-              />
-              <label :for="String(annotationName)">
-                <code>{{ annotationName }}</code> –
-                {{ annotation.description }}
-              </label>
-            </div>
-          </div>
-
-          <template v-for="(func, fname) in module.functions" :key="fname">
-            <div
-              v-if="A.isCustom(func)"
-              class="cursor-pointer has-checked:bg-sky-400/10"
-              @click="addCustom(`${moduleName}:${fname}`)"
-            >
+            <template v-if="a.type == 'annotation'">
               <div class="list-none ml-4 -indent-4">
                 <input
+                  :id="a.annotation"
                   type="checkbox"
-                  class="hidden"
-                  :checked="
-                    !!selectedCustom.find(
-                      (c) => c.annotator === `${moduleName}:${fname}`,
-                    )
-                  "
+                  :checked="selectedAnnotations.includes(a.annotation)"
+                  @change="toggleAnnotation(a.annotation)"
+                  class="mr-2"
                 />
-                <PhPlusSquare class="text-sm inline -ml-0.5 mr-1" />
-                <code>{{ fname }}</code> –
-                {{ func.description }}
+                <label :for="a.annotation">
+                  <code>{{ a.annotation }}</code> –
+                  {{ a.annotationDef.description }}
+                </label>
               </div>
-            </div>
-          </template>
+            </template>
+
+            <template v-if="a.type == 'custom'">
+              <div
+                class="cursor-pointer has-checked:bg-sky-400/10"
+                @click="addCustom(`${a.module}:${a.func}`)"
+              >
+                <div class="list-none ml-4 -indent-4">
+                  <input
+                    type="checkbox"
+                    class="hidden"
+                    :checked="
+                      !!selectedCustom.find(
+                        (c) => c.annotator === `${a.module}:${a.func}`,
+                      )
+                    "
+                  />
+                  <PhPlusSquare class="text-sm inline -ml-0.5 mr-1" />
+                  <code>{{ a.func }}</code> –
+                  {{ a.funcDef.description }}
+                </div>
+              </div>
+            </template>
+          </div>
         </details>
       </LayoutBox>
 
