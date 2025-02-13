@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from "vue";
+import { computed, reactive, ref } from "vue";
 import { FormKit } from "@formkit/vue";
 import { PhPlusSquare } from "@phosphor-icons/vue";
-import { cloneDeep, isEqual, uniq } from "es-toolkit";
+import { cloneDeep, uniq, uniqBy } from "es-toolkit";
 import Yaml from "js-yaml";
 import { watchImmediate } from "@vueuse/core";
 import * as A from "./annotators.types";
@@ -25,24 +25,33 @@ const getCustom = (moduleName: string, functionName: string): A.Custom => {
   return annotator;
 };
 
-const selectedAnnotations = reactive<[string, string, string][]>([
-  ["misc", "inherit", "{child}:misc.inherit_{parent}_{attr}"],
+const selectedAnnotations = reactive<string[]>([
+  "{child}:misc.inherit_{parent}_{attr}",
 ]);
-const selectedAnalyses = computed(() =>
-  uniq(selectedAnnotations.map((name) => name.slice(0, 2))),
-);
-const selectedAnalysisObjects = computed(() =>
-  selectedAnalyses.value.map(([moduleName, functionName]) => ({
-    moduleName,
-    functionName,
-    annotator: getAnalysis(moduleName, functionName),
-  })),
-);
+
+function findFunctions(annotation: string) {
+  const found: [string, string][] = [];
+  for (const module in data) {
+    const functions = data[module].functions;
+    for (const func in functions) {
+      if (A.isAnalysis(functions[func])) {
+        if (functions[func].annotations[annotation]) found.push([module, func]);
+      }
+    }
+  }
+  return found;
+}
+
+function findAnnotationDefs(annotation: string) {
+  return findFunctions(annotation).flatMap(([module, func]) =>
+    getAnalysis(module, func),
+  );
+}
 
 const wildcards = computed<Record<string, string[]>>(() =>
   Object.fromEntries(
     selectedAnnotations
-      .map(([, , annotation]) => [
+      .map((annotation) => [
         annotation,
         [...annotation.matchAll(/\{([^}]+)\}/g).map((a) => a[1])],
       ])
@@ -81,12 +90,11 @@ const selectedCustomObjects = computed(() =>
 );
 
 const selectedConfigs = computed<DecoratedConfig[]>(() => {
-  const configs: DecoratedConfig[] = [];
-  for (const { annotator } of selectedAnalysisObjects.value) {
-    if (!annotator.config) continue;
-    configs.push(...Object.values(decorateConfig(annotator.config)));
-  }
-  return configs;
+  const annotationDefs = selectedAnnotations.flatMap(findAnnotationDefs);
+  const configs = annotationDefs.flatMap(({ config }) =>
+    config ? Object.values(decorateConfig(config)) : [],
+  );
+  return uniqBy(configs, (c) => `${c._namespace}.${c._name}`);
 });
 
 const findConfig = (namespace: string, name: string) =>
@@ -115,7 +123,7 @@ watchImmediate(selectedConfigs, () => {
 });
 
 const configOutput = computed<string>(() => {
-  const annotations = selectedAnnotations.map(([, , annotation]) => {
+  const annotations = selectedAnnotations.map((annotation) => {
     for (const [name, value] of Object.entries(
       wildcardValues[annotation] || {},
     )) {
@@ -153,9 +161,9 @@ const configOutput = computed<string>(() => {
   return Yaml.dump(configData);
 });
 
-function toggleAnnotation(path: [string, string, string]) {
-  const index = selectedAnnotations.findIndex((a) => isEqual(a, path));
-  if (index === -1) selectedAnnotations.push(path);
+function toggleAnnotation(annotation: string) {
+  const index = selectedAnnotations.indexOf(annotation);
+  if (index === -1) selectedAnnotations.push(annotation);
   else selectedAnnotations.splice(index, 1);
 }
 
@@ -218,17 +226,9 @@ function decorateConfig(
                   :id="`${moduleName}-${functionName}-${annotationName}`"
                   type="checkbox"
                   :checked="
-                    !!selectedAnnotations.find((a) =>
-                      isEqual(a, [moduleName, functionName, annotationName]),
-                    )
+                    selectedAnnotations.includes(String(annotationName))
                   "
-                  @change="
-                    toggleAnnotation([
-                      String(moduleName),
-                      String(functionName),
-                      String(annotationName),
-                    ])
-                  "
+                  @change="toggleAnnotation(String(annotationName))"
                   class="mr-2"
                 />
                 <label :for="`${moduleName}-${functionName}-${annotationName}`">
