@@ -6,7 +6,7 @@ home.hero.mink: "{0} är vår insats för att lägga infrastrukturen i forskarna
 home.hero.privacy: Dina källdata och resultaten är privata (se {0}). I kommande versioner kommer du att kunna dela datamängder med kollegor och publicera dem för allmän åtkomst.
 home.hero.privacy.link.url: https://spraakbanken.gu.se/verktyg/mink/data-policy
 home.hero.privacy.link.label: integritets- och datapolicyn
-home.hero.readmore: Läs mer i {0}
+home.hero.readmore: Läs mer i {0}.
 home.hero.readmore.link.label: Minks dokumentation
 home.features.sparv.title: Anpassningsbara analyser
 home.features.sparv.body: Dina texter analyseras av vår språkteknologiska plattform {sparv} med de inställningar du väljer.
