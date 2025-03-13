@@ -2,9 +2,9 @@
  * @file Common handling of the SB Auth system and its JWTs.
  */
 
-import axios, { AxiosError } from "axios";
+import { AxiosError, isAxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
-import { ensureTrailingSlash, pathJoin } from "@/util";
+import { ensureTrailingSlash, pathJoin, progressiveTimeout } from "@/util";
 
 const AUTH_URL: string = ensureTrailingSlash(import.meta.env.VITE_AUTH_URL);
 const LOGOUT_URL: string = import.meta.env.VITE_LOGOUT_URL;
@@ -38,16 +38,17 @@ export function getLoginUrl(redirectLocation = "") {
 
 /**
  * Fetch JWT.
- *
- * @throws {import("axios").AxiosError} if the HTTP response code is 500 or above.
  */
 export async function fetchJwt(): Promise<string | undefined> {
-  return await axios
-    .get<string>(JWT_URL, { withCredentials: true, timeout: 2_000 })
+  const config = { url: JWT_URL, withCredentials: true };
+  return progressiveTimeout<string>(config, { timeoutInit: 2000 })
     .then((response) => response.data)
-    .catch((error: AxiosError) => {
-      if (error.response?.status == 401) return undefined;
-      else throw error;
+    .catch((error: unknown) => {
+      // 401 Unauthorized is an acceptable response, not an error.
+      if (isAxiosError(error) && error.response?.status == 401)
+        return undefined;
+      // Rethrow other errors.
+      throw error;
     });
 }
 

@@ -1,3 +1,9 @@
+import {
+  isAxiosError,
+  type Axios,
+  type AxiosRequestConfig,
+  type AxiosResponse,
+} from "axios";
 import { clone } from "es-toolkit";
 
 /** The number of milliseconds in a full day. */
@@ -128,3 +134,33 @@ export const objsToDict = <
   keyName: K,
   valueName: VK,
 ) => Object.fromEntries(objs.map((item) => [item[keyName], item[valueName]]));
+
+/** Make an Axios request and handle timeout by retrying with a higher limit. */
+export async function progressiveTimeout<T, D = unknown>(
+  config: AxiosRequestConfig<D>,
+  options: { timeoutInit?: number; tries?: number; axios?: Axios } = {},
+): Promise<AxiosResponse<T>> {
+  const axios = options.axios || (await import("axios")).default;
+  let timeout = options.timeoutInit || 1000;
+  let tries = options.tries || 3;
+
+  const request = (): Promise<AxiosResponse<T>> =>
+    axios.request<T>({ ...config, timeout }).catch((error: unknown) => {
+      const isTimeout =
+        isAxiosError(error) &&
+        error.code == "ECONNABORTED" &&
+        /^timeout/.test(error.message);
+
+      // If timeout, retry with higher limit.
+      if (isTimeout && tries > 0) {
+        timeout *= 4;
+        tries--;
+        return request();
+      }
+
+      // Rethrow any other error.
+      throw error;
+    });
+
+  return request();
+}

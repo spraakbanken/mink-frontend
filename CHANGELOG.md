@@ -17,6 +17,10 @@ As this project is a user-facing application, the places in the semantic version
 
 - Link to user documentation [#188](https://github.com/spraakbanken/mink-frontend/issues/188)
 
+### Changed
+
+- Progressive JWT timeout [#190](https://github.com/spraakbanken/mink-frontend/issues/190)
+
 ## [1.9.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.9.0) (2025-02-12)
 
 ### Added
