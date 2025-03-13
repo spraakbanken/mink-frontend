@@ -43,7 +43,7 @@ export function getLoginUrl(redirectLocation = "") {
  */
 export async function fetchJwt(): Promise<string | undefined> {
   return await axios
-    .get<string>(JWT_URL, { withCredentials: true, timeout: 2_000 })
+    .get<string>(JWT_URL, { withCredentials: true, timeout: 12_000 })
     .then((response) => response.data)
     .catch((error: AxiosError) => {
       if (error.response?.status == 401) return undefined;

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import { PhQuestion, PhUser } from "@phosphor-icons/vue";
 import MinkLogo from "@/page/MinkLogo.vue";
 import { getLogoutUrl } from "@/auth/sbAuth";
 import { useAuth } from "@/auth/auth.composable";
@@ -31,9 +32,9 @@ const isHome = computed(() => route.path == "/");
         </router-link>
       </component>
 
-      <div class="flex items-center gap-4">
+      <div class="ml-auto flex items-center gap-4">
         <SpinIndicator v-if="isAuthenticating" />
-        <div class="self-stretch flex flex-col justify-end">
+        <div class="self-stretch flex flex-col justify-end items-end">
           <div class="w-56">
             <a href="https://spraakbanken.gu.se/">
               <picture>
@@ -49,23 +50,34 @@ const isHome = computed(() => route.path == "/");
             </a>
           </div>
 
-          <div class="mt-2 flex flex-wrap gap-4 items-baseline justify-end">
+          <div class="mt-2 flex flex-wrap gap-x-4 items-baseline justify-end">
             <template v-if="payload">
               <router-link
                 v-if="canUserWrite"
                 to="/user"
-                class="text-inherit font-normal no-underline hover:underline"
+                class="no-underline hover:underline"
               >
+                <PhUser class="inline-block mb-0.5"></PhUser>
                 {{ payload.name }}
               </router-link>
               <a
                 v-else
                 :href="getLogoutUrl()"
-                class="text-inherit font-normal no-underline hover:underline"
+                class="no-underline hover:underline"
               >
+                <PhUser class="inline-block mb-0.5"></PhUser>
                 {{ $t("logout") }}
               </a>
             </template>
+
+            <a
+              :href="$t('docs.url')"
+              target="_blank"
+              class="no-underline hover:underline"
+            >
+              <PhQuestion class="inline-block mb-0.5"></PhQuestion>
+              {{ $t("docs.label") }}
+            </a>
 
             <LocaleSwitcher />
           </div>

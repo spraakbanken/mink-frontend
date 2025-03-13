@@ -6,6 +6,8 @@ home.hero.mink: "{0} is our effort to put Språkbanken Text’s research infrast
 home.hero.privacy: Your source data and the results are private (see {0}). Forthcoming versions will include features for sharing datasets with teams and publishing them publicly.
 home.hero.privacy.link.url: https://spraakbanken.gu.se/en/tools/mink/data-policy
 home.hero.privacy.link.label: Privacy and data policy
+home.hero.readmore: Read more in the {0}
+home.hero.readmore.link.label: Mink documentation
 home.features.sparv.title: Configurable language technology analysis
 home.features.sparv.body: Your language data are analyzed by our language technology platform {sparv} according to your settings.
 home.features.sparv.alt: Screenshot of a configuration form with labels and buttons
@@ -118,6 +120,8 @@ expand.open: Show all
 expand.close: Hide some
 show: Show
 select: Select...
+docs.label: Help
+docs.url: https://spraakbanken.gu.se/en/tools/mink
 locale.switcher.label: Interface language
 en: English
 sv: Swedish
