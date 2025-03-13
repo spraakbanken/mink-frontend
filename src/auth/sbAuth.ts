@@ -2,7 +2,7 @@
  * @file Common handling of the SB Auth system and its JWTs.
  */
 
-import { AxiosError, isAxiosError } from "axios";
+import { isAxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
 import { ensureTrailingSlash, pathJoin, progressiveTimeout } from "@/util";
 
