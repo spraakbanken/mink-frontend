@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { ref, watch } from "vue";
 import usePageTitle from "@/page/title.composable";
 
 const route = useRoute();
@@ -17,13 +17,20 @@ function getInits(path: string): string[] {
   return ["/", ...inits];
 }
 
-const crumbs = computed(() =>
-  getInits(route.path)
-    .map((path) => {
+const crumbs = ref<{ path: string; title: string }[]>([]);
+
+watch(
+  () => route.path,
+  async () => {
+    crumbs.value = [];
+    for (const path of getInits(route.path)) {
       const route = resolve(path);
-      return { path, title: getTitle(route), name: route.name };
-    })
-    .filter((crumb) => crumb.name != "notfound" && crumb.title),
+      const title = await getTitle(route);
+      if (title && route.name != "notfound") {
+        crumbs.value.push({ path, title });
+      }
+    }
+  },
 );
 </script>
 
