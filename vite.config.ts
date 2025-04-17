@@ -10,16 +10,16 @@ type HttpsOptions = Pick<ServerOptions, "key" | "cert">;
 
 // https://vitejs.dev/config/
 export default defineConfig(async ({ mode }) => {
-  // Load .env files. Vite will do it itself, but only later. See https://github.com/vitejs/vite/issues/1930
-  Object.assign(process.env, loadEnv(mode, process.cwd(), ""));
+  // Load .env files. Vite will do it itself, but only later. See https://vite.dev/config/#using-environment-variables-in-config
+  const env = loadEnv(mode, process.cwd(), "");
 
   /** Read HTTPS cert and key, if their paths are specified in env. */
   async function getHttpsOptions(): Promise<HttpsOptions | undefined> {
-    if (process.env.DEV_HTTPS_KEY && process.env.DEV_HTTPS_CERT) {
+    if (env.DEV_HTTPS_KEY && env.DEV_HTTPS_CERT) {
       const fs = await import("fs");
       return {
-        key: fs.readFileSync(process.env.DEV_HTTPS_KEY),
-        cert: fs.readFileSync(process.env.DEV_HTTPS_CERT),
+        key: fs.readFileSync(env.DEV_HTTPS_KEY),
+        cert: fs.readFileSync(env.DEV_HTTPS_CERT),
       };
     }
   }
@@ -37,7 +37,7 @@ export default defineConfig(async ({ mode }) => {
         "@": path.resolve(__dirname, "./src"),
       },
     },
-    base: process.env.BASE,
+    base: env.BASE,
     server: {
       // Remap hostname and enable HTTPS, in order for authentication to work.
       // Map this hostname to 127.0.0.1 in /etc/hosts.
