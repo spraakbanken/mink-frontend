@@ -4,7 +4,7 @@ import {
   type AxiosRequestConfig,
   type AxiosResponse,
 } from "axios";
-import { clone } from "es-toolkit";
+import { clone, pickBy } from "es-toolkit";
 
 /** The number of milliseconds in a full day. */
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -102,6 +102,13 @@ export function setKeys<T>(
 
   return obj;
 }
+
+/** pickBy with additional type info for when the predicate is a type-checker */
+// Tests not needed, as this only adds type information on top of pickBy.
+export const pickByType = <V, U extends V, T extends Record<string, V>>(
+  obj: T,
+  shouldPick: (value: V, key: keyof T) => value is U,
+) => pickBy(obj, shouldPick) as Record<keyof T, U>;
 
 /** Create a random string of around 11 chars in the [0-9a-z] range. */
 export const randomString = () => Math.random().toString(36).slice(2);

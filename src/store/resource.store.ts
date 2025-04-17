@@ -1,7 +1,7 @@
 import { computed, reactive } from "vue";
 import { defineStore } from "pinia";
 import { useStorage } from "@vueuse/core";
-import { setKeys } from "@/util";
+import { pickByType, setKeys } from "@/util";
 import type { ByLang } from "@/util.types";
 import type {
   CorpusStatus,
@@ -52,25 +52,11 @@ export const useResourceStore = defineStore("resource", () => {
   );
 
   const corpora = computed<Record<string, Partial<Corpus>>>(() =>
-    filterResources("corpus"),
+    pickByType(resources, isCorpus),
   );
   const metadatas = computed<Record<string, Partial<Metadata>>>(() =>
-    filterResources("metadata"),
+    pickByType(resources, isMetadata),
   );
-
-  const filterResources = <T extends Resource>(
-    type: ResourceType,
-  ): Record<string, Partial<T>> =>
-    Object.keys(resources).reduce(
-      (filtered, resourceId) => {
-        const resource = resources[resourceId];
-        return "type" in resource && resource.type == type
-          ? { ...filtered, [resourceId]: resource }
-          : filtered;
-      },
-
-      {},
-    );
 
   function setResourceIds(resourceIds: string[]) {
     setKeys(resources, resourceIds, {});
