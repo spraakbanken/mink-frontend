@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { PhPlusCircle } from "@phosphor-icons/vue";
-import useResources from "@/library/resources.composable";
 import CorpusButton from "@/library/CorpusButton.vue";
 import useLocale from "@/i18n/locale.composable";
 import PadButton from "@/components/PadButton.vue";
@@ -20,7 +19,6 @@ const router = useRouter();
 const resourceStore = useResourceStore();
 const { requireAuthentication, isAuthenticated } = useAuth();
 const { adminMode } = useAdmin();
-const { loadResources } = useResources();
 const { createFromUpload } = useCreateCorpus();
 const { spin } = useSpin();
 const { th } = useLocale();
@@ -30,7 +28,7 @@ requireAuthentication(() => {
   if (adminMode.value) {
     return router.push("/admin/resources");
   } else {
-    loadResources();
+    resourceStore.loadResources();
   }
 });
 

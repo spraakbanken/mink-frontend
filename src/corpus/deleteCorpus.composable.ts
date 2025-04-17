@@ -1,14 +1,14 @@
 import { useAuth } from "@/auth/auth.composable";
 import useMinkBackend from "@/api/backend.composable";
 import useMessenger from "@/message/messenger.composable";
-import useResources from "@/library/resources.composable";
+import { useResourceStore } from "@/store/resource.store";
 import useSpin from "@/spin/spin.composable";
 
 export default function useDeleteCorpus() {
   const { refreshJwt } = useAuth();
   const mink = useMinkBackend();
   const { spin } = useSpin();
-  const { refreshResources } = useResources();
+  const { refreshResources } = useResourceStore();
   const { alertError } = useMessenger();
 
   async function doDeleteCorpus(corpusId: string): Promise<void> {

@@ -1,12 +1,12 @@
 import { readonly, ref } from "vue";
 import useMinkBackend from "@/api/backend.composable";
-import useResources from "@/library/resources.composable";
+import { useResourceStore } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
 
 const adminModeRef = ref<boolean>();
 
 export default function useAdmin() {
-  const { refreshResources } = useResources();
+  const { refreshResources } = useResourceStore();
   const mink = useMinkBackend();
   const { alertError } = useMessenger();
 

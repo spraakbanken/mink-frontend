@@ -10,8 +10,13 @@ import {
 } from "./resource.types";
 import { pickByType, setKeys } from "@/util";
 import type { ResourceInfo } from "@/api/api.types";
+import useMinkBackend from "@/api/backend.composable";
+import useMessenger from "@/message/messenger.composable";
 
 export const useResourceStore = defineStore("resource", () => {
+  const mink = useMinkBackend();
+  const { alertError } = useMessenger();
+
   // Connect state to browser's local storage. Change the number here to the
   // current date (YYMMDD) if the state shape is changed, to make the browser
   // forget the old state. The actual number doesn't really matter, as long as
@@ -28,8 +33,67 @@ export const useResourceStore = defineStore("resource", () => {
     pickByType(resources, isMetadata),
   );
 
+  /** Let resource list be refreshed initially, but skip subsequent load calls. */
+  let isFresh = false;
+
+  /** Reuse this variable for the load request, so that simultaneous calls don't produce multiple requests. */
+  let loadPromise: Promise<unknown> | null = null;
+
+  /** List of freshly loaded resources. */
+  const freshResources: Record<string, true> = {};
+
   function setResourceIds(resourceIds: string[]) {
     setKeys(resources, resourceIds, {});
+  }
+
+  /** Load and store data about a given resource. */
+  async function loadResource(
+    resourceId: string,
+  ): Promise<Resource | undefined> {
+    if (!freshResources[resourceId]) {
+      const data = await mink.resourceInfoOne(resourceId).catch(alertError);
+      if (!data) return;
+      setResource(data);
+      freshResources[resourceId] = true;
+    }
+    return resources[resourceId] as Resource;
+  }
+
+  /** Load resource ids and update store to match. */
+  async function loadResourceIds() {
+    const resourceIds = await mink.loadCorpusIds().catch(alertError);
+    if (!resourceIds) return;
+    setResourceIds(resourceIds);
+  }
+
+  /** Load and store data about all the user's resources. */
+  async function loadResourceInfo() {
+    const data = await mink.resourceInfoAll().catch(alertError);
+    if (!data) return;
+    setResources(data.resources);
+  }
+
+  /** Load and store data about all the user's resources, with caching. */
+  async function loadResources() {
+    // Skip if already loaded.
+    if (isFresh) return;
+
+    // Store the pending request outside the function, so simultaneous calls will await the same promise.
+    if (!loadPromise)
+      // loadResourceIds has less information, but it is faster and will update UI sooner.
+      loadPromise = Promise.all([loadResourceIds(), loadResourceInfo()]);
+    await loadPromise;
+
+    // Unset the promise slot to allow any future calls.
+    loadPromise = null;
+    // Register that data has been loaded to skip future calls.
+    isFresh = true;
+  }
+
+  /** Signal that info needs to be reloaded, and immediately fetch ids. */
+  async function refreshResources() {
+    isFresh = false;
+    await loadResourceIds();
   }
 
   /** Update state to match fresh data. */
@@ -74,7 +138,12 @@ export const useResourceStore = defineStore("resource", () => {
   return {
     resources,
     corpora,
+    loadResource,
+    loadResourceIds,
+    loadResourceInfo,
+    loadResources,
     metadatas,
+    refreshResources,
     setResourceIds,
     setResources,
     setResource,
