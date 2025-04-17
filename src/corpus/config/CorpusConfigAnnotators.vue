@@ -5,10 +5,10 @@ import { PhPlusSquare } from "@phosphor-icons/vue";
 import { cloneDeep, uniq, uniqBy } from "es-toolkit";
 import Yaml from "js-yaml";
 import { watchImmediate } from "@vueuse/core";
-import * as A from "./annotators.types";
-import LayoutBox from "./components/LayoutBox.vue";
-import FormKitWrapper from "./components/FormKitWrapper.vue";
-import TextData from "./components/TextData.vue";
+import * as A from "@/corpus/config/annotators.types";
+import LayoutBox from "@/components/LayoutBox.vue";
+import FormKitWrapper from "@/components/FormKitWrapper.vue";
+import TextData from "@/components/TextData.vue";
 import annotatorsFile from "@/assets/annotators.json";
 
 const data = (annotatorsFile as unknown as A.File).annotators;

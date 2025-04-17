@@ -204,6 +204,7 @@ metadata.description.help: |
   If you aim to share or publish the results, we recommend entering one or two sentences
   to summarize the content or purpose to a potential user.
 fileFormat: Source format
+config.annotators: Annotators
 config.custom: Custom config
 config.custom.help: Mink uses {sparv}, a modular and configurable pipeline for text analysis, to process your corpus. The standard configuration form only exposes a few of the available Sparv options. On this page, you can view and submit your own config file, written in the YAML format. Please refer to the Sparv documentation on {topic} for more information.
 config.custom.upload.caution: Please note that submitting an invalid config file may cause unexpected behaviour.

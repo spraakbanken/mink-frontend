@@ -205,6 +205,7 @@ metadata.description.help: |
   Om du vill distribuera eller publicera resultatet rekommenderar vi en eller två meningar
   som sammanfattar innehållet eller syftet för en potentiell användare.
 fileFormat: Källformat
+config.annotators: Annoterare
 config.custom: Egen config
 config.custom.help: Mink använder {sparv}, en modulär och konfigurerbar pipeline för textanalys, för att processa korpusen. Det vanliga formuläret visar endast en liten del av alla inställningar. På den här sidan kan du undersöka den faktiska configfilen och ladda upp en egen, i formatet YAML. Använd Sparvdokumentationens avsnitt {topic} för att tolka filens struktur.
 config.custom.upload.caution: Notera att en ogiltig configfil kan leda till oväntat beteende.

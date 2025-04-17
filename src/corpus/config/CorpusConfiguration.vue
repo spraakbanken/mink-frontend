@@ -382,6 +382,10 @@ async function submit(fields: Form) {
         {{ $t("config.custom") }}
       </RouteButton>
 
+      <RouteButton :to="`/library/corpus/${corpusId}/config/annotators`">
+        {{ $t("config.annotators") }}
+      </RouteButton>
+
       <RouteButton
         :to="`/library/corpus/${corpusId}/delete`"
         class="button-danger"
