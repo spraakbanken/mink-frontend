@@ -39,10 +39,6 @@ export const useResourceStore = defineStore("resource", () => {
   /** List of freshly loaded resources. */
   const freshResources: Record<string, true> = {};
 
-  function setResourceIds(resourceIds: string[]) {
-    setKeys(resources, resourceIds, {});
-  }
-
   /** Load and store data about a given resource. */
   async function loadResource(
     resourceId: string,
@@ -60,14 +56,19 @@ export const useResourceStore = defineStore("resource", () => {
   async function loadResourceIds() {
     const resourceIds = await mink.loadCorpusIds().catch(alertError);
     if (!resourceIds) return;
-    setResourceIds(resourceIds);
+    setKeys(resources, resourceIds, {});
   }
 
   /** Load and store data about all the user's resources. */
   async function loadResourceInfo() {
     const data = await mink.resourceInfoAll().catch(alertError);
     if (!data) return;
-    setResources(data.resources);
+
+    // Drop old keys, assign empty records for each new id
+    const ids = data.resources.map((info) => info.resource.id);
+    setKeys(resources, ids, {});
+
+    data.resources.forEach(setResource);
   }
 
   // Avoid issuing multiple requests for the same data.
@@ -91,15 +92,6 @@ export const useResourceStore = defineStore("resource", () => {
   async function refreshResources() {
     isFresh = false;
     await loadResourceIds();
-  }
-
-  /** Update state to match fresh data. */
-  function setResources(infos: ResourceInfo[]) {
-    // Drop old keys, assign empty records for each new id
-    const ids = infos.map((info) => info.resource.id);
-    setKeys(resources, ids, {});
-
-    infos.forEach(setResource);
   }
 
   /** Store new state for a given resource. */
@@ -141,9 +133,6 @@ export const useResourceStore = defineStore("resource", () => {
     loadResources,
     metadatas,
     refreshResources,
-    setResourceIds,
-    setResources,
-    setResource,
     hasCorpora,
   };
 });
