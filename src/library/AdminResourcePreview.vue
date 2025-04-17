@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { type Resource, isCorpus } from "@/store/resource.store";
+import { type Resource, isCorpus } from "@/store/resource.types";
 import useConfig from "@/corpus/config/config.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import TextData from "@/components/TextData.vue";

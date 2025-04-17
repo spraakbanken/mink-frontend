@@ -1,6 +1,7 @@
 import useMinkBackend from "@/api/backend.composable";
-import { useResourceStore, type Resource } from "@/store/resource.store";
+import { useResourceStore } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
+import type { Resource } from "@/store/resource.types";
 
 /** Let resource list be refreshed initially, but skip subsequent load calls. */
 let isFresh = false;
