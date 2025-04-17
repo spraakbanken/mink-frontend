@@ -8,7 +8,7 @@ import {
   type Metadata,
   type Resource,
 } from "./resource.types";
-import { pickByType, setKeys } from "@/util";
+import { deduplicateRequest, pickByType, setKeys } from "@/util";
 import type { ResourceInfo } from "@/api/api.types";
 import useMinkBackend from "@/api/backend.composable";
 import useMessenger from "@/message/messenger.composable";
@@ -35,9 +35,6 @@ export const useResourceStore = defineStore("resource", () => {
 
   /** Let resource list be refreshed initially, but skip subsequent load calls. */
   let isFresh = false;
-
-  /** Reuse this variable for the load request, so that simultaneous calls don't produce multiple requests. */
-  let loadPromise: Promise<unknown> | null = null;
 
   /** List of freshly loaded resources. */
   const freshResources: Record<string, true> = {};
@@ -73,19 +70,19 @@ export const useResourceStore = defineStore("resource", () => {
     setResources(data.resources);
   }
 
+  // Avoid issuing multiple requests for the same data.
+  const loadResourcesDedupe = deduplicateRequest(() =>
+    // loadResourceIds has less information, but it is faster and will update UI sooner.
+    Promise.all([loadResourceIds(), loadResourceInfo()]),
+  );
+
   /** Load and store data about all the user's resources, with caching. */
   async function loadResources() {
     // Skip if already loaded.
     if (isFresh) return;
 
-    // Store the pending request outside the function, so simultaneous calls will await the same promise.
-    if (!loadPromise)
-      // loadResourceIds has less information, but it is faster and will update UI sooner.
-      loadPromise = Promise.all([loadResourceIds(), loadResourceInfo()]);
-    await loadPromise;
+    await loadResourcesDedupe();
 
-    // Unset the promise slot to allow any future calls.
-    loadPromise = null;
     // Register that data has been loaded to skip future calls.
     isFresh = true;
   }

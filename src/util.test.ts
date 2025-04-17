@@ -1,6 +1,8 @@
 import { describe, expect, test } from "vitest";
+import { delay } from "es-toolkit";
 import {
   addDays,
+  deduplicateRequest,
   enarray,
   ensureExtension,
   formatDate,
@@ -193,5 +195,41 @@ describe("objsToDict", () => {
     // @ts-expect-error The key "v" is missing in the object
     const dict = objsToDict([{ k: "a" }], "k", "v");
     expect(dict).toEqual({ a: undefined });
+  });
+});
+
+describe("deduplicateRequest", () => {
+  let count = 0;
+  const request = deduplicateRequest(async () => {
+    count += 1;
+    await delay(100);
+    return count;
+  });
+
+  test("deduplicates", async () => {
+    count = 0;
+
+    const a = request();
+    // Call again while first request is still pending.
+    const b = request();
+
+    // Only one request is sent.
+    expect(count).toEqual(1);
+    expect(await a).toEqual(1);
+    expect(await b).toEqual(1);
+  });
+
+  test("is reusable", async () => {
+    count = 0;
+
+    // Call and let it finish.
+    const a = request();
+    expect(count).toEqual(1);
+    expect(await a).toEqual(1);
+
+    // First request is done, it can now be called again.
+    const b = request();
+    expect(count).toEqual(2);
+    expect(await b).toEqual(2);
   });
 });
