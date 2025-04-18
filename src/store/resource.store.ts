@@ -71,22 +71,17 @@ export const useResourceStore = defineStore("resource", () => {
     data.resources.forEach(setResource);
   }
 
-  // Avoid issuing multiple requests for the same data.
-  const loadResourcesDedupe = deduplicateRequest(() =>
-    // loadResourceIds has less information, but it is faster and will update UI sooner.
-    Promise.all([loadResourceIds(), loadResourceInfo()]),
-  );
-
   /** Load and store data about all the user's resources, with caching. */
-  async function loadResources() {
+  const loadResources = deduplicateRequest(async () => {
     // Skip if already loaded.
     if (isFresh) return;
 
-    await loadResourcesDedupe();
+    // loadResourceIds has less information, but it is faster and will update UI sooner.
+    await Promise.all([loadResourceIds(), loadResourceInfo()]);
 
     // Register that data has been loaded to skip future calls.
     isFresh = true;
-  }
+  });
 
   /** Signal that info needs to be reloaded, and immediately fetch ids. */
   async function refreshResources() {
