@@ -33,23 +33,60 @@ export const useResourceStore = defineStore("resource", () => {
     pickByType(resources, isMetadata),
   );
 
-  /** Let resource list be refreshed initially, but skip subsequent load calls. */
-  let isFresh = false;
+  /** Whether the list of resources is fetched and not modified. */
+  let freshList = false;
 
-  /** List of freshly loaded resources. */
-  const freshResources: Record<string, true> = {};
+  /** Which resources have fresh info loaded. */
+  const freshResources = new Set<string>();
+
+  /** Which resources have fresh config loaded. */
+  const freshConfigs = new Set<string>();
 
   /** Load and store data about a given resource. */
   async function loadResource(
     resourceId: string,
   ): Promise<Resource | undefined> {
-    if (!freshResources[resourceId]) {
+    if (!freshResources.has(resourceId)) {
       const data = await mink.resourceInfoOne(resourceId).catch(alertError);
       if (!data) return;
-      setResource(data);
-      freshResources[resourceId] = true;
+      storeResource(data);
+      freshResources.add(resourceId);
     }
     return resources[resourceId] as Resource;
+  }
+
+  /** Mark a resource's info as out of date. */
+  function invalidateResource(resourceId: string) {
+    freshResources.delete(resourceId);
+  }
+
+  /** Fetch and store the config of a corpus. */
+  async function loadConfig(corpusId: string) {
+    if (!freshConfigs.has(corpusId)) {
+      const config = await mink
+        .loadConfig(corpusId)
+        // 404 means no config which is fine.
+        .catch((error) => {
+          if (error.response?.status == 404) return undefined;
+          alertError(error);
+        });
+      corpora.value[corpusId].config = config;
+      freshConfigs.add(corpusId);
+    }
+    return corpora.value[corpusId].config;
+  }
+
+  /** Mark a corpus config as out of date */
+  function invalidateConfig(corpusId: string) {
+    freshConfigs.delete(corpusId);
+  }
+
+  async function uploadConfig(corpusId: string, configYaml: string) {
+    await mink.saveConfig(corpusId, configYaml);
+    // Backend may modify uploaded config. Store our version immediately, but also fetch the real one unawaited.
+    corpora.value[corpusId].config = configYaml;
+    invalidateConfig(corpusId);
+    loadConfig(corpusId);
   }
 
   /** Load resource ids and update store to match. */
@@ -68,29 +105,29 @@ export const useResourceStore = defineStore("resource", () => {
     const ids = data.resources.map((info) => info.resource.id);
     setKeys(resources, ids, {});
 
-    data.resources.forEach(setResource);
+    data.resources.forEach(storeResource);
   }
 
   /** Load and store data about all the user's resources, with caching. */
   const loadResources = deduplicateRequest(async () => {
     // Skip if already loaded.
-    if (isFresh) return;
+    if (freshList) return;
 
     // loadResourceIds has less information, but it is faster and will update UI sooner.
     await Promise.all([loadResourceIds(), loadResourceInfo()]);
 
     // Register that data has been loaded to skip future calls.
-    isFresh = true;
+    freshList = true;
   });
 
   /** Signal that info needs to be reloaded, and immediately fetch ids. */
-  async function refreshResources() {
-    isFresh = false;
+  async function invalidateResources() {
+    freshList = false;
     await loadResourceIds();
   }
 
   /** Store new state for a given resource. */
-  function setResource(info: ResourceInfo): Resource {
+  function storeResource(info: ResourceInfo): Resource {
     const resource = {
       type: info.resource.type,
       name: info.resource.name,
@@ -120,14 +157,18 @@ export const useResourceStore = defineStore("resource", () => {
   const hasCorpora = computed(() => !!Object.keys(corpora).length);
 
   return {
-    resources,
     corpora,
+    hasCorpora,
+    invalidateConfig,
+    invalidateResource,
+    invalidateResources,
+    loadConfig,
     loadResource,
     loadResourceIds,
     loadResourceInfo,
     loadResources,
     metadatas,
-    refreshResources,
-    hasCorpora,
+    resources,
+    uploadConfig,
   };
 });

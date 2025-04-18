@@ -45,6 +45,7 @@ export default function useMessenger() {
   }
 
   /** Display a backend error message. */
+  // TODO accept any, check if axios.isAxiosError
   const alertError = (err: AxiosError<MinkResponse>): undefined => {
     if (err.response?.data) {
       const data = err.response.data;

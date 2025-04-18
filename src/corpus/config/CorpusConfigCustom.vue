@@ -13,11 +13,13 @@ import useMessenger from "@/message/messenger.composable";
 import SyntaxHighlight from "@/components/SyntaxHighlight.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import RouteButton from "@/components/RouteButton.vue";
+import { useResourceStore } from "@/store/resource.store";
 
 const corpusId = useCorpusIdParam();
-const { config, uploadConfigRaw } = useConfig(corpusId);
+const { config } = useConfig(corpusId);
 const { alertError } = useMessenger();
 const { requireAuthentication } = useAuth();
+const resourceStore = useResourceStore();
 
 requireAuthentication();
 
@@ -25,7 +27,7 @@ async function upload(files: File[]) {
   const configYaml = await files[0].text();
 
   try {
-    uploadConfigRaw(configYaml);
+    await resourceStore.uploadConfig(corpusId, configYaml);
   } catch (error) {
     alertError(error as AxiosError<MinkResponse>);
   }

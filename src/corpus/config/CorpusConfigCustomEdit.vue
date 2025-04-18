@@ -9,6 +9,7 @@ import { isError } from "es-toolkit";
 import useCorpusIdParam from "../corpusIdParam.composable";
 import useConfig from "./config.composable";
 import CorpusConfigCustomHelp from "./CorpusConfigCustomHelp.vue";
+import { useResourceStore } from "@/store/resource.store";
 import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
 import type { MinkResponse } from "@/api/api.types";
@@ -24,7 +25,8 @@ const schemaValidate = ajv.compile(schema);
 
 const corpusId = useCorpusIdParam();
 const { requireAuthentication } = useAuth();
-const { config, uploadConfigRaw } = useConfig(corpusId);
+const resourceStore = useResourceStore();
+const { config } = useConfig(corpusId);
 const { alertError } = useMessenger();
 const { t } = useI18n();
 
@@ -66,7 +68,7 @@ function validate() {
 async function upload() {
   if (input.value == config.value) return;
   try {
-    await uploadConfigRaw(input.value);
+    await resourceStore.uploadConfig(corpusId, input.value);
   } catch (error) {
     alertError(error as AxiosError<MinkResponse>);
   }

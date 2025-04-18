@@ -1,12 +1,10 @@
 import { useResourceStore } from "@/store/resource.store";
-import useConfig from "@/corpus/config/config.composable";
 
 /** Let data be refreshed initially, but skip subsequent load calls. */
 const isCorpusFresh: Record<string, boolean> = {};
 
 export default function useCorpus(corpusId: string) {
   const resourceStore = useResourceStore();
-  const { loadConfig } = useConfig(corpusId);
 
   /** Load data about a corpus and store it. */
   async function loadCorpus(): Promise<void> {
@@ -18,7 +16,7 @@ export default function useCorpus(corpusId: string) {
 
     // Load remaining essential info, unless removed.
     if (corpusId in resourceStore.corpora) {
-      await loadConfig();
+      await resourceStore.loadConfig(corpusId);
     }
 
     // Remember to skip loading next time.

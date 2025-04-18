@@ -8,7 +8,7 @@ export default function useDeleteCorpus() {
   const { refreshJwt } = useAuth();
   const mink = useMinkBackend();
   const { spin } = useSpin();
-  const { refreshResources } = useResourceStore();
+  const { invalidateResources } = useResourceStore();
   const { alertError } = useMessenger();
 
   async function doDeleteCorpus(corpusId: string): Promise<void> {
@@ -17,7 +17,7 @@ export default function useDeleteCorpus() {
     // The backend will have updated the remote JWT, so refresh our copy.
     // The backend uses the corpus list within it when listing available corpora.
     await refreshJwt();
-    await refreshResources();
+    await invalidateResources();
   }
 
   /**

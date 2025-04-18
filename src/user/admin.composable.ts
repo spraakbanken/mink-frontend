@@ -6,7 +6,7 @@ import useMessenger from "@/message/messenger.composable";
 const adminModeRef = ref<boolean>();
 
 export default function useAdmin() {
-  const { refreshResources } = useResourceStore();
+  const { invalidateResources } = useResourceStore();
   const mink = useMinkBackend();
   const { alertError } = useMessenger();
 
@@ -18,13 +18,13 @@ export default function useAdmin() {
   async function enableAdminMode() {
     await mink.enableAdminMode().catch(alertError);
     adminModeRef.value = true;
-    await refreshResources();
+    await invalidateResources();
   }
 
   async function disableAdminMode() {
     await mink.disableAdminMode().catch(alertError);
     adminModeRef.value = false;
-    await refreshResources();
+    await invalidateResources();
   }
 
   return {

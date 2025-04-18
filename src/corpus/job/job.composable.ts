@@ -20,9 +20,8 @@ export default function useJob(corpusId: string) {
   const matomo = useMatomo();
 
   async function loadJob() {
-    const info = await mink.resourceInfoOne(corpusId).catch(alertError);
-    if (!info) return;
-    corpus.value.status = info.job;
+    resourceStore.invalidateResource(corpusId);
+    resourceStore.loadResource(corpusId);
   }
 
   async function runJob() {
