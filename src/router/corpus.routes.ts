@@ -9,7 +9,7 @@ const CorpusConfigCustom = () =>
 const CorpusConfigCustomEdit = () =>
   import("@/corpus/config/CorpusConfigCustomEdit.vue");
 const CorpusConfigAnnotators = () =>
-  import("@/corpus/config/CorpusConfigAnnotators.vue");
+  import("@/corpus/config/annotators/CorpusConfigAnnotators.vue");
 const CorpusResult = () => import("@/corpus/exports/CorpusResult.vue");
 const CorpusDelete = () => import("@/corpus/CorpusDelete.vue");
 const SourceView = () => import("@/corpus/sources/SourceView.vue");
