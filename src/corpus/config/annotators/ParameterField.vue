@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { FormKit } from "@formkit/vue";
+import type { ParamType } from "./annotators.types";
 
 defineProps<{
-  type: string;
+  type: ParamType;
   name: string;
   optional?: boolean;
   defaultValue?: unknown;
