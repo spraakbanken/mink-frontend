@@ -23,6 +23,10 @@ As this project is a user-facing application, the places in the semantic version
 
 - Progressive JWT timeout [#190](https://github.com/spraakbanken/mink-frontend/issues/190)
 
+### Fixed
+
+- Show spinner before anything is loaded [#172](https://github.com/spraakbanken/mink-frontend/issues/172)
+
 ## [1.9.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.9.0) (2025-02-12)
 
 ### Added

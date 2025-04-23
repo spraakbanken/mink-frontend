@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { computed, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useTitle } from "@vueuse/core";
+import SpinIndicator from "./spin/SpinIndicator.vue";
 import AppHeader from "@/page/AppHeader.vue";
 import api from "@/api/api";
 import * as util from "@/util";
@@ -19,12 +20,23 @@ const { title } = usePageTitle();
 // Activate automatic updates of the HTML page title.
 useTitle(title, { titleTemplate: "%s | Mink" });
 const route = useRoute();
+const router = useRouter();
 const resourceStore = useResourceStore();
 
+const isRouteLoading = ref(false);
 const isHome = computed(() => route.path == "/");
 
 // Fetch JWT and use it for all API requests.
 refreshJwt();
+
+// Some route views are lazy-loaded and can take a moment to load.
+router.beforeEach((to, from, next) => {
+  isRouteLoading.value = true;
+  next();
+});
+router.afterEach(() => {
+  isRouteLoading.value = false;
+});
 
 if (import.meta.env.DEV) {
   window.api = api;
@@ -40,6 +52,7 @@ if (import.meta.env.DEV) {
 
   <div class="container py-2">
     <router-view />
+    <SpinIndicator v-if="isRouteLoading" />
   </div>
 
   <div
