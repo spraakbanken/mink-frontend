@@ -3,16 +3,20 @@ import { computed } from "vue";
 import useExports from "@/corpus/exports/exports.composable";
 import ToolPanel from "@/corpus/explore/ToolPanel.vue";
 import { ensureTrailingSlash } from "@/util";
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import useJob from "@/corpus/job/job.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import useSpin from "@/spin/spin.composable";
 
-const corpusId = useCorpusIdParam();
+const props = defineProps<{
+  corpusId: string;
+}>();
+
 const { isPending } = useSpin();
-const { exports } = useExports(corpusId);
-const { installKorp, installStrix, isJobRunning, jobState } = useJob(corpusId);
+const { exports } = useExports(props.corpusId);
+const { installKorp, installStrix, isJobRunning, jobState } = useJob(
+  props.corpusId,
+);
 const { locale3 } = useLocale();
 
 const korpUrl = ensureTrailingSlash(import.meta.env.VITE_KORP_URL);
@@ -22,7 +26,7 @@ const canInstall = computed(
   () =>
     !isJobRunning.value &&
     exports.value?.length > 0 &&
-    !isPending(`corpus/${corpusId}/job`),
+    !isPending(`corpus/${props.corpusId}/job`),
 );
 
 async function korpInstall() {

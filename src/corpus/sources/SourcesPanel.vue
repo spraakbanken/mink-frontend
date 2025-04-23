@@ -4,16 +4,18 @@ import { PhTrash } from "@phosphor-icons/vue";
 import useSources from "@/corpus/sources/sources.composable";
 import SourceUpload from "@/corpus/sources/SourceUpload.vue";
 import useMinkBackendInfo from "@/api/backendInfo.composable";
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import { useCorpusState } from "@/corpus/corpusState.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import MaxHeight from "@/components/MaxHeight.vue";
 
-const corpusId = useCorpusIdParam();
-const { sources, deleteSource } = useSources(corpusId);
-const { isEmpty } = useCorpusState(corpusId);
+const props = defineProps<{
+  corpusId: string;
+}>();
+
+const { sources, deleteSource } = useSources(props.corpusId);
+const { isEmpty } = useCorpusState(props.corpusId);
 const { info } = useMinkBackendInfo();
 const { filesize } = useLocale();
 

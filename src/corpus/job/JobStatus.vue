@@ -4,15 +4,17 @@ import useJob from "@/corpus/job/job.composable";
 import JobStatusMessage from "@/corpus/job/JobStatusMessage.vue";
 import { formatDate } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import { useCorpusState } from "@/corpus/corpusState.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
 import TextData from "@/components/TextData.vue";
 
-const corpusId = useCorpusIdParam();
-const { abortJob, jobStatus, isJobRunning } = useJob(corpusId);
-const { isFailed } = useCorpusState(corpusId);
+const props = defineProps<{
+  corpusId: string;
+}>();
+
+const { abortJob, jobStatus, isJobRunning } = useJob(props.corpusId);
+const { isFailed } = useCorpusState(props.corpusId);
 
 const hasStarted = computed(
   () =>

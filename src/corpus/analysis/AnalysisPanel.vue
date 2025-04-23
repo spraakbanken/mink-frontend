@@ -1,19 +1,21 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import { PhDownloadSimple, PhGearFine, PhInfo } from "@phosphor-icons/vue";
-import useCorpusIdParam from "../corpusIdParam.composable";
 import { useCorpusState } from "../corpusState.composable";
 import useExports from "../exports/exports.composable";
 import useJob from "../job/job.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 
-const corpusId = useCorpusIdParam();
-const { runJob, jobState, isJobRunning } = useJob(corpusId);
-const { canBeReady } = useCorpusState(corpusId);
+const props = defineProps<{
+  corpusId: string;
+}>();
+
+const { runJob, jobState, isJobRunning } = useJob(props.corpusId);
+const { canBeReady } = useCorpusState(props.corpusId);
 const { exports, loadExports, downloadResult, getDownloadFilename } =
-  useExports(corpusId);
-const { isDone } = useCorpusState(corpusId);
+  useExports(props.corpusId);
+const { isDone } = useCorpusState(props.corpusId);
 
 const isPending = ref(false);
 const canRun = computed(

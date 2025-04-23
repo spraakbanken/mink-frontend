@@ -18,12 +18,12 @@ const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
 <template>
   <div class="flex flex-wrap gap-4">
     <div class="w-full">
-      <CorpusStateHelp />
+      <CorpusStateHelp :corpus-id="corpusId" />
     </div>
 
     <div class="w-96 grow flex flex-col gap-4">
       <LayoutBox :title="$t('settings')">
-        <ConfigPanel />
+        <ConfigPanel :corpus-id="corpusId" />
         <template #controls>
           <RouteButton
             :to="`/library/corpus/${corpusId}/config`"
@@ -36,7 +36,7 @@ const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
       </LayoutBox>
 
       <LayoutBox :title="$t('texts')">
-        <SourcesPanel />
+        <SourcesPanel :corpus-id="corpusId" />
       </LayoutBox>
     </div>
 
@@ -45,15 +45,15 @@ const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
         :title="$t('job.status')"
         class="bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
       >
-        <JobStatus />
+        <JobStatus :corpus-id="corpusId" />
       </LayoutBox>
 
       <LayoutBox :title="$t('analysis')">
-        <AnalysisPanel />
+        <AnalysisPanel :corpus-id="corpusId" />
       </LayoutBox>
 
       <LayoutBox :title="$t('tools')">
-        <ExplorePanel />
+        <ExplorePanel :corpus-id="corpusId" />
       </LayoutBox>
     </div>
   </div>
