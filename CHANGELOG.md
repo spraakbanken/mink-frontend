@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.9.1...HEAD)
 
+### Changed
+
+- Use `/jwt?version=2` to avoid console error when not authenticated
+
 ## [1.9.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.9.1) (2025-03-13)
 
 ### Added

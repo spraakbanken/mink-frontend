@@ -40,16 +40,15 @@ export function getLoginUrl(redirectLocation = "") {
  * Fetch JWT.
  */
 export async function fetchJwt(): Promise<string | undefined> {
-  const config = { url: JWT_URL, withCredentials: true };
-  return progressiveTimeout<string>(config, { timeoutInit: 2000 })
-    .then((response) => response.data)
-    .catch((error: unknown) => {
-      // 401 Unauthorized is an acceptable response, not an error.
-      if (isAxiosError(error) && error.response?.status == 401)
-        return undefined;
-      // Rethrow other errors.
-      throw error;
-    });
+  const config = {
+    url: JWT_URL,
+    // With version 2, unauthenticated returns 204 instead of 401
+    params: { version: 2 },
+    withCredentials: true,
+  };
+  const options = { timeoutInit: 2000 };
+  const response = await progressiveTimeout<string>(config, options);
+  return response.data;
 }
 
 /** Return the SB Auth logout url. */
