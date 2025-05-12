@@ -45,7 +45,7 @@ export type Custom = {
   };
 };
 
-/** Describes the output of an Analysis. */
+/** Describes the output of an Analysis. An Analysis can yield multiple Annotations. */
 export type Annotation = {
   description: string;
   resolved_name?: string;

@@ -23,8 +23,10 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import TextData from "@/components/TextData.vue";
 
-const filterText = ref("ma");
+/** User input to the free-text listing filter. */
+const filterText = ref("");
 
+/** Annotations matching the free-text filter. */
 const annotationsFiltered = computed(() =>
   annotationOptions.filter((a) => {
     const strs = [
@@ -41,19 +43,15 @@ const annotationsFiltered = computed(() =>
   }),
 );
 
+/** Modules having any annotations matching the free-text filter. */
 const modulesFiltered = computed(() =>
-  uniqBy(annotationsFiltered.value, (a) => a.module).map(
-    ({ module, moduleDef }) => ({
-      module,
-      moduleDef,
-    }),
-  ),
+  uniqBy(annotationsFiltered.value, (a) => a.module),
 );
 
-const selectedAnnotations = reactive<string[]>([
-  "{child}:misc.inherit_{parent}_{attr}",
-]);
+/** Ids of annotations marked as selected. */
+const selectedAnnotations = reactive<string[]>([]);
 
+/** Wildcard names (`{...}`) extracted from each selected annotations. */
 const wildcards = computed<Record<string, string[]>>(() =>
   Object.fromEntries(
     selectedAnnotations
@@ -65,6 +63,7 @@ const wildcards = computed<Record<string, string[]>>(() =>
   ),
 );
 
+/** User-input values to the wildcards of each annotation. Maintained by a watcher. */
 const wildcardValues = reactive<Record<string, Record<string, string>>>({});
 
 watchImmediate(wildcards, () => {
@@ -85,8 +84,10 @@ watchImmediate(wildcards, () => {
 
 // TODO Optionally rename output with `as {name}`
 
+/** List of added custom annotations. */
 const selectedCustom = ref<Custom[]>([]);
 
+/** Configuration objects with user inputs for each added custom annotation. */
 const selectedCustomObjects = computed<CustomObject[]>(() =>
   selectedCustom.value.map(({ annotator: name, parameters }) => {
     const [moduleName, functionName] = name.split(":");
@@ -95,6 +96,7 @@ const selectedCustomObjects = computed<CustomObject[]>(() =>
   }),
 );
 
+/** Configuration objects of the selected annotations. */
 const selectedConfigs = computed<DecoratedConfig[]>(() => {
   const annotationDefs = selectedAnnotations.flatMap(findAnnotationDefs);
   const configs = annotationDefs.flatMap(({ config }) =>
@@ -103,11 +105,13 @@ const selectedConfigs = computed<DecoratedConfig[]>(() => {
   return uniqBy(configs, (c) => `${c._namespace}.${c._name}`);
 });
 
+/** Find the configuration object having the specified namespace and name. */
 const findConfig = (namespace: string, name: string) =>
   selectedConfigs.value.find(
     (c) => c._namespace == namespace && c._name == name,
   );
 
+/** User input of annotation configuration objects, keyed by namespace and name of the annotation. Maintained by a watcher. */
 const configValues = reactive<Record<string, Record<string, unknown>>>({});
 
 watchImmediate(selectedConfigs, () => {
@@ -128,6 +132,7 @@ watchImmediate(selectedConfigs, () => {
   }
 });
 
+/** Partial Sparv config as YAML text. */
 const configOutput = computed<string>(() => {
   const annotations = selectedAnnotations.map((annotation) => {
     for (const [name, value] of Object.entries(
@@ -167,12 +172,14 @@ const configOutput = computed<string>(() => {
   return Yaml.dump(configData);
 });
 
+/** Add or remove a given annotation. */
 function toggleAnnotation(annotation: string) {
   const index = selectedAnnotations.indexOf(annotation);
   if (index === -1) selectedAnnotations.push(annotation);
   else selectedAnnotations.splice(index, 1);
 }
 
+/** Add a custom annotation. */
 function addCustom(name: string) {
   const [moduleName, functionName] = name.split(":");
   const annotator = data[moduleName].functions[functionName];
@@ -262,7 +269,7 @@ function addCustom(name: string) {
       </LayoutBox>
 
       <LayoutBox
-        title="Annotation settings"
+        title="Analysis settings"
         :collapsible="!!selectedConfigs.length"
       >
         <details

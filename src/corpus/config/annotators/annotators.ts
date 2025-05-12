@@ -12,6 +12,7 @@ type Listing = {
 };
 type AnalysisListing = Listing & { funcDef: A.Analysis };
 type CustomListing = Listing & { type: "custom"; funcDef: A.Custom };
+/** An analysis can yield multiple annotations. An annotation belongs to an analysis. */
 type AnnotationListing = Listing & {
   type: "annotation";
   funcDef: A.Analysis;
