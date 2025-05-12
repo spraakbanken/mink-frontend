@@ -66,7 +66,7 @@ export const annotations: AnnotationListing[] = analyses.flatMap((a) =>
 );
 
 export const annotationOptions = [...annotations, ...customs].sort((a, b) =>
-  a.key.localeCompare(b.key),
+  `${a.module} ${a.func}`.localeCompare(`${b.module} ${b.func}`),
 );
 
 export const getAnalysis = (
