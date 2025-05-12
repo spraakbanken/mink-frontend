@@ -1,55 +1,26 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue";
+import { computed, reactive } from "vue";
 import { FormKit } from "@formkit/vue";
 import { cloneDeep, groupBy, uniqBy } from "es-toolkit";
 import Yaml from "js-yaml";
 import { watchImmediate } from "@vueuse/core";
 import { PhTrash } from "@phosphor-icons/vue";
-import AnnotationAnnotator from "./AnnotationAnnotator.vue";
-import CustomAnnotator from "./CustomAnnotator.vue";
 import ParameterField from "./ParameterField.vue";
 import ConfigField from "./ConfigField.vue";
 import * as A from "./annotators.types";
 import {
-  annotationOptions,
   data,
   decorateConfig,
   findAnnotationDefs,
-  getCustom,
-  type Custom,
   type CustomObject,
   type DecoratedConfig,
 } from "./annotators";
+import AnnotationsListing from "./AnnotationsListing.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import TextData from "@/components/TextData.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import { randomString } from "@/util";
-
-/** User input to the free-text listing filter. */
-const filterText = ref("");
-
-/** Annotations matching the free-text filter. */
-const annotationsFiltered = computed(() =>
-  annotationOptions.filter((a) => {
-    const strs = [
-      a.module,
-      a.moduleDef.description,
-      a.func,
-      a.funcDef.description,
-    ];
-    if ("annotation" in a) strs.push(a.annotation, a.annotationDef.description);
-    const words = filterText.value.split(/\s+/);
-    return words.every((word) =>
-      strs.some((s) => s.toLowerCase().includes(word.toLowerCase())),
-    );
-  }),
-);
-
-/** Modules having any annotations matching the free-text filter. */
-const modulesFiltered = computed(() =>
-  uniqBy(annotationsFiltered.value, (a) => a.module),
-);
 
 /** Ids of annotations marked as selected. */
 const selectedAnnotations = reactive<string[]>([]);
@@ -198,51 +169,12 @@ function removeCustom(id: string) {
     <FormKitWrapper>
       <div class="xl:flex gap-4">
         <LayoutBox title="Annotators" collapsible class="xl:flex-1">
-          <div class="flex flex-wrap gap-4">
-            <FormKit type="text" v-model="filterText" label="Filter" />
-          </div>
-
-          <details
-            v-for="{ module, moduleDef } in modulesFiltered"
-            :key="module"
-            class="has-checked:bg-sky-400/10"
-            open
-          >
-            <summary>
-              <code>{{ module }}</code> –
-              {{ moduleDef.description }}
-            </summary>
-
-            <div
-              v-for="a in uniqBy(
-                annotationsFiltered.filter((a) => a.module == module),
-                (a) => a.func,
-              )"
-              :key="a.key"
-              class="has-checked:bg-sky-400/10"
-            >
-              <AnnotationAnnotator
-                v-if="a.type == 'annotation'"
-                :id="a.annotation"
-                :description="a.annotationDef.description"
-                :selected="selectedAnnotations.includes(a.annotation)"
-                @toggle="toggleAnnotation"
-              />
-
-              <CustomAnnotator
-                v-if="a.type == 'custom'"
-                :id="`${a.module}:${a.func}`"
-                :func="a.func"
-                :description="a.funcDef.description"
-                :selected="
-                  !!selectedCustom.find(
-                    (c) => c.moduleName == a.module && c.functionName == a.func,
-                  )
-                "
-                @add="addCustom"
-              />
-            </div>
-          </details>
+          <AnnotationsListing
+            :selected-annotations="selectedAnnotations"
+            :selected-custom="selectedCustom"
+            @toggle-annotation="toggleAnnotation"
+            @add-custom="addCustom"
+          />
         </LayoutBox>
 
         <div class="xl:flex-1 flex flex-col gap-4">
@@ -357,10 +289,10 @@ function removeCustom(id: string) {
 ::v-deep(code:not(.hljs)) {
   font-size: smaller;
 }
-details {
+::v-deep(details) {
   padding-inline-start: 1rem;
 }
-summary {
+::v-deep(summary) {
   text-indent: -1rem;
   cursor: pointer;
 }
