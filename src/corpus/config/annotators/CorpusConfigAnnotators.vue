@@ -4,6 +4,7 @@ import { FormKit } from "@formkit/vue";
 import { cloneDeep, groupBy, uniqBy } from "es-toolkit";
 import Yaml from "js-yaml";
 import { watchImmediate } from "@vueuse/core";
+import { PhTrash } from "@phosphor-icons/vue";
 import AnnotationAnnotator from "./AnnotationAnnotator.vue";
 import CustomAnnotator from "./CustomAnnotator.vue";
 import ParameterField from "./ParameterField.vue";
@@ -22,6 +23,8 @@ import {
 import LayoutBox from "@/components/LayoutBox.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import TextData from "@/components/TextData.vue";
+import ActionButton from "@/components/ActionButton.vue";
+import { randomString } from "@/util";
 
 /** User input to the free-text listing filter. */
 const filterText = ref("");
@@ -84,17 +87,8 @@ watchImmediate(wildcards, () => {
 
 // TODO Optionally rename output with `as {name}`
 
-/** List of added custom annotations. */
-const selectedCustom = ref<Custom[]>([]);
-
 /** Configuration objects with user inputs for each added custom annotation. */
-const selectedCustomObjects = computed<CustomObject[]>(() =>
-  selectedCustom.value.map(({ annotator: name, parameters }) => {
-    const [moduleName, functionName] = name.split(":");
-    const annotator = getCustom(moduleName, functionName);
-    return { moduleName, functionName, parameters, annotator };
-  }),
-);
+const selectedCustom = reactive<CustomObject[]>([]);
 
 /** Configuration objects of the selected annotations. */
 const selectedConfigs = computed<DecoratedConfig[]>(() => {
@@ -142,7 +136,7 @@ const configOutput = computed<string>(() => {
     }
     return annotation;
   });
-  const customAnnotations = selectedCustomObjects.value.map((c) => ({
+  const customAnnotations = selectedCustom.map((c) => ({
     annotator: `${c.moduleName}:${c.functionName}`,
     parameters: c.parameters,
   }));
@@ -187,7 +181,15 @@ function addCustom(name: string) {
   const parameters = Object.fromEntries(
     Object.keys(annotator.parameters).map((key) => [key, undefined]),
   );
-  selectedCustom.value.push({ annotator: name, parameters });
+  const id = randomString();
+  selectedCustom.push({ id, moduleName, functionName, parameters, annotator });
+}
+
+/** Remove a custom annotation. */
+function removeCustom(id: string) {
+  const i = selectedCustom.findIndex((c) => c.id == id);
+  if (i == -1) return;
+  selectedCustom.splice(i, 1);
 }
 </script>
 
@@ -234,7 +236,7 @@ function addCustom(name: string) {
                 :description="a.funcDef.description"
                 :selected="
                   !!selectedCustom.find(
-                    (c) => c.annotator === `${a.module}:${a.func}`,
+                    (c) => c.moduleName == a.module && c.functionName == a.func,
                   )
                 "
                 @add="addCustom"
@@ -301,17 +303,18 @@ function addCustom(name: string) {
           </LayoutBox>
 
           <LayoutBox
-            title="Custom annotation parameters"
+            title="Custom annotations"
             :collapsible="!!selectedCustom.length"
           >
             <details
               v-for="{
+                id,
                 moduleName,
                 functionName,
                 annotator,
                 parameters,
-              } in selectedCustomObjects"
-              :key="`${moduleName}-${functionName}`"
+              } in selectedCustom"
+              :key="id"
               open
               class="my-4"
             >
@@ -320,6 +323,11 @@ function addCustom(name: string) {
                 <code>{{ functionName }}</code> –
                 {{ annotator.description }}
               </summary>
+
+              <ActionButton @click="removeCustom(id)" class="button-danger">
+                <PhTrash class="inline" />
+                {{ $t("delete") }}
+              </ActionButton>
 
               <div class="flex flex-wrap gap-x-4">
                 <ParameterField

@@ -21,6 +21,7 @@ type AnnotationListing = Listing & {
 };
 export type Custom = { annotator: string; parameters: Record<string, unknown> };
 export type CustomObject = {
+  id: string;
   moduleName: string;
   functionName: string;
   annotator: A.Custom;
