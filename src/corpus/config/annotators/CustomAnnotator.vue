@@ -14,9 +14,9 @@ defineEmits<{
 
 <template>
   <div class="cursor-pointer has-checked:bg-sky-400/10" @click="$emit('add')">
-    <div class="list-none ml-4 -indent-4">
+    <div class="ml-5 -indent-5">
       <input type="checkbox" class="hidden" :checked="selected" />
-      <PhPlusSquare class="text-sm inline -ml-0.5 mr-1" />
+      <PhPlusSquare class="text-sm inline mr-1.5" />
       <code>{{ func }}</code> –
       {{ description }}
     </div>

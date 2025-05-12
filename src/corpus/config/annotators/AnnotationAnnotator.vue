@@ -11,17 +11,17 @@ defineEmits<{
 </script>
 
 <template>
-  <div class="list-none ml-4 -indent-4">
+  <label class="block ml-5 -indent-5">
     <input
-      :id="id"
       type="checkbox"
       :checked="selected"
       @change="$emit('toggle', id)"
       class="mr-2"
     />
-    <label :for="id">
-      <code>{{ id }}</code> –
+    <code>{{ id }}</code>
+    <span v-if="description" class="text-sm opacity-80">
+      <br />
       {{ description }}
-    </label>
-  </div>
+    </span>
+  </label>
 </template>

@@ -8,7 +8,11 @@ type Listing = {
   module: string;
   moduleDef: A.Module;
   func: string;
-  funcDef: A.Annotator;
+  funcDef: FuncDef;
+};
+type FuncDef = A.Annotator & {
+  descriptionShort?: string;
+  descriptionRest?: string;
 };
 type AnalysisListing = Listing & { funcDef: A.Analysis };
 type CustomListing = Listing & { type: "custom"; funcDef: A.Custom };
@@ -19,7 +23,6 @@ type AnnotationListing = Listing & {
   annotation: string;
   annotationDef: A.Annotation;
 };
-export type Custom = { annotator: string; parameters: Record<string, unknown> };
 export type CustomObject = {
   id: string;
   moduleName: string;
@@ -36,7 +39,11 @@ export const annotators: Listing[] = Object.entries(data).flatMap(
       module,
       moduleDef,
       func,
-      funcDef,
+      funcDef: {
+        ...funcDef,
+        descriptionShort: funcDef.description?.replace(/\n[\s\S]*/m, ""),
+        descriptionRest: funcDef.description?.replace(/[^\n]*\n*/, ""),
+      },
     })),
 );
 

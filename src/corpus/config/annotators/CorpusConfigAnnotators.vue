@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive } from "vue";
 import { FormKit } from "@formkit/vue";
-import { cloneDeep, groupBy, uniqBy } from "es-toolkit";
+import { cloneDeep, groupBy, mapValues, uniqBy } from "es-toolkit";
 import Yaml from "js-yaml";
 import { watchImmediate } from "@vueuse/core";
 import { PhTrash } from "@phosphor-icons/vue";
@@ -109,7 +109,10 @@ const configOutput = computed<string>(() => {
   });
   const customAnnotations = selectedCustom.map((c) => ({
     annotator: `${c.moduleName}:${c.functionName}`,
-    parameters: c.parameters,
+    parameters: mapValues(
+      c.parameters,
+      (v, k) => v || c.annotator.parameters[k].default,
+    ),
   }));
 
   const values = cloneDeep(configValues);
