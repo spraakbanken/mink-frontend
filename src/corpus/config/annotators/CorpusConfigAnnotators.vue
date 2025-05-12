@@ -194,143 +194,148 @@ function addCustom(name: string) {
 <template>
   <div class="flex flex-col gap-4">
     <FormKitWrapper>
-      <LayoutBox title="Annotators" collapsible>
-        <div class="flex flex-wrap gap-4">
-          <FormKit type="text" v-model="filterText" label="Filter" />
-        </div>
+      <div class="xl:flex gap-4">
+        <LayoutBox title="Annotators" collapsible class="xl:flex-1">
+          <div class="flex flex-wrap gap-4">
+            <FormKit type="text" v-model="filterText" label="Filter" />
+          </div>
 
-        <details
-          v-for="{ module, moduleDef } in modulesFiltered"
-          :key="module"
-          class="has-checked:bg-sky-400/10"
-          open
-        >
-          <summary>
-            <code>{{ module }}</code> –
-            {{ moduleDef.description }}
-          </summary>
-
-          <div
-            v-for="a in uniqBy(
-              annotationsFiltered.filter((a) => a.module == module),
-              (a) => a.func,
-            )"
-            :key="a.key"
+          <details
+            v-for="{ module, moduleDef } in modulesFiltered"
+            :key="module"
             class="has-checked:bg-sky-400/10"
+            open
           >
-            <AnnotationAnnotator
-              v-if="a.type == 'annotation'"
-              :id="a.annotation"
-              :description="a.annotationDef.description"
-              :selected="selectedAnnotations.includes(a.annotation)"
-              @toggle="toggleAnnotation"
-            />
+            <summary>
+              <code>{{ module }}</code> –
+              {{ moduleDef.description }}
+            </summary>
 
-            <CustomAnnotator
-              v-if="a.type == 'custom'"
-              :id="`${a.module}:${a.func}`"
-              :func="a.func"
-              :description="a.funcDef.description"
-              :selected="
-                !!selectedCustom.find(
-                  (c) => c.annotator === `${a.module}:${a.func}`,
-                )
-              "
-              @add="addCustom"
-            />
-          </div>
-        </details>
-      </LayoutBox>
+            <div
+              v-for="a in uniqBy(
+                annotationsFiltered.filter((a) => a.module == module),
+                (a) => a.func,
+              )"
+              :key="a.key"
+              class="has-checked:bg-sky-400/10"
+            >
+              <AnnotationAnnotator
+                v-if="a.type == 'annotation'"
+                :id="a.annotation"
+                :description="a.annotationDef.description"
+                :selected="selectedAnnotations.includes(a.annotation)"
+                @toggle="toggleAnnotation"
+              />
 
-      <LayoutBox
-        title="Annotation wildcards"
-        :collapsible="!!Object.keys(wildcardValues).length"
-      >
-        <details
-          v-for="(values, annotation) in wildcardValues"
-          :key="annotation"
-          open
-        >
-          <summary>
-            <code>{{ annotation }}</code>
-          </summary>
+              <CustomAnnotator
+                v-if="a.type == 'custom'"
+                :id="`${a.module}:${a.func}`"
+                :func="a.func"
+                :description="a.funcDef.description"
+                :selected="
+                  !!selectedCustom.find(
+                    (c) => c.annotator === `${a.module}:${a.func}`,
+                  )
+                "
+                @add="addCustom"
+              />
+            </div>
+          </details>
+        </LayoutBox>
 
-          <div class="flex flex-wrap gap-x-4">
-            <FormKit
-              v-for="(value, name) in values"
-              :key="name"
-              type="text"
-              :label="name"
-              v-model="wildcardValues[annotation][name]"
-              validation="required"
-            />
-          </div>
-        </details>
-      </LayoutBox>
+        <div class="xl:flex-1 flex flex-col gap-4">
+          <LayoutBox
+            title="Annotation wildcards"
+            :collapsible="!!Object.keys(wildcardValues).length"
+          >
+            <details
+              v-for="(values, annotation) in wildcardValues"
+              :key="annotation"
+              open
+            >
+              <summary>
+                <code>{{ annotation }}</code>
+              </summary>
 
-      <LayoutBox
-        title="Analysis settings"
-        :collapsible="!!selectedConfigs.length"
-      >
-        <details
-          v-for="(group, namespace) in groupBy(
-            selectedConfigs,
-            (config) => config._namespace,
-          )"
-          :key="namespace"
-          open
-          class="my-4"
-        >
-          <summary>
-            <code>{{ namespace }}</code>
-          </summary>
+              <div class="flex flex-wrap gap-x-4">
+                <FormKit
+                  v-for="(value, name) in values"
+                  :key="name"
+                  type="text"
+                  :label="name"
+                  v-model="wildcardValues[annotation][name]"
+                  validation="required"
+                />
+              </div>
+            </details>
+          </LayoutBox>
 
-          <ConfigField
-            v-for="config in group"
-            :key="config._name"
-            v-model="configValues[namespace][config._name]"
-            :name="config._name"
-            :description="config.description"
-            :datatype="config.datatype"
-            :defaultValue="config.default"
-            :choices="config.choices"
-          />
-        </details>
-      </LayoutBox>
+          <LayoutBox
+            title="Analysis settings"
+            :collapsible="!!selectedConfigs.length"
+          >
+            <details
+              v-for="(group, namespace) in groupBy(
+                selectedConfigs,
+                (config) => config._namespace,
+              )"
+              :key="namespace"
+              open
+              class="my-4"
+            >
+              <summary>
+                <code>{{ namespace }}</code>
+              </summary>
 
-      <LayoutBox
-        title="Custom annotation parameters"
-        :collapsible="!!selectedCustom.length"
-      >
-        <details
-          v-for="{
-            moduleName,
-            functionName,
-            annotator,
-            parameters,
-          } in selectedCustomObjects"
-          :key="`${moduleName}-${functionName}`"
-          open
-          class="my-4"
-        >
-          <summary>
-            <code>{{ moduleName }}</code> – <code>{{ functionName }}</code> –
-            {{ annotator.description }}
-          </summary>
+              <ConfigField
+                v-for="config in group"
+                :key="config._name"
+                v-model="configValues[namespace][config._name]"
+                :name="config._name"
+                :description="config.description"
+                :datatype="config.datatype"
+                :defaultValue="config.default"
+                :choices="config.choices"
+              />
+            </details>
+          </LayoutBox>
 
-          <div class="flex flex-wrap gap-x-4">
-            <ParameterField
-              v-for="(parameter, name) in annotator.parameters"
-              :key="name"
-              :type="parameter.type"
-              :name="String(name)"
-              :optional="parameter.optional"
-              :defaultValue="parameter.default"
-              v-model="parameters[name]"
-            />
-          </div>
-        </details>
-      </LayoutBox>
+          <LayoutBox
+            title="Custom annotation parameters"
+            :collapsible="!!selectedCustom.length"
+          >
+            <details
+              v-for="{
+                moduleName,
+                functionName,
+                annotator,
+                parameters,
+              } in selectedCustomObjects"
+              :key="`${moduleName}-${functionName}`"
+              open
+              class="my-4"
+            >
+              <summary>
+                <code>{{ moduleName }}</code> –
+                <code>{{ functionName }}</code> –
+                {{ annotator.description }}
+              </summary>
+
+              <div class="flex flex-wrap gap-x-4">
+                <ParameterField
+                  v-for="(parameter, name) in annotator.parameters"
+                  :key="name"
+                  :type="parameter.type"
+                  :name="String(name)"
+                  :optional="parameter.optional"
+                  :defaultValue="parameter.default"
+                  v-model="parameters[name]"
+                />
+              </div>
+            </details>
+          </LayoutBox>
+        </div>
+      </div>
 
       <LayoutBox title="Config">
         <TextData :text="configOutput" language="yaml" />
@@ -341,7 +346,7 @@ function addCustom(name: string) {
 
 <style scoped>
 @reference "tailwindcss";
-code {
+::v-deep(code:not(.hljs)) {
   font-size: smaller;
 }
 details {
