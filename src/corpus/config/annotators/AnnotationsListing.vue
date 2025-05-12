@@ -5,6 +5,7 @@ import { FormKit } from "@formkit/vue";
 import { annotationOptions } from "./annotators";
 import CustomAnnotator from "./CustomAnnotator.vue";
 import AnnotationAnnotator from "./AnnotationAnnotator.vue";
+import * as A from "./annotators.types";
 
 defineProps<{
   selectedAnnotations: string[];
@@ -61,49 +62,54 @@ const annotationsFilteredGrouped = computed(() =>
       {{ Object.values(annotationsByFunction)[0][0].moduleDef.description }}
     </summary>
 
-    <details
-      v-for="(annotations, func) in annotationsByFunction"
-      :key="func"
-      class="not-open:has-checked:bg-sky-400/10"
-      open
-    >
-      <summary>
-        <code>{{ func }}</code> –
-        {{ annotations[0].funcDef.descriptionShort }}
-      </summary>
-
-      <div
-        v-if="annotations[0].funcDef.descriptionRest"
-        class="text-sm opacity-80 whitespace-break-spaces"
+    <template v-for="(annotations, func) in annotationsByFunction" :key="func">
+      <details
+        v-if="A.isAnalysis(annotations[0].funcDef)"
+        class="not-open:has-checked:bg-sky-400/10"
+        open
       >
-        {{ annotations[0].funcDef.descriptionRest.replace(/\n\n/g, "\n") }}
-      </div>
+        <summary>
+          <code>{{ func }}</code> –
+          {{ annotations[0].funcDef.descriptionShort }}
+        </summary>
 
-      <div
-        v-for="a in annotations"
-        :key="a.key"
-        class="has-checked:bg-sky-400/10"
-      >
-        <AnnotationAnnotator
-          v-if="a.type == 'annotation'"
-          :id="a.annotation"
-          :description="a.annotationDef.description"
-          :selected="selectedAnnotations.includes(a.annotation)"
-          @toggle="$emit('toggleAnnotation', a.annotation)"
-        />
+        <div
+          v-if="annotations[0].funcDef.descriptionRest"
+          class="text-sm opacity-80 whitespace-break-spaces"
+        >
+          {{ annotations[0].funcDef.descriptionRest.replace(/\n\n/g, "\n") }}
+        </div>
 
-        <CustomAnnotator
-          v-if="a.type == 'custom'"
-          :func="a.func"
-          :description="a.funcDef.description"
-          :selected="
-            !!selectedCustom.find(
-              (c) => c.moduleName == a.module && c.functionName == a.func,
-            )
-          "
-          @add="$emit('addCustom', `${a.module}:${a.func}`)"
-        />
-      </div>
-    </details>
+        <div
+          v-for="a in annotations"
+          :key="a.key"
+          class="has-checked:bg-sky-400/10"
+        >
+          <AnnotationAnnotator
+            v-if="a.type == 'annotation'"
+            :id="a.annotation"
+            :description="a.annotationDef.description"
+            :selected="selectedAnnotations.includes(a.annotation)"
+            @toggle="$emit('toggleAnnotation', a.annotation)"
+          />
+        </div>
+      </details>
+
+      <CustomAnnotator
+        v-else
+        :func="annotations[0].func"
+        :description="annotations[0].funcDef.description"
+        :selected="
+          !!selectedCustom.find(
+            (c) =>
+              c.moduleName == annotations[0].module &&
+              c.functionName == annotations[0].func,
+          )
+        "
+        @add="
+          $emit('addCustom', `${annotations[0].module}:${annotations[0].func}`)
+        "
+      />
+    </template>
   </details>
 </template>
