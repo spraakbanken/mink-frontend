@@ -43,6 +43,7 @@ export async function fetchNews(filterFeatured?: boolean): Promise<NewsItem[]> {
   const now = new Date();
   let items = (await fetchAllNews()).filter(
     (item) =>
+      item.created <= now && // Skip future items
       (!item.expires || item.expires > now) && // Skip expired items
       item.created > addDays(now, -365 / 2), // Skip items older than 6 months
   );

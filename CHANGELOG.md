@@ -17,6 +17,10 @@ As this project is a user-facing application, the places in the semantic version
 
 - Use `/jwt?version=2` to avoid console error when not authenticated
 
+### Fixed
+
+- Hide news items with a future creation date
+
 ## [1.9.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.9.1) (2025-03-13)
 
 ### Added
