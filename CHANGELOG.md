@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.9.1...HEAD)
 
+### Added
+
+- Button to clear previous annotations [#195](https://github.com/spraakbanken/mink-frontend/issues/195)
+
 ### Changed
 
 - Use `/jwt?version=2` to avoid console error when not authenticated

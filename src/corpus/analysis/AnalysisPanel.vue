@@ -11,7 +11,9 @@ const props = defineProps<{
   corpusId: string;
 }>();
 
-const { runJob, jobState, isJobRunning } = useJob(props.corpusId);
+const { runJob, clearAnnotations, jobState, isJobRunning } = useJob(
+  props.corpusId,
+);
 const { canBeReady } = useCorpusState(props.corpusId);
 const { exports, loadExports, downloadResult, getDownloadFilename } =
   useExports(props.corpusId);
@@ -42,22 +44,40 @@ watch(isDone, () => {
   <div>
     <PendingContent
       :on="`corpus/${corpusId}/job/sparv`"
-      class="flex flex-wrap gap-3 items-start"
+      class="flex flex-col gap-3 items-start"
     >
-      <i18n-t keypath="analysis.help" scope="global" tag="p">
-        <template #sparv>
-          <a :href="$t('analysis.sparv.url')">Sparv</a>
-        </template>
-      </i18n-t>
+      <div v-if="exports?.length" class="flex gap-3 items-center">
+        <div>
+          <div class="font-semibold">{{ $t("annotations.clear") }}</div>
+          {{ $t("annotations.clear.help") }}
+        </div>
+        <ActionButton @click="clearAnnotations()" class="whitespace-nowrap">
+          {{ $t("annotations.clear") }}
+        </ActionButton>
+      </div>
 
-      <ActionButton
-        :disabled="isJobRunning || !canRun"
-        :class="{ 'button-primary': !exports?.length }"
-        @click="!isJobRunning && canRun ? doRunJob() : null"
-      >
-        <PhGearFine weight="bold" class="inline mb-1 mr-1" />
-        {{ !exports?.length ? $t("job.run") : $t("job.rerun") }}
-      </ActionButton>
+      <div class="flex gap-3 items-center">
+        <div>
+          <div class="font-semibold">{{ $t("job.run") }}</div>
+          <i18n-t keypath="analysis.help" scope="global">
+            <template #sparv>
+              <a :href="$t('analysis.sparv.url')">Sparv</a>
+            </template>
+          </i18n-t>
+        </div>
+
+        <ActionButton
+          :disabled="isJobRunning || !canRun"
+          :class="{
+            'button-primary': !isJobRunning && canRun && !exports?.length,
+          }"
+          @click="!isJobRunning && canRun ? doRunJob() : null"
+          class="whitespace-nowrap"
+        >
+          <PhGearFine weight="bold" class="inline mb-1 mr-1" />
+          {{ !exports?.length ? $t("job.run") : $t("job.rerun") }}
+        </ActionButton>
+      </div>
 
       <div>
         <div v-if="!isJobRunning && exports?.length" class="text-sm">

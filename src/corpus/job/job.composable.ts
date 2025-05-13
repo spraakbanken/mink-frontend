@@ -51,6 +51,11 @@ export default function useJob(corpusId: string) {
     await loadJob();
   }
 
+  async function clearAnnotations() {
+    matomo?.trackEvent("Corpus", "Annotation", "Clear");
+    await mink.clearAnnotations(corpusId).catch(alertError);
+  }
+
   const jobStatus = computed(() => corpus.value?.status);
   const jobState = computed(() => corpus.value?.status?.status);
   const currentStatus = computed(() => {
@@ -90,6 +95,7 @@ export default function useJob(corpusId: string) {
     abortJob,
     installKorp,
     installStrix,
+    clearAnnotations,
     jobStatus,
     jobState,
     currentStatus,

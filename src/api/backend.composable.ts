@@ -87,6 +87,9 @@ export default function useMinkBackend() {
   const abortJob = (corpusId: string) =>
     spin(api.abortJob(corpusId), `corpus/${corpusId}/job/abort`);
 
+  const clearAnnotations = (corpusId: string) =>
+    spin(api.clearAnnotations(corpusId), `corpus/${corpusId}/exports`);
+
   const loadExports = (corpusId: string) =>
     spin(api.listExports(corpusId), `corpus/${corpusId}/exports/list`);
 
@@ -126,6 +129,7 @@ export default function useMinkBackend() {
     installKorp,
     installStrix,
     abortJob,
+    clearAnnotations,
     loadExports,
     downloadExports,
     downloadExportFiles,
