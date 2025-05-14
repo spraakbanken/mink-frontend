@@ -5,30 +5,24 @@ const props = defineProps<{
   corpusId: string;
 }>();
 
-const {
-  stateMessage,
-  isEmpty,
-  isNeedingConfig,
-  isNeedingMeta,
-  isReady,
-  isFailed,
-} = useCorpusState(props.corpusId);
+const { corpusState, isIncomplete, isError, isReady } = useCorpusState(
+  props.corpusId,
+);
 </script>
 
 <template>
   <span
-    v-if="stateMessage"
     class="text-white rounded-sm px-2 py-0.5"
     :class="[
-      isEmpty || isNeedingConfig || isNeedingMeta
+      isIncomplete
         ? 'bg-yellow-700'
-        : isFailed
+        : isError
           ? 'bg-red-600'
           : isReady
             ? 'bg-lime-700'
             : 'text-inherit!',
     ]"
   >
-    {{ stateMessage }}
+    {{ $t(`corpus.state.${corpusState}`) }}
   </span>
 </template>

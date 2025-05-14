@@ -6,7 +6,6 @@ import useConfig from "../config/config.composable";
 import UploadSizeLimits from "./UploadSizeLimits.vue";
 import useSources from "@/corpus/sources/sources.composable";
 import useMinkBackendInfo from "@/api/backendInfo.composable";
-import { useCorpusState } from "@/corpus/corpusState.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
@@ -21,8 +20,7 @@ const props = defineProps<{
   corpusId: string;
 }>();
 
-const { sources, deleteSource } = useSources(props.corpusId);
-const { isEmpty } = useCorpusState(props.corpusId);
+const { sources, hasSources, deleteSource } = useSources(props.corpusId);
 const { info } = useMinkBackendInfo();
 const { filesize } = useLocale();
 const { alert, alertError } = useMessenger();
@@ -33,7 +31,6 @@ const { t } = useI18n();
 const totalSize = computed(() =>
   sources.value.reduce((sum, source) => sum + Number(source.size), 0),
 );
-
 const accept = computed(() => extensions.value.map((ext) => `.${ext}`).join());
 
 async function fileHandler(files: File[], onProgress: ProgressHandler) {
@@ -107,7 +104,13 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
   </MaxHeight>
 
   <PendingContent :on="`corpus/${corpusId}/sources/upload`" blocking>
-    <FileUpload :file-handler :primary="isEmpty" :accept multiple show-progress>
+    <FileUpload
+      :file-handler
+      :primary="!hasSources"
+      :accept
+      multiple
+      show-progress
+    >
       <UploadSizeLimits />
     </FileUpload>
   </PendingContent>

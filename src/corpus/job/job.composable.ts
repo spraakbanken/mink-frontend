@@ -62,6 +62,9 @@ export default function useJob(corpusId: string) {
     const process = jobStatus.value?.current_process;
     return process && jobStatus.value?.status?.[process];
   });
+  const hasError = computed(() =>
+    Object.values(jobState.value || {}).includes("error"),
+  );
 
   // "Running" if any job is waiting/running.
   const isJobRunning = computed(() => {
@@ -101,5 +104,6 @@ export default function useJob(corpusId: string) {
     currentStatus,
     isJobRunning,
     isJobDone,
+    hasError,
   };
 }

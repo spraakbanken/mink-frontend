@@ -7,12 +7,12 @@ const props = defineProps<{
   corpusId: string;
 }>();
 
-const { stateHelp, isActionNeeded } = useCorpusState(props.corpusId);
+const { corpusState, isIncomplete, isError } = useCorpusState(props.corpusId);
 </script>
 
 <template>
-  <HelpBox v-if="stateHelp" :important="isActionNeeded">
+  <HelpBox :important="isIncomplete || isError">
     <PhLightbulbFilament weight="bold" class="inline mb-1 mr-1" />
-    {{ stateHelp }}
+    {{ $t(`corpus.state.help.${corpusState}`) }}
   </HelpBox>
 </template>

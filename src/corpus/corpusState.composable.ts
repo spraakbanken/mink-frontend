@@ -1,17 +1,13 @@
 import { computed } from "vue";
-import { useI18n } from "vue-i18n";
-import { validateConfig } from "@/api/corpusConfig";
 import useConfig from "@/corpus/config/config.composable";
 import useJob from "@/corpus/job/job.composable";
 import useSources from "@/corpus/sources/sources.composable";
-import { getException } from "@/util";
 
 /** The "corpus state" is related to the job status, but is more about predicting what action the user needs to take. */
 export function useCorpusState(corpusId: string) {
   const { sources } = useSources(corpusId);
-  const { configOptions } = useConfig(corpusId);
+  const { hasMetadata, isConfigValid } = useConfig(corpusId);
   const { jobState } = useJob(corpusId);
-  const { t } = useI18n();
 
   const corpusState = computed(() => {
     if (!sources.value.length) return CorpusState.EMPTY;
@@ -53,67 +49,24 @@ export function useCorpusState(corpusId: string) {
     return CorpusState.UNKNOWN;
   });
 
-  const isConfigValid = computed(
-    () =>
-      configOptions.value &&
-      !getException(() => validateConfig(configOptions.value!)),
-  );
+  const incompleteStates = [
+    CorpusState.EMPTY,
+    CorpusState.NEEDING_CONFIG,
+    CorpusState.NEEDING_META,
+  ];
+  const errorStates = [CorpusState.FAILED, CorpusState.FAILED_INSTALL];
 
-  const hasMetadata = computed(
-    () => configOptions.value?.name?.swe || configOptions.value?.name?.eng,
+  const isIncomplete = computed(() =>
+    incompleteStates.includes(corpusState.value),
   );
-
-  const isEmpty = computed(() => corpusState.value == CorpusState.EMPTY);
-  const isNeedingConfig = computed(
-    () => corpusState.value == CorpusState.NEEDING_CONFIG,
-  );
-  const isNeedingMeta = computed(
-    () => corpusState.value == CorpusState.NEEDING_META,
-  );
-  const canBeReady = computed(
-    () => !isEmpty.value && !isNeedingConfig.value && !isNeedingMeta.value,
-  );
-
-  const isFailed = computed(
-    () =>
-      corpusState.value == CorpusState.FAILED ||
-      corpusState.value == CorpusState.FAILED_INSTALL,
-  );
+  const isError = computed(() => errorStates.includes(corpusState.value));
   const isReady = computed(() => corpusState.value == CorpusState.READY);
-  const isRunning = computed(() => corpusState.value == CorpusState.RUNNING);
-  const isDone = computed(() => corpusState.value == CorpusState.DONE);
-  const isRunningInstall = computed(
-    () => corpusState.value == CorpusState.RUNNING_INSTALL,
-  );
-  const isDoneInstall = computed(
-    () => corpusState.value == CorpusState.DONE_INSTALL,
-  );
-
-  const stateMessage = computed(() => t(`corpus.state.${corpusState.value}`));
-  const stateHelp = computed(() => t(`corpus.state.help.${corpusState.value}`));
-  const isActionNeeded = computed(
-    () =>
-      isEmpty.value ||
-      isNeedingConfig.value ||
-      isNeedingMeta.value ||
-      isFailed.value,
-  );
 
   return {
     corpusState,
-    isEmpty,
-    isNeedingConfig,
-    isNeedingMeta,
-    canBeReady,
-    isFailed,
+    isIncomplete,
+    isError,
     isReady,
-    isRunning,
-    isDone,
-    isRunningInstall,
-    isDoneInstall,
-    stateMessage,
-    stateHelp,
-    isActionNeeded,
   };
 }
 

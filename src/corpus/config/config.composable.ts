@@ -2,11 +2,13 @@ import { computed } from "vue";
 import {
   makeConfig,
   parseConfig,
+  validateConfig,
   type ConfigOptions,
 } from "@/api/corpusConfig";
 import useLocale from "@/i18n/locale.composable";
 import useMinkBackend from "@/api/backend.composable";
 import { useResourceStore } from "@/store/resource.store";
+import { getException } from "@/util";
 
 export default function useConfig(corpusId: string) {
   const resourceStore = useResourceStore();
@@ -17,6 +19,14 @@ export default function useConfig(corpusId: string) {
   const config = computed(() => corpus.value?.config);
   const configOptions = computed(getParsedConfig);
   const corpusName = computed(() => th(configOptions.value?.name));
+  const hasMetadata = computed(
+    () => configOptions.value?.name?.swe || configOptions.value?.name?.eng,
+  );
+  const isConfigValid = computed(
+    () =>
+      configOptions.value &&
+      !getException(() => validateConfig(configOptions.value!)),
+  );
 
   async function loadConfig() {
     const config = await mink
@@ -55,6 +65,8 @@ export default function useConfig(corpusId: string) {
     config,
     configOptions,
     corpusName,
+    hasMetadata,
+    isConfigValid,
     loadConfig,
     uploadConfig,
     uploadConfigRaw,

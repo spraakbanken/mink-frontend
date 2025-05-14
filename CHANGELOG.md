@@ -20,6 +20,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Changed
 
 - Use `/jwt?version=2` to avoid console error when not authenticated
+- Use corpusState only for guiding the user [#149](https://github.com/spraakbanken/mink-frontend/issues/149)
 
 ### Fixed
 
