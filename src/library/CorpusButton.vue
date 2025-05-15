@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { computedAsync } from "@vueuse/core";
 import useSpin from "@/spin/spin.composable";
 import useConfig from "@/corpus/config/config.composable";
 import PadButton from "@/components/PadButton.vue";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
-import useCorpus from "@/corpus/corpus.composable";
 import { useResourceStore } from "@/store/resource.store";
 
 const props = defineProps<{
@@ -11,20 +11,19 @@ const props = defineProps<{
 }>();
 
 const resourceStore = useResourceStore();
-const { loadCorpus } = useCorpus(props.id);
 const { spin } = useSpin();
 const { corpusName } = useConfig(props.id);
 
-const corpus = resourceStore.corpora[props.id];
-
-spin(loadCorpus(), "corpora");
+const corpus = computedAsync(() =>
+  spin(resourceStore.loadCorpus(props.id), "corpora"),
+);
 </script>
 
 <template>
   <PadButton class="flex" :to="`/library/corpus/${id}`">
     <strong>{{ corpusName || id }}</strong>
 
-    <span v-if="corpus.sources && corpus.sources.length">
+    <span v-if="corpus?.sources && corpus.sources.length">
       {{ $t("files", corpus.sources.length) }}
     </span>
 

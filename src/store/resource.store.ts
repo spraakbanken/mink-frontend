@@ -55,6 +55,16 @@ export const useResourceStore = defineStore("resource", () => {
     return resources[resourceId] as Resource;
   }
 
+  /** Load and store data and config for a corpus resource. */
+  async function loadCorpus(corpusId: string): Promise<Corpus | undefined> {
+    const resource = await loadResource(corpusId);
+    if (resource && isCorpus(resource)) {
+      await loadConfig(corpusId);
+      return resource;
+    }
+    return undefined;
+  }
+
   /** Mark a resource's info as out of date. */
   function invalidateResource(resourceId: string) {
     freshResources.delete(resourceId);
@@ -163,6 +173,7 @@ export const useResourceStore = defineStore("resource", () => {
     invalidateResource,
     invalidateResources,
     loadConfig,
+    loadCorpus,
     loadResource,
     loadResourceIds,
     loadResourceInfo,
