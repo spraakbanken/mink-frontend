@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { PhPlusCircle } from "@phosphor-icons/vue";
+import { computed } from "vue";
 import CorpusButton from "@/library/CorpusButton.vue";
 import useLocale from "@/i18n/locale.composable";
 import PadButton from "@/components/PadButton.vue";
@@ -8,12 +9,14 @@ import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useAuth } from "@/auth/auth.composable";
 import useAdmin from "@/user/admin.composable";
-import SourceUpload from "@/corpus/sources/SourceUpload.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import { useResourceStore } from "@/store/resource.store";
 import useSpin from "@/spin/spin.composable";
 import useCreateCorpus from "@/corpus/createCorpus.composable";
+import FileUpload from "@/components/FileUpload.vue";
+import { FORMATS_EXT } from "@/api/corpusConfig";
+import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
@@ -32,7 +35,9 @@ requireAuthentication(() => {
   }
 });
 
-async function createCorpusFromFiles(files: File[]) {
+const accept = computed(() => FORMATS_EXT.map((ext) => `.${ext}`).join());
+
+async function fileHandler(files: File[]) {
   await spin(createFromUpload(files), "create");
 }
 </script>
@@ -67,10 +72,15 @@ async function createCorpusFromFiles(files: File[]) {
 
     <LayoutSection :title="$t('new_corpus')">
       <PendingContent on="create" blocking>
-        <SourceUpload
-          :file-handler="createCorpusFromFiles"
+        <FileUpload
+          :file-handler
           :primary="!resourceStore.hasCorpora"
-        />
+          :accept
+          multiple
+          show-progress
+        >
+          <UploadSizeLimits />
+        </FileUpload>
       </PendingContent>
     </LayoutSection>
 

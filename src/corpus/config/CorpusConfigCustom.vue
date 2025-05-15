@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { AxiosError } from "axios";
 import { PhPencilSimple, PhWarning } from "@phosphor-icons/vue";
 import CorpusConfigCustomHelp from "./CorpusConfigCustomHelp.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
@@ -8,7 +7,6 @@ import { useAuth } from "@/auth/auth.composable";
 import FileUpload from "@/components/FileUpload.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
-import type { MinkResponse } from "@/api/api.types";
 import useMessenger from "@/message/messenger.composable";
 import SyntaxHighlight from "@/components/SyntaxHighlight.vue";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -25,12 +23,7 @@ requireAuthentication();
 
 async function upload(files: File[]) {
   const configYaml = await files[0].text();
-
-  try {
-    await resourceStore.uploadConfig(corpusId, configYaml);
-  } catch (error) {
-    alertError(error as AxiosError<MinkResponse>);
-  }
+  await resourceStore.uploadConfig(corpusId, configYaml).catch(alertError);
 }
 </script>
 

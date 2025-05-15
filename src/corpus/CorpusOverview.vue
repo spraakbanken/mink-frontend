@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { PhPencilSimple } from "@phosphor-icons/vue";
+import useConfig from "./config/config.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import { useCorpusState } from "@/corpus/corpusState.composable";
 import ConfigPanel from "@/corpus/config/ConfigPanel.vue";
 import SourcesPanel from "@/corpus/sources/SourcesPanel.vue";
 import JobStatus from "@/corpus/job/JobStatus.vue";
@@ -12,22 +12,22 @@ import RouteButton from "@/components/RouteButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 
 const corpusId = useCorpusIdParam();
-const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
+const { hasMetadata, isConfigValid } = useConfig(corpusId);
 </script>
 
 <template>
   <div class="flex flex-wrap gap-4">
     <div class="w-full">
-      <CorpusStateHelp />
+      <CorpusStateHelp :corpus-id="corpusId" />
     </div>
 
     <div class="w-96 grow flex flex-col gap-4">
       <LayoutBox :title="$t('settings')">
-        <ConfigPanel />
+        <ConfigPanel :corpus-id="corpusId" />
         <template #controls>
           <RouteButton
             :to="`/library/corpus/${corpusId}/config`"
-            :class="{ 'button-primary': isNeedingConfig || isNeedingMeta }"
+            :class="{ 'button-primary': !isConfigValid || !hasMetadata }"
           >
             <PhPencilSimple weight="bold" class="inline mb-1 mr-1" />
             {{ $t("edit") }}
@@ -36,7 +36,7 @@ const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
       </LayoutBox>
 
       <LayoutBox :title="$t('texts')">
-        <SourcesPanel />
+        <SourcesPanel :corpus-id="corpusId" />
       </LayoutBox>
     </div>
 
@@ -45,15 +45,15 @@ const { isNeedingConfig, isNeedingMeta } = useCorpusState(corpusId);
         :title="$t('job.status')"
         class="bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
       >
-        <JobStatus />
+        <JobStatus :corpus-id="corpusId" />
       </LayoutBox>
 
       <LayoutBox :title="$t('analysis')">
-        <AnalysisPanel />
+        <AnalysisPanel :corpus-id="corpusId" />
       </LayoutBox>
 
       <LayoutBox :title="$t('tools')">
-        <ExplorePanel />
+        <ExplorePanel :corpus-id="corpusId" />
       </LayoutBox>
     </div>
   </div>

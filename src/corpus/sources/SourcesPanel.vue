@@ -1,25 +1,57 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { PhTrash } from "@phosphor-icons/vue";
+import { useI18n } from "vue-i18n";
+import useConfig from "../config/config.composable";
+import UploadSizeLimits from "./UploadSizeLimits.vue";
 import useSources from "@/corpus/sources/sources.composable";
-import SourceUpload from "@/corpus/sources/SourceUpload.vue";
 import useMinkBackendInfo from "@/api/backendInfo.composable";
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import { useCorpusState } from "@/corpus/corpusState.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import MaxHeight from "@/components/MaxHeight.vue";
+import type { ProgressHandler } from "@/api/api.types";
+import useMessenger from "@/message/messenger.composable";
+import { getFilenameExtension } from "@/util";
+import { FORMATS_EXT, type FileFormat } from "@/api/corpusConfig";
+import FileUpload from "@/components/FileUpload.vue";
 
-const corpusId = useCorpusIdParam();
-const { sources, deleteSource } = useSources(corpusId);
-const { isEmpty } = useCorpusState(corpusId);
+const props = defineProps<{
+  corpusId: string;
+}>();
+
+const { sources, hasSources, deleteSource } = useSources(props.corpusId);
 const { info } = useMinkBackendInfo();
 const { filesize } = useLocale();
+const { alert, alertError } = useMessenger();
+const { uploadSources, extensions } = useSources(props.corpusId);
+const { configOptions, uploadConfig } = useConfig(props.corpusId);
+const { t } = useI18n();
 
 const totalSize = computed(() =>
   sources.value.reduce((sum, source) => sum + Number(source.size), 0),
 );
+const accept = computed(() => extensions.value.map((ext) => `.${ext}`).join());
+
+async function fileHandler(files: File[], onProgress: ProgressHandler) {
+  const requests = [uploadSources(files, onProgress).catch(alertError)];
+
+  // Also update format setting in config if needed
+  const extension = getFilenameExtension(files[0]?.name);
+  const format = extension.toLowerCase() as FileFormat;
+  if (
+    configOptions.value &&
+    format != configOptions.value.format &&
+    FORMATS_EXT.includes(format)
+  ) {
+    alert(
+      t("source.upload.config_format.trigger_change", { format: t(format) }),
+    );
+    requests.push(uploadConfig({ ...configOptions.value, format }));
+  }
+
+  await Promise.all(requests);
+}
 </script>
 
 <template>
@@ -72,6 +104,14 @@ const totalSize = computed(() =>
   </MaxHeight>
 
   <PendingContent :on="`corpus/${corpusId}/sources/upload`" blocking>
-    <SourceUpload :primary="isEmpty" />
+    <FileUpload
+      :file-handler
+      :primary="!hasSources"
+      :accept
+      multiple
+      show-progress
+    >
+      <UploadSizeLimits />
+    </FileUpload>
   </PendingContent>
 </template>

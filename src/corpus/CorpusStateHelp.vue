@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { PhLightbulbFilament } from "@phosphor-icons/vue";
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import { useCorpusState } from "@/corpus/corpusState.composable";
 import HelpBox from "@/components/HelpBox.vue";
 
-const corpusId = useCorpusIdParam();
-const { stateHelp, isActionNeeded } = useCorpusState(corpusId);
+const props = defineProps<{
+  corpusId: string;
+}>();
+
+const { corpusState, isIncomplete, isError } = useCorpusState(props.corpusId);
 </script>
 
 <template>
-  <HelpBox v-if="stateHelp" :important="isActionNeeded">
+  <HelpBox :important="isIncomplete || isError">
     <PhLightbulbFilament weight="bold" class="inline mb-1 mr-1" />
-    {{ stateHelp }}
+    {{ $t(`corpus.state.help.${corpusState}`) }}
   </HelpBox>
 </template>

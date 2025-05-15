@@ -13,6 +13,19 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.9.1...HEAD)
 
+### Added
+
+- Button to clear previous annotations [#195](https://github.com/spraakbanken/mink-frontend/issues/195)
+
+### Changed
+
+- Use `/jwt?version=2` to avoid console error when not authenticated
+- Use corpusState only for guiding the user [#149](https://github.com/spraakbanken/mink-frontend/issues/149)
+
+### Fixed
+
+- Hide news items with a future creation date
+
 ## [1.9.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.9.1) (2025-03-13)
 
 ### Added
@@ -22,6 +35,10 @@ As this project is a user-facing application, the places in the semantic version
 ### Changed
 
 - Progressive JWT timeout [#190](https://github.com/spraakbanken/mink-frontend/issues/190)
+
+### Fixed
+
+- Show spinner before anything is loaded [#172](https://github.com/spraakbanken/mink-frontend/issues/172)
 
 ## [1.9.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.9.0) (2025-02-12)
 

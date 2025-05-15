@@ -50,12 +50,20 @@ export default function useJob(corpusId: string) {
     await loadJob();
   }
 
+  async function clearAnnotations() {
+    matomo?.trackEvent("Corpus", "Annotation", "Clear");
+    await mink.clearAnnotations(corpusId).catch(alertError);
+  }
+
   const jobStatus = computed(() => corpus.value?.status);
   const jobState = computed(() => corpus.value?.status?.status);
   const currentStatus = computed(() => {
     const process = jobStatus.value?.current_process;
     return process && jobStatus.value?.status?.[process];
   });
+  const hasError = computed(() =>
+    Object.values(jobState.value || {}).includes("error"),
+  );
 
   // "Running" if any job is waiting/running.
   const isJobRunning = computed(() => {
@@ -89,10 +97,12 @@ export default function useJob(corpusId: string) {
     abortJob,
     installKorp,
     installStrix,
+    clearAnnotations,
     jobStatus,
     jobState,
     currentStatus,
     isJobRunning,
     isJobDone,
+    hasError,
   };
 }

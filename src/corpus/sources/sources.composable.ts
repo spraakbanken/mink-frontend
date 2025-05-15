@@ -14,6 +14,7 @@ export default function useSources(corpusId: string) {
   const sources = computed(
     () => resourceStore.corpora[corpusId]?.sources || [],
   );
+  const hasSources = computed(() => sources.value.length > 0);
 
   async function loadSources() {
     const info = await mink.listSources(corpusId).catch(alertError);
@@ -50,6 +51,7 @@ export default function useSources(corpusId: string) {
 
   return {
     sources,
+    hasSources,
     loadSources,
     downloadSource,
     downloadPlaintext,

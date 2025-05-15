@@ -227,6 +227,14 @@ class MinkApi {
     return response.data;
   }
 
+  async clearAnnotations(corpusId: string) {
+    const response = await this.axios.delete<MinkResponse>(
+      "clear-annotations",
+      { params: { corpus_id: corpusId } },
+    );
+    return response.data;
+  }
+
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Exports/operation/listexports */
   async listExports(corpusId: string) {
     const response = await this.axios.get<MinkResponse<ListExportsData>>(

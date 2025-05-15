@@ -4,17 +4,17 @@ import useJob from "@/corpus/job/job.composable";
 import JobStatusMessage from "@/corpus/job/JobStatusMessage.vue";
 import { formatDate } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import { useCorpusState } from "@/corpus/corpusState.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
 import TextData from "@/components/TextData.vue";
 
-const corpusId = useCorpusIdParam();
-const { abortJob, jobStatus, isJobRunning } = useJob(corpusId);
-const { isFailed } = useCorpusState(corpusId);
+const props = defineProps<{
+  corpusId: string;
+}>();
 
-const hasStarted = computed(
+const { abortJob, jobStatus, isJobRunning, hasError } = useJob(props.corpusId);
+
+const isStarted = computed(
   () =>
     Object.values(jobStatus.value?.status || {}).some(
       (status) => status != "none",
@@ -50,7 +50,7 @@ const hasStarted = computed(
       class="w-full my-2"
     />
 
-    <table v-if="hasStarted" class="w-full">
+    <table v-if="isStarted" class="w-full">
       <thead></thead>
       <tbody>
         <tr v-if="jobStatus.errors">
@@ -71,10 +71,10 @@ const hasStarted = computed(
           </td>
         </tr>
 
-        <tr v-if="isFailed && jobStatus.sparv_output">
+        <tr v-if="hasError && jobStatus.sparv_output">
           <th colspan="2">{{ $t("sparvOutput") }}</th>
         </tr>
-        <tr v-if="isFailed && jobStatus.sparv_output">
+        <tr v-if="hasError && jobStatus.sparv_output">
           <td colspan="2">
             <TextData :text="jobStatus.sparv_output" class="mb-2" />
           </td>

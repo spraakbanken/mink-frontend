@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { randomString } from "@/util";
 import type { MinkResponse } from "@/api/api.types";
 
@@ -45,9 +45,8 @@ export default function useMessenger() {
   }
 
   /** Display a backend error message. */
-  // TODO accept any, check if axios.isAxiosError
-  const alertError = (err: AxiosError<MinkResponse>): undefined => {
-    if (err.response?.data) {
+  const alertError = (err: unknown): undefined => {
+    if (isAxiosMinkError(err)) {
       const data = err.response.data;
 
       // Use the return code to find a message, if available.
@@ -82,3 +81,13 @@ export default function useMessenger() {
     alerts,
   };
 }
+
+/** Check if the given error is an Axios error with a Mink response. */
+function isAxiosMinkError(
+  err: unknown,
+): err is RequiredKeys<AxiosError<MinkResponse>, "response"> {
+  return axios.isAxiosError(err) && err.response?.data;
+}
+
+/** Make the given keys required in the given type. */
+type RequiredKeys<T, K extends keyof T> = T & Required<Pick<T, K>>;

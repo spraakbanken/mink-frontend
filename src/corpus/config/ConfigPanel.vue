@@ -3,12 +3,14 @@ import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import useLocale from "@/i18n/locale.composable";
 import useConfig from "@/corpus/config/config.composable";
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 
-const corpusId = useCorpusIdParam();
-const { configOptions } = useConfig(corpusId);
+const props = defineProps<{
+  corpusId: string;
+}>();
+
+const { configOptions } = useConfig(props.corpusId);
 const { th } = useLocale();
 const { t } = useI18n();
 

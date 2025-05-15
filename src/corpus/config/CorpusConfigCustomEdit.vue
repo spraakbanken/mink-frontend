@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Yaml from "js-yaml";
 import { ref, watchEffect } from "vue";
-import type { AxiosError } from "axios";
 import Ajv2020 from "ajv/dist/2020";
 import { PhFileX, PhWarning } from "@phosphor-icons/vue";
 import { useI18n } from "vue-i18n";
@@ -12,7 +11,6 @@ import CorpusConfigCustomHelp from "./CorpusConfigCustomHelp.vue";
 import { useResourceStore } from "@/store/resource.store";
 import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
-import type { MinkResponse } from "@/api/api.types";
 import LayoutBox from "@/components/LayoutBox.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -67,11 +65,7 @@ function validate() {
 
 async function upload() {
   if (input.value == config.value) return;
-  try {
-    await resourceStore.uploadConfig(corpusId, input.value);
-  } catch (error) {
-    alertError(error as AxiosError<MinkResponse>);
-  }
+  await resourceStore.uploadConfig(corpusId, input.value).catch(alertError);
 }
 
 watchEffect(validate);

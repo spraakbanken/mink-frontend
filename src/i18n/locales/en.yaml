@@ -72,7 +72,7 @@ analysis.help: Run automated language technology methods on your text data accor
 analysis.sparv.url: https://spraakbanken.gu.se/en/tools/sparv
 job.run: Run annotation
 job.rerun: Re-run annotation
-job.rerun.overwrite: Previous results will be overwritten.
+job.rerun.overwrite: Re-running annotation will overwrite previous results.
 job.rerun.tools_outdated: The old results will remain in the tools. Do not forget to re-install it if needed.
 job.abort: Abort
 job.status: Status
@@ -244,6 +244,8 @@ annotations.syntax: Dependencies
 annotations.syntax.help: Syntactic analysis using Stanza.
 annotations.wsd: Word sense disambiguation
 annotations.wsd.help: Using SALDO.
+annotations.clear: Clear annotations
+annotations.clear.help: Use this before processing a previously annotated corpus with new annotation settings.
 admin.page.subtitle: Administration
 admin.goto: Shortcuts
 admin.resources.help: In this administrative listing, you need to load detailed information manually, because loading everything takes a long time.
