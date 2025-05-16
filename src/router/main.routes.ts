@@ -16,19 +16,21 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/",
     component: HomeView,
-    meta: {
-      title: "home",
-    },
+    meta: { title: "home" },
   },
   {
     path: "/library",
     component: LibraryView,
-    meta: { title: "library" },
+    meta: {
+      title: "library",
+      protected: true,
+    },
   },
   {
     // Redirects to the resource page for an unknown resource type.
     path: "/library/resource/:resourceId",
     component: ResourceRedirectView,
+    meta: { protected: true },
   },
   {
     path: "/login",
@@ -43,7 +45,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/user",
     component: UserView,
-    meta: { title: "account" },
+    meta: {
+      title: "account",
+      protected: true,
+    },
   },
   {
     path: "/access-denied",
@@ -53,7 +58,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/admin/resources",
     component: AdminResourcesView,
-    meta: { title: "resources" },
+    meta: {
+      title: "resources",
+      protected: true,
+    },
   },
   ...corpusRoutes,
   ...metadataRoutes,

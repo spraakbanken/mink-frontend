@@ -2,12 +2,12 @@
 import { useRouter } from "vue-router";
 import { PhPlusCircle } from "@phosphor-icons/vue";
 import { computed } from "vue";
+import { watchImmediate } from "@vueuse/core";
 import CorpusButton from "@/library/CorpusButton.vue";
 import useLocale from "@/i18n/locale.composable";
 import PadButton from "@/components/PadButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import { useAuth } from "@/auth/auth.composable";
 import useAdmin from "@/user/admin.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import HelpBox from "@/components/HelpBox.vue";
@@ -20,19 +20,16 @@ import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
-const { requireAuthentication, isAuthenticated } = useAuth();
 const { adminMode } = useAdmin();
 const { createFromUpload } = useCreateCorpus();
 const { spin } = useSpin();
 const { th } = useLocale();
 
-requireAuthentication(() => {
-  // Skip loadResources if admin, as it gets very slow when listing all resources!
-  if (adminMode.value) {
-    return router.push("/admin/resources");
-  } else {
-    resourceStore.loadResources();
-  }
+// Skip loadResources if admin, as it gets very slow when listing all resources!
+// When `checkAdminMode()` is done, `adminMode` will go from undefined to true or false.
+watchImmediate(adminMode, () => {
+  if (adminMode.value) router.push("/admin/resources");
+  else if (adminMode.value === false) resourceStore.loadResources();
 });
 
 const accept = computed(() => FORMATS_EXT.map((ext) => `.${ext}`).join());
@@ -43,7 +40,7 @@ async function fileHandler(files: File[]) {
 </script>
 
 <template>
-  <div v-if="isAuthenticated && !adminMode">
+  <div v-if="!adminMode">
     <PageTitle>{{ $t("library") }}</PageTitle>
     <LayoutSection :title="$t('corpuses')">
       <HelpBox>

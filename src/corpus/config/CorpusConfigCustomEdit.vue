@@ -9,7 +9,6 @@ import useCorpusIdParam from "../corpusIdParam.composable";
 import useConfig from "./config.composable";
 import CorpusConfigCustomHelp from "./CorpusConfigCustomHelp.vue";
 import { useResourceStore } from "@/store/resource.store";
-import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
 import LayoutBox from "@/components/LayoutBox.vue";
 import HelpBox from "@/components/HelpBox.vue";
@@ -22,7 +21,6 @@ const ajv = new Ajv2020();
 const schemaValidate = ajv.compile(schema);
 
 const corpusId = useCorpusIdParam();
-const { requireAuthentication } = useAuth();
 const resourceStore = useResourceStore();
 const { config } = useConfig(corpusId);
 const { alertError } = useMessenger();
@@ -31,8 +29,6 @@ const { t } = useI18n();
 const input = ref(config.value || "");
 const error = ref<{ hint: string; details?: string }>();
 const showErrorDetails = ref<boolean>(false);
-
-requireAuthentication();
 
 function validate() {
   error.value = undefined;

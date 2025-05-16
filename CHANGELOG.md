@@ -21,10 +21,12 @@ As this project is a user-facing application, the places in the semantic version
 
 - Use `/jwt?version=2` to avoid console error when not authenticated
 - Use corpusState only for guiding the user [#149](https://github.com/spraakbanken/mink-frontend/issues/149)
+- Mark routes that require authentication on router level (`meta: {protected: true}`)
 
 ### Fixed
 
 - Hide news items with a future creation date
+- Forward from login view to destination if already logged in
 
 ## [1.9.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.9.1) (2025-03-13)
 

@@ -3,7 +3,6 @@ import { PhPencilSimple, PhWarning } from "@phosphor-icons/vue";
 import CorpusConfigCustomHelp from "./CorpusConfigCustomHelp.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import useConfig from "@/corpus/config/config.composable";
-import { useAuth } from "@/auth/auth.composable";
 import FileUpload from "@/components/FileUpload.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
@@ -16,10 +15,7 @@ import { useResourceStore } from "@/store/resource.store";
 const corpusId = useCorpusIdParam();
 const { config } = useConfig(corpusId);
 const { alertError } = useMessenger();
-const { requireAuthentication } = useAuth();
 const resourceStore = useResourceStore();
-
-requireAuthentication();
 
 async function upload(files: File[]) {
   const configYaml = await files[0].text();

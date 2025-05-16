@@ -4,15 +4,14 @@ import HomeNews from "./HomeNews.vue";
 import HomeNewsFeatured from "@/home/HomeNewsFeatured.vue";
 import { useAuth } from "@/auth/auth.composable";
 import LayoutSection from "@/components/LayoutSection.vue";
-import { getLogoutUrl } from "@/auth/sbAuth";
+import { logoutUrl } from "@/auth/sbAuth";
 import LoginButton from "@/auth/LoginButton.vue";
 import UrlButton from "@/components/UrlButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import minkScreen from "@/assets/mink-screen.png";
 import minkScreenDark from "@/assets/mink-screen-dark.png";
 
-const { isAuthenticated, canUserWrite, payload } = useAuth();
-const logoutUrl = getLogoutUrl();
+const { isAuthenticated, canUserWrite, userName } = useAuth();
 </script>
 
 <template>
@@ -68,10 +67,10 @@ const logoutUrl = getLogoutUrl();
             </div>
 
             <div
-              v-if="payload && canUserWrite"
+              v-if="canUserWrite"
               class="bg-sky-100 dark:bg-sky-900 p-4 rounded-sm shadow-inner flex flex-wrap justify-center items-baseline gap-4"
             >
-              <div>{{ $t("welcome", { name: payload.name }) }}</div>
+              <div>{{ $t("welcome", { name: userName }) }}</div>
 
               <RouteButton to="/library" class="button-primary">
                 {{ $t("mydata") }}

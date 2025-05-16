@@ -1,4 +1,4 @@
-import { describe, expect, test } from "vitest";
+import { beforeEach, describe, expect, test } from "vitest";
 import { delay } from "es-toolkit";
 import {
   addDays,
@@ -206,9 +206,11 @@ describe("deduplicateRequest", () => {
     return count;
   });
 
-  test("deduplicates", async () => {
+  beforeEach(() => {
     count = 0;
+  });
 
+  test("deduplicates", async () => {
     const a = request();
     // Call again while first request is still pending.
     const b = request();
@@ -220,8 +222,6 @@ describe("deduplicateRequest", () => {
   });
 
   test("is reusable", async () => {
-    count = 0;
-
     // Call and let it finish.
     const a = request();
     expect(count).toEqual(1);
@@ -230,6 +230,20 @@ describe("deduplicateRequest", () => {
     // First request is done, it can now be called again.
     const b = request();
     expect(count).toEqual(2);
+    expect(await b).toEqual(2);
+  });
+
+  test("uses args", async () => {
+    const request = deduplicateRequest(async (incr: number) => {
+      count += incr;
+      await delay(100);
+      return count;
+    });
+
+    const a = request(2); // add 2
+    const b = request(3); // skip this, do NOT add 3
+
+    expect(await a).toEqual(2);
     expect(await b).toEqual(2);
   });
 });

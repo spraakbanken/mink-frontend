@@ -24,30 +24,44 @@ const corpusRoutes: RouteRecordRaw[] = [
   {
     path: "/library/corpus/new",
     component: CreateCorpus,
-    meta: { title: "new_corpus" },
+    meta: {
+      title: "new_corpus",
+      protected: true,
+    },
   },
   {
     path: "/library/corpus/:corpusId",
     component: CorpusView,
+    meta: { protected: true },
     children: [
       {
         path: "",
         component: CorpusOverview,
+        meta: { protected: true },
       },
       {
         path: "config",
         component: CorpusConfiguration,
-        meta: { title: "configuration" },
+        meta: {
+          title: "configuration",
+          protected: true,
+        },
       },
       {
         path: "config/custom",
         component: CorpusConfigCustom,
-        meta: { title: "config.custom" },
+        meta: {
+          title: "config.custom",
+          protected: true,
+        },
       },
       {
         path: "config/custom/edit",
         component: CorpusConfigCustomEdit,
-        meta: { title: "edit" },
+        meta: {
+          title: "edit",
+          protected: true,
+        },
       },
       {
         path: "sources/:filename",
@@ -55,17 +69,24 @@ const corpusRoutes: RouteRecordRaw[] = [
         props: true,
         meta: {
           createTitle: (params) => params.filename as string,
+          protected: true,
         },
       },
       {
         path: "exports",
         component: CorpusResult,
-        meta: { title: "result" },
+        meta: {
+          title: "result",
+          protected: true,
+        },
       },
       {
         path: "delete",
         component: CorpusDelete,
-        meta: { title: "delete" },
+        meta: {
+          title: "delete",
+          protected: true,
+        },
       },
     ],
   },

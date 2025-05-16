@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { PhQuestion, PhUser } from "@phosphor-icons/vue";
 import MinkLogo from "@/page/MinkLogo.vue";
-import { getLogoutUrl } from "@/auth/sbAuth";
+import { logoutUrl } from "@/auth/sbAuth";
 import { useAuth } from "@/auth/auth.composable";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
@@ -15,7 +15,7 @@ defineProps<{
   large: boolean;
 }>();
 
-const { isAuthenticating, payload, canUserWrite } = useAuth();
+const { isAuthenticated, isAuthenticating, canUserWrite, userName } = useAuth();
 
 const route = useRoute();
 const isHome = computed(() => route.path == "/");
@@ -51,20 +51,16 @@ const isHome = computed(() => route.path == "/");
           </div>
 
           <div class="mt-2 flex flex-wrap gap-x-4 items-baseline justify-end">
-            <template v-if="payload">
+            <template v-if="isAuthenticated">
               <router-link
                 v-if="canUserWrite"
                 to="/user"
                 class="no-underline hover:underline"
               >
                 <PhUser class="inline-block mb-0.5"></PhUser>
-                {{ payload.name }}
+                {{ userName }}
               </router-link>
-              <a
-                v-else
-                :href="getLogoutUrl()"
-                class="no-underline hover:underline"
-              >
+              <a v-else :href="logoutUrl" class="no-underline hover:underline">
                 <PhUser class="inline-block mb-0.5"></PhUser>
                 {{ $t("logout") }}
               </a>

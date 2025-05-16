@@ -1,20 +1,14 @@
 <script setup lang="ts">
 import { PhWarning } from "@phosphor-icons/vue";
+import { whenever } from "@vueuse/core";
 import useAdmin from "@/user/admin.composable";
 import { useAuth } from "@/auth/auth.composable";
 import ActionButton from "@/components/ActionButton.vue";
 
-const { refreshJwt, canUserAdmin } = useAuth();
+const { canUserAdmin } = useAuth();
 const { adminMode, checkAdminMode, disableAdminMode } = useAdmin();
 
-(async () => {
-  await refreshJwt();
-  if (canUserAdmin.value) checkAdminMode();
-})();
-
-function disable() {
-  disableAdminMode();
-}
+whenever(canUserAdmin, checkAdminMode);
 </script>
 
 <template>
@@ -25,7 +19,7 @@ function disable() {
     <div class="container py-1 flex flex-wrap items-center gap-2">
       <PhWarning />
       {{ $t("user.admin_mode.warning") }}
-      <ActionButton class="button-slim text-sm" @click="disable">
+      <ActionButton class="button-slim text-sm" @click="disableAdminMode()">
         {{ $t("disable") }}
       </ActionButton>
       {{ $t("admin.goto") }}:
