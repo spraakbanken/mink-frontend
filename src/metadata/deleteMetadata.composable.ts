@@ -8,7 +8,7 @@ export default function useDeleteMetadata() {
   const { refreshJwt } = useAuth();
   const mink = useMinkBackend();
   const { spin } = useSpin();
-  const { invalidateResources } = useResourceStore();
+  const { loadResourceIds } = useResourceStore();
   const { alertError } = useMessenger();
 
   async function doDeleteMetadata(resourceId: string): Promise<void> {
@@ -17,7 +17,7 @@ export default function useDeleteMetadata() {
     // The backend will have updated the remote JWT, so refresh our copy.
     // The backend uses the resource list within it when listing available resources.
     await refreshJwt();
-    await invalidateResources();
+    await loadResourceIds();
   }
 
   /**

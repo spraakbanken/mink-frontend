@@ -33,6 +33,12 @@ export const useResourceStore = defineStore("resource", () => {
     pickByType(resources, isMetadata),
   );
 
+  // Resource fetching is essentially on three levels: list, info and (only for corpus) config.
+  // (Additionally, there's exports, but it has a more specific use.)
+  // For each of the three levels, we have flags to indicate whether data is fresh or not.
+  // This enables a pattern of using cached async load functions when using data, and invalidating
+  // caches when data is known to be out of date.
+
   /** Whether the list of resources is fetched and not modified. */
   let freshList = false;
 
@@ -42,6 +48,37 @@ export const useResourceStore = defineStore("resource", () => {
   /** Which resources have fresh config loaded. */
   const freshConfigs = new Set<string>();
 
+  /** Load resource ids and update store to match. */
+  async function loadResourceIds() {
+    const resourceIds = await mink.loadCorpusIds().catch(alertError);
+    if (!resourceIds) return;
+    setKeys(resources, resourceIds, {});
+  }
+
+  /** Load and store data about all the user's resources. */
+  const loadResources = deduplicateRequest(async () => {
+    // Skip if already loaded.
+    if (!freshList) {
+      const data = await mink.resourceInfoAll().catch(alertError);
+      if (!data) return;
+
+      // Drop old keys, assign empty records for each new id
+      const ids = data.resources.map((info) => info.resource.id);
+      setKeys(resources, ids, {});
+      // Store resource info
+      data.resources.forEach(storeResource);
+      freshList = true;
+    }
+
+    return resources;
+  });
+
+  /** Signal that info needs to be reloaded, and immediately fetch ids. */
+  async function invalidateResources() {
+    freshList = false;
+    await loadResourceIds();
+  }
+
   /** Load and store data about a given resource. */
   async function loadResource(
     resourceId: string,
@@ -50,7 +87,6 @@ export const useResourceStore = defineStore("resource", () => {
       const data = await mink.resourceInfoOne(resourceId).catch(alertError);
       if (!data) return;
       storeResource(data);
-      freshResources.add(resourceId);
     }
     return resources[resourceId] as Resource;
   }
@@ -99,43 +135,6 @@ export const useResourceStore = defineStore("resource", () => {
     loadConfig(corpusId);
   }
 
-  /** Load resource ids and update store to match. */
-  async function loadResourceIds() {
-    const resourceIds = await mink.loadCorpusIds().catch(alertError);
-    if (!resourceIds) return;
-    setKeys(resources, resourceIds, {});
-  }
-
-  /** Load and store data about all the user's resources. */
-  async function loadResourceInfo() {
-    const data = await mink.resourceInfoAll().catch(alertError);
-    if (!data) return;
-
-    // Drop old keys, assign empty records for each new id
-    const ids = data.resources.map((info) => info.resource.id);
-    setKeys(resources, ids, {});
-
-    data.resources.forEach(storeResource);
-  }
-
-  /** Load and store data about all the user's resources, with caching. */
-  const loadResources = deduplicateRequest(async () => {
-    // Skip if already loaded.
-    if (freshList) return;
-
-    // loadResourceIds has less information, but it is faster and will update UI sooner.
-    await Promise.all([loadResourceIds(), loadResourceInfo()]);
-
-    // Register that data has been loaded to skip future calls.
-    freshList = true;
-  });
-
-  /** Signal that info needs to be reloaded, and immediately fetch ids. */
-  async function invalidateResources() {
-    freshList = false;
-    await loadResourceIds();
-  }
-
   /** Store new state for a given resource. */
   function storeResource(info: ResourceInfo): Resource {
     const resource = {
@@ -157,10 +156,12 @@ export const useResourceStore = defineStore("resource", () => {
     }
 
     // Merge with any existing record.
-    resources[info.resource.id] = {
-      ...(resources[info.resource.id] || {}),
+    const id = info.resource.id;
+    resources[id] = {
+      ...(resources[id] || {}),
       ...resource,
     };
+    freshResources.add(id);
     return resource;
   }
 
@@ -176,7 +177,6 @@ export const useResourceStore = defineStore("resource", () => {
     loadCorpus,
     loadResource,
     loadResourceIds,
-    loadResourceInfo,
     loadResources,
     metadatas,
     resources,

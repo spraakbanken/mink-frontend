@@ -29,7 +29,11 @@ const { th } = useLocale();
 // When `checkAdminMode()` is done, `adminMode` will go from undefined to true or false.
 watchImmediate(adminMode, () => {
   if (adminMode.value) router.push("/admin/resources");
-  else if (adminMode.value === false) resourceStore.loadResources();
+  else if (adminMode.value === false) {
+    // `loadResourceIds` has less information, but it is faster and will update UI sooner.
+    resourceStore.loadResourceIds();
+    resourceStore.loadResources();
+  }
 });
 
 const accept = computed(() => FORMATS_EXT.map((ext) => `.${ext}`).join());
