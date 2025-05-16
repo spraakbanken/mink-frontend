@@ -3,7 +3,14 @@
  */
 
 import { jwtDecode } from "jwt-decode";
-import { ensureTrailingSlash, pathJoin, progressiveTimeout } from "@/util";
+import { computed, ref } from "vue";
+import {
+  deduplicateRequest,
+  ensureTrailingSlash,
+  pathJoin,
+  progressiveTimeout,
+} from "@/util";
+import api from "@/api/api";
 
 const AUTH_URL: string = ensureTrailingSlash(import.meta.env.VITE_AUTH_URL);
 const LOGOUT_URL: string = import.meta.env.VITE_LOGOUT_URL;
@@ -24,6 +31,20 @@ export type JwtSbPayload = {
   };
 };
 
+/**
+ * A JWT, if fetched.
+ *
+ * Or:
+ * - Empty string if fetched and unauthenticated.
+ * - Undefined if not fetched or if cleared.
+ */
+export const jwt = ref<string>();
+
+/** JWT payload object with permissions etc. */
+export const payload = computed<JwtSbPayload | undefined>(() =>
+  jwt.value ? decodeJwt(jwt.value) : undefined,
+);
+
 /** Return the SB Auth login url, with a redirect back to the given local path. */
 export function getLoginUrl(redirectLocation = "") {
   // Prepend redirect location with Mink base url.
@@ -35,10 +56,30 @@ export function getLoginUrl(redirectLocation = "") {
   return AUTH_URL + `login?redirect=${redirectLocation}`;
 }
 
+/** Checks cached JWT and updates it if needed. */
+export const checkJwt = deduplicateRequest(async (skipCache?: boolean) => {
+  // Check cached JWT.
+  if (payload.value && !skipCache) {
+    // Clear it if it's expired.
+    const timeoutMs = (payload.value.exp - 10) * 1000 - Date.now();
+    if (timeoutMs < 0) jwt.value = undefined;
+  }
+
+  // Fetch JWT if needed.
+  if (!jwt.value || skipCache) {
+    jwt.value = await fetchJwt();
+    // Register JWT with API client.
+    api.setJwt(jwt.value);
+  }
+
+  // Not authenticated.
+  return jwt.value;
+});
+
 /**
- * Fetch JWT.
+ * Fetch JWT. Returns empty string if unauthenticated.
  */
-export async function fetchJwt(): Promise<string | undefined> {
+async function fetchJwt() {
   const config = {
     url: JWT_URL,
     // With version 2, unauthenticated returns 204 instead of 401
@@ -50,10 +91,8 @@ export async function fetchJwt(): Promise<string | undefined> {
   return response.data;
 }
 
-/** Return the SB Auth logout url. */
-export function getLogoutUrl(): string {
-  return LOGOUT_URL;
-}
+/** SB Auth logout url. */
+export const logoutUrl = LOGOUT_URL;
 
 export const decodeJwt = jwtDecode<JwtSbPayload>;
 

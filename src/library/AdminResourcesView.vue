@@ -5,7 +5,6 @@ import useResources from "@/library/resources.composable";
 import AdminResourcePreview from "@/library/AdminResourcePreview.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import { useAuth } from "@/auth/auth.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import { isCorpus, useResourceStore } from "@/store/resource.store";
 import useAdmin from "@/user/admin.composable";
@@ -14,13 +13,10 @@ import ActionButton from "@/components/ActionButton.vue";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
-const { requireAuthentication, isAuthenticated } = useAuth();
 const { adminMode } = useAdmin();
 const { loadResourceIds, loadResource } = useResources();
 
 const previewToggles = reactive<Record<string, boolean>>({});
-
-requireAuthentication();
 
 watch(adminMode, () => {
   // adminMode is undefined initially. If it resolves to false, go to the normal Library view instead.
@@ -45,7 +41,7 @@ async function load(resourceId: string) {
       {{ $t("admin.resources.help") }}
     </HelpBox>
 
-    <LayoutSection v-if="isAuthenticated">
+    <LayoutSection>
       <PendingContent on="corpora" class="my-4 flex flex-col gap-6">
         <PendingContent
           v-for="(resource, resourceId) of resourceStore.resources"

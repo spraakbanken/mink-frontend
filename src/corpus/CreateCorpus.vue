@@ -8,12 +8,10 @@ import LayoutSection from "@/components/LayoutSection.vue";
 import useSpin from "@/spin/spin.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import { FORMATS_EXT, type FileFormat } from "@/api/corpusConfig";
-import { useAuth } from "@/auth/auth.composable";
 import useCreateCorpus from "@/corpus/createCorpus.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 
-const { requireAuthentication } = useAuth();
 const { createFromConfig } = useCreateCorpus();
 const { t } = useI18n();
 const { spin } = useSpin();
@@ -34,8 +32,6 @@ const formatOptions = computed(() =>
     {},
   ),
 );
-
-requireAuthentication();
 
 async function submit(fields: Form) {
   const createPromise = createFromConfig(

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
-import { useAuth } from "@/auth/auth.composable";
 import useMinkBackend from "@/api/backend.composable";
 import useMessenger from "@/message/messenger.composable";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -11,7 +10,6 @@ import LayoutSection from "@/components/LayoutSection.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 
 const router = useRouter();
-const { requireAuthentication } = useAuth();
 const mink = useMinkBackend();
 const { alertError } = useMessenger();
 const { addNewResource } = useCreateResource();
@@ -19,8 +17,6 @@ const { addNewResource } = useCreateResource();
 type Form = {
   publicId: string;
 };
-
-requireAuthentication();
 
 async function submit(fields: Form) {
   const resourceId = await mink
