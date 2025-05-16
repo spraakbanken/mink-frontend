@@ -25,6 +25,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Fixed
 
 - Hide news items with a future creation date
+- Forward from login view to destination if already logged in
 
 ## [1.9.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.9.1) (2025-03-13)
 
