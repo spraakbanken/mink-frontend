@@ -171,3 +171,18 @@ export async function progressiveTimeout<T, D = unknown>(
 
   return request();
 }
+
+/** Squash simultaneous runs of a time-consuming function. */
+export function deduplicateRequest<T, P extends unknown[]>(
+  f: (...args: P) => Promise<T>,
+) {
+  // Store one promise at a time.
+  let promise: Promise<T> | null = null;
+  return (...args: P) => {
+    // If a request is already in progress, return that promise.
+    if (promise) return promise;
+    // Otherwise, start a new request and let it occupy the promise slot.
+    promise = f(...args).finally(() => (promise = null));
+    return promise;
+  };
+}
