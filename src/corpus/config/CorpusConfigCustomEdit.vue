@@ -6,7 +6,7 @@ import { PhFileX, PhWarning } from "@phosphor-icons/vue";
 import { useI18n } from "vue-i18n";
 import { isError } from "es-toolkit";
 import useCorpusIdParam from "../corpusIdParam.composable";
-import useConfig from "./config.composable";
+import { useCorpus } from "../corpus.composable";
 import CorpusConfigCustomHelp from "./CorpusConfigCustomHelp.vue";
 import { useResourceStore } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
@@ -22,7 +22,7 @@ const schemaValidate = ajv.compile(schema);
 
 const corpusId = useCorpusIdParam();
 const resourceStore = useResourceStore();
-const { config } = useConfig(corpusId);
+const { config } = useCorpus(corpusId);
 const { alertError } = useMessenger();
 const { t } = useI18n();
 

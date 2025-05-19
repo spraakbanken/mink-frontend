@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computedAsync } from "@vueuse/core";
 import useSpin from "@/spin/spin.composable";
-import useConfig from "@/corpus/config/config.composable";
 import PadButton from "@/components/PadButton.vue";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
 import { useResourceStore } from "@/store/resource.store";
+import { useCorpus } from "@/corpus/corpus.composable";
 
 const props = defineProps<{
   id: string;
@@ -12,7 +12,7 @@ const props = defineProps<{
 
 const resourceStore = useResourceStore();
 const { spin } = useSpin();
-const { corpusName } = useConfig(props.id);
+const { corpusName } = useCorpus(props.id);
 
 const corpus = computedAsync(() =>
   spin(resourceStore.loadCorpus(props.id), "corpora"),

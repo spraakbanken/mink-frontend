@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import useExports from "@/corpus/exports/exports.composable";
+import { useCorpus } from "../corpus.composable";
 import ToolPanel from "@/corpus/explore/ToolPanel.vue";
 import { ensureTrailingSlash } from "@/util";
-import useJob from "@/corpus/job/job.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import useSpin from "@/spin/spin.composable";
@@ -13,10 +12,8 @@ const props = defineProps<{
 }>();
 
 const { isPending } = useSpin();
-const { exports } = useExports(props.corpusId);
-const { installKorp, installStrix, isJobRunning, jobState } = useJob(
-  props.corpusId,
-);
+const { exports, installKorp, installStrix, isJobRunning, jobState } =
+  useCorpus(props.corpusId);
 const { locale3 } = useLocale();
 
 const korpUrl = ensureTrailingSlash(import.meta.env.VITE_KORP_URL);

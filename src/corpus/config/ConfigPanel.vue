@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
+import { useCorpus } from "../corpus.composable";
 import useLocale from "@/i18n/locale.composable";
-import useConfig from "@/corpus/config/config.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 
@@ -10,7 +10,7 @@ const props = defineProps<{
   corpusId: string;
 }>();
 
-const { configOptions } = useConfig(props.corpusId);
+const { configOptions } = useCorpus(props.corpusId);
 const { th } = useLocale();
 const { t } = useI18n();
 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { PhPencilSimple, PhWarning } from "@phosphor-icons/vue";
+import { useCorpus } from "../corpus.composable";
 import CorpusConfigCustomHelp from "./CorpusConfigCustomHelp.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import useConfig from "@/corpus/config/config.composable";
 import FileUpload from "@/components/FileUpload.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
@@ -13,7 +13,7 @@ import RouteButton from "@/components/RouteButton.vue";
 import { useResourceStore } from "@/store/resource.store";
 
 const corpusId = useCorpusIdParam();
-const { config } = useConfig(corpusId);
+const { config } = useCorpus(corpusId);
 const { alertError } = useMessenger();
 const resourceStore = useResourceStore();
 

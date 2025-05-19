@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { PhPencilSimple } from "@phosphor-icons/vue";
-import useConfig from "./config/config.composable";
+import { useCorpus } from "./corpus.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import ConfigPanel from "@/corpus/config/ConfigPanel.vue";
 import SourcesPanel from "@/corpus/sources/SourcesPanel.vue";
@@ -12,7 +12,7 @@ import RouteButton from "@/components/RouteButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 
 const corpusId = useCorpusIdParam();
-const { hasMetadata, isConfigValid } = useConfig(corpusId);
+const { hasMetadata, isConfigValid } = useCorpus(corpusId);
 </script>
 
 <template>

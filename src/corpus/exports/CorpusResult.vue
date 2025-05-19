@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { groupBy } from "es-toolkit";
 import { PhDownloadSimple } from "@phosphor-icons/vue";
-import useExports from "@/corpus/exports/exports.composable";
+import { useCorpus } from "../corpus.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -18,7 +18,7 @@ const {
   downloadResult,
   downloadResultFile,
   getDownloadFilename,
-} = useExports(corpusId);
+} = useCorpus(corpusId);
 
 const exportsByFolder = computed(() =>
   exports.value

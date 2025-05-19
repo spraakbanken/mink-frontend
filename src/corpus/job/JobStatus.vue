@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import useJob from "@/corpus/job/job.composable";
+import { useCorpus } from "../corpus.composable";
 import JobStatusMessage from "@/corpus/job/JobStatusMessage.vue";
 import { formatDate } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -12,7 +12,9 @@ const props = defineProps<{
   corpusId: string;
 }>();
 
-const { abortJob, jobStatus, isJobRunning, hasError } = useJob(props.corpusId);
+const { abortJob, jobStatus, isJobRunning, hasError } = useCorpus(
+  props.corpusId,
+);
 
 const isStarted = computed(
   () =>

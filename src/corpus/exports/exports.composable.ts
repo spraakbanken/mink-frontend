@@ -11,18 +11,17 @@ export default function useExports(corpusId: string) {
   const { alertError } = useMessenger();
   const matomo = useMatomo();
 
-  const corpus = computed(() => resourceStore.corpora[corpusId]);
   /** Exports sorted alphabetically by path, but "stats_*" first. */
   const exports = computed(() =>
     // Shallow-clone list to avoid modifying the computed value.
-    [...(corpus.value?.exports || [])]
+    [...(resourceStore.corpora[corpusId]?.exports || [])]
       ?.sort((a, b) => a.path.localeCompare(b.path))
       .sort((a, b) => b.path.indexOf("stats_") - a.path.indexOf("stats_")),
   );
 
   async function loadExports() {
     const exports = await mink.loadExports(corpusId).catch(alertError);
-    corpus.value.exports = exports;
+    resourceStore.corpora[corpusId].exports = exports;
   }
 
   async function downloadResult() {

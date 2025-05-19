@@ -13,8 +13,7 @@ export default function useConfig(corpusId: string) {
   const resourceStore = useResourceStore();
   const { th } = useLocale();
 
-  const corpus = computed(() => resourceStore.corpora[corpusId]);
-  const config = computed(() => corpus.value?.config);
+  const config = computed(() => resourceStore.corpora[corpusId]?.config);
   const configOptions = computed(getParsedConfig);
   const corpusName = computed(() => th(configOptions.value?.name));
   const hasMetadata = computed(

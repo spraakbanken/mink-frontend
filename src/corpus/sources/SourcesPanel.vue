@@ -2,9 +2,8 @@
 import { computed } from "vue";
 import { PhTrash } from "@phosphor-icons/vue";
 import { useI18n } from "vue-i18n";
-import useConfig from "../config/config.composable";
+import { useCorpus } from "../corpus.composable";
 import UploadSizeLimits from "./UploadSizeLimits.vue";
-import useSources from "@/corpus/sources/sources.composable";
 import useMinkBackendInfo from "@/api/backendInfo.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -20,12 +19,18 @@ const props = defineProps<{
   corpusId: string;
 }>();
 
-const { sources, hasSources, deleteSource } = useSources(props.corpusId);
+const {
+  sources,
+  hasSources,
+  deleteSource,
+  uploadSources,
+  extensions,
+  configOptions,
+  uploadConfig,
+} = useCorpus(props.corpusId);
 const { info } = useMinkBackendInfo();
 const { filesize } = useLocale();
 const { alert, alertError } = useMessenger();
-const { uploadSources, extensions } = useSources(props.corpusId);
-const { configOptions, uploadConfig } = useConfig(props.corpusId);
 const { t } = useI18n();
 
 const totalSize = computed(() =>
