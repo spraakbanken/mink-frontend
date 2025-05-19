@@ -237,14 +237,20 @@ export function parseConfig(configYaml: string): ConfigOptions {
     (ext) => FORMATS[ext as FileFormat] == config.import?.importer,
   );
   if (!format)
-    throw new TypeError(`Unrecognized importer: "${config.import.importer}"`);
+    throw new TypeError(
+      `Unrecognized importer: "${JSON.stringify(config.import.importer)}"`,
+    );
 
   // Extract metadata
   const name = config.metadata?.name;
   if (!name)
-    throw new TypeError(`Name missing in metadata: ${config.metadata}`);
+    throw new TypeError(
+      `Name missing in metadata: ${JSON.stringify(config.metadata)}`,
+    );
   if (!name.swe || !name.eng)
-    throw new TypeError(`Name must contain swe and eng: ${name}`);
+    throw new TypeError(
+      `Name must contain swe and eng: ${JSON.stringify(name)}`,
+    );
 
   // Build options object
   const options = {
