@@ -76,7 +76,6 @@ export const formSections: readonly Readonly<FormSectionProperties>[] = [
       "odt_import",
       "pdf_import",
       "text_import",
-      "xml_import",
     ],
   },
   {
