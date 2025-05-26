@@ -22,7 +22,7 @@ export default function useMinkBackend() {
   const loadConfig = (corpusId: string) =>
     spin(api.downloadConfig(corpusId), `corpus/${corpusId}/config`);
 
-  const saveConfig = (corpusId: string, configYaml: string) =>
+  const uploadConfig = (corpusId: string, configYaml: string) =>
     spin(api.uploadConfig(corpusId, configYaml), `corpus/${corpusId}/config`);
 
   const downloadSource = (corpusId: string, filename: string, binary = false) =>
@@ -115,7 +115,7 @@ export default function useMinkBackend() {
     deleteCorpus,
     deleteMetadata,
     loadConfig,
-    saveConfig,
+    uploadConfig,
     downloadSource,
     downloadPlaintext,
     uploadSources,

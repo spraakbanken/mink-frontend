@@ -25,7 +25,7 @@ const { info } = useMinkBackendInfo();
 const { filesize } = useLocale();
 const { alert, alertError } = useMessenger();
 const { uploadSources, extensions } = useSources(props.corpusId);
-const { configOptions, uploadConfig } = useConfig(props.corpusId);
+const { configOptions, saveConfigOptions } = useConfig(props.corpusId);
 const { t } = useI18n();
 
 const totalSize = computed(() =>
@@ -47,7 +47,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
     alert(
       t("source.upload.config_format.trigger_change", { format: t(format) }),
     );
-    requests.push(uploadConfig({ ...configOptions.value, format }));
+    requests.push(saveConfigOptions({ ...configOptions.value, format }));
   }
 
   await Promise.all(requests);

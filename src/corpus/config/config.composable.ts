@@ -39,13 +39,13 @@ export default function useConfig(corpusId: string) {
     corpus.value.config = config;
   }
 
-  async function uploadConfig(configOptions: ConfigOptions) {
+  async function saveConfigOptions(configOptions: ConfigOptions) {
     const configYaml = makeConfig(corpusId, configOptions);
-    await uploadConfigRaw(configYaml);
+    await saveConfig(configYaml);
   }
 
-  async function uploadConfigRaw(configYaml: string) {
-    await mink.saveConfig(corpusId, configYaml);
+  async function saveConfig(configYaml: string) {
+    await mink.uploadConfig(corpusId, configYaml);
     // Backend may modify uploaded config. Store our version immediately, but also fetch the real one unawaited.
     resourceStore.corpora[corpusId].config = configYaml;
     loadConfig();
@@ -68,7 +68,7 @@ export default function useConfig(corpusId: string) {
     hasMetadata,
     isConfigValid,
     loadConfig,
-    uploadConfig,
-    uploadConfigRaw,
+    saveConfigOptions,
+    saveConfig,
   };
 }

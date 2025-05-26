@@ -12,12 +12,12 @@ import PendingContent from "@/spin/PendingContent.vue";
 import RouteButton from "@/components/RouteButton.vue";
 
 const corpusId = useCorpusIdParam();
-const { config, uploadConfigRaw } = useConfig(corpusId);
+const { config, saveConfig } = useConfig(corpusId);
 const { alertError } = useMessenger();
 
 async function upload(files: File[]) {
   const configYaml = await files[0].text();
-  await uploadConfigRaw(configYaml).catch(alertError);
+  await saveConfig(configYaml).catch(alertError);
 }
 </script>
 

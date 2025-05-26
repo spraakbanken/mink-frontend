@@ -20,7 +20,7 @@ const ajv = new Ajv2020();
 const schemaValidate = ajv.compile(schema);
 
 const corpusId = useCorpusIdParam();
-const { config, uploadConfigRaw } = useConfig(corpusId);
+const { config, saveConfig } = useConfig(corpusId);
 const { alertError } = useMessenger();
 const { t } = useI18n();
 
@@ -59,7 +59,7 @@ function validate() {
 
 async function upload() {
   if (input.value == config.value) return;
-  await uploadConfigRaw(input.value).catch(alertError);
+  await saveConfig(input.value).catch(alertError);
 }
 
 watchEffect(validate);
