@@ -13,6 +13,7 @@ import {
   type FileFormat,
   SEGMENTERS,
   emptyConfig,
+  isGenerated,
   parseConfig,
 } from "@/api/corpusConfig";
 import type { ConfigSentenceSegmenter } from "@/api/sparvConfig.types";
@@ -142,6 +143,17 @@ async function submit(fields: Form) {
 
 <template>
   <PendingContent :on="`corpus/${corpusId}/config`">
+    <!-- Warn if current config is custom. -->
+    <HelpBox v-if="config && !isGenerated(config)" important>
+      <i18n-t scope="global" keypath="config.generated.overwrite">
+        <template #custom>
+          <router-link :to="`/library/corpus/${corpusId}/config/custom`">
+            {{ $t("config.custom") }}
+          </router-link>
+        </template>
+      </i18n-t>
+    </HelpBox>
+
     <!-- Using the key attribute to re-render whole form after fetching config -->
     <FormKitWrapper :key="config">
       <FormKit
