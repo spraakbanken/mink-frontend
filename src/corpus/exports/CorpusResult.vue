@@ -9,16 +9,13 @@ import PendingContent from "@/spin/PendingContent.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import useLocale from "@/i18n/locale.composable";
+import { useCorpusStore } from "@/store/corpus.store";
 
 const corpusId = useCorpusIdParam();
 const { filesize } = useLocale();
-const {
-  loadExports,
-  exports,
-  downloadResult,
-  downloadResultFile,
-  getDownloadFilename,
-} = useCorpus(corpusId);
+const { loadExports } = useCorpusStore();
+const { exports, downloadResult, downloadResultFile, getDownloadFilename } =
+  useCorpus(corpusId);
 
 const exportsByFolder = computed(() =>
   exports.value
@@ -26,7 +23,7 @@ const exportsByFolder = computed(() =>
     : undefined,
 );
 
-loadExports();
+loadExports(corpusId);
 </script>
 
 <template>

@@ -4,20 +4,20 @@ import { PhDownloadSimple, PhGearFine, PhInfo } from "@phosphor-icons/vue";
 import { useCorpus } from "../corpus.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
+import { useCorpusStore } from "@/store/corpus.store";
 
 const props = defineProps<{
   corpusId: string;
 }>();
 
+const { runJob, loadExports } = useCorpusStore();
 const {
   hasMetadata,
   isConfigValid,
-  runJob,
-  clearAnnotations,
   jobState,
   isJobRunning,
-  loadExports,
   exports,
+  clearAnnotations,
   downloadResult,
   getDownloadFilename,
 } = useCorpus(props.corpusId);
@@ -31,18 +31,18 @@ const canRun = computed(
     !isJobRunning.value,
 );
 
-loadExports();
+loadExports(props.corpusId);
 
 async function doRunJob() {
   isPending.value = true;
-  await runJob();
+  await runJob(props.corpusId);
   isPending.value = false;
 }
 
 // When a job finishes, show download button.
 watch(jobState, () => {
   if (jobState.value?.sparv == "done") {
-    loadExports();
+    loadExports(props.corpusId);
   }
 });
 </script>

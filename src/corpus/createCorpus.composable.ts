@@ -63,7 +63,7 @@ export default function useCreateCorpus() {
     router.push(`/library/corpus/${corpusId}`);
   }
 
-  // Like the `saveConfigOptions` in `config.composable.ts` but takes `corpusId` as argument.
+  // Like the `saveConfigOptions` in `corpus.composable.ts` but takes `corpusId` as argument.
   async function saveConfigOptions(
     configOptions: ConfigOptions,
     corpusId: string,

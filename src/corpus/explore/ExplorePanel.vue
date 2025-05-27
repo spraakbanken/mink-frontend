@@ -6,14 +6,15 @@ import { ensureTrailingSlash } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import useSpin from "@/spin/spin.composable";
+import { useCorpusStore } from "@/store/corpus.store";
 
 const props = defineProps<{
   corpusId: string;
 }>();
 
 const { isPending } = useSpin();
-const { exports, installKorp, installStrix, isJobRunning, jobState } =
-  useCorpus(props.corpusId);
+const { installKorp, installStrix } = useCorpusStore();
+const { exports, isJobRunning, jobState } = useCorpus(props.corpusId);
 const { locale3 } = useLocale();
 
 const korpUrl = ensureTrailingSlash(import.meta.env.VITE_KORP_URL);
@@ -27,11 +28,11 @@ const canInstall = computed(
 );
 
 async function korpInstall() {
-  await installKorp();
+  await installKorp(props.corpusId);
 }
 
 async function strixInstall() {
-  await installStrix();
+  await installStrix(props.corpusId);
 }
 </script>
 
