@@ -43,9 +43,7 @@ export default function useSources(corpusId: string) {
   /** Find file extensions present in source files. Undefined if no files. */
   const extensions = computed(() =>
     uniq(
-      resourceStore.corpora[corpusId]?.sources?.map((source) =>
-        getFilenameExtension(source.name),
-      ) || [],
+      sources.value?.map((source) => getFilenameExtension(source.name)) || [],
     ),
   );
 

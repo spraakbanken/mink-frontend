@@ -3,10 +3,11 @@ import { useCorpus } from "./corpus.composable";
 
 /** The "corpus state" is related to the job status, but is more about predicting what action the user needs to take. */
 export function useCorpusState(corpusId: string) {
-  const { sources, hasMetadata, isConfigValid, jobState } = useCorpus(corpusId);
+  const { hasSources, hasMetadata, isConfigValid, jobState } =
+    useCorpus(corpusId);
 
   const corpusState = computed(() => {
-    if (!sources.value.length) return CorpusState.EMPTY;
+    if (!hasSources.value) return CorpusState.EMPTY;
     if (!isConfigValid.value) return CorpusState.NEEDING_CONFIG;
     if (!hasMetadata.value) return CorpusState.NEEDING_META;
 
