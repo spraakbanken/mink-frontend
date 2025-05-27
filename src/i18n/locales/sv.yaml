@@ -216,6 +216,7 @@ config.custom.upload.overwrite: Om du sparar i det vanliga formuläret igen kan 
 config.datetime.validate_both: Båda eller inget av dessa datum måste anges.
 config.format.help: Ange vilket filformat källtexterna har. Alla filer måste ha det valda formatet.
 config.format.note.pdf: PDF-formatet är byggt främst för visuell presentation. Text som extraheras från PDF-filer kan ibland ge bristfälliga resultat. OCR-behandling av scannade dokument är (för närvarande) inget som Mink stödjer.
+config.generated.overwrite: Om inställningarna tidigare har ändrats på sidan {custom} så notera att vissa ändringar kan gå förlorade om du sparar från detta formulär.
 config.text_annotation: Textelement
 config.text_annotation.help: Vilket XML-element i dina källfiler representerar bäst en enskild text? Eventuella annotationer på textnivå kommer att sättas på det elementet.
 segmenter_sentence: Existerande meningssegmentering

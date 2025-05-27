@@ -1,5 +1,6 @@
 import { computed } from "vue";
 import {
+  asGenerated,
   makeConfig,
   parseConfig,
   validateConfig,
@@ -26,6 +27,12 @@ export default function useConfig(corpusId: string) {
     () =>
       configOptions.value &&
       !getException(() => validateConfig(configOptions.value!)),
+  );
+  const configAsCustom = computed(() =>
+    config.value ? asGenerated(false, config.value) : undefined,
+  );
+  const configAsGenerated = computed(() =>
+    config.value ? asGenerated(true, config.value) : undefined,
   );
 
   async function loadConfig() {
@@ -64,6 +71,8 @@ export default function useConfig(corpusId: string) {
   return {
     config,
     configOptions,
+    configAsCustom,
+    configAsGenerated,
     corpusName,
     hasMetadata,
     isConfigValid,

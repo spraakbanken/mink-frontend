@@ -20,7 +20,7 @@ const ajv = new Ajv2020();
 const schemaValidate = ajv.compile(schema);
 
 const corpusId = useCorpusIdParam();
-const { config, saveConfig } = useConfig(corpusId);
+const { configAsCustom: config, saveConfig } = useConfig(corpusId);
 const { alertError } = useMessenger();
 const { t } = useI18n();
 
