@@ -25,7 +25,7 @@ export default function useConfig(corpusId: string) {
       !getException(() => validateConfig(configOptions.value!)),
   );
 
-  async function uploadConfig(configOptions: ConfigOptions) {
+  async function saveConfigOptions(configOptions: ConfigOptions) {
     const configYaml = makeConfig(corpusId, configOptions);
     await resourceStore.uploadConfig(corpusId, configYaml);
   }
@@ -46,6 +46,6 @@ export default function useConfig(corpusId: string) {
     corpusName,
     hasMetadata,
     isConfigValid,
-    uploadConfig,
+    saveConfigOptions,
   };
 }

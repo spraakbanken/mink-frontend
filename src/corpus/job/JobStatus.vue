@@ -52,7 +52,7 @@ const isStarted = computed(
       class="w-full my-2"
     />
 
-    <table v-if="isStarted" class="w-full">
+    <table v-if="isStarted" class="w-full table-fixed">
       <thead></thead>
       <tbody>
         <tr v-if="jobStatus.errors">
@@ -84,17 +84,19 @@ const isStarted = computed(
 
         <tr v-if="Number(jobStatus.priority) > 0">
           <th>{{ $t("job.priority") }}</th>
-          <td>{{ jobStatus.priority }}</td>
+          <td class="text-right">{{ jobStatus.priority }}</td>
         </tr>
 
         <tr v-if="jobStatus.last_run_started">
           <th>{{ $t("job.last_run_started") }}</th>
-          <td>{{ formatDate(jobStatus.last_run_started) }}</td>
+          <td class="text-right">
+            {{ formatDate(jobStatus.last_run_started) }}
+          </td>
         </tr>
 
         <tr v-if="jobStatus.last_run_ended">
           <th>{{ $t("job.last_run_ended") }}</th>
-          <td>{{ formatDate(jobStatus.last_run_ended) }}</td>
+          <td class="text-right">{{ formatDate(jobStatus.last_run_ended) }}</td>
         </tr>
       </tbody>
     </table>

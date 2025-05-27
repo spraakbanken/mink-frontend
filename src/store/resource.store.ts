@@ -128,7 +128,7 @@ export const useResourceStore = defineStore("resource", () => {
   }
 
   async function uploadConfig(corpusId: string, configYaml: string) {
-    await mink.saveConfig(corpusId, configYaml);
+    await mink.uploadConfig(corpusId, configYaml);
     // Backend may modify uploaded config. Store our version immediately, but also fetch the real one unawaited.
     corpora.value[corpusId].config = configYaml;
     invalidateConfig(corpusId);

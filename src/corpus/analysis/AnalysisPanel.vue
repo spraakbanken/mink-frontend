@@ -114,7 +114,10 @@ watch(jobState, () => {
           <th>{{ $t("file.archive") }}</th>
           <td>
             <PendingContent :on="`corpus/${corpusId}/exports/download`">
-              <ActionButton class="button-primary" @click="downloadResult">
+              <ActionButton
+                :class="{ 'button-primary': !isJobRunning }"
+                @click="downloadResult"
+              >
                 <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
                 {{ getDownloadFilename() }}
               </ActionButton>

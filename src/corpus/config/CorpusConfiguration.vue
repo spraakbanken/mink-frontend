@@ -30,7 +30,7 @@ import TerminalOutput from "@/components/TerminalOutput.vue";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
-const { config, uploadConfig, extensions } = useCorpus(corpusId);
+const { config, saveConfigOptions, extensions } = useCorpus(corpusId);
 const { alert, alertError } = useMessenger();
 const { t } = useI18n();
 
@@ -127,7 +127,7 @@ async function submit(fields: Form) {
   };
 
   try {
-    await uploadConfig(configNew);
+    await saveConfigOptions(configNew);
     router.push(`/library/corpus/${corpusId}`);
   } catch (e) {
     if (e instanceof TypeError) {

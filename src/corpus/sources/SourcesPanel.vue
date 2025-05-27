@@ -26,7 +26,7 @@ const {
   uploadSources,
   extensions,
   configOptions,
-  uploadConfig,
+  saveConfigOptions,
 } = useCorpus(props.corpusId);
 const { info } = useMinkBackendInfo();
 const { filesize } = useLocale();
@@ -52,7 +52,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
     alert(
       t("source.upload.config_format.trigger_change", { format: t(format) }),
     );
-    requests.push(uploadConfig({ ...configOptions.value, format }));
+    requests.push(saveConfigOptions({ ...configOptions.value, format }));
   }
 
   await Promise.all(requests);

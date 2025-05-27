@@ -46,7 +46,7 @@ export default function useCreateCorpus() {
 
     const results = await Promise.allSettled([
       uploadSources(files, corpusId),
-      uploadConfig(config, corpusId),
+      saveConfigOptions(config, corpusId),
     ]);
 
     const rejectedResults = results.filter(
@@ -63,10 +63,13 @@ export default function useCreateCorpus() {
     router.push(`/library/corpus/${corpusId}`);
   }
 
-  // Like the `uploadConfig` in `config.composable.ts` but takes `corpusId` as argument.
-  async function uploadConfig(configOptions: ConfigOptions, corpusId: string) {
+  // Like the `saveConfigOptions` in `config.composable.ts` but takes `corpusId` as argument.
+  async function saveConfigOptions(
+    configOptions: ConfigOptions,
+    corpusId: string,
+  ) {
     const configYaml = makeConfig(corpusId, configOptions);
-    await mink.saveConfig(corpusId, configYaml);
+    await mink.uploadConfig(corpusId, configYaml);
     resourceStore.corpora[corpusId].config = configYaml;
   }
 
@@ -102,7 +105,7 @@ export default function useCreateCorpus() {
 
     // Upload the basic config.
     try {
-      await uploadConfig(config, corpusId);
+      await saveConfigOptions(config, corpusId);
       // Show the created corpus.
       router.push(`/library/corpus/${corpusId}`);
       return corpusId;
