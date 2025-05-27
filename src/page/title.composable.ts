@@ -2,7 +2,7 @@ import { useRoute, type RouteLocation } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { computedAsync } from "@vueuse/core";
 import useLocale from "@/i18n/locale.composable";
-import { useResourceStore } from "@/store/resource.store";
+import { useCorpusStore } from "@/store/corpus.store";
 import type { ConfigOptions } from "@/api/corpusConfig";
 
 /** Handle the custom title/createTitle route meta options. */
@@ -10,7 +10,7 @@ export default function usePageTitle() {
   const route = useRoute();
   const { t } = useI18n();
   const { th } = useLocale();
-  const resourceStore = useResourceStore();
+  const corpusStore = useCorpusStore();
 
   /** Get the title for a route */
   async function getTitle(route: RouteLocation): Promise<string | undefined> {
@@ -29,7 +29,7 @@ export default function usePageTitle() {
 
   /** Look for name in corpus config */
   async function getName(corpusId: string): Promise<string | undefined> {
-    const config = resourceStore.corpora[corpusId]?.config;
+    const config = corpusStore.corpora[corpusId]?.config;
     if (!config) return;
 
     const { parseConfig } = await import("@/api/corpusConfig");

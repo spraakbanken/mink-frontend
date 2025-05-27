@@ -1,25 +1,23 @@
 import { computed } from "vue";
 import { uniq } from "es-toolkit";
 import useMinkBackend from "@/api/backend.composable";
-import { useResourceStore } from "@/store/resource.store";
+import { useCorpusStore } from "@/store/corpus.store";
 import useMessenger from "@/message/messenger.composable";
 import { getFilenameExtension } from "@/util";
 import type { FileMeta, ProgressHandler } from "@/api/api.types";
 
 export default function useSources(corpusId: string) {
-  const resourceStore = useResourceStore();
+  const corpusStore = useCorpusStore();
   const mink = useMinkBackend();
   const { alertError } = useMessenger();
 
-  const sources = computed(
-    () => resourceStore.corpora[corpusId]?.sources || [],
-  );
+  const sources = computed(() => corpusStore.corpora[corpusId]?.sources || []);
   const hasSources = computed(() => sources.value.length > 0);
 
   async function loadSources() {
     const info = await mink.listSources(corpusId).catch(alertError);
     if (!info) return;
-    resourceStore.corpora[corpusId].sources = info.resource.source_files;
+    corpusStore.corpora[corpusId].sources = info.resource.source_files;
   }
 
   async function downloadSource(source: FileMeta, binary: boolean) {

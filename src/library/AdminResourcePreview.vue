@@ -3,18 +3,17 @@ import { onMounted } from "vue";
 import { type Resource, isCorpus } from "@/store/resource.types";
 import PendingContent from "@/spin/PendingContent.vue";
 import TextData from "@/components/TextData.vue";
-import { useResourceStore } from "@/store/resource.store";
+import { useCorpusStore } from "@/store/corpus.store";
 
 const props = defineProps<{
   resourceId: string;
   resource: Resource;
 }>();
 
-const resourceStore = useResourceStore();
+const corpusStore = useCorpusStore();
 
 onMounted(() => {
-  if (isCorpus(props.resource) && !props.resource.config)
-    resourceStore.loadConfig(props.resourceId);
+  if (isCorpus(props.resource)) corpusStore.loadConfig(props.resourceId);
 });
 </script>
 

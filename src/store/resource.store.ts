@@ -4,7 +4,6 @@ import { useStorage } from "@vueuse/core";
 import {
   isCorpus,
   isMetadata,
-  type Corpus,
   type Metadata,
   type Resource,
 } from "./resource.types";
@@ -26,9 +25,6 @@ export const useResourceStore = defineStore("resource", () => {
     resourcesRef.value,
   );
 
-  const corpora = computed<Record<string, Partial<Corpus>>>(() =>
-    pickByType(resources, isCorpus),
-  );
   const metadatas = computed<Record<string, Partial<Metadata>>>(() =>
     pickByType(resources, isMetadata),
   );
@@ -44,9 +40,6 @@ export const useResourceStore = defineStore("resource", () => {
 
   /** Which resources have fresh info loaded. */
   const freshResources = new Set<string>();
-
-  /** Which resources have fresh config loaded. */
-  const freshConfigs = new Set<string>();
 
   /** Load resource ids and update store to match. */
   async function loadResourceIds() {
@@ -91,48 +84,9 @@ export const useResourceStore = defineStore("resource", () => {
     return resources[resourceId] as Resource;
   }
 
-  /** Load and store data and config for a corpus resource. */
-  async function loadCorpus(corpusId: string): Promise<Corpus | undefined> {
-    const resource = await loadResource(corpusId);
-    if (resource && isCorpus(resource)) {
-      await loadConfig(corpusId);
-      return resource;
-    }
-    return undefined;
-  }
-
   /** Mark a resource's info as out of date. */
   function invalidateResource(resourceId: string) {
     freshResources.delete(resourceId);
-  }
-
-  /** Fetch and store the config of a corpus. */
-  async function loadConfig(corpusId: string) {
-    if (!freshConfigs.has(corpusId)) {
-      const config = await mink
-        .loadConfig(corpusId)
-        // 404 means no config which is fine.
-        .catch((error) => {
-          if (error.response?.status == 404) return undefined;
-          alertError(error);
-        });
-      corpora.value[corpusId].config = config;
-      freshConfigs.add(corpusId);
-    }
-    return corpora.value[corpusId].config;
-  }
-
-  /** Mark a corpus config as out of date */
-  function invalidateConfig(corpusId: string) {
-    freshConfigs.delete(corpusId);
-  }
-
-  async function uploadConfig(corpusId: string, configYaml: string) {
-    await mink.uploadConfig(corpusId, configYaml);
-    // Backend may modify uploaded config. Store our version immediately, but also fetch the real one unawaited.
-    corpora.value[corpusId].config = configYaml;
-    invalidateConfig(corpusId);
-    loadConfig(corpusId);
   }
 
   /** Store new state for a given resource. */
@@ -165,21 +119,13 @@ export const useResourceStore = defineStore("resource", () => {
     return resource;
   }
 
-  const hasCorpora = computed(() => !!Object.keys(corpora).length);
-
   return {
-    corpora,
-    hasCorpora,
-    invalidateConfig,
     invalidateResource,
     invalidateResources,
-    loadConfig,
-    loadCorpus,
     loadResource,
     loadResourceIds,
     loadResources,
     metadatas,
     resources,
-    uploadConfig,
   };
 });

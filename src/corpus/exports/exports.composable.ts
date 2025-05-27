@@ -2,11 +2,11 @@ import { computed } from "vue";
 import { downloadFile } from "@/util";
 import { useMatomo } from "@/matomo";
 import useMinkBackend from "@/api/backend.composable";
-import { useResourceStore } from "@/store/resource.store";
+import { useCorpusStore } from "@/store/corpus.store";
 import useMessenger from "@/message/messenger.composable";
 
 export default function useExports(corpusId: string) {
-  const resourceStore = useResourceStore();
+  const corpusStore = useCorpusStore();
   const mink = useMinkBackend();
   const { alertError } = useMessenger();
   const matomo = useMatomo();
@@ -14,14 +14,14 @@ export default function useExports(corpusId: string) {
   /** Exports sorted alphabetically by path, but "stats_*" first. */
   const exports = computed(() =>
     // Shallow-clone list to avoid modifying the computed value.
-    [...(resourceStore.corpora[corpusId]?.exports || [])]
+    [...(corpusStore.corpora[corpusId]?.exports || [])]
       ?.sort((a, b) => a.path.localeCompare(b.path))
       .sort((a, b) => b.path.indexOf("stats_") - a.path.indexOf("stats_")),
   );
 
   async function loadExports() {
     const exports = await mink.loadExports(corpusId).catch(alertError);
-    resourceStore.corpora[corpusId].exports = exports;
+    corpusStore.corpora[corpusId].exports = exports;
   }
 
   async function downloadResult() {

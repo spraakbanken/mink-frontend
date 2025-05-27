@@ -7,16 +7,16 @@ import ActionButton from "@/components/ActionButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import { useResourceStore } from "@/store/resource.store";
+import { useCorpusStore } from "@/store/corpus.store";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
 const { deleteCorpus } = useDeleteCorpus();
-const resourceStore = useResourceStore();
+const corpusStore = useCorpusStore();
 
 async function doDelete() {
   await deleteCorpus(corpusId);
-  if (!(corpusId in resourceStore.corpora)) {
+  if (!(corpusId in corpusStore.corpora)) {
     router.push("/library");
   }
 }

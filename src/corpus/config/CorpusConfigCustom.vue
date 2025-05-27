@@ -10,16 +10,16 @@ import useMessenger from "@/message/messenger.composable";
 import SyntaxHighlight from "@/components/SyntaxHighlight.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import RouteButton from "@/components/RouteButton.vue";
-import { useResourceStore } from "@/store/resource.store";
+import { useCorpusStore } from "@/store/corpus.store";
 
 const corpusId = useCorpusIdParam();
 const { config } = useCorpus(corpusId);
 const { alertError } = useMessenger();
-const resourceStore = useResourceStore();
+const corpusStore = useCorpusStore();
 
 async function upload(files: File[]) {
   const configYaml = await files[0].text();
-  await resourceStore.uploadConfig(corpusId, configYaml).catch(alertError);
+  await corpusStore.uploadConfig(corpusId, configYaml).catch(alertError);
 }
 </script>
 

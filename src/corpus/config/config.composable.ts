@@ -6,14 +6,14 @@ import {
   type ConfigOptions,
 } from "@/api/corpusConfig";
 import useLocale from "@/i18n/locale.composable";
-import { useResourceStore } from "@/store/resource.store";
+import { useCorpusStore } from "@/store/corpus.store";
 import { getException } from "@/util";
 
 export default function useConfig(corpusId: string) {
-  const resourceStore = useResourceStore();
+  const corpusStore = useCorpusStore();
   const { th } = useLocale();
 
-  const config = computed(() => resourceStore.corpora[corpusId]?.config);
+  const config = computed(() => corpusStore.corpora[corpusId]?.config);
   const configOptions = computed(getParsedConfig);
   const corpusName = computed(() => th(configOptions.value?.name));
   const hasMetadata = computed(
@@ -27,7 +27,7 @@ export default function useConfig(corpusId: string) {
 
   async function saveConfigOptions(configOptions: ConfigOptions) {
     const configYaml = makeConfig(corpusId, configOptions);
-    await resourceStore.uploadConfig(corpusId, configYaml);
+    await corpusStore.uploadConfig(corpusId, configYaml);
   }
 
   function getParsedConfig() {

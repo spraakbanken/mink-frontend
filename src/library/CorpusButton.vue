@@ -2,18 +2,18 @@
 import useSpin from "@/spin/spin.composable";
 import PadButton from "@/components/PadButton.vue";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
-import { useResourceStore } from "@/store/resource.store";
 import { useCorpus } from "@/corpus/corpus.composable";
+import { useCorpusStore } from "@/store/corpus.store";
 
 const props = defineProps<{
   id: string;
 }>();
 
-const resourceStore = useResourceStore();
+const corpusStore = useCorpusStore();
 const { spin } = useSpin();
 const { corpusName, hasSources, sources } = useCorpus(props.id);
 
-spin(resourceStore.loadCorpus(props.id), "corpora");
+spin(corpusStore.loadCorpus(props.id), "corpora");
 </script>
 
 <template>

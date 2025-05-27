@@ -2,14 +2,14 @@
 import { computedAsync } from "@vueuse/core";
 import { useCorpus } from "./corpus.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import { useResourceStore } from "@/store/resource.store";
 import PageTitle from "@/components/PageTitle.vue";
+import { useCorpusStore } from "@/store/corpus.store";
 
-const resourceStore = useResourceStore();
+const corpusStore = useCorpusStore();
 const corpusId = useCorpusIdParam();
 const { corpusName } = useCorpus(corpusId);
 
-const corpus = computedAsync(() => resourceStore.loadCorpus(corpusId));
+const corpus = computedAsync(() => corpusStore.loadCorpus(corpusId));
 </script>
 
 <template>

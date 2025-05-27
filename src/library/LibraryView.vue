@@ -17,9 +17,11 @@ import useCreateCorpus from "@/corpus/createCorpus.composable";
 import FileUpload from "@/components/FileUpload.vue";
 import { FORMATS_EXT } from "@/api/corpusConfig";
 import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
+import { useCorpusStore } from "@/store/corpus.store";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
+const corpusStore = useCorpusStore();
 const { adminMode } = useAdmin();
 const { createFromUpload } = useCreateCorpus();
 const { spin } = useSpin();
@@ -50,7 +52,7 @@ async function fileHandler(files: File[]) {
       <HelpBox>
         <p>
           {{
-            resourceStore.hasCorpora
+            corpusStore.hasCorpora
               ? $t("library.help.corpora")
               : $t("library.help.corpora.none")
           }}
@@ -59,7 +61,7 @@ async function fileHandler(files: File[]) {
 
       <PendingContent on="corpora" class="my-4 flex flex-wrap gap-4">
         <CorpusButton
-          v-for="(corpus, corpusId) of resourceStore.corpora"
+          v-for="(corpus, corpusId) of corpusStore.corpora"
           :id="corpusId"
           :key="corpusId"
         />
@@ -75,7 +77,7 @@ async function fileHandler(files: File[]) {
       <PendingContent on="create" blocking>
         <FileUpload
           :file-handler
-          :primary="!resourceStore.hasCorpora"
+          :primary="!corpusStore.hasCorpora"
           :accept
           multiple
           show-progress

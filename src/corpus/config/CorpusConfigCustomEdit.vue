@@ -8,7 +8,7 @@ import { isError } from "es-toolkit";
 import useCorpusIdParam from "../corpusIdParam.composable";
 import { useCorpus } from "../corpus.composable";
 import CorpusConfigCustomHelp from "./CorpusConfigCustomHelp.vue";
-import { useResourceStore } from "@/store/resource.store";
+import { useCorpusStore } from "@/store/corpus.store";
 import useMessenger from "@/message/messenger.composable";
 import LayoutBox from "@/components/LayoutBox.vue";
 import HelpBox from "@/components/HelpBox.vue";
@@ -21,7 +21,7 @@ const ajv = new Ajv2020();
 const schemaValidate = ajv.compile(schema);
 
 const corpusId = useCorpusIdParam();
-const resourceStore = useResourceStore();
+const corpusStore = useCorpusStore();
 const { config } = useCorpus(corpusId);
 const { alertError } = useMessenger();
 const { t } = useI18n();
@@ -61,7 +61,7 @@ function validate() {
 
 async function upload() {
   if (input.value == config.value) return;
-  await resourceStore.uploadConfig(corpusId, input.value).catch(alertError);
+  await corpusStore.uploadConfig(corpusId, input.value).catch(alertError);
 }
 
 watchEffect(validate);
