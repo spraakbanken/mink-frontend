@@ -34,7 +34,6 @@ export const useCorpusStore = defineStore("corpus", () => {
   /** Invalidate the corpus resource and its config. */
   function invalidateCorpus(corpusId: string) {
     invalidateResource(corpusId);
-    invalidateConfig(corpusId);
   }
 
   /** Fetch and store the config of a corpus. */
