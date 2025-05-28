@@ -32,11 +32,11 @@ export function useCorpus(corpusId: string) {
   const { alertError } = useMessenger();
   const matomo = useMatomo();
 
-  // const corpus = computed(() => corpusStore.corpora[corpusId]);
   const corpus = lazyload(
     () => corpusStore.loadCorpus(corpusId),
     corpusStore.corpora[corpusId],
   );
+
   const config = lazyload(
     () => corpusStore.loadConfig(corpusId),
     corpus.value?.config || undefined,

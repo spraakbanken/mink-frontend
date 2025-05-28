@@ -13,6 +13,15 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.10.0...HEAD)
 
+### Changed
+
+- Data loading and caching have been rewritten
+  - The `useSources`, `useConfig`, `useStatus` and `useExports` composables were merged as `useCorpus(corpusId)`
+  - `useCorpus(corpusId)` returns lazy-loading computeds `corpus`, `sources`, `config`, `exports` etc.
+  - There's mostly no need to call `loadSources` etc explicitly now
+  - Data is cached using freshness registers, and can be invalidated with the `skipCache` argument of `loadSources` etc
+  - Corpus-specific parts of `resourceStore` are now in `corpusStore`
+
 ## [1.10.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.10.0) (2025-05-19)
 
 ### Added
