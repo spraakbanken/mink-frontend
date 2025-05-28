@@ -10,7 +10,7 @@ const props = defineProps<{
   corpusId: string;
 }>();
 
-const { runJob, loadExports } = useCorpusStore();
+const { runJob } = useCorpusStore();
 const {
   hasMetadata,
   isConfigValid,
@@ -31,20 +31,11 @@ const canRun = computed(
     !isJobRunning.value,
 );
 
-loadExports(props.corpusId);
-
 async function doRunJob() {
   isPending.value = true;
   await runJob(props.corpusId);
   isPending.value = false;
 }
-
-// When a job finishes, show download button.
-watch(jobState, () => {
-  if (jobState.value?.sparv == "done") {
-    loadExports(props.corpusId);
-  }
-});
 </script>
 
 <template>

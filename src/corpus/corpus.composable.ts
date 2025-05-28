@@ -79,6 +79,8 @@ export function useCorpus(corpusId: string) {
   async function clearAnnotations() {
     matomo?.trackEvent("Corpus", "Annotation", "Clear");
     await mink.clearAnnotations(corpusId).catch(alertError);
+    corpusStore.invalidateExports(corpusId);
+    await corpusStore.loadExports(corpusId);
   }
 
   /** Exports sorted alphabetically by path, but "stats_*" first. */

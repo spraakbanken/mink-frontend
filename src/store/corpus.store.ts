@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { computed } from "vue";
+import { watchDeep } from "@vueuse/core";
 import { isCorpus, type Corpus } from "./resource.types";
 import { useResourceStore } from "./resource.store";
 import useMinkBackend from "@/api/backend.composable";
@@ -13,8 +14,11 @@ export const useCorpusStore = defineStore("corpus", () => {
   const { alertError } = useMessenger();
   const matomo = useMatomo();
 
-  /** Which resources have fresh config loaded. */
+  /** Which corpora have fresh config loaded. */
   const freshConfigs = new Set<string>();
+
+  /** Which corpora have fresh exports loaded */
+  const freshExports = new Set<string>();
 
   const corpora = computed<Record<string, Partial<Corpus>>>(() =>
     pickByType(resources, isCorpus),
@@ -99,9 +103,30 @@ export const useCorpusStore = defineStore("corpus", () => {
   }
 
   async function loadExports(corpusId: string) {
-    const exports = await mink.loadExports(corpusId).catch(alertError);
-    corpora.value[corpusId].exports = exports;
+    if (!freshExports.has(corpusId)) {
+      const exports = await mink.loadExports(corpusId).catch(alertError);
+      corpora.value[corpusId].exports = exports;
+      freshExports.add(corpusId);
+    }
+    return corpora.value[corpusId].exports;
   }
+
+  function invalidateExports(corpusId: string) {
+    freshExports.delete(corpusId);
+  }
+
+  // Refresh exports when Sparv is done
+  watchDeep(corpora, (corporaNew, corporaOld) => {
+    Object.keys(corporaNew).forEach((id) => {
+      if (
+        corporaNew[id]?.status?.status.sparv == "done" &&
+        corporaOld[id]?.status?.status.sparv != "done"
+      ) {
+        freshExports.delete(id);
+        loadExports(id);
+      }
+    });
+  });
 
   return {
     invalidateCorpus,
@@ -111,6 +136,7 @@ export const useCorpusStore = defineStore("corpus", () => {
     loadConfig,
     loadSources,
     invalidateConfig,
+    invalidateExports,
     uploadConfig,
     runJob,
     abortJob,
