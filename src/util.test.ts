@@ -234,16 +234,22 @@ describe("deduplicateRequest", () => {
   });
 
   test("uses args", async () => {
-    const request = deduplicateRequest(async (incr: number) => {
-      count += incr;
+    const counts = { A: 0, B: 0 };
+
+    const request = deduplicateRequest(async (key: keyof typeof counts) => {
+      counts[key] += 1;
       await delay(100);
-      return count;
+      return counts[key];
     });
 
-    const a = request(2); // add 2
-    const b = request(3); // skip this, do NOT add 3
+    const a1 = request("A"); // add to A
+    const a2 = request("A"); // skip this, do NOT add again to A
+    const b1 = request("B"); // add to B
+    const b2 = b1.then(() => request("B")); // add to B again
 
-    expect(await a).toEqual(2);
-    expect(await b).toEqual(2);
+    expect(await a1).toEqual(1);
+    expect(await a2).toEqual(1);
+    expect(await b1).toEqual(1);
+    expect(await b2).toEqual(2);
   });
 });

@@ -84,6 +84,7 @@ const segmenterOptions = computed<SegmenterOptions>(() => {
   return options as SegmenterOptions;
 });
 
+// Like `getParsedConfig` in `corpus.composable.ts` but also alerts on error.
 function getParsedConfig() {
   if (!config.value) return undefined;
   try {

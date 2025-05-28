@@ -1,8 +1,7 @@
 import { computed, watch } from "vue";
 import { uniq } from "es-toolkit";
-import { useInterval } from "@vueuse/core";
+import { computedAsync, useInterval } from "@vueuse/core";
 import { useCorpusStore } from "@/store/corpus.store";
-import useLocale from "@/i18n/locale.composable";
 import {
   makeConfig,
   parseConfig,
@@ -15,6 +14,12 @@ import useMessenger from "@/message/messenger.composable";
 import type { FileMeta, JobType, ProgressHandler } from "@/api/api.types";
 import { useMatomo } from "@/matomo";
 
+/** Lazy `computedAsync` using initial value also as fallback. */
+const lazyload = <T>(f: () => Promise<T | undefined>, fallback: T) =>
+  computedAsync(async () => (await f()) || fallback, fallback, {
+    lazy: true,
+  });
+
 // Module-scope ticker, can be watched to perform task intermittently
 const pollTick = useInterval(2000);
 
@@ -23,15 +28,20 @@ const pollTracker: Record<string, boolean> = {};
 
 export function useCorpus(corpusId: string) {
   const corpusStore = useCorpusStore();
-  const { th } = useLocale();
   const mink = useMinkBackend();
   const { alertError } = useMessenger();
   const matomo = useMatomo();
 
-  const corpus = computed(() => corpusStore.corpora[corpusId]);
-  const config = computed(() => corpus.value?.config);
+  // const corpus = computed(() => corpusStore.corpora[corpusId]);
+  const corpus = lazyload(
+    () => corpusStore.loadCorpus(corpusId),
+    corpusStore.corpora[corpusId],
+  );
+  const config = lazyload(
+    () => corpusStore.loadConfig(corpusId),
+    corpus.value?.config || undefined,
+  );
   const configOptions = computed(getParsedConfig);
-  const corpusName = computed(() => th(configOptions.value?.name));
   const hasMetadata = computed(
     () => configOptions.value?.name?.swe || configOptions.value?.name?.eng,
   );
@@ -41,7 +51,10 @@ export function useCorpus(corpusId: string) {
       !getException(() => validateConfig(configOptions.value!)),
   );
 
-  const sources = computed(() => corpus.value?.sources || []);
+  const sources = lazyload(
+    () => corpusStore.loadSources(corpusId),
+    corpus.value?.sources || [],
+  );
   const hasSources = computed(() => sources.value.length > 0);
   /** Find file extensions present in source files. Undefined if no files. */
   const extensions = computed(() =>
@@ -83,11 +96,9 @@ export function useCorpus(corpusId: string) {
   }
 
   /** Exports sorted alphabetically by path, but "stats_*" first. */
-  const exports = computed(() =>
-    // Shallow-clone list to avoid modifying the computed value.
-    [...(corpusStore.corpora[corpusId]?.exports || [])]
-      ?.sort((a, b) => a.path.localeCompare(b.path))
-      .sort((a, b) => b.path.indexOf("stats_") - a.path.indexOf("stats_")),
+  const exports = lazyload(
+    () => corpusStore.loadExports(corpusId),
+    corpus.value?.exports || [],
   );
 
   async function saveConfigOptions(configOptions: ConfigOptions) {
@@ -115,12 +126,12 @@ export function useCorpus(corpusId: string) {
 
   async function uploadSources(files: File[], onProgress?: ProgressHandler) {
     await mink.uploadSources(corpusId, files, onProgress);
-    corpusStore.loadSources(corpusId);
+    corpusStore.loadSources(corpusId, true);
   }
 
   async function deleteSource(source: FileMeta) {
     await mink.deleteSource(corpusId, source.name).catch(alertError);
-    corpusStore.loadSources(corpusId);
+    corpusStore.loadSources(corpusId, true);
   }
 
   // Check status intermittently if active.
@@ -155,9 +166,9 @@ export function useCorpus(corpusId: string) {
   }
 
   return {
+    corpus,
     config,
     configOptions,
-    corpusName,
     hasMetadata,
     isConfigValid,
     saveConfigOptions,

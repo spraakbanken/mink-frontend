@@ -4,6 +4,7 @@ import PadButton from "@/components/PadButton.vue";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
 import { useCorpus } from "@/corpus/corpus.composable";
 import { useCorpusStore } from "@/store/corpus.store";
+import useLocale from "@/i18n/locale.composable";
 
 const props = defineProps<{
   id: string;
@@ -11,14 +12,19 @@ const props = defineProps<{
 
 const corpusStore = useCorpusStore();
 const { spin } = useSpin();
-const { corpusName, hasSources, sources } = useCorpus(props.id);
+const { corpus, hasSources, sources } = useCorpus(props.id);
+const { th } = useLocale();
 
-spin(corpusStore.loadCorpus(props.id), "corpora");
+const loadPromise = Promise.all([
+  corpusStore.loadConfig(props.id),
+  corpusStore.loadSources(props.id),
+]);
+spin(loadPromise, "corpora");
 </script>
 
 <template>
   <PadButton class="flex" :to="`/library/corpus/${id}`">
-    <strong>{{ corpusName || id }}</strong>
+    <strong>{{ th(corpus?.name) || id }}</strong>
 
     <span v-if="hasSources">
       {{ $t("files", sources.length) }}

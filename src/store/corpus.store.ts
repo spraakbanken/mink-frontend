@@ -7,6 +7,7 @@ import useMinkBackend from "@/api/backend.composable";
 import useMessenger from "@/message/messenger.composable";
 import { pickByType } from "@/util";
 import { useMatomo } from "@/matomo";
+import type { FileMeta } from "@/api/api.types";
 
 export const useCorpusStore = defineStore("corpus", () => {
   const { loadResource, resources } = useResourceStore();
@@ -25,22 +26,25 @@ export const useCorpusStore = defineStore("corpus", () => {
   );
   const hasCorpora = computed(() => !!Object.keys(corpora).length);
 
-  /** Load and store data and config for a corpus resource. */
+  /** Load and store info for a corpus resource. */
   async function loadCorpus(
     corpusId: string,
     skipCache = false,
   ): Promise<Corpus | undefined> {
     const resource = await loadResource(corpusId, skipCache);
-    if (resource && isCorpus(resource)) {
-      await loadConfig(corpusId);
-      return resource;
-    }
-    return undefined;
+    return resource && isCorpus(resource) ? resource : undefined;
   }
 
   /** Fetch and store the config of a corpus. */
-  async function loadConfig(corpusId: string, skipCache = false) {
+  async function loadConfig(
+    corpusId: string,
+    skipCache = false,
+  ): Promise<string | undefined> {
     if (skipCache) freshConfigs.delete(corpusId);
+
+    const corpus = await loadCorpus(corpusId);
+    if (!corpus) return;
+
     if (!freshConfigs.has(corpusId)) {
       const config = await mink
         .loadConfig(corpusId)
@@ -49,10 +53,10 @@ export const useCorpusStore = defineStore("corpus", () => {
           if (error.response?.status == 404) return undefined;
           alertError(error);
         });
-      corpora.value[corpusId].config = config;
+      corpus.config = config;
       freshConfigs.add(corpusId);
     }
-    return corpora.value[corpusId].config;
+    return corpus.config;
   }
 
   async function uploadConfig(corpusId: string, configYaml: string) {
@@ -62,10 +66,24 @@ export const useCorpusStore = defineStore("corpus", () => {
     loadConfig(corpusId, true);
   }
 
-  async function loadSources(corpusId: string) {
-    const info = await mink.listSources(corpusId).catch(alertError);
-    if (!info) return;
-    corpora.value[corpusId].sources = info.resource.source_files;
+  async function loadSources(
+    corpusId: string,
+    skipCache = false,
+  ): Promise<FileMeta[] | undefined> {
+    // loadCorpus/loadResource actually uses the same API call as mink.listSources, just with different spin tokens.
+    // So in theory we could end up with two of the same API call here, if loadResource cache is cold, AND
+    // the skipCache arg here is set to true. But in practice, skipCache is only true after sources are added/removed,
+    // in which case loadResource cache will be warm.
+    const corpus = await loadCorpus(corpusId);
+    if (!corpus) return;
+
+    if (skipCache) {
+      const info = await mink.listSources(corpusId).catch(alertError);
+      if (!info) return;
+      corpus.sources = info.resource.source_files;
+    }
+
+    return corpus.sources;
   }
 
   async function runJob(corpusId: string) {
@@ -94,23 +112,35 @@ export const useCorpusStore = defineStore("corpus", () => {
     await loadCorpus(corpusId, true);
   }
 
-  async function loadExports(corpusId: string, skipCache = false) {
+  async function loadExports(
+    corpusId: string,
+    skipCache = false,
+  ): Promise<FileMeta[] | undefined> {
     if (skipCache) freshExports.delete(corpusId);
+
+    const corpus = await loadCorpus(corpusId);
+    if (!corpus) return;
+
     if (!freshExports.has(corpusId)) {
       const exports = await mink.loadExports(corpusId).catch(alertError);
-      corpora.value[corpusId].exports = exports;
-      freshExports.add(corpusId);
+      if (exports) {
+        /** Sorted alphabetically by path, but "stats_*" first. */
+        corpus.exports = exports
+          .sort((a, b) => a.path.localeCompare(b.path))
+          .sort((a, b) => b.path.indexOf("stats_") - a.path.indexOf("stats_"));
+        freshExports.add(corpusId);
+      }
     }
-    return corpora.value[corpusId].exports;
+
+    return corpus.exports;
   }
 
   // Refresh exports when Sparv is done
   watchDeep(corpora, (corporaNew, corporaOld) => {
     Object.keys(corporaNew).forEach((id) => {
-      if (
-        corporaNew[id]?.status?.status.sparv == "done" &&
-        corporaOld[id]?.status?.status.sparv != "done"
-      ) {
+      const sparvNew = corporaNew[id]?.status?.status.sparv;
+      const sparvOld = corporaOld[id]?.status?.status.sparv;
+      if (sparvNew == "done" && sparvOld && sparvOld != "done") {
         loadExports(id, true);
       }
     });
