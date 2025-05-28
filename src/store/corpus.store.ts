@@ -9,7 +9,7 @@ import { pickByType } from "@/util";
 import { useMatomo } from "@/matomo";
 
 export const useCorpusStore = defineStore("corpus", () => {
-  const { invalidateResource, loadResource, resources } = useResourceStore();
+  const { loadResource, resources } = useResourceStore();
   const mink = useMinkBackend();
   const { alertError } = useMessenger();
   const matomo = useMatomo();
@@ -26,8 +26,11 @@ export const useCorpusStore = defineStore("corpus", () => {
   const hasCorpora = computed(() => !!Object.keys(corpora).length);
 
   /** Load and store data and config for a corpus resource. */
-  async function loadCorpus(corpusId: string): Promise<Corpus | undefined> {
-    const resource = await loadResource(corpusId);
+  async function loadCorpus(
+    corpusId: string,
+    skipCache = false,
+  ): Promise<Corpus | undefined> {
+    const resource = await loadResource(corpusId, skipCache);
     if (resource && isCorpus(resource)) {
       await loadConfig(corpusId);
       return resource;
@@ -35,13 +38,9 @@ export const useCorpusStore = defineStore("corpus", () => {
     return undefined;
   }
 
-  /** Invalidate the corpus resource and its config. */
-  function invalidateCorpus(corpusId: string) {
-    invalidateResource(corpusId);
-  }
-
   /** Fetch and store the config of a corpus. */
-  async function loadConfig(corpusId: string) {
+  async function loadConfig(corpusId: string, skipCache = false) {
+    if (skipCache) freshConfigs.delete(corpusId);
     if (!freshConfigs.has(corpusId)) {
       const config = await mink
         .loadConfig(corpusId)
@@ -56,17 +55,11 @@ export const useCorpusStore = defineStore("corpus", () => {
     return corpora.value[corpusId].config;
   }
 
-  /** Mark a corpus config as out of date */
-  function invalidateConfig(corpusId: string) {
-    freshConfigs.delete(corpusId);
-  }
-
   async function uploadConfig(corpusId: string, configYaml: string) {
     await mink.uploadConfig(corpusId, configYaml);
     // Backend may modify uploaded config. Store our version immediately, but also fetch the real one unawaited.
     corpora.value[corpusId].config = configYaml;
-    invalidateConfig(corpusId);
-    loadConfig(corpusId);
+    loadConfig(corpusId, true);
   }
 
   async function loadSources(corpusId: string) {
@@ -98,21 +91,17 @@ export const useCorpusStore = defineStore("corpus", () => {
   async function abortJob(corpusId: string) {
     matomo?.trackEvent("Corpus", "Annotation", "Abort");
     await mink.abortJob(corpusId).catch(alertError);
-    invalidateCorpus(corpusId);
-    await loadCorpus(corpusId);
+    await loadCorpus(corpusId, true);
   }
 
-  async function loadExports(corpusId: string) {
+  async function loadExports(corpusId: string, skipCache = false) {
+    if (skipCache) freshExports.delete(corpusId);
     if (!freshExports.has(corpusId)) {
       const exports = await mink.loadExports(corpusId).catch(alertError);
       corpora.value[corpusId].exports = exports;
       freshExports.add(corpusId);
     }
     return corpora.value[corpusId].exports;
-  }
-
-  function invalidateExports(corpusId: string) {
-    freshExports.delete(corpusId);
   }
 
   // Refresh exports when Sparv is done
@@ -122,21 +111,17 @@ export const useCorpusStore = defineStore("corpus", () => {
         corporaNew[id]?.status?.status.sparv == "done" &&
         corporaOld[id]?.status?.status.sparv != "done"
       ) {
-        freshExports.delete(id);
-        loadExports(id);
+        loadExports(id, true);
       }
     });
   });
 
   return {
-    invalidateCorpus,
     corpora,
     hasCorpora,
     loadCorpus,
     loadConfig,
     loadSources,
-    invalidateConfig,
-    invalidateExports,
     uploadConfig,
     runJob,
     abortJob,

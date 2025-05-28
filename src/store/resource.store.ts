@@ -75,18 +75,15 @@ export const useResourceStore = defineStore("resource", () => {
   /** Load and store data about a given resource. */
   async function loadResource(
     resourceId: string,
+    skipCache = false,
   ): Promise<Resource | undefined> {
+    if (skipCache) freshResources.delete(resourceId);
     if (!freshResources.has(resourceId)) {
       const data = await mink.resourceInfoOne(resourceId).catch(alertError);
       if (!data) return;
       storeResource(data);
     }
     return resources[resourceId] as Resource;
-  }
-
-  /** Mark a resource's info as out of date. */
-  function invalidateResource(resourceId: string) {
-    freshResources.delete(resourceId);
   }
 
   /** Store new state for a given resource. */
@@ -120,7 +117,6 @@ export const useResourceStore = defineStore("resource", () => {
   }
 
   return {
-    invalidateResource,
     invalidateResources,
     loadResource,
     loadResourceIds,

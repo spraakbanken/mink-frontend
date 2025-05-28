@@ -79,8 +79,7 @@ export function useCorpus(corpusId: string) {
   async function clearAnnotations() {
     matomo?.trackEvent("Corpus", "Annotation", "Clear");
     await mink.clearAnnotations(corpusId).catch(alertError);
-    corpusStore.invalidateExports(corpusId);
-    await corpusStore.loadExports(corpusId);
+    await corpusStore.loadExports(corpusId, true);
   }
 
   /** Exports sorted alphabetically by path, but "stats_*" first. */
@@ -129,8 +128,7 @@ export function useCorpus(corpusId: string) {
     // This composable can be active in multiple components with the same corpus id. Only send request once per corpus.
     if (isJobRunning.value && !pollTracker[corpusId]) {
       pollTracker[corpusId] = true;
-      corpusStore.invalidateCorpus(corpusId);
-      await corpusStore.loadCorpus(corpusId);
+      await corpusStore.loadCorpus(corpusId, true);
       pollTracker[corpusId] = false;
     }
   });
