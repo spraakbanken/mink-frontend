@@ -53,7 +53,10 @@ watch(jobState, () => {
       :on="`corpus/${corpusId}/job/sparv`"
       class="flex flex-col gap-3 items-start"
     >
-      <div v-if="exports?.length" class="flex gap-3 items-center">
+      <div
+        v-if="!isJobRunning && exports?.length"
+        class="flex gap-3 items-center"
+      >
         <div>
           <div class="font-semibold">{{ $t("annotations.clear") }}</div>
           {{ $t("annotations.clear.help") }}

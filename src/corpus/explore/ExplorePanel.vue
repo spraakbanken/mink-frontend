@@ -14,7 +14,7 @@ const props = defineProps<{
 
 const { isPending } = useSpin();
 const { installKorp, installStrix } = useCorpusStore();
-const { exports, isJobRunning, jobState } = useCorpus(props.corpusId);
+const { isJobRunning, jobState } = useCorpus(props.corpusId);
 const { locale3 } = useLocale();
 
 const korpUrl = ensureTrailingSlash(import.meta.env.VITE_KORP_URL);
@@ -23,7 +23,7 @@ const strixUrl = ensureTrailingSlash(import.meta.env.VITE_STRIX_URL);
 const canInstall = computed(
   () =>
     !isJobRunning.value &&
-    exports.value?.length > 0 &&
+    jobState.value?.sparv == "done" &&
     !isPending(`corpus/${props.corpusId}/job`),
 );
 
