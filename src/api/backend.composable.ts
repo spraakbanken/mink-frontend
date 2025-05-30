@@ -79,6 +79,9 @@ export default function useMinkBackend() {
     spin(api.resourceInfoOne(corpusId), `corpus/${corpusId}/info`),
   );
 
+  const checkChanges = (corpusId: string) =>
+    spin(api.checkChanges(corpusId), `corpus/${corpusId}/info`);
+
   const runJob = (corpusId: string) =>
     spin(api.runSparv(corpusId), `corpus/${corpusId}/job/sparv`);
 
@@ -130,6 +133,7 @@ export default function useMinkBackend() {
     downloadMetadata,
     resourceInfoAll,
     resourceInfoOne,
+    checkChanges,
     runJob,
     installKorp,
     installStrix,

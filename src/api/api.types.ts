@@ -137,6 +137,19 @@ export type JobState =
   | "error" // "An error occurred in the process"
   | "aborted"; // "Process was aborted by the user"
 
+export type CheckChangesData = {
+  config_changed: boolean;
+  sources_added: boolean;
+  sources_deleted: boolean;
+  sources_changed: boolean;
+  changed_config: FileMeta;
+  added_sources: FileMeta[];
+  deleted_sources: FileMeta[];
+  changed_sources: FileMeta[];
+  /** ISO 8601 date */
+  last_run_started: string;
+};
+
 /** Data in the list-exports response */
 export type ListExportsData = {
   contents: FileMeta[];

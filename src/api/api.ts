@@ -12,6 +12,7 @@ import type {
   CreateMetadataData,
   ProgressHandler,
   JobStateMap,
+  CheckChangesData,
 } from "@/api/api.types";
 
 /** Create a `text/yaml` file object with content */
@@ -200,6 +201,14 @@ class MinkApi {
   async resourceInfoOne(corpusId: string) {
     const response = await this.axios.get<MinkResponse<ResourceInfoOneData>>(
       "resource-info",
+      { params: { corpus_id: corpusId } },
+    );
+    return response.data;
+  }
+
+  async checkChanges(corpusId: string) {
+    const response = await this.axios.get<MinkResponse<CheckChangesData>>(
+      "check-changes",
       { params: { corpus_id: corpusId } },
     );
     return response.data;
