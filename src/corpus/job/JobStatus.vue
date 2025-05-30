@@ -14,25 +14,24 @@ const props = defineProps<{
 }>();
 
 const { abortJob } = useCorpusStore();
-const { jobStatus, isJobRunning, hasError } = useCorpus(props.corpusId);
+const { job, isJobRunning, hasError } = useCorpus(props.corpusId);
 
 const isStarted = computed(
   () =>
-    Object.values(jobStatus.value?.status || {}).some(
-      (status) => status != "none",
-    ) || jobStatus.value?.priority,
+    Object.values(job.value?.status || {}).some((status) => status != "none") ||
+    job.value?.priority,
 );
 </script>
 
 <template>
   <PendingContent
-    v-if="jobStatus"
+    v-if="job"
     :on="[`corpus/${corpusId}/job`, `corpus/${corpusId}/info`]"
   >
     <div class="flex gap-4 justify-between items-baseline">
       <div class="text-lg">
-        <span v-if="jobStatus.current_process">
-          {{ $t(`job.process.${jobStatus.current_process}`) }}:
+        <span v-if="job.current_process">
+          {{ $t(`job.process.${job.current_process}`) }}:
         </span>
         <JobStatusMessage :corpus-id="corpusId" />
       </div>
@@ -47,56 +46,56 @@ const isStarted = computed(
     </div>
 
     <ProgressBar
-      v-if="jobStatus?.progress"
-      :percent="parseInt(jobStatus.progress)"
+      v-if="job?.progress"
+      :percent="parseInt(job.progress)"
       class="w-full my-2"
     />
 
     <table v-if="isStarted" class="w-full table-fixed">
       <thead></thead>
       <tbody>
-        <tr v-if="jobStatus.errors">
+        <tr v-if="job.errors">
           <th colspan="2">{{ $t("errors") }}</th>
         </tr>
-        <tr v-if="jobStatus.errors">
+        <tr v-if="job.errors">
           <td colspan="2">
-            <TextData :text="jobStatus.errors" class="mb-2" />
+            <TextData :text="job.errors" class="mb-2" />
           </td>
         </tr>
 
-        <tr v-if="jobStatus.warnings">
+        <tr v-if="job.warnings">
           <th colspan="2">{{ $t("warnings") }}</th>
         </tr>
-        <tr v-if="jobStatus.warnings">
+        <tr v-if="job.warnings">
           <td colspan="2">
-            <TextData :text="jobStatus.warnings" class="mb-2" />
+            <TextData :text="job.warnings" class="mb-2" />
           </td>
         </tr>
 
-        <tr v-if="hasError && jobStatus.sparv_output">
+        <tr v-if="hasError && job.sparv_output">
           <th colspan="2">{{ $t("sparvOutput") }}</th>
         </tr>
-        <tr v-if="hasError && jobStatus.sparv_output">
+        <tr v-if="hasError && job.sparv_output">
           <td colspan="2">
-            <TextData :text="jobStatus.sparv_output" class="mb-2" />
+            <TextData :text="job.sparv_output" class="mb-2" />
           </td>
         </tr>
 
-        <tr v-if="Number(jobStatus.priority) > 0">
+        <tr v-if="Number(job.priority) > 0">
           <th>{{ $t("job.priority") }}</th>
-          <td class="text-right">{{ jobStatus.priority }}</td>
+          <td class="text-right">{{ job.priority }}</td>
         </tr>
 
-        <tr v-if="jobStatus.last_run_started">
+        <tr v-if="job.last_run_started">
           <th>{{ $t("job.last_run_started") }}</th>
           <td class="text-right">
-            {{ formatDate(jobStatus.last_run_started) }}
+            {{ formatDate(job.last_run_started) }}
           </td>
         </tr>
 
-        <tr v-if="jobStatus.last_run_ended">
+        <tr v-if="job.last_run_ended">
           <th>{{ $t("job.last_run_ended") }}</th>
-          <td class="text-right">{{ formatDate(jobStatus.last_run_ended) }}</td>
+          <td class="text-right">{{ formatDate(job.last_run_ended) }}</td>
         </tr>
       </tbody>
     </table>

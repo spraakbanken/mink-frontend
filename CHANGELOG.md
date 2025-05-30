@@ -21,6 +21,7 @@ As this project is a user-facing application, the places in the semantic version
   - There's mostly no need to call `loadSources` etc explicitly now
   - Data is cached using freshness registers, and can be invalidated with the `skipCache` argument of `loadSources` etc
   - Corpus-specific parts of `resourceStore` are now in `corpusStore`
+- In the resource/corpus store, `status` has been renamed to `job`
 
 ## [1.10.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.10.0) (2025-05-19)
 

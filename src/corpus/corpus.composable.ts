@@ -11,7 +11,7 @@ import {
 import { downloadFile, getException, getFilenameExtension } from "@/util";
 import useMinkBackend from "@/api/backend.composable";
 import useMessenger from "@/message/messenger.composable";
-import type { FileMeta, JobType, ProgressHandler } from "@/api/api.types";
+import type { FileMeta, ProgressHandler } from "@/api/api.types";
 import { useMatomo } from "@/matomo";
 
 /** Lazy `computedAsync` using initial value also as fallback. */
@@ -63,11 +63,11 @@ export function useCorpus(corpusId: string) {
     ),
   );
 
-  const jobStatus = computed(() => corpus.value?.status);
-  const jobState = computed(() => corpus.value?.status?.status);
+  const job = computed(() => corpus.value?.job);
+  const jobState = computed(() => corpus.value?.job?.status);
   const currentStatus = computed(() => {
-    const process = jobStatus.value?.current_process;
-    return process && jobStatus.value?.status?.[process];
+    const process = job.value?.current_process;
+    return process && job.value?.status?.[process];
   });
   const hasError = computed(() =>
     Object.values(jobState.value || {}).includes("error"),
@@ -75,19 +75,11 @@ export function useCorpus(corpusId: string) {
 
   // "Running" if any job is waiting/running.
   const isJobRunning = computed(() => {
-    const statuses = jobState.value;
-    if (!statuses) return false;
-    return (Object.keys(statuses) as JobType[]).some((process) =>
-      ["waiting", "running"].includes(statuses[process]),
+    if (!jobState.value) return false;
+    return Object.values(jobState.value).some((state) =>
+      ["waiting", "running"].includes(state),
     );
   });
-
-  // "Done" if Sparv is done, and Korp is not running/error.
-  const isJobDone = computed(
-    () =>
-      jobState.value?.sparv == "done" &&
-      ["none", "aborted", "done"].includes(jobState.value.korp),
-  );
 
   async function clearAnnotations() {
     matomo?.trackEvent("Corpus", "Annotation", "Clear");
@@ -179,11 +171,10 @@ export function useCorpus(corpusId: string) {
     uploadSources,
     deleteSource,
     extensions,
-    jobStatus,
+    job,
     jobState,
     currentStatus,
     isJobRunning,
-    isJobDone,
     hasError,
     clearAnnotations,
     exports,

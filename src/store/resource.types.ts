@@ -1,5 +1,5 @@
 import type { ByLang } from "@/util.types";
-import type { CorpusStatus, FileMeta, ResourceType } from "@/api/api.types";
+import type { CorpusJob, FileMeta, ResourceType } from "@/api/api.types";
 
 export type Resource = {
   type: ResourceType;
@@ -16,7 +16,7 @@ export type Corpus = Resource & {
   type: "corpus";
   sources: FileMeta[];
   config?: string;
-  status: CorpusStatus;
+  job: CorpusJob;
   exports?: FileMeta[];
 };
 

@@ -65,7 +65,7 @@ export type ResourceInfoOneData = ResourceInfo;
 export type ResourceInfo = {
   owner?: UserData;
   resource: ResourceData;
-  job: CorpusStatus;
+  job: CorpusJob;
 };
 
 /** Data about a Mink user */
@@ -89,7 +89,7 @@ export type ResourceType = "corpus" | "metadata";
 
 /** Job status for a resource */
 // There's more but we're not using everything.
-export type CorpusStatus = {
+export type CorpusJob = {
   current_process: JobType | null;
   status: JobStateMap;
   warnings: string;

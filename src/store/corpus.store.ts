@@ -89,21 +89,21 @@ export const useCorpusStore = defineStore("corpus", () => {
   async function runJob(corpusId: string) {
     matomo?.trackEvent("Corpus", "Annotation", "Start");
     const info = await mink.runJob(corpusId).catch(alertError);
-    corpora.value[corpusId].status = info.job;
+    corpora.value[corpusId].job = info.job;
   }
 
   async function installKorp(corpusId: string) {
     matomo?.trackEvent("Corpus", "Tool install", "Korp");
     const info = await mink.installKorp(corpusId).catch(alertError);
     if (!info) return;
-    corpora.value[corpusId].status = info.job;
+    corpora.value[corpusId].job = info.job;
   }
 
   async function installStrix(corpusId: string) {
     matomo?.trackEvent("Corpus", "Tool install", "Strix");
     const info = await mink.installStrix(corpusId).catch(alertError);
     if (!info) return;
-    corpora.value[corpusId].status = info.job;
+    corpora.value[corpusId].job = info.job;
   }
 
   async function abortJob(corpusId: string) {
@@ -138,8 +138,8 @@ export const useCorpusStore = defineStore("corpus", () => {
   // Refresh exports when Sparv is done
   watchDeep(corpora, (corporaNew, corporaOld) => {
     Object.keys(corporaNew).forEach((id) => {
-      const sparvNew = corporaNew[id]?.status?.status.sparv;
-      const sparvOld = corporaOld[id]?.status?.status.sparv;
+      const sparvNew = corporaNew[id]?.job?.status.sparv;
+      const sparvOld = corporaOld[id]?.job?.status.sparv;
       if (sparvNew == "done" && sparvOld && sparvOld != "done") {
         loadExports(id, true);
       }

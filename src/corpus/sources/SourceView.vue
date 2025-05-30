@@ -13,7 +13,7 @@ const props = defineProps<{
   filename: string;
 }>();
 
-const { downloadSource, downloadPlaintext, isJobDone, sources } = useCorpus(
+const { downloadSource, downloadPlaintext, jobState, sources } = useCorpus(
   props.corpusId,
 );
 const { filesize } = useLocale();
@@ -77,7 +77,7 @@ async function loadPlain() {
               :on="`corpus/${corpusId}/sources/${filename}/plain`"
             >
               <SourceText
-                v-if="isJobDone"
+                v-if="jobState?.sparv == 'done'"
                 :load="loadPlain"
                 :filename="ensureExtension(metadata.name, 'txt')"
                 :size="metadata.size"

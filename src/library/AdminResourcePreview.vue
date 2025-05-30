@@ -46,7 +46,7 @@ onMounted(() => {
             <td>
               <table>
                 <tr
-                  v-for="(status, jobType) in resource.status.status"
+                  v-for="(status, jobType) in resource.job.status"
                   :key="jobType"
                 >
                   <th>{{ jobType }}</th>

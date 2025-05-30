@@ -80,9 +80,7 @@ async function load(resourceId: string) {
                 <span
                   v-if="
                     isCorpus(resource) &&
-                    Object.values(resource.status.status).some(
-                      (status) => status == 'error',
-                    )
+                    Object.values(resource.job.status).includes('error')
                   "
                 >
                   {{ $t("job.status.error") }}
