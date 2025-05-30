@@ -6,8 +6,9 @@ import { PhFileX, PhWarning } from "@phosphor-icons/vue";
 import { useI18n } from "vue-i18n";
 import { isError } from "es-toolkit";
 import useCorpusIdParam from "../corpusIdParam.composable";
-import useConfig from "./config.composable";
+import { useCorpus } from "../corpus.composable";
 import CorpusConfigCustomHelp from "./CorpusConfigCustomHelp.vue";
+import { useCorpusStore } from "@/store/corpus.store";
 import useMessenger from "@/message/messenger.composable";
 import LayoutBox from "@/components/LayoutBox.vue";
 import HelpBox from "@/components/HelpBox.vue";
@@ -20,7 +21,8 @@ const ajv = new Ajv2020();
 const schemaValidate = ajv.compile(schema);
 
 const corpusId = useCorpusIdParam();
-const { config, saveConfig } = useConfig(corpusId);
+const corpusStore = useCorpusStore();
+const { config } = useCorpus(corpusId);
 const { alertError } = useMessenger();
 const { t } = useI18n();
 
@@ -59,7 +61,7 @@ function validate() {
 
 async function upload() {
   if (input.value == config.value) return;
-  await saveConfig(input.value).catch(alertError);
+  await corpusStore.uploadConfig(corpusId, input.value).catch(alertError);
 }
 
 watchEffect(validate);

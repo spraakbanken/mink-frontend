@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { type Resource, isCorpus } from "@/store/resource.store";
-import useConfig from "@/corpus/config/config.composable";
+import { type Resource, isCorpus } from "@/store/resource.types";
 import PendingContent from "@/spin/PendingContent.vue";
 import TextData from "@/components/TextData.vue";
+import { useCorpusStore } from "@/store/corpus.store";
 
 const props = defineProps<{
   resourceId: string;
   resource: Resource;
 }>();
 
-const { loadConfig } = useConfig(props.resourceId);
+const corpusStore = useCorpusStore();
 
 onMounted(() => {
-  if (isCorpus(props.resource) && !props.resource.config) loadConfig();
+  if (isCorpus(props.resource)) corpusStore.loadConfig(props.resourceId);
 });
 </script>
 

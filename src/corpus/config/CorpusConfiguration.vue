@@ -6,6 +6,7 @@ import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
 import { PhLightbulbFilament, PhTrash } from "@phosphor-icons/vue";
+import { useCorpus } from "../corpus.composable";
 import type { MinkResponse } from "@/api/api.types";
 import {
   type ConfigOptions,
@@ -23,17 +24,14 @@ import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import RouteButton from "@/components/RouteButton.vue";
 import useMessenger from "@/message/messenger.composable";
 import PendingContent from "@/spin/PendingContent.vue";
-import useSources from "@/corpus/sources/sources.composable";
-import useConfig from "@/corpus/config/config.composable";
 import type { ByLang } from "@/util.types";
 import LayoutBox from "@/components/LayoutBox.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
-const { config, saveConfigOptions } = useConfig(corpusId);
+const { config, saveConfigOptions, extensions } = useCorpus(corpusId);
 const { alert, alertError } = useMessenger();
-const { extensions } = useSources(corpusId);
 const { t } = useI18n();
 
 type Form = {
@@ -86,6 +84,7 @@ const segmenterOptions = computed<SegmenterOptions>(() => {
   return options as SegmenterOptions;
 });
 
+// Like `getParsedConfig` in `corpus.composable.ts` but also alerts on error.
 function getParsedConfig() {
   if (!config.value) return undefined;
   try {

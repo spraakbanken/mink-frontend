@@ -1,6 +1,7 @@
 import api from "@/api/api";
 import useSpin from "@/spin/spin.composable";
 import type { ProgressHandler } from "@/api/api.types";
+import { deduplicateRequest } from "@/util";
 
 /** Wraps API endpoints with Spin. */
 export default function useMinkBackend() {
@@ -19,8 +20,9 @@ export default function useMinkBackend() {
   const deleteMetadata = (resourceId: string) =>
     spin(api.removeMetadata(resourceId), `resource/${resourceId}/delete`);
 
-  const loadConfig = (corpusId: string) =>
-    spin(api.downloadConfig(corpusId), `corpus/${corpusId}/config`);
+  const loadConfig = deduplicateRequest((corpusId: string) =>
+    spin(api.downloadConfig(corpusId), `corpus/${corpusId}/config`),
+  );
 
   const uploadConfig = (corpusId: string, configYaml: string) =>
     spin(api.uploadConfig(corpusId, configYaml), `corpus/${corpusId}/config`);
@@ -54,8 +56,9 @@ export default function useMinkBackend() {
     );
 
   // Same as `resourceInfoOne` but with another spin token.
-  const listSources = (corpusId: string) =>
-    spin(api.resourceInfoOne(corpusId), `corpus/${corpusId}/sources/list`);
+  const listSources = deduplicateRequest((corpusId: string) =>
+    spin(api.resourceInfoOne(corpusId), `corpus/${corpusId}/sources/list`),
+  );
 
   const uploadMetadata = (resourceId: string, yaml: string) =>
     spin(
@@ -72,8 +75,9 @@ export default function useMinkBackend() {
   const resourceInfoAll = () => spin(api.resourceInfoAll(), "corpora");
 
   // Same as `listSources` but with another spin token.
-  const resourceInfoOne = (corpusId: string) =>
-    spin(api.resourceInfoOne(corpusId), `corpus/${corpusId}/info`);
+  const resourceInfoOne = deduplicateRequest((corpusId: string) =>
+    spin(api.resourceInfoOne(corpusId), `corpus/${corpusId}/info`),
+  );
 
   const runJob = (corpusId: string) =>
     spin(api.runSparv(corpusId), `corpus/${corpusId}/job/sparv`);
@@ -90,8 +94,9 @@ export default function useMinkBackend() {
   const clearAnnotations = (corpusId: string) =>
     spin(api.clearAnnotations(corpusId), `corpus/${corpusId}/exports`);
 
-  const loadExports = (corpusId: string) =>
-    spin(api.listExports(corpusId), `corpus/${corpusId}/exports/list`);
+  const loadExports = deduplicateRequest((corpusId: string) =>
+    spin(api.listExports(corpusId), `corpus/${corpusId}/exports/list`),
+  );
 
   const downloadExports = (corpusId: string) =>
     spin(api.downloadExports(corpusId), `corpus/${corpusId}/exports/download`);

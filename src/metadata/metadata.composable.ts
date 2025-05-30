@@ -1,6 +1,5 @@
 import useMinkBackend from "@/api/backend.composable";
 import { useResourceStore } from "@/store/resource.store";
-import useResources from "@/library/resources.composable";
 import useMessenger from "@/message/messenger.composable";
 
 /** Tracks fully loaded resources, so subsequent load calls can be skipped. */
@@ -9,13 +8,12 @@ const isFresh: Record<string, true> = {};
 export default function useMetadata(resourceId: string) {
   const mink = useMinkBackend();
   const resourceStore = useResourceStore();
-  const { loadResource } = useResources();
   const { alertError } = useMessenger();
 
   /** Load data about a metadata and store it. */
   async function loadMetadata(): Promise<void> {
     // Make sure the resource has an entry in the store.
-    await loadResource(resourceId);
+    await resourceStore.loadResource(resourceId);
 
     // Skip if already loaded.
     if (isFresh[resourceId]) return;

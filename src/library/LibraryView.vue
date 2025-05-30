@@ -3,7 +3,6 @@ import { useRouter } from "vue-router";
 import { PhPlusCircle } from "@phosphor-icons/vue";
 import { computed } from "vue";
 import { watchImmediate } from "@vueuse/core";
-import useResources from "@/library/resources.composable";
 import CorpusButton from "@/library/CorpusButton.vue";
 import useLocale from "@/i18n/locale.composable";
 import PadButton from "@/components/PadButton.vue";
@@ -18,11 +17,12 @@ import useCreateCorpus from "@/corpus/createCorpus.composable";
 import FileUpload from "@/components/FileUpload.vue";
 import { FORMATS_EXT } from "@/api/corpusConfig";
 import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
+import { useCorpusStore } from "@/store/corpus.store";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
+const corpusStore = useCorpusStore();
 const { adminMode } = useAdmin();
-const { loadResources } = useResources();
 const { createFromUpload } = useCreateCorpus();
 const { spin } = useSpin();
 const { th } = useLocale();
@@ -31,7 +31,11 @@ const { th } = useLocale();
 // When `checkAdminMode()` is done, `adminMode` will go from undefined to true or false.
 watchImmediate(adminMode, () => {
   if (adminMode.value) router.push("/admin/resources");
-  else if (adminMode.value === false) loadResources();
+  else if (adminMode.value === false) {
+    // `loadResourceIds` has less information, but it is faster and will update UI sooner.
+    resourceStore.loadResourceIds();
+    resourceStore.loadResources();
+  }
 });
 
 const accept = computed(() => FORMATS_EXT.map((ext) => `.${ext}`).join());
@@ -48,7 +52,7 @@ async function fileHandler(files: File[]) {
       <HelpBox>
         <p>
           {{
-            resourceStore.hasCorpora
+            corpusStore.hasCorpora
               ? $t("library.help.corpora")
               : $t("library.help.corpora.none")
           }}
@@ -57,7 +61,7 @@ async function fileHandler(files: File[]) {
 
       <PendingContent on="corpora" class="my-4 flex flex-wrap gap-4">
         <CorpusButton
-          v-for="(corpus, corpusId) of resourceStore.corpora"
+          v-for="(corpus, corpusId) of corpusStore.corpora"
           :id="corpusId"
           :key="corpusId"
         />
@@ -73,7 +77,7 @@ async function fileHandler(files: File[]) {
       <PendingContent on="create" blocking>
         <FileUpload
           :file-handler
-          :primary="!resourceStore.hasCorpora"
+          :primary="!corpusStore.hasCorpora"
           :accept
           multiple
           show-progress

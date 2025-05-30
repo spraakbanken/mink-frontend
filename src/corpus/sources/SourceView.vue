@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import useSources from "@/corpus/sources/sources.composable";
+import { useCorpus } from "../corpus.composable";
 import SourceText from "@/corpus/sources/SourceText.vue";
 import { ensureExtension, formatDate } from "@/util";
-import { useResourceStore } from "@/store/resource.store";
 import LayoutSection from "@/components/LayoutSection.vue";
-import useJob from "@/corpus/job/job.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import MessageAlert from "@/message/MessageAlert.vue";
@@ -15,12 +13,11 @@ const props = defineProps<{
   filename: string;
 }>();
 
-const resourceStore = useResourceStore();
-const { downloadSource, downloadPlaintext } = useSources(props.corpusId);
-const { isJobDone } = useJob(props.corpusId);
+const { downloadSource, downloadPlaintext, isJobDone, sources } = useCorpus(
+  props.corpusId,
+);
 const { filesize } = useLocale();
 
-const sources = computed(() => resourceStore.corpora[props.corpusId].sources);
 const metadata = computed(() =>
   sources.value?.find((source) => source.name === props.filename),
 );
@@ -43,7 +40,7 @@ async function loadPlain() {
   <LayoutSection>
     <h2>{{ filename }}</h2>
     <MessageAlert
-      v-if="sources && !metadata"
+      v-if="sources.length && !metadata"
       :message="$t('source.notfound')"
       level="error"
     />

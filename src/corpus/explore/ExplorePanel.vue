@@ -1,22 +1,20 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import useExports from "@/corpus/exports/exports.composable";
+import { useCorpus } from "../corpus.composable";
 import ToolPanel from "@/corpus/explore/ToolPanel.vue";
 import { ensureTrailingSlash } from "@/util";
-import useJob from "@/corpus/job/job.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import useSpin from "@/spin/spin.composable";
+import { useCorpusStore } from "@/store/corpus.store";
 
 const props = defineProps<{
   corpusId: string;
 }>();
 
 const { isPending } = useSpin();
-const { exports } = useExports(props.corpusId);
-const { installKorp, installStrix, isJobRunning, jobState } = useJob(
-  props.corpusId,
-);
+const { installKorp, installStrix } = useCorpusStore();
+const { isJobRunning, jobState } = useCorpus(props.corpusId);
 const { locale3 } = useLocale();
 
 const korpUrl = ensureTrailingSlash(import.meta.env.VITE_KORP_URL);
@@ -25,16 +23,16 @@ const strixUrl = ensureTrailingSlash(import.meta.env.VITE_STRIX_URL);
 const canInstall = computed(
   () =>
     !isJobRunning.value &&
-    exports.value?.length > 0 &&
+    jobState.value?.sparv == "done" &&
     !isPending(`corpus/${props.corpusId}/job`),
 );
 
 async function korpInstall() {
-  await installKorp();
+  await installKorp(props.corpusId);
 }
 
 async function strixInstall() {
-  await installStrix();
+  await installStrix(props.corpusId);
 }
 </script>
 

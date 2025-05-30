@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { groupBy } from "es-toolkit";
 import { PhDownloadSimple } from "@phosphor-icons/vue";
-import useExports from "@/corpus/exports/exports.composable";
+import { useCorpus } from "../corpus.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -12,21 +12,14 @@ import useLocale from "@/i18n/locale.composable";
 
 const corpusId = useCorpusIdParam();
 const { filesize } = useLocale();
-const {
-  loadExports,
-  exports,
-  downloadResult,
-  downloadResultFile,
-  getDownloadFilename,
-} = useExports(corpusId);
+const { exports, downloadResult, downloadResultFile, getDownloadFilename } =
+  useCorpus(corpusId);
 
 const exportsByFolder = computed(() =>
   exports.value
     ? groupBy(exports.value, (meta) => meta.path.split("/").shift()!)
     : undefined,
 );
-
-loadExports();
 </script>
 
 <template>

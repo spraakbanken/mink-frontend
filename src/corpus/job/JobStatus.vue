@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import useJob from "@/corpus/job/job.composable";
+import { useCorpus } from "../corpus.composable";
 import JobStatusMessage from "@/corpus/job/JobStatusMessage.vue";
 import { formatDate } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
 import TextData from "@/components/TextData.vue";
+import { useCorpusStore } from "@/store/corpus.store";
 
 const props = defineProps<{
   corpusId: string;
 }>();
 
-const { abortJob, jobStatus, isJobRunning, hasError } = useJob(props.corpusId);
+const { abortJob } = useCorpusStore();
+const { jobStatus, isJobRunning, hasError } = useCorpus(props.corpusId);
 
 const isStarted = computed(
   () =>
@@ -38,7 +40,7 @@ const isStarted = computed(
       <ActionButton
         v-if="isJobRunning"
         class="button-danger ml-2"
-        @click="abortJob"
+        @click="abortJob(corpusId)"
       >
         {{ $t("job.abort") }}
       </ActionButton>

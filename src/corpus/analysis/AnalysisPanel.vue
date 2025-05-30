@@ -1,22 +1,26 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 import { PhDownloadSimple, PhGearFine, PhInfo } from "@phosphor-icons/vue";
-import useExports from "../exports/exports.composable";
-import useJob from "../job/job.composable";
-import useConfig from "../config/config.composable";
+import { useCorpus } from "../corpus.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
+import { useCorpusStore } from "@/store/corpus.store";
 
 const props = defineProps<{
   corpusId: string;
 }>();
 
-const { isConfigValid, hasMetadata } = useConfig(props.corpusId);
-const { runJob, clearAnnotations, jobState, isJobRunning } = useJob(
-  props.corpusId,
-);
-const { exports, loadExports, downloadResult, getDownloadFilename } =
-  useExports(props.corpusId);
+const { runJob } = useCorpusStore();
+const {
+  hasMetadata,
+  isConfigValid,
+  jobState,
+  isJobRunning,
+  exports,
+  clearAnnotations,
+  downloadResult,
+  getDownloadFilename,
+} = useCorpus(props.corpusId);
 
 const isPending = ref(false);
 const canRun = computed(
@@ -27,20 +31,11 @@ const canRun = computed(
     !isJobRunning.value,
 );
 
-loadExports();
-
 async function doRunJob() {
   isPending.value = true;
-  await runJob();
+  await runJob(props.corpusId);
   isPending.value = false;
 }
-
-// When a job finishes, show download button.
-watch(jobState, () => {
-  if (jobState.value?.sparv == "done") {
-    loadExports();
-  }
-});
 </script>
 
 <template>
@@ -49,7 +44,10 @@ watch(jobState, () => {
       :on="`corpus/${corpusId}/job/sparv`"
       class="flex flex-col gap-3 items-start"
     >
-      <div v-if="exports?.length" class="flex gap-3 items-center">
+      <div
+        v-if="!isJobRunning && exports?.length"
+        class="flex gap-3 items-center"
+      >
         <div>
           <div class="font-semibold">{{ $t("annotations.clear") }}</div>
           {{ $t("annotations.clear.help") }}

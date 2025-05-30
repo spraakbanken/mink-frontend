@@ -4,7 +4,7 @@ import {
   type AxiosRequestConfig,
   type AxiosResponse,
 } from "axios";
-import { clone, pickBy } from "es-toolkit";
+import { attempt, clone, pickBy } from "es-toolkit";
 
 /** The number of milliseconds in a full day. */
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -176,13 +176,17 @@ export async function progressiveTimeout<T, D = unknown>(
 export function deduplicateRequest<T, P extends unknown[]>(
   f: (...args: P) => Promise<T>,
 ) {
-  // Store one promise at a time.
-  let promise: Promise<T> | null = null;
+  // Store one promise at a time, keyed by stringified args.
+  const promises: Record<string, Promise<T>> = {};
+
   return (...args: P) => {
+    // Determine what key to store this promise under.
+    const key = attempt(() => JSON.stringify(args))[1] || "";
+
     // If a request is already in progress, return that promise.
-    if (promise) return promise;
+    if (key in promises) return promises[key];
     // Otherwise, start a new request and let it occupy the promise slot.
-    promise = f(...args).finally(() => (promise = null));
-    return promise;
+    promises[key] = f(...args).finally(() => delete promises[key]);
+    return promises[key];
   };
 }

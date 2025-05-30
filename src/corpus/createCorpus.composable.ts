@@ -1,7 +1,7 @@
 import { useRouter } from "vue-router";
 import type { AxiosError } from "axios";
 import useMinkBackend from "@/api/backend.composable";
-import { useResourceStore } from "@/store/resource.store";
+import { useCorpusStore } from "@/store/corpus.store";
 import useMessenger from "@/message/messenger.composable";
 import useDeleteCorpus from "@/corpus/deleteCorpus.composable";
 import { getFilenameExtension } from "@/util";
@@ -15,7 +15,7 @@ import type { MinkResponse, ProgressHandler } from "@/api/api.types";
 import useCreateResource from "@/resource/createResource.composable";
 
 export default function useCreateCorpus() {
-  const resourceStore = useResourceStore();
+  const corpusStore = useCorpusStore();
   const router = useRouter();
   const { deleteCorpus } = useDeleteCorpus();
   const { alert, alertError } = useMessenger();
@@ -63,14 +63,13 @@ export default function useCreateCorpus() {
     router.push(`/library/corpus/${corpusId}`);
   }
 
-  // Like the `saveConfigOptions` in `config.composable.ts` but takes `corpusId` as argument.
+  // Like the `saveConfigOptions` in `corpus.composable.ts` but takes `corpusId` as argument.
   async function saveConfigOptions(
     configOptions: ConfigOptions,
     corpusId: string,
   ) {
     const configYaml = makeConfig(corpusId, configOptions);
-    await mink.uploadConfig(corpusId, configYaml);
-    resourceStore.corpora[corpusId].config = configYaml;
+    await corpusStore.uploadConfig(corpusId, configYaml);
   }
 
   // Like the `uploadSources` in `sources.composable.ts` but takes `corpusId` as argument.
@@ -82,7 +81,7 @@ export default function useCreateCorpus() {
     await mink.uploadSources(corpusId, files, onProgress);
     const info = await mink.resourceInfoOne(corpusId).catch(alertError);
     if (!info) return;
-    resourceStore.corpora[corpusId].sources = info.resource.source_files;
+    corpusStore.corpora[corpusId].sources = info.resource.source_files;
   }
 
   async function createFromConfig(

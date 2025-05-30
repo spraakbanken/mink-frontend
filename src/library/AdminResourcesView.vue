@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { reactive, watch } from "vue";
 import { useRouter } from "vue-router";
-import useResources from "@/library/resources.composable";
 import AdminResourcePreview from "@/library/AdminResourcePreview.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import PageTitle from "@/components/PageTitle.vue";
-import { isCorpus, useResourceStore } from "@/store/resource.store";
+import { useResourceStore } from "@/store/resource.store";
+import { isCorpus } from "@/store/resource.types";
 import useAdmin from "@/user/admin.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import ActionButton from "@/components/ActionButton.vue";
@@ -14,7 +14,6 @@ import ActionButton from "@/components/ActionButton.vue";
 const router = useRouter();
 const resourceStore = useResourceStore();
 const { adminMode } = useAdmin();
-const { loadResourceIds, loadResource } = useResources();
 
 const previewToggles = reactive<Record<string, boolean>>({});
 
@@ -23,12 +22,12 @@ watch(adminMode, () => {
   if (adminMode.value === false) {
     return router.push("/library");
   } else {
-    loadResourceIds();
+    resourceStore.loadResourceIds();
   }
 });
 
 async function load(resourceId: string) {
-  await loadResource(resourceId);
+  await resourceStore.loadResource(resourceId);
   previewToggles[resourceId] = true;
 }
 </script>
