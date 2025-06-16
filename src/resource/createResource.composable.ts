@@ -3,7 +3,7 @@ import { useAuth } from "@/auth/auth.composable";
 import { useResourceStore } from "@/store/resource.store";
 
 export default function useCreateResource() {
-  const { refreshJwt } = useAuth();
+  const { getJwt } = useAuth();
   const resourceStore = useResourceStore();
 
   /**
@@ -13,7 +13,7 @@ export default function useCreateResource() {
    */
   async function addNewResource(type: ResourceType, resourceId: string) {
     // Have the new corpus included in further API calls.
-    await refreshJwt();
+    await getJwt(true);
 
     // Adding the new id to store may trigger API calls, so do it after updating the JWT.
     if (!(resourceId in resourceStore.resources)) {

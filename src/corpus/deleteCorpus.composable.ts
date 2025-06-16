@@ -5,7 +5,7 @@ import { useResourceStore } from "@/store/resource.store";
 import useSpin from "@/spin/spin.composable";
 
 export default function useDeleteCorpus() {
-  const { refreshJwt } = useAuth();
+  const { getJwt } = useAuth();
   const mink = useMinkBackend();
   const { spin } = useSpin();
   const { loadResourceIds } = useResourceStore();
@@ -16,7 +16,7 @@ export default function useDeleteCorpus() {
     await mink.deleteCorpus(corpusId).catch(alertError);
     // The backend will have updated the remote JWT, so refresh our copy.
     // The backend uses the corpus list within it when listing available corpora.
-    await refreshJwt();
+    await getJwt(true);
     await loadResourceIds();
   }
 

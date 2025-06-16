@@ -23,6 +23,10 @@ As this project is a user-facing application, the places in the semantic version
   - Corpus-specific parts of `resourceStore` are now in `corpusStore`
 - In the resource/corpus store, `status` has been renamed to `job`
 
+### Fixed
+
+- JWT not updated when corpus is added/removed [#201](https://github.com/spraakbanken/mink-frontend/issues/201)
+
 ## [1.10.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.10.0) (2025-05-19)
 
 ### Added

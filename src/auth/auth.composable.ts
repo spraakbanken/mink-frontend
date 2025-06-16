@@ -39,10 +39,12 @@ export function useAuth() {
    *
    * @throws If the JWT request fails (auth server down?).
    */
-  async function refreshJwt() {
+  async function getJwt(skipCache?: boolean) {
     async function fetchAndStoreJwt() {
       // Fetch JWT.
-      await checkJwt().catch((error) => {
+      // When skipCache is falsy we need to call checkJwt with no args for the deduplicateRequests wrapper to work properly.
+      const promise = skipCache ? checkJwt(true) : checkJwt();
+      await promise.catch((error) => {
         // On error, show message and treat as not authenticated
         alert(`${t("login.fail")}: ${error?.message || error}`);
       });
@@ -51,7 +53,7 @@ export function useAuth() {
       if (refreshTimer) clearTimeout(refreshTimer);
       if (payload.value?.exp) {
         const timeoutMs = (payload.value.exp - 10) * 1000 - Date.now();
-        refreshTimer = setTimeout(refreshJwt, timeoutMs);
+        refreshTimer = setTimeout(getJwt, timeoutMs);
       }
     }
     // Reuse current JWT request or make a new one.
@@ -67,6 +69,6 @@ export function useAuth() {
     canUserAdmin,
     canUserWrite,
     userName,
-    refreshJwt,
+    getJwt,
   };
 }
