@@ -47,14 +47,9 @@ async function doRunJob() {
       :on="`corpus/${corpusId}/job/sparv`"
       class="flex flex-col gap-3 items-start"
     >
-      <div
-        v-if="hasChanges && jobState?.sparv == 'done'"
-        class="flex gap-3 items-center"
-      >
-        <div>
-          <div class="font-semibold">{{ $t("corpus.changes") }}</div>
-          {{ $t("corpus.changes.help") }}
-        </div>
+      <div v-if="hasChanges && jobState?.sparv == 'done'">
+        <div class="font-semibold">{{ $t("corpus.changes") }}</div>
+        {{ $t("corpus.changes.help") }}
       </div>
 
       <div
