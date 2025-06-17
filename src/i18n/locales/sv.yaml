@@ -60,6 +60,8 @@ corpus.state.help.running_install: Installationen körs i bakgrunden. Det går b
 corpus.state.help.done_install: Nu är datan installerad!
 corpus.state.help.failed: Ett fel uppstod under annotering. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 corpus.state.help.failed_install: Ett fel uppstod under installation. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
+corpus.changes: Det finns ändringar
+corpus.changes.help: Den här korpusens inställningar eller källtexter har ändrats sedan den senaste annoteringen. Glöm inte att köra om analysen när det är dags.
 metadata.new: Ny metadata
 metadata.public_id.help: Varje resurs i Mink har en förutbestämd identifierare. Den publika identifieraren är vad denna resurs kommer at få när den exporteras till en datakatalog. Välj gärna något unikt och beskrivande, men inte för långt. Den får endast innehålla små bokstäver, siffror och bindestreck, och måste börja med ditt tilldelade organisationsprefix.
 metadata.public_id.error.format: Den publika identifieraren får endast innehålla små bokstäver (a-z), siffror (0-9) och bindestreck (-). Den får inte börja eller sluta med bindestreck.

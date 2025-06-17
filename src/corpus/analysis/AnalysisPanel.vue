@@ -59,11 +59,8 @@ async function doRunJob() {
         class="flex gap-3 items-center"
       >
         <div>
-          <div class="font-semibold">Corpus has changes</div>
-          <p>
-            The settings or sources of this corpus have changed since the last
-            analysis. Don't forget to re-run annotation when ready.
-          </p>
+          <div class="font-semibold">{{ $t("corpus.changes") }}</div>
+          {{ $t("corpus.changes.help") }}
         </div>
       </div>
 

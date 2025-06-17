@@ -59,6 +59,8 @@ corpus.state.help.running_install: Installation is running in the background. Fe
 corpus.state.help.done_install: Successfully installed!
 corpus.state.help.failed: An error occurred while processing your data. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.state.help.failed_install: An error occurred while installing your corpus. If you need help, please contact sb-info{'@'}svenska.gu.se
+corpus.changes: Corpus has changes
+corpus.changes.help: The settings or sources of this corpus have changed since the last analysis. Don't forget to re-run annotation when ready.
 metadata.new: New metadata
 metadata.public_id.help: In Mink, all resources have fixed, unmodifiable identifiers. The public identifier is what this resource will get once it is exported to a repository. Try to make it recognizable and descriptive, but not too long. It must only contain lowercase letters, numbers and dashes, and start with your assigned organization prefix.
 metadata.public_id.error.format: The public identifier must only contain lowercase letters (a-z), numbers (0-9) and dashes (-). It must not start or end with a dash.
