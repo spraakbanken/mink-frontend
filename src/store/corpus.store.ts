@@ -7,7 +7,7 @@ import useMinkBackend from "@/api/backend.composable";
 import useMessenger from "@/message/messenger.composable";
 import { pickByType } from "@/util";
 import { useMatomo } from "@/matomo";
-import type { CheckChangesData, FileMeta } from "@/api/api.types";
+import type { FileMeta } from "@/api/api.types";
 
 export const useCorpusStore = defineStore("corpus", () => {
   const { loadResource, resources } = useResourceStore();
@@ -41,7 +41,7 @@ export const useCorpusStore = defineStore("corpus", () => {
   async function loadChanges(
     corpusId: string,
     skipCache = false,
-  ): Promise<CheckChangesData | undefined> {
+  ): Promise<boolean | undefined> {
     if (skipCache) freshChanges.delete(corpusId);
 
     const corpus = await loadCorpus(corpusId);
@@ -49,14 +49,20 @@ export const useCorpusStore = defineStore("corpus", () => {
 
     if (!freshChanges.has(corpusId)) {
       try {
-        corpus.changes = await mink.checkChanges(corpusId);
+        const changes = await mink.checkChanges(corpusId);
+        const hasChanges =
+          changes.sources_added ||
+          changes.sources_deleted ||
+          changes.sources_changed ||
+          changes.config_changed;
+        corpus.hasChanges = Boolean(hasChanges);
       } catch (error) {
         // Not an essential feature, don't show error.
         console.error(error);
       }
       freshChanges.add(corpusId);
     }
-    return corpus.changes;
+    return corpus.hasChanges;
   }
 
   /** Fetch and store the config of a corpus. */

@@ -37,7 +37,10 @@ export function useCorpus(corpusId: string) {
     corpusStore.corpora[corpusId],
   );
 
-  const changes = lazyload(() => corpusStore.loadChanges(corpusId), undefined);
+  const hasChanges = lazyload(
+    () => corpusStore.loadChanges(corpusId),
+    corpus.value?.hasChanges || false,
+  );
 
   const config = lazyload(
     () => corpusStore.loadConfig(corpusId),
@@ -161,7 +164,7 @@ export function useCorpus(corpusId: string) {
 
   return {
     corpus,
-    changes,
+    hasChanges,
     config,
     configOptions,
     hasMetadata,

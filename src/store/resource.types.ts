@@ -1,10 +1,5 @@
 import type { ByLang } from "@/util.types";
-import type {
-  CheckChangesData,
-  CorpusJob,
-  FileMeta,
-  ResourceType,
-} from "@/api/api.types";
+import type { CorpusJob, FileMeta, ResourceType } from "@/api/api.types";
 
 export type Resource = {
   type: ResourceType;
@@ -23,7 +18,7 @@ export type Corpus = Resource & {
   config?: string;
   job: CorpusJob;
   exports?: FileMeta[];
-  changes?: CheckChangesData;
+  hasChanges?: boolean;
 };
 
 export type Metadata = Resource & {
