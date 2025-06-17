@@ -12,8 +12,10 @@ const props = defineProps<{
 
 const { runJob } = useCorpusStore();
 const {
+  changes,
   hasMetadata,
   isConfigValid,
+  hasSources,
   jobState,
   isJobRunning,
   exports,
@@ -27,8 +29,16 @@ const canRun = computed(
   () =>
     isConfigValid.value &&
     hasMetadata.value &&
+    hasSources &&
     !isPending.value &&
     !isJobRunning.value,
+);
+const hasChanges = computed(
+  () =>
+    changes.value?.config_changed ||
+    changes.value?.sources_changed ||
+    changes.value?.added_sources ||
+    changes.value?.deleted_sources,
 );
 
 async function doRunJob() {
@@ -44,6 +54,19 @@ async function doRunJob() {
       :on="`corpus/${corpusId}/job/sparv`"
       class="flex flex-col gap-3 items-start"
     >
+      <div
+        v-if="hasChanges && jobState?.sparv == 'done'"
+        class="flex gap-3 items-center"
+      >
+        <div>
+          <div class="font-semibold">Corpus has changes</div>
+          <p>
+            The settings or sources of this corpus have changed since the last
+            analysis. Don't forget to re-run annotation when ready.
+          </p>
+        </div>
+      </div>
+
       <div
         v-if="!isJobRunning && exports?.length"
         class="flex gap-3 items-center"
