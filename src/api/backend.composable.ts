@@ -79,8 +79,9 @@ export default function useMinkBackend() {
     spin(api.resourceInfoOne(corpusId), `corpus/${corpusId}/info`),
   );
 
-  const checkChanges = (corpusId: string) =>
-    spin(api.checkChanges(corpusId), `corpus/${corpusId}/info`);
+  const checkChanges = deduplicateRequest((corpusId: string) =>
+    spin(api.checkChanges(corpusId), `corpus/${corpusId}/info`),
+  );
 
   const runJob = (corpusId: string) =>
     spin(api.runSparv(corpusId), `corpus/${corpusId}/job/sparv`);

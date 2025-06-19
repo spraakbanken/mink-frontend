@@ -3,7 +3,7 @@ import { useCorpus } from "./corpus.composable";
 
 /** The "corpus state" is related to the job status, but is more about predicting what action the user needs to take. */
 export function useCorpusState(corpusId: string) {
-  const { hasSources, hasMetadata, isConfigValid, jobState } =
+  const { hasSources, hasMetadata, isConfigValid, jobState, hasChanges } =
     useCorpus(corpusId);
 
   const corpusState = computed(() => {
@@ -16,9 +16,14 @@ export function useCorpusState(corpusId: string) {
       return CorpusState.UNKNOWN;
     }
 
-    if (jobState.value.sparv == "none" || jobState.value.sparv == "aborted")
-      return CorpusState.READY;
     if (jobState.value.sparv == "error") return CorpusState.FAILED;
+
+    if (
+      jobState.value.sparv == "none" ||
+      jobState.value.sparv == "aborted" ||
+      hasChanges.value
+    )
+      return CorpusState.READY;
 
     // TODO Revise the CorpusState concept. The workflow can now branch in two. Ifs below questionable.
     if (
