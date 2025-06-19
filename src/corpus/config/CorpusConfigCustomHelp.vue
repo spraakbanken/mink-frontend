@@ -10,7 +10,8 @@ import HelpBox from "@/components/HelpBox.vue";
       </template>
       <template #topic>
         <a
-          href="https://spraakbanken.gu.se/sparv/#/user-manual/corpus-configuration"
+          href="https://spraakbanken.gu.se/sparv/user-manual/corpus-configuration/"
+          target="_blank"
         >
           Corpus Configuration
         </a>
