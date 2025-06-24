@@ -78,7 +78,8 @@ async function doRunJob() {
         <ActionButton
           :disabled="isJobRunning || !canRun"
           :class="{
-            'button-primary': !isJobRunning && canRun && !exports?.length,
+            'button-primary':
+              !isJobRunning && canRun && (!exports?.length || hasChanges),
           }"
           @click="!isJobRunning && canRun ? doRunJob() : null"
           class="whitespace-nowrap"

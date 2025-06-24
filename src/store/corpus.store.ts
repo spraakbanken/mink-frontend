@@ -55,6 +55,7 @@ export const useCorpusStore = defineStore("corpus", () => {
           changes.sources_deleted ||
           changes.sources_changed ||
           changes.config_changed;
+        // TODO This doesn't actually change the stored corpus if `hasChanges` is false. Why?
         corpus.hasChanges = Boolean(hasChanges);
       } catch (error) {
         // Not an essential feature, don't show error.
