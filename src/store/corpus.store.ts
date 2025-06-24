@@ -38,6 +38,16 @@ export const useCorpusStore = defineStore("corpus", () => {
     return resource && isCorpus(resource) ? resource : undefined;
   }
 
+  /**
+   * Set new data for a corpus.
+   *
+   * Just doing `corpus.foo = bar` doesn't seem to actually update the stored resource if `foo` already has a value.
+   */
+  function updateCorpus(id: string, corpus: Corpus) {
+    resources[id] = { ...resources[id], ...corpus };
+  }
+
+  /** Check if corpus has changes since last analysis. */
   async function loadChanges(
     corpusId: string,
     skipCache = false,
@@ -55,8 +65,8 @@ export const useCorpusStore = defineStore("corpus", () => {
           changes.sources_deleted ||
           changes.sources_changed ||
           changes.config_changed;
-        // TODO This doesn't actually change the stored corpus if `hasChanges` is false. Why?
         corpus.hasChanges = Boolean(hasChanges);
+        updateCorpus(corpusId, corpus);
       } catch (error) {
         // Not an essential feature, don't show error.
         console.error(error);
@@ -85,6 +95,7 @@ export const useCorpusStore = defineStore("corpus", () => {
           alertError(error);
         });
       corpus.config = config;
+      updateCorpus(corpusId, corpus);
       freshConfigs.add(corpusId);
     }
     return corpus.config;
@@ -112,6 +123,7 @@ export const useCorpusStore = defineStore("corpus", () => {
       const info = await mink.listSources(corpusId).catch(alertError);
       if (!info) return;
       corpus.sources = info.resource.source_files;
+      updateCorpus(corpusId, corpus);
     }
 
     return corpus.sources;
@@ -159,6 +171,7 @@ export const useCorpusStore = defineStore("corpus", () => {
         corpus.exports = exports
           .sort((a, b) => a.path.localeCompare(b.path))
           .sort((a, b) => b.path.indexOf("stats_") - a.path.indexOf("stats_"));
+        updateCorpus(corpusId, corpus);
         freshExports.add(corpusId);
       }
     }
@@ -166,12 +179,13 @@ export const useCorpusStore = defineStore("corpus", () => {
     return corpus.exports;
   }
 
-  // Refresh exports when Sparv is done
+  // Refresh corpus when Sparv is done
   watchDeep(corpora, (corporaNew, corporaOld) => {
     Object.keys(corporaNew).forEach((id) => {
       const sparvNew = corporaNew[id]?.job?.status.sparv;
       const sparvOld = corporaOld[id]?.job?.status.sparv;
       if (sparvNew == "done" && sparvOld && sparvOld != "done") {
+        loadChanges(id, true);
         loadExports(id, true);
       }
     });
