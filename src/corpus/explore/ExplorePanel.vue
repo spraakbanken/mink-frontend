@@ -56,6 +56,8 @@ async function strixInstall() {
       <ToolPanel
         name="Strix"
         :info="$t('exports.tools.help.strix')"
+        :link-url="$t('exports.tools.help.strix.manual.url')"
+        :link-text="$t('exports.tools.help.strix.manual.text')"
         :can-install="canInstall"
         :is-installed="jobState?.strix == 'done'"
         :show-url="`${strixUrl}?modeSelected=mink&filters=corpus_id:${corpusId}&lang=${locale3}`"

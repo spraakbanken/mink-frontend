@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.11.0...HEAD)
 
+### Added
+
+- Strix docs link
+
 ## [1.11.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.11.0) (2025-06-16)
 
 ### Changed

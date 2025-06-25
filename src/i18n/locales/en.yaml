@@ -103,6 +103,8 @@ exports.tools.help.korp: Korp offers concordance search, detailed queries, frequ
 exports.tools.help.korp.manual.url: https://spraakbanken.gu.se/en/tools/korp/user-manual
 exports.tools.help.korp.manual.text: User manual
 exports.tools.help.strix: In Strix, the enriched texts can be examined in full.
+exports.tools.help.strix.manual.url: https://spraakbanken.gu.se/strix/docs/
+exports.tools.help.strix.manual.text: Documentation
 exports.tools.install: Install
 exports.tools.reinstall: Reinstall
 exports.tools.view: Open

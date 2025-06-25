@@ -25,7 +25,7 @@ The Mink system is connected to these other systems:
 - **SB-Auth** provides user authentication with [eduGAIN](https://edugain.org/) to Mink and a few other services of Språkbanken Text
 - Analysed results can be installed from Mink into:
   - **[Korp](https://spraakbanken.gu.se/en/tools/korp)**, Språkbanken's word research platform
-  - **[Strix](https://spraakbanken.gu.se/strix/?lang=eng)**, Språkbanken's text research platform
+  - **[Strix](https://spraakbanken.gu.se/strix/)**, Språkbanken's text research platform
 - [**Matomo**](https://matomo.org/) records anonymized visitor statistics
 
 ## Layout
