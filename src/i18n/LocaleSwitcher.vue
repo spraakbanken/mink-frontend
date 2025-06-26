@@ -4,15 +4,13 @@ import { languageNames, type LocaleId } from "./i18n";
 </script>
 
 <template>
-  <div>
-    <PhGlobe class="inline mb-0.5" />
-    <label class="sr-only" for="locale-select">
-      {{ $t("locale.switcher.label") }}
-    </label>
+  <div class="text-nowrap">
+    <PhGlobe class="inline mb-0.5 mr-1" />
     <select
       id="locale-select"
+      :aria-label="$t('locale.switcher.label')"
       v-model="$i18n.locale"
-      class="bg-transparent border-0 appearance-none"
+      class="bg-transparent border-0 appearance-none p-0"
     >
       <option
         v-for="locale in $i18n.availableLocales"
@@ -27,7 +25,13 @@ import { languageNames, type LocaleId } from "./i18n";
 
 <style scoped>
 select.appearance-none {
-  padding-right: 1.4em;
-  background: url(@/assets/dropdown.svg) no-repeat 95% 50%;
+  padding-right: 0.75em;
+  background: url(@/assets/dropdown.svg) no-repeat 100% 50%;
+}
+
+@media (prefers-color-scheme: dark) {
+  select.appearance-none {
+    background-image: url(@/assets/dropdown-light.svg);
+  }
 }
 </style>

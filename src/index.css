@@ -9,6 +9,8 @@
 
   If we ever want to remove these styles, we need to add an explicit border
   color utility to any element that depends on these defaults.
+
+  TODO Remove this, set border colors where needed
 */
 @layer base {
   *,
@@ -17,6 +19,13 @@
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer base {
+  img {
+    /* Keep intrinsic aspect ratio when images are resized by width xor height */
+    aspect-ratio: auto;
   }
 }
 
@@ -72,6 +81,7 @@
   @apply p-0 px-1;
 }
 
+/* TODO Use `@layer base` for some or all of these */
 @layer utilities {
   :root {
     color-scheme: light dark;

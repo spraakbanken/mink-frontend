@@ -22,72 +22,72 @@ const isHome = computed(() => route.path == "/");
 </script>
 
 <template>
-  <header
-    class="mb-2 shadow-sm bg-white text-gray-600 dark:bg-zinc-800 dark:text-zinc-200"
-  >
-    <div class="container py-4 flex justify-between flex-wrap gap-4">
-      <component :is="isHome ? 'h1' : 'div'" class="text-4xl">
+  <header class="mb-2 shadow-sm bg-white dark:bg-zinc-800">
+    <div
+      class="container pt-4 pb-2 flex justify-between items-baseline-last flex-wrap gap-4"
+    >
+      <component
+        :is="isHome ? 'h1' : 'div'"
+        class="basis-1 grow text-4xl min-w-max"
+        :class="large ? 'h-24' : 'h-16'"
+      >
         <router-link to="/" class="text-current">
           <MinkLogo :large="large" />
         </router-link>
       </component>
 
-      <div class="ml-auto flex items-center gap-4">
+      <div
+        class="basis-1 grow flex flex-wrap gap-x-4 items-baseline justify-end lg:justify-center text-end text-nowrap"
+      >
         <SpinIndicator v-if="isAuthenticating" />
-        <div class="self-stretch flex flex-col justify-end items-end">
-          <div class="w-56">
-            <a href="https://spraakbanken.gu.se/">
-              <picture>
-                <source
-                  media="(prefers-color-scheme: dark)"
-                  :srcset="logoSbxLight"
-                />
-                <img
-                  src="@/assets/sprakbankentext.svg"
-                  alt="Språkbanken Text"
-                />
-              </picture>
-            </a>
-          </div>
 
-          <div class="mt-2 flex flex-wrap gap-x-4 items-baseline justify-end">
-            <template v-if="isAuthenticated">
-              <router-link
-                v-if="canUserWrite"
-                to="/user"
-                class="no-underline hover:underline"
-              >
-                <PhUser class="inline-block mb-0.5"></PhUser>
-                {{ userName }}
-              </router-link>
-              <a v-else :href="logoutUrl" class="no-underline hover:underline">
-                <PhUser class="inline-block mb-0.5"></PhUser>
-                {{ $t("logout") }}
-              </a>
-            </template>
+        <template v-if="isAuthenticated">
+          <router-link
+            v-if="canUserWrite"
+            to="/user"
+            class="no-underline hover:underline"
+          >
+            <PhUser class="inline-block mb-0.5"></PhUser>
+            {{ userName }}
+          </router-link>
+          <a v-else :href="logoutUrl" class="no-underline hover:underline">
+            <PhUser class="inline-block mb-0.5"></PhUser>
+            {{ $t("logout") }}
+          </a>
+        </template>
 
-            <a
-              :href="$t('docs.url')"
-              target="_blank"
-              class="no-underline hover:underline"
-            >
-              <PhQuestion class="inline-block mb-0.5"></PhQuestion>
-              {{ $t("docs.label") }}
-            </a>
+        <a
+          :href="$t('docs.url')"
+          target="_blank"
+          class="no-underline hover:underline"
+        >
+          <PhQuestion class="inline-block mb-0.5"></PhQuestion>
+          {{ $t("docs.label") }}
+        </a>
 
-            <LocaleSwitcher />
-          </div>
-        </div>
+        <LocaleSwitcher />
+      </div>
 
-        <div class="-my-4">
-          <a href="https://gu.se/">
-            <img
-              src="@/assets/gu_logo_sv.png"
-              alt="Göteborgs universitet"
-              :class="[large ? 'h-32' : 'h-24']"
-            />
+      <div class="basis-1 grow hidden lg:flex justify-end items-end gap-4">
+        <div class="w-56">
+          <a href="https://spraakbanken.gu.se/">
+            <picture>
+              <source
+                media="(prefers-color-scheme: dark)"
+                :srcset="logoSbxLight"
+              />
+              <img src="@/assets/sprakbankentext.svg" alt="Språkbanken Text" />
+            </picture>
           </a>
         </div>
+
+        <a href="https://gu.se/" class="min-w-max">
+          <img
+            src="@/assets/gu_logo_sv.png"
+            alt="Göteborgs universitet"
+            :class="[large ? 'h-24' : 'h-16']"
+          />
+        </a>
       </div>
     </div>
 
