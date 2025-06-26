@@ -2,26 +2,6 @@
 
 @config '../tailwind.config.ts';
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-
-  TODO Remove this, set border colors where needed
-*/
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
-}
-
 @layer base {
   img {
     /* Keep intrinsic aspect ratio when images are resized by width xor height */
@@ -149,7 +129,7 @@
   input,
   textarea,
   select {
-    @apply bg-white dark:bg-zinc-900 border dark:border-zinc-600 rounded-sm p-1 px-2;
+    @apply bg-white dark:bg-zinc-900 border border-zinc-400 dark:border-zinc-600 rounded-sm p-1 px-2;
   }
 
   .formkit-outer {

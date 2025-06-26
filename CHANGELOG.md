@@ -19,6 +19,7 @@ As this project is a user-facing application, the places in the semantic version
 
 ### Changed
 
+- New layout for the app header section, mostly to make changing organization logos easier
 - Use versioned backend URL `/v1`
 
 ## [1.11.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.11.0) (2025-06-16)

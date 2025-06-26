@@ -81,7 +81,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
             <th class="sr-only">{{ $t("file.operations") }}</th>
           </tr>
         </thead>
-        <tbody class="border-b-0">
+        <tbody>
           <tr v-for="source in sources" :key="source.path">
             <td>
               <router-link
