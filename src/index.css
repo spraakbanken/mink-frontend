@@ -61,8 +61,7 @@
   @apply p-0 px-1;
 }
 
-/* TODO Use `@layer base` for some or all of these */
-@layer utilities {
+@layer base {
   :root {
     color-scheme: light dark;
   }
@@ -100,18 +99,6 @@
 
   thead {
     @apply uppercase text-sm;
-  }
-
-  table.striped tbody tr:nth-child(2n + 1) {
-    @apply bg-gray-100 dark:bg-zinc-800;
-  }
-  table.striped tbody tr:nth-child(2n) {
-    @apply bg-gray-50/50 dark:bg-zinc-800;
-  }
-
-  table.striped th,
-  table.striped td {
-    @apply py-1 px-2;
   }
 
   tr {
@@ -157,7 +144,22 @@
   [data-type="radio"] .formkit-label {
     @apply font-normal;
   }
+}
 
+@layer utilities {
+  /* Striped tables */
+  table.striped tbody tr:nth-child(2n + 1) {
+    @apply bg-gray-100 dark:bg-zinc-800;
+  }
+  table.striped tbody tr:nth-child(2n) {
+    @apply bg-gray-50/50 dark:bg-zinc-800;
+  }
+  table.striped th,
+  table.striped td {
+    @apply py-1 px-2;
+  }
+
+  /* Prose, (long) body text */
   .prose ul {
     padding-left: 2em;
   }
