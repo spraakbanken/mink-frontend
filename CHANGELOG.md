@@ -17,6 +17,10 @@ As this project is a user-facing application, the places in the semantic version
 
 - Strix docs link
 
+### Changed
+
+- Use versioned backend URL `/v1`
+
 ## [1.11.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.11.0) (2025-06-16)
 
 ### Changed
