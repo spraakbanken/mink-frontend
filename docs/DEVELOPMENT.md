@@ -1,6 +1,6 @@
 # Development
 
-To run the code, you need Node.js 18 or higher, [Yarn 1](https://classic.yarnpkg.com/en/docs) and [mkcert](https://mkcert.dev) or similar.
+To run the code, you need Node.js 20 or higher, [Yarn 1](https://classic.yarnpkg.com/en/docs) and [mkcert](https://mkcert.dev) or similar.
 
 Contents:
 
