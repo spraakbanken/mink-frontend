@@ -2,20 +2,27 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { PhQuestion, PhUser } from "@phosphor-icons/vue";
+import { useI18n } from "vue-i18n";
 import MinkLogo from "@/page/MinkLogo.vue";
 import { logoutUrl } from "@/auth/sbAuth";
 import { useAuth } from "@/auth/auth.composable";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
-// Asset path transformation doesn't work in <source srcset> like in <img src>
+import logoSbx from "@/assets/sprakbankentext.svg";
 import logoSbxLight from "@/assets/sprakbankentext-light.svg";
+import logoGu from "@/assets/gu-logo-sv.svg";
+import logoGuEn from "@/assets/gu-logo-en.svg";
+import logoGuLight from "@/assets/gu-logo-light-sv.svg";
+import logoGuLightEn from "@/assets/gu-logo-light-en.svg";
 import SpinIndicator from "@/spin/SpinIndicator.vue";
+import ColorSchemeImage from "@/components/ColorSchemeImage.vue";
 
 defineProps<{
   large: boolean;
 }>();
 
 const { isAuthenticated, isAuthenticating, canUserWrite, userName } = useAuth();
+const { locale } = useI18n();
 
 const route = useRoute();
 const isHome = computed(() => route.path == "/");
@@ -24,7 +31,7 @@ const isHome = computed(() => route.path == "/");
 <template>
   <header class="mb-2 shadow-sm bg-white dark:bg-zinc-800">
     <div
-      class="container pt-4 pb-2 flex justify-between items-baseline-last flex-wrap gap-4"
+      class="container pt-4 pb-2 flex justify-between items-baseline-last flex-wrap gap-8"
     >
       <component
         :is="isHome ? 'h1' : 'div'"
@@ -71,20 +78,19 @@ const isHome = computed(() => route.path == "/");
       <div class="basis-1 grow hidden lg:flex justify-end items-end gap-4">
         <div class="w-56">
           <a href="https://spraakbanken.gu.se/">
-            <picture>
-              <source
-                media="(prefers-color-scheme: dark)"
-                :srcset="logoSbxLight"
-              />
-              <img src="@/assets/sprakbankentext.svg" alt="Språkbanken Text" />
-            </picture>
+            <ColorSchemeImage
+              alt="Språkbanken Text"
+              :src="logoSbx"
+              :src-light="logoSbxLight"
+            />
           </a>
         </div>
 
         <a href="https://gu.se/" class="min-w-max">
-          <img
-            src="@/assets/gu_logo_sv.png"
-            alt="Göteborgs universitet"
+          <ColorSchemeImage
+            :alt="$t('logo.gu.alt')"
+            :src="{ sv: logoGu, en: logoGuEn }[locale]!"
+            :src-light="{ sv: logoGuLight, en: logoGuLightEn }[locale]!"
             :class="[large ? 'h-24' : 'h-16']"
           />
         </a>

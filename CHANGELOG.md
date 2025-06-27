@@ -20,6 +20,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Changed
 
 - New layout for the app header section, mostly to make changing organization logos easier
+- Clearer GU logo
 - Use versioned backend URL `/v1`
 - Dependencies upgraded
   - Node >=20 is now required
