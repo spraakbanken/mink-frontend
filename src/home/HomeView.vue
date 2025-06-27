@@ -10,6 +10,7 @@ import UrlButton from "@/components/UrlButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import minkScreen from "@/assets/mink-screen.png";
 import minkScreenDark from "@/assets/mink-screen-dark.png";
+import ColorSchemeImage from "@/components/ColorSchemeImage.vue";
 
 const { isAuthenticated, canUserWrite, userName } = useAuth();
 </script>
@@ -87,13 +88,12 @@ const { isAuthenticated, canUserWrite, userName } = useAuth();
           <div
             class="bg-sborange-600 dark:bg-sbteal-900 rounded-full aspect-square flex items-center"
           >
-            <picture class="shadow-lg image3d">
-              <source
-                media="(prefers-color-scheme: dark)"
-                :srcset="minkScreenDark"
-              />
-              <img :src="minkScreen" :alt="$t('home.hero.alt')" />
-            </picture>
+            <ColorSchemeImage
+              :alt="$t('home.hero.alt')"
+              :src="minkScreen"
+              :srcLight="minkScreenDark"
+              class="shadow-lg image3d"
+            />
           </div>
         </div>
       </div>
