@@ -12,9 +12,13 @@ The resulting data can be downloaded or made available through our research tool
 
 This code makes up the user interface at [spraakbanken.gu.se/mink](https://spraakbanken.gu.se/mink/).
 
+It is a single-page web app that communicates with the [Mink backend](https://github.com/spraakbanken/mink-backend/) to load/send data and perform operations.
+
+It is written in [TypeScript](https://www.typescriptlang.org/) and uses the [Vue 3](https://vuejs.org/) framework backed up by [Axios](https://axios-http.com/) and [Tailwind CSS](https://tailwindcss.com/), among other libraries.
+
 ## User documentation
 
-- [Mink](https://spraakbanken.gu.se/en/tools/mink)
+- [About Mink](https://spraakbanken.gu.se/en/tools/mink)
 - [User manual](https://spraakbanken.gu.se/en/tools/mink/manual)
 - [Tutorial](https://spraakbanken.gu.se/en/tools/mink/tutorial)
 
