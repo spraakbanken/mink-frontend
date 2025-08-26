@@ -13,6 +13,7 @@ export default function useAdmin() {
   async function checkAdminMode() {
     const value = await mink.checkAdminMode().catch(alertError);
     adminModeRef.value = value || false;
+    return adminModeRef.value;
   }
 
   async function enableAdminMode() {
@@ -31,6 +32,12 @@ export default function useAdmin() {
     checkAdminMode,
     enableAdminMode,
     disableAdminMode,
+    /**
+     * Whether admin mode is enabled.
+     *
+     * Initialized to `undefined`.
+     * Gets set to `true` or `false` when completing any of the check/enable/disable functions.
+     */
     adminMode: readonly(adminModeRef),
   };
 }

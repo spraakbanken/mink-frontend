@@ -24,6 +24,10 @@ As this project is a user-facing application, the places in the semantic version
 - Dependencies upgraded
   - Node >=20 is now required
 
+### Fixed
+
+- For some users, corpora are not showing up [#206](https://github.com/spraakbanken/mink-frontend/issues/206)
+
 ## [1.11.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.11.0) (2025-06-16)
 
 ### Changed

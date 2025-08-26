@@ -2,13 +2,13 @@
 import { useRouter } from "vue-router";
 import { PhPlusCircle } from "@phosphor-icons/vue";
 import { computed } from "vue";
-import { watchImmediate } from "@vueuse/core";
 import CorpusButton from "@/library/CorpusButton.vue";
 import useLocale from "@/i18n/locale.composable";
 import PadButton from "@/components/PadButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useAdmin from "@/user/admin.composable";
+import { useAuth } from "@/auth/auth.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import { useResourceStore } from "@/store/resource.store";
@@ -22,21 +22,25 @@ import { useCorpusStore } from "@/store/corpus.store";
 const router = useRouter();
 const resourceStore = useResourceStore();
 const corpusStore = useCorpusStore();
-const { adminMode } = useAdmin();
+const { adminMode, checkAdminMode } = useAdmin();
+const { canUserAdmin } = useAuth();
 const { createFromUpload } = useCreateCorpus();
 const { spin } = useSpin();
 const { th } = useLocale();
 
-// Skip loadResources if admin, as it gets very slow when listing all resources!
-// When `checkAdminMode()` is done, `adminMode` will go from undefined to true or false.
-watchImmediate(adminMode, () => {
-  if (adminMode.value) router.push("/admin/resources");
-  else if (adminMode.value === false) {
-    // `loadResourceIds` has less information, but it is faster and will update UI sooner.
-    resourceStore.loadResourceIds();
-    resourceStore.loadResources();
+// Only load full resource list if not admin
+(async () => {
+  if (canUserAdmin.value) {
+    // Make sure user is not in admin mode before proceeding to load all full resources
+    const adminMode = await checkAdminMode();
+    if (adminMode) router.push("/admin/resources");
+    return;
   }
-});
+
+  // `loadResourceIds` has less information, but it is faster and will update UI sooner.
+  resourceStore.loadResourceIds();
+  resourceStore.loadResources();
+})();
 
 const accept = computed(() => FORMATS_EXT.map((ext) => `.${ext}`).join());
 
