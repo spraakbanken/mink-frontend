@@ -122,5 +122,6 @@ export function hasAccess(
   level: keyof JwtSbPayload["levels"],
 ) {
   assertValidPayload(payload);
-  return payload.scope[resourceType]?.[resourceName] >= payload.levels[level];
+  const scope = payload.scope[resourceType]?.[resourceName];
+  return !!scope && scope >= payload.levels[level];
 }

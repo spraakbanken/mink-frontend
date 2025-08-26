@@ -128,8 +128,9 @@ export const getException = (f: () => void): unknown | undefined => {
 export const getFilenameExtension = (filename: string) =>
   filename.split(".").slice(1).pop() || "";
 
-/** If an array, return first element. Otherwise return the whole argument. */
-export const unarray = <T>(x: T[] | T): T => (Array.isArray(x) ? x[0] : x);
+/** If an array, return first element, or undefined if empty. If not an array, return the whole argument. */
+export const unarray = <T>(x: T[] | T): T | undefined =>
+  Array.isArray(x) ? x[0] : x;
 
 /** Create dictionary by picking a key and a value from each object in a list. */
 export const objsToDict = <
@@ -184,9 +185,11 @@ export function deduplicateRequest<T, P extends unknown[]>(
     const key = attempt(() => JSON.stringify(args))[1] || "";
 
     // If a request is already in progress, return that promise.
-    if (key in promises) return promises[key];
+    if (promises[key]) return promises[key];
+
     // Otherwise, start a new request and let it occupy the promise slot.
-    promises[key] = f(...args).finally(() => delete promises[key]);
-    return promises[key];
+    const promise = f(...args).finally(() => delete promises[key]);
+    promises[key] = promise;
+    return promise;
   };
 }

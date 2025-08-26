@@ -23,10 +23,10 @@ async function uploadMetadata(files: File[]) {
 </script>
 
 <template>
-  <div class="flex flex-wrap gap-4">
+  <div v-if="metadata" class="flex flex-wrap gap-4">
     <div class="flex-1">
       <LayoutBox title="metadata">
-        <p>Public id: {{ metadata?.publicId }}</p>
+        <p>Public id: {{ metadata.publicId }}</p>
 
         <RouteButton
           class="button-danger"

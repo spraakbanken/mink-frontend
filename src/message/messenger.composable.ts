@@ -41,7 +41,7 @@ export default function useMessenger() {
    * This replaces `te` until https://github.com/kazupon/vue-i18n/issues/1521 is fixed.
    */
   function translationExists(key: string) {
-    return !!messages.value[locale.value][key];
+    return !!messages.value[locale.value]?.[key];
   }
 
   /** Display a backend error message. */

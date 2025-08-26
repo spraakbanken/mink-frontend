@@ -62,7 +62,7 @@ export const useCorpusStore = defineStore("corpus", () => {
   async function uploadConfig(corpusId: string, configYaml: string) {
     await mink.uploadConfig(corpusId, configYaml);
     // Backend may modify uploaded config. Store our version immediately, but also fetch the real one unawaited.
-    corpora.value[corpusId].config = configYaml;
+    corpora.value[corpusId]!.config = configYaml;
     loadConfig(corpusId, true);
   }
 
@@ -89,21 +89,21 @@ export const useCorpusStore = defineStore("corpus", () => {
   async function runJob(corpusId: string) {
     matomo?.trackEvent("Corpus", "Annotation", "Start");
     const info = await mink.runJob(corpusId).catch(alertError);
-    corpora.value[corpusId].job = info.job;
+    corpora.value[corpusId]!.job = info.job;
   }
 
   async function installKorp(corpusId: string) {
     matomo?.trackEvent("Corpus", "Tool install", "Korp");
     const info = await mink.installKorp(corpusId).catch(alertError);
     if (!info) return;
-    corpora.value[corpusId].job = info.job;
+    corpora.value[corpusId]!.job = info.job;
   }
 
   async function installStrix(corpusId: string) {
     matomo?.trackEvent("Corpus", "Tool install", "Strix");
     const info = await mink.installStrix(corpusId).catch(alertError);
     if (!info) return;
-    corpora.value[corpusId].job = info.job;
+    corpora.value[corpusId]!.job = info.job;
   }
 
   async function abortJob(corpusId: string) {

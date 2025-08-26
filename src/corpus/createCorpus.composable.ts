@@ -31,11 +31,12 @@ export default function useCreateCorpus() {
   }
 
   async function createFromUpload(files: File[]) {
+    if (!files[0]) throw new RangeError("No files");
     const corpusId = await createCorpus().catch(alertError);
     if (!corpusId) return;
 
     // Get file extension of first file, assuming all are using the same extension.
-    const format = getFilenameExtension(files[0]?.name) as FileFormat;
+    const format = getFilenameExtension(files[0].name) as FileFormat;
 
     // Create a minimal config.
     const config = {
@@ -81,7 +82,7 @@ export default function useCreateCorpus() {
     await mink.uploadSources(corpusId, files, onProgress);
     const info = await mink.resourceInfoOne(corpusId).catch(alertError);
     if (!info) return;
-    corpusStore.corpora[corpusId].sources = info.resource.source_files;
+    corpusStore.corpora[corpusId]!.sources = info.resource.source_files;
   }
 
   async function createFromConfig(

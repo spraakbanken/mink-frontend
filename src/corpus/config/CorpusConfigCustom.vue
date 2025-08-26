@@ -18,6 +18,7 @@ const { alertError } = useMessenger();
 const corpusStore = useCorpusStore();
 
 async function upload(files: File[]) {
+  if (!files[0]) throw new RangeError("No files");
   const configYaml = await files[0].text();
   await corpusStore.uploadConfig(corpusId, configYaml).catch(alertError);
 }

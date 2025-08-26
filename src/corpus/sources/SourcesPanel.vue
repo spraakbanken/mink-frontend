@@ -39,10 +39,11 @@ const totalSize = computed(() =>
 const accept = computed(() => extensions.value.map((ext) => `.${ext}`).join());
 
 async function fileHandler(files: File[], onProgress: ProgressHandler) {
+  if (!files[0]) throw new RangeError("No files");
   const requests = [uploadSources(files, onProgress).catch(alertError)];
 
   // Also update format setting in config if needed
-  const extension = getFilenameExtension(files[0]?.name);
+  const extension = getFilenameExtension(files[0].name);
   const format = extension.toLowerCase() as FileFormat;
   if (
     configOptions.value &&
