@@ -33,8 +33,10 @@ const { th } = useLocale();
   if (canUserAdmin.value) {
     // Make sure user is not in admin mode before proceeding to load all full resources
     const adminMode = await checkAdminMode();
-    if (adminMode) router.push("/admin/resources");
-    return;
+    if (adminMode) {
+      router.push("/admin/resources");
+      return;
+    }
   }
 
   // `loadResourceIds` has less information, but it is faster and will update UI sooner.

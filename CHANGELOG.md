@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.12.0...HEAD)
 
+### Fixed
+
+- Resources not loaded for admins outside admin mode
+
 ## [1.12.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.12.0) (2025-08-26)
 
 ### Added
