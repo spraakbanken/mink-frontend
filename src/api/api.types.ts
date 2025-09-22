@@ -45,7 +45,7 @@ export type ListCorporaData = {
 
 /** Data in the create-corpus response */
 export type CreateCorpusData = {
-  corpus_id: string;
+  resource_id: string;
 };
 
 /** Data in the create-metadata response */
