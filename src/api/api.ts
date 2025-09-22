@@ -18,10 +18,10 @@ import type {
 const yamlAsFile = (filename: string, yaml: string): File =>
   new File([yaml], filename, { type: "text/yaml" });
 
-/** Create a form data object with one or more files under `"files[]"` */
-function filesFormData(...files: File[]): FormData {
+/** Create a form data object with one or more files under a given name */
+function filesFormData(name: string, ...files: File[]): FormData {
   const formData = new FormData();
-  files.forEach((file) => formData.append("files[]", file));
+  files.forEach((file) => formData.append(name, file));
   return formData;
 }
 
@@ -104,7 +104,7 @@ class MinkApi {
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Config/operation/uploadconfig */
   async uploadConfig(corpusId: string, config: string) {
-    const formData = filesFormData(yamlAsFile("config.yaml", config));
+    const formData = filesFormData("file", yamlAsFile("config.yaml", config));
     const response = await this.axios.put<MinkResponse>(
       "upload-config",
       formData,
@@ -142,7 +142,7 @@ class MinkApi {
     files: File[],
     onProgress?: ProgressHandler,
   ) {
-    const formData = filesFormData(...files);
+    const formData = filesFormData("files", ...files);
     const response = await this.axios.put<MinkResponse>(
       "upload-sources",
       formData,
@@ -178,7 +178,7 @@ class MinkApi {
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/uploadmetadatayaml */
   async uploadMetadataYaml(resourceId: string, yaml: string) {
-    const formData = filesFormData(yamlAsFile("metadata.yaml", yaml));
+    const formData = filesFormData("file", yamlAsFile("metadata.yaml", yaml));
     const response = await this.axios.put<MinkResponse>(
       "upload-metadata-yaml",
       formData,
