@@ -19,6 +19,7 @@ As this project is a user-facing application, the places in the semantic version
 
 ### Changed
 
+- Adaptations to new FastAPI-based backend
 - Removed storage of resource data in browser
 
 ## [1.12.2](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.12.2) (2025-09-26)
