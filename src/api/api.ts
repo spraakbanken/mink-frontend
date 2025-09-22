@@ -74,7 +74,7 @@ class MinkApi {
   async createCorpus() {
     const response =
       await this.axios.post<MinkResponse<CreateCorpusData>>("create-corpus");
-    return response.data.corpus_id;
+    return response.data.resource_id;
   }
 
   async createMetadata(publicId: string) {
