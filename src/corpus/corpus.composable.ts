@@ -1,6 +1,6 @@
 import { computed, watch } from "vue";
 import { uniq } from "es-toolkit";
-import { computedAsync, useInterval } from "@vueuse/core";
+import { useInterval } from "@vueuse/core";
 import { useCorpusStore } from "@/store/corpus.store";
 import {
   makeConfig,
