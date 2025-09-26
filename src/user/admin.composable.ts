@@ -11,8 +11,10 @@ export default function useAdmin() {
   const { alertError } = useMessenger();
 
   async function checkAdminMode() {
-    const value = await mink.checkAdminMode().catch(alertError);
-    adminModeRef.value = value || false;
+    if (adminModeRef.value == undefined) {
+      const value = await mink.checkAdminMode().catch(alertError);
+      adminModeRef.value = value || false;
+    }
     return adminModeRef.value;
   }
 
