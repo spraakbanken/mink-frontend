@@ -64,6 +64,8 @@ export const useCorpusStore = defineStore("corpus", () => {
     // Backend may modify uploaded config. Store our version immediately, but also fetch the real one unawaited.
     corpora.value[corpusId]!.config = configYaml;
     loadConfig(corpusId, true);
+    // Get new title
+    loadCorpus(corpusId, true);
   }
 
   async function loadSources(
