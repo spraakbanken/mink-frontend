@@ -11,7 +11,9 @@ As this project is a user-facing application, the places in the semantic version
 - `MINOR` denotes changes that may affect the user experience _or_ the development workflow
 - `PATCH` denotes changes that are insignificant to the user experience or the develpment workflow
 
-## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.12.0...HEAD)
+## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.12.1...HEAD)
+
+## [1.12.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.12.1) (2025-09-26)
 
 ### Fixed
 
