@@ -14,12 +14,6 @@ import useMessenger from "@/message/messenger.composable";
 import type { FileMeta, ProgressHandler } from "@/api/api.types";
 import { useMatomo } from "@/matomo";
 
-/** Lazy `computedAsync` using initial value also as fallback. */
-const lazyload = <T>(f: () => Promise<T | undefined>, fallback: T) =>
-  computedAsync(async () => (await f()) || fallback, fallback, {
-    lazy: true,
-  });
-
 // Module-scope ticker, can be watched to perform task intermittently
 const pollTick = useInterval(2000);
 
@@ -32,15 +26,15 @@ export function useCorpus(corpusId: string) {
   const { alertError } = useMessenger();
   const matomo = useMatomo();
 
-  const corpus = lazyload(
-    () => corpusStore.loadCorpus(corpusId),
-    corpusStore.corpora[corpusId],
-  );
+  const corpus = computed(() => {
+    corpusStore.loadCorpus(corpusId);
+    return corpusStore.corpora[corpusId];
+  });
 
-  const config = lazyload(
-    () => corpusStore.loadConfig(corpusId),
-    corpus.value?.config || undefined,
-  );
+  const config = computed(() => {
+    corpusStore.loadConfig(corpusId);
+    return corpus.value?.config || undefined;
+  });
   const configOptions = computed(getParsedConfig);
   const hasMetadata = computed(
     () => configOptions.value?.name?.swe || configOptions.value?.name?.eng,
@@ -51,10 +45,10 @@ export function useCorpus(corpusId: string) {
       !getException(() => validateConfig(configOptions.value!)),
   );
 
-  const sources = lazyload(
-    () => corpusStore.loadSources(corpusId),
-    corpus.value?.sources || [],
-  );
+  const sources = computed(() => {
+    corpusStore.loadSources(corpusId);
+    return corpus.value?.sources || [];
+  });
   const hasSources = computed(() => sources.value.length > 0);
   /** Find file extensions present in source files. Undefined if no files. */
   const extensions = computed(() =>
@@ -88,10 +82,10 @@ export function useCorpus(corpusId: string) {
   }
 
   /** Exports sorted alphabetically by path, but "stats_*" first. */
-  const exports = lazyload(
-    () => corpusStore.loadExports(corpusId),
-    corpus.value?.exports || [],
-  );
+  const exports = computed(() => {
+    corpusStore.loadExports(corpusId);
+    return corpus.value?.exports || [];
+  });
 
   async function saveConfigOptions(configOptions: ConfigOptions) {
     const configYaml = makeConfig(corpusId, configOptions);
