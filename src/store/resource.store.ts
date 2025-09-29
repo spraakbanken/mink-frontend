@@ -21,7 +21,7 @@ export const useResourceStore = defineStore("resource", () => {
   // current date (YYMMDD) if the state shape is changed, to make the browser
   // forget the old state. The actual number doesn't really matter, as long as
   // it's a new one.
-  const resourcesRef = useStorage("mink@250530.resources", {});
+  const resourcesRef = useStorage("mink@250929.resources", {});
   const resources: Record<string, object | Resource> = reactive(
     resourcesRef.value,
   );
