@@ -9,10 +9,11 @@ import {
   type ConfigOptions,
 } from "@/api/corpusConfig";
 import { downloadFile, getException, getFilenameExtension } from "@/util";
-import useMinkBackend from "@/api/backend.composable";
 import useMessenger from "@/message/messenger.composable";
+import useSpin from "@/spin/spin.composable";
 import type { FileMeta, ProgressHandler } from "@/api/api.types";
 import { useMatomo } from "@/matomo";
+import api from "@/api/api";
 
 // Module-scope ticker, can be watched to perform task intermittently
 const pollTick = useInterval(2000);
@@ -22,8 +23,8 @@ const pollTracker: Record<string, boolean> = {};
 
 export function useCorpus(corpusId: string) {
   const corpusStore = useCorpusStore();
-  const mink = useMinkBackend();
   const { alertError } = useMessenger();
+  const { spin } = useSpin();
   const matomo = useMatomo();
 
   const corpus = computed(() => {
@@ -77,7 +78,10 @@ export function useCorpus(corpusId: string) {
 
   async function clearAnnotations() {
     matomo?.trackEvent("Corpus", "Annotation", "Clear");
-    await mink.clearAnnotations(corpusId).catch(alertError);
+    await spin(
+      api.clearAnnotations(corpusId).catch(alertError),
+      `corpus/${corpusId}/exports`,
+    );
     await corpusStore.loadExports(corpusId, true);
   }
 
@@ -103,20 +107,32 @@ export function useCorpus(corpusId: string) {
   }
 
   async function downloadSource(source: FileMeta, binary: boolean) {
-    return mink.downloadSource(corpusId, source.name, binary).catch(alertError);
+    return spin(
+      api.downloadSources(corpusId, source.name, binary),
+      `corpus/${corpusId}/sources/${source.name}/raw`,
+    ).catch(alertError);
   }
 
   async function downloadPlaintext(source: FileMeta) {
-    return mink.downloadPlaintext(corpusId, source.name).catch(alertError);
+    return spin(
+      api.downloadSourceText(corpusId, source.name),
+      `corpus/${corpusId}/sources/${source.name}/plain`,
+    ).catch(alertError);
   }
 
   async function uploadSources(files: File[], onProgress?: ProgressHandler) {
-    await mink.uploadSources(corpusId, files, onProgress);
+    await spin(
+      api.uploadSources(corpusId, files, onProgress),
+      `corpus/${corpusId}/sources/upload`,
+    );
     corpusStore.loadSources(corpusId, true);
   }
 
   async function deleteSource(source: FileMeta) {
-    await mink.deleteSource(corpusId, source.name).catch(alertError);
+    await spin(
+      api.removeSource(corpusId, source.name),
+      `corpus/${corpusId}/sources/list`,
+    ).catch(alertError);
     corpusStore.loadSources(corpusId, true);
   }
 
@@ -136,19 +152,26 @@ export function useCorpus(corpusId: string) {
 
   async function downloadResult() {
     matomo?.trackEvent("Corpus", "Download", "Export archive");
-    const data = await mink.downloadExports(corpusId).catch(alertError);
+    const data = await spin(
+      api.downloadExports(corpusId).catch(alertError),
+      `corpus/${corpusId}/exports/download`,
+    );
     if (!data) return;
     downloadFile(data, getDownloadFilename());
   }
 
   async function downloadResultFile(path: string) {
-    const filename = path.split("/").pop()!;
-    matomo?.trackEvent("Corpus", "Download", "Export file");
-    const data = await mink
-      .downloadExportFiles(corpusId, path)
-      .catch(alertError);
-    if (!data) return;
-    downloadFile(data, filename);
+    try {
+      const filename = path.split("/").pop()!;
+      matomo?.trackEvent("Corpus", "Download", "Export file");
+      const data = await spin(
+        api.downloadExportFile(corpusId, path),
+        `corpus/${corpusId}/exports/download`,
+      );
+      downloadFile(data, filename);
+    } catch (error) {
+      alertError(error);
+    }
   }
 
   return {

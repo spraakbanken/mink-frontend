@@ -1,6 +1,5 @@
 import { useRouter } from "vue-router";
 import type { AxiosError } from "axios";
-import useMinkBackend from "@/api/backend.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 import useMessenger from "@/message/messenger.composable";
 import useDeleteCorpus from "@/corpus/deleteCorpus.composable";
@@ -11,19 +10,21 @@ import {
   type ConfigOptions,
   emptyConfig,
 } from "@/api/corpusConfig";
-import type { MinkResponse, ProgressHandler } from "@/api/api.types";
+import type { MinkResponse } from "@/api/api.types";
 import useCreateResource from "@/resource/createResource.composable";
+import api from "@/api/api";
+import useSpin from "@/spin/spin.composable";
 
 export default function useCreateCorpus() {
   const corpusStore = useCorpusStore();
   const router = useRouter();
   const { deleteCorpus } = useDeleteCorpus();
   const { alert, alertError } = useMessenger();
-  const mink = useMinkBackend();
+  const { spin } = useSpin();
   const { addNewResource } = useCreateResource();
 
   async function createCorpus() {
-    const corpusId = await mink.createCorpus().catch(alertError);
+    const corpusId = await spin(api.createCorpus(), "create");
     if (!corpusId) return undefined;
 
     await addNewResource("corpus", corpusId);
@@ -45,11 +46,13 @@ export default function useCreateCorpus() {
       format,
     };
 
+    // Wait for sources and config to be uploaded in parallel.
     const results = await Promise.allSettled([
-      uploadSources(files, corpusId),
+      api.uploadSources(corpusId, files),
       saveConfigOptions(config, corpusId),
     ]);
 
+    // If any error, abort and delete the corpus draft.
     const rejectedResults = results.filter(
       (result): result is PromiseRejectedResult => result.status != "fulfilled",
     );
@@ -61,7 +64,14 @@ export default function useCreateCorpus() {
       return;
     }
 
+    // Visit new corpus when successfully created.
     router.push(`/library/corpus/${corpusId}`);
+
+    // Refresh sources in background
+    spin(
+      corpusStore.loadSources(corpusId, true),
+      `corpus/${corpusId}/sources/list`,
+    );
   }
 
   // Like the `saveConfigOptions` in `corpus.composable.ts` but takes `corpusId` as argument.
@@ -71,18 +81,6 @@ export default function useCreateCorpus() {
   ) {
     const configYaml = makeConfig(corpusId, configOptions);
     await corpusStore.uploadConfig(corpusId, configYaml);
-  }
-
-  // Like the `uploadSources` in `sources.composable.ts` but takes `corpusId` as argument.
-  async function uploadSources(
-    files: File[],
-    corpusId: string,
-    onProgress?: ProgressHandler,
-  ) {
-    await mink.uploadSources(corpusId, files, onProgress);
-    const info = await mink.resourceInfoOne(corpusId).catch(alertError);
-    if (!info) return;
-    corpusStore.corpora[corpusId]!.sources = info.resource.source_files;
   }
 
   async function createFromConfig(

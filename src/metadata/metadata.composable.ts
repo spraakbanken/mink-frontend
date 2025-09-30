@@ -1,14 +1,15 @@
-import useMinkBackend from "@/api/backend.composable";
+import api from "@/api/api";
 import { useResourceStore } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
+import useSpin from "@/spin/spin.composable";
 
 /** Tracks fully loaded resources, so subsequent load calls can be skipped. */
 const isFresh: Record<string, true> = {};
 
 export default function useMetadata(resourceId: string) {
-  const mink = useMinkBackend();
   const resourceStore = useResourceStore();
   const { alertError } = useMessenger();
+  const { spin } = useSpin();
 
   /** Load data about a metadata and store it. */
   async function loadMetadata(): Promise<void> {
@@ -29,20 +30,27 @@ export default function useMetadata(resourceId: string) {
 
   /** Load and store the metadata yaml string. */
   async function loadYaml(): Promise<string | undefined> {
-    const yaml = await mink
-      .downloadMetadata(resourceId)
-      // 404 means no metadata yaml which is fine, rethrow other errors.
-      .catch((error) => {
+    try {
+      const yaml = await spin(
+        api.downloadMetaataYaml(resourceId),
+        `resource/${resourceId}/metadata`,
+      ).catch((error) => {
+        // 404 means no metadata yaml which is fine, rethrow other errors.
         if (error.response?.status == 404) return undefined;
         throw error;
-      })
-      .catch(alertError);
-    resourceStore.metadatas[resourceId]!.metadata = yaml;
-    return yaml;
+      });
+      resourceStore.metadatas[resourceId]!.metadata = yaml;
+      return yaml;
+    } catch (error) {
+      alertError(error);
+    }
   }
 
   async function uploadYaml(yaml: string): Promise<void> {
-    await mink.uploadMetadata(resourceId, yaml).catch(alertError);
+    await spin(
+      api.uploadMetadataYaml(resourceId, yaml).catch(alertError),
+      `resource/${resourceId}/metadata`,
+    );
     resourceStore.metadatas[resourceId]!.metadata = yaml;
   }
 

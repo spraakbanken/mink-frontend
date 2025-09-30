@@ -110,7 +110,7 @@ async function doRunJob() {
             <PendingContent :on="`corpus/${corpusId}/exports/download`">
               <ActionButton
                 :class="{ 'button-primary': !isJobRunning }"
-                @click="downloadResult"
+                @click="downloadResult()"
               >
                 <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
                 {{ getDownloadFilename() }}

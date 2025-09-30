@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
-import useMinkBackend from "@/api/backend.composable";
+import api from "@/api/api";
 import useMessenger from "@/message/messenger.composable";
+import useSpin from "@/spin/spin.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import useCreateResource from "@/resource/createResource.composable";
 import PageTitle from "@/components/PageTitle.vue";
@@ -10,18 +11,19 @@ import LayoutSection from "@/components/LayoutSection.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 
 const router = useRouter();
-const mink = useMinkBackend();
 const { alertError } = useMessenger();
 const { addNewResource } = useCreateResource();
+const { spin } = useSpin();
 
 type Form = {
   publicId: string;
 };
 
 async function submit(fields: Form) {
-  const resourceId = await mink
-    .createMetadata(fields.publicId)
-    .catch(alertError);
+  const resourceId = await spin(
+    api.createMetadata(fields.publicId).catch(alertError),
+    "create",
+  );
   if (!resourceId) return;
 
   await addNewResource("metadata", resourceId);

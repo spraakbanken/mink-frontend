@@ -3,16 +3,17 @@ import { computed } from "vue";
 import { watchDeep } from "@vueuse/core";
 import { isCorpus, type Corpus } from "./resource.types";
 import { useResourceStore } from "./resource.store";
-import useMinkBackend from "@/api/backend.composable";
 import useMessenger from "@/message/messenger.composable";
-import { pickByType } from "@/util";
+import useSpin from "@/spin/spin.composable";
+import { deduplicateRequest, pickByType } from "@/util";
 import { useMatomo } from "@/matomo";
 import type { FileMeta } from "@/api/api.types";
+import api from "@/api/api";
 
 export const useCorpusStore = defineStore("corpus", () => {
   const { loadResource, resources } = useResourceStore();
-  const mink = useMinkBackend();
   const { alertError } = useMessenger();
+  const { spin } = useSpin();
   const matomo = useMatomo();
 
   /** Which corpora have fresh config loaded. */
@@ -46,21 +47,28 @@ export const useCorpusStore = defineStore("corpus", () => {
     if (!corpus) return;
 
     if (!freshConfigs.has(corpusId)) {
-      const config = await mink
-        .loadConfig(corpusId)
-        // 404 means no config which is fine.
-        .catch((error) => {
-          if (error.response?.status == 404) return undefined;
-          alertError(error);
-        });
+      const config = await downloadConfig(corpusId);
       corpus.config = config;
       freshConfigs.add(corpusId);
     }
     return corpus.config;
   }
 
+  const downloadConfig = deduplicateRequest((corpusId: string) =>
+    spin(api.downloadConfig(corpusId), `corpus/${corpusId}/config`).catch(
+      (error) => {
+        // 404 means no config which is fine.
+        if (error.response?.status == 404) return undefined;
+        alertError(error);
+      },
+    ),
+  );
+
   async function uploadConfig(corpusId: string, configYaml: string) {
-    await mink.uploadConfig(corpusId, configYaml);
+    await spin(
+      api.uploadConfig(corpusId, configYaml),
+      `corpus/${corpusId}/config`,
+    );
     // Backend may modify uploaded config. Store our version immediately, but also fetch the real one unawaited.
     corpora.value[corpusId]!.config = configYaml;
     loadConfig(corpusId, true);
@@ -72,15 +80,17 @@ export const useCorpusStore = defineStore("corpus", () => {
     corpusId: string,
     skipCache = false,
   ): Promise<FileMeta[] | undefined> {
-    // loadCorpus/loadResource actually uses the same API call as mink.listSources, just with different spin tokens.
-    // So in theory we could end up with two of the same API call here, if loadResource cache is cold, AND
-    // the skipCache arg here is set to true. But in practice, skipCache is only true after sources are added/removed,
-    // in which case loadResource cache will be warm.
+    // api.resourceInfoOne() is used first through loadCorpus() and then directly.
+    // But in practice it will only be called once, because `skipCache` is only true after uploading,
+    // in which case loadCorpus() will use a warm cache.
     const corpus = await loadCorpus(corpusId);
     if (!corpus) return;
 
     if (skipCache) {
-      const info = await mink.listSources(corpusId).catch(alertError);
+      const info = await spin(
+        api.resourceInfoOne(corpusId).catch(alertError),
+        `corpus/${corpusId}/sources/list`,
+      );
       if (!info) return;
       corpus.sources = info.resource.source_files;
     }
@@ -90,27 +100,39 @@ export const useCorpusStore = defineStore("corpus", () => {
 
   async function runJob(corpusId: string) {
     matomo?.trackEvent("Corpus", "Annotation", "Start");
-    const info = await mink.runJob(corpusId).catch(alertError);
+    const info = await spin(
+      api.runSparv(corpusId).catch(alertError),
+      `corpus/${corpusId}/job/sparv`,
+    );
     corpora.value[corpusId]!.job = info.job;
   }
 
   async function installKorp(corpusId: string) {
     matomo?.trackEvent("Corpus", "Tool install", "Korp");
-    const info = await mink.installKorp(corpusId).catch(alertError);
+    const info = await spin(
+      api.installKorp(corpusId).catch(alertError),
+      `corpus/${corpusId}/job/install/korp`,
+    );
     if (!info) return;
     corpora.value[corpusId]!.job = info.job;
   }
 
   async function installStrix(corpusId: string) {
     matomo?.trackEvent("Corpus", "Tool install", "Strix");
-    const info = await mink.installStrix(corpusId).catch(alertError);
+    const info = await spin(
+      api.installStrix(corpusId).catch(alertError),
+      `corpus/${corpusId}/job/install/strix`,
+    );
     if (!info) return;
     corpora.value[corpusId]!.job = info.job;
   }
 
   async function abortJob(corpusId: string) {
     matomo?.trackEvent("Corpus", "Annotation", "Abort");
-    await mink.abortJob(corpusId).catch(alertError);
+    await spin(
+      api.abortJob(corpusId).catch(alertError),
+      `corpus/${corpusId}/job/abort`,
+    );
     await loadCorpus(corpusId, true);
   }
 
@@ -124,7 +146,10 @@ export const useCorpusStore = defineStore("corpus", () => {
     if (!corpus) return;
 
     if (!freshExports.has(corpusId)) {
-      const exports = await mink.loadExports(corpusId).catch(alertError);
+      const exports = await spin(
+        listExports(corpusId).catch(alertError),
+        `corpus/${corpusId}/exports/list`,
+      );
       if (exports) {
         /** Sorted alphabetically by path, but "stats_*" first. */
         corpus.exports = exports
@@ -136,6 +161,11 @@ export const useCorpusStore = defineStore("corpus", () => {
 
     return corpus.exports;
   }
+
+  // Cannot do `deduplicateRequest(api.listExports)` directly because it's a method.
+  const listExports = deduplicateRequest((corpusId: string) =>
+    api.listExports(corpusId),
+  );
 
   // Refresh exports when Sparv is done
   watchDeep(corpora, (corporaNew, corporaOld) => {

@@ -8,13 +8,14 @@ import {
   type Resource,
 } from "./resource.types";
 import { deduplicateRequest, pickByType, setKeys } from "@/util";
+import api from "@/api/api";
 import type { ResourceInfo } from "@/api/api.types";
-import useMinkBackend from "@/api/backend.composable";
 import useMessenger from "@/message/messenger.composable";
+import useSpin from "@/spin/spin.composable";
 
 export const useResourceStore = defineStore("resource", () => {
-  const mink = useMinkBackend();
   const { alertError } = useMessenger();
+  const { spin } = useSpin();
 
   // Connect state to browser's local storage. Change the number here to the
   // current date (YYMMDD) if the state shape is changed, to make the browser
@@ -43,7 +44,10 @@ export const useResourceStore = defineStore("resource", () => {
 
   /** Load resource ids and update store to match. */
   async function loadResourceIds() {
-    const resourceIds = await mink.loadCorpusIds().catch(alertError);
+    const resourceIds = await spin(
+      api.listCorpora().catch(alertError),
+      "corpora",
+    );
     if (!resourceIds) return;
     setKeys(resources, resourceIds, {});
   }
@@ -52,7 +56,10 @@ export const useResourceStore = defineStore("resource", () => {
   const loadResources = deduplicateRequest(async () => {
     // Skip if already loaded.
     if (!freshList) {
-      const data = await mink.resourceInfoAll().catch(alertError);
+      const data = await spin(
+        api.resourceInfoAll().catch(alertError),
+        "corpora",
+      );
       if (!data) return;
 
       // Drop old keys, assign empty records for each new id
@@ -79,12 +86,19 @@ export const useResourceStore = defineStore("resource", () => {
   ): Promise<Resource | undefined> {
     if (skipCache) freshResources.delete(resourceId);
     if (!freshResources.has(resourceId)) {
-      const data = await mink.resourceInfoOne(resourceId).catch(alertError);
+      const data = await spin(
+        resourceInfoOne(resourceId).catch(alertError),
+        `corpus/${resourceId}/info`,
+      );
       if (!data) return;
       storeResource(data);
     }
     return resources[resourceId] as Resource;
   }
+
+  const resourceInfoOne = deduplicateRequest((resourceId: string) =>
+    api.resourceInfoOne(resourceId),
+  );
 
   /** Store new state for a given resource. */
   function storeResource(info: ResourceInfo): Resource {

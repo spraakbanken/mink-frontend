@@ -1,32 +1,45 @@
 import { readonly, ref } from "vue";
-import useMinkBackend from "@/api/backend.composable";
+import api from "@/api/api";
 import { useResourceStore } from "@/store/resource.store";
 import useMessenger from "@/message/messenger.composable";
+import useSpin from "@/spin/spin.composable";
 
 const adminModeRef = ref<boolean>();
 
 export default function useAdmin() {
   const { invalidateResources } = useResourceStore();
-  const mink = useMinkBackend();
   const { alertError } = useMessenger();
+  const { spin } = useSpin();
 
   async function checkAdminMode() {
     if (adminModeRef.value == undefined) {
-      const value = await mink.checkAdminMode().catch(alertError);
-      adminModeRef.value = value || false;
+      try {
+        const value = await spin(api.adminModeStatus(), "admin-mode");
+        adminModeRef.value = value || false;
+      } catch (error) {
+        alertError(error);
+      }
     }
     return adminModeRef.value;
   }
 
   async function enableAdminMode() {
-    await mink.enableAdminMode().catch(alertError);
-    adminModeRef.value = true;
+    try {
+      await spin(api.adminModeOn(), "admin-mode");
+      adminModeRef.value = true;
+    } catch (error) {
+      alertError(error);
+    }
     await invalidateResources();
   }
 
   async function disableAdminMode() {
-    await mink.disableAdminMode().catch(alertError);
-    adminModeRef.value = false;
+    try {
+      await spin(api.adminModeOff(), "admin-mode");
+      adminModeRef.value = false;
+    } catch (error) {
+      alertError(error);
+    }
     await invalidateResources();
   }
 
