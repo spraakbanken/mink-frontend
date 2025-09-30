@@ -48,13 +48,9 @@ export const useCorpusStore = defineStore("corpus", () => {
 
     if (!freshConfigs.has(corpusId)) {
       const config = await spin(
-        api.downloadConfig(corpusId),
+        api.downloadConfig(corpusId).catch(alertError),
         `corpus/${corpusId}/config`,
-      ).catch((error) => {
-        // 404 means no config which is fine.
-        if (error.response?.status == 404) return undefined;
-        alertError(error);
-      });
+      );
       corpus.config = config;
       freshConfigs.add(corpusId);
     }

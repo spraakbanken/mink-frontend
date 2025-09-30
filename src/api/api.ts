@@ -164,10 +164,16 @@ class MinkApi {
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Config/operation/downloadconfig */
   downloadConfig = deduplicateRequest(async (corpusId: string) => {
-    const response = await this.axios.get<string>("download-config", {
-      params: { corpus_id: corpusId },
-    });
-    return response.data;
+    const response = await this.axios
+      .get<string>("download-config", {
+        params: { corpus_id: corpusId },
+      })
+      .catch((error) => {
+        // 404 means no config which is fine, rethrow other errors.
+        if (error.response?.status == 404) return undefined;
+        throw error;
+      });
+    return response?.data;
   });
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/uploadmetadatayaml */
@@ -183,10 +189,16 @@ class MinkApi {
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/downloadmetadatayaml */
   async downloadMetaataYaml(resourceId: string) {
-    const response = await this.axios.get<string>("download-metadata-yaml", {
-      params: { corpus_id: resourceId },
-    });
-    return response.data;
+    const response = await this.axios
+      .get<string>("download-metadata-yaml", {
+        params: { corpus_id: resourceId },
+      })
+      .catch((error) => {
+        // 404 means no metadata yaml which is fine, rethrow other errors.
+        if (error.response?.status == 404) return undefined;
+        throw error;
+      });
+    return response?.data;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/resourceinfo */
@@ -212,7 +224,6 @@ class MinkApi {
         params: { corpus_id: corpusId },
       })
       // Errors are okay.
-      // TODO Use the `validateStatus` config option instead
       .catch((reason) => reason.response);
     return response.data;
   }

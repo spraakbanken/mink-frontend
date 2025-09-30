@@ -34,11 +34,7 @@ export default function useMetadata(resourceId: string) {
       const yaml = await spin(
         api.downloadMetaataYaml(resourceId),
         `resource/${resourceId}/metadata`,
-      ).catch((error) => {
-        // 404 means no metadata yaml which is fine, rethrow other errors.
-        if (error.response?.status == 404) return undefined;
-        throw error;
-      });
+      );
       resourceStore.metadatas[resourceId]!.metadata = yaml;
       return yaml;
     } catch (error) {
