@@ -1,5 +1,5 @@
 import { computed, watch } from "vue";
-import { uniq } from "es-toolkit";
+import { attempt, uniq } from "es-toolkit";
 import { useInterval } from "@vueuse/core";
 import { useCorpusStore } from "@/store/corpus.store";
 import {
@@ -8,7 +8,7 @@ import {
   validateConfig,
   type ConfigOptions,
 } from "@/api/corpusConfig";
-import { downloadFile, getException, getFilenameExtension } from "@/util";
+import { downloadFile, getFilenameExtension } from "@/util";
 import useMessenger from "@/message/messenger.composable";
 import useSpin from "@/spin/spin.composable";
 import type { FileMeta, ProgressHandler } from "@/api/api.types";
@@ -41,9 +41,7 @@ export function useCorpus(corpusId: string) {
     () => configOptions.value?.name?.swe || configOptions.value?.name?.eng,
   );
   const isConfigValid = computed(
-    () =>
-      configOptions.value &&
-      !getException(() => validateConfig(configOptions.value!)),
+    () => !attempt(() => validateConfig(configOptions.value!))[0],
   );
 
   const sources = computed(() => {

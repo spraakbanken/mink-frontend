@@ -6,7 +6,6 @@ import {
   enarray,
   ensureExtension,
   formatDate,
-  getException,
   getFilenameExtension,
   objsToDict,
   pathJoin,
@@ -115,23 +114,6 @@ describe("randomString", () => {
     const samples = Array.from({ length: 1000 }, () => randomString());
     const fails = samples.filter((s) => !pattern.test(s));
     expect(fails).toEqual([]);
-  });
-});
-
-describe("getException", () => {
-  test("translate success to undefined", () => {
-    const f = () => "foobar";
-    const exception = getException(f);
-    expect(exception).toBeUndefined();
-  });
-  test("reflect exception", () => {
-    const f = () => {
-      throw new EvalError("Leverpastej");
-    };
-    const exception = getException(f);
-    expect(exception).toBeInstanceOf(EvalError);
-    expect((exception as EvalError).name).toBe("EvalError");
-    expect((exception as EvalError).message).toBe("Leverpastej");
   });
 });
 
