@@ -1,5 +1,5 @@
 import Axios, { type AxiosInstance } from "axios";
-import { ensureTrailingSlash } from "@/util";
+import { deduplicateRequest, ensureTrailingSlash } from "@/util";
 import type {
   MinkResponse,
   InfoData,
@@ -163,12 +163,12 @@ class MinkApi {
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Config/operation/downloadconfig */
-  async downloadConfig(corpusId: string) {
+  downloadConfig = deduplicateRequest(async (corpusId: string) => {
     const response = await this.axios.get<string>("download-config", {
       params: { corpus_id: corpusId },
     });
     return response.data;
-  }
+  });
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/uploadmetadatayaml */
   async uploadMetadataYaml(resourceId: string, yaml: string) {
@@ -197,13 +197,13 @@ class MinkApi {
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/resourceinfo */
-  async resourceInfoOne(corpusId: string) {
+  resourceInfoOne = deduplicateRequest(async (corpusId: string) => {
     const response = await this.axios.get<MinkResponse<ResourceInfoOneData>>(
       "resource-info",
       { params: { corpus_id: corpusId } },
     );
     return response.data;
-  }
+  });
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/runSparv */
   async runSparv(corpusId: string) {

@@ -5,7 +5,7 @@ import { isCorpus, type Corpus } from "./resource.types";
 import { useResourceStore } from "./resource.store";
 import useMessenger from "@/message/messenger.composable";
 import useSpin from "@/spin/spin.composable";
-import { deduplicateRequest, pickByType } from "@/util";
+import { pickByType } from "@/util";
 import { useMatomo } from "@/matomo";
 import type { FileMeta } from "@/api/api.types";
 import api from "@/api/api";
@@ -47,22 +47,19 @@ export const useCorpusStore = defineStore("corpus", () => {
     if (!corpus) return;
 
     if (!freshConfigs.has(corpusId)) {
-      const config = await downloadConfig(corpusId);
+      const config = await spin(
+        api.downloadConfig(corpusId),
+        `corpus/${corpusId}/config`,
+      ).catch((error) => {
+        // 404 means no config which is fine.
+        if (error.response?.status == 404) return undefined;
+        alertError(error);
+      });
       corpus.config = config;
       freshConfigs.add(corpusId);
     }
     return corpus.config;
   }
-
-  const downloadConfig = deduplicateRequest((corpusId: string) =>
-    spin(api.downloadConfig(corpusId), `corpus/${corpusId}/config`).catch(
-      (error) => {
-        // 404 means no config which is fine.
-        if (error.response?.status == 404) return undefined;
-        alertError(error);
-      },
-    ),
-  );
 
   async function uploadConfig(corpusId: string, configYaml: string) {
     await spin(
@@ -147,7 +144,7 @@ export const useCorpusStore = defineStore("corpus", () => {
 
     if (!freshExports.has(corpusId)) {
       const exports = await spin(
-        listExports(corpusId).catch(alertError),
+        api.listExports(corpusId).catch(alertError),
         `corpus/${corpusId}/exports/list`,
       );
       if (exports) {
@@ -161,11 +158,6 @@ export const useCorpusStore = defineStore("corpus", () => {
 
     return corpus.exports;
   }
-
-  // Cannot do `deduplicateRequest(api.listExports)` directly because it's a method.
-  const listExports = deduplicateRequest((corpusId: string) =>
-    api.listExports(corpusId),
-  );
 
   // Refresh exports when Sparv is done
   watchDeep(corpora, (corporaNew, corporaOld) => {

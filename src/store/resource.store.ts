@@ -7,7 +7,7 @@ import {
   type Metadata,
   type Resource,
 } from "./resource.types";
-import { deduplicateRequest, pickByType, setKeys } from "@/util";
+import { pickByType, setKeys } from "@/util";
 import api from "@/api/api";
 import type { ResourceInfo } from "@/api/api.types";
 import useMessenger from "@/message/messenger.composable";
@@ -53,7 +53,7 @@ export const useResourceStore = defineStore("resource", () => {
   }
 
   /** Load and store data about all the user's resources. */
-  const loadResources = deduplicateRequest(async () => {
+  async function loadResources() {
     // Skip if already loaded.
     if (!freshList) {
       const data = await spin(
@@ -71,7 +71,7 @@ export const useResourceStore = defineStore("resource", () => {
     }
 
     return resources;
-  });
+  }
 
   /** Signal that info needs to be reloaded, and immediately fetch ids. */
   async function invalidateResources() {
@@ -87,7 +87,7 @@ export const useResourceStore = defineStore("resource", () => {
     if (skipCache) freshResources.delete(resourceId);
     if (!freshResources.has(resourceId)) {
       const data = await spin(
-        resourceInfoOne(resourceId).catch(alertError),
+        api.resourceInfoOne(resourceId).catch(alertError),
         `corpus/${resourceId}/info`,
       );
       if (!data) return;
@@ -95,10 +95,6 @@ export const useResourceStore = defineStore("resource", () => {
     }
     return resources[resourceId] as Resource;
   }
-
-  const resourceInfoOne = deduplicateRequest((resourceId: string) =>
-    api.resourceInfoOne(resourceId),
-  );
 
   /** Store new state for a given resource. */
   function storeResource(info: ResourceInfo): Resource {
