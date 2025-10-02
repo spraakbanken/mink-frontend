@@ -85,7 +85,9 @@ export const useCorpusStore = defineStore("corpus", () => {
         `corpus/${corpusId}/sources/list`,
       );
       if (!info) return;
-      corpus.sources = info.resource.source_files;
+      corpus.sources = info.resource.source_files.sort((a, b) =>
+        a.name.localeCompare(b.name),
+      );
     }
 
     return corpus.sources;

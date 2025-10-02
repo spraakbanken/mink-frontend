@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.12.2...HEAD)
 
+### Added
+
+- Sort sources files by name
+
 ## [1.12.2](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.12.2) (2025-09-26)
 
 ### Fixed
