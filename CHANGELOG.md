@@ -22,6 +22,10 @@ As this project is a user-facing application, the places in the semantic version
 - Adaptations to new FastAPI-based backend
 - Removed storage of resource data in browser
 
+### Fixed
+
+- Correct numbers in error message when uploading too large files
+
 ## [1.12.2](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.12.2) (2025-09-26)
 
 ### Fixed

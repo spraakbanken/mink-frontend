@@ -314,14 +314,14 @@ api.code.failed_removing_job: Failed to remove job
 api.code.failed_removing_auth: Failed to remove the corpus from the authentication system
 api.code.removed_corpus: The corpus was successfully removed
 api.code.missing_sources_upload: No corpus files provided for upload
-api.code.failed_uploading_sources_corpus_size: Failed to upload source files, because the total size would exceed the maximum limit of {max_corpus_size} MB
+api.code.failed_uploading_sources_corpus_size: Failed to upload source files, because the total size would exceed the maximum limit of {max_size_mb} MB
 api.code.failed_uploading_sources: Failed to upload source files
-api.code.failed_uploading_sources_file_size: Some files could not be uploaded, because they exceed the maximum file size of {max_file_size} MB
+api.code.failed_uploading_sources_file_size: Some files could not be uploaded, because they exceed the maximum file size of {max_size_mb} MB
 api.code.failed_uploading_sources_invalid_file_extension: 'File "{file}" could not be uploaded, because it has an invalid filename extension. Please use any of the supported file formats: xml, txt, odt, docx, pdf.'
 api.code.failed_uploading_sources_invalid_xml: File "{file}" could not be uploaded, because it contains invalid XML
 api.code.failed_uploading_sources_incompatible_file_extension: File "{file}" could not be uploaded, because it has a different filename extension. A corpus can only handle source files of the same type.
 api.code.uploaded_sources: The source files were successfully added
-api.code.data_too_large: Request data too large (max {max_content_length} MB per upload)
+api.code.data_too_large: Request data too large (max {max_size_mb} MB per upload)
 api.code.listing_sources: Listing current source files for the corpus "{corpus_id}"
 api.code.missing_sources_remove: No files provided for removal
 api.code.failed_removing_some_sources: Failed to remove some source files
