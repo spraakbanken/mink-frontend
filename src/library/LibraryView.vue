@@ -21,10 +21,13 @@ import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
 import useMessenger from "@/message/messenger.composable";
 import { useMetadataStore } from "@/store/metadata.store";
 import { useCorpusStore } from "@/store/corpus.store";
+import LexiconButton from "@/lexicon/LexiconButton.vue";
+import { useLexiconStore } from "@/store/lexicon.store";
 
 const router = useRouter();
 const { loadResources } = useResourceStore();
 const { corpora, hasCorpora } = storeToRefs(useCorpusStore());
+const { lexicons } = storeToRefs(useLexiconStore());
 const { metadatas } = storeToRefs(useMetadataStore());
 const { adminMode, checkAdminMode } = useAdmin();
 const { canUserAdmin } = useAuth();
@@ -89,6 +92,21 @@ async function fileHandler(files: File[]) {
         >
           <UploadSizeLimits />
         </FileUpload>
+      </PendingContent>
+    </LayoutSection>
+
+    <LayoutSection :title="$t('lexicons')">
+      <HelpBox>
+        <p>{{ $t("library.help.lexicons") }}</p>
+      </HelpBox>
+
+      <PendingContent on="lexicons" class="my-4 flex flex-wrap gap-4">
+        <LexiconButton v-for="(lexicon, id) of lexicons" :key="id" :id />
+
+        <PadButton to="/library/lexicon/new">
+          <PhPlusCircle size="2em" class="mb-2" />
+          {{ $t("lexicon.new") }}
+        </PadButton>
       </PendingContent>
     </LayoutSection>
 
