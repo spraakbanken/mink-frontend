@@ -20,6 +20,10 @@ export type Corpus = Resource & {
   exports?: FileMeta[];
 };
 
+export type Lexicon = Resource & {
+  type: "lexicon";
+};
+
 export type Metadata = Resource & {
   publicId: string;
   metadata: string; // YAML
@@ -29,5 +33,7 @@ export type Metadata = Resource & {
 // See https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards
 export const isCorpus = (resource: Partial<Resource>): resource is Corpus =>
   resource.type == "corpus";
+export const isLexicon = (resource: Partial<Resource>): resource is Lexicon =>
+  resource.type == "lexicon";
 export const isMetadata = (resource: Partial<Resource>): resource is Metadata =>
   resource.type == "metadata";

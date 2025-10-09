@@ -36,6 +36,7 @@ const corpusRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: "",
+        name: "corpus.overview",
         component: CorpusOverview,
         meta: { protected: true },
       },

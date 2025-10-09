@@ -18,6 +18,7 @@ import FileUpload from "@/components/FileUpload.vue";
 import { FORMATS_EXT } from "@/api/corpusConfig";
 import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
 import { useCorpusStore } from "@/store/corpus.store";
+import LexiconButton from "@/lexicon/LexiconButton.vue";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
@@ -88,6 +89,25 @@ async function fileHandler(files: File[]) {
         >
           <UploadSizeLimits />
         </FileUpload>
+      </PendingContent>
+    </LayoutSection>
+
+    <LayoutSection :title="$t('lexicons')">
+      <HelpBox>
+        <p>{{ $t("library.help.lexicons") }}</p>
+      </HelpBox>
+
+      <PendingContent on="lexicons" class="my-4 flex flex-wrap gap-4">
+        <LexiconButton
+          v-for="(lexicon, id) of resourceStore.lexicons"
+          :key="id"
+          :id
+        />
+
+        <PadButton to="/library/lexicon/new">
+          <PhPlusCircle size="2em" class="mb-2" />
+          {{ $t("lexicon.new") }}
+        </PadButton>
       </PendingContent>
     </LayoutSection>
 
