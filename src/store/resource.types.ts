@@ -21,6 +21,10 @@ export type Corpus = Resource & {
   exports?: FileMeta[];
 };
 
+export type Lexicon = Resource & {
+  type: "lexicon";
+};
+
 export type Metadata = Resource & {
   type: "metadata";
   publicId: string;
@@ -32,6 +36,8 @@ export type Metadata = Resource & {
 export const isCorpus = (
   resource: Partial<Resource>,
 ): resource is Partial<Corpus> => resource.type == "corpus";
+export const isLexicon = (resource: Partial<Resource>): resource is Lexicon =>
+  resource.type == "lexicon";
 export const isMetadata = (
   resource: Partial<Resource>,
 ): resource is Partial<Metadata> => resource.type == "metadata";

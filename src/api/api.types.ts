@@ -90,7 +90,7 @@ export type ResourceData = {
   source_files: FileMeta[];
 };
 
-export type ResourceType = "corpus" | "metadata";
+export type ResourceType = "corpus" | "lexicon" | "metadata";
 
 /** Job status for a resource */
 // There's more but we're not using everything.

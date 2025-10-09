@@ -3,7 +3,9 @@ import { defineStore } from "pinia";
 import { pick } from "es-toolkit";
 import {
   isCorpus,
+  isLexicon,
   isMetadata,
+  type Lexicon,
   type Metadata,
   type Resource,
 } from "./resource.types";
@@ -19,6 +21,9 @@ export const useResourceStore = defineStore("resource", () => {
 
   const resources: Record<string, object | Resource> = reactive({});
 
+  const lexicons = computed<Record<string, Partial<Lexicon>>>(() =>
+    pickByType(resources, isLexicon),
+  );
   const metadatas = computed<Record<string, Partial<Metadata>>>(() =>
     pickByType(resources, isMetadata),
   );
@@ -121,6 +126,7 @@ export const useResourceStore = defineStore("resource", () => {
     loadResource,
     loadResourceIds,
     loadResources,
+    lexicons,
     metadatas,
     resources,
   };
