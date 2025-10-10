@@ -39,8 +39,6 @@ const { th } = useLocale();
     }
   }
 
-  // `loadResourceIds` has less information, but it is faster and will update UI sooner.
-  resourceStore.loadResourceIds();
   resourceStore.loadResources();
 })();
 

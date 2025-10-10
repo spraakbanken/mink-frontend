@@ -1,6 +1,5 @@
 import { computed, reactive } from "vue";
 import { defineStore } from "pinia";
-import { useStorage } from "@vueuse/core";
 import {
   isCorpus,
   isMetadata,
@@ -17,14 +16,7 @@ export const useResourceStore = defineStore("resource", () => {
   const { alertError } = useMessenger();
   const { spin } = useSpin();
 
-  // Connect state to browser's local storage. Change the number here to the
-  // current date (YYMMDD) if the state shape is changed, to make the browser
-  // forget the old state. The actual number doesn't really matter, as long as
-  // it's a new one.
-  const resourcesRef = useStorage("mink@250530.resources", {});
-  const resources: Record<string, object | Resource> = reactive(
-    resourcesRef.value,
-  );
+  const resources: Record<string, object | Resource> = reactive({});
 
   const metadatas = computed<Record<string, Partial<Metadata>>>(() =>
     pickByType(resources, isMetadata),
