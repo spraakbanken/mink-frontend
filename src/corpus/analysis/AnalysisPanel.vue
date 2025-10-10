@@ -53,7 +53,7 @@ async function doRunJob() {
           <div class="font-semibold">{{ $t("annotations.clear") }}</div>
           {{ $t("annotations.clear.help") }}
         </div>
-        <ActionButton @click="clearAnnotations()" class="whitespace-nowrap">
+        <ActionButton @click="clearAnnotations()">
           {{ $t("annotations.clear") }}
         </ActionButton>
       </PendingContent>
@@ -72,7 +72,6 @@ async function doRunJob() {
           :disabled="!canRun"
           :class="{ 'button-primary': canRun && !exports?.length }"
           @click="canRun ? doRunJob() : null"
-          class="whitespace-nowrap"
         >
           <PhGearFine weight="bold" class="inline mb-1 mr-1" />
           {{ !exports?.length ? $t("job.run") : $t("job.rerun") }}

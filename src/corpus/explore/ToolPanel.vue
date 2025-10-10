@@ -25,7 +25,6 @@ defineEmits<{
       <div class="flex gap-2 justify-end items-baseline">
         <ActionButton
           :disabled="!canInstall"
-          class="whitespace-nowrap"
           :class="{ 'button-primary': canInstall && !isInstalled }"
           @click="$emit('install')"
         >
