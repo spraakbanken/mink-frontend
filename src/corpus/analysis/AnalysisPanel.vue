@@ -61,7 +61,6 @@ async function doRunJob() {
         <ActionButton
           :disabled="!canWrite('corpora', id)"
           @click="clearAnnotations().catch(alertError)"
-          class="whitespace-nowrap"
         >
           {{ $t("annotations.clear") }}
         </ActionButton>
@@ -81,7 +80,6 @@ async function doRunJob() {
           :disabled="!canRun"
           :class="{ 'button-primary': canRun && !exports?.length }"
           @click="canRun ? doRunJob() : null"
-          class="whitespace-nowrap"
         >
           <PhGearFine weight="bold" class="inline mb-1 mr-1" />
           {{ !exports?.length ? $t("job.run") : $t("job.rerun") }}
