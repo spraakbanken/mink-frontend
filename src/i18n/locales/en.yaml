@@ -31,10 +31,8 @@ welcome: Welcome, {name}!
 mydata: My data
 news: News
 library: Library
-library.help.corpora: These are the corpora that you have created. Only you can see them. Click them to view more details.
-library.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "@:{'new_corpus'}" button or drop files into the upload field below.
-library.help.lexicons: A lexicon is a list of entries, which can be anything from simple words to complex data structures.
-library.help.metadata: A metadata record holds information describing an arbitrary resource. Mink will not process any data for this resource, but you can export the metadata to a repository.
+library.help.resources: These are the resources that you have created. Only you can see them. Click them to view more details.
+library.help.resources.none: "Mink provides automatic linguistic analysis for your data. Start by creating a resource: use the @:{'resource_new'} button or drop files into the upload field."
 corpus.create.help: The corpus will be accessible by you only. You can always change these values later.
 corpus.delete: Delete corpus
 corpus.state.unknown: Unknown
@@ -59,7 +57,6 @@ corpus.state.help.failed: An error occurred while processing your data. If you n
 corpus.state.help.failed_install: An error occurred while installing your corpus. If you need help, please contact sb-info{'@'}svenska.gu.se
 lexicon.new: New lexicon
 lexicon.create.help: A lexicon is a list of entries, which can be anything from simple words to complex data structures.
-lexicons: Lexicons
 metadata.new: New metadata
 metadata.public_id.help: In Mink, all resources have fixed, unmodifiable identifiers. The public identifier is what this resource will get once it is exported to a repository. Try to make it recognizable and descriptive, but not too long. It must only contain lowercase letters, numbers and dashes, and start with your assigned organization prefix.
 metadata.public_id.error.format: The public identifier must only contain lowercase letters (a-z), numbers (0-9) and dashes (-). It must not start or end with a dash.
@@ -129,6 +126,7 @@ exports.help.more.label: Read more about export files in the user manual
 user.settings: Settings
 user.settings.admin_mode: Enable administration mode
 user.admin_mode.warning: Administration mode is enabled. Please be careful!
+status: Status
 errors: Errors
 warnings: Warnings
 error.message: There was an error
@@ -150,10 +148,10 @@ analysis: Analysis
 result: Result
 resources: Resources
 corpus: Corpus
-corpuses: Corpora
 files: No files | 1 file | {count} files
 none: None
-new_corpus: New corpus
+resource: Resource
+resource_new: New resource
 fileName: Name
 type: Type
 upload: Upload

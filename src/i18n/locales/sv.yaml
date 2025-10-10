@@ -31,11 +31,8 @@ welcome: Välkommen, {name}!
 mydata: Mina data
 news: Nyheter
 library: Bibliotek
-library.help.corpora: Här listas de korpusar du har skapat. De är bara synliga för dig. Klicka på dem för att visa mer.
-library.help.corpora.none: >-
-  Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en korpus: använd knappen "@:{'new_corpus'}" eller dra filer till uppladdningsrutan nedan.
-library.help.lexicons: Ett lexikon är en lista med ingångar, vilka kan vara allt från enkla ord till komplexa datastrukturer.
-library.help.metadata: Ett metadataobjekt har information som beskriver en godtycklig resurs. Mink bearbetar ingen data för dessa objekt, men de kan exporteras till en datakatalog.
+library.help.resources: Här listas de resurser du har skapat. De är bara synliga för dig. Klicka på dem för att visa mer.
+library.help.resources.none: "Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en resurs: använd knappen @:{'resource_new'} eller dra filer till uppladdningsrutan."
 corpus.create.help: Korpusen kommer bara att vara synlig för dig. Du kan alltid uppdatera de här uppgifterna senare.
 corpus.delete: Radera korpus
 corpus.state.unknown: Okänt
@@ -60,7 +57,6 @@ corpus.state.help.failed: Ett fel uppstod under annotering. Om du behöver hjäl
 corpus.state.help.failed_install: Ett fel uppstod under installation. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 lexicon.new: Nytt lexikon
 lexicon.create.help: Ett lexikon är en lista med ingångar, vilka kan vara allt från enkla ord till komplexa datastrukturer.
-lexicons: Lexikon
 metadata.new: Ny metadata
 metadata.public_id.help: Varje resurs i Mink har en förutbestämd identifierare. Den publika identifieraren är vad denna resurs kommer at få när den exporteras till en datakatalog. Välj gärna något unikt och beskrivande, men inte för långt. Den får endast innehålla små bokstäver, siffror och bindestreck, och måste börja med ditt tilldelade organisationsprefix.
 metadata.public_id.error.format: Den publika identifieraren får endast innehålla små bokstäver (a-z), siffror (0-9) och bindestreck (-). Den får inte börja eller sluta med bindestreck.
@@ -130,6 +126,7 @@ exports.help.more.label: Läs mer om exportfiler i användarhandledningen
 user.settings: Inställningar
 user.settings.admin_mode: Aktivera administratörsläget
 user.admin_mode.warning: Administratörsläget är aktiverat. Var försiktig!
+status: Status
 errors: Fel
 warnings: Varningar
 error.message: Ett fel uppstod
@@ -151,10 +148,10 @@ analysis: Analys
 result: Resultat
 resources: Resurser
 corpus: Korpus
-corpuses: Korpusar
 files: Inga filer | 1 fil | {count} filer
 none: Inget
-new_corpus: Ny korpus
+resource: Resurs
+resource_new: Ny resurs
 fileName: Filnamn
 type: Typ
 upload: Ladda upp
