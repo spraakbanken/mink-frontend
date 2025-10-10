@@ -43,7 +43,6 @@ defineEmits<{
 
       <ActionButton
         :disabled="!canInstall"
-        class="whitespace-nowrap"
         :class="{ 'button-primary': canInstall && !isInstalled }"
         @click="$emit('install')"
       >
@@ -56,7 +55,7 @@ defineEmits<{
       <ActionButton
         v-if="isInstalled"
         :disabled="!canInstall"
-        class="whitespace-nowrap button-mute button-danger"
+        class="button-mute button-danger"
         @click="$emit('uninstall')"
       >
         <PhTrash weight="bold" class="inline mb-1 mr-1" />

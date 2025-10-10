@@ -58,8 +58,8 @@ const getType = (resource: object | Resource) =>
   <div v-if="!adminMode">
     <PageTitle>{{ $t("library") }}</PageTitle>
 
-    <div class="flex dflex-col flex-wrap 2xl:flex-nowrap items-start gap-4">
-      <LayoutBox :title="$t('resources')" class="min-w-2xl grow">
+    <div class="flex flex-col xl:flex-row xl:items-start gap-4">
+      <LayoutBox :title="$t('resources')" class="flex-1">
         <table v-if="hasResources" class="w-full my-4">
           <thead class="bg-zinc-200">
             <tr>
@@ -105,16 +105,49 @@ const getType = (resource: object | Resource) =>
         }}</HelpBox>
       </LayoutBox>
 
-      <LayoutBox :title="$t('resource_new')" class="min-w-md grow">
-        <div class="my-4">
+      <LayoutBox :title="$t('resource_new')" class="flex-1">
+        <div class="flex gap-3 items-center my-4">
+          <div class="grow">
+            <div class="font-semibold">{{ $t("corpus") }}</div>
+            {{ $t("corpus.help") }}
+          </div>
           <RouteButton
-            to="/library/resource/new"
+            to="/library/corpus/new"
             :class="{ 'button-primary': !hasResources }"
           >
             <PhPlusCircle weight="bold" class="inline mb-1 mr-1" />
-            {{ $t("resource_new") }}
+            {{ $t("corpus.new") }}
           </RouteButton>
         </div>
+
+        <div class="flex gap-3 items-center my-4">
+          <div class="grow">
+            <div class="font-semibold">{{ $t("lexicon") }}</div>
+            {{ $t("lexicon.help") }}
+          </div>
+          <RouteButton
+            to="/library/lexicon/new"
+            :class="{ 'button-primary': !hasResources }"
+          >
+            <PhPlusCircle weight="bold" class="inline mb-1 mr-1" />
+            {{ $t("lexicon.new") }}
+          </RouteButton>
+        </div>
+
+        <div class="flex gap-3 items-center my-4">
+          <div class="grow">
+            <div class="font-semibold">{{ $t("metadata") }}</div>
+            {{ $t("metadata.help") }}
+          </div>
+          <RouteButton
+            to="/library/metadata/new"
+            :class="{ 'button-primary': !hasResources }"
+          >
+            <PhPlusCircle weight="bold" class="inline mb-1 mr-1" />
+            {{ $t("metadata.new") }}
+          </RouteButton>
+        </div>
+
         <PendingContent on="create" blocking>
           <FileUpload
             :file-handler

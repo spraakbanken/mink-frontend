@@ -33,7 +33,9 @@ news: Nyheter
 library: Bibliotek
 library.help.resources: Här listas de resurser du har skapat. De är bara synliga för dig. Klicka på dem för att visa mer.
 library.help.resources.none: "Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en resurs: använd knappen @:{'resource_new'} eller dra filer till uppladdningsrutan."
-corpus.create.help: Korpusen kommer bara att vara synlig för dig. Du kan alltid uppdatera de här uppgifterna senare.
+corpus: Korpus
+corpus.help: En korpus är en samling av text som ofta används för statistisk analys och fjärrläsning.
+corpus.new: Ny korpus
 corpus.delete: Radera korpus
 corpus.state.unknown: Okänt
 corpus.state.empty: Inga filer
@@ -55,12 +57,16 @@ corpus.state.help.running_install: Installationen körs i bakgrunden. Det går b
 corpus.state.help.done_install: Nu är datan installerad!
 corpus.state.help.failed: Ett fel uppstod under annotering. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 corpus.state.help.failed_install: Ett fel uppstod under installation. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
+lexicon: Lexikon
+lexicon.help: Ett lexikon är en lista med ingångar, vilka kan vara allt från enkla ord till komplexa datastrukturer.
 lexicon.new: Nytt lexikon
-lexicon.create.help: Ett lexikon är en lista med ingångar, vilka kan vara allt från enkla ord till komplexa datastrukturer.
+metadata: Metadata
+metadata.help: Om du har tilldelats ett organisationsprefix kan du använda Metadata för att förbereda en resurs för publicering.
 metadata.new: Ny metadata
 metadata.public_id.help: Varje resurs i Mink har en förutbestämd identifierare. Den publika identifieraren är vad denna resurs kommer at få när den exporteras till en datakatalog. Välj gärna något unikt och beskrivande, men inte för långt. Den får endast innehålla små bokstäver, siffror och bindestreck, och måste börja med ditt tilldelade organisationsprefix.
 metadata.public_id.error.format: Den publika identifieraren får endast innehålla små bokstäver (a-z), siffror (0-9) och bindestreck (-). Den får inte börja eller sluta med bindestreck.
 metadata.delete: Radera metadata
+resource.create.help: Resursen kommer bara att synas för dig. Du kan alltid uppdatera de här uppgifterna senare.
 resource.delete.ask: Är du säker på att du vill ta bort den här resursen?
 resource.access_denied: Den här funktionen kräver en högre behörighetsnivå till resursen
 config.metadata.help: Metadata är information om datan, och fungerar som underlag för potentiellt intresserade användare (om du publicerar datan) samt underlättar katalogiseringen i datarepositorier.
@@ -140,14 +146,12 @@ docs.url: https://spraakbanken.gu.se/verktyg/mink
 locale.switcher.label: Gränssnittsspråk
 en: Engelska
 sv: Svenska
-metadata: Metadata
 sources: Källfiler
 configuration: Konfiguration
 settings: Inställningar
 analysis: Analys
 result: Resultat
 resources: Resurser
-corpus: Korpus
 files: Inga filer | 1 fil | {count} filer
 none: Inget
 resource: Resurs

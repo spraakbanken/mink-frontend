@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <button class="inline-block mink-button" :disabled="disabled">
+  <button class="inline-block mink-button whitespace-nowrap" :disabled>
     <slot />
   </button>
 </template>
