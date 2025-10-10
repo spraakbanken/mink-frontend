@@ -26,6 +26,7 @@ export const useResourceStore = defineStore("resource", () => {
   const metadatas = computed<Record<string, Partial<Metadata>>>(() =>
     pickByType(resources, isMetadata),
   );
+  const hasResources = computed(() => Object.keys(resources).length);
 
   // Resource fetching is essentially on three levels: list, info and (only for corpus) config.
   // (Additionally, there's exports, but it has a more specific use.)
@@ -128,6 +129,7 @@ export const useResourceStore = defineStore("resource", () => {
     loadResource,
     loadResourceIds,
     loadResources,
+    hasResources,
     lexicons,
     metadatas,
     resources,

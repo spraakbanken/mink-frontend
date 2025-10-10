@@ -2,10 +2,8 @@
 import { useRouter } from "vue-router";
 import { PhPlusCircle } from "@phosphor-icons/vue";
 import { computed } from "vue";
-import CorpusButton from "@/library/CorpusButton.vue";
+import { storeToRefs } from "pinia";
 import useLocale from "@/i18n/locale.composable";
-import PadButton from "@/components/PadButton.vue";
-import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useAdmin from "@/user/admin.composable";
 import { useAuth } from "@/auth/auth.composable";
@@ -17,17 +15,20 @@ import useCreateCorpus from "@/corpus/createCorpus.composable";
 import FileUpload from "@/components/FileUpload.vue";
 import { FORMATS_EXT } from "@/api/corpusConfig";
 import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
-import { useCorpusStore } from "@/store/corpus.store";
-import LexiconButton from "@/lexicon/LexiconButton.vue";
+import { isCorpus, type Resource } from "@/store/resource.types";
+import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
+import RouteButton from "@/components/RouteButton.vue";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
-const corpusStore = useCorpusStore();
 const { adminMode, checkAdminMode } = useAdmin();
 const { canUserAdmin } = useAuth();
 const { createFromUpload } = useCreateCorpus();
 const { spin } = useSpin();
 const { th } = useLocale();
+
+const { hasResources, resources } = storeToRefs(resourceStore);
 
 // Only load full resource list if not admin
 (async () => {
@@ -48,87 +49,84 @@ const accept = computed(() => FORMATS_EXT.map((ext) => `.${ext}`).join());
 async function fileHandler(files: File[]) {
   await spin(createFromUpload(files), "create");
 }
+
+const getType = (resource: object | Resource) =>
+  "type" in resource ? resource.type : "resource";
 </script>
 
 <template>
   <div v-if="!adminMode">
     <PageTitle>{{ $t("library") }}</PageTitle>
-    <LayoutSection :title="$t('corpuses')">
-      <HelpBox>
-        <p>
-          {{
-            corpusStore.hasCorpora
-              ? $t("library.help.corpora")
-              : $t("library.help.corpora.none")
-          }}
-        </p>
-      </HelpBox>
 
-      <PendingContent on="corpora" class="my-4 flex flex-wrap gap-4">
-        <CorpusButton
-          v-for="(corpus, corpusId) of corpusStore.corpora"
-          :id="corpusId"
-          :key="corpusId"
-        />
+    <div class="flex dflex-col flex-wrap 2xl:flex-nowrap items-start gap-4">
+      <LayoutBox :title="$t('resources')" class="min-w-2xl grow">
+        <table v-if="hasResources" class="w-full my-4">
+          <thead class="bg-zinc-200">
+            <tr>
+              <th class="p-2">{{ $t("name") }}</th>
+              <th>{{ $t("type") }}</th>
+              <th>{{ $t("status") }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <router-link
+              v-for="(resource, id) in resources"
+              :key="id"
+              custom
+              v-slot="{ navigate }"
+              :to="`/library/${getType(resource)}/${id}`"
+            >
+              <tr
+                @click="navigate"
+                class="cursor-pointer border border-zinc-200"
+              >
+                <td class="p-2">
+                  <router-link :to="`/library/${getType(resource)}/${id}`">
+                    {{ ("type" in resource && th(resource.name)) || id }}
+                  </router-link>
+                </td>
+                <td>{{ $t(getType(resource)) }}</td>
+                <td>
+                  <CorpusStateMessage
+                    v-if="isCorpus(resource)"
+                    :corpus-id="id"
+                  />
+                </td>
+              </tr>
+            </router-link>
+          </tbody>
+        </table>
 
-        <PadButton to="/library/corpus/new">
-          <PhPlusCircle size="2em" class="mb-2" />
-          {{ $t("new_corpus") }}
-        </PadButton>
-      </PendingContent>
-    </LayoutSection>
+        <HelpBox v-if="hasResources">
+          {{ $t("library.help.resources") }}
+        </HelpBox>
+        <HelpBox v-else important>{{
+          $t("library.help.resources.none")
+        }}</HelpBox>
+      </LayoutBox>
 
-    <LayoutSection :title="$t('new_corpus')">
-      <PendingContent on="create" blocking>
-        <FileUpload
-          :file-handler
-          :primary="!corpusStore.hasCorpora"
-          :accept
-          multiple
-          show-progress
-        >
-          <UploadSizeLimits />
-        </FileUpload>
-      </PendingContent>
-    </LayoutSection>
-
-    <LayoutSection :title="$t('lexicons')">
-      <HelpBox>
-        <p>{{ $t("library.help.lexicons") }}</p>
-      </HelpBox>
-
-      <PendingContent on="lexicons" class="my-4 flex flex-wrap gap-4">
-        <LexiconButton
-          v-for="(lexicon, id) of resourceStore.lexicons"
-          :key="id"
-          :id
-        />
-
-        <PadButton to="/library/lexicon/new">
-          <PhPlusCircle size="2em" class="mb-2" />
-          {{ $t("lexicon.new") }}
-        </PadButton>
-      </PendingContent>
-    </LayoutSection>
-
-    <LayoutSection :title="$t('metadata')">
-      <HelpBox>
-        <p>{{ $t("library.help.metadata") }}</p>
-      </HelpBox>
-
-      <div class="my-4 flex flex-wrap gap-4">
-        <template v-for="(metadata, id) of resourceStore.metadatas" :key="id">
-          <PadButton :to="`/library/metadata/${id}`">
-            <strong>{{ th(metadata.name) || id }}</strong>
-            {{ metadata.publicId }}
-          </PadButton>
-        </template>
-
-        <PadButton to="/library/metadata/new">
-          <PhPlusCircle size="2em" class="mb-2" />
-          {{ $t("metadata.new") }}
-        </PadButton>
-      </div>
-    </LayoutSection>
+      <LayoutBox :title="$t('resource_new')" class="min-w-md grow">
+        <div class="my-4">
+          <RouteButton
+            to="/library/resource/new"
+            :class="{ 'button-primary': !hasResources }"
+          >
+            <PhPlusCircle weight="bold" class="inline mb-1 mr-1" />
+            {{ $t("resource_new") }}
+          </RouteButton>
+        </div>
+        <PendingContent on="create" blocking>
+          <FileUpload
+            :file-handler
+            :primary="!hasResources"
+            :accept
+            multiple
+            show-progress
+          >
+            <UploadSizeLimits />
+          </FileUpload>
+        </PendingContent>
+      </LayoutBox>
+    </div>
   </div>
 </template>
