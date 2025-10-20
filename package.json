@@ -42,7 +42,7 @@
     "rollup-plugin-visualizer": "^6.0.3",
     "tailwindcss": "^4.1.12",
     "typescript": "^5.9.2",
-    "vite": "^7.1.5",
+    "vite": "^7.1.11",
     "vue": "^3.5.20",
     "vue-i18n": "11.1.11",
     "vue-matomo": "^4.2.0",
