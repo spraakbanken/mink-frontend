@@ -12,7 +12,7 @@ home.features.sparv.title: Anpassningsbara analyser
 home.features.sparv.body: Dina texter analyseras av vår språkteknologiska plattform {sparv} med de inställningar du väljer.
 home.features.sparv.alt: Skärmbild av en konfigurationssida många knappar
 home.features.upload.title: Ladda upp din text
-home.features.upload.body: Ladda upp ordbehandlingsdokument, pdf:er, ren text eller XML.
+home.features.upload.body: Ladda upp textfiler, XML eller ljudinspelningar.
 home.features.upload.xml: "Om du använder XML läggs analyserna in utan att påverka strukturen från originalfilerna: {link}"
 home.features.upload.xml.link.url: https://spraakbanken.gu.se/blogg/20240820-anvand-mink-med-egen-berikning-i-kalldata
 home.features.upload.xml.link.label: Använd Mink med egen berikning i källdata
@@ -34,7 +34,7 @@ news: Nyheter
 library: Bibliotek
 library.help.corpora: Här listas de korpusar du har skapat. De är bara synliga för dig. Klicka på dem för att visa mer.
 library.help.corpora.none: >-
-  Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en korpus: använd knappen "@:{'new_corpus'}" eller dra textfiler till uppladdningsrutan nedan.
+  Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en korpus: använd knappen "@:{'new_corpus'}" eller dra filer till uppladdningsrutan nedan.
 library.help.metadata: Ett metadataobjekt har information som beskriver en godtycklig resurs. Mink bearbetar ingen data för dessa objekt, men de kan exporteras till en datakatalog.
 corpus.create.help: Korpusen kommer bara att vara synlig för dig. Du kan alltid uppdatera de här uppgifterna senare.
 corpus.delete: Radera korpus
@@ -50,10 +50,10 @@ corpus.state.done_install: Installation färdig
 corpus.state.failed: Fel
 corpus.state.failed_install: Fel
 corpus.state.help.unknown: Den här korpusen är i ett okänt tillstånd. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
-corpus.state.help.empty: Den här korpusen har inga källtexter. Ladda upp textfiler nedan.
+corpus.state.help.empty: Den här korpusen har inga källfiler. Ladda upp filer nedan.
 corpus.state.help.needing_config: Den här korpusen behöver några inställningar innan annoteringen kan startas.
 corpus.state.help.needing_meta: Korpusen behöver ha ett namn innan annoteringen kan startas.
-corpus.state.help.ready: Redo för annotering. Du kan också lägga till fler källtexter eller redigera konfigurationen.
+corpus.state.help.ready: Redo för annotering. Du kan också lägga till fler källfiler eller redigera konfigurationen.
 corpus.state.help.running: Annoteringen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
 corpus.state.help.done: Annotering klar! Du kan ladda ner resultaten eller installera datan i Korp eller Strix.
 corpus.state.help.running_install: Installationen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
@@ -90,7 +90,7 @@ source.limit.upload.max: Största tillåtna uppladdning
 source.limit.corpus.recommended: Rekommenderad korpusstorlek
 source.limit.corpus.max: Största tillåtna korpus
 source.notfound: Denna källfil kunde inte hittas
-source.list.loading: Hämtar textlista
+source.list.loading: Listar källfiler
 source.content: Innehåll
 source.upload.config_format.trigger_change: "Korpuskonfigurationen uppdateras för att stämma med filformatet: {format}"
 upload.label.single: Lägg till fil
@@ -129,7 +129,7 @@ locale.switcher.label: Gränssnittsspråk
 en: Engelska
 sv: Svenska
 metadata: Metadata
-texts: Källtexter
+sources: Källfiler
 configuration: Konfiguration
 settings: Inställningar
 analysis: Analys
@@ -196,6 +196,9 @@ txt: Ren text
 docx: Microsoft Word
 odt: OpenDocument Text
 pdf: PDF
+mp3: MP3
+ogg: Ogg
+wav: WAV
 load: Ladda in
 not_loaded: Ej laddad
 file.archive: Arkivfil
@@ -207,7 +210,7 @@ identifier: Identifierare
 metadata.identifier.help: Ett automatiskt genererat maskinnamn som används för att identifiera den här korpusen på servern.
 description: Beskrivning
 metadata.description.help: |
-  Detta kan vara en sammanfattning av textmaterialet för din egen skull.
+  Detta kan vara en sammanfattning av materialet för din egen skull.
   Om du vill distribuera eller publicera resultatet rekommenderar vi en eller två meningar
   som sammanfattar innehållet eller syftet för en potentiell användare.
 fileFormat: Källformat
@@ -216,12 +219,12 @@ config.custom.help: Mink använder {sparv}, en modulär och konfigurerbar pipeli
 config.custom.upload.caution: Notera att en ogiltig configfil kan leda till oväntat beteende.
 config.custom.upload.overwrite: Om du sparar i det vanliga formuläret igen kan den egna configen skrivas över.
 config.datetime.validate_both: Båda eller inget av dessa datum måste anges.
-config.format.help: Ange vilket filformat källtexterna har. Alla filer måste ha det valda formatet.
+config.format.help: Ange vilket filformat källfilerna har. Alla filer måste ha det valda formatet.
 config.format.note.pdf: PDF-formatet är byggt främst för visuell presentation. Text som extraheras från PDF-filer kan ibland ge bristfälliga resultat. OCR-behandling av scannade dokument är (för närvarande) inget som Mink stödjer.
 config.text_annotation: Textelement
 config.text_annotation.help: Vilket XML-element i dina källfiler representerar bäst en enskild text? Eventuella annotationer på textnivå kommer att sättas på det elementet.
 segmenter_sentence: Existerande meningssegmentering
-segmenter_sentence_help: Är källtexterna redan formaterade så att varje mening börjar på en ny rad?
+segmenter_sentence_help: Är källfilerna redan formaterade så att varje mening börjar på en ny rad?
 segmenter_linebreaks: En per rad
 timespan: Tidsspann
 timespan_help: Datum för tidigaste och senaste innehållet i korpusen.
@@ -318,7 +321,7 @@ api.code.missing_sources_upload: Uppladdningen saknar filer
 api.code.failed_uploading_sources_corpus_size: Det gick inte att ladda upp källfiler, eftersom den totala storleken skulle överstiga den högsta tillåtna, {max_size_mb} MB
 api.code.failed_uploading_sources: Det gick inte att ladda upp källfiler
 api.code.failed_uploading_sources_file_size: Några filer gick inte att ladda upp eftersom de överstiger högsta tillåtna filstorlek, {max_size_mb} MB.
-api.code.failed_uploading_sources_invalid_file_extension: 'Filen "{file}" gick inte att ladda upp eftersom filändelsen är ogiltig. Använd något av de giltiga filformaten: xml, txt, odt, docx, pdf.'
+api.code.failed_uploading_sources_invalid_file_extension: 'Filen "{file}" gick inte att ladda upp eftersom filändelsen inte stöds.'
 api.code.failed_uploading_sources_invalid_xml: Filen "{file}" gick inte att ladda upp eftersom den innehåller ogiltig XML.
 api.code.failed_uploading_sources_incompatible_file_extension: Filen "{file}" gick inte att ladda upp eftersom filändelsen är annorlunda. En korpus kan bara hantera källfiler av samma typ.
 api.code.uploaded_sources: Källfilerna är tillagda
@@ -349,8 +352,8 @@ api.code.export_not_found: Filen du försöker ladda ner finns inte
 api.code.failed_removing_exports_storage: Det gick inte att ta bort resultatfiler från lagringsplatsen
 api.code.failed_removing_exports_sparv: Det gick inte att ta bort resultatfiler från Sparvservern
 api.code.removed_exports: Resultatfilerna för korpusen "{corpus_id}" är borttagna
-api.code.no_source_texts_run_sparv: Det finns inga källtexter för korpusen "{corpus_id}". Sparv måste köras först.
-api.code.source_text_not_found: Källtexten för den här filen finns inte
+api.code.no_source_texts_run_sparv: Det finns inga källfiler för korpusen "{corpus_id}". Sparv måste köras först.
+api.code.source_text_not_found: Källfilen för den här filen finns inte
 api.code.failed_downloading_source_text: Det gick inte att ladda ner källfilen
 api.code.failed_getting_job: Det gick inte att kolla körningen för korpusen "{corpus_id}"
 api.code.input_changed: Det finns ändringar i korpusen "{corpus_id}" sedan den senaste körningen

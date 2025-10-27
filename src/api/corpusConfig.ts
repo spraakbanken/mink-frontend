@@ -6,7 +6,15 @@ import type {
   SparvConfig,
 } from "@/api/sparvConfig.types";
 
-export type FileFormat = "txt" | "xml" | "odt" | "docx" | "pdf";
+export type FileFormat =
+  | "txt"
+  | "xml"
+  | "odt"
+  | "docx"
+  | "pdf"
+  | "mp3"
+  | "ogg"
+  | "wav";
 
 /** Frontend-internal format of a Sparv config. */
 export type ConfigOptions = {
@@ -39,6 +47,9 @@ const FORMATS: Record<FileFormat, string> = {
   odt: "odt_import:parse",
   docx: "docx_import:parse",
   pdf: "pdf_import:parse",
+  mp3: "sbx_whisper_import:parse_mp3",
+  ogg: "sbx_whisper_import:parse_ogg",
+  wav: "sbx_whisper_import:parse_wav",
 };
 
 export const FORMATS_EXT = Object.keys(FORMATS);

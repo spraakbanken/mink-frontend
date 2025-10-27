@@ -35,7 +35,7 @@ const { hasMetadata, isConfigValid } = useCorpus(corpusId);
         </template>
       </LayoutBox>
 
-      <LayoutBox :title="$t('texts')">
+      <LayoutBox :title="$t('sources')">
         <SourcesPanel :corpus-id="corpusId" />
       </LayoutBox>
     </div>

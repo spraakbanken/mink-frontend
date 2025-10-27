@@ -43,6 +43,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Added
 
 - Strix docs link
+- Support audio source files
 
 ### Changed
 
