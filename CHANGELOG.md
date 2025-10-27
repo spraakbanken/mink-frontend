@@ -17,6 +17,7 @@ As this project is a user-facing application, the places in the semantic version
 
 ### Added
 
+- Support audio source files
 - Sort sources files by name
 
 ### Changed
@@ -46,7 +47,6 @@ As this project is a user-facing application, the places in the semantic version
 ### Added
 
 - Strix docs link
-- Support audio source files
 
 ### Changed
 
