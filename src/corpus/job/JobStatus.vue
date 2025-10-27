@@ -86,16 +86,16 @@ const isStarted = computed(
           <td class="text-right">{{ job.priority }}</td>
         </tr>
 
-        <tr v-if="job.last_run_started">
-          <th>{{ $t("job.last_run_started") }}</th>
+        <tr v-if="job.started">
+          <th>{{ $t("job.started") }}</th>
           <td class="text-right">
-            {{ formatDate(job.last_run_started) }}
+            {{ formatDate(job.started) }}
           </td>
         </tr>
 
-        <tr v-if="job.last_run_ended">
-          <th>{{ $t("job.last_run_ended") }}</th>
-          <td class="text-right">{{ formatDate(job.last_run_ended) }}</td>
+        <tr v-if="job.ended">
+          <th>{{ $t("job.ended") }}</th>
+          <td class="text-right">{{ formatDate(job.ended) }}</td>
         </tr>
       </tbody>
     </table>
