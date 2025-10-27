@@ -12,7 +12,7 @@ home.features.sparv.title: Configurable language technology analysis
 home.features.sparv.body: Your language data are analyzed by our language technology platform {sparv} according to your settings.
 home.features.sparv.alt: Screenshot of a configuration form with labels and buttons
 home.features.upload.title: Deposit your text
-home.features.upload.body: Upload your word-processor documents, PDFs, plain text files or XML data.
+home.features.upload.body: Upload your text files, XML or speech audio.
 home.features.upload.xml: "When using XML, the output of the analyses is added while keeping the input structure intact: {link}"
 home.features.upload.xml.link.url: https://spraakbanken.gu.se/en/blog/20240820-anvand-mink-med-egen-berikning-i-kalldata
 home.features.upload.xml.link.label: Using Mink with custom annotations in source (blog entry in Swedish)
@@ -33,7 +33,7 @@ mydata: My data
 news: News
 library: Library
 library.help.corpora: These are the corpora that you have created. Only you can see them. Click them to view more details.
-library.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "@:{'new_corpus'}" button or drop text files into the upload field below.
+library.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "@:{'new_corpus'}" button or drop files into the upload field below.
 library.help.metadata: A metadata record holds information describing an arbitrary resource. Mink will not process any data for this resource, but you can export the metadata to a repository.
 corpus.create.help: The corpus will be accessible by you only. You can always change these values later.
 corpus.delete: Delete corpus
@@ -49,10 +49,10 @@ corpus.state.done_install: Done installing
 corpus.state.failed: Failed
 corpus.state.failed_install: Failed
 corpus.state.help.unknown: The state of this corpus is unknown. If you need help, please contact sb-info{'@'}svenska.gu.se
-corpus.state.help.empty: There are no source texts in this corpus. Upload some text files below.
+corpus.state.help.empty: There are no source files in this corpus. Upload some files below.
 corpus.state.help.needing_config: This corpus needs you to change some settings before it can be processed.
 corpus.state.help.needing_meta: The corpus needs a name before it can be processed.
-corpus.state.help.ready: Ready for annotation. You can also supply more source texts or edit the configuration.
+corpus.state.help.ready: Ready for annotation. You can also supply more source files or edit the configuration.
 corpus.state.help.running: Annotation is running in the background. Feel free to close the website, have some coffee and check back later!
 corpus.state.help.done: Annotation done! You can download the results or install it to Korp or Strix.
 corpus.state.help.running_install: Installation is running in the background. Feel free to close the website, have some coffee and check back later!
@@ -77,8 +77,8 @@ job.rerun.tools_outdated: The old results will remain in the tools. Do not forge
 job.abort: Abort
 job.status: Status
 job.priority: Place in queue
-job.last_run_started: Last run started
-job.last_run_ended: Last run ended
+job.started: Last run started
+job.ended: Last run ended
 job.time_taken: Time taken
 job.process.sparv: Analysis
 job.process.korp: Installation to Korp
@@ -89,7 +89,7 @@ source.limit.upload.max: Maximum batch upload size
 source.limit.corpus.recommended: Recommended max corpus size
 source.limit.corpus.max: Maximum corpus size
 source.notfound: This source file was not found
-source.list.loading: Listing source texts
+source.list.loading: Listing source files
 source.content: Content
 source.upload.config_format.trigger_change: "Corpus configuration is updated to match the file format: {format}"
 upload.label.single: Add file
@@ -128,7 +128,7 @@ locale.switcher.label: Interface language
 en: English
 sv: Swedish
 metadata: Metadata
-texts: Source texts
+sources: Source files
 configuration: Configuration
 settings: Settings
 analysis: Analysis
@@ -195,6 +195,9 @@ txt: Plain text
 docx: Microsoft Word
 odt: OpenDocument Text
 pdf: PDF
+mp3: MP3
+ogg: Ogg
+wav: WAV
 load: Load
 not_loaded: Not loaded
 file.archive: Archive
@@ -206,7 +209,7 @@ identifier: Identifier
 metadata.identifier.help: This automatically generated machine name is used to identify this particular corpus on the server.
 description: Description
 metadata.description.help: |
-  This can be a summary of the text material for your own benefit.
+  This can be a summary of the material for your own benefit.
   If you aim to share or publish the results, we recommend entering one or two sentences
   to summarize the content or purpose to a potential user.
 fileFormat: Source format
@@ -215,12 +218,12 @@ config.custom.help: Mink uses {sparv}, a modular and configurable pipeline for t
 config.custom.upload.caution: Please note that submitting an invalid config file may cause unexpected behaviour.
 config.custom.upload.overwrite: Saving the standard configuration form may overwrite your custom config.
 config.datetime.validate_both: Both or none of these dates must be set.
-config.format.help: Select the file format of the source texts. All files must be of the selected format.
+config.format.help: Select the file format of the source files. All files must be of the selected format.
 config.format.note.pdf: The PDF file format is primarily designed for display. Please note that extracting text from them can sometimes give unsatisfactory results. Performing OCR on scanned documents is (currently) outside the scope of Mink.
 config.text_annotation: Text element
 config.text_annotation.help: In your source files, what XML element is most representative of a single text? Any text-level annotations will be attached to this element.
 segmenter_sentence: Existing sentence segmentation
-segmenter_sentence_help: Are the text files already formatted such that sentences are separated by linebreaks?
+segmenter_sentence_help: Are the source files already formatted such that sentences are separated by linebreaks?
 segmenter_linebreaks: One per line
 timespan: Time span
 timespan_help: Dates of the oldest and newest content in the corpus.
@@ -314,14 +317,14 @@ api.code.failed_removing_job: Failed to remove job
 api.code.failed_removing_auth: Failed to remove the corpus from the authentication system
 api.code.removed_corpus: The corpus was successfully removed
 api.code.missing_sources_upload: No corpus files provided for upload
-api.code.failed_uploading_sources_corpus_size: Failed to upload source files, because the total size would exceed the maximum limit of {max_corpus_size} MB
+api.code.failed_uploading_sources_corpus_size: Failed to upload source files, because the total size would exceed the maximum limit of {max_size_mb} MB
 api.code.failed_uploading_sources: Failed to upload source files
-api.code.failed_uploading_sources_file_size: Some files could not be uploaded, because they exceed the maximum file size of {max_file_size} MB
-api.code.failed_uploading_sources_invalid_file_extension: 'File "{file}" could not be uploaded, because it has an invalid filename extension. Please use any of the supported file formats: xml, txt, odt, docx, pdf.'
+api.code.failed_uploading_sources_file_size: Some files could not be uploaded, because they exceed the maximum file size of {max_size_mb} MB
+api.code.failed_uploading_sources_invalid_file_extension: 'File "{file}" could not be uploaded, because its filename extension is not supported.'
 api.code.failed_uploading_sources_invalid_xml: File "{file}" could not be uploaded, because it contains invalid XML
 api.code.failed_uploading_sources_incompatible_file_extension: File "{file}" could not be uploaded, because it has a different filename extension. A corpus can only handle source files of the same type.
 api.code.uploaded_sources: The source files were successfully added
-api.code.data_too_large: Request data too large (max {max_content_length} MB per upload)
+api.code.data_too_large: Request data too large (max {max_size_mb} MB per upload)
 api.code.listing_sources: Listing current source files for the corpus "{corpus_id}"
 api.code.missing_sources_remove: No files provided for removal
 api.code.failed_removing_some_sources: Failed to remove some source files
@@ -348,7 +351,7 @@ api.code.export_not_found: The file you are trying to download does not exist
 api.code.failed_removing_exports_storage: Failed to remove result files from storage server
 api.code.failed_removing_exports_sparv: Failed to remove result files from the Sparv server
 api.code.removed_exports: Result files for the corpus "{corpus_id}" were successfully removed
-api.code.no_source_texts_run_sparv: There are currently no source texts for the corpus "{corpus_id}". You must run Sparv before you can view source texts.
+api.code.no_source_texts_run_sparv: There are currently no source files for the corpus "{corpus_id}". You must run Sparv before you can view source texts.
 api.code.source_text_not_found: The source text for this file does not exist
 api.code.failed_downloading_source_text: The source text could not be downloaded
 api.code.failed_getting_job: Failed to get the job of the corpus "{corpus_id}"

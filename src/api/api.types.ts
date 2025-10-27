@@ -45,7 +45,7 @@ export type ListCorporaData = {
 
 /** Data in the create-corpus response */
 export type CreateCorpusData = {
-  corpus_id: string;
+  resource_id: string;
 };
 
 /** Data in the create-metadata response */
@@ -98,11 +98,9 @@ export type CorpusJob = {
   installed_korp: boolean;
   installed_strix: boolean;
   /** ISO 8601 date */
-  started: string | null;
+  started: string | "";
   /** ISO 8601 date */
-  last_run_started: string | "";
-  /** ISO 8601 date */
-  last_run_ended: string | "";
+  ended: string | "";
   /** Queue number, starting at 1 */
   priority: number | "";
   /** Percentage of job completion, if running */
