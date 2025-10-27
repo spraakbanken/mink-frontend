@@ -60,7 +60,7 @@ async function strixInstall() {
         :link-text="$t('exports.tools.help.strix.manual.text')"
         :can-install="canInstall"
         :is-installed="jobState?.strix == 'done'"
-        :show-url="`${strixUrl}?modeSelected=mink&filters=corpus_id:${corpusId}&lang=${locale3}`"
+        :show-url="`${strixUrl}?mode=mink&corpora=${corpusId}`"
         @install="strixInstall()"
       />
     </PendingContent>

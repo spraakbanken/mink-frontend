@@ -21,6 +21,10 @@ As this project is a user-facing application, the places in the semantic version
 
 - Removed storage of resource data in browser
 
+### Fixed
+
+- Strix deeplink parameters
+
 ## [1.12.2](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.12.2) (2025-09-26)
 
 ### Fixed
