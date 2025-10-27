@@ -90,7 +90,7 @@ source.limit.upload.max: Största tillåtna uppladdning
 source.limit.corpus.recommended: Rekommenderad korpusstorlek
 source.limit.corpus.max: Största tillåtna korpus
 source.notfound: Denna källfil kunde inte hittas
-source.list.loading: Hämtar textlista
+source.list.loading: Listar källfiler
 source.content: Innehåll
 source.upload.config_format.trigger_change: "Korpuskonfigurationen uppdateras för att stämma med filformatet: {format}"
 upload.label.single: Lägg till fil
@@ -196,6 +196,9 @@ txt: Ren text
 docx: Microsoft Word
 odt: OpenDocument Text
 pdf: PDF
+mp3: MP3
+ogg: Ogg
+wav: WAV
 load: Ladda in
 not_loaded: Ej laddad
 file.archive: Arkivfil
