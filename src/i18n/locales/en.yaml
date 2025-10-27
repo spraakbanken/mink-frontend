@@ -77,8 +77,8 @@ job.rerun.tools_outdated: The old results will remain in the tools. Do not forge
 job.abort: Abort
 job.status: Status
 job.priority: Place in queue
-job.last_run_started: Last run started
-job.last_run_ended: Last run ended
+job.started: Last run started
+job.ended: Last run ended
 job.time_taken: Time taken
 job.process.sparv: Analysis
 job.process.korp: Installation to Korp

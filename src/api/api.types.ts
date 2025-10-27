@@ -98,11 +98,9 @@ export type CorpusJob = {
   installed_korp: boolean;
   installed_strix: boolean;
   /** ISO 8601 date */
-  started: string | null;
+  started: string | "";
   /** ISO 8601 date */
-  last_run_started: string | "";
-  /** ISO 8601 date */
-  last_run_ended: string | "";
+  ended: string | "";
   /** Queue number, starting at 1 */
   priority: number | "";
   /** Percentage of job completion, if running */

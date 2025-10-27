@@ -78,8 +78,8 @@ job.rerun.tools_outdated: Verktygen kommer att behålla det gamla resultatet. Gl
 job.abort: Avbryt
 job.status: Status
 job.priority: Plats i kön
-job.last_run_started: Senast startad
-job.last_run_ended: Senast avslutad
+job.started: Senast startad
+job.ended: Senast avslutad
 job.time_taken: Tidsåtgång
 job.process.sparv: Analys
 job.process.korp: Installation i Korp
