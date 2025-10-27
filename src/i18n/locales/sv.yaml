@@ -50,10 +50,10 @@ corpus.state.done_install: Installation färdig
 corpus.state.failed: Fel
 corpus.state.failed_install: Fel
 corpus.state.help.unknown: Den här korpusen är i ett okänt tillstånd. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
-corpus.state.help.empty: Den här korpusen har inga källtexter. Ladda upp textfiler nedan.
+corpus.state.help.empty: Den här korpusen har inga källfiler. Ladda upp filer nedan.
 corpus.state.help.needing_config: Den här korpusen behöver några inställningar innan annoteringen kan startas.
 corpus.state.help.needing_meta: Korpusen behöver ha ett namn innan annoteringen kan startas.
-corpus.state.help.ready: Redo för annotering. Du kan också lägga till fler källtexter eller redigera konfigurationen.
+corpus.state.help.ready: Redo för annotering. Du kan också lägga till fler källfiler eller redigera konfigurationen.
 corpus.state.help.running: Annoteringen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
 corpus.state.help.done: Annotering klar! Du kan ladda ner resultaten eller installera datan i Korp eller Strix.
 corpus.state.help.running_install: Installationen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
@@ -129,7 +129,7 @@ locale.switcher.label: Gränssnittsspråk
 en: Engelska
 sv: Svenska
 metadata: Metadata
-texts: Källtexter
+sources: Källfiler
 configuration: Konfiguration
 settings: Inställningar
 analysis: Analys
@@ -216,12 +216,12 @@ config.custom.help: Mink använder {sparv}, en modulär och konfigurerbar pipeli
 config.custom.upload.caution: Notera att en ogiltig configfil kan leda till oväntat beteende.
 config.custom.upload.overwrite: Om du sparar i det vanliga formuläret igen kan den egna configen skrivas över.
 config.datetime.validate_both: Båda eller inget av dessa datum måste anges.
-config.format.help: Ange vilket filformat källtexterna har. Alla filer måste ha det valda formatet.
+config.format.help: Ange vilket filformat källfilerna har. Alla filer måste ha det valda formatet.
 config.format.note.pdf: PDF-formatet är byggt främst för visuell presentation. Text som extraheras från PDF-filer kan ibland ge bristfälliga resultat. OCR-behandling av scannade dokument är (för närvarande) inget som Mink stödjer.
 config.text_annotation: Textelement
 config.text_annotation.help: Vilket XML-element i dina källfiler representerar bäst en enskild text? Eventuella annotationer på textnivå kommer att sättas på det elementet.
 segmenter_sentence: Existerande meningssegmentering
-segmenter_sentence_help: Är källtexterna redan formaterade så att varje mening börjar på en ny rad?
+segmenter_sentence_help: Är källfilerna redan formaterade så att varje mening börjar på en ny rad?
 segmenter_linebreaks: En per rad
 timespan: Tidsspann
 timespan_help: Datum för tidigaste och senaste innehållet i korpusen.
@@ -318,7 +318,7 @@ api.code.missing_sources_upload: Uppladdningen saknar filer
 api.code.failed_uploading_sources_corpus_size: Det gick inte att ladda upp källfiler, eftersom den totala storleken skulle överstiga den högsta tillåtna, {max_size_mb} MB
 api.code.failed_uploading_sources: Det gick inte att ladda upp källfiler
 api.code.failed_uploading_sources_file_size: Några filer gick inte att ladda upp eftersom de överstiger högsta tillåtna filstorlek, {max_size_mb} MB.
-api.code.failed_uploading_sources_invalid_file_extension: 'Filen "{file}" gick inte att ladda upp eftersom filändelsen är ogiltig. Använd något av de giltiga filformaten: xml, txt, odt, docx, pdf.'
+api.code.failed_uploading_sources_invalid_file_extension: 'Filen "{file}" gick inte att ladda upp eftersom filändelsen inte stöds.'
 api.code.failed_uploading_sources_invalid_xml: Filen "{file}" gick inte att ladda upp eftersom den innehåller ogiltig XML.
 api.code.failed_uploading_sources_incompatible_file_extension: Filen "{file}" gick inte att ladda upp eftersom filändelsen är annorlunda. En korpus kan bara hantera källfiler av samma typ.
 api.code.uploaded_sources: Källfilerna är tillagda
@@ -349,8 +349,8 @@ api.code.export_not_found: Filen du försöker ladda ner finns inte
 api.code.failed_removing_exports_storage: Det gick inte att ta bort resultatfiler från lagringsplatsen
 api.code.failed_removing_exports_sparv: Det gick inte att ta bort resultatfiler från Sparvservern
 api.code.removed_exports: Resultatfilerna för korpusen "{corpus_id}" är borttagna
-api.code.no_source_texts_run_sparv: Det finns inga källtexter för korpusen "{corpus_id}". Sparv måste köras först.
-api.code.source_text_not_found: Källtexten för den här filen finns inte
+api.code.no_source_texts_run_sparv: Det finns inga källfiler för korpusen "{corpus_id}". Sparv måste köras först.
+api.code.source_text_not_found: Källfilen för den här filen finns inte
 api.code.failed_downloading_source_text: Det gick inte att ladda ner källfilen
 api.code.failed_getting_job: Det gick inte att kolla körningen för korpusen "{corpus_id}"
 api.code.input_changed: Det finns ändringar i korpusen "{corpus_id}" sedan den senaste körningen

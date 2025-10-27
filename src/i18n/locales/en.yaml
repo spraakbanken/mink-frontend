@@ -128,7 +128,7 @@ locale.switcher.label: Interface language
 en: English
 sv: Swedish
 metadata: Metadata
-texts: Source texts
+sources: Source files
 configuration: Configuration
 settings: Settings
 analysis: Analysis
@@ -195,6 +195,9 @@ txt: Plain text
 docx: Microsoft Word
 odt: OpenDocument Text
 pdf: PDF
+mp3: MP3
+ogg: Ogg
+wav: WAV
 load: Load
 not_loaded: Not loaded
 file.archive: Archive
@@ -317,7 +320,7 @@ api.code.missing_sources_upload: No corpus files provided for upload
 api.code.failed_uploading_sources_corpus_size: Failed to upload source files, because the total size would exceed the maximum limit of {max_size_mb} MB
 api.code.failed_uploading_sources: Failed to upload source files
 api.code.failed_uploading_sources_file_size: Some files could not be uploaded, because they exceed the maximum file size of {max_size_mb} MB
-api.code.failed_uploading_sources_invalid_file_extension: 'File "{file}" could not be uploaded, because it has an invalid filename extension. Please use any of the supported file formats: xml, txt, odt, docx, pdf.'
+api.code.failed_uploading_sources_invalid_file_extension: 'File "{file}" could not be uploaded, because its filename extension is not supported.'
 api.code.failed_uploading_sources_invalid_xml: File "{file}" could not be uploaded, because it contains invalid XML
 api.code.failed_uploading_sources_incompatible_file_extension: File "{file}" could not be uploaded, because it has a different filename extension. A corpus can only handle source files of the same type.
 api.code.uploaded_sources: The source files were successfully added
