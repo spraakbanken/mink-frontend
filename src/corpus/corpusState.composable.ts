@@ -3,13 +3,11 @@ import { useCorpus } from "./corpus.composable";
 
 /** The "corpus state" is related to the job status, but is more about predicting what action the user needs to take. */
 export function useCorpusState(corpusId: string) {
-  const { hasSources, hasMetadata, isConfigValid, jobState } =
-    useCorpus(corpusId);
+  const { hasSources, isConfigValid, jobState } = useCorpus(corpusId);
 
   const corpusState = computed(() => {
     if (!hasSources.value) return CorpusState.EMPTY;
     if (!isConfigValid.value) return CorpusState.NEEDING_CONFIG;
-    if (!hasMetadata.value) return CorpusState.NEEDING_META;
 
     if (!jobState.value) {
       console.warn(`Missing job state for ${corpusId}`);
@@ -46,11 +44,7 @@ export function useCorpusState(corpusId: string) {
     return CorpusState.UNKNOWN;
   });
 
-  const incompleteStates = [
-    CorpusState.EMPTY,
-    CorpusState.NEEDING_CONFIG,
-    CorpusState.NEEDING_META,
-  ];
+  const incompleteStates = [CorpusState.EMPTY, CorpusState.NEEDING_CONFIG];
   const errorStates = [CorpusState.FAILED, CorpusState.FAILED_INSTALL];
 
   const isIncomplete = computed(() =>
@@ -76,9 +70,6 @@ export class CorpusState {
   }
   static get NEEDING_CONFIG() {
     return "needing_config";
-  }
-  static get NEEDING_META() {
-    return "needing_meta";
   }
   static get FAILED() {
     return "failed";

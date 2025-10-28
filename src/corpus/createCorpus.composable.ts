@@ -42,7 +42,6 @@ export default function useCreateCorpus() {
     // Create a minimal config.
     const config = {
       ...emptyConfig(),
-      name: { swe: corpusId, eng: corpusId },
       format,
     };
 

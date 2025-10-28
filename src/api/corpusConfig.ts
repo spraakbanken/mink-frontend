@@ -19,7 +19,7 @@ export type FileFormat =
 /** Frontend-internal format of a Sparv config. */
 export type ConfigOptions = {
   format: FileFormat;
-  name: ByLang;
+  name?: ByLang;
   description?: ByLang;
   textAnnotation?: string;
   sentenceSegmenter?: ConfigSentenceSegmenter;
@@ -56,6 +56,7 @@ export const FORMATS_EXT = Object.keys(FORMATS);
 
 export const SEGMENTERS: ConfigSentenceSegmenter[] = ["linebreaks"];
 
+/** Write simplified frontend-internal config model to a Sparv-compatible config YAML. */
 export function makeConfig(id: string, options: ConfigOptions): string {
   const {
     format,
@@ -79,9 +80,11 @@ export function makeConfig(id: string, options: ConfigOptions): string {
     import: {
       importer: FORMATS[format],
     },
-    segment: sentenceSegmenter ? { sentence_segmenter: sentenceSegmenter } : {},
     export: {},
   };
+
+  if (sentenceSegmenter)
+    config.segment = { sentence_segmenter: sentenceSegmenter };
 
   // Format-dependent settings
   if (format == "xml") {
@@ -254,14 +257,6 @@ export function parseConfig(configYaml: string): ConfigOptions {
 
   // Extract metadata
   const name = config.metadata?.name;
-  if (!name)
-    throw new TypeError(
-      `Name missing in metadata: ${JSON.stringify(config.metadata)}`,
-    );
-  if (!name.swe || !name.eng)
-    throw new TypeError(
-      `Name must contain swe and eng: ${JSON.stringify(name)}`,
-    );
 
   // Build options object
   const options = {

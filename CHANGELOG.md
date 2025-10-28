@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.13.0...HEAD)
 
+### Changed
+
+- Do not require corpus name [#199](https://github.com/spraakbanken/mink-frontend/issues/199)
+
 ## [1.13.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.13.0) (2025-10-27)
 
 ### Added

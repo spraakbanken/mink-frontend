@@ -37,9 +37,6 @@ export function useCorpus(corpusId: string) {
     return corpus.value?.config || undefined;
   });
   const configOptions = computed(getParsedConfig);
-  const hasMetadata = computed(
-    () => configOptions.value?.name?.swe || configOptions.value?.name?.eng,
-  );
   const isConfigValid = computed(
     () => !attempt(() => validateConfig(configOptions.value!))[0],
   );
@@ -176,7 +173,6 @@ export function useCorpus(corpusId: string) {
     corpus,
     config,
     configOptions,
-    hasMetadata,
     isConfigValid,
     saveConfigOptions,
     sources,
