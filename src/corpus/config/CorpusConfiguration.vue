@@ -172,7 +172,6 @@ async function submit(fields: Form) {
                   :help="$t('metadata.name.help')"
                   type="text"
                   input-class="w-72"
-                  validation="required:trim"
                 />
               </FormKit>
 

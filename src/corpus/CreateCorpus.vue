@@ -17,10 +17,10 @@ const { t } = useI18n();
 const { spin } = useSpin();
 
 type Form = {
-  name: string;
-  description: string;
+  name?: string;
+  description?: string;
   format: FileFormat;
-  textAnnotation: string;
+  textAnnotation?: string;
 };
 
 const formatOptions = computed(() =>
@@ -35,8 +35,8 @@ const formatOptions = computed(() =>
 
 async function submit(fields: Form) {
   const createPromise = createFromConfig(
-    fields.name,
-    fields.description,
+    fields.name?.trim() || "",
+    fields.description?.trim() || "",
     fields.format,
     fields.textAnnotation,
   );
@@ -64,7 +64,6 @@ async function submit(fields: Form) {
           <FormKit
             :label="$t('name')"
             type="text"
-            validation="required:trim"
             name="name"
             input-class="w-72"
             :help="$t('metadata.name.help')"
