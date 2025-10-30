@@ -44,7 +44,8 @@ async function doRunJob() {
       :on="`corpus/${corpusId}/job/sparv`"
       class="flex flex-col gap-3 items-start"
     >
-      <div
+      <PendingContent
+        :on="`corpus/${corpusId}/exports/list`"
         v-if="!isJobRunning && exports?.length"
         class="flex gap-3 items-center"
       >
@@ -55,7 +56,7 @@ async function doRunJob() {
         <ActionButton @click="clearAnnotations()" class="whitespace-nowrap">
           {{ $t("annotations.clear") }}
         </ActionButton>
-      </div>
+      </PendingContent>
 
       <div class="flex gap-3 items-center">
         <div>

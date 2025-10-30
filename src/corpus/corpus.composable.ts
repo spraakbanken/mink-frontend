@@ -78,7 +78,7 @@ export function useCorpus(corpusId: string) {
     matomo?.trackEvent("Corpus", "Annotation", "Clear");
     await spin(
       api.clearAnnotations(corpusId).catch(alertError),
-      `corpus/${corpusId}/exports`,
+      `corpus/${corpusId}/exports/list`,
     );
     await corpusStore.loadExports(corpusId, true);
   }

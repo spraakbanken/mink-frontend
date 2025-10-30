@@ -23,7 +23,7 @@ const exportsByFolder = computed(() =>
 </script>
 
 <template>
-  <PendingContent :on="`corpus/${corpusId}/exports`">
+  <PendingContent :on="`corpus/${corpusId}/exports/list`">
     <LayoutSection :title="$t('result')">
       <HelpBox>
         <p>{{ $t("exports.help") }}</p>
@@ -36,7 +36,7 @@ const exportsByFolder = computed(() =>
         </aside>
       </HelpBox>
 
-      <div class="my-4">
+      <PendingContent :on="`corpus/${corpusId}/exports/download`" class="my-4">
         {{ $t("download_export") }}:
         <ActionButton
           v-if="exports && exports.length"
@@ -46,7 +46,7 @@ const exportsByFolder = computed(() =>
           <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
           {{ getDownloadFilename() }}
         </ActionButton>
-      </div>
+      </PendingContent>
 
       <table class="w-full mt-4 striped">
         <thead>
