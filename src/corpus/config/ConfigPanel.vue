@@ -33,81 +33,87 @@ const annotationsSummary = computed(() => {
 <template>
   <PendingContent :on="`corpus/${corpusId}/config`">
     <table class="w-full">
-      <td colspan="2">
-        <h3 class="text-lg uppercase mb-2">{{ $t("metadata") }}</h3>
-      </td>
-      <tr>
-        <th>{{ $t("name") }}</th>
-        <td>
-          {{ th(configOptions?.name) || "—" }}
-        </td>
-      </tr>
-      <tr>
-        <th>{{ $t("description") }}</th>
-        <td>
-          {{ th(configOptions?.description) || "—" }}
-        </td>
-      </tr>
-      <tr>
-        <th>{{ $t("identifier") }}</th>
-        <td>
-          <TerminalOutput class="inline leading-loose">
-            {{ corpusId }}
-          </TerminalOutput>
-        </td>
-      </tr>
+      <tbody>
+        <tr>
+          <td colspan="2">
+            <h3 class="text-lg uppercase mb-2">{{ $t("metadata") }}</h3>
+          </td>
+        </tr>
+        <tr>
+          <th>{{ $t("name") }}</th>
+          <td>
+            {{ th(configOptions?.name) || "—" }}
+          </td>
+        </tr>
+        <tr>
+          <th>{{ $t("description") }}</th>
+          <td>
+            {{ th(configOptions?.description) || "—" }}
+          </td>
+        </tr>
+        <tr>
+          <th>{{ $t("identifier") }}</th>
+          <td>
+            <TerminalOutput class="inline leading-loose">
+              {{ corpusId }}
+            </TerminalOutput>
+          </td>
+        </tr>
 
-      <tr>
-        <td colspan="2">
-          <h3 class="text-lg uppercase my-2">{{ $t("analysis") }}</h3>
-        </td>
-      </tr>
-      <tr>
-        <th>{{ $t("fileFormat") }}</th>
-        <td v-if="configOptions?.format">
-          {{ $t(configOptions.format) }}
-          (<code>.{{ configOptions.format }}</code
-          >)
-        </td>
-        <td v-else>—</td>
-      </tr>
-      <tr v-if="configOptions?.textAnnotation">
-        <th>{{ $t("config.text_annotation") }}</th>
-        <td>
-          <TerminalOutput class="inline leading-loose"
-            >&lt;{{ configOptions.textAnnotation }}&gt;</TerminalOutput
-          >
-        </td>
-      </tr>
-      <tr v-if="configOptions?.format != 'xml'">
-        <th>{{ $t("segmenter_sentence") }}</th>
-        <td v-if="configOptions">
-          {{
-            configOptions.sentenceSegmenter
-              ? $t(`segmenter_${configOptions.sentenceSegmenter}`)
-              : $t("none")
-          }}
-        </td>
-        <td v-else>—</td>
-      </tr>
-      <tr>
-        <th>{{ $t("timespan") }}</th>
-        <td v-if="configOptions?.datetime">
-          <span class="whitespace-nowrap">{{
-            configOptions.datetime.from
-          }}</span>
-          –
-          <span class="whitespace-nowrap">{{ configOptions.datetime.to }}</span>
-        </td>
-        <td v-else>—</td>
-      </tr>
-      <tr>
-        <th>{{ $t("annotations") }}</th>
-        <td v-if="configOptions">
-          {{ annotationsSummary }}
-        </td>
-        <td v-else>—</td>
-      </tr>
+        <tr>
+          <td colspan="2">
+            <h3 class="text-lg uppercase my-2">{{ $t("analysis") }}</h3>
+          </td>
+        </tr>
+        <tr>
+          <th>{{ $t("fileFormat") }}</th>
+          <td v-if="configOptions?.format">
+            {{ $t(configOptions.format) }}
+            (<code>.{{ configOptions.format }}</code
+            >)
+          </td>
+          <td v-else>—</td>
+        </tr>
+        <tr v-if="configOptions?.textAnnotation">
+          <th>{{ $t("config.text_annotation") }}</th>
+          <td>
+            <TerminalOutput class="inline leading-loose"
+              >&lt;{{ configOptions.textAnnotation }}&gt;</TerminalOutput
+            >
+          </td>
+        </tr>
+        <tr v-if="configOptions?.format != 'xml'">
+          <th>{{ $t("segmenter_sentence") }}</th>
+          <td v-if="configOptions">
+            {{
+              configOptions.sentenceSegmenter
+                ? $t(`segmenter_${configOptions.sentenceSegmenter}`)
+                : $t("none")
+            }}
+          </td>
+          <td v-else>—</td>
+        </tr>
+        <tr>
+          <th>{{ $t("timespan") }}</th>
+          <td v-if="configOptions?.datetime">
+            <span class="whitespace-nowrap">
+              {{ configOptions.datetime.from }}
+            </span>
+            –
+            <span class="whitespace-nowrap">
+              {{ configOptions.datetime.to }}
+            </span>
+          </td>
+          <td v-else>—</td>
+        </tr>
+        <tr>
+          <th>{{ $t("annotations") }}</th>
+          <td v-if="configOptions">
+            {{ annotationsSummary }}
+          </td>
+          <td v-else>—</td>
+        </tr>
+      </tbody>
     </table>
   </PendingContent>
 </template>

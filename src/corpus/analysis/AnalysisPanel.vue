@@ -105,28 +105,30 @@ async function doRunJob() {
       <p>{{ $t("exports.download.help") }}</p>
 
       <table v-if="exports?.length">
-        <tr>
-          <th>{{ $t("file.archive") }}</th>
-          <td>
-            <PendingContent :on="`corpus/${corpusId}/exports/download`">
-              <ActionButton
-                :class="{ 'button-primary': !isJobRunning }"
-                @click="downloadResult()"
-              >
-                <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
-                {{ getDownloadFilename() }}
-              </ActionButton>
-            </PendingContent>
-          </td>
-        </tr>
-        <tr>
-          <th>{{ $t("file.singles") }}</th>
-          <td>
-            <router-link :to="`/library/corpus/${corpusId}/exports`">
-              {{ $t("show") }}...
-            </router-link>
-          </td>
-        </tr>
+        <tbody>
+          <tr>
+            <th>{{ $t("file.archive") }}</th>
+            <td>
+              <PendingContent :on="`corpus/${corpusId}/exports/download`">
+                <ActionButton
+                  :class="{ 'button-primary': !isJobRunning }"
+                  @click="downloadResult()"
+                >
+                  <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
+                  {{ getDownloadFilename() }}
+                </ActionButton>
+              </PendingContent>
+            </td>
+          </tr>
+          <tr>
+            <th>{{ $t("file.singles") }}</th>
+            <td>
+              <router-link :to="`/library/corpus/${corpusId}/exports`">
+                {{ $t("show") }}...
+              </router-link>
+            </td>
+          </tr>
+        </tbody>
       </table>
       <p v-else class="opacity-70 italic">
         {{ $t("exports.download.placeholder") }}

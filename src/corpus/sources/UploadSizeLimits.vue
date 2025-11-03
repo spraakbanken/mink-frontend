@@ -9,23 +9,25 @@ const { filesize } = useLocale();
 
 <template>
   <table v-if="info" class="text-sm">
-    <tr>
-      <th>{{ $t("source.limit.file.recommended") }}</th>
-      <td class="text-right">
-        {{ filesize(info.recommended_file_size.max_file_length.value, 0) }}
-      </td>
-    </tr>
-    <tr>
-      <th>{{ $t("source.limit.file.max") }}</th>
-      <td class="text-right">
-        {{ filesize(info.file_size_limits.max_file_length.value, 0) }}
-      </td>
-    </tr>
-    <tr>
-      <th>{{ $t("source.limit.upload.max") }}</th>
-      <td class="text-right">
-        {{ filesize(info.file_size_limits.max_content_length.value, 0) }}
-      </td>
-    </tr>
+    <tbody>
+      <tr>
+        <th>{{ $t("source.limit.file.recommended") }}</th>
+        <td class="text-right">
+          {{ filesize(info.recommended_file_size.max_file_length.value, 0) }}
+        </td>
+      </tr>
+      <tr>
+        <th>{{ $t("source.limit.file.max") }}</th>
+        <td class="text-right">
+          {{ filesize(info.file_size_limits.max_file_length.value, 0) }}
+        </td>
+      </tr>
+      <tr>
+        <th>{{ $t("source.limit.upload.max") }}</th>
+        <td class="text-right">
+          {{ filesize(info.file_size_limits.max_content_length.value, 0) }}
+        </td>
+      </tr>
+    </tbody>
   </table>
 </template>
