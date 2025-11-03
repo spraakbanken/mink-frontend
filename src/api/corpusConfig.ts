@@ -1,10 +1,10 @@
 import Yaml from "js-yaml";
-
-import type { ByLang } from "@/util.types";
+import type { AnnotationGroup } from "@/api/analysis";
 import type {
   ConfigSentenceSegmenter,
   SparvConfig,
 } from "@/api/sparvConfig.types";
+import type { ByLang } from "@/util.types";
 
 export type FileFormat =
   | "txt"
@@ -23,22 +23,15 @@ export type ConfigOptions = {
   description?: ByLang;
   textAnnotation?: string;
   sentenceSegmenter?: ConfigSentenceSegmenter;
-  annotations: AnnotationOptions;
-};
-
-export type AnnotationOptions = {
-  datetime?: {
-    from: string;
-    to: string;
+  annotations: {
+    datetime?: {
+      from: string;
+      to: string;
+    };
+  } & {
+    // Options to disable/enable predefined groups of annotations
+    [K in AnnotationGroup]?: boolean;
   };
-  lexicalClasses?: boolean;
-  msd?: boolean;
-  readability?: boolean;
-  saldo?: boolean;
-  sensaldo?: boolean;
-  swener?: boolean;
-  syntax?: boolean;
-  wsd?: boolean;
 };
 
 const FORMATS: Record<FileFormat, string> = {

@@ -233,6 +233,8 @@ timespan_to: Till
 edit: Redigera
 annotations: Annotationer
 annotations.info: Här listas tillval för några av de tillgängliga analyserna. Mer utförlig konfiguration kan göras på sidan {custom_config}.
+annotations.analyses: "0 | Mer om analysen | Mer om analyserna"
+annotations.analyses.url: https://spraakbanken.gu.se/analyser/{0}
 annotations.lexical_classes: Lexikala klasser
 annotations.lexical_classes.help: Mappar till Blingbring och Svenskt frasnät (SweFN).
 annotations.msd: Morfologi

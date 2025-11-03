@@ -7,6 +7,7 @@ import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
 import { PhLightbulbFilament, PhTrash } from "@phosphor-icons/vue";
 import { useCorpus } from "../corpus.composable";
+import AnalysisListing from "./AnalysisListing.vue";
 import type { MinkResponse } from "@/api/api.types";
 import {
   type ConfigOptions,
@@ -314,6 +315,7 @@ async function submit(fields: Form) {
                     >
                   </template>
                 </i18n-t>
+                <AnalysisListing group="saldo" class="formkit-help" />
               </template>
             </FormKit>
 
@@ -323,7 +325,12 @@ async function submit(fields: Form) {
               :value="configOptions?.annotations.msd"
               type="checkbox"
               :help="$t('annotations.msd.help')"
-            />
+            >
+              <template #help>
+                <div class="formkit-help">{{ $t("annotations.msd.help") }}</div>
+                <AnalysisListing group="msd" class="formkit-help" />
+              </template>
+            </FormKit>
 
             <FormKit
               name="syntax"
@@ -331,7 +338,14 @@ async function submit(fields: Form) {
               :value="configOptions?.annotations.syntax"
               type="checkbox"
               :help="$t('annotations.syntax.help')"
-            />
+            >
+              <template #help>
+                <div class="formkit-help">
+                  {{ $t("annotations.syntax.help") }}
+                </div>
+                <AnalysisListing group="syntax" class="formkit-help" />
+              </template>
+            </FormKit>
 
             <FormKit
               name="readability"
@@ -339,7 +353,14 @@ async function submit(fields: Form) {
               :value="configOptions?.annotations.readability"
               type="checkbox"
               :help="$t('annotations.readability.help')"
-            />
+            >
+              <template #help>
+                <div class="formkit-help">
+                  {{ $t("annotations.readability.help") }}
+                </div>
+                <AnalysisListing group="readability" class="formkit-help" />
+              </template>
+            </FormKit>
 
             <FormKit
               name="wsd"
@@ -347,7 +368,12 @@ async function submit(fields: Form) {
               :value="configOptions?.annotations.wsd"
               type="checkbox"
               :help="$t('annotations.wsd.help')"
-            />
+            >
+              <template #help>
+                <div class="formkit-help">{{ $t("annotations.wsd.help") }}</div>
+                <AnalysisListing group="wsd" class="formkit-help" />
+              </template>
+            </FormKit>
 
             <FormKit
               name="sensaldo"
@@ -355,7 +381,14 @@ async function submit(fields: Form) {
               :value="configOptions?.annotations.sensaldo"
               type="checkbox"
               :help="$t('annotations.sensaldo.help')"
-            />
+            >
+              <template #help>
+                <div class="formkit-help">
+                  {{ $t("annotations.sensaldo.help") }}
+                </div>
+                <AnalysisListing group="sensaldo" class="formkit-help" />
+              </template>
+            </FormKit>
 
             <FormKit
               name="lexicalClasses"
@@ -363,7 +396,14 @@ async function submit(fields: Form) {
               :value="configOptions?.annotations.lexicalClasses"
               type="checkbox"
               :help="$t('annotations.lexical_classes.help')"
-            />
+            >
+              <template #help>
+                <div class="formkit-help">
+                  {{ $t("annotations.lexical_classes.help") }}
+                </div>
+                <AnalysisListing group="lexicalClasses" class="formkit-help" />
+              </template>
+            </FormKit>
 
             <FormKit
               name="swener"
@@ -371,7 +411,14 @@ async function submit(fields: Form) {
               :value="configOptions?.annotations.swener"
               type="checkbox"
               :help="$t('annotations.swener.help')"
-            />
+            >
+              <template #help>
+                <div class="formkit-help">
+                  {{ $t("annotations.swener.help") }}
+                </div>
+                <AnalysisListing group="swener" class="formkit-help" />
+              </template>
+            </FormKit>
           </LayoutSection>
         </LayoutSection>
       </FormKit>

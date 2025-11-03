@@ -232,6 +232,8 @@ timespan_to: To
 edit: Edit
 annotations: Annotations
 annotations.info: Listed for selection here are some of the available analyses. For more detailed configuration, please use the {custom_config} page.
+annotations.analyses: "0 | More about the analysis | More about each analysis"
+annotations.analyses.url: https://spraakbanken.gu.se/en/analyses/{0}
 annotations.lexical_classes: Lexical classes
 annotations.lexical_classes.help: Maps units to Blingbring and the Swedish FrameNet (SweFN).
 annotations.msd: Morphology

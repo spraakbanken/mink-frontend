@@ -113,6 +113,10 @@
     overflow: auto;
   }
 
+  details summary {
+    cursor: default;
+  }
+
   input,
   textarea,
   select {
