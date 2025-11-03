@@ -92,14 +92,12 @@ const annotationsSummary = computed(() => {
       </tr>
       <tr>
         <th>{{ $t("timespan") }}</th>
-        <td v-if="configOptions?.annotations.datetime">
+        <td v-if="configOptions?.datetime">
           <span class="whitespace-nowrap">{{
-            configOptions.annotations.datetime.from
+            configOptions.datetime.from
           }}</span>
           –
-          <span class="whitespace-nowrap">{{
-            configOptions.annotations.datetime.to
-          }}</span>
+          <span class="whitespace-nowrap">{{ configOptions.datetime.to }}</span>
         </td>
         <td v-else>—</td>
       </tr>

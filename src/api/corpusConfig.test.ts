@@ -56,12 +56,11 @@ describe("makeConfig", () => {
     const yaml = makeConfig("mink-abc123", {
       name: { swe: "Nyheter", eng: "News" },
       format: "pdf",
-      annotations: {
-        datetime: {
-          from: "2000-01-01",
-          to: "2023-12-31",
-        },
+      datetime: {
+        from: "2000-01-01",
+        to: "2023-12-31",
       },
+      annotations: {},
     });
     expect(yaml).toContain("datetime_from: <text>:misc.datefrom");
     expect(yaml).toContain("datetime_to: <text>:misc.dateto");
@@ -134,11 +133,11 @@ describe("parseConfig", () => {
       description: { swe: "Senaste nytt", eng: "Latest news" },
       textAnnotation: "article",
       sentenceSegmenter: "linebreaks",
+      datetime: {
+        from: "2000-01-01",
+        to: "2023-12-31",
+      },
       annotations: {
-        datetime: {
-          from: "2000-01-01",
-          to: "2023-12-31",
-        },
         lexicalClasses: false,
         msd: false,
         readability: true,

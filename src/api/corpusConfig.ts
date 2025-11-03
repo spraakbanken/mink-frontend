@@ -23,12 +23,11 @@ export type ConfigOptions = {
   description?: ByLang;
   textAnnotation?: string;
   sentenceSegmenter?: ConfigSentenceSegmenter;
+  datetime?: {
+    from: string;
+    to: string;
+  };
   annotations: {
-    datetime?: {
-      from: string;
-      to: string;
-    };
-  } & {
     // Options to disable/enable predefined groups of annotations
     [K in AnnotationGroup]?: boolean;
   };
@@ -56,6 +55,7 @@ export function makeConfig(id: string, options: ConfigOptions): string {
     description,
     textAnnotation,
     sentenceSegmenter,
+    datetime,
     annotations,
   } = options;
 
@@ -161,7 +161,7 @@ export function makeConfig(id: string, options: ConfigOptions): string {
     config.export.annotations.push("<token>:wsd.sense");
   }
 
-  if (annotations.datetime) {
+  if (datetime) {
     // Add annotations on the text level with custom values
     config.custom_annotations = [
       {
@@ -169,7 +169,7 @@ export function makeConfig(id: string, options: ConfigOptions): string {
         params: {
           out: "<text>:misc.datefrom",
           chunk: "<text>",
-          value: annotations.datetime.from,
+          value: datetime.from,
         },
       },
       {
@@ -177,7 +177,7 @@ export function makeConfig(id: string, options: ConfigOptions): string {
         params: {
           out: "<text>:misc.dateto",
           chunk: "<text>",
-          value: annotations.datetime.to,
+          value: datetime.to,
         },
       },
     ];
@@ -207,8 +207,8 @@ export function emptyConfig(): ConfigOptions {
     name: { swe: "", eng: "" },
     description: { swe: "", eng: "" },
     format: "txt",
+    datetime: undefined,
     annotations: {
-      datetime: undefined,
       lexicalClasses: true,
       readability: true,
       saldo: true,
@@ -279,7 +279,7 @@ export function parseConfig(configYaml: string): ConfigOptions {
     datetimeTo &&
     typeof datetimeTo == "string"
   )
-    options.annotations.datetime = { from: datetimeFrom, to: datetimeTo };
+    options.datetime = { from: datetimeFrom, to: datetimeTo };
 
   options.annotations.lexicalClasses = config.export?.annotations?.includes(
     "<token>:lexical_classes.swefn",

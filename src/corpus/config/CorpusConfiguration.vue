@@ -109,14 +109,14 @@ async function submit(fields: Form) {
     format: fields.format,
     textAnnotation: fields.textAnnotation,
     sentenceSegmenter: fields.sentenceSegmenter,
+    datetime:
+      fields.datetimeFrom && fields.datetimeTo
+        ? {
+            from: fields.datetimeFrom,
+            to: fields.datetimeTo,
+          }
+        : undefined,
     annotations: {
-      datetime:
-        fields.datetimeFrom && fields.datetimeTo
-          ? {
-              from: fields.datetimeFrom,
-              to: fields.datetimeTo,
-            }
-          : undefined,
       lexicalClasses: fields.lexicalClasses,
       msd: fields.msd,
       readability: fields.readability,
@@ -260,7 +260,7 @@ async function submit(fields: Form) {
             name="datetimeFrom"
             type="date"
             :label="`${$t('timespan')}: ${$t('timespan_from')}`"
-            :value="configOptions?.annotations.datetime?.from"
+            :value="configOptions?.datetime?.from"
             :max="(value as Form).datetimeTo"
             validation="onlyif:datetimeTo"
             :validation-messages="{
@@ -271,7 +271,7 @@ async function submit(fields: Form) {
             name="datetimeTo"
             type="date"
             :label="`${$t('timespan')}: ${$t('timespan_to')}`"
-            :value="configOptions?.annotations.datetime?.to"
+            :value="configOptions?.datetime?.to"
             :min="(value as Form).datetimeFrom"
             validation="onlyif:datetimeFrom"
             :validation-messages="{
