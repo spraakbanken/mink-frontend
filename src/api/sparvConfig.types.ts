@@ -4,7 +4,7 @@ import type { ByLang } from "@/util.types";
 export type SparvConfig = {
   metadata: ConfigMetadata;
   import: ConfigImport;
-  segment: ConfigSegment;
+  segment?: ConfigSegment;
   export: ConfigExport;
   dateformat?: ConfigDateformat;
   custom_annotations?: ConfigCustomAnnotation[];
@@ -14,7 +14,7 @@ export type SparvConfig = {
 
 type ConfigMetadata = {
   id: string;
-  name: ByLang;
+  name?: ByLang;
   description?: ByLang;
 };
 

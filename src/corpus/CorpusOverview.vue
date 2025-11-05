@@ -12,7 +12,7 @@ import RouteButton from "@/components/RouteButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 
 const corpusId = useCorpusIdParam();
-const { hasMetadata, isConfigValid } = useCorpus(corpusId);
+const { isConfigValid } = useCorpus(corpusId);
 </script>
 
 <template>
@@ -27,7 +27,7 @@ const { hasMetadata, isConfigValid } = useCorpus(corpusId);
         <template #controls>
           <RouteButton
             :to="`/library/corpus/${corpusId}/config`"
-            :class="{ 'button-primary': !isConfigValid || !hasMetadata }"
+            :class="{ 'button-primary': !isConfigValid }"
           >
             <PhPencilSimple weight="bold" class="inline mb-1 mr-1" />
             {{ $t("edit") }}
