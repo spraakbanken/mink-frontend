@@ -41,7 +41,10 @@ export default function useLocale() {
   function th(map?: ByLang | string): string | undefined {
     if (!map) return undefined;
     if (typeof map == "string") return map;
-    return map[locale3.value];
+
+    // Pick first language found, current language first.
+    const langsOrdered: SweEng[] = [locale3.value, "eng", "swe"];
+    for (const lang of langsOrdered) if (map[lang]) return map[lang];
   }
 
   /** Wrap the filesize lib with some sane defaults and avoiding exponential notation. */
