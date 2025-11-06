@@ -12,7 +12,6 @@ const props = defineProps<{
 
 const { runJob } = useCorpusStore();
 const {
-  hasMetadata,
   hasSources,
   isConfigValid,
   jobState,
@@ -26,7 +25,6 @@ const {
 const isPending = ref(false);
 const canRun = computed(
   () =>
-    hasMetadata.value &&
     hasSources.value &&
     isConfigValid.value &&
     !isPending.value &&

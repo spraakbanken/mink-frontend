@@ -41,7 +41,6 @@ corpus.delete: Radera korpus
 corpus.state.unknown: Okänt
 corpus.state.empty: Inga filer
 corpus.state.needing_config: Behöver konfigureras
-corpus.state.needing_meta: Behöver metadata
 corpus.state.ready: Klar för start
 corpus.state.running: Annoterar
 corpus.state.done: Annotering färdig
@@ -52,7 +51,6 @@ corpus.state.failed_install: Fel
 corpus.state.help.unknown: Den här korpusen är i ett okänt tillstånd. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 corpus.state.help.empty: Den här korpusen har inga källfiler. Ladda upp filer nedan.
 corpus.state.help.needing_config: Den här korpusen behöver några inställningar innan annoteringen kan startas.
-corpus.state.help.needing_meta: Korpusen behöver ha ett namn innan annoteringen kan startas.
 corpus.state.help.ready: Redo för annotering. Du kan också lägga till fler källfiler eller redigera konfigurationen.
 corpus.state.help.running: Annoteringen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
 corpus.state.help.done: Annotering klar! Du kan ladda ner resultaten eller installera datan i Korp eller Strix.

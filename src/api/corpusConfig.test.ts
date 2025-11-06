@@ -85,24 +85,15 @@ describe("makeConfig", () => {
 describe("parseConfig", () => {
   test("handle minimal info", () => {
     const configYaml = Yaml.dump({
-      metadata: { name: { swe: "Nyheter", eng: "News" } },
       import: { importer: "text_import:parse" },
     });
     const config = parseConfig(configYaml);
-    expect(config.name).toStrictEqual({ swe: "Nyheter", eng: "News" });
     expect(config.format).toBe("txt");
   });
 
   test("requires format", () => {
     const configYaml = Yaml.dump({
       metadata: { name: { swe: "Nyheter", eng: "News" } },
-    });
-    expect(() => parseConfig(configYaml)).toThrowError();
-  });
-
-  test("requires name", () => {
-    const configYaml = Yaml.dump({
-      import: { importer: "text_import:parse" },
     });
     expect(() => parseConfig(configYaml)).toThrowError();
   });

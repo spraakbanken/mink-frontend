@@ -40,7 +40,6 @@ corpus.delete: Delete corpus
 corpus.state.unknown: Unknown
 corpus.state.empty: No files
 corpus.state.needing_config: Configuration needed
-corpus.state.needing_meta: Metadata needed
 corpus.state.ready: Ready to run
 corpus.state.running: Annotating
 corpus.state.done: Done annotating
@@ -51,7 +50,6 @@ corpus.state.failed_install: Failed
 corpus.state.help.unknown: The state of this corpus is unknown. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.state.help.empty: There are no source files in this corpus. Upload some files below.
 corpus.state.help.needing_config: This corpus needs you to change some settings before it can be processed.
-corpus.state.help.needing_meta: The corpus needs a name before it can be processed.
 corpus.state.help.ready: Ready for annotation. You can also supply more source files or edit the configuration.
 corpus.state.help.running: Annotation is running in the background. Feel free to close the website, have some coffee and check back later!
 corpus.state.help.done: Annotation done! You can download the results or install it to Korp or Strix.
