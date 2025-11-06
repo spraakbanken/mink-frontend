@@ -13,6 +13,7 @@ const props = defineProps<{
 const { runJob } = useCorpusStore();
 const {
   hasMetadata,
+  hasSources,
   isConfigValid,
   jobState,
   isJobRunning,
@@ -25,8 +26,9 @@ const {
 const isPending = ref(false);
 const canRun = computed(
   () =>
-    isConfigValid.value &&
     hasMetadata.value &&
+    hasSources.value &&
+    isConfigValid.value &&
     !isPending.value &&
     !isJobRunning.value,
 );
@@ -69,11 +71,9 @@ async function doRunJob() {
         </div>
 
         <ActionButton
-          :disabled="isJobRunning || !canRun"
-          :class="{
-            'button-primary': !isJobRunning && canRun && !exports?.length,
-          }"
-          @click="!isJobRunning && canRun ? doRunJob() : null"
+          :disabled="!canRun"
+          :class="{ 'button-primary': canRun && !exports?.length }"
+          @click="canRun ? doRunJob() : null"
           class="whitespace-nowrap"
         >
           <PhGearFine weight="bold" class="inline mb-1 mr-1" />
