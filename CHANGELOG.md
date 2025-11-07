@@ -21,6 +21,7 @@ As this project is a user-facing application, the places in the semantic version
 
 - Do not require corpus name [#199](https://github.com/spraakbanken/mink-frontend/issues/199)
 - The `th` helper falls back to other language if current is empty.
+- Smoother animation for job progress bar [#200](https://github.com/spraakbanken/mink-frontend/issues/220)
 
 ## [1.13.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.13.0) (2025-10-27)
 

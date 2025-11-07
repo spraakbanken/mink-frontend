@@ -3,7 +3,6 @@ import { computed } from "vue";
 import { useCorpus } from "../corpus.composable";
 import JobStatusMessage from "@/corpus/job/JobStatusMessage.vue";
 import { formatDate } from "@/util";
-import PendingContent from "@/spin/PendingContent.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
 import TextData from "@/components/TextData.vue";
@@ -24,10 +23,7 @@ const isStarted = computed(
 </script>
 
 <template>
-  <PendingContent
-    v-if="job"
-    :on="[`corpus/${corpusId}/job`, `corpus/${corpusId}/info`]"
-  >
+  <div v-if="job">
     <div class="flex gap-4 justify-between items-baseline">
       <div class="text-lg">
         <span v-if="job.current_process">
@@ -99,5 +95,5 @@ const isStarted = computed(
         </tr>
       </tbody>
     </table>
-  </PendingContent>
+  </div>
 </template>
