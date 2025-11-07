@@ -99,6 +99,7 @@ function onProgress(progressEvent: AxiosProgressEvent) {
             <ProgressBar
               v-if="showProgress && progress !== undefined"
               :percent="progress * 100"
+              :running="false"
               class="w-60"
             />
 

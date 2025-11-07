@@ -44,6 +44,7 @@ const isStarted = computed(
     <ProgressBar
       v-if="job?.progress"
       :percent="parseInt(job.progress)"
+      :running="isJobRunning"
       class="w-full my-2"
     />
 
