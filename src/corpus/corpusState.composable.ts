@@ -3,7 +3,8 @@ import { useCorpus } from "./corpus.composable";
 
 /** The "corpus state" is related to the job status, but is more about predicting what action the user needs to take. */
 export function useCorpusState(corpusId: string) {
-  const { hasSources, isConfigValid, jobState } = useCorpus(corpusId);
+  const { hasSources, isConfigValid, jobState, job, currentStatus } =
+    useCorpus(corpusId);
 
   const corpusState = computed(() => {
     if (!hasSources.value) return CorpusState.EMPTY;
@@ -14,31 +15,21 @@ export function useCorpusState(corpusId: string) {
       return CorpusState.UNKNOWN;
     }
 
+    const process = job.value?.current_process || "";
+    const isTool = ["korp", "strix"].includes(process);
+
+    if (currentStatus.value == "running" || currentStatus.value == "waiting")
+      return isTool ? CorpusState.RUNNING_INSTALL : CorpusState.RUNNING;
+
+    // If the last Sparv job was aborted, encourage re-annotation (even if last process was a tool install)
     if (jobState.value.sparv == "none" || jobState.value.sparv == "aborted")
       return CorpusState.READY;
-    if (jobState.value.sparv == "error") return CorpusState.FAILED;
 
-    // TODO Revise the CorpusState concept. The workflow can now branch in two. Ifs below questionable.
-    if (
-      ["waiting", "running"].includes(jobState.value.korp) ||
-      ["waiting", "running"].includes(jobState.value.strix)
-    )
-      return CorpusState.RUNNING_INSTALL;
+    if (currentStatus.value == "error")
+      return isTool ? CorpusState.FAILED_INSTALL : CorpusState.FAILED;
 
-    if (jobState.value.sparv == "waiting" || jobState.value.sparv == "running")
-      return CorpusState.RUNNING;
-
-    if (
-      ["none", "aborted"].includes(jobState.value.korp) ||
-      ["none", "aborted"].includes(jobState.value.strix)
-    )
-      return CorpusState.DONE;
-
-    if (jobState.value.korp == "error" || jobState.value.strix == "error")
-      return CorpusState.FAILED_INSTALL;
-
-    if (jobState.value.korp == "done" || jobState.value.strix == "done")
-      return CorpusState.DONE_INSTALL;
+    if (currentStatus.value == "done")
+      return isTool ? CorpusState.DONE_INSTALL : CorpusState.DONE;
 
     console.warn("Invalid state", JSON.stringify(jobState.value));
     return CorpusState.UNKNOWN;

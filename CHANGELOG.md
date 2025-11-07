@@ -23,6 +23,10 @@ As this project is a user-facing application, the places in the semantic version
 - The `th` helper falls back to other language if current is empty.
 - Smoother animation for job progress bar [#200](https://github.com/spraakbanken/mink-frontend/issues/220)
 
+### Fixed
+
+- Only use last job to determine if a corpus has an error [#219](https://github.com/spraakbanken/mink-frontend/issues/219)
+
 ## [1.13.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.13.0) (2025-10-27)
 
 ### Added

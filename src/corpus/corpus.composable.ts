@@ -59,9 +59,7 @@ export function useCorpus(corpusId: string) {
     const process = job.value?.current_process;
     return process && job.value?.status?.[process];
   });
-  const hasError = computed(() =>
-    Object.values(jobState.value || {}).includes("error"),
-  );
+  const hasError = computed(() => currentStatus.value == "error");
 
   // "Running" if any job is waiting/running.
   const isJobRunning = computed(() => {
