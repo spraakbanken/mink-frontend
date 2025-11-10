@@ -41,7 +41,7 @@ export default function useCreateCorpus() {
 
     // Create a minimal config.
     const config = {
-      ...emptyConfig(),
+      ...(await emptyConfig()),
       format,
     };
 
@@ -89,7 +89,7 @@ export default function useCreateCorpus() {
     textAnnotation?: string,
   ): Promise<string | undefined> {
     const config = {
-      ...emptyConfig(),
+      ...(await emptyConfig()),
       name: { swe: name, eng: name },
       description: { swe: description, eng: description },
       format,
