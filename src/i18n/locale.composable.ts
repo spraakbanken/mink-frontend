@@ -47,6 +47,19 @@ export default function useLocale() {
     for (const lang of langsOrdered) if (map[lang]) return map[lang];
   }
 
+  /** Create a comparator function (for `list.sort()`) that sorts by mutilanguage labels. */
+  const thCompare =
+    <T>(getLabel: (item: T) => ByLang | undefined): ((a: T, b: T) => number) =>
+    (a, b) => {
+      const labelA = th(getLabel(a));
+      const labelB = th(getLabel(b));
+      // Empty label should be sorted last
+      if (!labelA) return 1;
+      if (!labelB) return -1;
+      // Compare alphabetically
+      return labelA.localeCompare(labelB, locale.value);
+    };
+
   /** Wrap the filesize lib with some sane defaults and avoiding exponential notation. */
   function myFilesize(bytes: number, precision = 2) {
     // Default precision is 0 which means up until 2 decimals?
@@ -59,6 +72,7 @@ export default function useLocale() {
     locale,
     locale3,
     th,
+    thCompare,
     filesize: myFilesize,
   };
 }

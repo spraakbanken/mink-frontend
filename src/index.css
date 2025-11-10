@@ -152,6 +152,10 @@
     @apply py-1 px-2;
   }
 
+  table .formkit-outer {
+    margin: 0;
+  }
+
   /* Prose, (long) body text */
   .prose ul {
     padding-left: 2em;
