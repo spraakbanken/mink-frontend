@@ -6,8 +6,8 @@ import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
 import { PhLightbulbFilament, PhTrash } from "@phosphor-icons/vue";
+import { computedAsync } from "@vueuse/core";
 import { useCorpus } from "../corpus.composable";
-import AnalysisListing from "./AnalysisListing.vue";
 import type { MinkResponse } from "@/api/api.types";
 import {
   type ConfigOptions,
@@ -28,12 +28,19 @@ import PendingContent from "@/spin/PendingContent.vue";
 import type { ByLang } from "@/util.types";
 import LayoutBox from "@/components/LayoutBox.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
+import {
+  analysisAnnotations,
+  loadAnalysisMetdata,
+  type AnalysisId,
+} from "@/api/analysis";
+import useLocale from "@/i18n/locale.composable";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
 const { config, saveConfigOptions, extensions } = useCorpus(corpusId);
 const { alert, alertError } = useMessenger();
 const { t } = useI18n();
+const { th, thCompare } = useLocale();
 
 type Form = {
   name: ByLang;
@@ -43,17 +50,22 @@ type Form = {
   sentenceSegmenter: ConfigSentenceSegmenter;
   datetimeFrom: string;
   datetimeTo: string;
-  lexicalClasses: boolean;
-  msd: boolean;
-  readability: boolean;
-  saldo: boolean;
-  sensaldo: boolean;
-  swener: boolean;
-  syntax: boolean;
-  wsd: boolean;
+  analyses: Record<AnalysisId, boolean>;
 };
 
-const configOptions = computed(getParsedConfig);
+/** List of metadata for relevant analyses */
+const analyses = computedAsync(async () => {
+  const analyses = await loadAnalysisMetdata();
+  // Skip analyses that do not have annotations
+  // Sort by most significant property last
+  return analyses
+    .filter((analysis) => analysisAnnotations[analysis.id])
+    .sort(thCompare((x) => x.name))
+    .sort(thCompare((x) => x.keywords?.[0]))
+    .sort(thCompare((x) => x.analysis_unit));
+});
+
+const configOptions = computedAsync(getParsedConfig);
 
 const formatOptions = computed<FormKitOptionsList>(() =>
   FORMATS_EXT.map((ext) => ({
@@ -86,10 +98,10 @@ const segmenterOptions = computed<SegmenterOptions>(() => {
 });
 
 // Like `getParsedConfig` in `corpus.composable.ts` but also alerts on error.
-function getParsedConfig() {
+async function getParsedConfig() {
   if (!config.value) return undefined;
   try {
-    const parsed = parseConfig(config.value);
+    const parsed = await parseConfig(config.value);
     return parsed;
   } catch (error) {
     alert(t("corpus.config.parse.error"), "error");
@@ -99,7 +111,7 @@ function getParsedConfig() {
 
 async function submit(fields: Form) {
   // If there is no previous config file, start from a minimal one.
-  const configOld = configOptions.value || emptyConfig();
+  const configOld = configOptions.value || (await emptyConfig());
 
   // Merge new form values with existing config.
   const configNew: ConfigOptions = {
@@ -116,16 +128,7 @@ async function submit(fields: Form) {
             to: fields.datetimeTo,
           }
         : undefined,
-    annotations: {
-      lexicalClasses: fields.lexicalClasses,
-      msd: fields.msd,
-      readability: fields.readability,
-      saldo: fields.saldo,
-      sensaldo: fields.sensaldo,
-      swener: fields.swener,
-      syntax: fields.syntax,
-      wsd: fields.wsd,
-    },
+    analyses: { ...fields.analyses },
   };
 
   try {
@@ -143,7 +146,7 @@ async function submit(fields: Form) {
 <template>
   <PendingContent :on="`corpus/${corpusId}/config`">
     <!-- Using the key attribute to re-render whole form after fetching config -->
-    <FormKitWrapper :key="config">
+    <FormKitWrapper v-if="configOptions" :key="config">
       <FormKit
         id="corpus-config"
         v-slot="{ value }"
@@ -279,9 +282,9 @@ async function submit(fields: Form) {
             :help="$t('timespan_help')"
           />
 
-          <LayoutSection :title="$t('annotations')">
+          <LayoutSection :title="$t('config.analyses')">
             <div class="prose">
-              <i18n-t tag="p" keypath="annotations.info" scope="global">
+              <i18n-t tag="p" keypath="config.analyses.info" scope="global">
                 <template #custom_config>
                   <router-link
                     :to="`/library/corpus/${corpusId}/config/custom`"
@@ -292,131 +295,48 @@ async function submit(fields: Form) {
               </i18n-t>
             </div>
 
-            <!-- Annotation options in some sort of order of usefulness -->
-
-            <FormKit
-              name="saldo"
-              :label="$t('annotations.saldo')"
-              :value="configOptions?.annotations.saldo"
-              type="checkbox"
-              :help="$t('annotations.saldo.help')"
-            >
-              <template #help>
-                <i18n-t
-                  tag="div"
-                  keypath="annotations.saldo.help"
-                  scope="global"
-                  class="formkit-help"
-                >
-                  <template #saldo>
-                    <a :href="$t('annotations.saldo.saldo_url')" target="_blank"
-                      >SALDO</a
-                    >
-                  </template>
-                </i18n-t>
-                <AnalysisListing group="saldo" class="formkit-help" />
-              </template>
-            </FormKit>
-
-            <FormKit
-              name="msd"
-              :label="$t('annotations.msd')"
-              :value="configOptions?.annotations.msd"
-              type="checkbox"
-              :help="$t('annotations.msd.help')"
-            >
-              <template #help>
-                <div class="formkit-help">{{ $t("annotations.msd.help") }}</div>
-                <AnalysisListing group="msd" class="formkit-help" />
-              </template>
-            </FormKit>
-
-            <FormKit
-              name="syntax"
-              :label="$t('annotations.syntax')"
-              :value="configOptions?.annotations.syntax"
-              type="checkbox"
-              :help="$t('annotations.syntax.help')"
-            >
-              <template #help>
-                <div class="formkit-help">
-                  {{ $t("annotations.syntax.help") }}
-                </div>
-                <AnalysisListing group="syntax" class="formkit-help" />
-              </template>
-            </FormKit>
-
-            <FormKit
-              name="readability"
-              :label="$t('annotations.readability')"
-              :value="configOptions?.annotations.readability"
-              type="checkbox"
-              :help="$t('annotations.readability.help')"
-            >
-              <template #help>
-                <div class="formkit-help">
-                  {{ $t("annotations.readability.help") }}
-                </div>
-                <AnalysisListing group="readability" class="formkit-help" />
-              </template>
-            </FormKit>
-
-            <FormKit
-              name="wsd"
-              :label="$t('annotations.wsd')"
-              :value="configOptions?.annotations.wsd"
-              type="checkbox"
-              :help="$t('annotations.wsd.help')"
-            >
-              <template #help>
-                <div class="formkit-help">{{ $t("annotations.wsd.help") }}</div>
-                <AnalysisListing group="wsd" class="formkit-help" />
-              </template>
-            </FormKit>
-
-            <FormKit
-              name="sensaldo"
-              :label="$t('annotations.sensaldo')"
-              :value="configOptions?.annotations.sensaldo"
-              type="checkbox"
-              :help="$t('annotations.sensaldo.help')"
-            >
-              <template #help>
-                <div class="formkit-help">
-                  {{ $t("annotations.sensaldo.help") }}
-                </div>
-                <AnalysisListing group="sensaldo" class="formkit-help" />
-              </template>
-            </FormKit>
-
-            <FormKit
-              name="lexicalClasses"
-              :label="$t('annotations.lexical_classes')"
-              :value="configOptions?.annotations.lexicalClasses"
-              type="checkbox"
-              :help="$t('annotations.lexical_classes.help')"
-            >
-              <template #help>
-                <div class="formkit-help">
-                  {{ $t("annotations.lexical_classes.help") }}
-                </div>
-                <AnalysisListing group="lexicalClasses" class="formkit-help" />
-              </template>
-            </FormKit>
-
-            <FormKit
-              name="swener"
-              :label="$t('annotations.swener')"
-              :value="configOptions?.annotations.swener"
-              type="checkbox"
-              :help="$t('annotations.swener.help')"
-            >
-              <template #help>
-                <div class="formkit-help">
-                  {{ $t("annotations.swener.help") }}
-                </div>
-                <AnalysisListing group="swener" class="formkit-help" />
-              </template>
+            <FormKit type="group" name="analyses">
+              <table class="my-2 striped">
+                <thead>
+                  <tr>
+                    <th>{{ $t("description") }}</th>
+                    <th>{{ $t("identifier") }}</th>
+                    <th>{{ $t("config.analyses.unit") }}</th>
+                    <th>{{ $t("keywords") }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="analysis in analyses" :key="analysis.id">
+                    <td>
+                      <FormKit
+                        :name="analysis.id"
+                        :label="th(analysis.name)"
+                        :value="configOptions?.analyses[analysis.id]"
+                        type="checkbox"
+                        :help="th(analysis.short_description)"
+                      />
+                    </td>
+                    <td>
+                      <a
+                        :href="$t('config.analyses.url', [analysis.id])"
+                        target="_blank"
+                        class="whitespace-nowrap"
+                      >
+                        {{ analysis.id }}
+                      </a>
+                    </td>
+                    <td>{{ th(analysis.analysis_unit) }}</td>
+                    <td>
+                      <div
+                        v-for="(keyword, i) of analysis.keywords || []"
+                        :key="i"
+                      >
+                        {{ th(keyword) }}
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </FormKit>
           </LayoutSection>
         </LayoutSection>
