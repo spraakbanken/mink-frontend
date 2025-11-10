@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useI18n } from "vue-i18n";
 import { useCorpus } from "../corpus.composable";
 import useLocale from "@/i18n/locale.composable";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -12,21 +11,12 @@ const props = defineProps<{
 
 const { configOptions } = useCorpus(props.corpusId);
 const { th } = useLocale();
-const { t } = useI18n();
 
-const annotationsSummary = computed(() => {
-  const annotations = configOptions.value?.annotations || {};
-  const selected: string[] = [];
-  if (annotations.lexicalClasses) selected.push("lexical_classes");
-  if (annotations.msd) selected.push("msd");
-  if (annotations.readability) selected.push("readability");
-  if (annotations.saldo) selected.push("saldo");
-  if (annotations.sensaldo) selected.push("sensaldo");
-  if (annotations.swener) selected.push("swener");
-  if (annotations.syntax) selected.push("syntax");
-  if (annotations.wsd) selected.push("wsd");
-  if (!selected.length) return "—";
-  return selected.map((key) => t(`annotations.${key}`)).join(", ");
+const analyses = computed(() => {
+  const map = configOptions.value?.analyses || {};
+  const ids = [];
+  for (const id in map) if (map[id]) ids.push(id);
+  return ids;
 });
 </script>
 
@@ -107,9 +97,9 @@ const annotationsSummary = computed(() => {
           <td v-else>—</td>
         </tr>
         <tr>
-          <th>{{ $t("annotations") }}</th>
-          <td v-if="configOptions">
-            {{ annotationsSummary }}
+          <th>{{ $t("config.analyses") }}</th>
+          <td v-if="analyses?.length">
+            {{ $t("config.analyses.selected_count", analyses.length) }}
           </td>
           <td v-else>—</td>
         </tr>
