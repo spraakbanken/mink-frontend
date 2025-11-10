@@ -84,10 +84,10 @@ describe("parseConfig", () => {
     const configYaml = Yaml.dump({
       metadata: { name: { swe: "Nyheter", eng: "News" } },
     });
-    expect(() => parseConfig(configYaml)).toThrowError();
+    expect(() => parseConfig(configYaml)).rejects.toThrowError();
   });
 
-  test("handle full info", () => {
+  test("handle full info", async () => {
     const configYaml = Yaml.dump({
       metadata: {
         name: { swe: "Nyheter", eng: "News" },
@@ -106,7 +106,7 @@ describe("parseConfig", () => {
         annotations: ["<text>:readability.lix", "swener.ne"],
       },
     });
-    const config = parseConfig(configYaml);
+    const config = await parseConfig(configYaml);
     const expected: ConfigOptions = {
       format: "xml",
       name: { swe: "Nyheter", eng: "News" },
