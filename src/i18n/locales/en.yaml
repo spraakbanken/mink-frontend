@@ -218,6 +218,9 @@ config.analyses.selected_count: No analysis selected | 1 analysis selected | {co
 config.analyses.info: Select what analyses should be done on the source text. For more detailed configuration, please use the {custom_config} page.
 config.analyses.task: Task
 config.analyses.unit: Unit
+config.analyses.unit.text: Text
+config.analyses.unit.token: Token
+config.analyses.unit.other: Other
 config.analyses.url: https://spraakbanken.gu.se/en/analyses/{0}
 config.custom: Custom config
 config.custom.help: Mink uses {sparv}, a modular and configurable pipeline for text analysis, to process your corpus. The standard configuration form only exposes a few of the available Sparv options. On this page, you can view and submit your own config file, written in the YAML format. Please refer to the Sparv documentation on {topic} for more information.

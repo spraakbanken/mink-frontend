@@ -34,6 +34,7 @@ import {
   type AnalysisId,
 } from "@/api/analysis";
 import useLocale from "@/i18n/locale.composable";
+import { groupBy } from "es-toolkit";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
@@ -58,11 +59,18 @@ const analyses = computedAsync(async () => {
   const analyses = await loadAnalysisMetdata();
   // Skip analyses that do not have annotations
   // Sort by most significant property last
-  return analyses
+  const filtered = analyses
     .filter((analysis) => analysisAnnotations[analysis.id])
     .sort(thCompare((x) => x.name))
     .sort(thCompare((x) => x.keywords?.[0]))
     .sort(thCompare((x) => x.analysis_unit));
+
+  // Group by unit: text, token or other
+  return groupBy(filtered, (analysis) => {
+    const unit = analysis.analysis_unit?.eng;
+    if (unit == "text" || unit == "token") return unit;
+    return "other";
+  });
 });
 
 const configOptions = computedAsync(getParsedConfig);
@@ -301,13 +309,18 @@ async function submit(fields: Form) {
                   <tr>
                     <th>{{ $t("description") }}</th>
                     <th>{{ $t("identifier") }}</th>
-                    <th>{{ $t("config.analyses.unit") }}</th>
                     <th>{{ $t("config.analyses.task") }}</th>
                     <th>{{ $t("keywords") }}</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr v-for="analysis in analyses" :key="analysis.id">
+                <tbody v-for="(group, unit) in analyses" :key="unit">
+                  <tr>
+                    <th colspan="5" class="text-lg pt-4!">
+                      {{ $t("config.analyses.unit") }}:
+                      {{ $t(`config.analyses.unit.${unit}`) }}
+                    </th>
+                  </tr>
+                  <tr v-for="analysis in group" :key="analysis.id">
                     <td>
                       <FormKit
                         :name="analysis.id"
@@ -326,7 +339,6 @@ async function submit(fields: Form) {
                         {{ analysis.id }}
                       </a>
                     </td>
-                    <td>{{ th(analysis.analysis_unit) }}</td>
                     <td>{{ th(analysis.task) }}</td>
                     <td>
                       <div
