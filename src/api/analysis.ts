@@ -140,4 +140,5 @@ export type AnalysisMetadata = {
   intended_uses?: ByLang;
   collection?: boolean;
   keywords?: ByLang[];
+  task?: string;
 };

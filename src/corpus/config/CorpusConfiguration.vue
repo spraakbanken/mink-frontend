@@ -302,6 +302,7 @@ async function submit(fields: Form) {
                     <th>{{ $t("description") }}</th>
                     <th>{{ $t("identifier") }}</th>
                     <th>{{ $t("config.analyses.unit") }}</th>
+                    <th>{{ $t("config.analyses.task") }}</th>
                     <th>{{ $t("keywords") }}</th>
                   </tr>
                 </thead>
@@ -326,6 +327,7 @@ async function submit(fields: Form) {
                       </a>
                     </td>
                     <td>{{ th(analysis.analysis_unit) }}</td>
+                    <td>{{ th(analysis.task) }}</td>
                     <td>
                       <div
                         v-for="(keyword, i) of analysis.keywords || []"
