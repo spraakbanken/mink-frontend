@@ -62,7 +62,6 @@ const analyses = computedAsync(async () => {
   const filtered = analyses
     .filter((analysis) => analysisAnnotations[analysis.id])
     .sort(thCompare((x) => x.name))
-    .sort(thCompare((x) => x.keywords?.[0]))
     .sort(thCompare((x) => x.analysis_unit));
 
   // Group by unit: text, token or other
@@ -310,7 +309,6 @@ async function submit(fields: Form) {
                     <th>{{ $t("description") }}</th>
                     <th>{{ $t("identifier") }}</th>
                     <th>{{ $t("config.analyses.task") }}</th>
-                    <th>{{ $t("keywords") }}</th>
                   </tr>
                 </thead>
                 <tbody v-for="(group, unit) in analyses" :key="unit">
@@ -340,14 +338,6 @@ async function submit(fields: Form) {
                       </a>
                     </td>
                     <td>{{ th(analysis.task) }}</td>
-                    <td>
-                      <div
-                        v-for="(keyword, i) of analysis.keywords || []"
-                        :key="i"
-                      >
-                        {{ th(keyword) }}
-                      </div>
-                    </td>
                   </tr>
                 </tbody>
               </table>
