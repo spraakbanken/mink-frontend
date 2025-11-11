@@ -134,7 +134,7 @@ export type AnalysisMetadata = {
   unlisted?: boolean;
   successors?: string[];
   languages: { code: string; name: ByLang };
-  analysis_unit: ByLang;
+  analysis_unit?: ByLang;
   in_collections?: string[];
   caveats?: ByLang;
   intended_uses?: ByLang;

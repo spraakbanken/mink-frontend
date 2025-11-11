@@ -141,10 +141,10 @@
 
 @layer utilities {
   /* Striped tables */
-  table.striped tbody tr:nth-child(2n + 1) {
+  table.striped tr:has(td):nth-child(2n + 1) {
     @apply bg-gray-100 dark:bg-zinc-800;
   }
-  table.striped tbody tr:nth-child(2n) {
+  table.striped tr:has(td):nth-child(2n) {
     @apply bg-gray-50/50 dark:bg-zinc-800;
   }
   table.striped th,
