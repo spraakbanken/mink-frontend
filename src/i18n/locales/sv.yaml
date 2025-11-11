@@ -205,7 +205,6 @@ save.no_changes: Det finns inga ändringar att spara
 name: Namn
 metadata.name.help: Det går bra att använda mellanslag och specialtecken.
 identifier: Identifierare
-keywords: Nyckelord
 metadata.identifier.help: Ett automatiskt genererat maskinnamn som används för att identifiera den här korpusen på servern.
 description: Beskrivning
 metadata.description.help: |
