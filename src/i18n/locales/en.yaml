@@ -216,6 +216,7 @@ config.analysis: Analysis
 config.analyses: Analyses
 config.analyses.selected_count: No analysis selected | 1 analysis selected | {count} analyses selected
 config.analyses.info: Select what analyses should be done on the source text. For more detailed configuration, please use the {custom_config} page.
+config.analyses.task: Task
 config.analyses.unit: Unit
 config.analyses.url: https://spraakbanken.gu.se/en/analyses/{0}
 config.custom: Custom config
