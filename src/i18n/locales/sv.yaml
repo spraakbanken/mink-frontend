@@ -212,6 +212,16 @@ metadata.description.help: |
   Om du vill distribuera eller publicera resultatet rekommenderar vi en eller två meningar
   som sammanfattar innehållet eller syftet för en potentiell användare.
 fileFormat: Källformat
+config.analysis: Analys
+config.analyses: Analyser
+config.analyses.selected_count: Inga analyser valda | 1 analys vald | {count} analyser valda
+config.analyses.info: Välj vilka analyser som ska göras på källtexten. Mer utförlig konfiguration kan göras på sidan {custom_config}.
+config.analyses.task: Uppgift
+config.analyses.unit: Enhet
+config.analyses.unit.text: Text
+config.analyses.unit.token: Token
+config.analyses.unit.other: Övrigt
+config.analyses.url: https://spraakbanken.gu.se/analyser/{0}
 config.custom: Egen config
 config.custom.help: Mink använder {sparv}, en modulär och konfigurerbar pipeline för textanalys, för att processa korpusen. Det vanliga formuläret visar endast en liten del av alla inställningar. På den här sidan kan du undersöka den faktiska configfilen och ladda upp en egen, i formatet YAML. Använd Sparvdokumentationens avsnitt {topic} för att tolka filens struktur.
 config.custom.upload.caution: Notera att en ogiltig configfil kan leda till oväntat beteende.
@@ -229,27 +239,6 @@ timespan_help: Datum för tidigaste och senaste innehållet i korpusen.
 timespan_from: Från
 timespan_to: Till
 edit: Redigera
-annotations: Annotationer
-annotations.info: Här listas tillval för några av de tillgängliga analyserna. Mer utförlig konfiguration kan göras på sidan {custom_config}.
-annotations.analyses: "0 | Mer om analysen | Mer om analyserna"
-annotations.analyses.url: https://spraakbanken.gu.se/analyser/{0}
-annotations.lexical_classes: Lexikala klasser
-annotations.lexical_classes.help: Mappar till Blingbring och Svenskt frasnät (SweFN).
-annotations.msd: Morfologi
-annotations.msd.help: Ordklass och morfosyntaktiska egenskaper.
-annotations.readability: Läsbarhet
-annotations.readability.help: Räknar ut läsbarhetsvärdena LIX, OVIX och NK.
-annotations.saldo: Lemmatisering
-annotations.saldo.help: Använder resursen {saldo} för att finna grundformer, böjningsmönster och sammansatta ord.
-annotations.saldo.saldo_url: https://spraakbanken.gu.se/resurser/saldo
-annotations.sensaldo: Sentiment
-annotations.sensaldo.help: Taggar token som positiv/neutral/negativ.
-annotations.swener: Namngivna entiteter och geotaggning
-annotations.swener.help: Namngivna entitetsigenkänning (named entity recognition, NER) hittar personer, platser, datum och liknande i dina texter genom att använda SweNER. Däremot tar analysen ganska lång tid. När NER är aktiverat görs även geotaggning, vilket aktiverar kartfunktionen i Korp.
-annotations.syntax: Dependenser
-annotations.syntax.help: Syntaxanalys med Stanza.
-annotations.wsd: Betydelser
-annotations.wsd.help: Ordbetydelsedisambiguering med SALDO.
 annotations.clear: Rensa annotationer
 annotations.clear.help: Gör detta för att kunna köra om en tidigare annoterad korpus med nya annoteringsinställningar.
 admin.page.subtitle: Administration

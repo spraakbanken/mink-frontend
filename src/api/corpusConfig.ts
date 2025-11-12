@@ -1,5 +1,10 @@
 import Yaml from "js-yaml";
-import type { AnnotationGroup } from "@/api/analysis";
+import {
+  analysisAnnotations,
+  annotationAnalyses,
+  loadAnalysisMetdata,
+  type AnalysisId,
+} from "./analysis";
 import type {
   ConfigSentenceSegmenter,
   SparvConfig,
@@ -27,10 +32,8 @@ export type ConfigOptions = {
     from: string;
     to: string;
   };
-  annotations: {
-    // Options to disable/enable predefined groups of annotations
-    [K in AnnotationGroup]?: boolean;
-  };
+  // Options to disable/enable analyses
+  analyses: Record<AnalysisId, boolean>;
 };
 
 const FORMATS: Record<FileFormat, string> = {
@@ -57,7 +60,7 @@ export function makeConfig(id: string, options: ConfigOptions): string {
     textAnnotation,
     sentenceSegmenter,
     datetime,
-    annotations,
+    analyses,
   } = options;
 
   if (!format) {
@@ -99,69 +102,11 @@ export function makeConfig(id: string, options: ConfigOptions): string {
     "<text>:misc.id as _id",
   ];
 
-  if (annotations.lexicalClasses) {
-    config.export.annotations.push(
-      "<token>:lexical_classes.blingbring",
-      "<token>:lexical_classes.swefn",
-      "<text>:lexical_classes.blingbring",
-      "<text>:lexical_classes.swefn",
-    );
-  }
-
-  if (annotations.msd) {
-    config.export.annotations.push(
-      "<token>:stanza.msd",
-      "<token>:stanza.pos",
-      "<token>:stanza.ufeats",
-    );
-  }
-
-  if (annotations.readability) {
-    config.export.annotations.push(
-      "<text>:readability.lix",
-      "<text>:readability.ovix",
-      "<text>:readability.nk",
-    );
-  }
-
-  if (annotations.saldo) {
-    config.export.annotations.push(
-      "<token>:saldo.baseform2 as lemma",
-      "<token>:saldo.lemgram as lex",
-      "<token>:saldo.compwf",
-      "<token>:saldo.complemgram",
-    );
-  }
-
-  if (annotations.sensaldo) {
-    config.export.annotations.push(
-      "<token>:sensaldo.sentiment_score",
-      "<token>:sensaldo.sentiment_label",
-    );
-  }
-
-  // Enable named entity recognition.
-  if (annotations.swener) {
-    config.export.annotations.push(
-      "swener.ne",
-      "swener.ne:swener.name",
-      "swener.ne:swener.ex",
-      "swener.ne:swener.type",
-      "swener.ne:swener.subtype",
-      "<sentence>:geo.geo_context as _geocontext",
-    );
-  }
-
-  if (annotations.syntax) {
-    config.export.annotations.push(
-      "<token>:stanza.dephead_ref as dephead",
-      "<token>:stanza.deprel",
-      "<token>:stanza.ref",
-    );
-  }
-
-  if (annotations.wsd) {
-    config.export.annotations.push("<token>:wsd.sense");
+  // Add annotation definitions for each enabled analysis
+  const enabledAnalysisIds = Object.keys(analyses).filter((id) => analyses[id]);
+  for (const analysisId of enabledAnalysisIds) {
+    const annotations = analysisAnnotations[analysisId];
+    if (annotations) config.export.annotations.push(...annotations);
   }
 
   if (datetime) {
@@ -205,22 +150,23 @@ export function makeConfig(id: string, options: ConfigOptions): string {
 }
 
 /** Default values */
-export function emptyConfig(): ConfigOptions {
+export async function emptyConfig(): Promise<ConfigOptions> {
+  // Let all analyses be enabled by default, except NER because it is heavy, and Geo because it depends on NER.
+  const disabledAnalyses = [
+    "sbx-swe-namedentity-swener",
+    "sbx-swe-geotagcontext-sparv",
+  ];
   return {
     name: { swe: "", eng: "" },
     description: { swe: "", eng: "" },
     format: "txt",
     datetime: undefined,
-    annotations: {
-      lexicalClasses: true,
-      readability: true,
-      saldo: true,
-      sensaldo: true,
-      syntax: true,
-      msd: true,
-      swener: false,
-      wsd: true,
-    },
+    analyses: Object.fromEntries(
+      (await loadAnalysisMetdata()).map((analysis) => [
+        analysis.id,
+        !disabledAnalyses.includes(analysis.id),
+      ]),
+    ),
   };
 }
 
@@ -232,7 +178,7 @@ export function emptyConfig(): ConfigOptions {
  *
  * May throw all kinds of errors, the sky is the limit (:
  */
-export function parseConfig(configYaml: string): ConfigOptions {
+export async function parseConfig(configYaml: string): Promise<ConfigOptions> {
   const config = Yaml.load(configYaml) as unknown as Partial<SparvConfig>;
 
   if (!config)
@@ -253,7 +199,7 @@ export function parseConfig(configYaml: string): ConfigOptions {
 
   // Build options object
   const options = {
-    ...emptyConfig(),
+    ...(await emptyConfig()),
     format,
     name,
     description: config.metadata?.description,
@@ -276,27 +222,12 @@ export function parseConfig(configYaml: string): ConfigOptions {
   )
     options.datetime = { from: datetimeFrom, to: datetimeTo };
 
-  options.annotations.lexicalClasses = config.export?.annotations?.includes(
-    "<token>:lexical_classes.swefn",
-  );
-  options.annotations.msd =
-    config.export?.annotations?.includes("<token>:stanza.msd");
-  options.annotations.readability = config.export?.annotations?.includes(
-    "<text>:readability.lix",
-  );
-  options.annotations.saldo = config.export?.annotations?.includes(
-    "<token>:saldo.baseform2 as lemma",
-  );
-  options.annotations.sensaldo = config.export?.annotations?.includes(
-    "<token>:sensaldo.sentiment_score",
-  );
-  options.annotations.swener =
-    config.export?.annotations?.includes("swener.ne");
-  options.annotations.syntax = config.export?.annotations?.includes(
-    "<token>:stanza.dephead_ref as dephead",
-  );
-  options.annotations.wsd =
-    config.export?.annotations?.includes("<token>:wsd.sense");
+  options.analyses = {};
+
+  for (const annotation of config.export?.annotations || []) {
+    const analysisId = annotationAnalyses[annotation];
+    if (analysisId) options.analyses[analysisId] = true;
+  }
 
   return options;
 }
