@@ -11,8 +11,8 @@
     "typecheck": "vue-tsc --noEmit",
     "lint": "eslint",
     "lintfix": "eslint --fix",
-    "format": "prettier . --check --ignore-path .gitignore",
-    "formatfix": "prettier . --write --ignore-path .gitignore",
+    "format": "prettier . --list-different",
+    "formatfix": "prettier . --list-different --write",
     "test": "vitest"
   },
   "engines": {
