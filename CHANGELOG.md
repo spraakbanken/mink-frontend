@@ -11,7 +11,9 @@ As this project is a user-facing application, the places in the semantic version
 - `MINOR` denotes changes that may affect the user experience _or_ the development workflow
 - `PATCH` denotes changes that are insignificant to the user experience or the develpment workflow
 
-## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.13.0...HEAD)
+## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.14.0...HEAD)
+
+## [1.14.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.14.0) (2025-11-12)
 
 ### Added
 
@@ -27,6 +29,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Fixed
 
 - Only use last job to determine if a corpus has an error [#219](https://github.com/spraakbanken/mink-frontend/issues/219)
+- Disable run if no sources
 
 ## [1.13.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.13.0) (2025-10-27)
 
