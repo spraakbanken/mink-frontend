@@ -47,12 +47,10 @@ const isHome = computed(() => route.path == "/");
             to="/user"
             class="no-underline hover:underline"
           >
-            <PhUser class="inline-block mb-0.5"></PhUser>
-            {{ userName }}
+            <PhUser class="inline mb-0.5 mr-1" />{{ userName }}
           </router-link>
           <a v-else :href="logoutUrl" class="no-underline hover:underline">
-            <PhUser class="inline-block mb-0.5"></PhUser>
-            {{ $t("logout") }}
+            <PhUser class="inline mb-0.5 mr-1" />{{ $t("logout") }}
           </a>
         </template>
 
@@ -61,8 +59,7 @@ const isHome = computed(() => route.path == "/");
           target="_blank"
           class="no-underline hover:underline"
         >
-          <PhQuestion class="inline-block mb-0.5"></PhQuestion>
-          {{ $t("docs.label") }}
+          <PhQuestion class="inline mb-0.5 mr-1" />{{ $t("docs.label") }}
         </a>
 
         <LocaleSwitcher />

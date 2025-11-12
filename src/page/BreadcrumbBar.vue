@@ -38,10 +38,7 @@ watch(
   <div v-if="crumbs.length > 1" class="container opacity-70">
     <template v-for="(crumb, i) in crumbs" :key="i">
       <template v-if="i"> &raquo; </template>
-      <router-link
-        :to="crumb.path"
-        class="text-inherit no-underline hover:underline font-normal"
-      >
+      <router-link :to="crumb.path" class="no-underline hover:underline">
         {{ crumb.title }}
       </router-link>
     </template>
