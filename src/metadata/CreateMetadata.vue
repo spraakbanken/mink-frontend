@@ -9,6 +9,7 @@ import { useAuth } from "@/auth/auth.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
+import HelpBox from "@/components/HelpBox.vue";
 
 const router = useRouter();
 const { alertError } = useMessenger();
@@ -36,6 +37,8 @@ async function submit(fields: Form) {
 <template>
   <PageTitle>{{ $t("metadata.new") }}</PageTitle>
   <LayoutSection>
+    <HelpBox>{{ $t("metadata.help") }}</HelpBox>
+
     <PendingContent on="create">
       <FormKitWrapper>
         <FormKit
