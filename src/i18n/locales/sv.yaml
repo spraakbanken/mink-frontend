@@ -31,8 +31,8 @@ welcome: Välkommen, {name}!
 mydata: Mina data
 news: Nyheter
 library: Bibliotek
-library.help.resources: Här listas de resurser du har skapat. De är bara synliga för dig. Klicka på dem för att visa mer.
-library.help.resources.none: "Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en resurs: använd knappen @:{'resource_new'} eller dra filer till uppladdningsrutan."
+library.help.resources: Här listas dina resurser. Klicka på dem för att visa mer.
+library.help.resources.none: Här kommer dina resurser att listas.
 corpus: Korpus
 corpus.help: En korpus är en samling av text som ofta används för statistisk analys och fjärrläsning.
 corpus.new: Ny korpus

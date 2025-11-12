@@ -18,7 +18,10 @@ async function submit(fields: Form) {
 <template>
   <PageTitle>{{ $t("lexicon.new") }}</PageTitle>
   <LayoutSection>
-    <HelpBox>{{ $t("lexicon.create.help") }}</HelpBox>
+    <HelpBox>
+      {{ $t("lexicon.help") }}
+      {{ $t("resource.create.help") }}
+    </HelpBox>
 
     <PendingContent on="create">
       <FormKitWrapper>

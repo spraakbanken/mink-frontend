@@ -31,8 +31,8 @@ welcome: Welcome, {name}!
 mydata: My data
 news: News
 library: Library
-library.help.resources: These are the resources that you have created. Only you can see them. Click them to view more details.
-library.help.resources.none: "Mink provides automatic linguistic analysis for your data. Start by creating a resource: use the @:{'resource_new'} button or drop files into the upload field."
+library.help.resources: These are your resources. Click them to view more details.
+library.help.resources.none: Your resources will be listed here.
 corpus: Corpus
 corpus.help: A corpus is a collection of text, typically used with statistical analysis and distant reading.
 corpus.new: New corpus
