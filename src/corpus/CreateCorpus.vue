@@ -45,9 +45,12 @@ async function submit(fields: Form) {
 </script>
 
 <template>
-  <PageTitle>{{ $t("new_corpus") }}</PageTitle>
+  <PageTitle>{{ $t("corpus.new") }}</PageTitle>
   <LayoutSection>
-    <HelpBox>{{ $t("corpus.create.help") }}</HelpBox>
+    <HelpBox>
+      {{ $t("corpus.help") }}
+      {{ $t("resource.create.help") }}
+    </HelpBox>
 
     <PendingContent on="create">
       <FormKitWrapper>

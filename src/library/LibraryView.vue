@@ -61,46 +61,46 @@ const getType = (resource: object | Resource) =>
 
     <div class="flex flex-col xl:flex-row xl:items-start gap-4">
       <LayoutBox :title="$t('resources')" class="flex-1">
-        <table v-if="hasResources" class="w-full my-4 striped">
-          <thead>
-            <tr>
-              <th>{{ $t("name") }}</th>
-              <th>{{ $t("type") }}</th>
-              <th>{{ $t("status") }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <router-link
-              v-for="(resource, id) in resources"
-              :key="id"
-              custom
-              v-slot="{ navigate }"
-              :to="`/library/${getType(resource)}/${id}`"
-            >
-              <tr @click="navigate" class="cursor-pointer">
-                <td class="py-2!">
-                  <router-link :to="`/library/${getType(resource)}/${id}`">
-                    {{ ("type" in resource && th(resource.name)) || id }}
-                  </router-link>
-                </td>
-                <td>{{ $t(getType(resource)) }}</td>
-                <td>
-                  <CorpusStateMessage
-                    v-if="isCorpus(resource)"
-                    :corpus-id="id"
-                  />
-                </td>
+        <PendingContent on="corpora">
+          <table class="w-full my-4 striped">
+            <thead>
+              <tr>
+                <th>{{ $t("name") }}</th>
+                <th>{{ $t("type") }}</th>
+                <th>{{ $t("status") }}</th>
               </tr>
-            </router-link>
-          </tbody>
-        </table>
+            </thead>
+            <tbody v-if="hasResources">
+              <router-link
+                v-for="(resource, id) in resources"
+                :key="id"
+                custom
+                v-slot="{ navigate }"
+                :to="`/library/${getType(resource)}/${id}`"
+              >
+                <tr @click="navigate" class="cursor-pointer">
+                  <td class="py-2!">
+                    <router-link :to="`/library/${getType(resource)}/${id}`">
+                      {{ ("type" in resource && th(resource.name)) || id }}
+                    </router-link>
+                  </td>
+                  <td>{{ $t(getType(resource)) }}</td>
+                  <td>
+                    <CorpusStateMessage
+                      v-if="isCorpus(resource)"
+                      :corpus-id="id"
+                    />
+                  </td>
+                </tr>
+              </router-link>
+            </tbody>
+          </table>
 
-        <HelpBox v-if="hasResources">
-          {{ $t("library.help.resources") }}
-        </HelpBox>
-        <HelpBox v-else important>{{
-          $t("library.help.resources.none")
-        }}</HelpBox>
+          <HelpBox v-if="hasResources">
+            {{ $t("library.help.resources") }}
+          </HelpBox>
+          <HelpBox v-else>{{ $t("library.help.resources.none") }}</HelpBox>
+        </PendingContent>
       </LayoutBox>
 
       <LayoutBox :title="$t('resource_new')" class="flex-1">
