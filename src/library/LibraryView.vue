@@ -47,6 +47,7 @@ const { hasResources, resources } = storeToRefs(resourceStore);
 const accept = computed(() => FORMATS_EXT.map((ext) => `.${ext}`).join());
 
 async function fileHandler(files: File[]) {
+  // TODO Detect what resource type to create
   await spin(createFromUpload(files), "create");
 }
 
@@ -60,10 +61,10 @@ const getType = (resource: object | Resource) =>
 
     <div class="flex flex-col xl:flex-row xl:items-start gap-4">
       <LayoutBox :title="$t('resources')" class="flex-1">
-        <table v-if="hasResources" class="w-full my-4">
-          <thead class="bg-zinc-200">
+        <table v-if="hasResources" class="w-full my-4 striped">
+          <thead>
             <tr>
-              <th class="p-2">{{ $t("name") }}</th>
+              <th>{{ $t("name") }}</th>
               <th>{{ $t("type") }}</th>
               <th>{{ $t("status") }}</th>
             </tr>
@@ -76,11 +77,8 @@ const getType = (resource: object | Resource) =>
               v-slot="{ navigate }"
               :to="`/library/${getType(resource)}/${id}`"
             >
-              <tr
-                @click="navigate"
-                class="cursor-pointer border border-zinc-200"
-              >
-                <td class="p-2">
+              <tr @click="navigate" class="cursor-pointer">
+                <td class="py-2!">
                   <router-link :to="`/library/${getType(resource)}/${id}`">
                     {{ ("type" in resource && th(resource.name)) || id }}
                   </router-link>

@@ -11,7 +11,7 @@ import AccessDenied from "@/auth/AccessDenied.vue";
 import NotFound from "@/page/NotFound.vue";
 import corpusRoutes from "@/router/corpus.routes";
 import metadataRoutes from "@/router/metadata.routes";
-import lexiconRoutes from "./lexicon.routes";
+import lexiconRoutes from "@/router/lexicon.routes";
 
 const routes: RouteRecordRaw[] = [
   {
