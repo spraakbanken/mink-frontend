@@ -1,6 +1,5 @@
-import {
+import axios, {
   isAxiosError,
-  type Axios,
   type AxiosRequestConfig,
   type AxiosResponse,
 } from "axios";
@@ -135,9 +134,8 @@ export const objsToDict = <
 /** Make an Axios request and handle timeout by retrying with a higher limit. */
 export async function progressiveTimeout<T, D = unknown>(
   config: AxiosRequestConfig<D>,
-  options: { timeoutInit?: number; tries?: number; axios?: Axios } = {},
+  options: { timeoutInit?: number; tries?: number } = {},
 ): Promise<AxiosResponse<T>> {
-  const axios = options.axios || (await import("axios")).default;
   let timeout = options.timeoutInit || 1000;
   let tries = options.tries || 3;
 
