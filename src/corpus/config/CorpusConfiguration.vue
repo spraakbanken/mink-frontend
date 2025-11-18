@@ -7,6 +7,7 @@ import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
 import { PhLightbulbFilament, PhTrash } from "@phosphor-icons/vue";
 import { computedAsync } from "@vueuse/core";
+import { groupBy } from "es-toolkit";
 import { useCorpus } from "../corpus.composable";
 import type { MinkResponse } from "@/api/api.types";
 import {
@@ -34,7 +35,6 @@ import {
   type AnalysisId,
 } from "@/api/analysis";
 import useLocale from "@/i18n/locale.composable";
-import { groupBy } from "es-toolkit";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
@@ -290,8 +290,8 @@ async function submit(fields: Form) {
           />
 
           <LayoutSection :title="$t('config.analyses')">
-            <div class="prose">
-              <i18n-t tag="p" keypath="config.analyses.info" scope="global">
+            <HelpBox>
+              <i18n-t keypath="config.analyses.info" scope="global">
                 <template #custom_config>
                   <router-link
                     :to="`/library/corpus/${corpusId}/config/custom`"
@@ -300,7 +300,7 @@ async function submit(fields: Form) {
                   </router-link>
                 </template>
               </i18n-t>
-            </div>
+            </HelpBox>
 
             <FormKit type="group" name="analyses">
               <table class="my-2 striped">
