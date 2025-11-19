@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormKitOptionsList } from "@formkit/inputs";
 import type { AxiosError } from "axios";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
@@ -35,13 +35,9 @@ import {
   type AnalysisId,
 } from "@/api/analysis";
 import useLocale from "@/i18n/locale.composable";
+import TabsBar from "@/components/TabsBar.vue";
 
-const router = useRouter();
-const corpusId = useCorpusIdParam();
-const { config, saveConfigOptions, extensions } = useCorpus(corpusId);
-const { alert, alertError } = useMessenger();
-const { t } = useI18n();
-const { th, thCompare } = useLocale();
+type TabKey = "metadata" | "settings" | "analyses";
 
 type Form = {
   name: ByLang;
@@ -53,6 +49,15 @@ type Form = {
   datetimeTo: string;
   analyses: Record<AnalysisId, boolean>;
 };
+
+const router = useRouter();
+const corpusId = useCorpusIdParam();
+const { config, saveConfigOptions, extensions } = useCorpus(corpusId);
+const { alert, alertError } = useMessenger();
+const { t } = useI18n();
+const { th, thCompare } = useLocale();
+
+const tabSelected = ref<TabKey>("metadata");
 
 /** List of metadata for relevant analyses */
 const analyses = computedAsync(async () => {
@@ -152,6 +157,15 @@ async function submit(fields: Form) {
 
 <template>
   <PendingContent :on="`corpus/${corpusId}/config`">
+    <TabsBar
+      :tabs="[
+        { key: 'metadata', label: $t('metadata') },
+        { key: 'settings', label: $t('settings') },
+        { key: 'analyses', label: $t('config.analyses') },
+      ]"
+      v-model="tabSelected"
+    />
+
     <!-- Using the key attribute to re-render whole form after fetching config -->
     <FormKitWrapper v-if="configOptions" :key="config">
       <FormKit
@@ -164,7 +178,10 @@ async function submit(fields: Form) {
         }"
         @submit="submit"
       >
-        <LayoutSection :title="$t('metadata')">
+        <LayoutSection
+          :title="$t('metadata')"
+          v-show="tabSelected == 'metadata'"
+        >
           <HelpBox>
             <p>{{ $t("config.metadata.help") }}</p>
           </HelpBox>
@@ -179,7 +196,7 @@ async function submit(fields: Form) {
                 <FormKit
                   :name="lang3"
                   :label="$t('name')"
-                  :value="configOptions?.name?.[lang3]"
+                  :value="configOptions.name?.[lang3]"
                   :help="$t('metadata.name.help')"
                   type="text"
                   input-class="w-72"
@@ -190,7 +207,7 @@ async function submit(fields: Form) {
                 <FormKit
                   :name="lang3"
                   :label="$t('description')"
-                  :value="configOptions?.description?.[lang3]"
+                  :value="configOptions.description?.[lang3]"
                   :help="$t('metadata.description.help')"
                   type="textarea"
                   input-class="w-full h-20"
@@ -219,7 +236,10 @@ async function submit(fields: Form) {
           </FormKit>
         </LayoutSection>
 
-        <LayoutSection :title="$t('configuration')">
+        <LayoutSection
+          :title="$t('settings')"
+          v-show="tabSelected == 'settings'"
+        >
           <HelpBox>
             <p>{{ $t("config.configuration.help") }}</p>
           </HelpBox>
@@ -246,7 +266,7 @@ async function submit(fields: Form) {
             name="textAnnotation"
             :label="$t('config.text_annotation')"
             type="text"
-            :value="configOptions?.textAnnotation"
+            :value="configOptions.textAnnotation"
             validation="required:trim|matches:/^[^<>\s]*$/"
             input-class="w-40 font-mono"
             :help="$t('config.text_annotation.help')"
@@ -259,7 +279,7 @@ async function submit(fields: Form) {
             v-if="!['mp3', 'ogg', 'wav'].includes((value as Form).format)"
             name="sentenceSegmenter"
             :label="$t('segmenter_sentence')"
-            :value="configOptions?.sentenceSegmenter || ''"
+            :value="configOptions.sentenceSegmenter || ''"
             type="radio"
             :options="segmenterOptions"
             :help="$t('segmenter_sentence_help')"
@@ -269,7 +289,7 @@ async function submit(fields: Form) {
             name="datetimeFrom"
             type="date"
             :label="`${$t('timespan')}: ${$t('timespan_from')}`"
-            :value="configOptions?.datetime?.from"
+            :value="configOptions.datetime?.from"
             :max="(value as Form).datetimeTo"
             validation="onlyif:datetimeTo"
             :validation-messages="{
@@ -280,7 +300,7 @@ async function submit(fields: Form) {
             name="datetimeTo"
             type="date"
             :label="`${$t('timespan')}: ${$t('timespan_to')}`"
-            :value="configOptions?.datetime?.to"
+            :value="configOptions.datetime?.to"
             :min="(value as Form).datetimeFrom"
             validation="onlyif:datetimeFrom"
             :validation-messages="{
@@ -288,61 +308,62 @@ async function submit(fields: Form) {
             }"
             :help="$t('timespan_help')"
           />
+        </LayoutSection>
 
-          <LayoutSection :title="$t('config.analyses')">
-            <HelpBox>
-              <i18n-t keypath="config.analyses.info" scope="global">
-                <template #custom_config>
-                  <router-link
-                    :to="`/library/corpus/${corpusId}/config/custom`"
-                  >
-                    {{ $t("config.custom") }}
-                  </router-link>
-                </template>
-              </i18n-t>
-            </HelpBox>
+        <LayoutSection
+          :title="$t('config.analyses')"
+          v-show="tabSelected == 'analyses'"
+        >
+          <HelpBox>
+            <i18n-t keypath="config.analyses.info" scope="global">
+              <template #custom_config>
+                <router-link :to="`/library/corpus/${corpusId}/config/custom`">
+                  {{ $t("config.custom") }}
+                </router-link>
+              </template>
+            </i18n-t>
+          </HelpBox>
 
-            <FormKit type="group" name="analyses">
-              <table class="my-2 striped">
-                <thead>
-                  <tr>
-                    <th>{{ $t("description") }}</th>
-                    <th>{{ $t("identifier") }}</th>
-                    <th>{{ $t("config.analyses.task") }}</th>
-                  </tr>
-                </thead>
-                <tbody v-for="(group, unit) in analyses" :key="unit">
-                  <tr>
-                    <th colspan="5" class="text-lg pt-4!">
-                      {{ $t("config.analyses.unit") }}:
-                      {{ $t(`config.analyses.unit.${unit}`) }}
-                    </th>
-                  </tr>
-                  <tr v-for="analysis in group" :key="analysis.id">
-                    <td>
-                      <FormKit
-                        :name="analysis.id"
-                        :label="th(analysis.name)"
-                        :value="configOptions?.analyses[analysis.id]"
-                        type="checkbox"
-                        :help="th(analysis.short_description)"
-                      />
-                    </td>
-                    <td>
-                      <a
-                        :href="$t('config.analyses.url', [analysis.id])"
-                        target="_blank"
-                        class="whitespace-nowrap"
-                      >
-                        {{ analysis.id }}
-                      </a>
-                    </td>
-                    <td>{{ th(analysis.task) }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </FormKit>
-          </LayoutSection>
+          <FormKit type="group" name="analyses">
+            <table class="my-2 striped">
+              <thead>
+                <tr>
+                  <th>{{ $t("description") }}</th>
+                  <th>{{ $t("identifier") }}</th>
+                  <th>{{ $t("config.analyses.task") }}</th>
+                </tr>
+              </thead>
+              <tbody v-for="(group, unit) in analyses" :key="unit">
+                <tr>
+                  <th colspan="5" class="text-lg pt-4!">
+                    {{ $t("config.analyses.unit") }}:
+                    {{ $t(`config.analyses.unit.${unit}`) }}
+                  </th>
+                </tr>
+                <tr v-for="analysis in group" :key="analysis.id">
+                  <td>
+                    <FormKit
+                      :name="analysis.id"
+                      :label="th(analysis.name)"
+                      :value="configOptions.analyses[analysis.id]"
+                      type="checkbox"
+                      :help="th(analysis.short_description)"
+                    />
+                  </td>
+                  <td>
+                    <a
+                      :href="$t('config.analyses.url', [analysis.id])"
+                      target="_blank"
+                      class="whitespace-nowrap"
+                    >
+                      {{ analysis.id }}
+                    </a>
+                  </td>
+                  <td>{{ th(analysis.task) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </FormKit>
         </LayoutSection>
       </FormKit>
     </FormKitWrapper>
