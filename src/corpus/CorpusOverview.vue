@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { PhPencilSimple } from "@phosphor-icons/vue";
 import { useCorpus } from "./corpus.composable";
+import SharingPanel from "./SharingPanel.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import ConfigPanel from "@/corpus/config/ConfigPanel.vue";
 import SourcesPanel from "@/corpus/sources/SourcesPanel.vue";
@@ -33,6 +34,10 @@ const { isConfigValid } = useCorpus(corpusId);
             {{ $t("edit") }}
           </RouteButton>
         </template>
+      </LayoutBox>
+
+      <LayoutBox :title="$t('sharing')">
+        <SharingPanel :resource-id="corpusId" />
       </LayoutBox>
 
       <LayoutBox :title="$t('sources')">

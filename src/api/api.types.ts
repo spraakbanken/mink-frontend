@@ -63,7 +63,7 @@ export type ResourceInfoOneData = ResourceInfo;
 
 /** Data about a resource and its job status */
 export type ResourceInfo = {
-  owner?: UserData;
+  owner: UserData;
   resource: ResourceData;
   job: CorpusJob;
 };
