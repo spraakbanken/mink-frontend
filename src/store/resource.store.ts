@@ -1,5 +1,6 @@
 import { computed, reactive } from "vue";
 import { defineStore } from "pinia";
+import { pick } from "es-toolkit";
 import {
   isCorpus,
   isMetadata,
@@ -93,9 +94,7 @@ export const useResourceStore = defineStore("resource", () => {
     const resource = {
       type: info.resource.type,
       name: info.resource.name,
-      owner: info.owner
-        ? { name: info.owner.name, id: info.owner.id }
-        : undefined,
+      owner: pick(info.owner, ["id", "email", "name"]),
     };
 
     if (isCorpus(resource)) {
@@ -104,7 +103,6 @@ export const useResourceStore = defineStore("resource", () => {
     }
 
     if (isMetadata(resource)) {
-      resource.owner = info.owner;
       resource.publicId = info.resource.public_id;
     }
 

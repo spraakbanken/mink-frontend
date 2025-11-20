@@ -11,8 +11,12 @@ import {
   progressiveTimeout,
 } from "@/util";
 import api from "@/api/api";
+import type { User } from "@/store/resource.types";
 
 const AUTH_URL: string = ensureTrailingSlash(import.meta.env.VITE_AUTH_URL);
+const AUTH_GUI_URL: string = ensureTrailingSlash(
+  import.meta.env.VITE_AUTH_GUI_URL,
+);
 const LOGOUT_URL: string = import.meta.env.VITE_LOGOUT_URL;
 const JWT_URL: string = import.meta.env.VITE_JWT_URL || AUTH_URL + "jwt";
 
@@ -24,12 +28,12 @@ export type JwtSbPayload = {
   /** First level keys are resource types, second level keys are resource ids and values are permission levels */
   scope: Record<string, Record<string, number>>;
   /** Defines permission levels */
-  levels: {
-    READ: number;
-    WRITE: number;
-    ADMIN: number;
-  };
+  levels: Record<JwtSbLevel, number>;
 };
+
+export type JwtSbLevel = "READ" | "WRITE" | "ADMIN";
+
+export const LEVELS: Readonly<JwtSbLevel[]> = ["READ", "WRITE", "ADMIN"];
 
 /**
  * A JWT, if fetched.
@@ -41,9 +45,15 @@ export type JwtSbPayload = {
 export const jwt = ref<string>();
 
 /** JWT payload object with permissions etc. */
-export const payload = computed<JwtSbPayload | undefined>(() =>
-  jwt.value ? decodeJwt(jwt.value) : undefined,
-);
+export const payload = computed<JwtSbPayload | undefined>(() => {
+  if (!jwt.value) return;
+  const payload = decodeJwt(jwt.value);
+  if (!assertValidPayload(payload)) {
+    console.error("JWT payload not valid:", payload);
+    return;
+  }
+  return payload;
+});
 
 /** Return the SB Auth login url, with a redirect back to the given local path. */
 export function getLoginUrl(redirectLocation = "") {
@@ -103,7 +113,7 @@ function assertValidPayload(payload: unknown): payload is JwtSbPayload {
     payload?.scope &&
     "levels" in payload &&
     payload.levels instanceof Object &&
-    ["READ", "WRITE", "ADMIN"].every(
+    LEVELS.every(
       (level) =>
         level in (payload.levels as object) &&
         (payload.levels as Record<string, unknown>)[level],
@@ -115,13 +125,24 @@ function assertValidPayload(payload: unknown): payload is JwtSbPayload {
   return true;
 }
 
-export function hasAccess(
-  payload: JwtSbPayload,
-  resourceType: string,
-  resourceName: string,
-  level: keyof JwtSbPayload["levels"],
-) {
-  assertValidPayload(payload);
-  const scope = payload.scope[resourceType]?.[resourceName];
-  return !!scope && scope >= payload.levels[level];
-}
+/** Get the access level of the current user to a given resource. */
+export const getAccessLevel = (
+  type: string,
+  id: string,
+): JwtSbLevel | undefined => {
+  if (!payload.value) return undefined;
+  const scope = payload.value.scope[type]?.[id];
+  if (!scope) return undefined;
+  for (const level in payload.value.levels)
+    if (payload.value.levels[level as JwtSbLevel] == scope)
+      return level as JwtSbLevel;
+};
+
+/** Check if a resource user is the currently logged in user. */
+// TODO Identify by idp+sub, not email
+export const isCurrentUser = (other: User): boolean =>
+  other.email == payload.value?.email;
+
+/** Creates the URL to access management for a given resource. */
+export const createAuthGuiUrl = (resourceId: string) =>
+  AUTH_GUI_URL + `resource/${resourceId}`;
