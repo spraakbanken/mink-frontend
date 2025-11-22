@@ -122,6 +122,24 @@ export const useCorpusStore = defineStore("corpus", () => {
     corpora.value[corpusId]!.job = info.job;
   }
 
+  async function uninstallKorp(corpusId: string) {
+    matomo?.trackEvent("Corpus", "Tool uninstall", "Korp");
+    const info = await spin(
+      api.uninstallKorp(corpusId).catch(alertError),
+      `corpus/${corpusId}/job/uninstall/korp`,
+    );
+    if (!info) return;
+  }
+
+  async function uninstallStrix(corpusId: string) {
+    matomo?.trackEvent("Corpus", "Tool uninstall", "Strix");
+    const info = await spin(
+      api.uninstallStrix(corpusId).catch(alertError),
+      `corpus/${corpusId}/job/uninstall/strix`,
+    );
+    if (!info) return;
+  }
+
   async function abortJob(corpusId: string) {
     matomo?.trackEvent("Corpus", "Annotation", "Abort");
     await spin(
@@ -179,6 +197,8 @@ export const useCorpusStore = defineStore("corpus", () => {
     abortJob,
     installKorp,
     installStrix,
+    uninstallKorp,
+    uninstallStrix,
     loadExports,
   };
 });
