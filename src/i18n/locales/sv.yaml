@@ -117,6 +117,7 @@ exports.tools.help.strix.manual.url: https://spraakbanken.gu.se/strix/docs/
 exports.tools.help.strix.manual.text: Dokumentation
 exports.tools.install: Installera
 exports.tools.reinstall: Installera om
+exports.tools.uninstall: Avinstallera
 exports.tools.view: Öppna
 exports.download.help: Resultatet kan laddas ner som maskinläsbara filer för bearbetning i script eller speciella program.
 exports.download.placeholder: Nedladdningar finns här efter slutförd annotering.

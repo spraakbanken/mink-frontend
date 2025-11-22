@@ -293,7 +293,7 @@ class MinkApi {
     const response = await this.axios.put<MinkResponse<ResourceInfoOneData>>(
       "install-korp",
       null,
-      { params: { corpus_id: corpusId } },
+      { params: { resource_id: corpusId } },
     );
     return response.data;
   }
@@ -303,8 +303,24 @@ class MinkApi {
     const response = await this.axios.put<MinkResponse<ResourceInfoOneData>>(
       "install-strix",
       null,
-      { params: { corpus_id: corpusId } },
+      { params: { resource_id: corpusId } },
     );
+    return response.data;
+  }
+
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/uninstall-korp-delete */
+  async uninstallKorp(corpusId: string) {
+    const response = await this.axios.delete<MinkResponse>("uninstall-korp", {
+      params: { resource_id: corpusId },
+    });
+    return response.data;
+  }
+
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/uninstall-strix-delete */
+  async uninstallStrix(corpusId: string) {
+    const response = await this.axios.delete<MinkResponse>("uninstall-strix", {
+      params: { resource_id: corpusId },
+    });
     return response.data;
   }
 
