@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import type { FormKitOptionsList } from "@formkit/inputs";
 import type { AxiosError } from "axios";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
 import { PhLightbulbFilament, PhTrash } from "@phosphor-icons/vue";
+import { computedAsync } from "@vueuse/core";
+import { groupBy } from "es-toolkit";
 import { useCorpus } from "../corpus.composable";
-import AnalysisListing from "./AnalysisListing.vue";
 import type { MinkResponse } from "@/api/api.types";
 import {
   type ConfigOptions,
@@ -28,12 +29,15 @@ import PendingContent from "@/spin/PendingContent.vue";
 import type { ByLang } from "@/util.types";
 import LayoutBox from "@/components/LayoutBox.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
+import {
+  analysisAnnotations,
+  loadAnalysisMetdata,
+  type AnalysisId,
+} from "@/api/analysis";
+import useLocale from "@/i18n/locale.composable";
+import TabsBar from "@/components/TabsBar.vue";
 
-const router = useRouter();
-const corpusId = useCorpusIdParam();
-const { config, saveConfigOptions, extensions } = useCorpus(corpusId);
-const { alert, alertError } = useMessenger();
-const { t } = useI18n();
+type TabKey = "metadata" | "settings" | "analyses";
 
 type Form = {
   name: ByLang;
@@ -43,17 +47,37 @@ type Form = {
   sentenceSegmenter: ConfigSentenceSegmenter;
   datetimeFrom: string;
   datetimeTo: string;
-  lexicalClasses: boolean;
-  msd: boolean;
-  readability: boolean;
-  saldo: boolean;
-  sensaldo: boolean;
-  swener: boolean;
-  syntax: boolean;
-  wsd: boolean;
+  analyses: Record<AnalysisId, boolean>;
 };
 
-const configOptions = computed(getParsedConfig);
+const router = useRouter();
+const corpusId = useCorpusIdParam();
+const { config, saveConfigOptions, extensions } = useCorpus(corpusId);
+const { alert, alertError } = useMessenger();
+const { t } = useI18n();
+const { th, thCompare } = useLocale();
+
+const tabSelected = ref<TabKey>("metadata");
+
+/** List of metadata for relevant analyses */
+const analyses = computedAsync(async () => {
+  const analyses = await loadAnalysisMetdata();
+  // Skip analyses that do not have annotations
+  // Sort by most significant property last
+  const filtered = analyses
+    .filter((analysis) => analysisAnnotations[analysis.id])
+    .sort(thCompare((x) => x.name))
+    .sort(thCompare((x) => x.analysis_unit));
+
+  // Group by unit: text, token or other
+  return groupBy(filtered, (analysis) => {
+    const unit = analysis.analysis_unit?.eng;
+    if (unit == "text" || unit == "token") return unit;
+    return "other";
+  });
+});
+
+const configOptions = computedAsync(getParsedConfig);
 
 const formatOptions = computed<FormKitOptionsList>(() =>
   FORMATS_EXT.map((ext) => ({
@@ -86,10 +110,10 @@ const segmenterOptions = computed<SegmenterOptions>(() => {
 });
 
 // Like `getParsedConfig` in `corpus.composable.ts` but also alerts on error.
-function getParsedConfig() {
+async function getParsedConfig() {
   if (!config.value) return undefined;
   try {
-    const parsed = parseConfig(config.value);
+    const parsed = await parseConfig(config.value);
     return parsed;
   } catch (error) {
     alert(t("corpus.config.parse.error"), "error");
@@ -99,7 +123,7 @@ function getParsedConfig() {
 
 async function submit(fields: Form) {
   // If there is no previous config file, start from a minimal one.
-  const configOld = configOptions.value || emptyConfig();
+  const configOld = configOptions.value || (await emptyConfig());
 
   // Merge new form values with existing config.
   const configNew: ConfigOptions = {
@@ -116,16 +140,7 @@ async function submit(fields: Form) {
             to: fields.datetimeTo,
           }
         : undefined,
-    annotations: {
-      lexicalClasses: fields.lexicalClasses,
-      msd: fields.msd,
-      readability: fields.readability,
-      saldo: fields.saldo,
-      sensaldo: fields.sensaldo,
-      swener: fields.swener,
-      syntax: fields.syntax,
-      wsd: fields.wsd,
-    },
+    analyses: { ...fields.analyses },
   };
 
   try {
@@ -142,8 +157,17 @@ async function submit(fields: Form) {
 
 <template>
   <PendingContent :on="`corpus/${corpusId}/config`">
+    <TabsBar
+      :tabs="[
+        { key: 'metadata', label: $t('metadata') },
+        { key: 'settings', label: $t('settings') },
+        { key: 'analyses', label: $t('config.analyses') },
+      ]"
+      v-model="tabSelected"
+    />
+
     <!-- Using the key attribute to re-render whole form after fetching config -->
-    <FormKitWrapper :key="config">
+    <FormKitWrapper v-if="configOptions" :key="config">
       <FormKit
         id="corpus-config"
         v-slot="{ value }"
@@ -154,7 +178,10 @@ async function submit(fields: Form) {
         }"
         @submit="submit"
       >
-        <LayoutSection :title="$t('metadata')">
+        <LayoutSection
+          :title="$t('metadata')"
+          v-show="tabSelected == 'metadata'"
+        >
           <HelpBox>
             <p>{{ $t("config.metadata.help") }}</p>
           </HelpBox>
@@ -169,7 +196,7 @@ async function submit(fields: Form) {
                 <FormKit
                   :name="lang3"
                   :label="$t('name')"
-                  :value="configOptions?.name?.[lang3]"
+                  :value="configOptions.name?.[lang3]"
                   :help="$t('metadata.name.help')"
                   type="text"
                   input-class="w-72"
@@ -180,7 +207,7 @@ async function submit(fields: Form) {
                 <FormKit
                   :name="lang3"
                   :label="$t('description')"
-                  :value="configOptions?.description?.[lang3]"
+                  :value="configOptions.description?.[lang3]"
                   :help="$t('metadata.description.help')"
                   type="textarea"
                   input-class="w-full h-20"
@@ -209,7 +236,10 @@ async function submit(fields: Form) {
           </FormKit>
         </LayoutSection>
 
-        <LayoutSection :title="$t('configuration')">
+        <LayoutSection
+          :title="$t('settings')"
+          v-show="tabSelected == 'settings'"
+        >
           <HelpBox>
             <p>{{ $t("config.configuration.help") }}</p>
           </HelpBox>
@@ -236,7 +266,7 @@ async function submit(fields: Form) {
             name="textAnnotation"
             :label="$t('config.text_annotation')"
             type="text"
-            :value="configOptions?.textAnnotation"
+            :value="configOptions.textAnnotation"
             validation="required:trim|matches:/^[^<>\s]*$/"
             input-class="w-40 font-mono"
             :help="$t('config.text_annotation.help')"
@@ -249,7 +279,7 @@ async function submit(fields: Form) {
             v-if="!['mp3', 'ogg', 'wav'].includes((value as Form).format)"
             name="sentenceSegmenter"
             :label="$t('segmenter_sentence')"
-            :value="configOptions?.sentenceSegmenter || ''"
+            :value="configOptions.sentenceSegmenter || ''"
             type="radio"
             :options="segmenterOptions"
             :help="$t('segmenter_sentence_help')"
@@ -259,7 +289,7 @@ async function submit(fields: Form) {
             name="datetimeFrom"
             type="date"
             :label="`${$t('timespan')}: ${$t('timespan_from')}`"
-            :value="configOptions?.datetime?.from"
+            :value="configOptions.datetime?.from"
             :max="(value as Form).datetimeTo"
             validation="onlyif:datetimeTo"
             :validation-messages="{
@@ -270,7 +300,7 @@ async function submit(fields: Form) {
             name="datetimeTo"
             type="date"
             :label="`${$t('timespan')}: ${$t('timespan_to')}`"
-            :value="configOptions?.datetime?.to"
+            :value="configOptions.datetime?.to"
             :min="(value as Form).datetimeFrom"
             validation="onlyif:datetimeFrom"
             :validation-messages="{
@@ -278,147 +308,62 @@ async function submit(fields: Form) {
             }"
             :help="$t('timespan_help')"
           />
+        </LayoutSection>
 
-          <LayoutSection :title="$t('annotations')">
-            <div class="prose">
-              <i18n-t tag="p" keypath="annotations.info" scope="global">
-                <template #custom_config>
-                  <router-link
-                    :to="`/library/corpus/${corpusId}/config/custom`"
-                  >
-                    {{ $t("config.custom") }}
-                  </router-link>
-                </template>
-              </i18n-t>
-            </div>
+        <LayoutSection
+          :title="$t('config.analyses')"
+          v-show="tabSelected == 'analyses'"
+        >
+          <HelpBox>
+            <i18n-t keypath="config.analyses.info" scope="global">
+              <template #custom_config>
+                <router-link :to="`/library/corpus/${corpusId}/config/custom`">
+                  {{ $t("config.custom") }}
+                </router-link>
+              </template>
+            </i18n-t>
+          </HelpBox>
 
-            <!-- Annotation options in some sort of order of usefulness -->
-
-            <FormKit
-              name="saldo"
-              :label="$t('annotations.saldo')"
-              :value="configOptions?.annotations.saldo"
-              type="checkbox"
-              :help="$t('annotations.saldo.help')"
-            >
-              <template #help>
-                <i18n-t
-                  tag="div"
-                  keypath="annotations.saldo.help"
-                  scope="global"
-                  class="formkit-help"
-                >
-                  <template #saldo>
-                    <a :href="$t('annotations.saldo.saldo_url')" target="_blank"
-                      >SALDO</a
+          <FormKit type="group" name="analyses">
+            <table class="my-2 striped">
+              <thead>
+                <tr>
+                  <th>{{ $t("description") }}</th>
+                  <th>{{ $t("identifier") }}</th>
+                  <th>{{ $t("config.analyses.task") }}</th>
+                </tr>
+              </thead>
+              <tbody v-for="(group, unit) in analyses" :key="unit">
+                <tr>
+                  <th colspan="5" class="text-lg pt-4!">
+                    {{ $t("config.analyses.unit") }}:
+                    {{ $t(`config.analyses.unit.${unit}`) }}
+                  </th>
+                </tr>
+                <tr v-for="analysis in group" :key="analysis.id">
+                  <td>
+                    <FormKit
+                      :name="analysis.id"
+                      :label="th(analysis.name)"
+                      :value="configOptions.analyses[analysis.id]"
+                      type="checkbox"
+                      :help="th(analysis.short_description)"
+                    />
+                  </td>
+                  <td>
+                    <a
+                      :href="$t('config.analyses.url', [analysis.id])"
+                      target="_blank"
+                      class="whitespace-nowrap"
                     >
-                  </template>
-                </i18n-t>
-                <AnalysisListing group="saldo" class="formkit-help" />
-              </template>
-            </FormKit>
-
-            <FormKit
-              name="msd"
-              :label="$t('annotations.msd')"
-              :value="configOptions?.annotations.msd"
-              type="checkbox"
-              :help="$t('annotations.msd.help')"
-            >
-              <template #help>
-                <div class="formkit-help">{{ $t("annotations.msd.help") }}</div>
-                <AnalysisListing group="msd" class="formkit-help" />
-              </template>
-            </FormKit>
-
-            <FormKit
-              name="syntax"
-              :label="$t('annotations.syntax')"
-              :value="configOptions?.annotations.syntax"
-              type="checkbox"
-              :help="$t('annotations.syntax.help')"
-            >
-              <template #help>
-                <div class="formkit-help">
-                  {{ $t("annotations.syntax.help") }}
-                </div>
-                <AnalysisListing group="syntax" class="formkit-help" />
-              </template>
-            </FormKit>
-
-            <FormKit
-              name="readability"
-              :label="$t('annotations.readability')"
-              :value="configOptions?.annotations.readability"
-              type="checkbox"
-              :help="$t('annotations.readability.help')"
-            >
-              <template #help>
-                <div class="formkit-help">
-                  {{ $t("annotations.readability.help") }}
-                </div>
-                <AnalysisListing group="readability" class="formkit-help" />
-              </template>
-            </FormKit>
-
-            <FormKit
-              name="wsd"
-              :label="$t('annotations.wsd')"
-              :value="configOptions?.annotations.wsd"
-              type="checkbox"
-              :help="$t('annotations.wsd.help')"
-            >
-              <template #help>
-                <div class="formkit-help">{{ $t("annotations.wsd.help") }}</div>
-                <AnalysisListing group="wsd" class="formkit-help" />
-              </template>
-            </FormKit>
-
-            <FormKit
-              name="sensaldo"
-              :label="$t('annotations.sensaldo')"
-              :value="configOptions?.annotations.sensaldo"
-              type="checkbox"
-              :help="$t('annotations.sensaldo.help')"
-            >
-              <template #help>
-                <div class="formkit-help">
-                  {{ $t("annotations.sensaldo.help") }}
-                </div>
-                <AnalysisListing group="sensaldo" class="formkit-help" />
-              </template>
-            </FormKit>
-
-            <FormKit
-              name="lexicalClasses"
-              :label="$t('annotations.lexical_classes')"
-              :value="configOptions?.annotations.lexicalClasses"
-              type="checkbox"
-              :help="$t('annotations.lexical_classes.help')"
-            >
-              <template #help>
-                <div class="formkit-help">
-                  {{ $t("annotations.lexical_classes.help") }}
-                </div>
-                <AnalysisListing group="lexicalClasses" class="formkit-help" />
-              </template>
-            </FormKit>
-
-            <FormKit
-              name="swener"
-              :label="$t('annotations.swener')"
-              :value="configOptions?.annotations.swener"
-              type="checkbox"
-              :help="$t('annotations.swener.help')"
-            >
-              <template #help>
-                <div class="formkit-help">
-                  {{ $t("annotations.swener.help") }}
-                </div>
-                <AnalysisListing group="swener" class="formkit-help" />
-              </template>
-            </FormKit>
-          </LayoutSection>
+                      {{ analysis.id }}
+                    </a>
+                  </td>
+                  <td>{{ th(analysis.task) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </FormKit>
         </LayoutSection>
       </FormKit>
     </FormKitWrapper>

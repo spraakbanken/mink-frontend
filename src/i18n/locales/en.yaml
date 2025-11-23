@@ -211,6 +211,16 @@ metadata.description.help: |
   If you aim to share or publish the results, we recommend entering one or two sentences
   to summarize the content or purpose to a potential user.
 fileFormat: Source format
+config.analysis: Analysis
+config.analyses: Analyses
+config.analyses.selected_count: No analysis selected | 1 analysis selected | {count} analyses selected
+config.analyses.info: Select what analyses should be done on the source text. For more detailed configuration, please use the {custom_config} page.
+config.analyses.task: Task
+config.analyses.unit: Unit
+config.analyses.unit.text: Text
+config.analyses.unit.token: Token
+config.analyses.unit.other: Other
+config.analyses.url: https://spraakbanken.gu.se/en/analyses/{0}
 config.custom: Custom config
 config.custom.help: Mink uses {sparv}, a modular and configurable pipeline for text analysis, to process your corpus. The standard configuration form only exposes a few of the available Sparv options. On this page, you can view and submit your own config file, written in the YAML format. Please refer to the Sparv documentation on {topic} for more information.
 config.custom.upload.caution: Please note that submitting an invalid config file may cause unexpected behaviour.
@@ -228,27 +238,6 @@ timespan_help: Dates of the oldest and newest content in the corpus.
 timespan_from: From
 timespan_to: To
 edit: Edit
-annotations: Annotations
-annotations.info: Listed for selection here are some of the available analyses. For more detailed configuration, please use the {custom_config} page.
-annotations.analyses: "0 | More about the analysis | More about each analysis"
-annotations.analyses.url: https://spraakbanken.gu.se/en/analyses/{0}
-annotations.lexical_classes: Lexical classes
-annotations.lexical_classes.help: Maps units to Blingbring and the Swedish FrameNet (SweFN).
-annotations.msd: Morphology
-annotations.msd.help: Parts-of-speech and morphosyntactic features.
-annotations.readability: Readability
-annotations.readability.help: Computes the readability measures LIX, OVIX and NK.
-annotations.saldo: Lemmatization
-annotations.saldo.help: Uses the {saldo} resource for finding baseforms, inflection patterns and compound words.
-annotations.saldo.saldo_url: https://spraakbanken.gu.se/en/resources/saldo
-annotations.sensaldo: Sentiment
-annotations.sensaldo.help: Tags tokens as positive/neutral/negative.
-annotations.swener: Named entities and geotagging
-annotations.swener.help: Named entity recognition (NER) finds individuals, places, dates and more in your texts using SweNER. However, it significantly slows down processing. Enabling NER also enables geotagging and, in turn, the map feature in Korp.
-annotations.syntax: Dependencies
-annotations.syntax.help: Syntactic analysis using Stanza.
-annotations.wsd: Word sense disambiguation
-annotations.wsd.help: Using SALDO.
 annotations.clear: Clear annotations
 annotations.clear.help: Use this before processing a previously annotated corpus with new annotation settings.
 admin.page.subtitle: Administration
