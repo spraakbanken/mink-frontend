@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.14.0...HEAD)
 
+### Fixed
+
+- Updated Sparv config schema to allow custom config of audio source import [#224](https://github.com/spraakbanken/mink-frontend/issues/224)
+
 ## [1.14.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.14.0) (2025-11-12)
 
 ### Added
