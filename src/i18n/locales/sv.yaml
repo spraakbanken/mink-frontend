@@ -87,8 +87,11 @@ sharing.manage: Hantera åtkomst
 sharing.owner: Ägare
 sharing.help.heading: Om åtkomsthantering
 sharing.help.sbauth: Tillgången till Mink-resurser hanteras i Språkbanken Texts autentiseringssystem, SB Auth.
-sharing.help.levels.before: Genom att ge en annan användare behörighetsnivån WRITE eller ADMIN kan den få samma tillgång till en resurs som dess ägare.
-sharing.help.levels.after: Tillgången till en Mink-resurs gäller även i de verktyg där den installeras.
+sharing.help.levels.before: "En användare kan ha en av tre behörighetsnivåer till en given resurs:"
+sharing.help.levels.read: Användaren kan se inställningar, källor och analysresultat
+sharing.help.levels.write: Användaren kan dessutom redigera inställningar och källor, köra analyser och installationer
+sharing.help.levels.admin: Användaren kan även radera resursen och hantera åtkomst
+sharing.help.levels.after: Tillgången till en Mink-resurs gäller även i de verktyg där den installeras, men utan någon skillnad mellan nivåerna.
 source.limit.file.recommended: Rekommenderad filstorlek
 source.limit.file.max: Högsta tillåtna filstorlek
 source.limit.upload.max: Största tillåtna uppladdning
