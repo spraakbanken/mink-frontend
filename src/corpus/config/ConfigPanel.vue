@@ -1,22 +1,28 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computedAsync } from "@vueuse/core";
 import { useCorpus } from "../corpus.composable";
 import useLocale from "@/i18n/locale.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
+import { loadAnalysisMetdata } from "@/api/analysis";
 
 const props = defineProps<{
   corpusId: string;
 }>();
 
 const { configOptions } = useCorpus(props.corpusId);
-const { th } = useLocale();
+const { th, thCompare } = useLocale();
 
-const analyses = computed(() => {
-  const map = configOptions.value?.analyses || {};
-  const ids = [];
-  for (const id in map) if (map[id]) ids.push(id);
-  return ids;
+const analyses = computedAsync(async () => {
+  if (!configOptions.value) return;
+  // Get selected ids
+  const map = configOptions.value.analyses;
+  const ids = Object.keys(map).filter((id) => map[id]);
+  // Get metadata for selected analyses
+  const metadata = await loadAnalysisMetdata();
+  return metadata
+    .filter((analysis) => ids.includes(analysis.id))
+    .sort(thCompare((x) => x.name));
 });
 </script>
 
@@ -103,11 +109,21 @@ const analyses = computed(() => {
           </td>
         </tr>
         <tr>
-          <th>{{ $t("config.analyses") }}</th>
-          <td v-if="analyses?.length">
-            {{ $t("config.analyses.selected_count", analyses.length) }}
+          <td colspan="2">
+            <details v-if="analyses">
+              <summary>
+                {{ $t("config.analyses.selected_count", analyses.length) }}
+              </summary>
+              <ul class="list-disc list-outside pl-5 mt-2">
+                <li v-for="analysis of analyses" :key="analysis.id">
+                  {{ th(analysis.name) }}
+                  (<a :href="$t('analyses.url', analysis.id)" target="_blank">
+                    {{ analysis.id }}</a
+                  >)
+                </li>
+              </ul>
+            </details>
           </td>
-          <td v-else>—</td>
         </tr>
       </tbody>
     </table>
