@@ -52,7 +52,7 @@ const analyses = computed(() => {
 
         <tr>
           <td colspan="2">
-            <h3 class="text-lg uppercase my-2">{{ $t("analysis") }}</h3>
+            <h3 class="text-lg uppercase my-2">{{ $t("settings") }}</h3>
           </td>
         </tr>
         <tr>
@@ -95,6 +95,12 @@ const analyses = computed(() => {
             </span>
           </td>
           <td v-else>—</td>
+        </tr>
+
+        <tr>
+          <td colspan="2">
+            <h3 class="text-lg uppercase my-2">{{ $t("analysis") }}</h3>
+          </td>
         </tr>
         <tr>
           <th>{{ $t("config.analyses") }}</th>
