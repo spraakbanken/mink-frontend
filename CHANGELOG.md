@@ -13,6 +13,12 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.14.1...HEAD)
 
+### Added
+
+- Collaboration feature
+  - Resource owner shown if different from current user
+  - Sharing panel on corpus Overview page with info and link to SB Auth GUI
+
 ## [1.14.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.14.1) (2025-12-01)
 
 ### Fixed
