@@ -22,7 +22,7 @@ const { isConfigValid } = useCorpus(corpusId);
     </div>
 
     <div class="w-96 grow flex flex-col gap-4">
-      <LayoutBox :title="$t('settings')">
+      <LayoutBox :title="$t('configuration')">
         <ConfigPanel :corpus-id="corpusId" />
         <template #controls>
           <RouteButton
