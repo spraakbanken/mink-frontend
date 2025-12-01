@@ -54,11 +54,6 @@ const resource = computedAsync(() => store.loadResource(props.resourceId));
         {{ $t("sharing.help.sbauth") }}
         {{ $t("sharing.help.levels.before") }}
       </p>
-      <ul>
-        <li><strong>READ</strong> – {{ $t("sharing.help.levels.read") }}</li>
-        <li><strong>WRITE</strong> – {{ $t("sharing.help.levels.write") }}</li>
-        <li><strong>ADMIN</strong> – {{ $t("sharing.help.levels.admin") }}</li>
-      </ul>
       <p>{{ $t("sharing.help.levels.after") }}</p>
     </details>
   </div>
