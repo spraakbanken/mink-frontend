@@ -36,6 +36,7 @@ import {
 } from "@/api/analysis";
 import useLocale from "@/i18n/locale.composable";
 import TabsBar from "@/components/TabsBar.vue";
+import TabsContent from "@/components/TabsContent.vue";
 
 type TabKey = "metadata" | "settings" | "analyses";
 
@@ -179,7 +180,7 @@ async function submit(fields: Form) {
           }"
           @submit="submit"
         >
-          <LayoutSection
+          <TabsContent
             :title="$t('metadata')"
             v-show="tabSelected == 'metadata'"
           >
@@ -235,9 +236,9 @@ async function submit(fields: Form) {
                 </TerminalOutput>
               </template>
             </FormKit>
-          </LayoutSection>
+          </TabsContent>
 
-          <LayoutSection
+          <TabsContent
             :title="$t('settings')"
             v-show="tabSelected == 'settings'"
           >
@@ -309,9 +310,9 @@ async function submit(fields: Form) {
               }"
               :help="$t('timespan_help')"
             />
-          </LayoutSection>
+          </TabsContent>
 
-          <LayoutSection
+          <TabsContent
             :title="$t('config.analyses')"
             v-show="tabSelected == 'analyses'"
           >
@@ -367,7 +368,7 @@ async function submit(fields: Form) {
                 </tbody>
               </table>
             </FormKit>
-          </LayoutSection>
+          </TabsContent>
         </FormKit>
       </FormKitWrapper>
 
