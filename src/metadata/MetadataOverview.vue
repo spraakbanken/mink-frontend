@@ -9,6 +9,7 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import TextData from "@/components/TextData.vue";
 import FileUpload from "@/components/FileUpload.vue";
+import SharingPanel from "@/auth/SharingPanel.vue";
 
 const resourceStore = useResourceStore();
 const resourceId = useResourceIdParam();
@@ -24,7 +25,7 @@ async function uploadMetadata(files: File[]) {
 
 <template>
   <div v-if="metadata" class="flex flex-wrap gap-4">
-    <div class="flex-1">
+    <div class="w-96 grow flex flex-col gap-4">
       <LayoutBox title="metadata">
         <p>Public id: {{ metadata.publicId }}</p>
 
@@ -36,9 +37,13 @@ async function uploadMetadata(files: File[]) {
           {{ $t("delete") }}
         </RouteButton>
       </LayoutBox>
+
+      <LayoutBox :title="$t('sharing')">
+        <SharingPanel resourceType="corpora" :resource-id />
+      </LayoutBox>
     </div>
 
-    <div class="flex-1">
+    <div class="w-96 grow flex flex-col gap-4">
       <PendingContent :on="`resource/${resourceId}/metadata`">
         <LayoutBox title="content" class="flex-1">
           <TextData

@@ -7,6 +7,7 @@ import { useResourceStore } from "@/store/resource.store";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 
 const props = defineProps<{
+  resourceType: string;
   resourceId: string;
 }>();
 
@@ -31,11 +32,11 @@ const resource = computedAsync(() => store.loadResource(props.resourceId));
           <td class="flex gap-3 items-baseline">
             <div>
               <TerminalOutput class="inline leading-loose">
-                {{ getAccessLevel("corpora", resourceId) }}
+                {{ getAccessLevel(resourceType, resourceId) }}
               </TerminalOutput>
             </div>
             <UrlButton
-              v-if="getAccessLevel('corpora', resourceId) == 'ADMIN'"
+              v-if="getAccessLevel(resourceType, resourceId) == 'ADMIN'"
               :href="createAuthGuiUrl(resourceId)"
               target="_blank"
             >
