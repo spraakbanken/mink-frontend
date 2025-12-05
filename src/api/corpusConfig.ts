@@ -2,7 +2,7 @@ import Yaml from "js-yaml";
 import {
   analysisAnnotations,
   annotationAnalyses,
-  loadAnalysisMetdata,
+  loadAnalysisMetadata,
   type AnalysisId,
 } from "./analysis";
 import type {
@@ -149,25 +149,31 @@ export function makeConfig(id: string, options: ConfigOptions): string {
   return Yaml.dump(config as SparvConfig, { noArrayIndent: true });
 }
 
-/** Default values */
-export async function emptyConfig(): Promise<ConfigOptions> {
-  // Let all analyses be enabled by default, except NER because it is heavy, and Geo because it depends on NER.
-  const disabledAnalyses = [
-    "sbx-swe-namedentity-swener",
-    "sbx-swe-geotagcontext-sparv",
-  ];
+/** A minimal config */
+export function emptyConfig(): ConfigOptions {
   return {
     name: { swe: "", eng: "" },
     description: { swe: "", eng: "" },
     format: "txt",
     datetime: undefined,
-    analyses: Object.fromEntries(
-      (await loadAnalysisMetdata()).map((analysis) => [
-        analysis.id,
-        !disabledAnalyses.includes(analysis.id),
-      ]),
-    ),
+    analyses: {},
   };
+}
+
+/** Default config */
+export async function defaultConfig(): Promise<ConfigOptions> {
+  // Let all analyses be enabled by default, except NER because it is heavy, and Geo because it depends on NER.
+  const disabledAnalyses = [
+    "sbx-swe-namedentity-swener",
+    "sbx-swe-geotagcontext-sparv",
+  ];
+
+  const config = emptyConfig();
+
+  for (const { id } of await loadAnalysisMetadata())
+    if (!disabledAnalyses.includes(id)) config.analyses[id] = true;
+
+  return config;
 }
 
 /**
@@ -178,7 +184,7 @@ export async function emptyConfig(): Promise<ConfigOptions> {
  *
  * May throw all kinds of errors, the sky is the limit (:
  */
-export async function parseConfig(configYaml: string): Promise<ConfigOptions> {
+export function parseConfig(configYaml: string): ConfigOptions {
   const config = Yaml.load(configYaml) as unknown as Partial<SparvConfig>;
 
   if (!config)
@@ -199,7 +205,7 @@ export async function parseConfig(configYaml: string): Promise<ConfigOptions> {
 
   // Build options object
   const options = {
-    ...(await emptyConfig()),
+    ...emptyConfig(),
     format,
     name,
     description: config.metadata?.description,

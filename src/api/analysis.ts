@@ -1,53 +1,6 @@
 import { once } from "es-toolkit";
-import { ensureTrailingSlash } from "@/util";
+import { pathJoin } from "@/util";
 import type { ByLang } from "@/util.types";
-
-// TODO Remove?
-export type AnnotationGroup =
-  | "saldo"
-  | "msd"
-  | "syntax"
-  | "readability"
-  | "wsd"
-  | "sensaldo"
-  | "lexicalClasses"
-  | "swener";
-
-// TODO Remove?
-export const baseAnalyses = [
-  "sbx-swe-sentence-sparv-storsuc",
-  "sbx-swe-tokenization-sparv-betterword",
-];
-
-// TODO Remove?
-export const analysisListing: Record<AnnotationGroup, string[]> = {
-  saldo: [
-    "sbx-swe-compound-sparv-saldolemgram",
-    "sbx-swe-compound-sparv-saldowords",
-    "sbx-swe-lemgram-sparv-saldo",
-    "sbx-swe-lemmatization-sparv-saldo2",
-  ],
-  msd: [
-    "sbx-swe-msd-stanza-stanzamorph-suc3",
-    "sbx-swe-msd-stanza-stanzamorph-ufeats",
-    "sbx-swe-pos-stanza-stanzamorph",
-  ],
-  syntax: ["sbx-swe-dependency-stanza-stanzasynt"],
-  readability: [
-    "sbx-swe-readability-sparv-lix",
-    "sbx-swe-readability-sparv-nk",
-    "sbx-swe-readability-sparv-ovix",
-  ],
-  wsd: ["sbx-swe-sense-sparv"],
-  sensaldo: ["sbx-swe-sentiment-sparv-sensaldo"],
-  lexicalClasses: [
-    "sbx-swe-lexical_classes_text-sparv-blingbring",
-    "sbx-swe-lexical_classes_text-sparv-swefn",
-    "sbx-swe-lexical_classes_token-sparv-blingbring",
-    "sbx-swe-lexical_classes_token-sparv-swefn",
-  ],
-  swener: ["sbx-swe-namedentity-swener", "sbx-swe-geotagcontext-sparv"],
-};
 
 export type AnalysisId = string;
 
@@ -103,13 +56,12 @@ export const annotationAnalyses: Readonly<Record<string, AnalysisId>> =
     ),
   );
 
-export const loadAnalysisMetdata = once(async () => {
-  const urlRaw = import.meta.env.VITE_METADATA_URL;
-  if (!urlRaw) throw new Error("Missing VITE_METADATA_URL");
+export const loadAnalysisMetadata = once(async () => {
+  const url = import.meta.env.VITE_METADATA_URL;
+  if (!url) throw new Error("Missing VITE_METADATA_URL");
 
-  const url = ensureTrailingSlash(urlRaw);
-
-  const response = await fetch(url + "analyses");
+  console.log(pathJoin(url, "analyses"));
+  const response = await fetch(pathJoin(url, "analyses"));
   const data = (await response.json()) as AnalysisMetadataResponse;
   return data.resources.filter(
     (resource) =>

@@ -1,6 +1,6 @@
 import { computed, watch } from "vue";
 import { attempt, uniq } from "es-toolkit";
-import { computedAsync, useInterval } from "@vueuse/core";
+import { useInterval } from "@vueuse/core";
 import { useCorpusStore } from "@/store/corpus.store";
 import {
   makeConfig,
@@ -36,7 +36,7 @@ export function useCorpus(corpusId: string) {
     corpusStore.loadConfig(corpusId);
     return corpus.value?.config || undefined;
   });
-  const configOptions = computedAsync(getParsedConfig);
+  const configOptions = computed(getParsedConfig);
   const isConfigValid = computed(
     () => !attempt(() => validateConfig(configOptions.value!))[0],
   );
@@ -89,10 +89,10 @@ export function useCorpus(corpusId: string) {
     await corpusStore.uploadConfig(corpusId, configYaml);
   }
 
-  async function getParsedConfig() {
+  function getParsedConfig() {
     if (!config.value) return undefined;
     try {
-      const parsed = await parseConfig(config.value);
+      const parsed = parseConfig(config.value);
       return parsed;
     } catch (error) {
       console.error(`Error parsing config for "${corpusId}":`, error);

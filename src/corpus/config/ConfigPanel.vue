@@ -4,7 +4,7 @@ import { useCorpus } from "../corpus.composable";
 import useLocale from "@/i18n/locale.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
-import { loadAnalysisMetdata } from "@/api/analysis";
+import { loadAnalysisMetadata } from "@/api/analysis";
 
 const props = defineProps<{
   corpusId: string;
@@ -19,7 +19,7 @@ const analyses = computedAsync(async () => {
   const map = configOptions.value.analyses;
   const ids = Object.keys(map).filter((id) => map[id]);
   // Get metadata for selected analyses
-  const metadata = await loadAnalysisMetdata();
+  const metadata = await loadAnalysisMetadata();
   return metadata
     .filter((analysis) => ids.includes(analysis.id))
     .sort(thCompare((x) => x.name));
@@ -117,7 +117,10 @@ const analyses = computedAsync(async () => {
               <ul class="list-disc list-outside pl-5 mt-2">
                 <li v-for="analysis of analyses" :key="analysis.id">
                   {{ th(analysis.name) }}
-                  (<a :href="$t('analyses.url', analysis.id)" target="_blank">
+                  (<a
+                    :href="$t('config.analyses.url', analysis.id)"
+                    target="_blank"
+                  >
                     {{ analysis.id }}</a
                   >)
                 </li>

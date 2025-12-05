@@ -4,17 +4,13 @@
 
 import { jwtDecode } from "jwt-decode";
 import { computed, ref } from "vue";
-import {
-  deduplicateRequest,
-  ensureTrailingSlash,
-  pathJoin,
-  progressiveTimeout,
-} from "@/util";
+import { deduplicateRequest, pathJoin, progressiveTimeout } from "@/util";
 import api from "@/api/api";
 
-const AUTH_URL: string = ensureTrailingSlash(import.meta.env.VITE_AUTH_URL);
+const AUTH_URL: string = import.meta.env.VITE_AUTH_URL;
 const LOGOUT_URL: string = import.meta.env.VITE_LOGOUT_URL;
-const JWT_URL: string = import.meta.env.VITE_JWT_URL || AUTH_URL + "jwt";
+const JWT_URL: string =
+  import.meta.env.VITE_JWT_URL || pathJoin(AUTH_URL, "jwt");
 
 export type JwtSbPayload = {
   name: string;
@@ -53,7 +49,7 @@ export function getLoginUrl(redirectLocation = "") {
     import.meta.env.BASE_URL,
     redirectLocation,
   );
-  return AUTH_URL + `login?redirect=${redirectLocation}`;
+  return pathJoin(AUTH_URL, `login?redirect=${redirectLocation}`);
 }
 
 /** Checks cached JWT and updates it if needed. */

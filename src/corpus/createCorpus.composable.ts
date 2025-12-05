@@ -8,7 +8,7 @@ import {
   makeConfig,
   type FileFormat,
   type ConfigOptions,
-  emptyConfig,
+  defaultConfig,
 } from "@/api/corpusConfig";
 import type { MinkResponse } from "@/api/api.types";
 import useCreateResource from "@/resource/createResource.composable";
@@ -36,14 +36,11 @@ export default function useCreateCorpus() {
     const corpusId = await createCorpus().catch(alertError);
     if (!corpusId) return;
 
-    // Get file extension of first file, assuming all are using the same extension.
-    const format = getFilenameExtension(files[0].name) as FileFormat;
+    // Create default config.
+    const config = await defaultConfig();
 
-    // Create a minimal config.
-    const config = {
-      ...(await emptyConfig()),
-      format,
-    };
+    // Get file extension of first file, assuming all are using the same extension.
+    config.format = getFilenameExtension(files[0].name) as FileFormat;
 
     // Wait for sources and config to be uploaded in parallel.
     const results = await Promise.allSettled([
@@ -89,7 +86,7 @@ export default function useCreateCorpus() {
     textAnnotation?: string,
   ): Promise<string | undefined> {
     const config = {
-      ...(await emptyConfig()),
+      ...(await defaultConfig()),
       name: { swe: name, eng: name },
       description: { swe: description, eng: description },
       format,
