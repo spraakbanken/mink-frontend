@@ -24,6 +24,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Added
 
 - List specific analyses with links to info [#217](https://github.com/spraakbanken/mink-frontend/issues/217)
+- Select specific analyses [#218](https://github.com/spraakbanken/mink-frontend/issues/218)
 
 ### Changed
 
