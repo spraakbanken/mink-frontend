@@ -31,7 +31,7 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import {
   analysisAnnotations,
-  loadAnalysisMetdata,
+  loadAnalysisMetadata,
   type AnalysisId,
 } from "@/api/analysis";
 import useLocale from "@/i18n/locale.composable";
@@ -62,7 +62,7 @@ const tabSelected = ref<TabKey>("metadata");
 
 /** List of metadata for relevant analyses */
 const analyses = computedAsync(async () => {
-  const analyses = await loadAnalysisMetdata();
+  const analyses = await loadAnalysisMetadata();
   // Skip analyses that do not have annotations
   // Sort by most significant property last
   const filtered = analyses
@@ -78,7 +78,7 @@ const analyses = computedAsync(async () => {
   });
 });
 
-const configOptions = computedAsync(getParsedConfig);
+const configOptions = computed(getParsedConfig);
 
 const formatOptions = computed<FormKitOptionsList>(() =>
   FORMATS_EXT.map((ext) => ({
@@ -111,10 +111,10 @@ const segmenterOptions = computed<SegmenterOptions>(() => {
 });
 
 // Like `getParsedConfig` in `corpus.composable.ts` but also alerts on error.
-async function getParsedConfig() {
+function getParsedConfig() {
   if (!config.value) return undefined;
   try {
-    const parsed = await parseConfig(config.value);
+    const parsed = parseConfig(config.value);
     return parsed;
   } catch (error) {
     alert(t("corpus.config.parse.error"), "error");
@@ -124,7 +124,7 @@ async function getParsedConfig() {
 
 async function submit(fields: Form) {
   // If there is no previous config file, start from a minimal one.
-  const configOld = configOptions.value || (await emptyConfig());
+  const configOld = configOptions.value || emptyConfig();
 
   // Merge new form values with existing config.
   const configNew: ConfigOptions = {

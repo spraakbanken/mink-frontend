@@ -72,11 +72,11 @@ describe("makeConfig", () => {
 });
 
 describe("parseConfig", () => {
-  test("handle minimal info", async () => {
+  test("handle minimal info", () => {
     const configYaml = Yaml.dump({
       import: { importer: "text_import:parse" },
     });
-    const config = await parseConfig(configYaml);
+    const config = parseConfig(configYaml);
     expect(config.format).toBe("txt");
   });
 
@@ -84,10 +84,10 @@ describe("parseConfig", () => {
     const configYaml = Yaml.dump({
       metadata: { name: { swe: "Nyheter", eng: "News" } },
     });
-    expect(() => parseConfig(configYaml)).rejects.toThrowError();
+    expect(() => parseConfig(configYaml)).toThrowError();
   });
 
-  test("handle full info", async () => {
+  test("handle full info", () => {
     const configYaml = Yaml.dump({
       metadata: {
         name: { swe: "Nyheter", eng: "News" },
@@ -106,7 +106,7 @@ describe("parseConfig", () => {
         annotations: ["<text>:readability.lix", "swener.ne"],
       },
     });
-    const config = await parseConfig(configYaml);
+    const config = parseConfig(configYaml);
     const expected: ConfigOptions = {
       format: "xml",
       name: { swe: "Nyheter", eng: "News" },

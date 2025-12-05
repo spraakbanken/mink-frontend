@@ -35,7 +35,7 @@ export default function usePageTitle() {
     const { parseConfig } = await import("@/api/corpusConfig");
     let parsedConfig: ConfigOptions;
     try {
-      parsedConfig = await parseConfig(config);
+      parsedConfig = parseConfig(config);
     } catch (error) {
       console.error(`Error parsing config for "${corpusId}":`, error);
       return;
