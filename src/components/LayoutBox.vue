@@ -6,7 +6,7 @@ defineProps<{
 
 <template>
   <section
-    class="relative rounded-sm p-2 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-700 overflow-hidden"
+    class="relative rounded-sm p-2 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 overflow-hidden"
   >
     <div class="flex justify-between mb-2">
       <h2 v-if="title" class="text-xl font-semibold uppercase">{{ title }}</h2>
