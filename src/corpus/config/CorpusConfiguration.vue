@@ -28,6 +28,7 @@ import PendingContent from "@/spin/PendingContent.vue";
 import type { ByLang } from "@/util.types";
 import LayoutBox from "@/components/LayoutBox.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
+import { canAdmin, canWrite } from "@/auth/sbAuth";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
@@ -148,6 +149,7 @@ async function submit(fields: Form) {
         id="corpus-config"
         v-slot="{ value }"
         type="form"
+        :disabled="!canWrite('corpora', corpusId)"
         :submit-label="$t('save')"
         :submit-attrs="{
           inputClass: 'mink-button button-primary',
@@ -429,6 +431,7 @@ async function submit(fields: Form) {
       </RouteButton>
 
       <RouteButton
+        :disabled="!canAdmin('corpora', corpusId)"
         :to="`/library/corpus/${corpusId}/delete`"
         class="button-danger"
       >

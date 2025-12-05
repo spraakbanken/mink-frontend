@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { PhTrash } from "@phosphor-icons/vue";
+import { PhLock, PhTrash } from "@phosphor-icons/vue";
 import useMetadata from "@/metadata/metadata.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useResourceStore } from "@/store/resource.store";
@@ -10,6 +10,8 @@ import RouteButton from "@/components/RouteButton.vue";
 import TextData from "@/components/TextData.vue";
 import FileUpload from "@/components/FileUpload.vue";
 import SharingPanel from "@/auth/SharingPanel.vue";
+import { canAdmin, canWrite } from "@/auth/sbAuth";
+import HelpBox from "@/components/HelpBox.vue";
 
 const resourceStore = useResourceStore();
 const resourceId = useResourceIdParam();
@@ -30,6 +32,7 @@ async function uploadMetadata(files: File[]) {
         <p>Public id: {{ metadata.publicId }}</p>
 
         <RouteButton
+          :disabled="!canAdmin('corpora', resourceId)"
           class="button-danger"
           :to="`/library/metadata/${resourceId}/delete`"
         >
@@ -52,10 +55,15 @@ async function uploadMetadata(files: File[]) {
           ></TextData>
 
           <FileUpload
+            v-if="canWrite('corpora', resourceId)"
             :file-handler="uploadMetadata"
             :primary="!metadata.metadata"
             accept=".yaml,.yml"
           />
+          <HelpBox v-else>
+            <PhLock class="inline mb-0.5 mr-1" />
+            {{ $t("resource.access_denied") }}
+          </HelpBox>
         </LayoutBox>
       </PendingContent>
     </div>

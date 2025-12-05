@@ -26,11 +26,12 @@ export type JwtSbPayload = {
   /** Token expiration time as a UNIX timestamp */
   exp: number;
   /** First level keys are resource types, second level keys are resource ids and values are permission levels */
-  scope: Record<string, Record<string, number>>;
+  scope: Record<JwtSbResourceType, Record<string, number>>;
   /** Defines permission levels */
   levels: Record<JwtSbLevel, number>;
 };
 
+export type JwtSbResourceType = "corpora" | "lexica" | "metadata" | "other";
 export type JwtSbLevel = "READ" | "WRITE" | "ADMIN";
 
 export const LEVELS: Readonly<JwtSbLevel[]> = ["READ", "WRITE", "ADMIN"];
@@ -127,7 +128,7 @@ function assertValidPayload(payload: unknown): payload is JwtSbPayload {
 
 /** Get the access level of the current user to a given resource. */
 export const getAccessLevel = (
-  type: string,
+  type: JwtSbResourceType,
   id: string,
 ): JwtSbLevel | undefined => {
   if (!payload.value) return undefined;
@@ -137,6 +138,20 @@ export const getAccessLevel = (
     if (payload.value.levels[level as JwtSbLevel] == scope)
       return level as JwtSbLevel;
 };
+
+/** Check if current user has at least READ access to a given resource */
+export const canRead = (type: JwtSbResourceType, id: string): boolean =>
+  !!getAccessLevel(type, id);
+
+/** Check if current user has at least WRITE access to a given resource */
+export const canWrite = (type: JwtSbResourceType, id: string): boolean => {
+  const level = getAccessLevel(type, id);
+  return level == "WRITE" || level == "ADMIN";
+};
+
+/** Check if current user has ADMIN access to a given resource */
+export const canAdmin = (type: JwtSbResourceType, id: string): boolean =>
+  getAccessLevel(type, id) == "ADMIN";
 
 /** Check if a resource user is the currently logged in user. */
 // TODO Identify by idp+sub, not email

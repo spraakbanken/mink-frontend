@@ -62,6 +62,7 @@ metadata.public_id.help: Varje resurs i Mink har en förutbestämd identifierare
 metadata.public_id.error.format: Den publika identifieraren får endast innehålla små bokstäver (a-z), siffror (0-9) och bindestreck (-). Den får inte börja eller sluta med bindestreck.
 metadata.delete: Radera metadata
 resource.delete.ask: Är du säker på att du vill ta bort den här resursen?
+resource.access_denied: Den här funktionen kräver en högre behörighetsnivå till resursen
 config.metadata.help: Metadata är information om datan, och fungerar som underlag för potentiellt intresserade användare (om du publicerar datan) samt underlättar katalogiseringen i datarepositorier.
 config.configuration.help: Dessa inställningar blir instruktioner till den automatiska analysen.
 corpus.config.parse.error: Korpusens config kunde inte läsas. Prova att redigera inställningarna eller metadatan igen. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
@@ -130,6 +131,7 @@ error.message: Ett fel uppstod
 expand.open: Visa allt
 expand.close: Göm en del
 show: Visa
+show_more: Visa mer
 select: Välj...
 docs.label: Hjälp
 docs.url: https://spraakbanken.gu.se/verktyg/mink

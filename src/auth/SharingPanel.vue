@@ -2,12 +2,16 @@
 import { PhShareNetwork } from "@phosphor-icons/vue";
 import { computedAsync } from "@vueuse/core";
 import UrlButton from "@/components/UrlButton.vue";
-import { createAuthGuiUrl, getAccessLevel } from "@/auth/sbAuth";
+import {
+  createAuthGuiUrl,
+  getAccessLevel,
+  type JwtSbResourceType,
+} from "@/auth/sbAuth";
 import { useResourceStore } from "@/store/resource.store";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 
 const props = defineProps<{
-  resourceType: string;
+  resourceType: JwtSbResourceType;
   resourceId: string;
 }>();
 

@@ -11,6 +11,7 @@ import ExplorePanel from "@/corpus/explore/ExplorePanel.vue";
 import CorpusStateHelp from "@/corpus/CorpusStateHelp.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
+import { canWrite } from "@/auth/sbAuth";
 
 const corpusId = useCorpusIdParam();
 const { isConfigValid } = useCorpus(corpusId);
@@ -30,8 +31,13 @@ const { isConfigValid } = useCorpus(corpusId);
             :to="`/library/corpus/${corpusId}/config`"
             :class="{ 'button-primary': !isConfigValid }"
           >
-            <PhPencilSimple weight="bold" class="inline mb-1 mr-1" />
-            {{ $t("edit") }}
+            <template v-if="canWrite('corpora', corpusId)">
+              <PhPencilSimple weight="bold" class="inline mb-1 mr-1" />
+              {{ $t("edit") }}
+            </template>
+            <template v-else>
+              {{ $t("show_more") }}
+            </template>
           </RouteButton>
         </template>
       </LayoutBox>
