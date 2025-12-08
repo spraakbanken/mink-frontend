@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import useMinkBackendInfo from "@/api/backendInfo.composable";
+import { computedAsync } from "@vueuse/core";
+import { getInfo } from "@/api/apiInfo";
 import useLocale from "@/i18n/locale.composable";
 
-const { info } = useMinkBackendInfo();
+const info = computedAsync(getInfo);
 // Use filesize with precision 0 to have "1 MB" instead of "1.0 MB".
 const { filesize } = useLocale();
 </script>
@@ -13,19 +14,19 @@ const { filesize } = useLocale();
       <tr>
         <th>{{ $t("source.limit.file.recommended") }}</th>
         <td class="text-right">
-          {{ filesize(info.recommended_file_size.max_file_length.value, 0) }}
+          {{ filesize(info.recommendedFileSize.max_file_length.value, 0) }}
         </td>
       </tr>
       <tr>
         <th>{{ $t("source.limit.file.max") }}</th>
         <td class="text-right">
-          {{ filesize(info.file_size_limits.max_file_length.value, 0) }}
+          {{ filesize(info.fileSizeLimits.max_file_length.value, 0) }}
         </td>
       </tr>
       <tr>
         <th>{{ $t("source.limit.upload.max") }}</th>
         <td class="text-right">
-          {{ filesize(info.file_size_limits.max_content_length.value, 0) }}
+          {{ filesize(info.fileSizeLimits.max_content_length.value, 0) }}
         </td>
       </tr>
     </tbody>

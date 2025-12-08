@@ -2,9 +2,10 @@
 import { computed } from "vue";
 import { PhTrash } from "@phosphor-icons/vue";
 import { useI18n } from "vue-i18n";
+import { computedAsync } from "@vueuse/core";
 import { useCorpus } from "../corpus.composable";
 import UploadSizeLimits from "./UploadSizeLimits.vue";
-import useMinkBackendInfo from "@/api/backendInfo.composable";
+import { getInfo } from "@/api/apiInfo";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
@@ -28,11 +29,11 @@ const {
   configOptions,
   saveConfigOptions,
 } = useCorpus(props.corpusId);
-const { info } = useMinkBackendInfo();
 const { filesize } = useLocale();
 const { alert, alertError } = useMessenger();
 const { t } = useI18n();
 
+const info = computedAsync(getInfo);
 const totalSize = computed(() =>
   sources.value.reduce((sum, source) => sum + Number(source.size), 0),
 );
@@ -65,11 +66,11 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
     <span>{{ $t("files", sources.length) }}, {{ filesize(totalSize) }}</span>
     <span v-if="info">
       {{ $t("source.limit.corpus.recommended") }}:
-      {{ filesize(info.recommended_file_size.min_file_length.value) }}
+      {{ filesize(info.recommendedFileSize.min_file_length.value) }}
     </span>
     <span v-if="info">
       {{ $t("source.limit.corpus.max") }}:
-      {{ filesize(info.file_size_limits.max_corpus_length.value) }}
+      {{ filesize(info.fileSizeLimits.max_corpus_length.value) }}
     </span>
   </div>
   <MaxHeight :max-height="400">
