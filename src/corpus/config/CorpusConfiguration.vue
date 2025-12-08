@@ -37,6 +37,7 @@ import {
 import useLocale from "@/i18n/locale.composable";
 import TabsBar from "@/components/TabsBar.vue";
 import TabsContent from "@/components/TabsContent.vue";
+import useSpin from "@/spin/spin.composable";
 
 type TabKey = "metadata" | "settings" | "analyses";
 
@@ -57,12 +58,17 @@ const { config, saveConfigOptions, extensions } = useCorpus(corpusId);
 const { alert, alertError } = useMessenger();
 const { t } = useI18n();
 const { th, thCompare } = useLocale();
+const { spin } = useSpin();
 
 const tabSelected = ref<TabKey>("metadata");
 
 /** List of metadata for relevant analyses */
 const analyses = computedAsync(async () => {
-  const analyses = await loadAnalysisMetadata();
+  const analyses =
+    (await spin(loadAnalysisMetadata(), "analysis/metadata").catch(
+      alertError,
+    )) || [];
+
   // Skip analyses that do not have annotations
   // Sort by most significant property last
   const filtered = analyses
@@ -312,63 +318,65 @@ async function submit(fields: Form) {
             />
           </TabsContent>
 
-          <TabsContent
-            :title="$t('config.analyses')"
-            v-show="tabSelected == 'analyses'"
-          >
-            <HelpBox>
-              <i18n-t keypath="config.analyses.info" scope="global">
-                <template #custom_config>
-                  <router-link
-                    :to="`/library/corpus/${corpusId}/config/custom`"
-                  >
-                    {{ $t("config.custom") }}
-                  </router-link>
-                </template>
-              </i18n-t>
-            </HelpBox>
+          <PendingContent on="analysis/metadata">
+            <TabsContent
+              :title="$t('config.analyses')"
+              v-show="tabSelected == 'analyses'"
+            >
+              <HelpBox>
+                <i18n-t keypath="config.analyses.info" scope="global">
+                  <template #custom_config>
+                    <router-link
+                      :to="`/library/corpus/${corpusId}/config/custom`"
+                    >
+                      {{ $t("config.custom") }}
+                    </router-link>
+                  </template>
+                </i18n-t>
+              </HelpBox>
 
-            <FormKit type="group" name="analyses">
-              <table class="my-2 striped">
-                <thead>
-                  <tr>
-                    <th>{{ $t("description") }}</th>
-                    <th>{{ $t("identifier") }}</th>
-                    <th>{{ $t("config.analyses.task") }}</th>
-                  </tr>
-                </thead>
-                <tbody v-for="(group, unit) in analyses" :key="unit">
-                  <tr>
-                    <th colspan="5" class="text-lg pt-4!">
-                      {{ $t("config.analyses.unit") }}:
-                      {{ $t(`config.analyses.unit.${unit}`) }}
-                    </th>
-                  </tr>
-                  <tr v-for="analysis in group" :key="analysis.id">
-                    <td>
-                      <FormKit
-                        :name="analysis.id"
-                        :label="th(analysis.name)"
-                        :value="configOptions.analyses[analysis.id]"
-                        type="checkbox"
-                        :help="th(analysis.short_description)"
-                      />
-                    </td>
-                    <td>
-                      <a
-                        :href="$t('config.analyses.url', [analysis.id])"
-                        target="_blank"
-                        class="whitespace-nowrap"
-                      >
-                        {{ analysis.id }}
-                      </a>
-                    </td>
-                    <td>{{ th(analysis.task) }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </FormKit>
-          </TabsContent>
+              <FormKit type="group" name="analyses">
+                <table class="my-2 striped">
+                  <thead>
+                    <tr>
+                      <th>{{ $t("description") }}</th>
+                      <th>{{ $t("identifier") }}</th>
+                      <th>{{ $t("config.analyses.task") }}</th>
+                    </tr>
+                  </thead>
+                  <tbody v-for="(group, unit) in analyses" :key="unit">
+                    <tr>
+                      <th colspan="5" class="text-lg pt-4!">
+                        {{ $t("config.analyses.unit") }}:
+                        {{ $t(`config.analyses.unit.${unit}`) }}
+                      </th>
+                    </tr>
+                    <tr v-for="analysis in group" :key="analysis.id">
+                      <td>
+                        <FormKit
+                          :name="analysis.id"
+                          :label="th(analysis.name)"
+                          :value="configOptions.analyses[analysis.id]"
+                          type="checkbox"
+                          :help="th(analysis.short_description)"
+                        />
+                      </td>
+                      <td>
+                        <a
+                          :href="$t('config.analyses.url', [analysis.id])"
+                          target="_blank"
+                          class="whitespace-nowrap"
+                        >
+                          {{ analysis.id }}
+                        </a>
+                      </td>
+                      <td>{{ th(analysis.task) }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </FormKit>
+            </TabsContent>
+          </PendingContent>
         </FormKit>
       </FormKitWrapper>
 

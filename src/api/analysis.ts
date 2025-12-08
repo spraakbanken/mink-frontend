@@ -60,7 +60,6 @@ export const loadAnalysisMetadata = once(async () => {
   const url = import.meta.env.VITE_METADATA_URL;
   if (!url) throw new Error("Missing VITE_METADATA_URL");
 
-  console.log(pathJoin(url, "analyses"));
   const response = await fetch(pathJoin(url, "analyses"));
   const data = (await response.json()) as AnalysisMetadataResponse;
   return data.resources.filter(
