@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.14.1...HEAD)
 
+### Added
+
+- Select specific analyses [#218](https://github.com/spraakbanken/mink-frontend/issues/218)
+
 ## [1.14.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.14.1) (2025-12-01)
 
 ### Fixed
@@ -24,7 +28,6 @@ As this project is a user-facing application, the places in the semantic version
 ### Added
 
 - List specific analyses with links to info [#217](https://github.com/spraakbanken/mink-frontend/issues/217)
-- Select specific analyses [#218](https://github.com/spraakbanken/mink-frontend/issues/218)
 
 ### Changed
 
