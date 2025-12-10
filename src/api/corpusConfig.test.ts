@@ -12,7 +12,7 @@ describe("makeConfig", () => {
     const yaml = makeConfig("mink-abc123", {
       name: { swe: "Nyheter", eng: "News" },
       format: "txt",
-      annotations: {},
+      analyses: {},
     });
     expect(yaml).toContain("id: mink-abc123");
     expect(yaml).toContain("swe: Nyheter");
@@ -26,7 +26,7 @@ describe("makeConfig", () => {
       name: { swe: "Nyheter", eng: "News" },
       format: "txt",
       sentenceSegmenter: "linebreaks",
-      annotations: {},
+      analyses: {},
     });
     expect(yaml).toContain("sentence_segmenter: linebreaks");
   });
@@ -36,7 +36,7 @@ describe("makeConfig", () => {
       name: { swe: "Nyheter", eng: "News" },
       format: "xml",
       textAnnotation: "article",
-      annotations: {},
+      analyses: {},
     });
     expect(yaml).toContain("text_annotation: article");
     expect(yaml).toContain("- article as text");
@@ -46,7 +46,7 @@ describe("makeConfig", () => {
     const yaml = makeConfig("mink-abc123", {
       name: { swe: "Nyheter", eng: "News" },
       format: "pdf",
-      annotations: {},
+      analyses: {},
     });
     expect(yaml).toContain("- text");
     expect(yaml).toContain("- page:number");
@@ -60,7 +60,7 @@ describe("makeConfig", () => {
         from: "2000-01-01",
         to: "2023-12-31",
       },
-      annotations: {},
+      analyses: {},
     });
     expect(yaml).toContain("datetime_from: <text>:misc.datefrom");
     expect(yaml).toContain("datetime_to: <text>:misc.dateto");
@@ -68,17 +68,6 @@ describe("makeConfig", () => {
     expect(yaml).toContain("value: '2000-01-01'");
     expect(yaml).toContain("value: '2023-12-31'");
     expect(yaml).toContain("- <text>:dateformat.datefrom");
-  });
-
-  test("sets NER info", () => {
-    const yaml = makeConfig("mink-abc123", {
-      name: { swe: "Nyheter", eng: "News" },
-      format: "pdf",
-      annotations: {
-        swener: true,
-      },
-    });
-    expect(yaml).toContain("- swener.ne:swener.name");
   });
 });
 
@@ -128,15 +117,9 @@ describe("parseConfig", () => {
         from: "2000-01-01",
         to: "2023-12-31",
       },
-      annotations: {
-        lexicalClasses: false,
-        msd: false,
-        readability: true,
-        saldo: false,
-        sensaldo: false,
-        swener: true,
-        syntax: false,
-        wsd: false,
+      analyses: {
+        "sbx-swe-readability-sparv-lix": true,
+        "sbx-swe-namedentity-swener": true,
       },
     };
     expect(config).toStrictEqual(expected);
@@ -148,7 +131,7 @@ describe("validateConfig", () => {
     const options: ConfigOptions = {
       name: { swe: "Nyheter", eng: "News" },
       format: "xml",
-      annotations: {},
+      analyses: {},
     };
 
     // Config can be handled

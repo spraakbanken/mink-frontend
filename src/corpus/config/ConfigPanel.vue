@@ -1,32 +1,28 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useI18n } from "vue-i18n";
+import { computedAsync } from "@vueuse/core";
 import { useCorpus } from "../corpus.composable";
 import useLocale from "@/i18n/locale.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
+import { loadAnalysisMetadata } from "@/api/analysis";
 
 const props = defineProps<{
   corpusId: string;
 }>();
 
 const { configOptions } = useCorpus(props.corpusId);
-const { th } = useLocale();
-const { t } = useI18n();
+const { th, thCompare } = useLocale();
 
-const annotationsSummary = computed(() => {
-  const annotations = configOptions.value?.annotations || {};
-  const selected: string[] = [];
-  if (annotations.lexicalClasses) selected.push("lexical_classes");
-  if (annotations.msd) selected.push("msd");
-  if (annotations.readability) selected.push("readability");
-  if (annotations.saldo) selected.push("saldo");
-  if (annotations.sensaldo) selected.push("sensaldo");
-  if (annotations.swener) selected.push("swener");
-  if (annotations.syntax) selected.push("syntax");
-  if (annotations.wsd) selected.push("wsd");
-  if (!selected.length) return "—";
-  return selected.map((key) => t(`annotations.${key}`)).join(", ");
+const analyses = computedAsync(async () => {
+  if (!configOptions.value) return;
+  // Get selected ids
+  const map = configOptions.value.analyses;
+  const ids = Object.keys(map).filter((id) => map[id]);
+  // Get metadata for selected analyses
+  const metadata = await loadAnalysisMetadata();
+  return metadata
+    .filter((analysis) => ids.includes(analysis.id))
+    .sort(thCompare((x) => x.name));
 });
 </script>
 
@@ -62,7 +58,7 @@ const annotationsSummary = computed(() => {
 
         <tr>
           <td colspan="2">
-            <h3 class="text-lg uppercase my-2">{{ $t("analysis") }}</h3>
+            <h3 class="text-lg uppercase my-2">{{ $t("settings") }}</h3>
           </td>
         </tr>
         <tr>
@@ -106,12 +102,31 @@ const annotationsSummary = computed(() => {
           </td>
           <td v-else>—</td>
         </tr>
+
         <tr>
-          <th>{{ $t("annotations") }}</th>
-          <td v-if="configOptions">
-            {{ annotationsSummary }}
+          <td colspan="2">
+            <h3 class="text-lg uppercase my-2">{{ $t("analysis") }}</h3>
           </td>
-          <td v-else>—</td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <details v-if="analyses">
+              <summary>
+                {{ $t("config.analyses.selected_count", analyses.length) }}
+              </summary>
+              <ul class="list-disc list-outside pl-5 mt-2">
+                <li v-for="analysis of analyses" :key="analysis.id">
+                  {{ th(analysis.name) }}
+                  (<a
+                    :href="$t('config.analyses.url', analysis.id)"
+                    target="_blank"
+                  >
+                    {{ analysis.id }}</a
+                  >)
+                </li>
+              </ul>
+            </details>
+          </td>
         </tr>
       </tbody>
     </table>
