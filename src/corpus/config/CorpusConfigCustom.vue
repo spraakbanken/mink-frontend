@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PhPencilSimple, PhWarning } from "@phosphor-icons/vue";
+import { PhLock, PhPencilSimple, PhWarning } from "@phosphor-icons/vue";
 import { useCorpus } from "../corpus.composable";
 import CorpusConfigCustomHelp from "./CorpusConfigCustomHelp.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
@@ -11,6 +11,7 @@ import SyntaxHighlight from "@/components/SyntaxHighlight.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import { useCorpusStore } from "@/store/corpus.store";
+import { canWrite } from "@/auth/sbAuth";
 
 const corpusId = useCorpusIdParam();
 const { config } = useCorpus(corpusId);
@@ -29,19 +30,31 @@ async function upload(files: File[]) {
 
   <div class="flex flex-wrap gap-4 items-start">
     <LayoutBox class="w-96 grow" :title="$t('upload')">
-      <HelpBox important>
-        <PhWarning class="inline mb-1 mr-1" />
-        {{ $t("config.custom.upload.caution") }}
-      </HelpBox>
+      <div v-if="canWrite('corpora', corpusId)">
+        <HelpBox important>
+          <PhWarning class="inline mb-1 mr-1" />
+          {{ $t("config.custom.upload.caution") }}
+        </HelpBox>
 
-      <HelpBox important>
-        <PhWarning class="inline mb-1 mr-1" />
-        {{ $t("config.custom.upload.overwrite") }}
-      </HelpBox>
+        <HelpBox important>
+          <PhWarning class="inline mb-1 mr-1" />
+          {{ $t("config.custom.upload.overwrite") }}
+        </HelpBox>
 
-      <PendingContent :on="`corpus/${corpusId}/config`" blocking>
-        <FileUpload :file-handler="upload" accept=".yaml,.yml" primary />
-      </PendingContent>
+        <PendingContent :on="`corpus/${corpusId}/config`" blocking>
+          <FileUpload
+            v-if="canWrite('corpora', corpusId)"
+            :file-handler="upload"
+            accept=".yaml,.yml"
+            primary
+          />
+        </PendingContent>
+      </div>
+
+      <HelpBox v-else>
+        <PhLock class="inline mb-0.5 mr-1" />
+        {{ $t("resource.access_denied") }}
+      </HelpBox>
     </LayoutBox>
 
     <LayoutBox class="w-96 grow" :title="$t('show')">
@@ -51,6 +64,7 @@ async function upload(files: File[]) {
 
       <template #controls>
         <RouteButton
+          :disabled="!canWrite('corpora', corpusId)"
           :to="`/library/corpus/${corpusId}/config/custom/edit`"
           class="button-primary"
         >

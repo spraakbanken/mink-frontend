@@ -1,7 +1,7 @@
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import useSpin from "@/spin/spin.composable";
-import { hasAccess, checkJwt, payload } from "@/auth/sbAuth";
+import { checkJwt, payload, getAccessLevel } from "@/auth/sbAuth";
 import useMessenger from "@/message/messenger.composable";
 
 /**
@@ -28,8 +28,7 @@ export function useAuth() {
   /** Indicates whether a jwt request is currently loading. */
   const isAuthenticating = computed(() => isPending("jwt"));
   const canUserAdmin = computed<boolean>(
-    () =>
-      !!payload.value && hasAccess(payload.value, "other", "mink-app", "ADMIN"),
+    () => getAccessLevel("other", "mink-app") == "ADMIN",
   );
   const canUserWrite = computed(() => isAuthenticated.value);
   const userName = computed(() => payload.value?.name || payload.value?.email);

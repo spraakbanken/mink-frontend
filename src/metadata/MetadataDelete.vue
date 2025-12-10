@@ -8,6 +8,7 @@ import RouteButton from "@/components/RouteButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useResourceStore } from "@/store/resource.store";
+import { canAdmin } from "@/auth/sbAuth";
 
 const router = useRouter();
 const resourceId = useMetadataIdParam();
@@ -28,7 +29,11 @@ async function doDelete() {
       <p class="my-2">{{ $t("resource.delete.ask") }}</p>
 
       <div>
-        <ActionButton class="button-danger mr-4" @click="doDelete">
+        <ActionButton
+          :disabled="!canAdmin('corpora', resourceId)"
+          class="button-danger mr-4"
+          @click="doDelete"
+        >
           <PhTrash class="inline mb-1 mr-1" />
           {{ $t("metadata.delete") }}
         </ActionButton>

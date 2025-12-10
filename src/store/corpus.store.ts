@@ -22,7 +22,7 @@ export const useCorpusStore = defineStore("corpus", () => {
   /** Which corpora have fresh exports loaded */
   const freshExports = new Set<string>();
 
-  const corpora = computed<Record<string, Partial<Corpus>>>(() =>
+  const corpora = computed<Record<string, Corpus>>(() =>
     pickByType(resources, isCorpus),
   );
   const hasCorpora = computed(() => !!Object.keys(corpora).length);

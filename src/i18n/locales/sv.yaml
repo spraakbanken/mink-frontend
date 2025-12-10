@@ -3,7 +3,7 @@ home: Hem
 home.hero.alt: Skärmbild av Minks användargränssnitt
 home.hero.sb: "{0} är en forskningsinfrastruktur för språkdata. Med språkteknologiska metoder i framkant skapar vi och underhåller språkresurser för forskare världen över, och vi använder fri och öppen access såvitt det går."
 home.hero.mink: "{0} är vår insats för att lägga infrastrukturen i forskarnas händer. Här kan du applicera våra språkteknologiska metoder på texter som du själv har samlat in. Resultaten kan du ladda ner eller föra in i våra forskningsverktyg såsom Korp och Strix bakom inloggning."
-home.hero.privacy: Dina källdata och resultaten är privata (se {0}). I kommande versioner kommer du att kunna dela datamängder med kollegor och publicera dem för allmän åtkomst.
+home.hero.privacy: Dina resurser är privata för dig och dem du själv bjuder in (se {0}). I kommande versioner kommer du att kunna publicera datamängder för allmän åtkomst.
 home.hero.privacy.link.url: https://spraakbanken.gu.se/verktyg/mink/data-policy
 home.hero.privacy.link.label: integritets- och datapolicyn
 home.hero.readmore: Läs mer i {0}.
@@ -22,7 +22,6 @@ home.features.explore.body: Exportera den färdiga datan för sökning och stati
 home.features.explore.alt: Skärmbild från sökverktyget Korp
 home.features.share.title: Dela och samarbeta
 home.features.share.body: Bjud in andra forskare att ta del av dina data i våra forskningsverktyg, skyddat bakom inloggning. Om du vill göra dina data tillgängliga för alla kan du kontakta oss för att diskutera publicering.
-home.features.share.upcoming: De här funktionerna planeras till kommande Mink-versioner.
 home.features.share.alt: Skärmbild från ett behörighetshanteringssystem
 home.otherdata.title: Mink eller icke Mink?
 home.otherdata.body: Tänk på att först undersöka andra språkdatamängder som eventuellt uppfyller dina behov! Språkbankens växande samling av forskningsdata kan du se på sidan {0} på vår webbplats. I ett större perspektiv bildar Språkbanken en del av CLARIN ERIC, vars samlade data kan utforskas i {1}.
@@ -63,6 +62,7 @@ metadata.public_id.help: Varje resurs i Mink har en förutbestämd identifierare
 metadata.public_id.error.format: Den publika identifieraren får endast innehålla små bokstäver (a-z), siffror (0-9) och bindestreck (-). Den får inte börja eller sluta med bindestreck.
 metadata.delete: Radera metadata
 resource.delete.ask: Är du säker på att du vill ta bort den här resursen?
+resource.access_denied: Den här funktionen kräver en högre behörighetsnivå till resursen
 config.metadata.help: Metadata är information om datan, och fungerar som underlag för potentiellt intresserade användare (om du publicerar datan) samt underlättar katalogiseringen i datarepositorier.
 config.configuration.help: Dessa inställningar blir instruktioner till den automatiska analysen.
 corpus.config.parse.error: Korpusens config kunde inte läsas. Prova att redigera inställningarna eller metadatan igen. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
@@ -82,6 +82,17 @@ job.time_taken: Tidsåtgång
 job.process.sparv: Analys
 job.process.korp: Installation i Korp
 job.process.strix: Installation i Strix
+sharing: Delning
+sharing.level: Din behörighetsnivå
+sharing.manage: Hantera åtkomst
+sharing.owner: Ägare
+sharing.help.heading: Om åtkomsthantering
+sharing.help.sbauth: Tillgången till Mink-resurser hanteras i Språkbanken Texts autentiseringssystem, SB Auth.
+sharing.help.levels.before: "En användare kan ha en av tre behörighetsnivåer till en given resurs:"
+sharing.help.levels.read: Användaren kan se inställningar, källor och analysresultat
+sharing.help.levels.write: Användaren kan dessutom redigera inställningar och källor, köra analyser och installationer
+sharing.help.levels.admin: Användaren kan även radera resursen och hantera åtkomst
+sharing.help.levels.after: Tillgången till en Mink-resurs gäller även i de verktyg där den installeras, men utan någon skillnad mellan nivåerna.
 source.limit.file.recommended: Rekommenderad filstorlek
 source.limit.file.max: Högsta tillåtna filstorlek
 source.limit.upload.max: Största tillåtna uppladdning
@@ -120,6 +131,7 @@ error.message: Ett fel uppstod
 expand.open: Visa allt
 expand.close: Göm en del
 show: Visa
+show_more: Visa mer
 select: Välj...
 docs.label: Hjälp
 docs.url: https://spraakbanken.gu.se/verktyg/mink

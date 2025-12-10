@@ -38,6 +38,7 @@ import useLocale from "@/i18n/locale.composable";
 import TabsBar from "@/components/TabsBar.vue";
 import TabsContent from "@/components/TabsContent.vue";
 import useSpin from "@/spin/spin.composable";
+import { canAdmin, canWrite } from "@/auth/sbAuth";
 
 type TabKey = "metadata" | "settings" | "analyses";
 
@@ -180,6 +181,7 @@ async function submit(fields: Form) {
           id="corpus-config"
           v-slot="{ value }"
           type="form"
+          :disabled="!canWrite('corpora', corpusId)"
           :submit-label="$t('save')"
           :submit-attrs="{
             inputClass: 'mink-button button-primary',
@@ -386,6 +388,7 @@ async function submit(fields: Form) {
         </RouteButton>
 
         <RouteButton
+          :disabled="!canAdmin('corpora', corpusId)"
           :to="`/library/corpus/${corpusId}/delete`"
           class="button-danger"
         >

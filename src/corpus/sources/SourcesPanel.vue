@@ -15,6 +15,7 @@ import useMessenger from "@/message/messenger.composable";
 import { getFilenameExtension } from "@/util";
 import { FORMATS_EXT, type FileFormat } from "@/api/corpusConfig";
 import FileUpload from "@/components/FileUpload.vue";
+import { canWrite } from "@/auth/sbAuth";
 
 const props = defineProps<{
   corpusId: string;
@@ -80,7 +81,9 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
           <tr>
             <th class="w-full">{{ $t("fileName") }}</th>
             <th class="text-right">{{ $t("fileSize") }}</th>
-            <th class="sr-only">{{ $t("file.operations") }}</th>
+            <th v-if="canWrite('corpora', corpusId)" class="sr-only">
+              {{ $t("file.operations") }}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -95,7 +98,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
             <td class="text-right whitespace-nowrap">
               {{ filesize(source.size) }}
             </td>
-            <td class="text-right">
+            <td v-if="canWrite('corpora', corpusId)" class="text-right">
               <ActionButton
                 class="button-danger button-mute button-slim text-sm"
                 @click="deleteSource(source)"
@@ -110,7 +113,11 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
     </PendingContent>
   </MaxHeight>
 
-  <PendingContent :on="`corpus/${corpusId}/sources/upload`" blocking>
+  <PendingContent
+    v-if="canWrite('corpora', corpusId)"
+    :on="`corpus/${corpusId}/sources/upload`"
+    blocking
+  >
     <FileUpload
       :file-handler
       :primary="!hasSources"

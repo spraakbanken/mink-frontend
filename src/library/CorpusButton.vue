@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { PhUser } from "@phosphor-icons/vue";
 import useSpin from "@/spin/spin.composable";
 import PadButton from "@/components/PadButton.vue";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
 import { useCorpus } from "@/corpus/corpus.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 import useLocale from "@/i18n/locale.composable";
+import { isCurrentUser } from "@/auth/sbAuth";
 
 const props = defineProps<{
   id: string;
@@ -29,6 +31,11 @@ spin(loadPromise, "corpora");
     <span v-if="hasSources">
       {{ $t("files", sources.length) }}
     </span>
+
+    <div v-if="corpus && !isCurrentUser(corpus.owner)" class="text-sm mt-1">
+      <PhUser class="inline mr-1" />
+      {{ corpus.owner.name }}
+    </div>
 
     <div class="flex mt-2 text-sm">
       <CorpusStateMessage :corpus-id="id" />

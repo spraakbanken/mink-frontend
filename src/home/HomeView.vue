@@ -212,13 +212,7 @@ const { isAuthenticated, canUserWrite, userName } = useAuth();
             :title="$t('home.features.share.title')"
             class="flex-1 my-0 text-center"
           >
-            <i18n-t keypath="home.features.share.body" scope="global" tag="p" />
-            <i18n-t
-              keypath="home.features.share.upcoming"
-              scope="global"
-              tag="p"
-              class="italic"
-            />
+            <p>{{ $t("home.features.share.body") }}</p>
           </LayoutSection>
         </div>
       </div>

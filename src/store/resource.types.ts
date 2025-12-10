@@ -4,12 +4,13 @@ import type { CorpusJob, FileMeta, ResourceType } from "@/api/api.types";
 export type Resource = {
   type: ResourceType;
   name: ByLang;
-  owner?: User;
+  owner: User;
 };
 
 export type User = {
-  name: string;
   id: string;
+  email: string;
+  name: string;
 };
 
 export type Corpus = Resource & {

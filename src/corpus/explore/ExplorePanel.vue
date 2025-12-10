@@ -7,6 +7,7 @@ import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import useSpin from "@/spin/spin.composable";
 import { useCorpusStore } from "@/store/corpus.store";
+import { canWrite } from "@/auth/sbAuth";
 
 const props = defineProps<{
   corpusId: string;
@@ -22,6 +23,7 @@ const strixUrl = ensureTrailingSlash(import.meta.env.VITE_STRIX_URL);
 
 const canInstall = computed(
   () =>
+    canWrite("corpora", props.corpusId) &&
     !isJobRunning.value &&
     jobState.value?.sparv == "done" &&
     !isPending(`corpus/${props.corpusId}/job`),

@@ -5,6 +5,7 @@ import { useCorpus } from "../corpus.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useCorpusStore } from "@/store/corpus.store";
+import { canWrite } from "@/auth/sbAuth";
 
 const props = defineProps<{
   corpusId: string;
@@ -25,6 +26,7 @@ const {
 const isPending = ref(false);
 const canRun = computed(
   () =>
+    canWrite("corpora", props.corpusId) &&
     hasSources.value &&
     isConfigValid.value &&
     !isPending.value &&
@@ -53,7 +55,11 @@ async function doRunJob() {
           <div class="font-semibold">{{ $t("annotations.clear") }}</div>
           {{ $t("annotations.clear.help") }}
         </div>
-        <ActionButton @click="clearAnnotations()" class="whitespace-nowrap">
+        <ActionButton
+          :disabled="!canWrite('corpora', corpusId)"
+          @click="clearAnnotations()"
+          class="whitespace-nowrap"
+        >
           {{ $t("annotations.clear") }}
         </ActionButton>
       </PendingContent>

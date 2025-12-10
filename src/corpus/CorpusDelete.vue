@@ -8,6 +8,7 @@ import RouteButton from "@/components/RouteButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useCorpusStore } from "@/store/corpus.store";
+import { canAdmin } from "@/auth/sbAuth";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
@@ -28,7 +29,11 @@ async function doDelete() {
       <p class="my-2">{{ $t("resource.delete.ask") }}</p>
 
       <div>
-        <ActionButton class="button-danger mr-4" @click="doDelete">
+        <ActionButton
+          :disabled="!canAdmin('corpora', corpusId)"
+          class="button-danger mr-4"
+          @click="doDelete"
+        >
           <PhTrash weight="fill" class="inline mb-1 mr-1" />
           {{ $t("corpus.delete") }}
         </ActionButton>
