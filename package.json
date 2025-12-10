@@ -23,7 +23,6 @@
     "@fontsource-variable/source-sans-3": "^5.2.8",
     "@formkit/vue": "^1.6.9",
     "@highlightjs/vue-plugin": "^2.1.0",
-    "@modyfi/vite-plugin-yaml": "^1.0.4",
     "@phosphor-icons/vue": "^2.2.1",
     "@tailwindcss/postcss": "^4.1.12",
     "@vitejs/plugin-vue": "^6.0.1",

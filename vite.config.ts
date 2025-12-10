@@ -1,11 +1,11 @@
 import path from "path";
 import { ServerOptions } from "https";
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig, loadEnv, Plugin } from "vite";
 import vue from "@vitejs/plugin-vue";
 import checker from "vite-plugin-checker";
-import ViteYaml from "@modyfi/vite-plugin-yaml";
 import vueDevTools from "vite-plugin-vue-devtools";
 import { visualizer } from "rollup-plugin-visualizer";
+import Yaml from "js-yaml";
 
 type HttpsOptions = Pick<ServerOptions, "key" | "cert">;
 
@@ -28,7 +28,7 @@ export default defineConfig(async ({ mode }) => {
   return {
     plugins: [
       vue(),
-      ViteYaml(),
+      yamlLoader(),
       vueDevTools(),
       // Enable typechecking, see https://vite-plugin-checker.netlify.app/introduction/getting-started.html
       checker({ vueTsc: true }),
@@ -58,3 +58,20 @@ export default defineConfig(async ({ mode }) => {
     },
   };
 });
+
+// Custom plugin for importing YAML files directly in code.
+function yamlLoader(): Plugin {
+  return {
+    name: "vite-plugin-yaml",
+    transform(src, id) {
+      // Match file extension
+      if (/\.yaml$/.test(id)) {
+        // Dump JSON into JS
+        return {
+          code: `const data = ${JSON.stringify(Yaml.load(src))};
+            export default data;`,
+        };
+      }
+    },
+  };
+}
