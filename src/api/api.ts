@@ -1,4 +1,5 @@
 import Axios, { type AxiosInstance } from "axios";
+import { once } from "es-toolkit";
 import { deduplicateRequest, ensureTrailingSlash } from "@/util";
 import type {
   MinkResponse,
@@ -12,6 +13,7 @@ import type {
   CreateMetadataData,
   ProgressHandler,
   JobStateMap,
+  SparvSchemaData,
 } from "@/api/api.types";
 
 /** Create a `text/yaml` file object with content */
@@ -58,10 +60,17 @@ class MinkApi {
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/info-get */
-  async getInfo() {
+  getInfo = once(async () => {
     const response = await this.axios.get<MinkResponse<InfoData>>("info");
     return response.data;
-  }
+  });
+
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/sparv-schema-get */
+  sparvSchema = once(async () => {
+    const response =
+      await this.axios.get<MinkResponse<SparvSchemaData>>("sparv-schema");
+    return response.data.sparv_schema;
+  });
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/list-corpora-get */
   async listCorpora() {

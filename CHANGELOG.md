@@ -17,6 +17,7 @@ As this project is a user-facing application, the places in the semantic version
 
 - Share and collaborate [#196](https://github.com/spraakbanken/mink-frontend/issues/196)
 - Select specific analyses, show analysis metadata [#218](https://github.com/spraakbanken/mink-frontend/issues/218)
+- Fetch Sparv config JSON schema from backend [#228](https://github.com/spraakbanken/mink-frontend/issues/228)
 
 ## [1.14.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.14.1) (2025-12-01)
 

@@ -38,6 +38,11 @@ type InfoDataSection<T> = {
   data: T[];
 };
 
+/** Data in the sparv-schema response */
+export type SparvSchemaData = {
+  sparv_schema: object;
+};
+
 /** Data in the list-corpora response */
 export type ListCorporaData = {
   corpora: string[];

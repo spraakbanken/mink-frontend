@@ -15,10 +15,7 @@ import HelpBox from "@/components/HelpBox.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
-import schema from "@/assets/sparvconfig.schema.json";
-
-const ajv = new Ajv2020();
-const schemaValidate = ajv.compile(schema);
+import api from "@/api/api";
 
 const corpusId = useCorpusIdParam();
 const corpusStore = useCorpusStore();
@@ -26,11 +23,18 @@ const { config } = useCorpus(corpusId);
 const { alertError } = useMessenger();
 const { t } = useI18n();
 
+// Load schema and compile validator
+const validatorPromise = (async () => {
+  const schema = await api.sparvSchema();
+  const ajv = new Ajv2020();
+  return ajv.compile(schema);
+})();
+
 const input = ref(config.value || "");
 const error = ref<{ hint: string; details?: string }>();
 const showErrorDetails = ref<boolean>(false);
 
-function validate() {
+async function validate() {
   error.value = undefined;
 
   // Check YAML syntax
@@ -46,6 +50,7 @@ function validate() {
   }
 
   // Check data against Sparv config schema
+  const schemaValidate = await validatorPromise;
   if (!schemaValidate(data)) {
     error.value = {
       hint: t("config.invalid.schema"),
