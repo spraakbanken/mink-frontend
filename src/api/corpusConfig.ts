@@ -49,11 +49,12 @@ const FORMATS: Record<FileFormat, string> = {
   wav: "sbx_whisper_import:parse_wav",
 };
 
+/** Supported source filename extensions */
 export const FORMATS_EXT = Object.keys(FORMATS);
 
 export const SEGMENTERS: ConfigSentenceSegmenter[] = ["linebreaks"];
 
-// TODO Can text be linebreak-separated in odt, docx and pdf?
+/** File formats that allow segmenting text with linebreaks */
 export const SEGMENTABLE_FORMATS: FileFormat[] = [
   "txt",
   "xml",
@@ -62,6 +63,7 @@ export const SEGMENTABLE_FORMATS: FileFormat[] = [
   "pdf",
 ];
 
+/** Human-readable file formats */
 export const READABLE_FORMATS: FileFormat[] = ["txt", "xml", "conllu"];
 
 /** Write simplified frontend-internal config model to a Sparv-compatible config YAML. */
