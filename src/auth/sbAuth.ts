@@ -19,6 +19,10 @@ export type JwtSbPayload = {
   email: string;
   /** Token expiration time as a UNIX timestamp */
   exp: number;
+  /** Identity provider */
+  idp: string;
+  /** Subject (user identifier) */
+  sub: string;
   /** First level keys are resource types, second level keys are resource ids and values are permission levels */
   scope: Record<JwtSbResourceType, Record<string, number>>;
   /** Defines permission levels */
@@ -49,6 +53,13 @@ export const payload = computed<JwtSbPayload | undefined>(() => {
   }
   return payload;
 });
+
+/** Build a user id the same way as backend. */
+export const userId = computed<string | undefined>(() =>
+  payload.value
+    ? `${payload.value.idp}-${payload.value.sub}`.replace(/[^\w\-_\.]/g, "")
+    : undefined,
+);
 
 /** Return the SB Auth login url, with a redirect back to the given local path. */
 export function getLoginUrl(redirectLocation = "") {
@@ -148,9 +159,7 @@ export const canAdmin = (type: JwtSbResourceType, id: string): boolean =>
   getAccessLevel(type, id) == "ADMIN";
 
 /** Check if a resource user is the currently logged in user. */
-// TODO Identify by idp+sub, not email
-export const isCurrentUser = (other: User): boolean =>
-  other.email == payload.value?.email;
+export const isCurrentUser = (other: User): boolean => other.id == userId.value;
 
 /** Creates the URL to access management for a given resource. */
 export const createAuthGuiUrl = (resourceId: string) =>
