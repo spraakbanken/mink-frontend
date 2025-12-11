@@ -21,22 +21,22 @@
 }
 
 @utility button-primary {
-  @apply enabled:bg-sky-700 enabled:shadow-sky-900 enabled:text-white;
-  @apply enabled:dark:text-sky-50;
+  @apply not-disabled:bg-sky-700 not-disabled:shadow-sky-900 not-disabled:text-white;
+  @apply not-disabled:dark:text-sky-50;
 }
 
 @utility button-danger {
-  @apply enabled:bg-red-600 enabled:shadow-red-700 enabled:text-white;
-  @apply enabled:dark:bg-red-700;
+  @apply not-disabled:bg-red-600 not-disabled:shadow-red-700 not-disabled:text-white;
+  @apply not-disabled:dark:bg-red-700;
 }
 
 @utility button-success {
-  @apply enabled:bg-green-600 enabled:shadow-green-800 enabled:text-white;
+  @apply not-disabled:bg-green-600 not-disabled:shadow-green-800 not-disabled:text-white;
 }
 
 @utility button-warning {
-  @apply enabled:bg-amber-300 enabled:shadow-amber-600 enabled:text-amber-900;
-  @apply enabled:dark:bg-amber-700 enabled:dark:shadow-amber-800 enabled:dark:text-white;
+  @apply not-disabled:bg-amber-300 not-disabled:shadow-amber-600 not-disabled:text-amber-900;
+  @apply not-disabled:dark:bg-amber-700 not-disabled:dark:shadow-amber-800 not-disabled:dark:text-white;
 }
 
 @utility button-mute {
