@@ -32,7 +32,10 @@ spin(loadPromise, "corpora");
       {{ $t("files", sources.length) }}
     </span>
 
-    <div v-if="corpus && !isCurrentUser(corpus.owner)" class="text-sm mt-1">
+    <div
+      v-if="corpus?.owner && !isCurrentUser(corpus.owner)"
+      class="text-sm mt-1"
+    >
       <PhUser class="inline mr-1" />
       {{ corpus.owner.name }}
     </div>

@@ -29,7 +29,7 @@ onMounted(() => {
         <template v-if="isCorpus(resource)">
           <tr>
             <th>{{ $t("texts") }}</th>
-            <td>
+            <td v-if="resource.sources">
               <div
                 v-for="source in resource.sources.slice(0, 3)"
                 :key="source.name"
@@ -43,7 +43,7 @@ onMounted(() => {
           </tr>
           <tr>
             <th>{{ $t("job.status") }}</th>
-            <td>
+            <td v-if="resource.job">
               <table>
                 <tr
                   v-for="(status, jobType) in resource.job.status"

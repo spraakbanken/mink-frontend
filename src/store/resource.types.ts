@@ -22,13 +22,16 @@ export type Corpus = Resource & {
 };
 
 export type Metadata = Resource & {
+  type: "metadata";
   publicId: string;
   metadata: string; // YAML
 };
 
 // User-defined type guards to help inform TypeScript
 // See https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards
-export const isCorpus = (resource: Partial<Resource>): resource is Corpus =>
-  resource.type == "corpus";
-export const isMetadata = (resource: Partial<Resource>): resource is Metadata =>
-  resource.type == "metadata";
+export const isCorpus = (
+  resource: Partial<Resource>,
+): resource is Partial<Corpus> => resource.type == "corpus";
+export const isMetadata = (
+  resource: Partial<Resource>,
+): resource is Partial<Metadata> => resource.type == "metadata";

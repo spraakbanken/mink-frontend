@@ -22,7 +22,7 @@ export const useCorpusStore = defineStore("corpus", () => {
   /** Which corpora have fresh exports loaded */
   const freshExports = new Set<string>();
 
-  const corpora = computed<Record<string, Corpus>>(() =>
+  const corpora = computed<Record<string, Partial<Corpus>>>(() =>
     pickByType(resources, isCorpus),
   );
   const hasCorpora = computed(() => !!Object.keys(corpora).length);
@@ -33,7 +33,7 @@ export const useCorpusStore = defineStore("corpus", () => {
     skipCache = false,
   ): Promise<Corpus | undefined> {
     const resource = await loadResource(corpusId, skipCache);
-    return resource && isCorpus(resource) ? resource : undefined;
+    return resource && isCorpus(resource) ? (resource as Corpus) : undefined;
   }
 
   /** Fetch and store the config of a corpus. */
