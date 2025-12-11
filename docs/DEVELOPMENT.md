@@ -34,6 +34,9 @@ Recommended VSCode settings (see [docs on settings.json](https://code.visualstud
   },
   "[json][jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
 ```
@@ -135,7 +138,7 @@ where
 
 Continual development happens on the **main** branch. It should always be healthy, so any changes that break the build should be fixed as soon as possible. There is a GitHub action [ci.yml](../.github/workflows/ci.yml) for this purpose, meaning someone will be notified if the code is broken.
 
-For a larger change, please create a specific branch, and merge to main when ready. Merging without squash nor rebase is preferred but not mandatory.
+For a larger change, please create a specific branch, and squash-merge to main when ready.
 
 ### Pull requests
 
