@@ -2,11 +2,12 @@
 import { computed } from "vue";
 import { useCorpus } from "../corpus.composable";
 import SourceText from "@/corpus/sources/SourceText.vue";
-import { ensureExtension, formatDate } from "@/util";
+import { ensureExtension, formatDate, getFilenameExtension } from "@/util";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import MessageAlert from "@/message/MessageAlert.vue";
+import { READABLE_FORMATS, type FileFormat } from "@/api/corpusConfig";
 
 const props = defineProps<{
   corpusId: string;
@@ -21,7 +22,10 @@ const { filesize } = useLocale();
 const metadata = computed(() =>
   sources.value?.find((source) => source.name === props.filename),
 );
-const isBinary = computed(() => metadata.value?.type.indexOf("text/") !== 0);
+const isBinary = computed(() => {
+  const extension = getFilenameExtension(props.filename) as FileFormat;
+  return !READABLE_FORMATS.includes(extension);
+});
 const isPlaintext = computed(() => metadata.value?.type == "text/plain");
 const isXml = computed(() => /\/xml$/.test(metadata.value?.type || ""));
 

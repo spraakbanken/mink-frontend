@@ -62,6 +62,8 @@ export const SEGMENTABLE_FORMATS: FileFormat[] = [
   "pdf",
 ];
 
+export const READABLE_FORMATS: FileFormat[] = ["txt", "xml", "conllu"];
+
 /** Write simplified frontend-internal config model to a Sparv-compatible config YAML. */
 export function makeConfig(id: string, options: ConfigOptions): string {
   const {
