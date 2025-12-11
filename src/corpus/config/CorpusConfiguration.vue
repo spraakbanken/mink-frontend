@@ -14,6 +14,7 @@ import {
   type ConfigOptions,
   FORMATS_EXT,
   type FileFormat,
+  SEGMENTABLE_FORMATS,
   SEGMENTERS,
   emptyConfig,
   parseConfig,
@@ -286,7 +287,7 @@ async function submit(fields: Form) {
             </FormKit>
 
             <FormKit
-              v-if="!['mp3', 'ogg', 'wav'].includes((value as Form).format)"
+              v-if="SEGMENTABLE_FORMATS.includes((value as Form).format)"
               name="sentenceSegmenter"
               :label="$t('segmenter_sentence')"
               :value="configOptions.sentenceSegmenter || ''"

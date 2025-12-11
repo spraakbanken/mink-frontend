@@ -206,6 +206,7 @@ txt: Ren text
 docx: Microsoft Word
 odt: OpenDocument Text
 pdf: PDF
+conllu: CoNLL-U
 mp3: MP3
 ogg: Ogg
 wav: WAV

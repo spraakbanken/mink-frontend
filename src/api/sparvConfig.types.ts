@@ -5,6 +5,7 @@ export type SparvConfig = {
   metadata: ConfigMetadata;
   import: ConfigImport;
   segment?: ConfigSegment;
+  classes?: Record<string, string>;
   export: ConfigExport;
   dateformat?: ConfigDateformat;
   custom_annotations?: ConfigCustomAnnotation[];

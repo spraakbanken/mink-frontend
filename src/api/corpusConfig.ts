@@ -17,6 +17,7 @@ export type FileFormat =
   | "odt"
   | "docx"
   | "pdf"
+  | "conllu"
   | "mp3"
   | "ogg"
   | "wav";
@@ -42,6 +43,7 @@ const FORMATS: Record<FileFormat, string> = {
   odt: "odt_import:parse",
   docx: "docx_import:parse",
   pdf: "pdf_import:parse",
+  conllu: "sbx_conllu:parse",
   mp3: "sbx_whisper_import:parse_mp3",
   ogg: "sbx_whisper_import:parse_ogg",
   wav: "sbx_whisper_import:parse_wav",
@@ -50,6 +52,15 @@ const FORMATS: Record<FileFormat, string> = {
 export const FORMATS_EXT = Object.keys(FORMATS);
 
 export const SEGMENTERS: ConfigSentenceSegmenter[] = ["linebreaks"];
+
+// TODO Can text be linebreak-separated in odt, docx and pdf?
+export const SEGMENTABLE_FORMATS: FileFormat[] = [
+  "txt",
+  "xml",
+  "odt",
+  "docx",
+  "pdf",
+];
 
 /** Write simplified frontend-internal config model to a Sparv-compatible config YAML. */
 export function makeConfig(id: string, options: ConfigOptions): string {
@@ -91,6 +102,12 @@ export function makeConfig(id: string, options: ConfigOptions): string {
     }
   } else if (format == "pdf") {
     config.export.source_annotations = ["text", "page:number"];
+  } else if (format == "conllu") {
+    // Use the importer segmentation
+    config.classes = {
+      sentence: "sentence",
+      token: "token",
+    };
   }
 
   // Annotations
