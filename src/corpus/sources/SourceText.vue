@@ -13,6 +13,7 @@ const AUTOLOAD_LIMIT = 500_000;
 const props = defineProps<{
   load: () => Promise<string | Blob | undefined>;
   filename: string;
+  /** File size (bytes) */
   size?: number;
   noLoad?: boolean;
   language?: SyntaxLanguage & "xml";

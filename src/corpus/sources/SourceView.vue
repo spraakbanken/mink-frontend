@@ -84,7 +84,10 @@ async function loadPlain() {
                 v-if="jobState?.sparv == 'done'"
                 :load="loadPlain"
                 :filename="ensureExtension(metadata.name, 'txt')"
-                :size="metadata.size"
+                :size="
+                  // This is the wrong size, but it's the best approximation we have. The user can still activate loading manually.
+                  metadata.size
+                "
               />
               <div class="text-sm py-1">
                 {{ $t("source_text_help") }}
