@@ -11,6 +11,8 @@ import AccessDenied from "@/auth/AccessDenied.vue";
 import NotFound from "@/page/NotFound.vue";
 import corpusRoutes from "@/router/corpus.routes";
 import metadataRoutes from "@/router/metadata.routes";
+const MetadataEditorView = () =>
+  import("@/metadata_editor/MetadataEditorView.vue");
 
 const routes: RouteRecordRaw[] = [
   {
@@ -65,6 +67,11 @@ const routes: RouteRecordRaw[] = [
   },
   ...corpusRoutes,
   ...metadataRoutes,
+  {
+    path: "/metadata-editor",
+    component: MetadataEditorView,
+    meta: { title: "metadata_editor" },
+  },
   {
     path: "/:pathMatch(.*)*",
     name: "notfound",

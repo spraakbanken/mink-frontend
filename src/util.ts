@@ -19,6 +19,25 @@ export function addDays(date: Date, days: number) {
 
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
+/** Get files from an `<input type="file">` element, pass them to a handler, and unless the handling fails, empty the input. */
+export async function handleFileInput(
+  event: Event,
+  fileHandler: (files: File[]) => Promise<void>,
+): Promise<void> {
+  // Get content as FileList
+  const fileInput = event.target as HTMLInputElement;
+  if (!fileInput.files) throw new RangeError("No file found in the file input");
+
+  // Convert from FileList to File[]
+  const files = [...fileInput.files];
+
+  // Delegate to handler
+  await fileHandler(files);
+
+  // Upon success, empty the input value to enable selecting the same file again.
+  fileInput.value = "";
+}
+
 /** Trigger a file download in the browser by adding a temporary link and click it */
 export function downloadFile(data: string | Blob, filename: string) {
   // The url is temporary and bound to the window and document, and represents (does not contain) the data.
