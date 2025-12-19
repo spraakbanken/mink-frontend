@@ -127,6 +127,17 @@ exports.help.more.label: Läs mer om exportfiler i användarhandledningen
 user.settings: Inställningar
 user.settings.admin_mode: Aktivera administratörsläget
 user.admin_mode.warning: Administratörsläget är aktiverat. Var försiktig!
+metadata_editor: Metadataredigeraren
+metadata_editor.help: Det här verktyget ska underlätta vid redigering av resursmetadata för Språkbanken Texts {repository}. Här kan du bara redigera lokalt, inte spara något direkt till katalogen. Läs mer under {info} på hemsidan.
+metadata_editor.help.info.url: https://spraakbanken.gu.se/om/internt/teknik/metadata
+metadata_editor.help.info.label: Resource metadata
+metadata_editor.help.repository.url: https://spraakbanken.gu.se/resurser
+metadata_editor.help.repository.label: resurskatalog
+metadata_editor.load_file: Ladda in fil
+metadata_editor.load_template: Ladda in mall
+schema.validate.error: "Fel vid position {path}: {message}"
+schema.validate.ok: Filen är giltig
+schema.validate.validation: Validering
 errors: Fel
 warnings: Varningar
 error.message: Ett fel uppstod
@@ -140,6 +151,7 @@ docs.url: https://spraakbanken.gu.se/verktyg/mink
 locale.switcher.label: Gränssnittsspråk
 en: Engelska
 sv: Svenska
+file: Fil
 metadata: Metadata
 sources: Källfiler
 configuration: Konfiguration
