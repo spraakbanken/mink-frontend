@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { PhPlusCircle } from "@phosphor-icons/vue";
+import { PhPlusCircle, PhUsers } from "@phosphor-icons/vue";
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import useLocale from "@/i18n/locale.composable";
@@ -15,10 +15,11 @@ import useCreateCorpus from "@/corpus/createCorpus.composable";
 import FileUpload from "@/components/FileUpload.vue";
 import { FORMATS_EXT } from "@/api/corpusConfig";
 import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
-import { isCorpus, type Resource } from "@/store/resource.types";
+import { isCorpus, type Resource, type User } from "@/store/resource.types";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import RouteButton from "@/components/RouteButton.vue";
+import { isCurrentUser } from "@/auth/sbAuth";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
@@ -53,6 +54,9 @@ async function fileHandler(files: File[]) {
 
 const getType = (resource: object | Resource) =>
   "type" in resource ? resource.type : "resource";
+
+const getOwner = (resource: object) =>
+  "owner" in resource ? (resource.owner as User) : undefined;
 </script>
 
 <template>
@@ -89,6 +93,15 @@ const getType = (resource: object | Resource) =>
                     <CorpusStateMessage
                       v-if="isCorpus(resource)"
                       :corpus-id="id"
+                    />
+
+                    <!-- Shared icon if other owner -->
+                    <PhUsers
+                      v-if="
+                        getOwner(resource) &&
+                        !isCurrentUser(getOwner(resource)!)
+                      "
+                      class="inline mx-1"
                     />
                   </td>
                 </tr>
