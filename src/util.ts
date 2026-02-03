@@ -3,7 +3,7 @@ import axios, {
   type AxiosRequestConfig,
   type AxiosResponse,
 } from "axios";
-import { attempt, clone, pickBy } from "es-toolkit";
+import { attempt, clone, pickBy, trim } from "es-toolkit";
 
 /** The number of milliseconds in a full day. */
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -58,11 +58,8 @@ export function ensureTrailingSlash(url: string) {
  *
  * Similar to Node.js path.join but not as complete.
  */
-export function pathJoin(...parts: string[]) {
-  return parts
-    .map((part) => part.replace(/^\/+/, "").replace(/\/+$/, ""))
-    .join("/");
-}
+export const pathJoin = (...parts: string[]) =>
+  parts.map((part) => trim(part, "/")).join("/");
 
 /**
  * Calls an async function, and if it is rejected, retries a given number of times.

@@ -5,7 +5,7 @@ import useSpin from "@/spin/spin.composable";
 import api from "@/api/api";
 
 export default function useDeleteCorpus() {
-  const { getJwt } = useAuth();
+  const { refreshAuth } = useAuth();
   const { spin } = useSpin();
   const { loadResourceIds } = useResourceStore();
   const { alertError } = useMessenger();
@@ -15,7 +15,7 @@ export default function useDeleteCorpus() {
     await api.removeCorpus(corpusId);
     // The backend will have updated the remote JWT, so refresh our copy.
     // The backend uses the corpus list within it when listing available corpora.
-    await getJwt(true);
+    await refreshAuth();
     await loadResourceIds();
   }
 

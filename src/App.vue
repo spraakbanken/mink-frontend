@@ -13,7 +13,7 @@ import MessageToasts from "@/message/MessageToasts.vue";
 import usePageTitle from "@/page/title.composable";
 import BreadcrumbBar from "@/page/BreadcrumbBar.vue";
 
-const { getJwt } = useAuth();
+const { refreshAuth } = useAuth();
 useLocale();
 // The `title` ref is automatically updated from route meta.
 const { title } = usePageTitle();
@@ -27,7 +27,7 @@ const isRouteLoading = ref(false);
 const isHome = computed(() => route.path == "/");
 
 // Fetch JWT and use it for all API requests.
-getJwt();
+refreshAuth();
 
 // Some route views are lazy-loaded and can take a moment to load.
 router.beforeEach((to, from, next) => {

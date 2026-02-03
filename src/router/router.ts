@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { checkJwt } from "@/auth/sbAuth";
+import { useJwtStore } from "@/store/jwt.store";
 import routes from "@/router/main.routes";
 
 // Specify typing for router meta.
@@ -24,7 +24,8 @@ const router = createRouter({
 router.beforeEach(async (to) => {
   // For protected routes, require authentication by checking JWT.
   if (to.meta.protected) {
-    const jwt = await checkJwt();
+    const { loadJwt } = useJwtStore();
+    const jwt = await loadJwt();
     // If not authenticated, redirect to login page.
     if (!jwt) return { path: "/login", query: { destination: to.fullPath } };
   }

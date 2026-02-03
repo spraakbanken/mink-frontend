@@ -7,7 +7,7 @@ import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import useSpin from "@/spin/spin.composable";
 import { useCorpusStore } from "@/store/corpus.store";
-import { canWrite } from "@/auth/sbAuth";
+import { useAuth } from "@/auth/auth.composable";
 
 const props = defineProps<{
   corpusId: string;
@@ -18,6 +18,7 @@ const { installKorp, installStrix, uninstallKorp, uninstallStrix } =
   useCorpusStore();
 const { isJobRunning, job, jobState } = useCorpus(props.corpusId);
 const { locale3 } = useLocale();
+const { canWrite } = useAuth();
 
 const korpUrl = ensureTrailingSlash(import.meta.env.VITE_KORP_URL);
 const strixUrl = ensureTrailingSlash(import.meta.env.VITE_STRIX_URL);

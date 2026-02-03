@@ -3,22 +3,25 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { PhQuestion, PhUser } from "@phosphor-icons/vue";
 import MinkLogo from "@/page/MinkLogo.vue";
-import { logoutUrl } from "@/auth/sbAuth";
+import { getLogoutUrl } from "@/api/sbauth";
 import { useAuth } from "@/auth/auth.composable";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
 // Asset path transformation doesn't work in <source srcset> like in <img src>
 import logoSbxLight from "@/assets/sprakbankentext-light.svg";
 import SpinIndicator from "@/spin/SpinIndicator.vue";
+import useSpin from "@/spin/spin.composable";
 
 defineProps<{
   large: boolean;
 }>();
 
-const { isAuthenticated, isAuthenticating, canUserWrite, userName } = useAuth();
-
+const { isAuthenticated, canUserWrite, userName } = useAuth();
 const route = useRoute();
+const { isPending } = useSpin();
+
 const isHome = computed(() => route.path == "/");
+const isAuthenticating = computed(() => isPending("jwt"));
 </script>
 
 <template>
@@ -49,7 +52,7 @@ const isHome = computed(() => route.path == "/");
           >
             <PhUser class="inline mb-0.5 mr-1" />{{ userName }}
           </router-link>
-          <a v-else :href="logoutUrl" class="no-underline hover:underline">
+          <a v-else :href="getLogoutUrl()" class="no-underline hover:underline">
             <PhUser class="inline mb-0.5 mr-1" />{{ $t("logout") }}
           </a>
         </template>

@@ -15,7 +15,7 @@ import useMessenger from "@/message/messenger.composable";
 import { getFilenameExtension } from "@/util";
 import { FORMATS_EXT, type FileFormat } from "@/api/corpusConfig";
 import FileUpload from "@/components/FileUpload.vue";
-import { canWrite } from "@/auth/sbAuth";
+import { useAuth } from "@/auth/auth.composable";
 
 const props = defineProps<{
   corpusId: string;
@@ -33,6 +33,7 @@ const {
 const { filesize } = useLocale();
 const { alert, alertError } = useMessenger();
 const { t } = useI18n();
+const { canWrite } = useAuth();
 
 const info = computedAsync(getInfo);
 const totalSize = computed(() =>

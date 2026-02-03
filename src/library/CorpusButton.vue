@@ -6,7 +6,7 @@ import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
 import { useCorpus } from "@/corpus/corpus.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 import useLocale from "@/i18n/locale.composable";
-import { isCurrentUser } from "@/auth/sbAuth";
+import { useAuth } from "@/auth/auth.composable";
 
 const props = defineProps<{
   id: string;
@@ -16,6 +16,7 @@ const corpusStore = useCorpusStore();
 const { spin } = useSpin();
 const { corpus, hasSources, sources } = useCorpus(props.id);
 const { th } = useLocale();
+const { isCurrentUser } = useAuth();
 
 const loadPromise = Promise.all([
   corpusStore.loadConfig(props.id),

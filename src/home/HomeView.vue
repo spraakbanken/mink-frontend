@@ -4,7 +4,7 @@ import HomeNews from "./HomeNews.vue";
 import HomeNewsFeatured from "@/home/HomeNewsFeatured.vue";
 import { useAuth } from "@/auth/auth.composable";
 import LayoutSection from "@/components/LayoutSection.vue";
-import { logoutUrl } from "@/auth/sbAuth";
+import { getLogoutUrl } from "@/api/sbauth";
 import LoginButton from "@/auth/LoginButton.vue";
 import UrlButton from "@/components/UrlButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
@@ -76,7 +76,7 @@ const { isAuthenticated, canUserWrite, userName } = useAuth();
                 {{ $t("mydata") }}
               </RouteButton>
 
-              <UrlButton :href="logoutUrl">
+              <UrlButton :href="getLogoutUrl()">
                 <PhSignOut class="inline mb-1 mr-1" />
                 {{ $t("logout") }}
               </UrlButton>

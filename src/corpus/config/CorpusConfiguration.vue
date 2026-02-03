@@ -39,7 +39,7 @@ import useLocale from "@/i18n/locale.composable";
 import TabsBar from "@/components/TabsBar.vue";
 import TabsContent from "@/components/TabsContent.vue";
 import useSpin from "@/spin/spin.composable";
-import { canAdmin, canWrite } from "@/auth/sbAuth";
+import { useAuth } from "@/auth/auth.composable";
 
 type TabKey = "metadata" | "settings" | "analyses";
 
@@ -61,6 +61,7 @@ const { alert, alertError } = useMessenger();
 const { t } = useI18n();
 const { th, thCompare } = useLocale();
 const { spin } = useSpin();
+const { canWrite, canAdmin } = useAuth();
 
 const tabSelected = ref<TabKey>("metadata");
 

@@ -10,12 +10,13 @@ import RouteButton from "@/components/RouteButton.vue";
 import TextData from "@/components/TextData.vue";
 import FileUpload from "@/components/FileUpload.vue";
 import SharingPanel from "@/auth/SharingPanel.vue";
-import { canAdmin, canWrite } from "@/auth/sbAuth";
+import { useAuth } from "@/auth/auth.composable";
 import HelpBox from "@/components/HelpBox.vue";
 
 const resourceStore = useResourceStore();
 const resourceId = useResourceIdParam();
 const { uploadYaml } = useMetadata(resourceId);
+const { canAdmin, canWrite } = useAuth();
 
 const metadata = computed(() => resourceStore.metadatas[resourceId]);
 

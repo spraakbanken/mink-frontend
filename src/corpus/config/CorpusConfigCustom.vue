@@ -11,12 +11,13 @@ import SyntaxHighlight from "@/components/SyntaxHighlight.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import { useCorpusStore } from "@/store/corpus.store";
-import { canWrite } from "@/auth/sbAuth";
+import { useAuth } from "@/auth/auth.composable";
 
 const corpusId = useCorpusIdParam();
 const { config } = useCorpus(corpusId);
 const { alertError } = useMessenger();
 const corpusStore = useCorpusStore();
+const { canWrite } = useAuth();
 
 async function upload(files: File[]) {
   if (!files[0]) throw new RangeError("No files");

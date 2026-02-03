@@ -1,73 +1,60 @@
 import { computed } from "vue";
-import { useI18n } from "vue-i18n";
-import useSpin from "@/spin/spin.composable";
-import { checkJwt, payload, getAccessLevel } from "@/auth/sbAuth";
-import useMessenger from "@/message/messenger.composable";
-
-/**
- * JWT request slot.
- *
- * Globally, we make only one JWT request at a time. A second request while the
- * first one is pending can re-use that same request promise.
- */
-let jwtPromise: Promise<unknown> | undefined = undefined;
-
-/**
- * Timeout slot for refreshing on expiration.
- *
- * After fetching the JWT, the expiration time is read, and a timeout is set to refresh the JWT accordingly.
- */
-let refreshTimer: NodeJS.Timeout | undefined = undefined;
+import { storeToRefs } from "pinia";
+import { useJwtStore } from "@/store/jwt.store";
+import type { User } from "@/store/resource.types";
+import { getAccess, hasAccessLevel, type ResourceType } from "@/api/sbauth";
 
 export function useAuth() {
-  const { spin, isPending } = useSpin();
-  const { alert } = useMessenger();
-  const { t } = useI18n();
+  const jwtStore = useJwtStore();
+  const { payload } = storeToRefs(jwtStore);
+  const { loadJwt, unloadJwt } = jwtStore;
 
   const isAuthenticated = computed<boolean>(() => !!payload.value);
-  /** Indicates whether a jwt request is currently loading. */
-  const isAuthenticating = computed(() => isPending("jwt"));
-  const canUserAdmin = computed<boolean>(
-    () => getAccessLevel("other", "mink-app") == "ADMIN",
-  );
+  const canUserAdmin = computed<boolean>(() => canAdmin("other", "mink-app"));
   const canUserWrite = computed(() => isAuthenticated.value);
   const userName = computed(() => payload.value?.name || payload.value?.email);
 
-  /**
-   * Fetch JWT, store it and use it for API client.
-   *
-   * @throws If the JWT request fails (auth server down?).
-   */
-  async function getJwt(skipCache?: boolean) {
-    async function fetchAndStoreJwt() {
-      // Fetch JWT.
-      // When skipCache is falsy we need to call checkJwt with no args for the deduplicateRequests wrapper to work properly.
-      const promise = skipCache ? checkJwt(true) : checkJwt();
-      await promise.catch((error) => {
-        // On error, show message and treat as not authenticated
-        alert(`${t("login.fail")}: ${error?.message || error}`);
-      });
-
-      // Schedule next request shortly before expiration time.
-      if (refreshTimer) clearTimeout(refreshTimer);
-      if (payload.value?.exp) {
-        const timeoutMs = (payload.value.exp - 10) * 1000 - Date.now();
-        refreshTimer = setTimeout(getJwt, timeoutMs);
-      }
-    }
-    // Reuse current JWT request or make a new one.
-    jwtPromise = jwtPromise || spin(fetchAndStoreJwt(), "jwt");
-    await jwtPromise;
-    // Free the slot for subsequent refreshes.
-    jwtPromise = undefined;
+  /** Force reload JWT */
+  async function refreshAuth() {
+    unloadJwt();
+    await loadJwt();
   }
 
+  /** Check if a resource user is the currently logged in user. */
+  function isCurrentUser(other: User): boolean {
+    if (!payload.value) return false;
+    const { idp, sub } = payload.value;
+    // Build a user ID the same way as backend.
+    const userId = `${idp}-${sub}`.replace(/[^\w\-_\.]/g, "");
+    return other.id == userId;
+  }
+
+  /** Get current user's access level to a resource */
+  const getAccessLevel = (type: ResourceType, id: string) =>
+    getAccess(payload.value, type, id);
+
+  /** Check if current user has at least READ access to a resource */
+  const canRead = (type: ResourceType, id: string): boolean =>
+    hasAccessLevel(payload.value, type, id, "READ");
+
+  /** Check if current user has at least WRITE access to a resource */
+  const canWrite = (type: ResourceType, id: string): boolean =>
+    hasAccessLevel(payload.value, type, id, "WRITE");
+
+  /** Check if current user has ADMIN access to a resource */
+  const canAdmin = (type: ResourceType, id: string): boolean =>
+    hasAccessLevel(payload.value, type, id, "ADMIN");
+
   return {
-    isAuthenticating,
     isAuthenticated,
     canUserAdmin,
     canUserWrite,
     userName,
-    getJwt,
+    refreshAuth,
+    isCurrentUser,
+    getAccessLevel,
+    canRead,
+    canWrite,
+    canAdmin,
   };
 }

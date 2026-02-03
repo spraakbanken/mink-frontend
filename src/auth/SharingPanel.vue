@@ -2,20 +2,18 @@
 import { PhShareNetwork } from "@phosphor-icons/vue";
 import { computedAsync } from "@vueuse/core";
 import UrlButton from "@/components/UrlButton.vue";
-import {
-  createAuthGuiUrl,
-  getAccessLevel,
-  type JwtSbResourceType,
-} from "@/auth/sbAuth";
+import { useAuth } from "@/auth/auth.composable";
+import { getAuthGuiUrl, type ResourceType } from "@/api/sbauth";
 import { useResourceStore } from "@/store/resource.store";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 
 const props = defineProps<{
-  resourceType: JwtSbResourceType;
+  resourceType: ResourceType;
   resourceId: string;
 }>();
 
 const store = useResourceStore();
+const { getAccessLevel } = useAuth();
 
 const resource = computedAsync(() => store.loadResource(props.resourceId));
 </script>
@@ -41,7 +39,7 @@ const resource = computedAsync(() => store.loadResource(props.resourceId));
             </div>
             <UrlButton
               v-if="getAccessLevel(resourceType, resourceId) == 'ADMIN'"
-              :href="createAuthGuiUrl(resourceId)"
+              :href="getAuthGuiUrl(resourceId)"
               target="_blank"
             >
               <PhShareNetwork class="inline mr-1 mb-1" />

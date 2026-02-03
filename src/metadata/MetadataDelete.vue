@@ -8,12 +8,13 @@ import RouteButton from "@/components/RouteButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useResourceStore } from "@/store/resource.store";
-import { canAdmin } from "@/auth/sbAuth";
+import { useAuth } from "@/auth/auth.composable";
 
 const router = useRouter();
 const resourceId = useMetadataIdParam();
 const { deleteMetadata } = useDeleteMetadata();
 const resourceStore = useResourceStore();
+const { canAdmin } = useAuth();
 
 async function doDelete() {
   await deleteMetadata(resourceId);
