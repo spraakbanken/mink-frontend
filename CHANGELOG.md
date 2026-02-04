@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.15.0...HEAD)
 
+### Fixed
+
+- Permission checking disregards admin [#233](https://github.com/spraakbanken/mink-frontend/issues/233)
+
 ## [1.15.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.15.0) (2025-12-11)
 
 ### Added

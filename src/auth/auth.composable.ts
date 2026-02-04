@@ -3,12 +3,14 @@ import { storeToRefs } from "pinia";
 import { useJwtStore } from "@/store/jwt.store";
 import type { User } from "@/store/resource.types";
 import { getAccess, hasAccessLevel, type ResourceType } from "@/api/sbauth";
+import useAdmin from "@/user/admin.composable";
 
 export function useAuth() {
   const jwtStore = useJwtStore();
   const { payload } = storeToRefs(jwtStore);
   const { loadJwt, unloadJwt } = jwtStore;
 
+  const { adminMode } = useAdmin();
   const isAuthenticated = computed<boolean>(() => !!payload.value);
   const canUserAdmin = computed<boolean>(() => canAdmin("other", "mink-app"));
   const canUserWrite = computed(() => isAuthenticated.value);
@@ -35,15 +37,15 @@ export function useAuth() {
 
   /** Check if current user has at least READ access to a resource */
   const canRead = (type: ResourceType, id: string): boolean =>
-    hasAccessLevel(payload.value, type, id, "READ");
+    adminMode.value || hasAccessLevel(payload.value, type, id, "READ");
 
   /** Check if current user has at least WRITE access to a resource */
   const canWrite = (type: ResourceType, id: string): boolean =>
-    hasAccessLevel(payload.value, type, id, "WRITE");
+    adminMode.value || hasAccessLevel(payload.value, type, id, "WRITE");
 
   /** Check if current user has ADMIN access to a resource */
   const canAdmin = (type: ResourceType, id: string): boolean =>
-    hasAccessLevel(payload.value, type, id, "ADMIN");
+    adminMode.value || hasAccessLevel(payload.value, type, id, "ADMIN");
 
   return {
     isAuthenticated,
