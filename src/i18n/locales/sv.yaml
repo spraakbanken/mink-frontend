@@ -84,6 +84,7 @@ job.process.korp: Installation i Korp
 job.process.strix: Installation i Strix
 sharing: Delning
 sharing.level: Din behörighetsnivå
+sharing.level.admin_mode: Administratörsläge aktiverat
 sharing.manage: Hantera åtkomst
 sharing.owner: Ägare
 sharing.help.heading: Om åtkomsthantering

@@ -83,6 +83,7 @@ job.process.korp: Installation to Korp
 job.process.strix: Installation to Strix
 sharing: Sharing
 sharing.level: Your access level
+sharing.level.admin_mode: Admin mode enabled
 sharing.manage: Manage access
 sharing.owner: Owner
 sharing.help.heading: About access management

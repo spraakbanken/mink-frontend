@@ -2,6 +2,7 @@
 import { PhShareNetwork } from "@phosphor-icons/vue";
 import { computedAsync } from "@vueuse/core";
 import UrlButton from "@/components/UrlButton.vue";
+import useAdmin from "@/user/admin.composable";
 import { useAuth } from "@/auth/auth.composable";
 import { getAuthGuiUrl, type ResourceType } from "@/api/sbauth";
 import { useResourceStore } from "@/store/resource.store";
@@ -13,6 +14,7 @@ const props = defineProps<{
 }>();
 
 const store = useResourceStore();
+const { adminMode } = useAdmin();
 const { getAccessLevel } = useAuth();
 
 const resource = computedAsync(() => store.loadResource(props.resourceId));
@@ -33,7 +35,13 @@ const resource = computedAsync(() => store.loadResource(props.resourceId));
           <th>{{ $t("sharing.level") }}</th>
           <td class="flex gap-3 items-baseline">
             <div>
-              <TerminalOutput class="inline leading-loose">
+              <span
+                v-if="adminMode"
+                class="bg-amber-300 text-amber-900 px-2 py-1"
+              >
+                {{ $t("sharing.level.admin_mode") }}
+              </span>
+              <TerminalOutput v-else class="inline leading-loose">
                 {{ getAccessLevel(resourceType, resourceId) }}
               </TerminalOutput>
             </div>
