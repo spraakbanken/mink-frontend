@@ -39,9 +39,12 @@ export function downloadFile(data: string | Blob, filename: string) {
 /** Leaves an array unchanged but returns [x] for a non-array value x. */
 export const enarray = <T>(x: T | T[]): T[] => (Array.isArray(x) ? x : [x]);
 
-/** Formats an ISO 8601 date as "YYYY-MM-DD hh:mm:ss" */
-export function formatDate(dateStr: string) {
-  return dateStr.slice(0, 19).replace("T", " ");
+/** Converts and formats a date to the given locale */
+export function formatDate(dateStr: string, locale: string) {
+  return new Date(dateStr).toLocaleString(locale, {
+    dateStyle: "long", // Spell out month name to avoid ambiguity with M/D/Y in English
+    timeStyle: "medium", // With seconds but not timezone details
+  });
 }
 
 /** Add or change a filename extension */

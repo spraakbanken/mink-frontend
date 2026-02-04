@@ -41,7 +41,26 @@ describe("enarray", () => {
 
 describe("formatDate", () => {
   test("formats a date", () => {
-    expect(formatDate("2022-11-30T12:44:37.735Z")).toBe("2022-11-30 12:44:37");
+    // Date in UTC in winter
+    const dateStrWinter = "2022-11-30T12:44:37Z";
+    // Date in UTC in summer, should have DST applied when formatted
+    const dateStrSummer = "2022-06-30T12:44:37Z";
+    // Date with timezone offset (UTC-6 in winter)
+    const dateStrOffset = "2022-11-30T12:44:37-06:00";
+
+    // Localize to Swedish
+    expect(formatDate(dateStrWinter, "sv")).toBe(
+      "30 november 2022 kl. 13:44:37",
+    );
+    expect(formatDate(dateStrSummer, "sv")).toBe("30 juni 2022 kl. 14:44:37");
+    expect(formatDate(dateStrOffset, "sv")).toBe(
+      "30 november 2022 kl. 19:44:37",
+    );
+
+    // Localize to English (US)
+    expect(formatDate(dateStrWinter, "en")).toBe(
+      "November 30, 2022 at 1:44:37 PM",
+    );
   });
 });
 

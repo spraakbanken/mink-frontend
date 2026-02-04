@@ -5,6 +5,7 @@ import { useStorage } from "@vueuse/core";
 import { once } from "es-toolkit";
 import type { Ref } from "vue";
 import type { ByLang, SvEn, SweEng } from "@/util.types";
+import { formatDate } from "@/util";
 
 const storedLocale = useStorage<SvEn | "">("locale", "");
 
@@ -68,11 +69,15 @@ export default function useLocale() {
     return str.replace(/[\d.]+e[+\d]+/, (numStr) => String(parseFloat(numStr)));
   }
 
+  const formatDateLocalized = (dateStr: string) =>
+    formatDate(dateStr, locale.value);
+
   return {
     locale,
     locale3,
     th,
     thCompare,
     filesize: myFilesize,
+    formatDate: formatDateLocalized,
   };
 }

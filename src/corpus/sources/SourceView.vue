@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { useCorpus } from "../corpus.composable";
 import SourceText from "@/corpus/sources/SourceText.vue";
-import { ensureExtension, formatDate, getFilenameExtension } from "@/util";
+import { ensureExtension, getFilenameExtension } from "@/util";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
@@ -17,7 +17,7 @@ const props = defineProps<{
 const { downloadSource, downloadPlaintext, jobState, sources } = useCorpus(
   props.corpusId,
 );
-const { filesize } = useLocale();
+const { filesize, formatDate } = useLocale();
 
 const metadata = computed(() =>
   sources.value?.find((source) => source.name === props.filename),
