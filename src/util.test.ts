@@ -1,4 +1,5 @@
-import { beforeEach, describe, expect, test } from "vitest";
+import { afterEach } from "node:test";
+import { beforeEach, describe, expect, test, vi } from "vitest";
 import { delay } from "es-toolkit";
 import {
   addDays,
@@ -40,6 +41,15 @@ describe("enarray", () => {
 });
 
 describe("formatDate", () => {
+  // Ensure the test runs in a known timezone
+  beforeEach(() => {
+    vi.stubEnv("TZ", "Europe/Stockholm");
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
   test("formats a date", () => {
     // Date in UTC in winter
     const dateStrWinter = "2022-11-30T12:44:37Z";
