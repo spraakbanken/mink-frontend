@@ -8,9 +8,16 @@ import { computed, useTemplateRef } from "vue";
 import { PhFileArrowUp, PhFloppyDisk } from "@phosphor-icons/vue";
 import ActionButton from "./ActionButton.vue";
 import FileDropArea from "./FileDropArea.vue";
+import YamlValidation from "./YamlValidation.vue";
+import HelpBox from "./HelpBox.vue";
 import { downloadFile, handleFileInput, randomString } from "@/util";
 
 const code = defineModel<string>({ required: true });
+
+defineProps<{
+  /** Optional JSON schema, parsed. If present, enable continual validation. */
+  schema?: object;
+}>();
 
 const isDark = useDark();
 
@@ -39,7 +46,7 @@ function save() {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-2">
     <div class="flex flex-wrap gap-4 items-baseline">
       <!-- Load local file -->
       <FileDropArea @drop="fileHandler">
@@ -59,9 +66,11 @@ function save() {
         />
       </FileDropArea>
 
+      <!-- Custom buttons -->
       <slot name="toolbar" />
 
-      <div class="flex-grow"><!-- Spacer --></div>
+      <!-- Spacer -->
+      <div class="flex-grow" />
 
       <!-- Save -->
       <!-- TODO Only primary if validation OK -->
@@ -70,6 +79,8 @@ function save() {
         {{ $t("save") }}
       </ActionButton>
     </div>
+
+    <YamlValidation v-if="schema" :code :schema class="my-0!" />
 
     <div>
       <!-- TODO Optional line wrapping -->
