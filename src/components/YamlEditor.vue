@@ -20,7 +20,9 @@ defineProps<{
   schema?: object;
 }>();
 
-defineEmits<{
+const emit = defineEmits<{
+  /** Emitted when user selects a file to open */
+  (e: "open", filename: string): void;
   /** Emitted when validation is complete */
   (e: "validated", isValid: boolean): void;
 }>();
@@ -41,7 +43,9 @@ const extensions = computed(() => {
 
 /** Load file content as raw YAML for editing. */
 async function fileHandler(files: File[]): Promise<void> {
-  code.value = await files[0]!.text();
+  const file = files[0]!;
+  code.value = await file.text();
+  emit("open", file.name);
 }
 </script>
 

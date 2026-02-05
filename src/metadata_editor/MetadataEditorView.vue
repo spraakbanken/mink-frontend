@@ -11,7 +11,7 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import YamlEditor from "@/components/YamlEditor.vue";
-import { downloadFile, randomString } from "@/util";
+import { downloadFile, randomString, removeExtension } from "@/util";
 import ActionButton from "@/components/ActionButton.vue";
 
 // Data stored in the session: separate across tabs, survives reloads
@@ -63,7 +63,12 @@ function save() {
 
     <div class="flex flex-wrap gap-4 items-start">
       <LayoutBox class="w-xl grow">
-        <YamlEditor v-model="yaml" :schema @validated="isValid = $event">
+        <YamlEditor
+          v-model="yaml"
+          :schema
+          @open="name = removeExtension($event)"
+          @validated="isValid = $event"
+        >
           <template #toolbar-left>
             <!-- Load template -->
             <select v-model="selectedType">

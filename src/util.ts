@@ -68,7 +68,12 @@ export function formatDate(dateStr: string, locale: string) {
 
 /** Add or change a filename extension */
 export function ensureExtension(filename: string, ext: string) {
-  return filename.replace(/(.+)\.[^/.]*$/, "$1") + "." + ext;
+  return removeExtension(filename) + "." + ext;
+}
+
+/** Drop a filename extension (only the last one, if there are multiple) */
+export function removeExtension(filename: string) {
+  return filename.replace(/(.+)\.[^/.]*$/, "$1");
 }
 
 /** Add trailing slash to a URL if it doesn't already have one */
