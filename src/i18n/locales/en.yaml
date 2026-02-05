@@ -132,7 +132,7 @@ metadata_editor.help.info.url: https://spraakbanken.gu.se/en/about/internal/tech
 metadata_editor.help.info.label: Resource metadata
 metadata_editor.help.repository.url: https://spraakbanken.gu.se/en/resources
 metadata_editor.help.repository.label: resource repository
-metadata_editor.load_file: Open fil
+metadata_editor.load_file: Open file
 metadata_editor.load_template: Open template
 editor.wrap: Word wrap
 schema.validate.empty: The content will be automatically validated while you type.
@@ -166,7 +166,7 @@ corpuses: Corpora
 files: No files | 1 file | {count} files
 none: None
 new_corpus: New corpus
-fileName: Name
+filename: Name
 type: Type
 upload: Upload
 uploaded: Uploaded

@@ -15,6 +15,9 @@ import { downloadFile, randomString } from "@/util";
 import ActionButton from "@/components/ActionButton.vue";
 
 /** YAML input stored in the session: separate across tabs, survives reloads */
+const name = useSessionStorage<string>("mink-metadata-editor-name", () =>
+  randomString(),
+);
 const yaml = useSessionStorage<string>("mink-metadata-editor-yaml", "");
 
 const isValid = ref(true);
@@ -32,8 +35,7 @@ watch(selectedType, async () => {
 /** Trigger download of current YAML content. */
 function save() {
   // TODO Let user edit the resource id.
-  const name = randomString();
-  downloadFile(yaml.value, `metadata_${name}.yaml`);
+  downloadFile(yaml.value, `${name.value}.yaml`);
 }
 </script>
 
@@ -72,6 +74,13 @@ function save() {
           </template>
 
           <template #toolbar-right>
+            <!-- Filename -->
+            <div>
+              {{ $t("filename") }}:
+              <input type="text" v-model="name" size="12" />
+              .yaml
+            </div>
+
             <!-- Save -->
             <ActionButton
               @click="save()"

@@ -51,7 +51,7 @@ const exportsByFolder = computed(() =>
       <table class="w-full mt-4 striped">
         <thead>
           <tr>
-            <th class="w-full">{{ $t("fileName") }}</th>
+            <th class="w-full">{{ $t("filename") }}</th>
             <th class="text-right">{{ $t("fileSize") }}</th>
           </tr>
         </thead>
