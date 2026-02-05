@@ -17,11 +17,9 @@ export async function loadMetadataSchema() {
   return await response.json();
 }
 
-export async function loadTemplate(type: ResourceType) {
+export const loadTemplate = memoize(async (type: ResourceType) => {
   const url = `https://raw.githubusercontent.com/spraakbanken/metadata/refs/heads/main/yaml_templates/${type}.yaml`;
   const response = await fetch(url);
   const json = await response.text();
   return json;
-}
-
-export const loadTemplateMemoized = memoize(loadTemplate);
+});

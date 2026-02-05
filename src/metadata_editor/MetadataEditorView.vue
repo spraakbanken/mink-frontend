@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { computedAsync, useSessionStorage } from "@vueuse/core";
+import { PhFloppyDisk } from "@phosphor-icons/vue";
 import {
   loadMetadataSchema,
-  loadTemplateMemoized,
+  loadTemplate,
   ResourceType,
 } from "./metadataEditor";
 import LayoutBox from "@/components/LayoutBox.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import YamlEditor from "@/components/YamlEditor.vue";
+import { downloadFile, randomString } from "@/util";
+import ActionButton from "@/components/ActionButton.vue";
 
 /** YAML input stored in the session: separate across tabs, survives reloads */
 const yaml = useSessionStorage<string>("mink-metadata-editor-yaml", "");
@@ -20,10 +23,17 @@ const schema = computedAsync(loadMetadataSchema);
 // When selecting a template type, load the template.
 watch(selectedType, async () => {
   if (selectedType.value) {
-    yaml.value = await loadTemplateMemoized(selectedType.value);
+    yaml.value = await loadTemplate(selectedType.value);
     selectedType.value = undefined;
   }
 });
+
+/** Trigger download of current YAML content. */
+function save() {
+  // TODO Let user edit the resource id.
+  const name = randomString();
+  downloadFile(yaml.value, `metadata_${name}.yaml`);
+}
 </script>
 
 <template>
@@ -48,18 +58,25 @@ watch(selectedType, async () => {
     <div class="flex flex-wrap gap-4 items-start">
       <LayoutBox class="w-xl grow">
         <YamlEditor v-model="yaml" :schema>
-          <template #toolbar>
+          <template #toolbar-left>
             <!-- Load template -->
-            <div>
-              <select v-model="selectedType">
-                <option :value="undefined" disabled>
-                  {{ $t("metadata_editor.load_template") }}
-                </option>
-                <option v-for="type in ResourceType" :key="type">
-                  {{ type }}
-                </option>
-              </select>
-            </div>
+            <select v-model="selectedType">
+              <option :value="undefined" disabled>
+                {{ $t("metadata_editor.load_template") }}
+              </option>
+              <option v-for="type in ResourceType" :key="type">
+                {{ type }}
+              </option>
+            </select>
+          </template>
+
+          <template #toolbar-right>
+            <!-- Save -->
+            <!-- TODO Only primary if validation OK -->
+            <ActionButton @click="save()" :class="{ 'button-primary': yaml }">
+              <PhFloppyDisk class="inline mb-0.5 mr-1" />
+              {{ $t("save") }}
+            </ActionButton>
           </template>
         </YamlEditor>
       </LayoutBox>

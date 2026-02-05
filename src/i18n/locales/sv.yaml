@@ -279,8 +279,6 @@ accessdenied.contact: Om du har frågor eller vill rapportera en bugg, kontakta 
 notfound: Sidan kan inte hittas
 notfound.description: Något har gått fel, och det finns ingenting att visa på den här adressen.
 notfound.contact: Om du har frågor eller vill rapportera en bugg, kontakta gärna sb-info{'@'}svenska.gu.se. Tack!
-config.invalid.yaml: Syntaxfel
-config.invalid.schema: Schemafel
 
 # These correspond to the `return_code` param of backend responses
 api.code.missing_auth_token: Auktoriseringstoken saknas

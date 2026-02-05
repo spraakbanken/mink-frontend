@@ -277,8 +277,6 @@ accessdenied.contact: If you have questions, or you want to report a bug, please
 notfound: Page not found
 notfound.description: Something went wrong, and there is nothing to see at this address.
 notfound.contact: If you have questions, or you want to report a bug, please contact sb-info{'@'}svenska.gu.se. Thank you!
-config.invalid.yaml: Syntax error
-config.invalid.schema: Schema error
 
 # These correspond to the `return_code` param of backend responses
 api.code.missing_auth_token: Missing authorization token
