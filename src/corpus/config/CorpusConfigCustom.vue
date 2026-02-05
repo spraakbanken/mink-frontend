@@ -84,7 +84,9 @@ async function upload() {
               :title="
                 input == config
                   ? $t('save.no_changes')
-                  : !isValid ? $t('save.invalid') : ''
+                  : !isValid
+                    ? $t('save.invalid')
+                    : ''
               "
             >
               {{ $t("save") }}

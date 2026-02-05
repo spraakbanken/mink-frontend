@@ -60,7 +60,7 @@ async function fileHandler(files: File[]): Promise<void> {
           :class="{ 'button-primary': !code }"
         >
           <PhFileArrowUp class="inline mb-1 mr-1" />
-          {{ $t("metadata_editor.load_file") }}
+          {{ $t("editor.load_file") }}
         </ActionButton>
         <input
           accept=".yaml,.yml"

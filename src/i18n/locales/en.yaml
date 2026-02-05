@@ -132,8 +132,8 @@ metadata_editor.help.info.url: https://spraakbanken.gu.se/en/about/internal/tech
 metadata_editor.help.info.label: Resource metadata
 metadata_editor.help.repository.url: https://spraakbanken.gu.se/en/resources
 metadata_editor.help.repository.label: resource repository
-metadata_editor.load_file: Open file
 metadata_editor.load_template: Open template
+editor.load_file: Open file
 editor.wrap: Word wrap
 schema.validate.empty: The content will be automatically validated while you type.
 schema.validate.error: "Error at location {path}: {message}"
