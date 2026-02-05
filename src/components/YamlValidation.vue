@@ -73,8 +73,6 @@ watchDebounced(() => props.code, validate, { debounce: 200, immediate: true });
     :important="!!validationErrors.length || !!parseError"
     class="max-w-full"
   >
-    <strong>{{ $t("schema.validate.validation") }}: </strong>
-
     <span v-if="!code">{{ $t("schema.validate.empty") }}</span>
 
     <span v-else-if="!validationErrors.length && !parseError">

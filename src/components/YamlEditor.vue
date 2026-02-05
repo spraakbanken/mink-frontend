@@ -3,13 +3,13 @@ import { computed, ref, useTemplateRef } from "vue";
 import { Codemirror } from "vue-codemirror";
 import { yaml } from "@codemirror/lang-yaml";
 import type { Extension } from "@codemirror/state";
-import { EditorView } from "@codemirror/view";
 import { monokai } from "@fsegurai/codemirror-theme-monokai";
 import { useDark } from "@vueuse/core";
 import { PhFileArrowUp } from "@phosphor-icons/vue";
 import ActionButton from "./ActionButton.vue";
 import FileDropArea from "./FileDropArea.vue";
 import YamlValidation from "./YamlValidation.vue";
+import { indentWrapExtensions } from "./codemirrorIndentWrapping";
 import { handleFileInput } from "@/util";
 
 const code = defineModel<string>({ required: true });
@@ -27,7 +27,7 @@ defineEmits<{
 
 const isDark = useDark();
 const fileInput = useTemplateRef("fileInput");
-const isLinewrappingEnabled = ref(false);
+const isWrapEnabled = ref(false);
 
 /** Extensions that are always used, created only once */
 const baseExtensions: Extension[] = [yaml()];
@@ -35,7 +35,7 @@ const baseExtensions: Extension[] = [yaml()];
 const extensions = computed(() => {
   const result = [...baseExtensions];
   if (isDark.value) result.push(monokai);
-  if (isLinewrappingEnabled.value) result.push(EditorView.lineWrapping);
+  if (isWrapEnabled.value) result.push(...indentWrapExtensions);
   return result;
 });
 
@@ -78,7 +78,7 @@ async function fileHandler(files: File[]): Promise<void> {
 
     <div class="flex flex-wrap gap-4 items-baseline">
       <label>
-        <input type="checkbox" v-model="isLinewrappingEnabled" class="mr-1" />
+        <input type="checkbox" v-model="isWrapEnabled" class="mr-1" />
         {{ $t("editor.wrap") }}
       </label>
     </div>
