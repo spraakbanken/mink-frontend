@@ -17,6 +17,7 @@ import ActionButton from "@/components/ActionButton.vue";
 /** YAML input stored in the session: separate across tabs, survives reloads */
 const yaml = useSessionStorage<string>("mink-metadata-editor-yaml", "");
 
+const isValid = ref(true);
 const selectedType = ref<ResourceType>();
 const schema = computedAsync(loadMetadataSchema);
 
@@ -57,7 +58,7 @@ function save() {
 
     <div class="flex flex-wrap gap-4 items-start">
       <LayoutBox class="w-xl grow">
-        <YamlEditor v-model="yaml" :schema>
+        <YamlEditor v-model="yaml" :schema @validated="isValid = $event">
           <template #toolbar-left>
             <!-- Load template -->
             <select v-model="selectedType">
@@ -72,8 +73,10 @@ function save() {
 
           <template #toolbar-right>
             <!-- Save -->
-            <!-- TODO Only primary if validation OK -->
-            <ActionButton @click="save()" :class="{ 'button-primary': yaml }">
+            <ActionButton
+              @click="save()"
+              :class="{ 'button-primary': yaml && isValid }"
+            >
               <PhFloppyDisk class="inline mb-0.5 mr-1" />
               {{ $t("save") }}
             </ActionButton>

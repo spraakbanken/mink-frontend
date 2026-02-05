@@ -23,6 +23,7 @@ const { canWrite } = useAuth();
 
 const input = ref(config.value || "");
 const schema = computedAsync(() => api.sparvSchema());
+const isValid = ref(true);
 
 watchEffect(() => (input.value = config.value || ""));
 
@@ -73,16 +74,17 @@ async function upload() {
           v-model="input"
           :disabled="!canWrite('corpora', corpusId)"
           :schema
+          @validated="isValid = $event"
         >
           <template #toolbar-right>
             <ActionButton
               @click="upload"
               class="button-primary"
-              :disabled="input == config /* TODO || !!error */"
+              :disabled="input == config || !isValid"
               :title="
                 input == config
                   ? $t('save.no_changes')
-                  : '' /* TODO error?.hint */
+                  : !isValid ? $t('save.invalid') : ''
               "
             >
               {{ $t("save") }}

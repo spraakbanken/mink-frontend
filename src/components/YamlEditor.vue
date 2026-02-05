@@ -19,6 +19,11 @@ defineProps<{
   schema?: object;
 }>();
 
+defineEmits<{
+  /** Emitted when validation is complete */
+  (e: "validated", isValid: boolean): void;
+}>();
+
 const isDark = useDark();
 
 const fileInput = useTemplateRef("fileInput");
@@ -69,7 +74,13 @@ async function fileHandler(files: File[]): Promise<void> {
       <slot name="toolbar-right" />
     </div>
 
-    <YamlValidation v-if="schema" :code :schema class="my-0!" />
+    <YamlValidation
+      v-if="schema"
+      :code
+      :schema
+      class="my-0!"
+      @validated="$emit('validated', $event)"
+    />
 
     <div>
       <!-- TODO Optional line wrapping -->

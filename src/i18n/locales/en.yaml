@@ -230,6 +230,7 @@ not_loaded: Not loaded
 file.archive: Archive
 file.singles: Single files
 save.no_changes: There are no changes to save
+save.invalid: Cannot save invalid data
 name: Name
 metadata.name.help: You can use spaces and special characters.
 identifier: Identifier

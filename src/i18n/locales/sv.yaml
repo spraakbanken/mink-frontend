@@ -232,6 +232,7 @@ not_loaded: Ej laddad
 file.archive: Arkivfil
 file.singles: Enskilda filer
 save.no_changes: Det finns inga ändringar att spara
+save.invalid: Ogiltig inmatning kan inte sparas
 name: Namn
 metadata.name.help: Det går bra att använda mellanslag och specialtecken.
 identifier: Identifierare

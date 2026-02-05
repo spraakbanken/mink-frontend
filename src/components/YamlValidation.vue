@@ -17,6 +17,11 @@ const props = defineProps<{
   schema: object;
 }>();
 
+const emit = defineEmits<{
+  /** Emitted when validation is complete */
+  (e: "validated", isValid: boolean): void;
+}>();
+
 const { alertError } = useMessenger();
 
 const validator = createValidator();
@@ -38,12 +43,16 @@ async function validate() {
   validationErrors.value = [];
 
   // Skip if no content.
-  if (!props.code) return;
+  if (!props.code) {
+    emit("validated", true);
+    return;
+  }
 
   // Load YAML as data and validate it.
   try {
     const data = load(props.code, { schema: JSON_SCHEMA });
     validator(data);
+    emit("validated", !validator.errors?.length);
 
     // Store any validation errors.
     validationErrors.value = validator.errors || [];
@@ -51,6 +60,7 @@ async function validate() {
     // Yaml parsing itself may crash; handle that separately from validation errors.
     if (error instanceof YAMLException) parseError.value = error;
     else alertError(error);
+    emit("validated", false);
   }
 }
 
