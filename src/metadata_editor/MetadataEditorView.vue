@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, useTemplateRef, watch } from "vue";
 import { computedAsync, useSessionStorage } from "@vueuse/core";
 import { PhFloppyDisk } from "@phosphor-icons/vue";
 import {
@@ -21,6 +21,8 @@ const name = useSessionStorage<string>("mink-metadata-editor-name", () =>
 const yaml = useSessionStorage<string>("mink-metadata-editor-yaml", "");
 
 const isValid = ref(true);
+const isNameValid = ref(true);
+const nameInput = useTemplateRef("nameInput");
 const selectedType = ref<ResourceType>();
 const schema = computedAsync(loadMetadataSchema);
 
@@ -32,9 +34,12 @@ watch(selectedType, async () => {
   }
 });
 
+function validateName() {
+  isNameValid.value = nameInput.value?.checkValidity() ?? false;
+}
+
 /** Trigger download of current YAML content. */
 function save() {
-  // TODO Let user edit the resource id.
   downloadFile(yaml.value, `${name.value}.yaml`);
 }
 </script>
@@ -76,15 +81,24 @@ function save() {
           <template #toolbar-right>
             <!-- Filename -->
             <div>
-              {{ $t("filename") }}:
-              <input type="text" v-model="name" size="12" />
+              {{ $t("identifier") }}:
+              <input
+                ref="nameInput"
+                type="text"
+                v-model="name"
+                size="12"
+                pattern="[a-z0-9_\-]+"
+                required
+                @input="validateName()"
+              />
               .yaml
             </div>
 
             <!-- Save -->
             <ActionButton
               @click="save()"
-              :class="{ 'button-primary': yaml && isValid }"
+              :class="{ 'button-primary': yaml && isValid && isNameValid }"
+              :disabled="!yaml || !isNameValid"
             >
               <PhFloppyDisk class="inline mb-0.5 mr-1" />
               {{ $t("save") }}
