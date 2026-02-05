@@ -127,6 +127,14 @@ exports.help.more.label: Läs mer om exportfiler i användarhandledningen
 user.settings: Inställningar
 user.settings.admin_mode: Aktivera administratörsläget
 user.admin_mode.warning: Administratörsläget är aktiverat. Var försiktig!
+editor.load_file: Öppna fil
+editor.wrap: Mjuk radbrytning
+schema.validate.empty: Innehållet valideras automatiskt medan du skriver.
+schema.validate.error.parse: "Kunde inte tolka YAML: {message}"
+schema.validate.error: "Fel vid {path}: {message}"
+schema.validate.error.root: "Fel vid rotnivån: {message}"
+schema.validate.ok: Filen är giltig
+schema.validate.validation: Validering
 errors: Fel
 warnings: Varningar
 error.message: Ett fel uppstod
@@ -152,7 +160,7 @@ corpuses: Korpusar
 files: Inga filer | 1 fil | {count} filer
 none: Inget
 new_corpus: Ny korpus
-fileName: Filnamn
+filename: Filnamn
 type: Typ
 upload: Ladda upp
 uploaded: Uppladdad
@@ -217,6 +225,7 @@ not_loaded: Ej laddad
 file.archive: Arkivfil
 file.singles: Enskilda filer
 save.no_changes: Det finns inga ändringar att spara
+save.invalid: Ogiltig inmatning kan inte sparas
 name: Namn
 metadata.name.help: Det går bra att använda mellanslag och specialtecken.
 identifier: Identifierare
@@ -264,8 +273,6 @@ accessdenied.contact: Om du har frågor eller vill rapportera en bugg, kontakta 
 notfound: Sidan kan inte hittas
 notfound.description: Något har gått fel, och det finns ingenting att visa på den här adressen.
 notfound.contact: Om du har frågor eller vill rapportera en bugg, kontakta gärna sb-info{'@'}svenska.gu.se. Tack!
-config.invalid.yaml: Syntaxfel
-config.invalid.schema: Schemafel
 
 # These correspond to the `return_code` param of backend responses
 api.code.missing_auth_token: Auktoriseringstoken saknas
