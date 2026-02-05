@@ -8,8 +8,8 @@ import { EditorState, StateField } from "@codemirror/state";
  * and adds the same amount as negative "text-indent". The nice thing about text-indent is that it
  * applies to the initial line of a wrapped line.
  *
- * @author qbane, et al.
- * @see https://discuss.codemirror.net/t/making-codemirror-6-respect-indent-for-wrapped-lines/2881/9
+ * Thanks to Michiel, fonsp, Mitcheljager and qbane at
+ * https://discuss.codemirror.net/t/making-codemirror-6-respect-indent-for-wrapped-lines/2881/10
  */
 export const indentWrap = StateField.define({
   create: (state) => getDecorations(state),
@@ -26,7 +26,8 @@ function getDecorations(state: EditorState) {
   for (let i = 1; i <= state.doc.lines; i++) {
     const line = state.doc.line(i);
     const leadingSpace = /^ */.exec(line.text)?.[0] ?? "";
-    const offset = leadingSpace.length + state.tabSize;
+    // TODO Should use `state.tabSize`, but its initial value is 4 so it ends up wrong if loaded with wrap enabled
+    const offset = leadingSpace.length + 2;
 
     const linerwapper = Decoration.line({
       attributes: {
