@@ -224,13 +224,18 @@ watch(selectedType, async () => {
         </HelpBox>
 
         <!-- Either a textarea for editing... -->
-        <SyntaxHighlight v-show="!isEditing" :code="yaml" language="yaml" />
+        <SyntaxHighlight
+          v-show="!isEditing"
+          :code="yaml"
+          language="yaml"
+          class="text-sm!"
+        />
 
         <!-- ...or YAML output -->
         <textarea
           v-show="isEditing"
           v-model="yaml"
-          class="w-full h-96 max-h-svh font-mono text-xs"
+          class="w-full h-96 max-h-svh font-mono text-sm"
         ></textarea>
       </LayoutBox>
     </div>
