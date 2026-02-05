@@ -14,11 +14,9 @@ import YamlEditor from "@/components/YamlEditor.vue";
 import { downloadFile, randomString } from "@/util";
 import ActionButton from "@/components/ActionButton.vue";
 
-/** YAML input stored in the session: separate across tabs, survives reloads */
-const name = useSessionStorage<string>("mink-metadata-editor-name", () =>
-  randomString(),
-);
-const yaml = useSessionStorage<string>("mink-metadata-editor-yaml", "");
+// Data stored in the session: separate across tabs, survives reloads
+const name = useSessionStorage<string>("metadataEditor.name", randomString);
+const yaml = useSessionStorage<string>("metadataEditor.yaml", "");
 
 const isValid = ref(true);
 const isNameValid = ref(true);

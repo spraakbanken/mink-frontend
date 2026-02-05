@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, ref, useTemplateRef } from "vue";
+import { computed, useTemplateRef } from "vue";
 import { Codemirror } from "vue-codemirror";
 import { yaml } from "@codemirror/lang-yaml";
 import type { Extension } from "@codemirror/state";
 import { monokai } from "@fsegurai/codemirror-theme-monokai";
-import { useDark } from "@vueuse/core";
+import { useDark, useLocalStorage } from "@vueuse/core";
 import { PhFileArrowUp } from "@phosphor-icons/vue";
 import ActionButton from "./ActionButton.vue";
 import FileDropArea from "./FileDropArea.vue";
@@ -27,7 +27,7 @@ defineEmits<{
 
 const isDark = useDark();
 const fileInput = useTemplateRef("fileInput");
-const isWrapEnabled = ref(false);
+const isWrapEnabled = useLocalStorage("editor.wrap", false);
 
 /** Extensions that are always used, created only once */
 const baseExtensions: Extension[] = [yaml()];
