@@ -6,8 +6,8 @@ import { ref } from "vue";
 import { PhCheckCircle, PhWarning } from "@phosphor-icons/vue";
 import Ajv2020 from "ajv/dist/2020";
 import addFormats from "ajv-formats";
-import TextData from "./TextData.vue";
-import HelpBox from "./HelpBox.vue";
+import TextData from "../TextData.vue";
+import HelpBox from "../HelpBox.vue";
 import useMessenger from "@/message/messenger.composable";
 
 const props = defineProps<{

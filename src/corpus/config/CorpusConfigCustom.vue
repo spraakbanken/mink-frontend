@@ -10,7 +10,7 @@ import useMessenger from "@/message/messenger.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useCorpusStore } from "@/store/corpus.store";
 import { useAuth } from "@/auth/auth.composable";
-import YamlEditor from "@/components/YamlEditor.vue";
+import YamlEditor from "@/components/editor/YamlEditor.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import api from "@/api/api";
 import LayoutSection from "@/components/LayoutSection.vue";

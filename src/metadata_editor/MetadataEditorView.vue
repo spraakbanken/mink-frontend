@@ -10,7 +10,7 @@ import {
 import LayoutBox from "@/components/LayoutBox.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import PageTitle from "@/components/PageTitle.vue";
-import YamlEditor from "@/components/YamlEditor.vue";
+import YamlEditor from "@/components/editor/YamlEditor.vue";
 import { downloadFile, randomString, removeExtension } from "@/util";
 import ActionButton from "@/components/ActionButton.vue";
 

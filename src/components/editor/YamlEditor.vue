@@ -6,10 +6,10 @@ import type { Extension } from "@codemirror/state";
 import { monokai } from "@fsegurai/codemirror-theme-monokai";
 import { useDark, useLocalStorage } from "@vueuse/core";
 import { PhFileArrowUp } from "@phosphor-icons/vue";
-import ActionButton from "./ActionButton.vue";
-import FileDropArea from "./FileDropArea.vue";
+import ActionButton from "../ActionButton.vue";
+import FileDropArea from "../FileDropArea.vue";
 import YamlValidation from "./YamlValidation.vue";
-import { indentWrapExtensions } from "./codemirrorIndentWrapping";
+import { indentWrapExtensions } from "./codemirrorIndentWrap";
 import { handleFileInput } from "@/util";
 
 const code = defineModel<string>({ required: true });

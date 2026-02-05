@@ -29,24 +29,24 @@ function getDecorations(state: EditorState) {
     // TODO Should use `state.tabSize`, but its initial value is 4 so it ends up wrong if loaded with wrap enabled
     const offset = leadingSpace.length + 2;
 
-    const linerwapper = Decoration.line({
+    const linewrapper = Decoration.line({
       attributes: {
         style: `--indented: ${offset}ch;`,
-        class: "indented-wrapped-line",
+        class: "indentwrap-line",
       },
     });
 
-    decorations.push(linerwapper.range(line.from, line.from));
+    decorations.push(linewrapper.range(line.from, line.from));
   }
 
   return Decoration.set(decorations);
 }
 
 export const indentWrapTheme = EditorView.theme({
-  ".indented-wrapped-line": {
+  ".indentwrap-line": {
     borderLeft: "transparent solid calc(var(--indented))",
   },
-  ".indented-wrapped-line:before": {
+  ".indentwrap-line:before": {
     content: '""',
     marginLeft: "calc(-1 * var(--indented))",
   },
