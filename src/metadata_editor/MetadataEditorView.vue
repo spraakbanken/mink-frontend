@@ -159,6 +159,70 @@ watch(selectedType, async () => {
           </ActionButton>
         </div>
 
+        <!-- Validation output -->
+        <HelpBox
+          class="max-w-full mb-0"
+          :dimportant="!!parseError || !!validationErrors.length"
+        >
+          <strong>{{ $t("schema.validate.validation") }}: </strong>
+
+          <span v-if="!yaml">{{ $t("schema.validate.empty") }}</span>
+
+          <span v-else-if="!validationErrors.length && !parseError">
+            <PhCheckCircle class="inline mb-0.5" />
+            {{ $t("schema.validate.ok") }}
+          </span>
+
+          <template v-else-if="parseError">
+            <span>
+              <PhWarning class="inline mb-1 mr-1" />
+              <i18n-t scope="global" keypath="schema.validate.error.parse">
+                <template #message>
+                  <em>{{ parseError.reason }}</em>
+                </template>
+              </i18n-t>
+            </span>
+            <TextData
+              v-if="parseError.mark"
+              class="mt-2"
+              :text="parseError.mark.snippet"
+            />
+          </template>
+
+          <template v-else-if="validationErrors.length">
+            <template
+              v-for="error in validationErrors"
+              :key="error.instancePath + error.keyword"
+            >
+              <PhWarning class="inline mb-1 mr-1" />
+              <i18n-t
+                v-if="error.instancePath"
+                scope="global"
+                keypath="schema.validate.error"
+              >
+                <template #path>{{ error.instancePath }}</template>
+                <template #message>
+                  <em>{{ error.message }}</em>
+                </template>
+              </i18n-t>
+              <i18n-t
+                v-else
+                scope="global"
+                keypath="schema.validate.error.root"
+              >
+                <template #message>
+                  <em>{{ error.message }}</em>
+                </template>
+              </i18n-t>
+              <div v-if="error.params">
+                <div v-for="(value, key) in error.params" :key="key">
+                  <strong>{{ key }}:</strong> {{ value }}
+                </div>
+              </div>
+            </template>
+          </template>
+        </HelpBox>
+
         <!-- Either a textarea for editing... -->
         <SyntaxHighlight v-show="!isEditing" :code="yaml" language="yaml" />
 
@@ -168,63 +232,6 @@ watch(selectedType, async () => {
           v-model="yaml"
           class="w-full h-96 max-h-svh font-mono text-xs"
         ></textarea>
-      </LayoutBox>
-
-      <LayoutBox class="w-96 grow" :title="$t('schema.validate.validation')">
-        <!-- Validation info if file is empty -->
-        <HelpBox v-if="!yaml">
-          {{ $t("schema.validate.empty") }}
-        </HelpBox>
-
-        <!-- Validation OK message -->
-        <HelpBox v-else-if="!validationErrors.length && !parseError">
-          <PhCheckCircle class="inline mb-0.5 mr-1" />
-          {{ $t("schema.validate.ok") }}
-        </HelpBox>
-
-        <!-- Parse error message -->
-        <HelpBox v-if="parseError" important>
-          <PhWarning class="inline mb-1 mr-1" />
-          <i18n-t scope="global" keypath="schema.validate.error.parse">
-            <template #message>
-              <em>{{ parseError.reason }}</em>
-            </template>
-          </i18n-t>
-          <TextData
-            v-if="parseError.mark"
-            class="mt-2"
-            :text="parseError.mark.snippet"
-          />
-        </HelpBox>
-
-        <!-- A message for each validation error -->
-        <HelpBox
-          v-for="error in validationErrors"
-          :key="error.instancePath + error.keyword"
-          important
-        >
-          <PhWarning class="inline mb-1 mr-1" />
-          <i18n-t
-            v-if="error.instancePath"
-            scope="global"
-            keypath="schema.validate.error"
-          >
-            <template #path>{{ error.instancePath }}</template>
-            <template #message>
-              <em>{{ error.message }}</em>
-            </template>
-          </i18n-t>
-          <i18n-t v-else scope="global" keypath="schema.validate.error.root">
-            <template #message>
-              <em>{{ error.message }}</em>
-            </template>
-          </i18n-t>
-          <div v-if="error.params">
-            <div v-for="(value, key) in error.params" :key="key">
-              <strong>{{ key }}:</strong> {{ value }}
-            </div>
-          </div>
-        </HelpBox>
       </LayoutBox>
     </div>
   </div>
