@@ -135,6 +135,7 @@ metadata_editor.help.repository.url: https://spraakbanken.gu.se/resurser
 metadata_editor.help.repository.label: resurskatalog
 metadata_editor.load_file: Öppna fil
 metadata_editor.load_template: Öppna mall
+editor.wrap: Mjuk radbrytning
 schema.validate.empty: Innehållet valideras automatiskt medan du skriver.
 schema.validate.error.parse: "Kunde inte tolka YAML: {message}"
 schema.validate.error: "Fel vid {path}: {message}"

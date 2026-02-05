@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { computed, ref, useTemplateRef } from "vue";
 import { Codemirror } from "vue-codemirror";
 import { yaml } from "@codemirror/lang-yaml";
 import type { Extension } from "@codemirror/state";
+import { EditorView } from "@codemirror/view";
 import { monokai } from "@fsegurai/codemirror-theme-monokai";
 import { useDark } from "@vueuse/core";
-import { computed, useTemplateRef } from "vue";
 import { PhFileArrowUp } from "@phosphor-icons/vue";
 import ActionButton from "./ActionButton.vue";
 import FileDropArea from "./FileDropArea.vue";
@@ -25,8 +26,8 @@ defineEmits<{
 }>();
 
 const isDark = useDark();
-
 const fileInput = useTemplateRef("fileInput");
+const isLinewrappingEnabled = ref(false);
 
 /** Extensions that are always used, created only once */
 const baseExtensions: Extension[] = [yaml()];
@@ -34,6 +35,7 @@ const baseExtensions: Extension[] = [yaml()];
 const extensions = computed(() => {
   const result = [...baseExtensions];
   if (isDark.value) result.push(monokai);
+  if (isLinewrappingEnabled.value) result.push(EditorView.lineWrapping);
   return result;
 });
 
@@ -74,6 +76,13 @@ async function fileHandler(files: File[]): Promise<void> {
       <slot name="toolbar-right" />
     </div>
 
+    <div class="flex flex-wrap gap-4 items-baseline">
+      <label>
+        <input type="checkbox" v-model="isLinewrappingEnabled" class="mr-1" />
+        {{ $t("editor.wrap") }}
+      </label>
+    </div>
+
     <YamlValidation
       v-if="schema"
       :code
@@ -83,7 +92,6 @@ async function fileHandler(files: File[]): Promise<void> {
     />
 
     <div>
-      <!-- TODO Optional line wrapping -->
       <Codemirror
         v-model="code"
         :disabled
