@@ -135,7 +135,10 @@ metadata_editor.help.repository.url: https://spraakbanken.gu.se/resurser
 metadata_editor.help.repository.label: resurskatalog
 metadata_editor.load_file: Ladda in fil
 metadata_editor.load_template: Ladda in mall
-schema.validate.error: "Fel vid position {path}: {message}"
+schema.validate.empty: Innehållet valideras automatiskt medan du skriver.
+schema.validate.error.parse: "Kunde inte tolka YAML: {message}"
+schema.validate.error: "Fel vid {path}: {message}"
+schema.validate.error.root: "Fel vid rotnivån: {message}"
 schema.validate.ok: Filen är giltig
 schema.validate.validation: Validering
 errors: Fel

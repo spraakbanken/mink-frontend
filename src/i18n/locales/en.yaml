@@ -134,7 +134,9 @@ metadata_editor.help.repository.url: https://spraakbanken.gu.se/en/resources
 metadata_editor.help.repository.label: resource repository
 metadata_editor.load_file: Load file
 metadata_editor.load_template: Load template
+schema.validate.empty: The content will be automatically validated while you type.
 schema.validate.error: "Error at location {path}: {message}"
+schema.validate.error.root: "Error at root level: {message}"
 schema.validate.ok: The file is valid
 schema.validate.validation: Validation
 errors: Errors

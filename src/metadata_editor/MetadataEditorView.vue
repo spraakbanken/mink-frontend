@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Yaml from "js-yaml";
-import { ref, watch } from "vue";
+import Yaml, { YAMLException } from "js-yaml";
+import { ref, useTemplateRef, watch } from "vue";
 import {
   PhCheckCircle,
   PhEye,
@@ -9,7 +9,7 @@ import {
   PhPencil,
   PhWarning,
 } from "@phosphor-icons/vue";
-import { useLocalStorage, useToggle, watchDebounced } from "@vueuse/core";
+import { useSessionStorage, useToggle, watchDebounced } from "@vueuse/core";
 import type { ErrorObject } from "ajv";
 import {
   loadTemplateMemoized,
@@ -24,13 +24,16 @@ import ActionButton from "@/components/ActionButton.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import { downloadFile, handleFileInput, randomString } from "@/util";
 import FileDropArea from "@/components/FileDropArea.vue";
+import TextData from "@/components/TextData.vue";
 
 const { alertError } = useMessenger();
-const yaml = useLocalStorage<string>("mink-metadata-editor-yaml", "");
+/** YAML input stored in the session: separate across tabs, survives reloads */
+const yaml = useSessionStorage<string>("mink-metadata-editor-yaml", "");
 const [isEditing, toggleEditing] = useToggle(true);
 
-const fileInput = ref<HTMLInputElement>();
-const validationErrors = ref<ErrorObject[]>();
+const fileInput = useTemplateRef("fileInput");
+const parseError = ref<YAMLException>();
+const validationErrors = ref<ErrorObject[]>([]);
 const validatorPromise = loadValidatorOnce().catch(alertError);
 const selectedType = ref<ResourceType>();
 
@@ -41,19 +44,25 @@ async function fileHandler(files: File[]): Promise<void> {
 
 /** Validate current YAML content against our JSON schema */
 const validate = async () => {
-  // Reset if no content.
-  if (!yaml.value) {
-    validationErrors.value = undefined;
-    return;
-  }
+  parseError.value = undefined;
+  validationErrors.value = [];
+
+  // Skip if no content.
+  if (!yaml.value) return;
 
   // Load YAML as data and validate it.
-  const validator = (await validatorPromise)!;
-  const data = Yaml.load(yaml.value, { schema: Yaml.JSON_SCHEMA });
-  validator(data);
+  try {
+    const validator = (await validatorPromise)!;
+    const data = Yaml.load(yaml.value, { schema: Yaml.JSON_SCHEMA });
+    validator(data);
 
-  // Store any validation errors.
-  validationErrors.value = validator.errors || [];
+    // Store any validation errors.
+    validationErrors.value = validator.errors || [];
+  } catch (error) {
+    // Yaml parsing itself may crash; handle that separately from validation errors.
+    if (error instanceof YAMLException) parseError.value = error;
+    else alertError(error);
+  }
 };
 
 /** Trigger download of current YAML content. */
@@ -157,15 +166,37 @@ watch(selectedType, async () => {
         <textarea
           v-show="isEditing"
           v-model="yaml"
-          class="w-full h-96 font-mono text-xs"
+          class="w-full h-96 max-h-svh font-mono text-xs"
         ></textarea>
       </LayoutBox>
 
       <LayoutBox class="w-96 grow" :title="$t('schema.validate.validation')">
-        <HelpBox v-if="validationErrors && !validationErrors.length">
+        <!-- Validation info if file is empty -->
+        <HelpBox v-if="!yaml">
+          {{ $t("schema.validate.empty") }}
+        </HelpBox>
+
+        <!-- Validation OK message -->
+        <HelpBox v-else-if="!validationErrors.length && !parseError">
           <PhCheckCircle class="inline mb-0.5 mr-1" />
           {{ $t("schema.validate.ok") }}
         </HelpBox>
+
+        <!-- Parse error message -->
+        <HelpBox v-if="parseError" important>
+          <PhWarning class="inline mb-1 mr-1" />
+          <i18n-t scope="global" keypath="schema.validate.error.parse">
+            <template #message>
+              <em>{{ parseError.reason }}</em>
+            </template>
+          </i18n-t>
+          <TextData
+            v-if="parseError.mark"
+            class="mt-2"
+            :text="parseError.mark.snippet"
+          />
+        </HelpBox>
+
         <!-- A message for each validation error -->
         <HelpBox
           v-for="error in validationErrors"
@@ -173,9 +204,20 @@ watch(selectedType, async () => {
           important
         >
           <PhWarning class="inline mb-1 mr-1" />
-          <i18n-t scope="global" keypath="schema.validate.error">
+          <i18n-t
+            v-if="error.instancePath"
+            scope="global"
+            keypath="schema.validate.error"
+          >
             <template #path>{{ error.instancePath }}</template>
-            <template #message>{{ error.message }}</template>
+            <template #message>
+              <em>{{ error.message }}</em>
+            </template>
+          </i18n-t>
+          <i18n-t v-else scope="global" keypath="schema.validate.error.root">
+            <template #message>
+              <em>{{ error.message }}</em>
+            </template>
           </i18n-t>
           <div v-if="error.params">
             <div v-for="(value, key) in error.params" :key="key">
