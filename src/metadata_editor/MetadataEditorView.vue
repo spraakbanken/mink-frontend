@@ -3,13 +3,11 @@ import Yaml, { YAMLException } from "js-yaml";
 import { ref, useTemplateRef, watch } from "vue";
 import {
   PhCheckCircle,
-  PhEye,
   PhFileArrowUp,
   PhFloppyDisk,
-  PhPencil,
   PhWarning,
 } from "@phosphor-icons/vue";
-import { useSessionStorage, useToggle, watchDebounced } from "@vueuse/core";
+import { useSessionStorage, watchDebounced } from "@vueuse/core";
 import type { ErrorObject } from "ajv";
 import {
   loadTemplateMemoized,
@@ -18,18 +16,16 @@ import {
 } from "./metadataEditor";
 import LayoutBox from "@/components/LayoutBox.vue";
 import HelpBox from "@/components/HelpBox.vue";
-import SyntaxHighlight from "@/components/SyntaxHighlight.vue";
 import useMessenger from "@/message/messenger.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import { downloadFile, handleFileInput, randomString } from "@/util";
 import FileDropArea from "@/components/FileDropArea.vue";
-import TextData from "@/components/TextData.vue";
+import YamlEditor from "@/components/YamlEditor.vue";
 
 const { alertError } = useMessenger();
 /** YAML input stored in the session: separate across tabs, survives reloads */
 const yaml = useSessionStorage<string>("mink-metadata-editor-yaml", "");
-const [isEditing, toggleEditing] = useToggle(true);
 
 const fileInput = useTemplateRef("fileInput");
 const parseError = ref<YAMLException>();
@@ -139,16 +135,6 @@ watch(selectedType, async () => {
 
           <div class="flex-grow"></div>
 
-          <!-- Toggle: Edit/View -->
-          <ActionButton v-if="isEditing" @click="toggleEditing(false)">
-            <PhEye class="inline mb-0.5 mr-1" />
-            {{ $t("show") }}
-          </ActionButton>
-          <ActionButton v-else @click="toggleEditing(true)">
-            <PhPencil class="inline mb-0.5 mr-1" />
-            {{ $t("edit") }}
-          </ActionButton>
-
           <!-- Save -->
           <ActionButton
             @click="save()"
@@ -223,20 +209,7 @@ watch(selectedType, async () => {
           </template>
         </HelpBox>
 
-        <!-- Either a textarea for editing... -->
-        <SyntaxHighlight
-          v-show="!isEditing"
-          :code="yaml"
-          language="yaml"
-          class="text-sm!"
-        />
-
-        <!-- ...or YAML output -->
-        <textarea
-          v-show="isEditing"
-          v-model="yaml"
-          class="w-full h-96 max-h-svh font-mono text-sm"
-        ></textarea>
+        <YamlEditor v-model="yaml" />
       </LayoutBox>
     </div>
   </div>

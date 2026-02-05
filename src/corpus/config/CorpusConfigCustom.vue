@@ -12,6 +12,7 @@ import PendingContent from "@/spin/PendingContent.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import { useCorpusStore } from "@/store/corpus.store";
 import { useAuth } from "@/auth/auth.composable";
+import YamlEditor from "@/components/YamlEditor.vue";
 
 const corpusId = useCorpusIdParam();
 const { config } = useCorpus(corpusId);
@@ -60,7 +61,7 @@ async function upload(files: File[]) {
 
     <LayoutBox class="w-96 grow" :title="$t('show')">
       <PendingContent :on="`corpus/${corpusId}/config`">
-        <SyntaxHighlight v-if="config" language="yaml" :code="config" />
+        <YamlEditor v-if="config" v-model="config" />
       </PendingContent>
 
       <template #controls>
