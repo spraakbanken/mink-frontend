@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import Yaml, { YAMLException } from "js-yaml";
-import { ref, useTemplateRef, watch } from "vue";
-import {
-  PhCheckCircle,
-  PhFileArrowUp,
-  PhFloppyDisk,
-  PhWarning,
-} from "@phosphor-icons/vue";
+import { ref, watch } from "vue";
+import { PhCheckCircle, PhWarning } from "@phosphor-icons/vue";
 import { useSessionStorage, watchDebounced } from "@vueuse/core";
 import type { ErrorObject } from "ajv";
 import {
@@ -17,26 +12,17 @@ import {
 import LayoutBox from "@/components/LayoutBox.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import useMessenger from "@/message/messenger.composable";
-import ActionButton from "@/components/ActionButton.vue";
 import PageTitle from "@/components/PageTitle.vue";
-import { downloadFile, handleFileInput, randomString } from "@/util";
-import FileDropArea from "@/components/FileDropArea.vue";
 import YamlEditor from "@/components/YamlEditor.vue";
 
 const { alertError } = useMessenger();
 /** YAML input stored in the session: separate across tabs, survives reloads */
 const yaml = useSessionStorage<string>("mink-metadata-editor-yaml", "");
 
-const fileInput = useTemplateRef("fileInput");
 const parseError = ref<YAMLException>();
 const validationErrors = ref<ErrorObject[]>([]);
 const validatorPromise = loadValidatorOnce().catch(alertError);
 const selectedType = ref<ResourceType>();
-
-/** Load file content as raw YAML for editing. */
-async function fileHandler(files: File[]): Promise<void> {
-  yaml.value = await files[0]!.text();
-}
 
 /** Validate current YAML content against our JSON schema */
 const validate = async () => {
@@ -60,13 +46,6 @@ const validate = async () => {
     else alertError(error);
   }
 };
-
-/** Trigger download of current YAML content. */
-function save() {
-  // TODO Let user edit the resource id.
-  const name = randomString();
-  downloadFile(yaml.value, `metadata_${name}.yaml`);
-}
 
 // Validate while editing.
 watchDebounced(yaml, validate, { debounce: 200, immediate: true });
@@ -101,53 +80,9 @@ watch(selectedType, async () => {
 
     <div class="flex flex-wrap gap-4 items-start">
       <LayoutBox class="w-xl grow" :title="$t('edit')">
-        <!-- Toolbar -->
-        <div class="my-2 flex items-baseline gap-4">
-          <!-- Load local file -->
-          <FileDropArea @drop="fileHandler">
-            <ActionButton
-              @click="fileInput?.click()"
-              :class="{ 'button-primary': !yaml }"
-            >
-              <PhFileArrowUp class="inline mb-1 mr-1" />
-              {{ $t("metadata_editor.load_file") }}
-            </ActionButton>
-            <input
-              accept=".yaml,.yml"
-              type="file"
-              ref="fileInput"
-              class="hidden"
-              @change="handleFileInput($event, fileHandler)"
-            />
-          </FileDropArea>
-
-          <!-- Load template -->
-          <div>
-            <select v-model="selectedType">
-              <option :value="undefined" disabled>
-                {{ $t("metadata_editor.load_template") }}
-              </option>
-              <option v-for="type in ResourceType" :key="type">
-                {{ type }}
-              </option>
-            </select>
-          </div>
-
-          <div class="flex-grow"></div>
-
-          <!-- Save -->
-          <ActionButton
-            @click="save()"
-            :class="{ 'button-primary': yaml && !validationErrors?.length }"
-          >
-            <PhFloppyDisk class="inline mb-0.5 mr-1" />
-            {{ $t("save") }}
-          </ActionButton>
-        </div>
-
         <!-- Validation output -->
         <HelpBox
-          class="max-w-full mb-0"
+          class="max-w-full"
           :dimportant="!!parseError || !!validationErrors.length"
         >
           <strong>{{ $t("schema.validate.validation") }}: </strong>
@@ -209,7 +144,21 @@ watch(selectedType, async () => {
           </template>
         </HelpBox>
 
-        <YamlEditor v-model="yaml" />
+        <YamlEditor v-model="yaml">
+          <template #toolbar>
+            <!-- Load template -->
+            <div>
+              <select v-model="selectedType">
+                <option :value="undefined" disabled>
+                  {{ $t("metadata_editor.load_template") }}
+                </option>
+                <option v-for="type in ResourceType" :key="type">
+                  {{ type }}
+                </option>
+              </select>
+            </div>
+          </template>
+        </YamlEditor>
       </LayoutBox>
     </div>
   </div>

@@ -133,8 +133,8 @@ metadata_editor.help.info.url: https://spraakbanken.gu.se/om/internt/teknik/meta
 metadata_editor.help.info.label: Resource metadata
 metadata_editor.help.repository.url: https://spraakbanken.gu.se/resurser
 metadata_editor.help.repository.label: resurskatalog
-metadata_editor.load_file: Ladda in fil
-metadata_editor.load_template: Ladda in mall
+metadata_editor.load_file: Öppna fil
+metadata_editor.load_template: Öppna mall
 schema.validate.empty: Innehållet valideras automatiskt medan du skriver.
 schema.validate.error.parse: "Kunde inte tolka YAML: {message}"
 schema.validate.error: "Fel vid {path}: {message}"
