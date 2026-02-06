@@ -126,6 +126,8 @@ exports.help.more.label: Read more about export files in the user manual
 user.settings: Settings
 user.settings.admin_mode: Enable administration mode
 user.admin_mode.warning: Administration mode is enabled. Please be careful!
+editor.load_file: Open file
+editor.wrap: Word wrap
 errors: Errors
 warnings: Warnings
 error.message: There was an error
@@ -151,7 +153,7 @@ corpuses: Corpora
 files: No files | 1 file | {count} files
 none: None
 new_corpus: New corpus
-fileName: Name
+filename: Name
 type: Type
 upload: Upload
 uploaded: Uploaded
@@ -216,6 +218,7 @@ not_loaded: Not loaded
 file.archive: Archive
 file.singles: Single files
 save.no_changes: There are no changes to save
+save.invalid: Cannot save invalid data
 name: Name
 metadata.name.help: You can use spaces and special characters.
 identifier: Identifier
@@ -263,8 +266,6 @@ accessdenied.contact: If you have questions, or you want to report a bug, please
 notfound: Page not found
 notfound.description: Something went wrong, and there is nothing to see at this address.
 notfound.contact: If you have questions, or you want to report a bug, please contact sb-info{'@'}svenska.gu.se. Thank you!
-config.invalid.yaml: Syntax error
-config.invalid.schema: Schema error
 
 # These correspond to the `return_code` param of backend responses
 api.code.missing_auth_token: Missing authorization token

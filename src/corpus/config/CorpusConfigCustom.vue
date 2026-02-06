@@ -1,78 +1,107 @@
 <script setup lang="ts">
-import { PhLock, PhPencilSimple, PhWarning } from "@phosphor-icons/vue";
+import { PhFloppyDisk, PhLock, PhWarning } from "@phosphor-icons/vue";
+import { computed, defineAsyncComponent, ref, watchEffect } from "vue";
+import { computedAsync } from "@vueuse/core";
+import { useI18n } from "vue-i18n";
 import { useCorpus } from "../corpus.composable";
-import CorpusConfigCustomHelp from "./CorpusConfigCustomHelp.vue";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
-import FileUpload from "@/components/FileUpload.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import useMessenger from "@/message/messenger.composable";
-import SyntaxHighlight from "@/components/SyntaxHighlight.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import RouteButton from "@/components/RouteButton.vue";
 import { useCorpusStore } from "@/store/corpus.store";
 import { useAuth } from "@/auth/auth.composable";
+import ActionButton from "@/components/ActionButton.vue";
+import api from "@/api/api";
+import LayoutSection from "@/components/LayoutSection.vue";
 
 const corpusId = useCorpusIdParam();
 const { config } = useCorpus(corpusId);
 const { alertError } = useMessenger();
 const corpusStore = useCorpusStore();
 const { canWrite } = useAuth();
+const { t } = useI18n();
 
-async function upload(files: File[]) {
-  if (!files[0]) throw new RangeError("No files");
-  const configYaml = await files[0].text();
-  await corpusStore.uploadConfig(corpusId, configYaml).catch(alertError);
+const YamlEditor = defineAsyncComponent(
+  () => import("@/editor/YamlEditor.vue"),
+);
+
+const input = ref(config.value || "");
+const schema = computedAsync(() => api.sparvSchema());
+const isValid = ref(true);
+
+/** Reactively check if content is OK to save, and otherwise give a reason why not */
+const saveErrorMessage = computed(() => {
+  if (input.value == config.value) return t("save.no_changes");
+  if (!isValid.value) return t("save.invalid");
+  return "";
+});
+
+/** Assign YAML content to input whenever it is loaded */
+watchEffect(() => (input.value = config.value || ""));
+
+/** Save current input as config by uploading it */
+async function upload() {
+  await corpusStore.uploadConfig(corpusId, input.value).catch(alertError);
 }
 </script>
 
 <template>
-  <CorpusConfigCustomHelp />
+  <LayoutSection :title="$t('config.custom')">
+    <HelpBox>
+      <i18n-t scope="global" keypath="config.custom.help">
+        <template #sparv>
+          <a :href="$t('sparv.url')">Sparv</a>
+        </template>
+        <template #topic>
+          <a
+            href="https://spraakbanken.gu.se/sparv/user-manual/corpus-configuration/"
+            target="_blank"
+            >Corpus Configuration</a
+          >
+        </template>
+      </i18n-t>
+    </HelpBox>
 
-  <div class="flex flex-wrap gap-4 items-start">
-    <LayoutBox class="w-96 grow" :title="$t('upload')">
-      <div v-if="canWrite('corpora', corpusId)">
-        <HelpBox important>
-          <PhWarning class="inline mb-1 mr-1" />
-          {{ $t("config.custom.upload.caution") }}
-        </HelpBox>
+    <HelpBox v-if="!canWrite('corpora', corpusId)">
+      <PhLock class="inline mb-0.5 mr-1" />
+      {{ $t("resource.access_denied") }}
+    </HelpBox>
 
-        <HelpBox important>
-          <PhWarning class="inline mb-1 mr-1" />
-          {{ $t("config.custom.upload.overwrite") }}
-        </HelpBox>
-
-        <PendingContent :on="`corpus/${corpusId}/config`" blocking>
-          <FileUpload
-            v-if="canWrite('corpora', corpusId)"
-            :file-handler="upload"
-            accept=".yaml,.yml"
-            primary
-          />
-        </PendingContent>
-      </div>
-
-      <HelpBox v-else>
-        <PhLock class="inline mb-0.5 mr-1" />
-        {{ $t("resource.access_denied") }}
+    <template v-else>
+      <HelpBox important>
+        <PhWarning class="inline mb-1 mr-1" />
+        {{ $t("config.custom.upload.caution") }}
       </HelpBox>
-    </LayoutBox>
 
-    <LayoutBox class="w-96 grow" :title="$t('show')">
+      <HelpBox important>
+        <PhWarning class="inline mb-1 mr-1" />
+        {{ $t("config.custom.upload.overwrite") }}
+      </HelpBox>
+    </template>
+
+    <LayoutBox>
       <PendingContent :on="`corpus/${corpusId}/config`">
-        <SyntaxHighlight v-if="config" language="yaml" :code="config" />
-      </PendingContent>
-
-      <template #controls>
-        <RouteButton
+        <YamlEditor
+          v-if="config"
+          v-model="input"
           :disabled="!canWrite('corpora', corpusId)"
-          :to="`/library/corpus/${corpusId}/config/custom/edit`"
-          class="button-primary"
+          :schema
+          @validated="isValid = $event"
         >
-          <PhPencilSimple weight="bold" class="inline mb-1 mr-1" />
-          {{ $t("edit") }}
-        </RouteButton>
-      </template>
+          <template #toolbar-right>
+            <ActionButton
+              @click="upload"
+              class="button-primary"
+              :disabled="!!saveErrorMessage"
+              :title="saveErrorMessage"
+            >
+              <PhFloppyDisk class="inline mb-0.5 mr-1" />
+              {{ $t("save") }}
+            </ActionButton>
+          </template>
+        </YamlEditor>
+      </PendingContent>
     </LayoutBox>
-  </div>
+  </LayoutSection>
 </template>
