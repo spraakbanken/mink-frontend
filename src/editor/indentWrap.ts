@@ -1,6 +1,6 @@
 import { EditorView } from "codemirror";
 import { Decoration } from "@codemirror/view";
-import { EditorState, StateField } from "@codemirror/state";
+import { EditorState, StateField, type Extension } from "@codemirror/state";
 
 /**
  * Plugin that makes line wrapping in the editor respect the indentation of the line.
@@ -11,7 +11,7 @@ import { EditorState, StateField } from "@codemirror/state";
  * Thanks to Michiel, fonsp, Mitcheljager and qbane at
  * https://discuss.codemirror.net/t/making-codemirror-6-respect-indent-for-wrapped-lines/2881/10
  */
-export const indentWrap = StateField.define({
+const indentWrapField = StateField.define({
   create: (state) => getDecorations(state),
   update(deco, tr) {
     if (!tr.docChanged) return deco;
@@ -42,7 +42,7 @@ function getDecorations(state: EditorState) {
   return Decoration.set(decorations);
 }
 
-export const indentWrapTheme = EditorView.theme({
+const indentWrapTheme = EditorView.theme({
   ".indentwrap-line": {
     borderLeft: "transparent solid calc(var(--indented))",
   },
@@ -52,8 +52,8 @@ export const indentWrapTheme = EditorView.theme({
   },
 });
 
-export const indentWrapExtensions = [
+export const indentWrapExtension: Extension = [
   EditorView.lineWrapping,
-  indentWrap,
+  indentWrapField,
   indentWrapTheme,
 ];

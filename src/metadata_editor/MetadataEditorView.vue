@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, useTemplateRef, watch } from "vue";
+import { defineAsyncComponent, ref, useTemplateRef, watch } from "vue";
 import { computedAsync, useSessionStorage } from "@vueuse/core";
 import { PhFloppyDisk } from "@phosphor-icons/vue";
 import {
@@ -10,13 +10,16 @@ import {
 import LayoutBox from "@/components/LayoutBox.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import PageTitle from "@/components/PageTitle.vue";
-import YamlEditor from "@/components/editor/YamlEditor.vue";
 import { downloadFile, randomString, removeExtension } from "@/util";
 import ActionButton from "@/components/ActionButton.vue";
 
 // Data stored in the session: separate across tabs, survives reloads
 const name = useSessionStorage<string>("metadataEditor.name", randomString);
 const yaml = useSessionStorage<string>("metadataEditor.yaml", "");
+
+const YamlEditor = defineAsyncComponent(
+  () => import("@/editor/YamlEditor.vue"),
+);
 
 const isValid = ref(true);
 const isNameValid = ref(true);

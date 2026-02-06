@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { computed, useTemplateRef } from "vue";
 import { Codemirror } from "vue-codemirror";
-import { yaml } from "@codemirror/lang-yaml";
 import type { Extension } from "@codemirror/state";
+import type { ViewUpdate } from "@codemirror/view";
 import { monokai } from "@fsegurai/codemirror-theme-monokai";
-import { useDark, useLocalStorage } from "@vueuse/core";
+import { computedAsync, useDark, useLocalStorage } from "@vueuse/core";
 import { PhFileArrowUp } from "@phosphor-icons/vue";
-import ActionButton from "../ActionButton.vue";
-import FileDropArea from "../FileDropArea.vue";
-import YamlValidation from "./YamlValidation.vue";
-import { indentWrapExtensions } from "./codemirrorIndentWrap";
+import { diagnosticCount, linter } from "@codemirror/lint";
+import { indentWrapExtension } from "./indentWrap";
+import ActionButton from "@/components/ActionButton.vue";
+import FileDropArea from "@/components/FileDropArea.vue";
 import { handleFileInput } from "@/util";
 
 const code = defineModel<string>({ required: true });
 
-defineProps<{
+const props = defineProps<{
   disabled?: boolean;
   /** Optional JSON schema, parsed. If present, enable continual validation. */
   schema?: object;
@@ -31,21 +31,45 @@ const isDark = useDark();
 const fileInput = useTemplateRef("fileInput");
 const isWrapEnabled = useLocalStorage("editor.wrap", false);
 
-/** Extensions that are always used, created only once */
-const baseExtensions: Extension[] = [yaml()];
-/** Add extensions that vary */
-const extensions = computed(() => {
-  const result = [...baseExtensions];
-  if (isDark.value) result.push(monokai);
-  if (isWrapEnabled.value) result.push(...indentWrapExtensions);
-  return result;
+/** Validation linter extension with schema support if present, otherwise without it */
+const validationExtension = computedAsync(async () => {
+  // Lazy-load the Ajv lib
+  const yamlValidator = await import("./yamlValidator");
+  const YamlValidator = yamlValidator.default;
+  const validator = new YamlValidator(props.schema);
+
+  return linter((view) => {
+    const text = view.state.doc.toString();
+    const errors = validator.validate(text);
+    return errors.map((error) => ({ ...error, severity: "error" }));
+  });
 });
+
+/** Lazy-loaded YAML language support extension */
+const yamlSyntaxExtension = computedAsync(async () => {
+  const langYaml = await import("@codemirror/lang-yaml");
+  return langYaml.yaml();
+});
+
+/** Reactive list of extensions */
+const extensions = computed<Extension[]>(() => [
+  yamlSyntaxExtension.value || [],
+  validationExtension.value || [],
+  isDark.value ? monokai : [],
+  isWrapEnabled.value ? indentWrapExtension : [],
+]);
 
 /** Load file content as raw YAML for editing. */
 async function fileHandler(files: File[]): Promise<void> {
   const file = files[0]!;
   code.value = await file.text();
   emit("open", file.name);
+}
+
+/** Update handler for CodeMirror */
+function onUpdate(viewUpdate: ViewUpdate) {
+  const valid = diagnosticCount(viewUpdate.state) === 0;
+  emit("validated", valid);
 }
 </script>
 
@@ -77,6 +101,7 @@ async function fileHandler(files: File[]): Promise<void> {
       <!-- Spacer -->
       <div class="flex-grow" />
 
+      <!-- Custom buttons -->
       <slot name="toolbar-right" />
     </div>
 
@@ -87,21 +112,15 @@ async function fileHandler(files: File[]): Promise<void> {
       </label>
     </div>
 
-    <YamlValidation
-      v-if="schema"
-      :code
-      :schema
-      class="my-0!"
-      @validated="$emit('validated', $event)"
-    />
-
     <div>
+      <!-- Docs: https://github.com/surmon-china/vue-codemirror -->
       <Codemirror
         v-model="code"
         :disabled
         :extensions
         indent-with-tab
         :tab-size="2"
+        @update="onUpdate"
       />
     </div>
   </div>
