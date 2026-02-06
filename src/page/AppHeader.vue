@@ -7,8 +7,6 @@ import { getLogoutUrl } from "@/api/sbauth";
 import { useAuth } from "@/auth/auth.composable";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
-// Asset path transformation doesn't work in <source srcset> like in <img src>
-import logoSbxLight from "@/assets/sprakbankentext-light.svg";
 import SpinIndicator from "@/spin/SpinIndicator.vue";
 import useSpin from "@/spin/spin.composable";
 
@@ -27,11 +25,12 @@ const isAuthenticating = computed(() => isPending("jwt"));
 <template>
   <header class="mb-2 shadow-sm bg-white dark:bg-zinc-800">
     <div
-      class="container pt-4 pb-2 flex justify-between items-baseline-last flex-wrap gap-4"
+      class="container pt-4 pb-2 flex justify-between items-baseline-last gap-4"
     >
+      <!-- Logo -->
       <component
         :is="isHome ? 'h1' : 'div'"
-        class="basis-1 grow text-4xl min-w-max"
+        class="text-4xl min-w-max"
         :class="large ? 'h-24' : 'h-16'"
       >
         <router-link to="/" class="text-current">
@@ -39,11 +38,12 @@ const isAuthenticating = computed(() => isPending("jwt"));
         </router-link>
       </component>
 
-      <div
-        class="basis-1 grow flex flex-wrap gap-x-4 items-baseline justify-end lg:justify-center text-end text-nowrap"
-      >
-        <SpinIndicator v-if="isAuthenticating" />
+      <SpinIndicator v-if="isAuthenticating" />
 
+      <!-- Navigation -->
+      <div
+        class="flex max-md:flex-col gap-x-4 items-baseline justify-end text-end text-nowrap"
+      >
         <template v-if="isAuthenticated">
           <router-link
             v-if="canUserWrite"
@@ -66,28 +66,6 @@ const isAuthenticating = computed(() => isPending("jwt"));
         </a>
 
         <LocaleSwitcher />
-      </div>
-
-      <div class="basis-1 grow hidden lg:flex justify-end items-end gap-4">
-        <div class="w-56">
-          <a href="https://spraakbanken.gu.se/">
-            <picture>
-              <source
-                media="(prefers-color-scheme: dark)"
-                :srcset="logoSbxLight"
-              />
-              <img src="@/assets/sprakbankentext.svg" alt="Språkbanken Text" />
-            </picture>
-          </a>
-        </div>
-
-        <a href="https://gu.se/" class="min-w-max">
-          <img
-            src="@/assets/gu_logo_sv.png"
-            alt="Göteborgs universitet"
-            :class="[large ? 'h-24' : 'h-16']"
-          />
-        </a>
       </div>
     </div>
 

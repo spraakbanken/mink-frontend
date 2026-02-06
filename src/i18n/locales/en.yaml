@@ -1,4 +1,15 @@
 logo.alt: Mink logo
+links.sbx.url: https://spraakbanken.gu.se/
+links.gu.label: University of Gothenburg
+links.gu.url: https://gu.se/en/
+links.contact.label: Contact us
+links.contact.url: https://spraakbanken.gu.se/en/contact
+links.about.label: About us
+links.about.url: https://spraakbanken.gu.se/en/about
+links.news.label: News
+links.news.url: https://spraakbanken.gu.se/en/news-and-events
+links.platforms.label: Other platforms
+links.platforms.url: https://spraakbanken.gu.se/en/tools
 home: Home
 home.hero.alt: Screenshot of Mink's user interface
 home.hero.sb: "{0} is a research infrastructure for language data. We create and maintain language data analysed with state-of-the-art language technology methods for researchers everywhere, and take pride in providing free and open access where possible."

@@ -16,6 +16,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Added
 
 - CodeMirror editor with syntax highlighting and inline schema validation for custom config YAML
+- Page footer with links and organization logos
 
 ## [1.15.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.15.1) (2026-02-04)
 
