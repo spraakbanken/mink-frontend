@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Yaml from "js-yaml";
+import { parse } from "yaml";
 import { ref, watchEffect } from "vue";
 import Ajv2020 from "ajv/dist/2020";
 import { PhFileX, PhWarning } from "@phosphor-icons/vue";
@@ -40,7 +40,7 @@ async function validate() {
   // Check YAML syntax
   let data;
   try {
-    data = Yaml.load(input.value);
+    data = parse(input.value);
   } catch (err) {
     error.value = {
       hint: t("config.invalid.yaml"),

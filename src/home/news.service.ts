@@ -1,4 +1,3 @@
-const Yaml = import("js-yaml").then((m) => m.default);
 import { once } from "es-toolkit";
 import { addDays, retry } from "@/util";
 import type { ByLang } from "@/util.types";
@@ -27,7 +26,8 @@ export const fetchAllNews = once(async (): Promise<NewsItem[]> => {
   if (!NEWS_URL) return [];
   const response = await retry(() => fetch(NEWS_URL));
   const yaml = await response.text();
-  return (await Yaml).load(yaml) as NewsItem[];
+  const YAML = await import("yaml");
+  return YAML.parse(yaml) as NewsItem[];
 });
 
 /**

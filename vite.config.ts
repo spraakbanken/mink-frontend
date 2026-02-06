@@ -5,7 +5,7 @@ import vue from "@vitejs/plugin-vue";
 import checker from "vite-plugin-checker";
 import vueDevTools from "vite-plugin-vue-devtools";
 import { visualizer } from "rollup-plugin-visualizer";
-import Yaml from "js-yaml";
+import { parse } from "yaml";
 
 type HttpsOptions = Pick<ServerOptions, "key" | "cert">;
 
@@ -66,9 +66,11 @@ function yamlLoader(): Plugin {
     transform(src, id) {
       // Match file extension
       if (/\.yaml$/.test(id)) {
+        // Load data from YAML
+        const data = parse(src);
         // Dump JSON into JS
         return {
-          code: `const data = ${JSON.stringify(Yaml.load(src))};
+          code: `const data = ${JSON.stringify(data)};
             export default data;`,
         };
       }

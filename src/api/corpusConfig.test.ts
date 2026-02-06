@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import Yaml from "js-yaml";
+import { stringify } from "yaml";
 import {
   makeConfig,
   parseConfig,
@@ -64,16 +64,16 @@ describe("makeConfig", () => {
     });
     expect(yaml).toContain("datetime_from: <text>:misc.datefrom");
     expect(yaml).toContain("datetime_to: <text>:misc.dateto");
-    expect(yaml).toContain("datetime_informat: '%Y-%m-%d'");
-    expect(yaml).toContain("value: '2000-01-01'");
-    expect(yaml).toContain("value: '2023-12-31'");
+    expect(yaml).toContain('datetime_informat: "%Y-%m-%d"');
+    expect(yaml).toContain("value: 2000-01-01");
+    expect(yaml).toContain("value: 2023-12-31");
     expect(yaml).toContain("- <text>:dateformat.datefrom");
   });
 });
 
 describe("parseConfig", () => {
   test("handle minimal info", () => {
-    const configYaml = Yaml.dump({
+    const configYaml = stringify({
       import: { importer: "text_import:parse" },
     });
     const config = parseConfig(configYaml);
@@ -81,14 +81,14 @@ describe("parseConfig", () => {
   });
 
   test("requires format", () => {
-    const configYaml = Yaml.dump({
+    const configYaml = stringify({
       metadata: { name: { swe: "Nyheter", eng: "News" } },
     });
     expect(() => parseConfig(configYaml)).toThrowError();
   });
 
   test("handle full info", () => {
-    const configYaml = Yaml.dump({
+    const configYaml = stringify({
       metadata: {
         name: { swe: "Nyheter", eng: "News" },
         description: { swe: "Senaste nytt", eng: "Latest news" },
