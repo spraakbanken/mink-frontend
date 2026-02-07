@@ -30,22 +30,22 @@ const isActiveClass = (path: string) =>
   <header class="mb-2 shadow-sm bg-white dark:bg-zinc-800">
     <!-- Main row -->
     <div
-      class="container pt-4 pb-2 flex max-sm:flex-col flex-wrap sm:items-baseline-last gap-4"
+      class="container pt-4 pb-2 flex max-sm:flex-col flex-wrap sm:items-baseline-last gap-4 gap-y-2"
     >
       <!-- Logo -->
       <component
         :is="isHome ? 'h1' : 'div'"
-        class="text-4xl min-w-max"
+        class="text-4xl min-w-max mr-8 max-sm:mb-2"
         :class="large ? 'h-24' : 'h-16'"
       >
         <router-link to="/" class="text-current" :title="$t('home')">
-          <MinkLogo :large="large" />
+          <MinkLogo :large />
         </router-link>
       </component>
 
       <!-- Main navigation -->
       <div
-        class="flex sm:max-lg:flex-col gap-x-4 items-start text-nowrap"
+        class="flex sm:max-lg:flex-col gap-x-4 items-start text-nowrap text-lg font-medium"
       >
         <router-link
           to="/"
@@ -64,11 +64,11 @@ const isActiveClass = (path: string) =>
         </router-link>
 
         <router-link
-          to="/metadata-editor"
+          to="/tools"
           class="no-underline hover:underline"
-          :class="isActiveClass('/metadata-editor')"
+          :class="isActiveClass('/tools')"
         >
-          {{ $t("metadata_editor") }}
+          {{ $t("tools") }}
         </router-link>
       </div>
 
