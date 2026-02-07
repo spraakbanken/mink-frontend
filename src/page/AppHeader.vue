@@ -44,9 +44,7 @@ const isActiveClass = (path: string) =>
       </component>
 
       <!-- Main navigation -->
-      <div
-        class="flex sm:max-lg:flex-col gap-x-4 items-start text-nowrap"
-      >
+      <div class="flex sm:max-lg:flex-col gap-x-4 items-start text-nowrap">
         <router-link
           to="/"
           class="no-underline hover:underline"
@@ -64,11 +62,11 @@ const isActiveClass = (path: string) =>
         </router-link>
 
         <router-link
-          to="/metadata-editor"
+          to="/tools"
           class="no-underline hover:underline"
-          :class="isActiveClass('/metadata-editor')"
+          :class="isActiveClass('/tools')"
         >
-          {{ $t("metadata_editor") }}
+          {{ $t("tools") }}
         </router-link>
       </div>
 

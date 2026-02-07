@@ -118,7 +118,7 @@ upload.label.multiple: Add files
 upload.dnd.single: Drag and drop file here, or click here to choose
 upload.dnd.multiple: Drag and drop files here, or click here to choose
 upload.drop.empty: No file was dropped. Drag-and-drop may not be supported on your system.
-tools: Explore
+exports.tools: Explore
 exports.tools.help: Use this data in Språkbanken's corpus tools. Your data will be available to you only, in a special Mink mode.
 exports.tools.help.korp: Korp offers concordance search, detailed queries, frequency statistics and more.
 exports.tools.help.korp.manual.url: https://spraakbanken.gu.se/en/tools/korp/user-manual
@@ -137,7 +137,9 @@ exports.help.more.label: Read more about export files in the user manual
 user.settings: Settings
 user.settings.admin_mode: Enable administration mode
 user.admin_mode.warning: Administration mode is enabled. Please be careful!
+tools: Tools
 metadata_editor: Metadata editor
+metadata_editor.summary: Edit local resource metadata for the Språkbanken Text resource repository.
 metadata_editor.help: This tool is meant to assist when editing resource metadata for the Språkbanken Text {repository}. You can only edit locally, not save anything directly to the repository. Please read more at the {info} page.
 metadata_editor.help.info.url: https://spraakbanken.gu.se/en/about/internal/technology/metadata
 metadata_editor.help.info.label: Resource metadata

@@ -64,7 +64,7 @@ const { canWrite } = useAuth();
         <AnalysisPanel :corpus-id="corpusId" />
       </LayoutBox>
 
-      <LayoutBox :title="$t('tools')">
+      <LayoutBox :title="$t('exports.tools')">
         <ExplorePanel :corpus-id="corpusId" />
       </LayoutBox>
     </div>

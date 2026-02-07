@@ -1,8 +1,11 @@
-import { type RouteRecordRaw } from "vue-router";
+import { RouterView, type RouteRecordRaw } from "vue-router";
 import HomeView from "@/home/HomeView.vue";
 const LibraryView = () => import("@/library/LibraryView.vue");
 const ResourceRedirectView = () =>
   import("@/resource/ResourceRedirectView.vue");
+const ToolsView = () => import("@/tools/ToolsView.vue");
+const MetadataEditorView = () =>
+  import("@/tools/metadata_editor/MetadataEditorView.vue");
 import LoginView from "@/auth/LoginView.vue";
 import SignupView from "@/auth/SignupView.vue";
 const UserView = () => import("@/user/UserView.vue");
@@ -11,8 +14,6 @@ import AccessDenied from "@/auth/AccessDenied.vue";
 import NotFound from "@/page/NotFound.vue";
 import corpusRoutes from "@/router/corpus.routes";
 import metadataRoutes from "@/router/metadata.routes";
-const MetadataEditorView = () =>
-  import("@/metadata_editor/MetadataEditorView.vue");
 
 const routes: RouteRecordRaw[] = [
   {
@@ -33,6 +34,18 @@ const routes: RouteRecordRaw[] = [
     path: "/library/resource/:resourceId",
     component: ResourceRedirectView,
     meta: { protected: true },
+  },
+  {
+    path: "/tools",
+    component: RouterView,
+    children: [
+      { path: "", component: ToolsView, meta: { title: "tools" } },
+      {
+        path: "metadata-editor",
+        component: MetadataEditorView,
+        meta: { title: "metadata_editor" },
+      },
+    ],
   },
   {
     path: "/login",
@@ -67,11 +80,6 @@ const routes: RouteRecordRaw[] = [
   },
   ...corpusRoutes,
   ...metadataRoutes,
-  {
-    path: "/metadata-editor",
-    component: MetadataEditorView,
-    meta: { title: "metadata_editor" },
-  },
   {
     path: "/:pathMatch(.*)*",
     name: "notfound",
