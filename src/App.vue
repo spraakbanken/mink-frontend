@@ -3,6 +3,7 @@ import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useTitle } from "@vueuse/core";
 import SpinIndicator from "./spin/SpinIndicator.vue";
+import AppFooter from "./page/AppFooter.vue";
 import AppHeader from "@/page/AppHeader.vue";
 import api from "@/api/api";
 import * as util from "@/util";
@@ -50,14 +51,10 @@ if (import.meta.env.DEV) {
   <BreadcrumbBar />
   <MessageToasts />
 
-  <div class="container py-2">
+  <div class="flex-grow container py-2">
     <router-view />
     <SpinIndicator v-if="isRouteLoading" />
   </div>
 
-  <div
-    class="container py-20 flex justify-center items-center text-sm opacity-70"
-  >
-    {{ $t("contact") }}: sb-info@svenska.gu.se
-  </div>
+  <AppFooter />
 </template>
