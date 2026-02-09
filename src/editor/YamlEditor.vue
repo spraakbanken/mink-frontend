@@ -6,7 +6,7 @@ import type { ViewUpdate } from "@codemirror/view";
 import { monokai } from "@fsegurai/codemirror-theme-monokai";
 import { computedAsync, useDark, useLocalStorage } from "@vueuse/core";
 import { PhFileArrowUp } from "@phosphor-icons/vue";
-import { diagnosticCount, linter } from "@codemirror/lint";
+import { diagnosticCount, linter, lintGutter } from "@codemirror/lint";
 import { indentWrapExtension } from "./indentWrap";
 import ActionButton from "@/components/ActionButton.vue";
 import FileDropArea from "@/components/FileDropArea.vue";
@@ -38,11 +38,12 @@ const validationExtension = computedAsync(async () => {
   const YamlValidator = yamlValidator.default;
   const validator = new YamlValidator(props.schema);
 
-  return linter((view) => {
+  const linterExtension = linter((view) => {
     const text = view.state.doc.toString();
     const errors = validator.validate(text);
     return errors.map((error) => ({ ...error, severity: "error" }));
   });
+  return [linterExtension, lintGutter()];
 });
 
 /** Lazy-loaded YAML language support extension */
