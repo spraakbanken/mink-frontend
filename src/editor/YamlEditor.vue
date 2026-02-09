@@ -38,11 +38,14 @@ const validationExtension = computedAsync(async () => {
   const YamlValidator = yamlValidator.default;
   const validator = new YamlValidator(props.schema);
 
-  const linterExtension = linter((view) => {
-    const text = view.state.doc.toString();
-    const errors = validator.validate(text);
-    return errors.map((error) => ({ ...error, severity: "error" }));
-  });
+  const linterExtension = linter(
+    (view) => {
+      const text = view.state.doc.toString();
+      const errors = validator.validate(text);
+      return errors.map((error) => ({ ...error, severity: "error" }));
+    },
+    { autoPanel: true },
+  );
   return [linterExtension, lintGutter()];
 });
 
