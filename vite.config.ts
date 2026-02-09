@@ -52,6 +52,12 @@ export default defineConfig(async ({ mode }) => {
     build: {
       rollupOptions: {
         output: {
+          // Sanitize ugly chunk names, see https://github.com/vitejs/vite-plugin-vue/issues/19
+          // Not important. If this cases issues, remove it.
+          chunkFileNames: (assetInfo: { name: string }) => {
+            const name = assetInfo.name.replace(/\.vue_vue_type_.*/, "");
+            return `assets/${name}-[hash].js`;
+          },
           experimentalMinChunkSize: 5000,
         },
       },
