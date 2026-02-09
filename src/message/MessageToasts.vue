@@ -14,7 +14,10 @@ watch(
 </script>
 
 <template>
-  <aside class="container max-w-3xl my-4 sticky top-2 z-50">
+  <aside
+    v-if="alerts.length"
+    class="container max-w-3xl my-4 sticky top-2 z-50"
+  >
     <div
       v-for="{ key, message, level } in alerts"
       :key="message"
