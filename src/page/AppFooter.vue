@@ -10,7 +10,7 @@ const { locale } = useI18n();
       <!-- Left -->
       <div class="lg:text-start">
         <div>
-          <a :href="$t('links.sbx.url')">
+          <a :href="$t('links.sbx.url')" target="_blank">
             <img
               src="@/assets/sprakbankentext-light.svg"
               alt="Språkbanken Text"
@@ -20,17 +20,17 @@ const { locale } = useI18n();
         </div>
         <ul>
           <li>
-            <a :href="$t('links.about.url')">
+            <a :href="$t('links.about.url')" target="_blank">
               {{ $t("links.about.label") }}
             </a>
           </li>
           <li>
-            <a :href="$t('links.news.url')">
+            <a :href="$t('links.news.url')" target="_blank">
               {{ $t("links.news.label") }}
             </a>
           </li>
           <li>
-            <a :href="$t('links.platforms.url')">
+            <a :href="$t('links.platforms.url')" target="_blank">
               {{ $t("links.platforms.label") }}
             </a>
           </li>
@@ -41,7 +41,7 @@ const { locale } = useI18n();
       <div>
         <ul>
           <li>
-            <a :href="$t('links.contact.url')">
+            <a :href="$t('links.contact.url')" target="_blank">
               {{ $t("links.contact.label") }}
             </a>
           </li>
@@ -50,7 +50,7 @@ const { locale } = useI18n();
 
       <!-- Right -->
       <div class="lg:text-end">
-        <a :href="$t('links.gu.url')">
+        <a :href="$t('links.gu.url')" target="_blank">
           <img
             v-if="locale == 'sv'"
             src="@/assets/gu-logo-white-sv.svg"
