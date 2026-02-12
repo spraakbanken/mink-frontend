@@ -2,7 +2,7 @@
 import { computed, useTemplateRef } from "vue";
 import { Codemirror } from "vue-codemirror";
 import type { Extension } from "@codemirror/state";
-import type { ViewUpdate } from "@codemirror/view";
+import { EditorView, type ViewUpdate } from "@codemirror/view";
 import { monokai } from "@fsegurai/codemirror-theme-monokai";
 import { computedAsync, useDark, useLocalStorage } from "@vueuse/core";
 import { PhFileArrowUp } from "@phosphor-icons/vue";
@@ -46,7 +46,15 @@ const validationExtension = computedAsync(async () => {
     },
     { autoPanel: true },
   );
-  return [linterExtension, lintGutter()];
+
+  // The linter sets a light background, regardless of dark mode. Undo that.
+  const linterTheme = EditorView.theme({
+    ".cm-panel.cm-panel-lint ul [aria-selected]": {
+      backgroundColor: "inherit",
+    },
+  });
+
+  return [linterExtension, linterTheme, lintGutter()];
 });
 
 /** Lazy-loaded YAML language support extension */
