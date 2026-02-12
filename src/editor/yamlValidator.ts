@@ -111,6 +111,6 @@ export default class YamlValidator {
     }
 
     const range = node.range || [0, 0, 0];
-    return { from: range[0], to: range[2], message };
+    return { from: range[0], to: range[1], message };
   }
 }
