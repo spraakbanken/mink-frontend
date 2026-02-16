@@ -112,6 +112,12 @@
     @apply bg-white dark:bg-zinc-900 border border-zinc-400 dark:border-zinc-600 rounded-sm p-1 px-2;
   }
 
+  input:invalid,
+  textarea:invalid,
+  select:invalid {
+    @apply border border-red-600 bg-red-50 dark:bg-red-900;
+  }
+
   input[disabled],
   textarea[disabled],
   select[disabled] {

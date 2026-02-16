@@ -10,6 +10,7 @@ import {
   objsToDict,
   pathJoin,
   randomString,
+  removeExtension,
   retry,
   setKeys,
   unarray,
@@ -85,6 +86,21 @@ describe("ensureExtension", () => {
   });
   test("handles dots in dir", () => {
     expect(ensureExtension("foo.bar/baz.txt", "zip")).toBe("foo.bar/baz.zip");
+  });
+});
+
+describe("removeExtension", () => {
+  test("removes extension", () => {
+    expect(removeExtension("foo/bar.zip")).toBe("foo/bar");
+  });
+  test("handles multiple extensions", () => {
+    expect(removeExtension("foo/bar.baz.zip")).toBe("foo/bar.baz");
+  });
+  test("handles hidden files", () => {
+    expect(removeExtension(".DS_Store.zip")).toBe(".DS_Store");
+  });
+  test("handles dots in dir", () => {
+    expect(removeExtension("foo.bar/baz.zip")).toBe("foo.bar/baz");
   });
 });
 

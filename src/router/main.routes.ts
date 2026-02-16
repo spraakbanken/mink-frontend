@@ -1,8 +1,11 @@
-import { type RouteRecordRaw } from "vue-router";
+import { RouterView, type RouteRecordRaw } from "vue-router";
 import HomeView from "@/home/HomeView.vue";
 const LibraryView = () => import("@/library/LibraryView.vue");
 const ResourceRedirectView = () =>
   import("@/resource/ResourceRedirectView.vue");
+const ToolsView = () => import("@/tools/ToolsView.vue");
+const MetadataEditorView = () =>
+  import("@/tools/metadata_editor/MetadataEditorView.vue");
 import LoginView from "@/auth/LoginView.vue";
 import SignupView from "@/auth/SignupView.vue";
 const UserView = () => import("@/user/UserView.vue");
@@ -31,6 +34,18 @@ const routes: RouteRecordRaw[] = [
     path: "/library/resource/:resourceId",
     component: ResourceRedirectView,
     meta: { protected: true },
+  },
+  {
+    path: "/tools",
+    component: RouterView,
+    children: [
+      { path: "", component: ToolsView, meta: { title: "tools" } },
+      {
+        path: "metadata-editor",
+        component: MetadataEditorView,
+        meta: { title: "metadata_editor" },
+      },
+    ],
   },
   {
     path: "/login",

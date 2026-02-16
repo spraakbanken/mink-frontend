@@ -77,7 +77,14 @@ export default class YamlValidator {
 
   /** Reformat an Ajv error object */
   static formatSchemaError(root: Node, error: ErrorObject): YamlValidatorError {
-    const message = error.message || "";
+    let message = error.message || "";
+
+    // Add any params to message
+    if (error.params) {
+      for (const [key, value] of Object.entries(error.params)) {
+        message += `\n${key}: ${value}`;
+      }
+    }
 
     // If document is not a map or sequence, mark beginning
     if (!("get" in root)) return { from: 0, to: root.range?.[2] ?? 0, message };
@@ -104,6 +111,6 @@ export default class YamlValidator {
     }
 
     const range = node.range || [0, 0, 0];
-    return { from: range[0], to: range[2], message };
+    return { from: range[0], to: range[1], message };
   }
 }
