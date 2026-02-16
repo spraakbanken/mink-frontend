@@ -27,7 +27,7 @@ export const fetchAllNews = once(async (): Promise<NewsItem[]> => {
   const response = await retry(() => fetch(NEWS_URL));
   const yaml = await response.text();
   const YAML = await import("yaml");
-  return YAML.parse(yaml) as NewsItem[];
+  return YAML.parse(yaml, { customTags: ["timestamp"] }) as NewsItem[];
 });
 
 /**

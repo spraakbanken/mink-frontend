@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.16.0...HEAD)
 
+### Fixed
+
+- Parsing dates in news YAML
+
 ## [1.16.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.16.0) (2026-02-16)
 
 ### Added
