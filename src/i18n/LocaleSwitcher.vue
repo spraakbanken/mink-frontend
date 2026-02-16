@@ -7,10 +7,9 @@ import { languageNames, type LocaleId } from "./i18n";
   <div class="text-nowrap">
     <PhGlobe class="inline mb-0.5 mr-1" />
     <select
-      id="locale-select"
       :aria-label="$t('locale.switcher.label')"
       v-model="$i18n.locale"
-      class="bg-transparent border-0 appearance-none p-0"
+      class="bg-transparent border-0 appearance-none py-0 ps-4 pe-3 -ms-5 w-7"
     >
       <option
         v-for="locale in $i18n.availableLocales"
@@ -25,7 +24,6 @@ import { languageNames, type LocaleId } from "./i18n";
 
 <style scoped>
 select.appearance-none {
-  padding-right: 0.75em;
   background: url(@/assets/dropdown.svg) no-repeat 100% 50%;
 }
 
