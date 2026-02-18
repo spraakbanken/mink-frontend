@@ -14,7 +14,12 @@ const { filesize } = useLocale();
       <tr>
         <th>{{ $t("source.limit.file.recommended") }}</th>
         <td class="text-right">
-          {{ filesize(info.recommendedFileSize.max_file_length.value, 0) }}
+          {{
+            filesize(
+              info.recommendedFileSize.recommended_max_file_length.value,
+              0,
+            )
+          }}
         </td>
       </tr>
       <tr>
