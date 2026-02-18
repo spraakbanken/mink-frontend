@@ -16,20 +16,28 @@ export type InfoData = {
     name: JobState;
     description: string;
   }>;
-  importer_modules: InfoDataSection<{
-    file_extension: `.${string}`;
-    importer: string;
-  }>;
   file_size_limits: InfoDataSection<{
-    name: "max_content_length" | "max_file_length" | "max_corpus_length";
+    name: "max_content_length" | "max_file_length" | "max_resource_length";
     description: string;
     value: number;
   }>;
-  recommended_file_size: InfoDataSection<{
-    name: "max_file_length" | "min_file_length";
-    description: string;
-    value: number;
-  }>;
+  resource_info: {
+    corpus: {
+      description: string;
+      importer_modules: InfoDataSection<{
+        file_extension: `.${string}`;
+        importer: string;
+      }>;
+      recommended_file_size: InfoDataSection<{
+        name: "recommended_max_file_length" | "recommended_min_file_length";
+        description: string;
+        value: number;
+      }>;
+    };
+    metadata: {
+      description: string;
+    };
+  };
 };
 
 /** A structure for a section in the backend info response */

@@ -15,7 +15,7 @@ export type Info = {
     }
   >;
   recommendedFileSize: Record<
-    InfoData["recommended_file_size"]["data"][0]["name"],
+    InfoData["resource_info"]["corpus"]["recommended_file_size"]["data"][0]["name"],
     {
       description: string;
       value: number;
@@ -34,7 +34,7 @@ export async function getInfo(): Promise<Info> {
   );
 
   const importerModules = objsToDict(
-    original.importer_modules.data,
+    original.resource_info.corpus.importer_modules.data,
     "file_extension",
     "importer",
   );
@@ -45,7 +45,7 @@ export async function getInfo(): Promise<Info> {
   );
 
   const recommendedFileSize = keyBy(
-    original.recommended_file_size.data,
+    original.resource_info.corpus.recommended_file_size.data,
     (item) => item.name,
   );
 
