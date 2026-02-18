@@ -91,11 +91,11 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
     <span>{{ $t("files", sources.length) }}, {{ filesize(totalSize) }}</span>
     <span v-if="info">
       {{ $t("source.limit.corpus.recommended") }}:
-      {{ filesize(info.recommendedFileSize.min_file_length.value) }}
+      {{ filesize(info.recommendedFileSize.recommended_min_file_length.value) }}
     </span>
     <span v-if="info">
       {{ $t("source.limit.corpus.max") }}:
-      {{ filesize(info.fileSizeLimits.max_corpus_length.value) }}
+      {{ filesize(info.fileSizeLimits.max_resource_length.value) }}
     </span>
   </div>
   <MaxHeight :max-height="400">
