@@ -299,7 +299,7 @@ api.code.failed_authenticating: Failed to authenticate
 api.code.missing_login_credentials: No login credentials provided
 api.code.not_admin: Admin status could not be confirmed
 api.code.missing_corpus_id: No corpus id provided
-api.code.jwt_expired: The provided JWT has expired
+api.code.jwt_expired: Your session has expired, please log in again
 api.code.something_went_wrong: Something went wrong. If the problem persists, please contact sb-info{'@'}svenska.gu.se and report your issue.
 api.code.admin_on: Admin mode enabled. Please be careful!
 api.code.admin_off: Admin mode disabled

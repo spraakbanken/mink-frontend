@@ -7,6 +7,7 @@ import useMessenger from "@/message/messenger.composable";
 const { alerts, dismiss, clear } = useMessenger();
 const route = useRoute();
 
+// Remove messages when navigating to a new page
 watch(
   () => route.path,
   () => clear(),

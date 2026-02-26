@@ -301,7 +301,7 @@ api.code.failed_authenticating: Autentisering misslyckades
 api.code.missing_login_credentials: Autentiseringsinformation saknas
 api.code.not_admin: Det gick inte att bekräfta administratörsstatus
 api.code.missing_corpus_id: Korpus-id saknas
-api.code.jwt_expired: Den angivna JWT:en har slutat gälla
+api.code.jwt_expired: Din session har gått ut, du behöver logga in igen
 api.code.something_went_wrong: Något gick fel. Om du får besvär kan du kontakta sb-info{'@'}svenska.gu.se och rapportera problemet.
 api.code.admin_on: Administratörsläget är aktiverat. Var försiktig!
 api.code.admin_off: Administratörsläget är avstängt

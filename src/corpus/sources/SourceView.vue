@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { watchImmediate } from "@vueuse/core";
+import { useI18n } from "vue-i18n";
 import { useCorpus } from "../corpus.composable";
 import SourceText from "@/corpus/sources/SourceText.vue";
 import { ensureExtension, getFilenameExtension } from "@/util";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
-import MessageAlert from "@/message/MessageAlert.vue";
 import { READABLE_FORMATS, type FileFormat } from "@/api/corpusConfig";
+import useMessenger from "@/message/messenger.composable";
 
 const props = defineProps<{
   corpusId: string;
@@ -18,6 +20,8 @@ const { downloadSource, downloadPlaintext, jobState, sources } = useCorpus(
   props.corpusId,
 );
 const { filesize, formatDate } = useLocale();
+const { alert } = useMessenger();
+const { t } = useI18n();
 
 const metadata = computed(() =>
   sources.value?.find((source) => source.name === props.filename),
@@ -28,6 +32,12 @@ const isBinary = computed(() => {
 });
 const isPlaintext = computed(() => metadata.value?.type == "text/plain");
 const isXml = computed(() => /\/xml$/.test(metadata.value?.type || ""));
+
+// Show error if given filename is not found
+watchImmediate([sources, metadata], () => {
+  if (sources.value?.length && !metadata.value)
+    alert(t("source.notfound"), "error");
+});
 
 async function loadRaw() {
   return (
@@ -43,11 +53,6 @@ async function loadPlain() {
 <template>
   <LayoutSection>
     <h2>{{ filename }}</h2>
-    <MessageAlert
-      v-if="sources.length && !metadata"
-      :message="$t('source.notfound')"
-      level="error"
-    />
     <table v-if="metadata" class="w-full mt-4">
       <tbody>
         <tr>

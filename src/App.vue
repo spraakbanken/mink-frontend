@@ -10,7 +10,7 @@ import * as util from "@/util";
 import { useAuth } from "@/auth/auth.composable";
 import useLocale from "@/i18n/locale.composable";
 import { useResourceStore } from "@/store/resource.store";
-import MessageToasts from "@/message/MessageToasts.vue";
+import MessageList from "@/message/MessageList.vue";
 import usePageTitle from "@/page/title.composable";
 import BreadcrumbBar from "@/page/BreadcrumbBar.vue";
 
@@ -49,7 +49,7 @@ if (import.meta.env.DEV) {
 <template>
   <AppHeader :large="isHome" />
   <BreadcrumbBar />
-  <MessageToasts />
+  <MessageList />
 
   <div class="flex-grow container py-2">
     <router-view />
