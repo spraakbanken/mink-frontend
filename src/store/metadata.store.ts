@@ -26,7 +26,7 @@ export const useMetadataStore = defineStore("metadata", () => {
   ): Promise<string | undefined> {
     if (skipCache || !configs[id]) {
       const config = await spin(
-        api.downloadMetaataYaml(id),
+        api.downloadMetadataYaml(id),
         `resource/${id}/metadata`,
       );
       configs[id] = config;
