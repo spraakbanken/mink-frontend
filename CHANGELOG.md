@@ -16,6 +16,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Added
 
 - View result file [#170](https://github.com/spraakbanken/mink-frontend/issues/170)
+- List allowed source file extensions on upload area [#234](https://github.com/spraakbanken/mink-frontend/issues/234)
 
 ### Changed
 
