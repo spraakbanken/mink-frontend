@@ -146,14 +146,6 @@ class MinkApi {
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Exports/operation/download-source-text-get */
-  async downloadSourceText(id: string, filename: string) {
-    const response = await this.axios.get<string>("download-source-text", {
-      params: { corpus_id: id, file: filename },
-    });
-    return response.data;
-  }
-
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Sources/operation/upload-sources-put */
   async uploadSources(id: string, files: File[], onProgress?: ProgressHandler) {
     const formData = filesFormData("files", ...files);
