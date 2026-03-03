@@ -94,6 +94,7 @@ export type ResourceInfo = {
   owner: UserData;
   resource: ResourceData;
   job: CorpusJob;
+  job_status: JobState;
 };
 
 /** Data about a Mink user */
