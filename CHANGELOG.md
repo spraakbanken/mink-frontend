@@ -23,6 +23,7 @@ As this project is a user-facing application, the places in the semantic version
 
 ### Changed
 
+- Removed source plaintext view [#227](https://github.com/spraakbanken/mink-frontend/issues/227)
 - Extract config and exports from the corpus store to their own stores
 - Many variables renamed from `corpusId`/`resourceId` to `id`
 - Removed redirect from `/corpus` to `/library/corpus`
