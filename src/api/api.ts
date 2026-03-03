@@ -202,7 +202,7 @@ class MinkApi {
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/download-metadata-yaml-get */
-  async downloadMetaataYaml(id: string) {
+  async downloadMetadataYaml(id: string) {
     const response = await this.axios
       .get<string>("download-metadata-yaml", {
         params: { corpus_id: id },
