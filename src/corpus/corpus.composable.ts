@@ -150,14 +150,18 @@ export function useCorpus(corpusId: string) {
     try {
       const filename = path.split("/").pop()!;
       matomo?.trackEvent("Corpus", "Download", "Export file");
-      const data = await spin(
-        api.downloadExportFile(corpusId, path),
-        `corpus/${corpusId}/exports/download`,
-      );
+      const data = await loadResultFile(path);
       downloadFile(data, filename);
     } catch (error) {
       alertError(error);
     }
+  }
+
+  async function loadResultFile(path: string) {
+    return spin(
+      api.downloadExportFile(corpusId, path),
+      `corpus/${corpusId}/exports/${path}`,
+    );
   }
 
   return {
@@ -181,6 +185,7 @@ export function useCorpus(corpusId: string) {
     exports,
     downloadResult,
     downloadResultFile,
+    loadResultFile,
     getDownloadFilename,
   };
 }

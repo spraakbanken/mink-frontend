@@ -274,7 +274,7 @@ class MinkApi {
     const response = await this.axios
       .get<Blob>("download-exports", {
         params: { corpus_id: corpusId, file: path, zip: false },
-        responseType: "blob",
+        responseType: "text",
       })
       .catch(rethrowBlobError);
     return response.data;

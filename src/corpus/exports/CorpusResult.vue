@@ -49,28 +49,49 @@ const exportsByFolder = computed(() =>
       </PendingContent>
 
       <table class="w-full mt-4 striped">
+        <!-- Table header -->
         <thead>
           <tr>
             <th class="w-full">{{ $t("filename") }}</th>
             <th class="text-right">{{ $t("fileSize") }}</th>
+            <th class="sr-only">
+              {{ $t("file.operations") }}
+            </th>
           </tr>
         </thead>
+
         <tbody>
           <template v-for="(exports_, folder) in exportsByFolder" :key="folder">
+            <!-- Folder row -->
             <tr>
-              <td colspan="2">{{ folder }}/</td>
+              <td colspan="3">{{ folder }}/</td>
             </tr>
+
+            <!-- File row -->
             <tr v-for="file in exports_" :key="file.name">
+              <!-- Filename link -->
               <td class="pl-6!">
-                <a href="#" @click.prevent="downloadResultFile(file.path)">
-                  <PhDownloadSimple
-                    weight="fill"
-                    class="inline mb-0.5 mr-1"
-                  />{{ file.path.split("/").slice(1).join("/") }}
-                </a>
+                <router-link
+                  :to="`/library/corpus/${corpusId}/exports/${encodeURIComponent(file.path)}`"
+                >
+                  {{ file.name }}
+                </router-link>
               </td>
+
+              <!-- File size -->
               <td class="text-right whitespace-nowrap">
                 {{ filesize(file.size) }}
+              </td>
+
+              <!-- Download button -->
+              <td>
+                <ActionButton
+                  class="button-mute button-slim"
+                  @click="downloadResultFile(file.path)"
+                >
+                  <PhDownloadSimple class="inline mb-0.5" />
+                  <span class="sr-only">{{ $t("download") }}</span>
+                </ActionButton>
               </td>
             </tr>
           </template>
