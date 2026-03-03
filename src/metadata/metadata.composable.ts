@@ -32,7 +32,7 @@ export default function useMetadata(resourceId: string) {
   async function loadYaml(): Promise<string | undefined> {
     try {
       const yaml = await spin(
-        api.downloadMetaataYaml(resourceId),
+        api.downloadMetadataYaml(resourceId),
         `resource/${resourceId}/metadata`,
       );
       resourceStore.metadatas[resourceId]!.metadata = yaml;
