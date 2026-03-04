@@ -129,7 +129,7 @@ async function doRunJob() {
             <th>{{ $t("file.singles") }}</th>
             <td>
               <router-link :to="`/library/corpus/${corpusId}/exports`">
-                {{ $t("show") }}...
+                {{ $t("show") }}…
               </router-link>
             </td>
           </tr>

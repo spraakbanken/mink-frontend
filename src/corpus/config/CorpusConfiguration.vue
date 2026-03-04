@@ -261,7 +261,6 @@ async function submit(fields: Form) {
               :label="$t('fileFormat')"
               :value="selectedFormat"
               type="select"
-              :placeholder="$t('select')"
               input-class="w-72"
               :options="formatOptions"
               validation="required"

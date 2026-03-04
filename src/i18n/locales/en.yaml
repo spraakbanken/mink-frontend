@@ -161,7 +161,6 @@ expand.open: Show all
 expand.close: Hide some
 show: Show
 show_more: Show more
-select: Select...
 docs.label: Help
 docs.url: https://spraakbanken.gu.se/en/tools/mink
 locale.switcher.label: Interface language
