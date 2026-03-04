@@ -135,6 +135,31 @@ exports.download.help: Results can be downloaded as machine-readable files for p
 exports.download.placeholder: Downloads will be available here after successful analysis.
 exports.help: The annotation process yields export files for each input file. You can download each single export file or all of them in a bundle. The exact structure of the files depends on the input files as well as the configuration. They are stored on the server indefinitely, but re-running the annotation will replace them with new ones.
 exports.help.more.label: Read more about export files in the user manual
+exports.type.unknown: Unknown
+
+# Format the `/sparv-exports` response with something like:
+# jq -r '.exports.[] | [.export, .description] | @tsv' | sed -E 's/([a-z_:]+)\t(.*)/exports.type.\1: \2/'
+exports.type.conll_export:conllu: CoNLL-U from Språkbanken
+exports.type.csv_export:csv: Comma-separated values
+exports.type.stats_export:freq_list: Token frequencies
+exports.type.stats_export:sbx_freq_list: Token frequencies
+exports.type.stats_export:sbx_freq_list_compressed: Token frequencies (compressed)
+exports.type.stats_export:sbx_freq_list_date: Token frequencies with dates
+exports.type.stats_export:sbx_freq_list_date_compressed: Token frequencies with dates (compressed)
+exports.type.stats_export:sbx_freq_list_simple: Token frequencies (without Swedish annotations)
+exports.type.stats_export:sbx_freq_list_simple_compressed: Token frequencies (without Swedish annotations, compressed)
+exports.type.stats_export:sbx_freq_list_simple_swe: Token frequencies (without Swedish annotations)
+exports.type.stats_export:sbx_freq_list_simple_swe_compressed: Token frequencies (without Swedish annotations, compressed)
+exports.type.text_export:plain_text: Plain text
+exports.type.version_info:yaml_export: YAML file with annotation version info
+exports.type.xml_export:combined: Combined XML with all results in one file
+exports.type.xml_export:combined_scrambled: Combined scrambled XML
+exports.type.xml_export:compressed: Compressed combined XML
+exports.type.xml_export:compressed_scrambled: Compressed combined scrambled XML
+exports.type.xml_export:preserved_format: XML with preserved whitespace from source file
+exports.type.xml_export:pretty: XML with one token element per line
+exports.type.xml_export:scrambled: Scrambled XML
+
 user.settings: Settings
 user.settings.admin_mode: Enable administration mode
 user.admin_mode.warning: Administration mode is enabled. Please be careful!
