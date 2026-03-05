@@ -13,18 +13,23 @@ import useLocale from "@/i18n/locale.composable";
 import api from "@/api/api";
 import LayoutBox from "@/components/LayoutBox.vue";
 import type { ExportType, FileMeta } from "@/api/api.types";
+import useSpin from "@/spin/spin.composable";
 
 const corpusId = useCorpusIdParam();
 const { filesize } = useLocale();
 const { exports, downloadResult, downloadResultFile, getDownloadFilename } =
   useCorpus(corpusId);
+const { spin } = useSpin();
 
 /** Export type info */
-const exportTypes = computedAsync<ExportType[]>(api.sparvExports, []);
+const exportTypes = computedAsync<ExportType[]>(
+  () => spin(api.sparvExports(), `corpus/${corpusId}/exports/list`),
+  [],
+);
 
 /** Export files grouped by export type */
 const exportGroups = computed<Record<string, FileMeta[]> | undefined>(() => {
-  if (!exports.value) return undefined;
+  if (!exports.value.length) return undefined;
   return groupBy(
     exports.value,
     (file) => identifyType(file.path)?.export || "",
@@ -60,20 +65,16 @@ function identifyType(path: string): ExportType | undefined {
       </HelpBox>
 
       <PendingContent :on="`corpus/${corpusId}/exports/download`" class="my-4">
-        <LayoutBox :title="$t('file.archive')">
+        <LayoutBox v-if="exports && exports.length" :title="$t('file.archive')">
           {{ $t("download_export") }}:
-          <ActionButton
-            v-if="exports && exports.length"
-            class="button-primary mr-2"
-            @click="downloadResult"
-          >
+          <ActionButton class="button-primary mr-2" @click="downloadResult">
             <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
             {{ getDownloadFilename() }}
           </ActionButton>
         </LayoutBox>
       </PendingContent>
 
-      <LayoutBox :title="$t('file.singles')">
+      <LayoutBox v-if="exportGroups" :title="$t('file.singles')">
         <!-- One heading per export type -->
         <template v-for="(files, type) in exportGroups" :key="type">
           <h2 class="text-lg font-semibold mt-6">
