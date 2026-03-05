@@ -19,12 +19,11 @@ import { isCorpus, type Resource, type User } from "@/store/resource.types";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import RouteButton from "@/components/RouteButton.vue";
-import { isCurrentUser } from "@/auth/sbAuth";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
 const { adminMode, checkAdminMode } = useAdmin();
-const { canUserAdmin } = useAuth();
+const { canUserAdmin, isCurrentUser } = useAuth();
 const { createFromUpload } = useCreateCorpus();
 const { spin } = useSpin();
 const { th } = useLocale();

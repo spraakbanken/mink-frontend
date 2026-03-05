@@ -170,7 +170,7 @@ async function submit(fields: Form) {
     <LayoutSection :title="$t('configuration')">
       <TabsBar
         :tabs="[
-          { key: 'metadata', label: $t('metadata') },
+          { key: 'metadata', label: $t('config.metadata') },
           { key: 'settings', label: $t('settings') },
           { key: 'analyses', label: $t('config.analyses') },
         ]"

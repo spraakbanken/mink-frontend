@@ -32,7 +32,7 @@ const analyses = computedAsync(async () => {
       <tbody>
         <tr>
           <td colspan="2">
-            <h3 class="text-lg uppercase mb-2">{{ $t("metadata") }}</h3>
+            <h3 class="text-lg uppercase mb-2">{{ $t("config.metadata") }}</h3>
           </td>
         </tr>
         <tr>
