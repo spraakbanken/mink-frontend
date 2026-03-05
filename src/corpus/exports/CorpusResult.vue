@@ -76,10 +76,10 @@ function identifyType(path: string): ExportType | undefined {
 
       <LayoutBox v-if="exportGroups" :title="$t('file.singles')">
         <!-- One heading per export type -->
-        <template v-for="(files, type) in exportGroups" :key="type">
-          <h2 class="text-lg font-semibold mt-6">
+        <details v-for="(files, type) in exportGroups" :key="type" open>
+          <summary class="text-lg font-semibold mt-6">
             {{ $t(`exports.type.${type || "unknown"}`) }}
-          </h2>
+          </summary>
 
           <table class="w-full mt-2 striped">
             <!-- Table header -->
@@ -124,7 +124,7 @@ function identifyType(path: string): ExportType | undefined {
               </tr>
             </tbody>
           </table>
-        </template>
+        </details>
       </LayoutBox>
     </LayoutSection>
   </PendingContent>
