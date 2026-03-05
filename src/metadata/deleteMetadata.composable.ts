@@ -5,7 +5,7 @@ import useSpin from "@/spin/spin.composable";
 import api from "@/api/api";
 
 export default function useDeleteMetadata() {
-  const { getJwt } = useAuth();
+  const { refreshAuth } = useAuth();
   const { spin } = useSpin();
   const { loadResourceIds } = useResourceStore();
   const { alertError } = useMessenger();
@@ -15,7 +15,7 @@ export default function useDeleteMetadata() {
     await api.removeMetadata(resourceId);
     // The backend will have updated the remote JWT, so refresh our copy.
     // The backend uses the resource list within it when listing available resources.
-    await getJwt(true);
+    await refreshAuth();
     await loadResourceIds();
   }
 

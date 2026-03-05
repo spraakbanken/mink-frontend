@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { delay } from "es-toolkit";
 import {
   addDays,
@@ -10,6 +10,7 @@ import {
   objsToDict,
   pathJoin,
   randomString,
+  removeExtension,
   retry,
   setKeys,
   unarray,
@@ -40,8 +41,36 @@ describe("enarray", () => {
 });
 
 describe("formatDate", () => {
+  // Ensure the test runs in a known timezone
+  beforeEach(() => {
+    vi.stubEnv("TZ", "Europe/Stockholm");
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
   test("formats a date", () => {
-    expect(formatDate("2022-11-30T12:44:37.735Z")).toBe("2022-11-30 12:44:37");
+    // Date in UTC in winter
+    const dateStrWinter = "2022-11-30T12:44:37Z";
+    // Date in UTC in summer, should have DST applied when formatted
+    const dateStrSummer = "2022-06-30T12:44:37Z";
+    // Date with timezone offset (UTC-6 in winter)
+    const dateStrOffset = "2022-11-30T12:44:37-06:00";
+
+    // Localize to Swedish
+    expect(formatDate(dateStrWinter, "sv")).toBe(
+      "30 november 2022 kl. 13:44:37",
+    );
+    expect(formatDate(dateStrSummer, "sv")).toBe("30 juni 2022 kl. 14:44:37");
+    expect(formatDate(dateStrOffset, "sv")).toBe(
+      "30 november 2022 kl. 19:44:37",
+    );
+
+    // Localize to English (US)
+    expect(formatDate(dateStrWinter, "en")).toBe(
+      "November 30, 2022 at 1:44:37 PM",
+    );
   });
 });
 
@@ -57,6 +86,21 @@ describe("ensureExtension", () => {
   });
   test("handles dots in dir", () => {
     expect(ensureExtension("foo.bar/baz.txt", "zip")).toBe("foo.bar/baz.zip");
+  });
+});
+
+describe("removeExtension", () => {
+  test("removes extension", () => {
+    expect(removeExtension("foo/bar.zip")).toBe("foo/bar");
+  });
+  test("handles multiple extensions", () => {
+    expect(removeExtension("foo/bar.baz.zip")).toBe("foo/bar.baz");
+  });
+  test("handles hidden files", () => {
+    expect(removeExtension(".DS_Store.zip")).toBe(".DS_Store");
+  });
+  test("handles dots in dir", () => {
+    expect(removeExtension("foo.bar/baz.zip")).toBe("foo.bar/baz");
   });
 });
 

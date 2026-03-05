@@ -8,12 +8,13 @@ import RouteButton from "@/components/RouteButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useCorpusStore } from "@/store/corpus.store";
-import { canAdmin } from "@/auth/sbAuth";
+import { useAuth } from "@/auth/auth.composable";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
 const { deleteCorpus } = useDeleteCorpus();
 const corpusStore = useCorpusStore();
+const { canAdmin } = useAuth();
 
 async function doDelete() {
   await deleteCorpus(corpusId);

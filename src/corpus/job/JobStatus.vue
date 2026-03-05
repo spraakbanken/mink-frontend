@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { useCorpus } from "../corpus.composable";
 import JobStatusMessage from "@/corpus/job/JobStatusMessage.vue";
-import { formatDate } from "@/util";
+import useLocale from "@/i18n/locale.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
 import TextData from "@/components/TextData.vue";
@@ -14,6 +14,7 @@ const props = defineProps<{
 
 const { abortJob } = useCorpusStore();
 const { job, isJobRunning, hasError } = useCorpus(props.corpusId);
+const { formatDate } = useLocale();
 
 const isStarted = computed(
   () =>

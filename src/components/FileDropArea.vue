@@ -4,6 +4,10 @@ import { getFilesFromDataTransferItems } from "datatransfer-files-promise";
 import useMessenger from "@/message/messenger.composable";
 import useDropToPage from "@/components/droptopage.composable";
 
+const props = defineProps<{
+  disabled?: boolean;
+}>();
+
 const emit = defineEmits<{
   (e: "drop", files: File[]): void;
 }>();
@@ -12,6 +16,8 @@ const { alert } = useMessenger();
 const { t } = useI18n();
 
 async function drop(event: DragEvent) {
+  if (props.disabled) return;
+
   // On Chrome+Ubuntu, the file list may be empty for security reasons.
   // See https://askubuntu.com/a/1411727
   if (!event.dataTransfer?.files[0]) {
@@ -33,7 +39,7 @@ const { isDragover } = useDropToPage(drop);
 </script>
 
 <template>
-  <div :class="{ 'shadow-lg': isDragover }">
+  <div :class="{ 'shadow-lg': isDragover && !disabled }">
     <slot />
   </div>
 </template>

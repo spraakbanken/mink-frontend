@@ -5,6 +5,7 @@ import FileDropArea from "@/components/FileDropArea.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
 import useMessenger from "@/message/messenger.composable";
 import type { ProgressHandler } from "@/api/api.types";
+import { handleFileInput } from "@/util";
 
 const props = defineProps<{
   /**
@@ -20,19 +21,10 @@ const props = defineProps<{
 const { clear } = useMessenger();
 const progress = ref<number>();
 
-/** Call upload function when using the <input> element. */
-async function handleFileInput(event: Event) {
-  const fileInput = event.target as HTMLInputElement;
-  if (!fileInput.files) {
-    throw new RangeError("No file found in the file input");
-  }
-
-  // Convert from FileList to File[]
-  const files = [...fileInput.files!];
-  await handleUpload(files);
-  // Empty the input value to enable selecting the same file again.
-  fileInput.value = "";
-}
+const filetypes = props.accept
+  ?.split(",")
+  .map((ext) => ext.replace(/^\./, ""))
+  .join(", ");
 
 /** Call upload function. */
 async function handleUpload(files: File[]) {
@@ -87,13 +79,17 @@ function onProgress(progressEvent: AxiosProgressEvent) {
               }}
             </div>
 
+            <div v-if="accept" class="my-2">
+              <strong>{{ $t("upload.accept") }}:</strong> {{ filetypes }}
+            </div>
+
             <input
               id="file-input"
               type="file"
               class="hidden"
               :multiple="multiple"
               :accept="accept"
-              @change="handleFileInput"
+              @change="handleFileInput($event, handleUpload)"
             />
 
             <ProgressBar

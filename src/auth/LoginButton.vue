@@ -3,7 +3,7 @@ import { useRoute, useRouter } from "vue-router";
 import { PhSignIn } from "@phosphor-icons/vue";
 import { whenever } from "@vueuse/core";
 import { useAuth } from "./auth.composable";
-import { getLoginUrl } from "@/auth/sbAuth";
+import { getLoginUrl } from "@/api/sbauth";
 import UrlButton from "@/components/UrlButton.vue";
 
 const route = useRoute();

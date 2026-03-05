@@ -3,7 +3,7 @@ import axios, {
   type AxiosRequestConfig,
   type AxiosResponse,
 } from "axios";
-import { attempt, clone, pickBy } from "es-toolkit";
+import { attempt, clone, pickBy, trim } from "es-toolkit";
 
 /** The number of milliseconds in a full day. */
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -18,6 +18,25 @@ export function addDays(date: Date, days: number) {
 }
 
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/** Get files from an `<input type="file">` element, pass them to a handler, and unless the handling fails, empty the input. */
+export async function handleFileInput(
+  event: Event,
+  fileHandler: (files: File[]) => Promise<void>,
+): Promise<void> {
+  // Get content as FileList
+  const fileInput = event.target as HTMLInputElement;
+  if (!fileInput.files) throw new RangeError("No file found in the file input");
+
+  // Convert from FileList to File[]
+  const files = [...fileInput.files];
+
+  // Delegate to handler
+  await fileHandler(files);
+
+  // Upon success, empty the input value to enable selecting the same file again.
+  fileInput.value = "";
+}
 
 /** Trigger a file download in the browser by adding a temporary link and click it */
 export function downloadFile(data: string | Blob, filename: string) {
@@ -39,14 +58,22 @@ export function downloadFile(data: string | Blob, filename: string) {
 /** Leaves an array unchanged but returns [x] for a non-array value x. */
 export const enarray = <T>(x: T | T[]): T[] => (Array.isArray(x) ? x : [x]);
 
-/** Formats an ISO 8601 date as "YYYY-MM-DD hh:mm:ss" */
-export function formatDate(dateStr: string) {
-  return dateStr.slice(0, 19).replace("T", " ");
+/** Converts and formats a date to the given locale */
+export function formatDate(dateStr: string, locale: string) {
+  return new Date(dateStr).toLocaleString(locale, {
+    dateStyle: "long", // Spell out month name to avoid ambiguity with M/D/Y in English
+    timeStyle: "medium", // With seconds but not timezone details
+  });
 }
 
 /** Add or change a filename extension */
 export function ensureExtension(filename: string, ext: string) {
-  return filename.replace(/(.+)\.[^/.]*$/, "$1") + "." + ext;
+  return removeExtension(filename) + "." + ext;
+}
+
+/** Drop a filename extension (only the last one, if there are multiple) */
+export function removeExtension(filename: string) {
+  return filename.replace(/(.+)\.[^/.]*$/, "$1");
 }
 
 /** Add trailing slash to a URL if it doesn't already have one */
@@ -58,11 +85,8 @@ export function ensureTrailingSlash(url: string) {
  *
  * Similar to Node.js path.join but not as complete.
  */
-export function pathJoin(...parts: string[]) {
-  return parts
-    .map((part) => part.replace(/^\/+/, "").replace(/\/+$/, ""))
-    .join("/");
-}
+export const pathJoin = (...parts: string[]) =>
+  parts.map((part) => trim(part, "/")).join("/");
 
 /**
  * Calls an async function, and if it is rejected, retries a given number of times.

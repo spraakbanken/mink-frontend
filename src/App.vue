@@ -3,17 +3,18 @@ import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useTitle } from "@vueuse/core";
 import SpinIndicator from "./spin/SpinIndicator.vue";
+import AppFooter from "./page/AppFooter.vue";
 import AppHeader from "@/page/AppHeader.vue";
 import api from "@/api/api";
 import * as util from "@/util";
 import { useAuth } from "@/auth/auth.composable";
 import useLocale from "@/i18n/locale.composable";
 import { useResourceStore } from "@/store/resource.store";
-import MessageToasts from "@/message/MessageToasts.vue";
+import MessageList from "@/message/MessageList.vue";
 import usePageTitle from "@/page/title.composable";
 import BreadcrumbBar from "@/page/BreadcrumbBar.vue";
 
-const { getJwt } = useAuth();
+const { refreshAuth } = useAuth();
 useLocale();
 // The `title` ref is automatically updated from route meta.
 const { title } = usePageTitle();
@@ -27,7 +28,7 @@ const isRouteLoading = ref(false);
 const isHome = computed(() => route.path == "/");
 
 // Fetch JWT and use it for all API requests.
-getJwt();
+refreshAuth();
 
 // Some route views are lazy-loaded and can take a moment to load.
 router.beforeEach((to, from, next) => {
@@ -48,16 +49,12 @@ if (import.meta.env.DEV) {
 <template>
   <AppHeader :large="isHome" />
   <BreadcrumbBar />
-  <MessageToasts />
+  <MessageList />
 
-  <div class="container py-2">
+  <div class="flex-grow container py-2">
     <router-view />
     <SpinIndicator v-if="isRouteLoading" />
   </div>
 
-  <div
-    class="container py-20 flex justify-center items-center text-sm opacity-70"
-  >
-    {{ $t("contact") }}: sb-info@svenska.gu.se
-  </div>
+  <AppFooter />
 </template>

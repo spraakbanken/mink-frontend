@@ -5,7 +5,7 @@ import vue from "@vitejs/plugin-vue";
 import checker from "vite-plugin-checker";
 import vueDevTools from "vite-plugin-vue-devtools";
 import { visualizer } from "rollup-plugin-visualizer";
-import Yaml from "js-yaml";
+import { parse } from "yaml";
 
 type HttpsOptions = Pick<ServerOptions, "key" | "cert">;
 
@@ -52,6 +52,12 @@ export default defineConfig(async ({ mode }) => {
     build: {
       rollupOptions: {
         output: {
+          // Sanitize ugly chunk names, see https://github.com/vitejs/vite-plugin-vue/issues/19
+          // Not important. If this cases issues, remove it.
+          chunkFileNames: (assetInfo: { name: string }) => {
+            const name = assetInfo.name.replace(/\.vue_vue_type_.*/, "");
+            return `assets/${name}-[hash].js`;
+          },
           experimentalMinChunkSize: 5000,
         },
       },
@@ -66,9 +72,11 @@ function yamlLoader(): Plugin {
     transform(src, id) {
       // Match file extension
       if (/\.yaml$/.test(id)) {
+        // Load data from YAML
+        const data = parse(src);
         // Dump JSON into JS
         return {
-          code: `const data = ${JSON.stringify(Yaml.load(src))};
+          code: `const data = ${JSON.stringify(data)};
             export default data;`,
         };
       }

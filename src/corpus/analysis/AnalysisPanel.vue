@@ -5,7 +5,7 @@ import { useCorpus } from "../corpus.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useCorpusStore } from "@/store/corpus.store";
-import { canWrite } from "@/auth/sbAuth";
+import { useAuth } from "@/auth/auth.composable";
 
 const props = defineProps<{
   corpusId: string;
@@ -22,6 +22,7 @@ const {
   downloadResult,
   getDownloadFilename,
 } = useCorpus(props.corpusId);
+const { canWrite } = useAuth();
 
 const isPending = ref(false);
 const canRun = computed(
@@ -126,7 +127,7 @@ async function doRunJob() {
             <th>{{ $t("file.singles") }}</th>
             <td>
               <router-link :to="`/library/corpus/${corpusId}/exports`">
-                {{ $t("show") }}...
+                {{ $t("show") }}…
               </router-link>
             </td>
           </tr>

@@ -11,10 +11,11 @@ import ExplorePanel from "@/corpus/explore/ExplorePanel.vue";
 import CorpusStateHelp from "@/corpus/CorpusStateHelp.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
-import { canWrite } from "@/auth/sbAuth";
+import { useAuth } from "@/auth/auth.composable";
 
 const corpusId = useCorpusIdParam();
 const { isConfigValid } = useCorpus(corpusId);
+const { canWrite } = useAuth();
 </script>
 
 <template>
@@ -63,7 +64,7 @@ const { isConfigValid } = useCorpus(corpusId);
         <AnalysisPanel :corpus-id="corpusId" />
       </LayoutBox>
 
-      <LayoutBox :title="$t('tools')">
+      <LayoutBox :title="$t('exports.tools')">
         <ExplorePanel :corpus-id="corpusId" />
       </LayoutBox>
     </div>

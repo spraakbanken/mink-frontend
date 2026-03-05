@@ -37,7 +37,7 @@ onMounted(() => {
                 {{ source.name }}
               </div>
               <div v-if="resource.sources.length > 3">
-                ... ({{ $t("files", resource.sources.length) }})
+                … ({{ $t("files", resource.sources.length) }})
               </div>
             </td>
           </tr>

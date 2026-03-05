@@ -15,7 +15,7 @@ import useMessenger from "@/message/messenger.composable";
 import { getFilenameExtension } from "@/util";
 import { FORMATS_EXT, type FileFormat } from "@/api/corpusConfig";
 import FileUpload from "@/components/FileUpload.vue";
-import { canWrite } from "@/auth/sbAuth";
+import { useAuth } from "@/auth/auth.composable";
 
 const props = defineProps<{
   corpusId: string;
@@ -33,6 +33,7 @@ const {
 const { filesize } = useLocale();
 const { alert, alertError } = useMessenger();
 const { t } = useI18n();
+const { canWrite } = useAuth();
 
 const info = computedAsync(getInfo);
 const totalSize = computed(() =>
@@ -79,7 +80,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
       <table v-if="sources.length" class="w-full mt-4 striped">
         <thead>
           <tr>
-            <th class="w-full">{{ $t("fileName") }}</th>
+            <th class="w-full">{{ $t("filename") }}</th>
             <th class="text-right">{{ $t("fileSize") }}</th>
             <th v-if="canWrite('corpora', corpusId)" class="sr-only">
               {{ $t("file.operations") }}
@@ -100,7 +101,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
             </td>
             <td v-if="canWrite('corpora', corpusId)" class="text-right">
               <ActionButton
-                class="button-danger button-mute button-slim text-sm"
+                class="hover:button-danger button-slim text-sm"
                 @click="deleteSource(source)"
               >
                 <PhTrash class="inline mb-0.5" />

@@ -19,19 +19,20 @@ const props = defineProps<{
   language?: SyntaxLanguage & "xml";
 }>();
 
+const disabled = ref(false);
 const text = ref();
 const shouldDeferLoading = computed(() => (props.size || 0) > AUTOLOAD_LIMIT);
 
 /** Wraps the load call to ensure it's only called once (or not at all). */
-const load = once(() => props.load());
+const load = once(props.load);
 
 /** Load text and store it for showing. */
 async function show() {
   const content = await load();
 
   if (typeof content != "string") {
-    console.error("Source text is not string, use `<SourceText no-load>`");
-    return;
+    disabled.value = true;
+    throw new TypeError("Not a text file");
   }
 
   text.value = content;
@@ -42,9 +43,10 @@ onMounted(async () => {
   if (!props.noLoad && !shouldDeferLoading.value) await show();
 });
 
+/** Trigger download of the file */
 async function download() {
   const text = await load();
-  downloadFile(text!, props.filename || "mink-source");
+  if (text) downloadFile(text, props.filename);
 }
 </script>
 
@@ -52,13 +54,17 @@ async function download() {
   <TextData v-if="text" :text="text" :language="language" />
 
   <div class="my-2 flex gap-2">
-    <ActionButton v-if="!noLoad && text === undefined" @click="show()">
+    <ActionButton
+      v-if="!noLoad && text === undefined"
+      @click="show()"
+      :disabled
+    >
       <PhArrowsClockwise class="inline mb-1 mr-1" />
       {{ $t("load") }}
     </ActionButton>
 
     <ActionButton @click="download">
-      <PhDownloadSimple weight="fill" class="inline mb-0.5 mr-1" />
+      <PhDownloadSimple class="inline mb-0.5 mr-1" />
       {{ $t("download") }}
     </ActionButton>
   </div>

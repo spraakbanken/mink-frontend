@@ -14,6 +14,7 @@ import type {
   ProgressHandler,
   JobStateMap,
   SparvSchemaData,
+  SparvExportsData,
 } from "@/api/api.types";
 
 /** Create a `text/yaml` file object with content */
@@ -63,6 +64,13 @@ class MinkApi {
   getInfo = once(async () => {
     const response = await this.axios.get<MinkResponse<InfoData>>("info");
     return response.data;
+  });
+
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/sparv-exports-get */
+  sparvExports = once(async () => {
+    const response =
+      await this.axios.get<MinkResponse<SparvExportsData>>("sparv-exports");
+    return response.data.exports;
   });
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/sparv-schema-get */
@@ -135,14 +143,6 @@ class MinkApi {
         responseType: binary ? "blob" : "text",
       })
       .catch(rethrowBlobError);
-    return response.data;
-  }
-
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Exports/operation/download-source-text-get */
-  async downloadSourceText(corpusId: string, filename: string) {
-    const response = await this.axios.get<string>("download-source-text", {
-      params: { corpus_id: corpusId, file: filename },
-    });
     return response.data;
   }
 
@@ -282,7 +282,7 @@ class MinkApi {
     const response = await this.axios
       .get<Blob>("download-exports", {
         params: { corpus_id: corpusId, file: path, zip: false },
-        responseType: "blob",
+        responseType: "text",
       })
       .catch(rethrowBlobError);
     return response.data;

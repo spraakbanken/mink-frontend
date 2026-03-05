@@ -7,6 +7,7 @@ import useMessenger from "@/message/messenger.composable";
 const { alerts, dismiss, clear } = useMessenger();
 const route = useRoute();
 
+// Remove messages when navigating to a new page
 watch(
   () => route.path,
   () => clear(),
@@ -14,7 +15,10 @@ watch(
 </script>
 
 <template>
-  <aside class="container max-w-3xl my-4 sticky top-2 z-50">
+  <aside
+    v-if="alerts.length"
+    class="container max-w-3xl my-4 sticky top-2 z-50"
+  >
     <div
       v-for="{ key, message, level } in alerts"
       :key="message"

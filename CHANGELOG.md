@@ -11,7 +11,37 @@ As this project is a user-facing application, the places in the semantic version
 - `MINOR` denotes changes that may affect the user experience _or_ the development workflow
 - `PATCH` denotes changes that are insignificant to the user experience or the develpment workflow
 
-## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.15.0...HEAD)
+## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.16.1...HEAD)
+
+### Added
+
+- View result file [#170](https://github.com/spraakbanken/mink-frontend/issues/170)
+- Explain export file types [#192](https://github.com/spraakbanken/mink-frontend/issues/192)
+- List allowed source file extensions on upload area [#234](https://github.com/spraakbanken/mink-frontend/issues/234)
+
+### Changed
+
+- Removed source plaintext view [#227](https://github.com/spraakbanken/mink-frontend/issues/227)
+
+## [1.16.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.16.1) (2026-02-16)
+
+### Fixed
+
+- Parsing dates in news YAML
+
+## [1.16.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.16.0) (2026-02-16)
+
+### Added
+
+- CodeMirror editor with syntax highlighting and inline schema validation for custom config YAML
+- Page footer with links and organization logos
+- Metadata editor for SBX resource repository
+
+## [1.15.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.15.1) (2026-02-04)
+
+### Fixed
+
+- Permission checking disregards admin [#233](https://github.com/spraakbanken/mink-frontend/issues/233)
 
 ## [1.15.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.15.0) (2025-12-11)
 
