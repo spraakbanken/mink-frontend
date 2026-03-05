@@ -8,6 +8,7 @@ const CorpusConfigCustom = () =>
   import("@/corpus/config/CorpusConfigCustom.vue");
 const CorpusResult = () => import("@/corpus/exports/CorpusResult.vue");
 const CorpusDelete = () => import("@/corpus/CorpusDelete.vue");
+const ExportView = () => import("@/corpus/exports/ExportView.vue");
 const SourceView = () => import("@/corpus/sources/SourceView.vue");
 
 const corpusRoutes: RouteRecordRaw[] = [
@@ -67,6 +68,15 @@ const corpusRoutes: RouteRecordRaw[] = [
         component: CorpusResult,
         meta: {
           title: "result",
+          protected: true,
+        },
+      },
+      {
+        path: "exports/:path",
+        component: ExportView,
+        props: true,
+        meta: {
+          createTitle: (params) => decodeURIComponent(params.path as string),
           protected: true,
         },
       },

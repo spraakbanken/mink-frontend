@@ -46,6 +46,21 @@ type InfoDataSection<T> = {
   data: T[];
 };
 
+/** Lists available exports */
+export type SparvExportsData = {
+  /** List of available export formats */
+  exports: ExportType[];
+  /** ISO code of the language chosen for the export listing */
+  language: "swe";
+};
+
+/** Data in the sparv-exports response */
+export type ExportType = {
+  description: string;
+  export: string;
+  export_files: string[];
+};
+
 /** Data in the sparv-schema response */
 export type SparvSchemaData = {
   sparv_schema: object;

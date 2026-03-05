@@ -101,7 +101,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
             </td>
             <td v-if="canWrite('corpora', corpusId)" class="text-right">
               <ActionButton
-                class="button-danger button-mute button-slim text-sm"
+                class="hover:button-danger button-slim text-sm"
                 @click="deleteSource(source)"
               >
                 <PhTrash class="inline mb-0.5" />

@@ -21,6 +21,11 @@ const props = defineProps<{
 const { clear } = useMessenger();
 const progress = ref<number>();
 
+const filetypes = props.accept
+  ?.split(",")
+  .map((ext) => ext.replace(/^\./, ""))
+  .join(", ");
+
 /** Call upload function. */
 async function handleUpload(files: File[]) {
   clear();
@@ -72,6 +77,10 @@ function onProgress(progressEvent: AxiosProgressEvent) {
               {{
                 multiple ? $t("upload.dnd.multiple") : $t("upload.dnd.single")
               }}
+            </div>
+
+            <div v-if="accept" class="my-2">
+              <strong>{{ $t("upload.accept") }}:</strong> {{ filetypes }}
             </div>
 
             <input

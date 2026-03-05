@@ -102,14 +102,7 @@ export function useCorpus(corpusId: string) {
   async function downloadSource(source: FileMeta, binary: boolean) {
     return spin(
       api.downloadSources(corpusId, source.name, binary),
-      `corpus/${corpusId}/sources/${source.name}/raw`,
-    ).catch(alertError);
-  }
-
-  async function downloadPlaintext(source: FileMeta) {
-    return spin(
-      api.downloadSourceText(corpusId, source.name),
-      `corpus/${corpusId}/sources/${source.name}/plain`,
+      `corpus/${corpusId}/sources/${source.name}`,
     ).catch(alertError);
   }
 
@@ -157,14 +150,18 @@ export function useCorpus(corpusId: string) {
     try {
       const filename = path.split("/").pop()!;
       matomo?.trackEvent("Corpus", "Download", "Export file");
-      const data = await spin(
-        api.downloadExportFile(corpusId, path),
-        `corpus/${corpusId}/exports/download`,
-      );
+      const data = await loadResultFile(path);
       downloadFile(data, filename);
     } catch (error) {
       alertError(error);
     }
+  }
+
+  async function loadResultFile(path: string) {
+    return spin(
+      api.downloadExportFile(corpusId, path),
+      `corpus/${corpusId}/exports/${path}`,
+    );
   }
 
   return {
@@ -176,7 +173,6 @@ export function useCorpus(corpusId: string) {
     sources,
     hasSources,
     downloadSource,
-    downloadPlaintext,
     uploadSources,
     deleteSource,
     extensions,
@@ -189,6 +185,7 @@ export function useCorpus(corpusId: string) {
     exports,
     downloadResult,
     downloadResultFile,
+    loadResultFile,
     getDownloadFilename,
   };
 }

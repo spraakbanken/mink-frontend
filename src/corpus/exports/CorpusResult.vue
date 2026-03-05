@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { groupBy } from "es-toolkit";
 import { PhDownloadSimple } from "@phosphor-icons/vue";
+import { computedAsync } from "@vueuse/core";
+import { groupBy } from "es-toolkit";
 import { useCorpus } from "../corpus.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
@@ -9,17 +10,44 @@ import PendingContent from "@/spin/PendingContent.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import useLocale from "@/i18n/locale.composable";
+import api from "@/api/api";
+import LayoutBox from "@/components/LayoutBox.vue";
+import type { ExportType, FileMeta } from "@/api/api.types";
+import useSpin from "@/spin/spin.composable";
 
 const corpusId = useCorpusIdParam();
 const { filesize } = useLocale();
 const { exports, downloadResult, downloadResultFile, getDownloadFilename } =
   useCorpus(corpusId);
+const { spin } = useSpin();
 
-const exportsByFolder = computed(() =>
-  exports.value
-    ? groupBy(exports.value, (meta) => meta.path.split("/").shift()!)
-    : undefined,
+/** Export type info */
+const exportTypes = computedAsync<ExportType[]>(
+  () => spin(api.sparvExports(), `corpus/${corpusId}/exports/list`),
+  [],
 );
+
+/** Export files grouped by export type */
+const exportGroups = computed<Record<string, FileMeta[]> | undefined>(() => {
+  if (!exports.value.length) return undefined;
+  return groupBy(
+    exports.value,
+    (file) => identifyType(file.path)?.export || "",
+  );
+});
+
+/** "folder/filename.ext" -> "folder/__.ext" */
+const getPathTemplate = (path: string): string =>
+  path.replace(/\/[^/]+\./, "__");
+
+/** Find an export type with a path template that matches the given file path */
+function identifyType(path: string): ExportType | undefined {
+  return exportTypes.value.find((type) =>
+    type.export_files.some(
+      (exportPath) => getPathTemplate(exportPath) == getPathTemplate(path),
+    ),
+  );
+}
 </script>
 
 <template>
@@ -37,45 +65,67 @@ const exportsByFolder = computed(() =>
       </HelpBox>
 
       <PendingContent :on="`corpus/${corpusId}/exports/download`" class="my-4">
-        {{ $t("download_export") }}:
-        <ActionButton
-          v-if="exports && exports.length"
-          class="button-primary mr-2"
-          @click="downloadResult"
-        >
-          <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
-          {{ getDownloadFilename() }}
-        </ActionButton>
+        <LayoutBox v-if="exports && exports.length" :title="$t('file.archive')">
+          {{ $t("download_export") }}:
+          <ActionButton class="button-primary mr-2" @click="downloadResult">
+            <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
+            {{ getDownloadFilename() }}
+          </ActionButton>
+        </LayoutBox>
       </PendingContent>
 
-      <table class="w-full mt-4 striped">
-        <thead>
-          <tr>
-            <th class="w-full">{{ $t("filename") }}</th>
-            <th class="text-right">{{ $t("fileSize") }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <template v-for="(exports_, folder) in exportsByFolder" :key="folder">
-            <tr>
-              <td colspan="2">{{ folder }}/</td>
-            </tr>
-            <tr v-for="file in exports_" :key="file.name">
-              <td class="pl-6!">
-                <a href="#" @click.prevent="downloadResultFile(file.path)">
-                  <PhDownloadSimple
-                    weight="fill"
-                    class="inline mb-0.5 mr-1"
-                  />{{ file.path.split("/").slice(1).join("/") }}
-                </a>
-              </td>
-              <td class="text-right whitespace-nowrap">
-                {{ filesize(file.size) }}
-              </td>
-            </tr>
-          </template>
-        </tbody>
-      </table>
+      <LayoutBox v-if="exportGroups" :title="$t('file.singles')">
+        <!-- One heading per export type -->
+        <details v-for="(files, type) in exportGroups" :key="type" open>
+          <summary class="text-lg font-semibold mt-6">
+            {{ $t(`exports.type.${type || "unknown"}`) }}
+          </summary>
+
+          <table class="w-full mt-2 striped">
+            <!-- Table header -->
+            <thead>
+              <tr>
+                <th>{{ $t("filename") }}</th>
+                <th class="text-right">{{ $t("fileSize") }}</th>
+                <th class="sr-only">
+                  {{ $t("file.operations") }}
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <!-- Repeated file row -->
+              <tr v-for="file in files" :key="file.name">
+                <!-- Filename link -->
+                <td class="w-full">
+                  {{ file.path.slice(0, file.path.lastIndexOf("/") + 1)
+                  }}<router-link
+                    :to="`/library/corpus/${corpusId}/exports/${encodeURIComponent(file.path)}`"
+                  >
+                    {{ file.name }}
+                  </router-link>
+                </td>
+
+                <!-- File size -->
+                <td class="text-right whitespace-nowrap">
+                  {{ filesize(file.size) }}
+                </td>
+
+                <!-- Download button -->
+                <td>
+                  <ActionButton
+                    class="button-slim"
+                    @click="downloadResultFile(file.path)"
+                  >
+                    <PhDownloadSimple class="inline mb-0.5" />
+                    <span class="sr-only">{{ $t("download") }}</span>
+                  </ActionButton>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </details>
+      </LayoutBox>
     </LayoutSection>
   </PendingContent>
 </template>

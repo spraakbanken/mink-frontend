@@ -114,6 +114,7 @@ source.notfound: Denna källfil kunde inte hittas
 source.list.loading: Listar källfiler
 source.content: Innehåll
 source.upload.config_format.trigger_change: "Korpuskonfigurationen uppdateras för att stämma med filformatet: {format}"
+upload.accept: Filtyper
 upload.label.single: Lägg till fil
 upload.label.multiple: Lägg till filer
 upload.dnd.single: Dra och släpp en fil hit, eller klicka här för att välja
@@ -135,6 +136,31 @@ exports.download.help: Resultatet kan laddas ner som maskinläsbara filer för b
 exports.download.placeholder: Nedladdningar finns här efter slutförd annotering.
 exports.help: Annoteringsprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen. De lagras på servern tillsvidare, men ersätts med nya om du kör om annoteringen på nytt.
 exports.help.more.label: Läs mer om exportfiler i användarhandledningen
+exports.type.unknown: Okänd
+
+# Format the `/sparv-exports` response with something like:
+# jq -r '.exports.[] | [.export, .description] | @tsv' | sed -E 's/([a-z_:]+)\t(.*)/exports.type.\1: \2/'
+exports.type.conll_export:conllu: CoNLL-U (SBX version)
+exports.type.csv_export:csv: Kommaseparerade värden
+exports.type.stats_export:freq_list: Ordfrekvenser
+exports.type.stats_export:sbx_freq_list: Ordfrekvenser
+exports.type.stats_export:sbx_freq_list_compressed: Ordfrekvenser (komprimerad)
+exports.type.stats_export:sbx_freq_list_date: Ordfrekvenser med datum
+exports.type.stats_export:sbx_freq_list_date_compressed: Ordfrekvenser med datum (komprimerad)
+exports.type.stats_export:sbx_freq_list_simple: Ordfrekvenser (utan svenska annotationer)
+exports.type.stats_export:sbx_freq_list_simple_compressed: Ordfrekvenser (utan svenska annotationer, komprimerad)
+exports.type.stats_export:sbx_freq_list_simple_swe: Ordfrekvenser (utan svenska annotationer)
+exports.type.stats_export:sbx_freq_list_simple_swe_compressed: Ordfrekvenser (utan svenska annotationer, komprimerad)
+exports.type.text_export:plain_text: Ren text
+exports.type.version_info:yaml_export: YAML-fil med annoteringsversioner
+exports.type.xml_export:combined: Kombinerad XML (alla resultat i en fil)
+exports.type.xml_export:combined_scrambled: Kombinerad och omkastad XML
+exports.type.xml_export:compressed: Komprimerad och kombinerad XML
+exports.type.xml_export:compressed_scrambled: Komprimerad, kombinerad och omkastad XML
+exports.type.xml_export:preserved_format: XML med bibehållna blanktecken från källfil
+exports.type.xml_export:pretty: XML med ett tokenelement per rad
+exports.type.xml_export:scrambled: Omkastad XML
+
 user.settings: Inställningar
 user.settings.admin_mode: Aktivera administratörsläget
 user.admin_mode.warning: Administratörsläget är aktiverat. Var försiktig!
@@ -162,7 +188,6 @@ expand.open: Visa allt
 expand.close: Göm en del
 show: Visa
 show_more: Visa mer
-select: Välj...
 docs.label: Hjälp
 docs.url: https://spraakbanken.gu.se/verktyg/mink
 locale.switcher.label: Gränssnittsspråk
