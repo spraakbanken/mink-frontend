@@ -102,7 +102,14 @@ export function useCorpus(corpusId: string) {
   async function downloadSource(source: FileMeta, binary: boolean) {
     return spin(
       api.downloadSources(corpusId, source.name, binary),
-      `corpus/${corpusId}/sources/${source.name}`,
+      `corpus/${corpusId}/sources/${source.name}/raw`,
+    ).catch(alertError);
+  }
+
+  async function downloadPlaintext(source: FileMeta) {
+    return spin(
+      api.downloadSourceText(corpusId, source.name),
+      `corpus/${corpusId}/sources/${source.name}/plain`,
     ).catch(alertError);
   }
 
@@ -173,6 +180,7 @@ export function useCorpus(corpusId: string) {
     sources,
     hasSources,
     downloadSource,
+    downloadPlaintext,
     uploadSources,
     deleteSource,
     extensions,
