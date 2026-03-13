@@ -19,7 +19,10 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-wrap items-stretch text-sm">
-    <table v-if="resource" class="flex-1 flex">
+    <table
+      v-if="resource"
+      class="flex-1 flex border-separate border-spacing-2 -m-2"
+    >
       <tbody>
         <tr>
           <th>{{ $t("type") }}</th>
@@ -28,7 +31,7 @@ onMounted(() => {
 
         <template v-if="isCorpus(resource)">
           <tr>
-            <th>{{ $t("texts") }}</th>
+            <th>{{ $t("sources") }}</th>
             <td v-if="resource.sources">
               <div
                 v-for="source in resource.sources.slice(0, 3)"
@@ -68,16 +71,3 @@ onMounted(() => {
     </PendingContent>
   </div>
 </template>
-
-<style scoped>
-@reference "tailwindcss";
-
-* + tr > th,
-* + tr > td {
-  @apply pt-2;
-}
-td th,
-td td {
-  @apply pt-0;
-}
-</style>

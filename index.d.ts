@@ -27,9 +27,11 @@ declare module "vue-matomo" {
    * The default export is the Vue plugin.
    * Usage:
    *   import matomo from "vue-matomo";
-   *   app.use(matomo, {...})
+   *   app.use(matomo.default, {...})
    */
-  export default import("vue").Plugin;
+  export default {
+    default: import("vue").Plugin,
+  };
 
   /**
    * Inject `matomoKey` to use the Matomo object.

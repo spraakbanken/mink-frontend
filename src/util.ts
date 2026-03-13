@@ -196,7 +196,7 @@ export function deduplicateRequest<T, P extends unknown[]>(
     const key = attempt(() => JSON.stringify(args))[1] || "";
 
     // If a request is already in progress, return that promise.
-    if (promises[key]) return promises[key];
+    if (key in promises) return promises[key];
 
     // Otherwise, start a new request and let it occupy the promise slot.
     const promise = f(...args).finally(() => delete promises[key]);

@@ -21,7 +21,7 @@ export const useJwtStore = defineStore("jwt", () => {
   const jwt = ref<string>();
 
   /** Timeout slot for refreshing on expiration. */
-  let refreshTimer: NodeJS.Timeout | undefined = undefined;
+  let refreshTimer: number | undefined = undefined;
 
   /** JWT payload object with permissions etc. */
   const payload = computed<Payload | undefined>(() => {

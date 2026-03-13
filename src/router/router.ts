@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, type RouteParams } from "vue-router";
 import { useJwtStore } from "@/store/jwt.store";
 import routes from "@/router/main.routes";
 
