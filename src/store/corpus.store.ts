@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import { computed } from "vue";
 import { watchDeep } from "@vueuse/core";
+import { useMatomo } from "vue3-matomo";
 import { isCorpus, type Corpus } from "./resource.types";
 import { useResourceStore } from "./resource.store";
 import useMessenger from "@/message/messenger.composable";
 import useSpin from "@/spin/spin.composable";
 import { pickByType } from "@/util";
-import { useMatomo } from "@/matomo";
 import type { FileMeta } from "@/api/api.types";
 import api from "@/api/api";
 
@@ -94,7 +94,7 @@ export const useCorpusStore = defineStore("corpus", () => {
   }
 
   async function runJob(corpusId: string) {
-    matomo?.trackEvent("Corpus", "Annotation", "Start");
+    matomo.value?.trackEvent("Corpus", "Annotation", "Start");
     const info = await spin(
       api.runSparv(corpusId).catch(alertError),
       `corpus/${corpusId}/job/sparv`,
@@ -103,7 +103,7 @@ export const useCorpusStore = defineStore("corpus", () => {
   }
 
   async function installKorp(corpusId: string) {
-    matomo?.trackEvent("Corpus", "Tool install", "Korp");
+    matomo.value?.trackEvent("Corpus", "Tool install", "Korp");
     const info = await spin(
       api.installKorp(corpusId).catch(alertError),
       `corpus/${corpusId}/job/install/korp`,
@@ -113,7 +113,7 @@ export const useCorpusStore = defineStore("corpus", () => {
   }
 
   async function installStrix(corpusId: string) {
-    matomo?.trackEvent("Corpus", "Tool install", "Strix");
+    matomo.value?.trackEvent("Corpus", "Tool install", "Strix");
     const info = await spin(
       api.installStrix(corpusId).catch(alertError),
       `corpus/${corpusId}/job/install/strix`,
@@ -123,7 +123,7 @@ export const useCorpusStore = defineStore("corpus", () => {
   }
 
   async function uninstallKorp(corpusId: string) {
-    matomo?.trackEvent("Corpus", "Tool uninstall", "Korp");
+    matomo.value?.trackEvent("Corpus", "Tool uninstall", "Korp");
     const info = await spin(
       api.uninstallKorp(corpusId).catch(alertError),
       `corpus/${corpusId}/job/install/korp`,
@@ -134,7 +134,7 @@ export const useCorpusStore = defineStore("corpus", () => {
   }
 
   async function uninstallStrix(corpusId: string) {
-    matomo?.trackEvent("Corpus", "Tool uninstall", "Strix");
+    matomo.value?.trackEvent("Corpus", "Tool uninstall", "Strix");
     const info = await spin(
       api.uninstallStrix(corpusId).catch(alertError),
       `corpus/${corpusId}/job/install/strix`,
@@ -145,7 +145,7 @@ export const useCorpusStore = defineStore("corpus", () => {
   }
 
   async function abortJob(corpusId: string) {
-    matomo?.trackEvent("Corpus", "Annotation", "Abort");
+    matomo.value?.trackEvent("Corpus", "Annotation", "Abort");
     await spin(
       api.abortJob(corpusId).catch(alertError),
       `corpus/${corpusId}/job/abort`,

@@ -1,6 +1,7 @@
 import { computed, watch } from "vue";
 import { attempt, uniq } from "es-toolkit";
 import { useInterval } from "@vueuse/core";
+import { useMatomo } from "vue3-matomo";
 import { useCorpusStore } from "@/store/corpus.store";
 import {
   makeConfig,
@@ -12,7 +13,6 @@ import { downloadFile, getFilenameExtension } from "@/util";
 import useMessenger from "@/message/messenger.composable";
 import useSpin from "@/spin/spin.composable";
 import type { FileMeta, ProgressHandler } from "@/api/api.types";
-import { useMatomo } from "@/matomo";
 import api from "@/api/api";
 
 // Module-scope ticker, can be watched to perform task intermittently
@@ -70,7 +70,7 @@ export function useCorpus(corpusId: string) {
   });
 
   async function clearAnnotations() {
-    matomo?.trackEvent("Corpus", "Annotation", "Clear");
+    matomo.value?.trackEvent("Corpus", "Annotation", "Clear");
     await spin(
       api.clearAnnotations(corpusId).catch(alertError),
       `corpus/${corpusId}/exports/list`,
@@ -144,7 +144,7 @@ export function useCorpus(corpusId: string) {
   }
 
   async function downloadResult() {
-    matomo?.trackEvent("Corpus", "Download", "Export archive");
+    matomo.value?.trackEvent("Corpus", "Download", "Export archive");
     const data = await spin(
       api.downloadExports(corpusId).catch(alertError),
       `corpus/${corpusId}/exports/download`,
@@ -156,7 +156,7 @@ export function useCorpus(corpusId: string) {
   async function downloadResultFile(path: string) {
     try {
       const filename = path.split("/").pop()!;
-      matomo?.trackEvent("Corpus", "Download", "Export file");
+      matomo.value?.trackEvent("Corpus", "Download", "Export file");
       const data = await loadResultFile(path);
       downloadFile(data, filename);
     } catch (error) {
