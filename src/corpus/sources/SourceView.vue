@@ -45,8 +45,7 @@ async function loadFile() {
 </script>
 
 <template>
-  <LayoutSection>
-    <h2>{{ filename }}</h2>
+  <LayoutSection :title="filename">
     <table v-if="metadata" class="w-full mt-4">
       <tbody>
         <tr>

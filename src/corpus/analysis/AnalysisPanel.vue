@@ -108,7 +108,7 @@ async function doRunJob() {
     </PendingContent>
 
     <PendingContent :on="`${id}/exports/list`" class="mt-4">
-      <h3 class="text-lg uppercase">{{ $t("download") }}</h3>
+      <h3 class="text-lg">{{ $t("download") }}</h3>
       <p>{{ $t("exports.download.help") }}</p>
 
       <table v-if="exports?.length">

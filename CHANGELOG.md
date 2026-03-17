@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.17.0...HEAD)
 
+### Changed
+
+- Use the Jost font for headings
+
 ### Fixed
 
 - Mirror favicon to match logo
