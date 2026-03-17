@@ -37,7 +37,7 @@
     "codemirror": "^6.0.2",
     "datatransfer-files-promise": "^2.0.0",
     "es-toolkit": "^1.45.1",
-    "eslint": "^10.0.3",
+    "eslint": "^9",
     "filesize": "^11.0.13",
     "highlight.js": "^11.11.1",
     "jwt-decode": "^4.0.0",
