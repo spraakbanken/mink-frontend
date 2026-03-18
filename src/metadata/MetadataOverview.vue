@@ -43,7 +43,7 @@ async function uploadMetadata(files: File[]) {
       </LayoutBox>
 
       <LayoutBox :title="$t('sharing')">
-        <SharingPanel resourceType="corpora" :resource-id />
+        <SharingPanel resource-type="corpora" :resourceId />
       </LayoutBox>
     </div>
 

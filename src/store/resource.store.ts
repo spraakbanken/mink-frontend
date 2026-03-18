@@ -38,7 +38,7 @@ export const useResourceStore = defineStore("resource", () => {
 
   /** Load resource ids and update store to match. */
   async function loadResourceIds() {
-    const ids = await spin(api.listCorpora().catch(alertError), "corpora");
+    const ids = await spin(api.listCorpora().catch(alertError), "resources");
     if (!ids) return;
     resourceIds.value = ids;
 
@@ -52,7 +52,7 @@ export const useResourceStore = defineStore("resource", () => {
     if (!freshList) {
       const data = await spin(
         api.resourceInfoAll().catch(alertError),
-        "corpora",
+        "resources",
       );
       if (!data) return;
 

@@ -22,7 +22,7 @@ const loadPromise = Promise.all([
   corpusStore.loadConfig(props.id),
   corpusStore.loadSources(props.id),
 ]);
-spin(loadPromise, "corpora");
+spin(loadPromise, "resources");
 </script>
 
 <template>

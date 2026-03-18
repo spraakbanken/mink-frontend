@@ -41,7 +41,7 @@ async function load(resourceId: string) {
     </HelpBox>
 
     <LayoutSection>
-      <PendingContent on="corpora" class="my-4 flex flex-col gap-6">
+      <PendingContent on="resources" class="my-4 flex flex-col gap-6">
         <PendingContent
           v-for="(resource, resourceId) of resourceStore.resources"
           :key="resourceId"

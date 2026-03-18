@@ -200,7 +200,7 @@ analysis: Analysis
 result: Result
 resources: Resources
 corpus: Corpus
-corpuses: Corpora
+corpora: Corpora
 files: No files | 1 file | {count} files
 none: None
 new_corpus: New corpus

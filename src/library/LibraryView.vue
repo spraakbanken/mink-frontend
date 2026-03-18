@@ -52,7 +52,7 @@ async function fileHandler(files: File[]) {
 <template>
   <div v-if="!adminMode">
     <PageTitle>{{ $t("library") }}</PageTitle>
-    <LayoutSection :title="$t('corpuses')">
+    <LayoutSection :title="$t('corpora')">
       <HelpBox>
         <p>
           {{
@@ -63,7 +63,7 @@ async function fileHandler(files: File[]) {
         </p>
       </HelpBox>
 
-      <PendingContent on="corpora" class="my-4 flex flex-wrap gap-4">
+      <PendingContent on="resources" class="my-4 flex flex-wrap gap-4">
         <CorpusButton
           v-for="(corpus, corpusId) of corpusStore.corpora"
           :id="corpusId"
