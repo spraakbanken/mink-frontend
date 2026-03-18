@@ -237,12 +237,15 @@ class MinkApi {
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/run-sparv-put */
   async runSparv(corpusId: string) {
-    const response = await this.axios
-      .put<MinkResponse<ResourceInfoOneData>>("run-sparv", null, {
+    const response = await this.axios.put<MinkResponse<ResourceInfoOneData>>(
+      "run-sparv",
+      null,
+      {
         params: { corpus_id: corpusId },
-      })
-      // Errors are okay.
-      .catch((reason) => reason.response);
+        // Errors are okay.
+        validateStatus: () => true,
+      },
+    );
     return response.data;
   }
 

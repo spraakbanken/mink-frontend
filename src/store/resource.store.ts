@@ -10,11 +10,9 @@ import {
 import { filterKeys, pickByType } from "@/util";
 import api from "@/api/api";
 import type { ResourceInfo } from "@/api/api.types";
-import useMessenger from "@/message/messenger.composable";
 import useSpin from "@/spin/spin.composable";
 
 export const useResourceStore = defineStore("resource", () => {
-  const { alertError } = useMessenger();
   const { spin } = useSpin();
 
   const resourceIds = ref<string[]>([]);
@@ -38,8 +36,7 @@ export const useResourceStore = defineStore("resource", () => {
 
   /** Load resource ids and update store to match. */
   async function loadResourceIds() {
-    const ids = await spin(api.listCorpora().catch(alertError), "resources");
-    if (!ids) return;
+    const ids = await spin(api.listCorpora(), "resources");
     resourceIds.value = ids;
 
     // Forget absent resources
@@ -50,12 +47,7 @@ export const useResourceStore = defineStore("resource", () => {
   async function loadResources() {
     // Skip if already loaded.
     if (!freshList) {
-      const data = await spin(
-        api.resourceInfoAll().catch(alertError),
-        "resources",
-      );
-      if (!data) return;
-
+      const data = await spin(api.resourceInfoAll(), "resources");
       const ids = data.resources.map((info) => info.resource.id);
       resourceIds.value = ids;
 
@@ -78,17 +70,16 @@ export const useResourceStore = defineStore("resource", () => {
   async function loadResource(
     resourceId: string,
     skipCache = false,
-  ): Promise<Resource | undefined> {
+  ): Promise<Resource> {
     if (skipCache) freshResources.delete(resourceId);
     if (!freshResources.has(resourceId)) {
       const data = await spin(
-        api.resourceInfoOne(resourceId).catch(alertError),
+        api.resourceInfoOne(resourceId),
         `corpus/${resourceId}/info`,
       );
-      if (!data) return;
       storeResource(data);
     }
-    return resources[resourceId] as Resource;
+    return resources[resourceId];
   }
 
   /** Store new state for a given resource. */

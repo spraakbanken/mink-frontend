@@ -7,6 +7,7 @@ import { useAuth } from "@/auth/auth.composable";
 import { getAuthGuiUrl, type ResourceType } from "@/api/sbauth";
 import { useResourceStore } from "@/store/resource.store";
 import TerminalOutput from "@/components/TerminalOutput.vue";
+import useMessenger from "@/message/messenger.composable";
 
 const props = defineProps<{
   resourceType: ResourceType;
@@ -16,8 +17,11 @@ const props = defineProps<{
 const store = useResourceStore();
 const { adminMode } = useAdmin();
 const { getAccessLevel } = useAuth();
+const { alertError } = useMessenger();
 
-const resource = computedAsync(() => store.loadResource(props.resourceId));
+const resource = computedAsync(() =>
+  store.loadResource(props.resourceId).catch(alertError),
+);
 </script>
 
 <template>

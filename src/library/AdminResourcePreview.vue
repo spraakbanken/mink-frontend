@@ -4,6 +4,7 @@ import { type Resource, isCorpus } from "@/store/resource.types";
 import PendingContent from "@/spin/PendingContent.vue";
 import TextData from "@/components/TextData.vue";
 import { useCorpusStore } from "@/store/corpus.store";
+import useMessenger from "@/message/messenger.composable";
 
 const props = defineProps<{
   resourceId: string;
@@ -11,9 +12,11 @@ const props = defineProps<{
 }>();
 
 const corpusStore = useCorpusStore();
+const { alertError } = useMessenger();
 
 onMounted(() => {
-  if (isCorpus(props.resource)) corpusStore.loadConfig(props.resourceId);
+  if (isCorpus(props.resource))
+    corpusStore.loadConfig(props.resourceId).catch(alertError);
 });
 </script>
 

@@ -1,5 +1,4 @@
 import { useAuth } from "@/auth/auth.composable";
-import useMessenger from "@/message/messenger.composable";
 import { useResourceStore } from "@/store/resource.store";
 import useSpin from "@/spin/spin.composable";
 import api from "@/api/api";
@@ -8,7 +7,6 @@ export default function useDeleteCorpus() {
   const { refreshAuth } = useAuth();
   const { spin } = useSpin();
   const { loadResourceIds } = useResourceStore();
-  const { alertError } = useMessenger();
 
   async function doDeleteCorpus(corpusId: string): Promise<void> {
     // Delete corpus in the backend.
@@ -24,10 +22,7 @@ export default function useDeleteCorpus() {
    */
   async function deleteCorpus(corpusId: string) {
     // Wrap whole delete flow in spin for visual feedback.
-    return spin(
-      doDeleteCorpus(corpusId).catch(alertError),
-      `corpus/${corpusId}`,
-    );
+    return spin(doDeleteCorpus(corpusId), `corpus/${corpusId}`);
   }
 
   return { deleteCorpus };

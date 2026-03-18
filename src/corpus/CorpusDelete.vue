@@ -9,15 +9,17 @@ import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useCorpusStore } from "@/store/corpus.store";
 import { useAuth } from "@/auth/auth.composable";
+import useMessenger from "@/message/messenger.composable";
 
 const router = useRouter();
 const corpusId = useCorpusIdParam();
 const { deleteCorpus } = useDeleteCorpus();
 const corpusStore = useCorpusStore();
 const { canAdmin } = useAuth();
+const { alertError } = useMessenger();
 
 async function doDelete() {
-  await deleteCorpus(corpusId);
+  await deleteCorpus(corpusId).catch(alertError);
   if (!(corpusId in corpusStore.corpora)) {
     router.push("/library");
   }

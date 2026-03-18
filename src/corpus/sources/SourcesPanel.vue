@@ -102,7 +102,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
             <td v-if="canWrite('corpora', corpusId)" class="text-right">
               <ActionButton
                 class="hover:button-danger button-slim text-sm"
-                @click="deleteSource(source)"
+                @click="deleteSource(source).catch(alertError)"
               >
                 <PhTrash class="inline mb-0.5" />
                 <span class="sr-only">{{ $t("delete") }}</span>

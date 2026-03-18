@@ -4,7 +4,6 @@ import { watchDeep } from "@vueuse/core";
 import { useMatomo } from "vue3-matomo";
 import { isCorpus, type Corpus } from "./resource.types";
 import { useResourceStore } from "./resource.store";
-import useMessenger from "@/message/messenger.composable";
 import useSpin from "@/spin/spin.composable";
 import { pickByType } from "@/util";
 import type { FileMeta } from "@/api/api.types";
@@ -12,7 +11,6 @@ import api from "@/api/api";
 
 export const useCorpusStore = defineStore("corpus", () => {
   const { loadResource, resources } = useResourceStore();
-  const { alertError } = useMessenger();
   const { spin } = useSpin();
   const matomo = useMatomo();
 
@@ -31,9 +29,9 @@ export const useCorpusStore = defineStore("corpus", () => {
   async function loadCorpus(
     corpusId: string,
     skipCache = false,
-  ): Promise<Corpus | undefined> {
+  ): Promise<Corpus> {
     const resource = await loadResource(corpusId, skipCache);
-    return resource && isCorpus(resource) ? (resource as Corpus) : undefined;
+    return resource as Corpus;
   }
 
   /** Fetch and store the config of a corpus. */
@@ -44,11 +42,10 @@ export const useCorpusStore = defineStore("corpus", () => {
     if (skipCache) freshConfigs.delete(corpusId);
 
     const corpus = await loadCorpus(corpusId);
-    if (!corpus) return;
 
     if (!freshConfigs.has(corpusId)) {
       const config = await spin(
-        api.downloadConfig(corpusId).catch(alertError),
+        api.downloadConfig(corpusId),
         `corpus/${corpusId}/config`,
       );
       corpus.config = config;
@@ -72,19 +69,17 @@ export const useCorpusStore = defineStore("corpus", () => {
   async function loadSources(
     corpusId: string,
     skipCache = false,
-  ): Promise<FileMeta[] | undefined> {
+  ): Promise<FileMeta[]> {
     // api.resourceInfoOne() is used first through loadCorpus() and then directly.
     // But in practice it will only be called once, because `skipCache` is only true after uploading,
     // in which case loadCorpus() will use a warm cache.
     const corpus = await loadCorpus(corpusId);
-    if (!corpus) return;
 
     if (skipCache) {
       const info = await spin(
-        api.resourceInfoOne(corpusId).catch(alertError),
+        api.resourceInfoOne(corpusId),
         `corpus/${corpusId}/sources/list`,
       );
-      if (!info) return;
       corpus.sources = info.resource.source_files.sort((a, b) =>
         a.name.localeCompare(b.name),
       );
@@ -96,7 +91,7 @@ export const useCorpusStore = defineStore("corpus", () => {
   async function runJob(corpusId: string) {
     matomo.value?.trackEvent("Corpus", "Annotation", "Start");
     const info = await spin(
-      api.runSparv(corpusId).catch(alertError),
+      api.runSparv(corpusId),
       `corpus/${corpusId}/job/sparv`,
     );
     corpora.value[corpusId]!.job = info.job;
@@ -105,51 +100,44 @@ export const useCorpusStore = defineStore("corpus", () => {
   async function installKorp(corpusId: string) {
     matomo.value?.trackEvent("Corpus", "Tool install", "Korp");
     const info = await spin(
-      api.installKorp(corpusId).catch(alertError),
+      api.installKorp(corpusId),
       `corpus/${corpusId}/job/install/korp`,
     );
-    if (!info) return;
     corpora.value[corpusId]!.job = info.job;
   }
 
   async function installStrix(corpusId: string) {
     matomo.value?.trackEvent("Corpus", "Tool install", "Strix");
     const info = await spin(
-      api.installStrix(corpusId).catch(alertError),
+      api.installStrix(corpusId),
       `corpus/${corpusId}/job/install/strix`,
     );
-    if (!info) return;
     corpora.value[corpusId]!.job = info.job;
   }
 
   async function uninstallKorp(corpusId: string) {
     matomo.value?.trackEvent("Corpus", "Tool uninstall", "Korp");
-    const info = await spin(
-      api.uninstallKorp(corpusId).catch(alertError),
+    await spin(
+      api.uninstallKorp(corpusId),
       `corpus/${corpusId}/job/install/korp`,
     );
-    if (!info) return;
     // Get updated job info
     await loadCorpus(corpusId, true);
   }
 
   async function uninstallStrix(corpusId: string) {
     matomo.value?.trackEvent("Corpus", "Tool uninstall", "Strix");
-    const info = await spin(
-      api.uninstallStrix(corpusId).catch(alertError),
+    await spin(
+      api.uninstallStrix(corpusId),
       `corpus/${corpusId}/job/install/strix`,
     );
-    if (!info) return;
     // Get updated job info
     await loadCorpus(corpusId, true);
   }
 
   async function abortJob(corpusId: string) {
     matomo.value?.trackEvent("Corpus", "Annotation", "Abort");
-    await spin(
-      api.abortJob(corpusId).catch(alertError),
-      `corpus/${corpusId}/job/abort`,
-    );
+    await spin(api.abortJob(corpusId), `corpus/${corpusId}/job/abort`);
     await loadCorpus(corpusId, true);
   }
 
@@ -158,22 +146,18 @@ export const useCorpusStore = defineStore("corpus", () => {
     skipCache = false,
   ): Promise<FileMeta[] | undefined> {
     if (skipCache) freshExports.delete(corpusId);
-
     const corpus = await loadCorpus(corpusId);
-    if (!corpus) return;
 
     if (!freshExports.has(corpusId)) {
       const exports = await spin(
-        api.listExports(corpusId).catch(alertError),
+        api.listExports(corpusId),
         `corpus/${corpusId}/exports/list`,
       );
-      if (exports) {
-        /** Sorted alphabetically by path, but "stats_*" first. */
-        corpus.exports = exports
-          .sort((a, b) => a.path.localeCompare(b.path))
-          .sort((a, b) => b.path.indexOf("stats_") - a.path.indexOf("stats_"));
-        freshExports.add(corpusId);
-      }
+      // Sort alphabetically by path, but "stats_*" first
+      corpus.exports = exports
+        .sort((a, b) => a.path.localeCompare(b.path))
+        .sort((a, b) => b.path.indexOf("stats_") - a.path.indexOf("stats_"));
+      freshExports.add(corpusId);
     }
 
     return corpus.exports;

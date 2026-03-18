@@ -20,7 +20,7 @@ const { downloadSource, downloadPlaintext, jobState, sources } = useCorpus(
   props.corpusId,
 );
 const { filesize, formatDate } = useLocale();
-const { alert } = useMessenger();
+const { alert, alertError } = useMessenger();
 const { t } = useI18n();
 
 const metadata = computed(() =>
@@ -41,12 +41,16 @@ watchImmediate([sources, metadata], () => {
 
 async function loadRaw() {
   return (
-    metadata.value && (await downloadSource(metadata.value, isBinary.value))
+    metadata.value &&
+    (await downloadSource(metadata.value, isBinary.value).catch(alertError))
   );
 }
 
 async function loadPlain() {
-  return metadata.value && (await downloadPlaintext(metadata.value));
+  return (
+    metadata.value &&
+    (await downloadPlaintext(metadata.value).catch(alertError))
+  );
 }
 </script>
 

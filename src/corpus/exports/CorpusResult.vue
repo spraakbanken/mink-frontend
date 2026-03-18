@@ -14,12 +14,14 @@ import api from "@/api/api";
 import LayoutBox from "@/components/LayoutBox.vue";
 import type { ExportType, FileMeta } from "@/api/api.types";
 import useSpin from "@/spin/spin.composable";
+import useMessenger from "@/message/messenger.composable";
 
 const corpusId = useCorpusIdParam();
 const { filesize } = useLocale();
 const { exports, downloadResult, downloadResultFile, getDownloadFilename } =
   useCorpus(corpusId);
 const { spin } = useSpin();
+const { alertError } = useMessenger();
 
 /** Export type info */
 const exportTypes = computedAsync<ExportType[]>(
@@ -67,7 +69,10 @@ function identifyType(path: string): ExportType | undefined {
       <PendingContent :on="`corpus/${corpusId}/exports/download`" class="my-4">
         <LayoutBox v-if="exports && exports.length" :title="$t('file.archive')">
           {{ $t("download_export") }}:
-          <ActionButton class="button-primary mr-2" @click="downloadResult">
+          <ActionButton
+            class="button-primary mr-2"
+            @click="downloadResult().catch(alertError)"
+          >
             <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
             {{ getDownloadFilename() }}
           </ActionButton>
@@ -115,7 +120,7 @@ function identifyType(path: string): ExportType | undefined {
                 <td>
                   <ActionButton
                     class="button-slim"
-                    @click="downloadResultFile(file.path)"
+                    @click="downloadResultFile(file.path).catch(alertError)"
                   >
                     <PhDownloadSimple class="inline mb-0.5" />
                     <span class="sr-only">{{ $t("download") }}</span>

@@ -18,6 +18,7 @@ import FileUpload from "@/components/FileUpload.vue";
 import { FORMATS_EXT } from "@/api/corpusConfig";
 import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
 import { useCorpusStore } from "@/store/corpus.store";
+import useMessenger from "@/message/messenger.composable";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
@@ -26,6 +27,7 @@ const { adminMode, checkAdminMode } = useAdmin();
 const { canUserAdmin } = useAuth();
 const { createFromUpload } = useCreateCorpus();
 const { spin } = useSpin();
+const { alertError } = useMessenger();
 const { th } = useLocale();
 
 // Only load full resource list if not admin
@@ -39,13 +41,13 @@ const { th } = useLocale();
     }
   }
 
-  resourceStore.loadResources();
+  resourceStore.loadResources().catch(alertError);
 })();
 
 const accept = computed(() => FORMATS_EXT.map((ext) => `.${ext}`).join());
 
 async function fileHandler(files: File[]) {
-  await spin(createFromUpload(files), "create");
+  await spin(createFromUpload(files), "create").catch(alertError);
 }
 </script>
 
