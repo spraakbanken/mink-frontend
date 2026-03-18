@@ -368,7 +368,6 @@ async function submit(fields: Form) {
                         <a
                           :href="$t('config.analyses.url', [analysis.id])"
                           target="_blank"
-                          class="whitespace-nowrap"
                         >
                           {{ analysis.id }}
                         </a>

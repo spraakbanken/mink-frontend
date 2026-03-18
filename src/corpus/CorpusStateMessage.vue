@@ -12,16 +12,13 @@ const { corpusState, isIncomplete, isError, isReady } = useCorpusState(
 
 <template>
   <span
-    class="text-white rounded-sm px-2 py-0.5"
-    :class="[
-      isIncomplete
-        ? 'bg-yellow-700'
-        : isError
-          ? 'bg-red-600'
-          : isReady
-            ? 'bg-lime-700'
-            : 'text-inherit!',
-    ]"
+    class="rounded-sm py-0.5"
+    :class="{
+      'text-white px-2': isIncomplete || isError || isReady,
+      'bg-lime-700': isReady,
+      'bg-yellow-700': isIncomplete,
+      'bg-red-600': isError,
+    }"
   >
     {{ $t(`corpus.state.${corpusState}`) }}
   </span>
