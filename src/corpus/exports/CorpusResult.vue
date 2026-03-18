@@ -3,6 +3,7 @@ import { computed } from "vue";
 import { PhDownloadSimple } from "@phosphor-icons/vue";
 import { computedAsync } from "@vueuse/core";
 import { groupBy } from "es-toolkit";
+import { useI18n } from "vue-i18n";
 import { useCorpus } from "../corpus.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
@@ -15,8 +16,10 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import type { ExportType, FileMeta } from "@/api/api.types";
 import useSpin from "@/spin/spin.composable";
 import useMessenger from "@/message/messenger.composable";
+import SortableTable from "@/components/SortableTable.vue";
 
 const corpusId = useCorpusIdParam();
+const { locale } = useI18n();
 const { filesize } = useLocale();
 const { exports, downloadResult, downloadResultFile, getDownloadFilename } =
   useCorpus(corpusId);
@@ -86,49 +89,51 @@ function identifyType(path: string): ExportType | undefined {
             {{ $t(`exports.type.${type || "unknown"}`) }}
           </summary>
 
-          <table class="w-full mt-2 striped">
-            <!-- Table header -->
-            <thead>
-              <tr>
-                <th>{{ $t("filename") }}</th>
-                <th class="text-right">{{ $t("fileSize") }}</th>
-                <th class="sr-only">
-                  {{ $t("file.operations") }}
-                </th>
-              </tr>
-            </thead>
+          <SortableTable
+            :columns="[
+              {
+                title: $t('filename'),
+                comparator: (a, b) => a.name.localeCompare(b.name, locale),
+              },
+              {
+                title: $t('fileSize'),
+                thClass: 'text-end',
+                comparator: (a, b) => a.size - b.size,
+              },
+              { title: $t('file.operations'), thClass: 'sr-only' },
+            ]"
+            :rows="files"
+            :get-row-key="(file) => file.name"
+            class="w-full mt-2 striped"
+          >
+            <template v-slot="{ row: file }">
+              <!-- Filename link -->
+              <td class="w-full">
+                {{ file.path.slice(0, file.path.lastIndexOf("/") + 1)
+                }}<router-link
+                  :to="`/library/corpus/${corpusId}/exports/${encodeURIComponent(file.path)}`"
+                >
+                  {{ file.name }}
+                </router-link>
+              </td>
 
-            <tbody>
-              <!-- Repeated file row -->
-              <tr v-for="file in files" :key="file.name">
-                <!-- Filename link -->
-                <td class="w-full">
-                  {{ file.path.slice(0, file.path.lastIndexOf("/") + 1)
-                  }}<router-link
-                    :to="`/library/corpus/${corpusId}/exports/${encodeURIComponent(file.path)}`"
-                  >
-                    {{ file.name }}
-                  </router-link>
-                </td>
+              <!-- File size -->
+              <td class="text-end whitespace-nowrap">
+                {{ filesize(file.size) }}
+              </td>
 
-                <!-- File size -->
-                <td class="text-right whitespace-nowrap">
-                  {{ filesize(file.size) }}
-                </td>
-
-                <!-- Download button -->
-                <td>
-                  <ActionButton
-                    class="button-slim"
-                    @click="downloadResultFile(file.path).catch(alertError)"
-                  >
-                    <PhDownloadSimple class="inline mb-0.5" />
-                    <span class="sr-only">{{ $t("download") }}</span>
-                  </ActionButton>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+              <!-- Download button -->
+              <td>
+                <ActionButton
+                  class="button-slim"
+                  @click="downloadResultFile(file.path).catch(alertError)"
+                >
+                  <PhDownloadSimple class="inline mb-0.5" />
+                  <span class="sr-only">{{ $t("download") }}</span>
+                </ActionButton>
+              </td>
+            </template>
+          </SortableTable>
         </details>
       </LayoutBox>
     </LayoutSection>
