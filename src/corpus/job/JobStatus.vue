@@ -7,6 +7,7 @@ import ActionButton from "@/components/ActionButton.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
 import TextData from "@/components/TextData.vue";
 import { useCorpusStore } from "@/store/corpus.store";
+import useMessenger from "@/message/messenger.composable";
 
 const props = defineProps<{
   corpusId: string;
@@ -15,6 +16,7 @@ const props = defineProps<{
 const { abortJob } = useCorpusStore();
 const { job, isJobRunning, hasError } = useCorpus(props.corpusId);
 const { formatDate } = useLocale();
+const { alertError } = useMessenger();
 
 const isStarted = computed(
   () =>
@@ -36,7 +38,7 @@ const isStarted = computed(
       <ActionButton
         v-if="isJobRunning"
         class="button-danger ml-2"
-        @click="abortJob(corpusId)"
+        @click="abortJob(corpusId).catch(alertError)"
       >
         {{ $t("job.abort") }}
       </ActionButton>

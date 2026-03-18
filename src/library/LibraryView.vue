@@ -19,6 +19,7 @@ import { isCorpus, type Resource, type User } from "@/store/resource.types";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import RouteButton from "@/components/RouteButton.vue";
+import useMessenger from "@/message/messenger.composable";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
@@ -26,6 +27,7 @@ const { adminMode, checkAdminMode } = useAdmin();
 const { canUserAdmin, isCurrentUser } = useAuth();
 const { createFromUpload } = useCreateCorpus();
 const { spin } = useSpin();
+const { alertError } = useMessenger();
 const { th } = useLocale();
 
 const { hasResources, resources } = storeToRefs(resourceStore);
@@ -41,14 +43,14 @@ const { hasResources, resources } = storeToRefs(resourceStore);
     }
   }
 
-  resourceStore.loadResources();
+  resourceStore.loadResources().catch(alertError);
 })();
 
 const accept = computed(() => FORMATS_EXT.map((ext) => `.${ext}`).join());
 
 async function fileHandler(files: File[]) {
   // TODO Detect what resource type to create
-  await spin(createFromUpload(files), "create");
+  await spin(createFromUpload(files), "create").catch(alertError);
 }
 
 const getType = (resource: object | Resource) =>
@@ -64,7 +66,7 @@ const getOwner = (resource: object) =>
 
     <div class="flex flex-col xl:flex-row xl:items-start gap-4">
       <LayoutBox :title="$t('resources')" class="flex-1">
-        <PendingContent on="corpora">
+        <PendingContent on="resources">
           <table class="w-full my-4 striped">
             <thead>
               <tr>

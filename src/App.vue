@@ -31,9 +31,8 @@ const isHome = computed(() => route.path == "/");
 refreshAuth();
 
 // Some route views are lazy-loaded and can take a moment to load.
-router.beforeEach((to, from, next) => {
+router.beforeEach(() => {
   isRouteLoading.value = true;
-  next();
 });
 router.afterEach(() => {
   isRouteLoading.value = false;

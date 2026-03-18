@@ -1,6 +1,7 @@
 import { computed, watch } from "vue";
 import { attempt, uniq } from "es-toolkit";
 import { useInterval } from "@vueuse/core";
+import { useMatomo } from "vue3-matomo";
 import { useCorpusStore } from "@/store/corpus.store";
 import {
   makeConfig,
@@ -9,10 +10,8 @@ import {
   type ConfigOptions,
 } from "@/api/corpusConfig";
 import { downloadFile, getFilenameExtension } from "@/util";
-import useMessenger from "@/message/messenger.composable";
 import useSpin from "@/spin/spin.composable";
 import type { FileMeta, ProgressHandler } from "@/api/api.types";
-import { useMatomo } from "@/matomo";
 import api from "@/api/api";
 
 // Module-scope ticker, can be watched to perform task intermittently
@@ -23,7 +22,6 @@ const pollTracker: Record<string, boolean> = {};
 
 export function useCorpus(corpusId: string) {
   const corpusStore = useCorpusStore();
-  const { alertError } = useMessenger();
   const { spin } = useSpin();
   const matomo = useMatomo();
 
@@ -70,9 +68,9 @@ export function useCorpus(corpusId: string) {
   });
 
   async function clearAnnotations() {
-    matomo?.trackEvent("Corpus", "Annotation", "Clear");
+    matomo.value?.trackEvent("Corpus", "Annotation", "Clear");
     await spin(
-      api.clearAnnotations(corpusId).catch(alertError),
+      api.clearAnnotations(corpusId),
       `corpus/${corpusId}/exports/list`,
     );
     await corpusStore.loadExports(corpusId, true);
@@ -102,8 +100,15 @@ export function useCorpus(corpusId: string) {
   async function downloadSource(source: FileMeta, binary: boolean) {
     return spin(
       api.downloadSources(corpusId, source.name, binary),
-      `corpus/${corpusId}/sources/${source.name}`,
-    ).catch(alertError);
+      `corpus/${corpusId}/sources/${source.name}/raw`,
+    );
+  }
+
+  async function downloadPlaintext(source: FileMeta) {
+    return spin(
+      api.downloadSourceText(corpusId, source.name),
+      `corpus/${corpusId}/sources/${source.name}/plain`,
+    );
   }
 
   async function uploadSources(files: File[], onProgress?: ProgressHandler) {
@@ -118,7 +123,7 @@ export function useCorpus(corpusId: string) {
     await spin(
       api.removeSource(corpusId, source.name),
       `corpus/${corpusId}/sources/list`,
-    ).catch(alertError);
+    );
     corpusStore.loadSources(corpusId, true);
   }
 
@@ -137,24 +142,19 @@ export function useCorpus(corpusId: string) {
   }
 
   async function downloadResult() {
-    matomo?.trackEvent("Corpus", "Download", "Export archive");
+    matomo.value?.trackEvent("Corpus", "Download", "Export archive");
     const data = await spin(
-      api.downloadExports(corpusId).catch(alertError),
+      api.downloadExports(corpusId),
       `corpus/${corpusId}/exports/download`,
     );
-    if (!data) return;
     downloadFile(data, getDownloadFilename());
   }
 
   async function downloadResultFile(path: string) {
-    try {
-      const filename = path.split("/").pop()!;
-      matomo?.trackEvent("Corpus", "Download", "Export file");
-      const data = await loadResultFile(path);
-      downloadFile(data, filename);
-    } catch (error) {
-      alertError(error);
-    }
+    const filename = path.split("/").pop()!;
+    matomo.value?.trackEvent("Corpus", "Download", "Export file");
+    const data = await loadResultFile(path);
+    downloadFile(data, filename);
   }
 
   async function loadResultFile(path: string) {
@@ -173,6 +173,7 @@ export function useCorpus(corpusId: string) {
     sources,
     hasSources,
     downloadSource,
+    downloadPlaintext,
     uploadSources,
     deleteSource,
     extensions,

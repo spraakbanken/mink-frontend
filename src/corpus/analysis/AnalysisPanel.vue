@@ -6,6 +6,7 @@ import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useCorpusStore } from "@/store/corpus.store";
 import { useAuth } from "@/auth/auth.composable";
+import useMessenger from "@/message/messenger.composable";
 
 const props = defineProps<{
   corpusId: string;
@@ -23,6 +24,7 @@ const {
   getDownloadFilename,
 } = useCorpus(props.corpusId);
 const { canWrite } = useAuth();
+const { alertError } = useMessenger();
 
 const isPending = ref(false);
 const canRun = computed(
@@ -36,7 +38,7 @@ const canRun = computed(
 
 async function doRunJob() {
   isPending.value = true;
-  await runJob(props.corpusId);
+  await runJob(props.corpusId).catch(alertError);
   isPending.value = false;
 }
 </script>
@@ -58,7 +60,7 @@ async function doRunJob() {
         </div>
         <ActionButton
           :disabled="!canWrite('corpora', corpusId)"
-          @click="clearAnnotations()"
+          @click="clearAnnotations().catch(alertError)"
         >
           {{ $t("annotations.clear") }}
         </ActionButton>
@@ -115,7 +117,7 @@ async function doRunJob() {
               <PendingContent :on="`corpus/${corpusId}/exports/download`">
                 <ActionButton
                   :class="{ 'button-primary': !isJobRunning }"
-                  @click="downloadResult()"
+                  @click="downloadResult().catch(alertError)"
                 >
                   <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
                   {{ getDownloadFilename() }}

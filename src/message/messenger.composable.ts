@@ -25,6 +25,8 @@ export default function useMessenger() {
         message,
         level,
       });
+      // Log to console for debugging
+      console.warn(message);
     }
   }
 
@@ -71,8 +73,6 @@ export default function useMessenger() {
     }
     // For other errors, like timeout or bad gateway, display it and hope the user understands it.
     alert(String(err));
-    // Log for development
-    console.error(err);
   };
 
   return {

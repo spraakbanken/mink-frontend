@@ -18,7 +18,7 @@ const { canAdmin } = useAuth();
 
 async function doDelete() {
   await deleteMetadata(resourceId);
-  if (!(resourceId in resourceStore.resources)) {
+  if (!resourceStore.resourceIds.includes(resourceId)) {
     router.push("/library");
   }
 }

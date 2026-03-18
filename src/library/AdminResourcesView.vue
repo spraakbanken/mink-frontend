@@ -10,10 +10,12 @@ import { isCorpus } from "@/store/resource.types";
 import useAdmin from "@/user/admin.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import ActionButton from "@/components/ActionButton.vue";
+import useMessenger from "@/message/messenger.composable";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
 const { adminMode } = useAdmin();
+const { alertError } = useMessenger();
 
 const previewToggles = reactive<Record<string, boolean>>({});
 
@@ -22,12 +24,12 @@ watch(adminMode, () => {
   if (adminMode.value === false) {
     return router.push("/library");
   } else {
-    resourceStore.loadResourceIds();
+    resourceStore.loadResourceIds().catch(alertError);
   }
 });
 
 async function load(resourceId: string) {
-  await resourceStore.loadResource(resourceId);
+  await resourceStore.loadResource(resourceId).catch(alertError);
   previewToggles[resourceId] = true;
 }
 </script>
@@ -41,7 +43,7 @@ async function load(resourceId: string) {
     </HelpBox>
 
     <LayoutSection>
-      <PendingContent on="corpora" class="my-4 flex flex-col gap-6">
+      <PendingContent on="resources" class="my-4 flex flex-col gap-6">
         <PendingContent
           v-for="(resource, resourceId) of resourceStore.resources"
           :key="resourceId"

@@ -28,16 +28,14 @@ export type Lexicon = Resource & {
 export type Metadata = Resource & {
   type: "metadata";
   publicId: string;
-  metadata: string; // YAML
+  metadata?: string; // YAML
 };
 
 // User-defined type guards to help inform TypeScript
 // See https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards
-export const isCorpus = (
-  resource: Partial<Resource>,
-): resource is Partial<Corpus> => resource.type == "corpus";
+export const isCorpus = (resource: Resource): resource is Corpus =>
+  resource.type == "corpus";
 export const isLexicon = (resource: Partial<Resource>): resource is Lexicon =>
   resource.type == "lexicon";
-export const isMetadata = (
-  resource: Partial<Resource>,
-): resource is Partial<Metadata> => resource.type == "metadata";
+export const isMetadata = (resource: Resource): resource is Metadata =>
+  resource.type == "metadata";

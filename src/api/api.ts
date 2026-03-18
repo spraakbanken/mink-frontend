@@ -146,6 +146,14 @@ class MinkApi {
     return response.data;
   }
 
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Exports/operation/download-source-text-get */
+  async downloadSourceText(corpusId: string, filename: string) {
+    const response = await this.axios.get<string>("download-source-text", {
+      params: { corpus_id: corpusId, file: filename },
+    });
+    return response.data;
+  }
+
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Sources/operation/upload-sources-put */
   async uploadSources(
     corpusId: string,
@@ -229,12 +237,15 @@ class MinkApi {
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/run-sparv-put */
   async runSparv(corpusId: string) {
-    const response = await this.axios
-      .put<MinkResponse<ResourceInfoOneData>>("run-sparv", null, {
+    const response = await this.axios.put<MinkResponse<ResourceInfoOneData>>(
+      "run-sparv",
+      null,
+      {
         params: { corpus_id: corpusId },
-      })
-      // Errors are okay.
-      .catch((reason) => reason.response);
+        // Errors are okay.
+        validateStatus: () => true,
+      },
+    );
     return response.data;
   }
 

@@ -1,24 +1,23 @@
 <script setup lang="ts">
-import { ref, watch, watchEffect } from "vue";
 import useAdmin from "@/user/admin.composable";
 import PendingContent from "@/spin/PendingContent.vue";
+import useMessenger from "@/message/messenger.composable";
 
 const { enableAdminMode, disableAdminMode, adminMode } = useAdmin();
+const { alertError } = useMessenger();
 
-const localValue = ref<boolean>();
-
-watchEffect(() => (localValue.value = adminMode.value));
-
-watch(localValue, (value) => (value ? enableAdminMode() : disableAdminMode()));
+const toggle = () =>
+  (adminMode.value ? disableAdminMode : enableAdminMode)().catch(alertError);
 </script>
 
 <template>
   <PendingContent on="admin-mode" blocking>
     <input
       id="admin-mode"
-      v-model="localValue"
       type="checkbox"
-      :disabled="localValue === undefined"
+      :checked="adminMode"
+      :disabled="adminMode === undefined"
+      @change="toggle()"
     />
     <label for="admin-mode" class="ml-2">
       {{ $t("user.settings.admin_mode") }}

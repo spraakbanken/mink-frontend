@@ -1,6 +1,6 @@
 import { createApp } from "vue";
-import matomo from "vue-matomo";
 import { createPinia } from "pinia";
+import { createVueMatomo } from "vue3-matomo";
 import router from "@/router/router";
 import App from "@/App.vue";
 import i18n from "@/i18n/i18n";
@@ -16,12 +16,14 @@ const app = createApp(App) //
 
 // Use the Matomo plugin only if configured in env.
 if (import.meta.env.VITE_MATOMO_URL && import.meta.env.VITE_MATOMO_ID) {
-  app.use(matomo, {
-    // Url expected without trailing slash
-    host: import.meta.env.VITE_MATOMO_URL.replace(/\/$/, ""),
-    siteId: import.meta.env.VITE_MATOMO_ID,
-    router,
-  });
+  app.use(
+    createVueMatomo({
+      // Url expected without trailing slash
+      host: import.meta.env.VITE_MATOMO_URL.replace(/\/$/, ""),
+      siteId: import.meta.env.VITE_MATOMO_ID,
+      router,
+    }),
+  );
 }
 
 app.mount("#app");

@@ -1,5 +1,4 @@
 import { useAuth } from "@/auth/auth.composable";
-import useMessenger from "@/message/messenger.composable";
 import { useResourceStore } from "@/store/resource.store";
 import useSpin from "@/spin/spin.composable";
 import api from "@/api/api";
@@ -8,7 +7,6 @@ export default function useDeleteMetadata() {
   const { refreshAuth } = useAuth();
   const { spin } = useSpin();
   const { loadResourceIds } = useResourceStore();
-  const { alertError } = useMessenger();
 
   async function doDeleteMetadata(resourceId: string): Promise<void> {
     // Delete resource in the backend.
@@ -24,10 +22,7 @@ export default function useDeleteMetadata() {
    */
   async function deleteMetadata(resourceId: string) {
     // Wrap deletion as well as refreshing in spin, for visual feedback.
-    return spin(
-      doDeleteMetadata(resourceId).catch(alertError),
-      `resource/${resourceId}`,
-    );
+    return spin(doDeleteMetadata(resourceId), `resource/${resourceId}`);
   }
 
   return { deleteMetadata };

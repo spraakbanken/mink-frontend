@@ -44,7 +44,7 @@ const { canWrite } = useAuth();
       </LayoutBox>
 
       <LayoutBox :title="$t('sharing')">
-        <SharingPanel resourceType="corpora" :resource-id="corpusId" />
+        <SharingPanel resource-type="corpora" :resource-id="corpusId" />
       </LayoutBox>
 
       <LayoutBox :title="$t('sources')">

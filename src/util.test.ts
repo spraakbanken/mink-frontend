@@ -5,6 +5,7 @@ import {
   deduplicateRequest,
   enarray,
   ensureExtension,
+  filterKeys,
   formatDate,
   getFilenameExtension,
   objsToDict,
@@ -141,6 +142,14 @@ describe("retry", () => {
     };
     expect(await retry(f)).toBe("hello");
     expect(count).toBe(2);
+  });
+});
+
+describe("filterKeys", () => {
+  test("removes in-place", () => {
+    const a = { a: 1, b: 2 };
+    expect(filterKeys(a, ["b", "c"])).toEqual({ b: 2 });
+    expect(a).toEqual({ b: 2 });
   });
 });
 

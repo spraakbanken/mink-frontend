@@ -4,14 +4,16 @@ import useMetadata from "@/metadata/metadata.composable";
 import { useResourceStore } from "@/store/resource.store";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import PageTitle from "@/components/PageTitle.vue";
+import useMessenger from "@/message/messenger.composable";
 
 const resourceStore = useResourceStore();
 const resourceId = useResourceIdParam();
 const { loadMetadata } = useMetadata(resourceId);
+const { alertError } = useMessenger();
 
 const metadata = computed(() => resourceStore.resources[resourceId]);
 
-loadMetadata();
+loadMetadata().catch(alertError);
 </script>
 
 <template>

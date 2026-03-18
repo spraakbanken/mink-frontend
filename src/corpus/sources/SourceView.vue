@@ -4,7 +4,7 @@ import { watchImmediate } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
 import { useCorpus } from "../corpus.composable";
 import TextFileBox from "@/components/TextFileBox.vue";
-import { getFilenameExtension } from "@/util";
+import { ensureExtension, getFilenameExtension } from "@/util";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
@@ -16,9 +16,11 @@ const props = defineProps<{
   filename: string;
 }>();
 
-const { downloadSource, sources } = useCorpus(props.corpusId);
+const { downloadSource, downloadPlaintext, jobState, sources } = useCorpus(
+  props.corpusId,
+);
 const { filesize, formatDate } = useLocale();
-const { alert } = useMessenger();
+const { alert, alertError } = useMessenger();
 const { t } = useI18n();
 
 const metadata = computed(() =>
@@ -28,6 +30,7 @@ const isBinary = computed(() => {
   const extension = getFilenameExtension(props.filename) as FileFormat;
   return !READABLE_FORMATS.includes(extension);
 });
+const isPlaintext = computed(() => metadata.value?.type == "text/plain");
 const isXml = computed(() => /\/xml$/.test(metadata.value?.type || ""));
 
 // Show error if given filename is not found
@@ -36,9 +39,17 @@ watchImmediate([sources, metadata], () => {
     alert(t("source.notfound"), "error");
 });
 
-async function loadFile() {
+async function loadRaw() {
   return (
-    metadata.value && (await downloadSource(metadata.value, isBinary.value))
+    metadata.value &&
+    (await downloadSource(metadata.value, isBinary.value).catch(alertError))
+  );
+}
+
+async function loadPlain() {
+  return (
+    metadata.value &&
+    (await downloadPlaintext(metadata.value).catch(alertError))
   );
 }
 </script>
@@ -61,14 +72,35 @@ async function loadFile() {
         <tr>
           <th>{{ $t("source.content") }}</th>
           <td>
-            <PendingContent :on="`corpus/${corpusId}/sources/${filename}`">
+            <PendingContent :on="`corpus/${corpusId}/sources/${filename}/raw`">
               <TextFileBox
-                :load="loadFile"
+                :load="loadRaw"
                 :filename="metadata.name"
                 :no-load="isBinary"
                 :size="metadata.size"
                 :language="isXml ? 'xml' : undefined"
               />
+            </PendingContent>
+          </td>
+        </tr>
+        <tr v-if="!isPlaintext">
+          <th>{{ $t("txt") }}</th>
+          <td>
+            <PendingContent
+              :on="`corpus/${corpusId}/sources/${filename}/plain`"
+            >
+              <TextFileBox
+                v-if="jobState?.sparv == 'done'"
+                :load="loadPlain"
+                :filename="ensureExtension(metadata.name, 'txt')"
+                :size="
+                  // This is the wrong size, but it's the best approximation we have. The user can still activate loading manually.
+                  metadata.size
+                "
+              />
+              <div class="text-sm py-1">
+                {{ $t("source_text_help") }}
+              </div>
             </PendingContent>
           </td>
         </tr>

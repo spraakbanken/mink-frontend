@@ -105,6 +105,15 @@ export async function retry<T>(
   }
 }
 
+/** Remove properties from `obj` except those that are in `keys`. */
+export function filterKeys(
+  obj: Record<string, unknown>,
+  keys: string[],
+): Record<string, unknown> {
+  for (const key in obj) if (!keys.includes(key)) delete obj[key];
+  return obj;
+}
+
 /** Remove and add properties in `obj` in-place, to match names in `keys`. */
 export function setKeys<T>(
   obj: Record<string, T>,
@@ -112,11 +121,7 @@ export function setKeys<T>(
   defaultValue: T,
 ) {
   // Remove non-matching items.
-  for (const key in obj) {
-    if (!keys.includes(key)) {
-      delete obj[key];
-    }
-  }
+  filterKeys(obj, keys);
 
   // Add new items.
   for (const key of keys) {
@@ -196,7 +201,7 @@ export function deduplicateRequest<T, P extends unknown[]>(
     const key = attempt(() => JSON.stringify(args))[1] || "";
 
     // If a request is already in progress, return that promise.
-    if (promises[key]) return promises[key];
+    if (key in promises) return promises[key];
 
     // Otherwise, start a new request and let it occupy the promise slot.
     const promise = f(...args).finally(() => delete promises[key]);

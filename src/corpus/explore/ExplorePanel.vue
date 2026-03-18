@@ -8,6 +8,7 @@ import useLocale from "@/i18n/locale.composable";
 import useSpin from "@/spin/spin.composable";
 import { useCorpusStore } from "@/store/corpus.store";
 import { useAuth } from "@/auth/auth.composable";
+import useMessenger from "@/message/messenger.composable";
 
 const props = defineProps<{
   corpusId: string;
@@ -19,6 +20,7 @@ const { installKorp, installStrix, uninstallKorp, uninstallStrix } =
 const { isJobRunning, job, jobState } = useCorpus(props.corpusId);
 const { locale3 } = useLocale();
 const { canWrite } = useAuth();
+const { alertError } = useMessenger();
 
 const korpUrl = ensureTrailingSlash(import.meta.env.VITE_KORP_URL);
 const strixUrl = ensureTrailingSlash(import.meta.env.VITE_STRIX_URL);
@@ -44,8 +46,8 @@ const canInstall = computed(
         :can-install
         :is-installed="jobState?.korp == 'done' && job?.installed_korp"
         :show-url="`${korpUrl}?mode=mink#?corpus=${corpusId}&lang=${locale3}`"
-        @install="installKorp(corpusId)"
-        @uninstall="uninstallKorp(corpusId)"
+        @install="installKorp(corpusId).catch(alertError)"
+        @uninstall="uninstallKorp(corpusId).catch(alertError)"
       />
     </PendingContent>
 
@@ -58,8 +60,8 @@ const canInstall = computed(
         :can-install
         :is-installed="jobState?.strix == 'done' && job?.installed_strix"
         :show-url="`${strixUrl}?mode=mink&corpora=${corpusId}`"
-        @install="installStrix(corpusId)"
-        @uninstall="uninstallStrix(corpusId)"
+        @install="installStrix(corpusId).catch(alertError)"
+        @uninstall="uninstallStrix(corpusId).catch(alertError)"
       />
     </PendingContent>
   </div>

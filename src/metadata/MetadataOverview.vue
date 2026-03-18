@@ -12,17 +12,19 @@ import FileUpload from "@/components/FileUpload.vue";
 import SharingPanel from "@/auth/SharingPanel.vue";
 import { useAuth } from "@/auth/auth.composable";
 import HelpBox from "@/components/HelpBox.vue";
+import useMessenger from "@/message/messenger.composable";
 
 const resourceStore = useResourceStore();
 const resourceId = useResourceIdParam();
 const { uploadYaml } = useMetadata(resourceId);
 const { canAdmin, canWrite } = useAuth();
+const { alertError } = useMessenger();
 
 const metadata = computed(() => resourceStore.metadatas[resourceId]);
 
 async function uploadMetadata(files: File[]) {
   const yaml = await files[0]!.text();
-  await uploadYaml(yaml);
+  await uploadYaml(yaml).catch(alertError);
 }
 </script>
 
@@ -43,7 +45,7 @@ async function uploadMetadata(files: File[]) {
       </LayoutBox>
 
       <LayoutBox :title="$t('sharing')">
-        <SharingPanel resourceType="corpora" :resource-id />
+        <SharingPanel resource-type="corpora" :resourceId />
       </LayoutBox>
     </div>
 
