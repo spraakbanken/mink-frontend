@@ -1,12 +1,21 @@
 <script setup lang="ts">
-import { useCorpus } from "./corpus.composable";
 import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import useLocale from "@/i18n/locale.composable";
+import { useCorpusStore } from "@/store/corpus.store";
+import { computedAsync } from "@vueuse/core";
+import useMessenger from "@/message/messenger.composable";
+import useNotFound from "@/components/notfound.composable";
 
 const corpusId = useCorpusIdParam();
-const { corpus } = useCorpus(corpusId);
+const { loadCorpus } = useCorpusStore();
 const { th } = useLocale();
+const { alertError } = useMessenger();
+const { handle404 } = useNotFound();
+
+const corpus = computedAsync(() =>
+  loadCorpus(corpusId).catch(handle404).catch(alertError),
+);
 </script>
 
 <template>
@@ -22,5 +31,5 @@ const { th } = useLocale();
       {{ th(corpus?.name) || corpusId }}
     </template>
   </PageTitle>
-  <router-view />
+  <router-view v-if="corpus" />
 </template>

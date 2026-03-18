@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { computed } from "vue";
 import useMetadata from "@/metadata/metadata.composable";
-import { useResourceStore } from "@/store/resource.store";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import useMessenger from "@/message/messenger.composable";
+import { computedAsync } from "@vueuse/core";
+import useNotFound from "@/components/notfound.composable";
 
-const resourceStore = useResourceStore();
 const resourceId = useResourceIdParam();
 const { loadMetadata } = useMetadata(resourceId);
 const { alertError } = useMessenger();
+const { handle404 } = useNotFound();
 
-const metadata = computed(() => resourceStore.resources[resourceId]);
-
-loadMetadata().catch(alertError);
+const metadata = computedAsync(() =>
+  loadMetadata().catch(handle404).catch(alertError),
+);
 </script>
 
 <template>

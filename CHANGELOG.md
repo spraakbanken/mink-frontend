@@ -18,6 +18,7 @@ As this project is a user-facing application, the places in the semantic version
 - Sort texts by filename/size [#46](https://github.com/spraakbanken/mink-frontend/issues/46)
 - View result file [#170](https://github.com/spraakbanken/mink-frontend/issues/170)
 - Explain export file types [#192](https://github.com/spraakbanken/mink-frontend/issues/192)
+- Handle resource not found [#226](https://github.com/spraakbanken/mink-frontend/issues/226)
 - List allowed source file extensions on upload area [#234](https://github.com/spraakbanken/mink-frontend/issues/234)
 
 ## [1.16.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.16.1) (2026-02-16)
