@@ -20,6 +20,8 @@ import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import useMessenger from "@/message/messenger.composable";
+import SortableTable from "@/components/SortableTable.vue";
+import { useI18n } from "vue-i18n";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
@@ -28,9 +30,16 @@ const { canUserAdmin, isCurrentUser } = useAuth();
 const { createFromUpload } = useCreateCorpus();
 const { spin } = useSpin();
 const { alertError } = useMessenger();
+const { t, locale } = useI18n();
 const { th } = useLocale();
 
 const { hasResources, resources } = storeToRefs(resourceStore);
+
+/** Resource objects as a list with each id as a member */
+const resourcesList = computed(() => {
+  const entries = Object.entries(resources.value);
+  return entries.map(([id, resource]) => ({ id, ...resource }));
+});
 
 // Only load full resource list if not admin
 (async () => {
@@ -67,33 +76,48 @@ const getOwner = (resource: object) =>
     <div class="flex flex-col xl:flex-row xl:items-start gap-4">
       <LayoutBox :title="$t('resources')" class="flex-1">
         <PendingContent on="resources">
-          <table class="w-full my-4 striped">
-            <thead>
-              <tr>
-                <th>{{ $t("name") }}</th>
-                <th>{{ $t("type") }}</th>
-                <th>{{ $t("status") }}</th>
-              </tr>
-            </thead>
-            <tbody v-if="hasResources">
+          <SortableTable
+            :columns="[
+              {
+                title: $t('name'),
+                comparator: (a, b) =>
+                  (th(a.name) || a.id).localeCompare(
+                    th(b.name) || b.id,
+                    locale,
+                  ),
+              },
+              {
+                title: $t('type'),
+                comparator: (a, b) =>
+                  t(getType(a)).localeCompare(t(getType(b)), locale),
+              },
+              { title: $t('status') },
+            ]"
+            :rows="resourcesList"
+            :get-row-key="(resource) => resource.id"
+            class="w-full my-4 striped"
+          >
+            <template #tr="{ row: resource }">
               <router-link
-                v-for="(resource, id) in resources"
-                :key="id"
                 custom
                 v-slot="{ navigate }"
-                :to="`/library/${getType(resource)}/${id}`"
+                :to="`/library/${getType(resource)}/${resource.id}`"
               >
                 <tr @click="navigate" class="cursor-pointer">
                   <td class="py-2!">
-                    <router-link :to="`/library/${getType(resource)}/${id}`">
-                      {{ ("type" in resource && th(resource.name)) || id }}
+                    <router-link
+                      :to="`/library/${getType(resource)}/${resource.id}`"
+                    >
+                      {{
+                        ("type" in resource && th(resource.name)) || resource.id
+                      }}
                     </router-link>
                   </td>
                   <td>{{ $t(getType(resource)) }}</td>
                   <td>
                     <CorpusStateMessage
                       v-if="isCorpus(resource)"
-                      :corpus-id="id"
+                      :corpus-id="resource.id"
                     />
 
                     <!-- Shared icon if other owner -->
@@ -107,8 +131,8 @@ const getOwner = (resource: object) =>
                   </td>
                 </tr>
               </router-link>
-            </tbody>
-          </table>
+            </template>
+          </SortableTable>
 
           <HelpBox v-if="hasResources">
             {{ $t("library.help.resources") }}
