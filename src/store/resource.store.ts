@@ -1,4 +1,4 @@
-import { computed, reactive } from "vue";
+import { computed, reactive, ref } from "vue";
 import { defineStore } from "pinia";
 import { pick } from "es-toolkit";
 import {
@@ -7,7 +7,7 @@ import {
   type Metadata,
   type Resource,
 } from "./resource.types";
-import { pickByType, setKeys } from "@/util";
+import { filterKeys, pickByType } from "@/util";
 import api from "@/api/api";
 import type { ResourceInfo } from "@/api/api.types";
 import useMessenger from "@/message/messenger.composable";
@@ -17,9 +17,10 @@ export const useResourceStore = defineStore("resource", () => {
   const { alertError } = useMessenger();
   const { spin } = useSpin();
 
-  const resources: Record<string, object | Resource> = reactive({});
+  const resourceIds = ref<string[]>([]);
+  const resources = reactive<Record<string, Resource>>({});
 
-  const metadatas = computed<Record<string, Partial<Metadata>>>(() =>
+  const metadatas = computed<Record<string, Metadata>>(() =>
     pickByType(resources, isMetadata),
   );
 
@@ -37,12 +38,12 @@ export const useResourceStore = defineStore("resource", () => {
 
   /** Load resource ids and update store to match. */
   async function loadResourceIds() {
-    const resourceIds = await spin(
-      api.listCorpora().catch(alertError),
-      "corpora",
-    );
-    if (!resourceIds) return;
-    setKeys(resources, resourceIds, {});
+    const ids = await spin(api.listCorpora().catch(alertError), "corpora");
+    if (!ids) return;
+    resourceIds.value = ids;
+
+    // Forget absent resources
+    filterKeys(resources, ids);
   }
 
   /** Load and store data about all the user's resources. */
@@ -55,10 +56,11 @@ export const useResourceStore = defineStore("resource", () => {
       );
       if (!data) return;
 
-      // Drop old keys, assign empty records for each new id
       const ids = data.resources.map((info) => info.resource.id);
-      setKeys(resources, ids, {});
-      // Store resource info
+      resourceIds.value = ids;
+
+      // Forget old resources and store fresh info
+      filterKeys(resources, ids);
       data.resources.forEach(storeResource);
       freshList = true;
     }
@@ -106,10 +108,12 @@ export const useResourceStore = defineStore("resource", () => {
       resource.publicId = info.resource.public_id;
     }
 
-    // Merge with any existing record.
     const id = info.resource.id;
+    if (!resourceIds.value.includes(id)) resourceIds.value.push(id);
+
+    // Merge with any existing record.
     resources[id] = {
-      ...(resources[id] || {}),
+      ...resources[id],
       ...resource,
     };
     freshResources.add(id);
@@ -122,6 +126,7 @@ export const useResourceStore = defineStore("resource", () => {
     loadResourceIds,
     loadResources,
     metadatas,
+    resourceIds,
     resources,
   };
 });

@@ -26,8 +26,7 @@ export default function useCreateCorpus() {
   async function createCorpus() {
     const corpusId = await spin(api.createCorpus(), "create");
     if (!corpusId) return undefined;
-
-    await addNewResource("corpus", corpusId);
+    await addNewResource(corpusId);
     return corpusId;
   }
 

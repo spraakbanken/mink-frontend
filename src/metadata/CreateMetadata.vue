@@ -26,7 +26,7 @@ async function submit(fields: Form) {
   );
   if (!resourceId) return;
 
-  await addNewResource("metadata", resourceId);
+  await addNewResource(resourceId);
 
   router.push(`/library/metadata/${resourceId}`);
 }
