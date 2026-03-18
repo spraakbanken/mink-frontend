@@ -5,14 +5,14 @@ import api from "@/api/api";
 import useMessenger from "@/message/messenger.composable";
 import useSpin from "@/spin/spin.composable";
 import PendingContent from "@/spin/PendingContent.vue";
-import useCreateResource from "@/resource/createResource.composable";
+import { useAuth } from "@/auth/auth.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 
 const router = useRouter();
 const { alertError } = useMessenger();
-const { addNewResource } = useCreateResource();
+const { refreshAuth } = useAuth();
 const { spin } = useSpin();
 
 type Form = {
@@ -26,7 +26,8 @@ async function submit(fields: Form) {
   );
   if (!resourceId) return;
 
-  await addNewResource(resourceId);
+  // Have the new corpus included in further API calls.
+  await refreshAuth();
 
   router.push(`/library/metadata/${resourceId}`);
 }

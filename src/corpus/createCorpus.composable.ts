@@ -8,26 +8,20 @@ import {
   type ConfigOptions,
   defaultConfig,
 } from "@/api/corpusConfig";
-import useCreateResource from "@/resource/createResource.composable";
 import api from "@/api/api";
-import useSpin from "@/spin/spin.composable";
+import { useAuth } from "@/auth/auth.composable";
 
 export default function useCreateCorpus() {
+  const { refreshAuth } = useAuth();
   const corpusStore = useCorpusStore();
   const router = useRouter();
   const { deleteCorpus } = useDeleteCorpus();
-  const { spin } = useSpin();
-  const { addNewResource } = useCreateResource();
-
-  async function createCorpus() {
-    const corpusId = await spin(api.createCorpus(), "create");
-    await addNewResource(corpusId);
-    return corpusId;
-  }
 
   async function createFromUpload(files: File[]) {
     if (!files[0]) throw new RangeError("No files");
-    const corpusId = await createCorpus();
+    const corpusId = await api.createCorpus();
+    // Have the new corpus included in further API calls.
+    await refreshAuth();
 
     // Create default config.
     const config = await defaultConfig();
@@ -56,12 +50,6 @@ export default function useCreateCorpus() {
 
     // Visit new corpus when successfully created.
     router.push(`/library/corpus/${corpusId}`);
-
-    // Refresh sources in background
-    spin(
-      corpusStore.loadSources(corpusId, true),
-      `corpus/${corpusId}/sources/list`,
-    );
   }
 
   // Like the `saveConfigOptions` in `corpus.composable.ts` but takes `corpusId` as argument.
@@ -78,7 +66,7 @@ export default function useCreateCorpus() {
     description: string,
     format: FileFormat,
     textAnnotation?: string,
-  ): Promise<string | undefined> {
+  ) {
     const config = {
       ...(await defaultConfig()),
       name: { swe: name, eng: name },
@@ -88,7 +76,9 @@ export default function useCreateCorpus() {
     };
 
     // Create an empty corpus. If it fails, abort.
-    const corpusId = await createCorpus();
+    const corpusId = await api.createCorpus();
+    // Have the new corpus included in further API calls.
+    await refreshAuth();
 
     // Upload the basic config.
     try {
@@ -102,7 +92,6 @@ export default function useCreateCorpus() {
 
     // Show the created corpus.
     router.push(`/library/corpus/${corpusId}`);
-    return corpusId;
   }
 
   return {
