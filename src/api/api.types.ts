@@ -82,12 +82,9 @@ export type CreateMetadataData = {
 };
 
 /** Data in the resource-info response, if no corpus_id param is given */
-export type ResourceInfoAllData = {
-  resources: MinkResponse<ResourceInfo>[];
+export type ResourceStatusListData = {
+  resources: ResourceInfo[];
 };
-
-/** Data in the resource-info response, if the corpus_id param is given */
-export type ResourceInfoOneData = ResourceInfo;
 
 /** Data about a resource and its job status */
 export type ResourceInfo = {

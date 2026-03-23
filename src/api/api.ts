@@ -6,8 +6,7 @@ import type {
   InfoData,
   ListCorporaData,
   CreateCorpusData,
-  ResourceInfoAllData,
-  ResourceInfoOneData,
+  ResourceStatusListData,
   ListExportsData,
   AdminModeStatusData,
   CreateMetadataData,
@@ -15,6 +14,7 @@ import type {
   JobStateMap,
   SparvSchemaData,
   SparvExportsData,
+  ResourceInfo,
 } from "@/api/api.types";
 
 /** Create a `text/yaml` file object with content */
@@ -60,93 +60,97 @@ class MinkApi {
     this.axios.defaults.headers["Authorization"] = jwt ? `Bearer ${jwt}` : null;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/info-get */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Documentation/operation/info */
   getInfo = once(async () => {
     const response = await this.axios.get<MinkResponse<InfoData>>("info");
     return response.data;
   });
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/sparv-exports-get */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Documentation/operation/sparv-exports */
   sparvExports = once(async () => {
-    const response =
-      await this.axios.get<MinkResponse<SparvExportsData>>("sparv-exports");
+    const response = await this.axios.get<MinkResponse<SparvExportsData>>(
+      "corpus/sparv/list-exports",
+    );
     return response.data.exports;
   });
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/sparv-schema-get */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Documentation/operation/sparv-schema */
   sparvSchema = once(async () => {
-    const response =
-      await this.axios.get<MinkResponse<SparvSchemaData>>("sparv-schema");
+    const response = await this.axios.get<MinkResponse<SparvSchemaData>>(
+      "corpus/sparv/get-schema",
+    );
     return response.data.sparv_schema;
   });
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/list-corpora-get */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/list-corpora */
   async listCorpora() {
     const response =
-      await this.axios.get<MinkResponse<ListCorporaData>>("list-corpora");
+      await this.axios.get<MinkResponse<ListCorporaData>>("corpus/list");
     return response.data.corpora;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/create-corpus-post */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/create-corpus */
   async createCorpus() {
     const response =
-      await this.axios.post<MinkResponse<CreateCorpusData>>("create-corpus");
+      await this.axios.post<MinkResponse<CreateCorpusData>>("corpus/create");
     return response.data.resource_id;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/create-metadata-post */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Metadata/operation/create-metadata */
   async createMetadata(publicId: string) {
     const response = await this.axios.post<MinkResponse<CreateMetadataData>>(
-      "create-metadata",
+      "metadata/create",
       undefined,
       { params: { public_id: publicId } },
     );
     return response.data.resource_id;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/remove-corpus-delete */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/remove-corpus */
   async removeCorpus(corpusId: string) {
-    const response = await this.axios.delete<MinkResponse>("remove-corpus", {
-      params: { corpus_id: corpusId },
-    });
-    return response.data;
-  }
-
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/remove-metadata-delete */
-  async removeMetadata(resourceId: string) {
-    const response = await this.axios.delete<MinkResponse>("remove-metadata", {
-      params: { corpus_id: resourceId },
-    });
-    return response.data;
-  }
-
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Config/operation/upload-config-put */
-  async uploadConfig(corpusId: string, config: string) {
-    const formData = filesFormData("file", yamlAsFile("config.yaml", config));
-    const response = await this.axios.put<MinkResponse>(
-      "upload-config",
-      formData,
-      { params: { corpus_id: corpusId } },
+    const response = await this.axios.delete<MinkResponse>(
+      "corpus/remove/" + corpusId,
     );
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Sources/operation/download-sources-get */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Metadata/operation/remove-metadata */
+  async removeMetadata(resourceId: string) {
+    const response = await this.axios.delete<MinkResponse>(
+      "metadata/remove/" + resourceId,
+    );
+    return response.data;
+  }
+
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Config/operation/upload-config */
+  async uploadConfig(resourceId: string, config: string) {
+    const formData = filesFormData("file", yamlAsFile("config.yaml", config));
+    const response = await this.axios.put<MinkResponse>(
+      "corpus/config/upload/" + resourceId,
+      formData,
+    );
+    return response.data;
+  }
+
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Sources/operation/download-sources */
   async downloadSources<B extends boolean>(
-    corpusId: string,
+    resourceId: string,
     filename: string,
     binary: B,
   ) {
     const response = await this.axios
-      .get<B extends true ? Blob : string>("download-sources", {
-        params: { corpus_id: corpusId, file: filename, zip: false },
-        responseType: binary ? "blob" : "text",
-      })
+      .get<B extends true ? Blob : string>(
+        "corpus/sources/download/" + resourceId,
+        {
+          params: { file: filename, zip: false },
+          responseType: binary ? "blob" : "text",
+        },
+      )
       .catch(rethrowBlobError);
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Sources/operation/upload-sources-put */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Sources/operation/upload-sources */
   async uploadSources(
     corpusId: string,
     files: File[],
@@ -154,30 +158,28 @@ class MinkApi {
   ) {
     const formData = filesFormData("files", ...files);
     const response = await this.axios.put<MinkResponse>(
-      "upload-sources",
+      "corpus/sources/upload/" + corpusId,
       formData,
+      { onUploadProgress: onProgress },
+    );
+    return response.data;
+  }
+
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Sources/operation/remove-sources */
+  async removeSource(resourceId: string, name: string) {
+    const response = await this.axios.delete<MinkResponse>(
+      "corpus/sources/remove/" + resourceId,
       {
-        params: { corpus_id: corpusId },
-        onUploadProgress: onProgress,
+        params: { remove: name },
       },
     );
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Sources/operation/remove-sources-delete */
-  async removeSource(corpusId: string, name: string) {
-    const response = await this.axios.delete<MinkResponse>("remove-sources", {
-      params: { corpus_id: corpusId, remove: name },
-    });
-    return response.data;
-  }
-
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Config/operation/download-config-get */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Config/operation/download-config */
   downloadConfig = deduplicateRequest(async (corpusId: string) => {
     const response = await this.axios
-      .get<string>("download-config", {
-        params: { corpus_id: corpusId },
-      })
+      .get<string>("corpus/config/download/" + corpusId)
       .catch((error) => {
         // 404 means no config which is fine, rethrow other errors.
         if (error.response?.status == 404) return undefined;
@@ -186,23 +188,20 @@ class MinkApi {
     return response?.data;
   });
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/upload-metadata-yaml-put */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Metadata/operation/upload-metadata-yaml */
   async uploadMetadataYaml(resourceId: string, yaml: string) {
     const formData = filesFormData("file", yamlAsFile("metadata.yaml", yaml));
     const response = await this.axios.put<MinkResponse>(
-      "upload-metadata-yaml",
+      "metadata/config/upload/" + resourceId,
       formData,
-      { params: { corpus_id: resourceId } },
     );
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/download-metadata-yaml-get */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Metadata/operation/download-metadata-yaml */
   async downloadMetadataYaml(resourceId: string) {
     const response = await this.axios
-      .get<string>("download-metadata-yaml", {
-        params: { corpus_id: resourceId },
-      })
+      .get<string>("metadata/config/download/" + resourceId)
       .catch((error) => {
         // 404 means no metadata yaml which is fine, rethrow other errors.
         if (error.response?.status == 404) return undefined;
@@ -211,29 +210,28 @@ class MinkApi {
     return response?.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/resource-info-get */
-  async resourceInfoAll() {
-    const response =
-      await this.axios.get<MinkResponse<ResourceInfoAllData>>("resource-info");
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Resources/operation/list-resource-statuses */
+  async resourceStatusList() {
+    const response = await this.axios.get<MinkResponse<ResourceStatusListData>>(
+      "resource/status/list",
+    );
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/resource-info-get */
-  resourceInfoOne = deduplicateRequest(async (corpusId: string) => {
-    const response = await this.axios.get<MinkResponse<ResourceInfoOneData>>(
-      "resource-info",
-      { params: { corpus_id: corpusId } },
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Resources/operation/get-resource-status */
+  resourceStatusGet = deduplicateRequest(async (resourceId: string) => {
+    const response = await this.axios.get<MinkResponse<ResourceInfo>>(
+      "resource/status/get/" + resourceId,
     );
     return response.data;
   });
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/run-sparv-put */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Process-Corpus/operation/run-sparv */
   async runSparv(corpusId: string) {
-    const response = await this.axios.put<MinkResponse<ResourceInfoOneData>>(
-      "run-sparv",
+    const response = await this.axios.put<MinkResponse<ResourceInfo>>(
+      "corpus/job/run/" + corpusId,
       null,
       {
-        params: { corpus_id: corpusId },
         // Errors are okay.
         validateStatus: () => true,
       },
@@ -241,93 +239,84 @@ class MinkApi {
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/abort-job-post */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Process-Corpus/operation/abort-job */
   async abortJob(corpusId: string) {
     const response = await this.axios.post<MinkResponse<JobStateMap>>(
-      "abort-job",
-      null,
-      { params: { corpus_id: corpusId } },
+      "corpus/job/abort/" + corpusId,
     );
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/clear-annotations-delete */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Process-Corpus/operation/clear-annotations */
   async clearAnnotations(corpusId: string) {
     const response = await this.axios.delete<MinkResponse>(
-      "clear-annotations",
-      { params: { corpus_id: corpusId } },
+      "corpus/annotations/remove/" + corpusId,
     );
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Exports/operation/list-exports-get */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Exports/operation/list-exports */
   async listExports(corpusId: string) {
     const response = await this.axios.get<MinkResponse<ListExportsData>>(
-      "list-exports",
-      { params: { corpus_id: corpusId } },
+      "corpus/exports/list/" + corpusId,
     );
     return response.data.contents;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Exports/operation/download-exports-get */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Exports/operation/download-exports */
   async downloadExports(corpusId: string) {
     const response = await this.axios
-      .get<Blob>("download-exports", {
-        params: { corpus_id: corpusId },
+      .get<Blob>("corpus/exports/download/" + corpusId, {
         responseType: "blob",
       })
       .catch(rethrowBlobError);
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Exports/operation/download-exports-get */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Exports/operation/download-exports */
   async downloadExportFile(corpusId: string, path: string) {
     const response = await this.axios
-      .get<Blob>("download-exports", {
-        params: { corpus_id: corpusId, file: path, zip: false },
+      .get<Blob>("corpus/exports/download/" + corpusId, {
+        params: { file: path, zip: false },
         responseType: "text",
       })
       .catch(rethrowBlobError);
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/install-korp-put */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Process-Corpus/operation/install-korp */
   async installKorp(corpusId: string) {
-    const response = await this.axios.put<MinkResponse<ResourceInfoOneData>>(
-      "install-korp",
-      null,
-      { params: { resource_id: corpusId } },
+    const response = await this.axios.put<MinkResponse<ResourceInfo>>(
+      "corpus/korp/install/" + corpusId,
     );
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/install-strix-put */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Process-Corpus/operation/install-strix */
   async installStrix(corpusId: string) {
-    const response = await this.axios.put<MinkResponse<ResourceInfoOneData>>(
-      "install-strix",
-      null,
-      { params: { resource_id: corpusId } },
+    const response = await this.axios.put<MinkResponse<ResourceInfo>>(
+      "corpus/strix/install/" + corpusId,
     );
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/uninstall-korp-delete */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Process-Corpus/operation/uninstall-korp */
   async uninstallKorp(corpusId: string) {
-    const response = await this.axios.delete<MinkResponse>("uninstall-korp", {
-      params: { resource_id: corpusId },
-    });
+    const response = await this.axios.delete<MinkResponse>(
+      "corpus/korp/uninstall/" + corpusId,
+    );
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/uninstall-strix-delete */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Process-Corpus/operation/uninstall-strix */
   async uninstallStrix(corpusId: string) {
-    const response = await this.axios.delete<MinkResponse>("uninstall-strix", {
-      params: { resource_id: corpusId },
-    });
+    const response = await this.axios.delete<MinkResponse>(
+      "corpus/strix/uninstall/" + corpusId,
+    );
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Admin-Mode/operation/admin-mode-status-get */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Admin-Mode/operation/admin-mode-status */
   async adminModeStatus() {
     const response =
       await this.axios.get<MinkResponse<AdminModeStatusData>>(
@@ -336,13 +325,13 @@ class MinkApi {
     return response.data.admin_mode_status;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Admin-Mode/operation/admin-mode-on-post */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Admin-Mode/operation/admin-mode-on */
   async adminModeOn() {
     const response = await this.axios.post<MinkResponse>("admin-mode-on");
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Admin-Mode/operation/admin-mode-off-post */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Admin-Mode/operation/admin-mode-off */
   async adminModeOff() {
     const response = await this.axios.post<MinkResponse>("admin-mode-off");
     return response.data;

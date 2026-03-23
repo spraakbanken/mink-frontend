@@ -47,7 +47,7 @@ export const useResourceStore = defineStore("resource", () => {
   async function loadResources() {
     // Skip if already loaded.
     if (!freshList) {
-      const data = await spin(api.resourceInfoAll(), "resources");
+      const data = await spin(api.resourceStatusList(), "resources");
       const ids = data.resources.map((info) => info.resource.id);
       resourceIds.value = ids;
 
@@ -73,7 +73,7 @@ export const useResourceStore = defineStore("resource", () => {
     if (skipCache) freshResources.delete(resourceId);
     if (!freshResources.has(resourceId)) {
       const data = await spin(
-        api.resourceInfoOne(resourceId),
+        api.resourceStatusGet(resourceId),
         `corpus/${resourceId}/info`,
       );
       storeResource(data);

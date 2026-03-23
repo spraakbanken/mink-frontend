@@ -76,7 +76,7 @@ export const useCorpusStore = defineStore("corpus", () => {
 
     if (skipCache) {
       const info = await spin(
-        api.resourceInfoOne(corpusId),
+        api.resourceStatusGet(corpusId),
         `corpus/${corpusId}/sources/list`,
       );
       corpus.sources = info.resource.source_files.sort((a, b) =>
