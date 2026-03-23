@@ -21,7 +21,7 @@ export const useResourceStore = defineStore("resource", () => {
 
   /** Load resource ids and update store to match. */
   async function loadResourceIds() {
-    const idsNew = await spin(api.listCorpora(), "resources");
+    const idsNew = await spin(api.listResources(), "resources");
     ids.value = idsNew;
 
     // Forget absent resources
@@ -34,7 +34,7 @@ export const useResourceStore = defineStore("resource", () => {
   async function loadResources() {
     // Skip if already loaded.
     if (!freshList) {
-      const data = await spin(api.resourceInfoAll(), "resources");
+      const data = await spin(api.listResourceStatuses(), "resources");
       const idsNew = data.resources.map((info) => info.resource.id);
       ids.value = idsNew;
 
@@ -60,7 +60,7 @@ export const useResourceStore = defineStore("resource", () => {
   ): Promise<Resource> {
     spinToken ??= `${id}/info`;
     if (skipCache || !resources[id]) {
-      const data = await spin(api.resourceInfoOne(id), spinToken);
+      const data = await spin(api.getResourceStatus(id), spinToken);
       storeResource(data);
     }
     return resources[id];
