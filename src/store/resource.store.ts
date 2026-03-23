@@ -60,10 +60,9 @@ export const useResourceStore = defineStore("resource", () => {
     return resources;
   }
 
-  /** Signal that info needs to be reloaded, and immediately fetch ids. */
+  /** Signal that info needs to be reloaded */
   async function invalidateResources() {
     freshList = false;
-    await loadResourceIds();
   }
 
   /** Load and store data about a given resource. */

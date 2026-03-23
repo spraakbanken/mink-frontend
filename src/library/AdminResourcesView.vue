@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { reactive, watch } from "vue";
+import { reactive } from "vue";
 import { useRouter } from "vue-router";
+import { watchImmediate } from "@vueuse/core";
+import { storeToRefs } from "pinia";
 import AdminResourcePreview from "@/library/AdminResourcePreview.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -14,18 +16,16 @@ import useMessenger from "@/message/messenger.composable";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
+const { resourceIds, resources } = storeToRefs(resourceStore);
 const { adminMode } = useAdmin();
 const { alertError } = useMessenger();
 
 const previewToggles = reactive<Record<string, boolean>>({});
 
-watch(adminMode, () => {
+watchImmediate(adminMode, () => {
   // adminMode is undefined initially. If it resolves to false, go to the normal Library view instead.
-  if (adminMode.value === false) {
-    return router.push("/library");
-  } else {
-    resourceStore.loadResourceIds().catch(alertError);
-  }
+  if (adminMode.value) resourceStore.loadResourceIds().catch(alertError);
+  else if (adminMode.value === false) router.push("/library");
 });
 
 async function load(resourceId: string) {
@@ -45,7 +45,7 @@ async function load(resourceId: string) {
     <LayoutSection>
       <PendingContent on="resources" class="my-4 flex flex-col gap-6">
         <PendingContent
-          v-for="(resource, resourceId) of resourceStore.resources"
+          v-for="resourceId of resourceIds"
           :key="resourceId"
           :on="`corpus/${resourceId}/info`"
         >
@@ -57,7 +57,7 @@ async function load(resourceId: string) {
             </router-link>
 
             <ActionButton
-              v-if="!('type' in resource)"
+              v-if="!(resourceId in resources)"
               @click.stop="load(resourceId)"
             >
               {{ $t("load") }}
@@ -77,13 +77,15 @@ async function load(resourceId: string) {
 
             <!-- Show a few selected details if loaded -->
             <div class="ml-4">
-              <div v-if="'type' in resource" class="flex gap-4">
-                <span>{{ resource.owner.name }}</span>
+              <div v-if="resourceId in resources" class="flex gap-4">
+                <span>{{ resources[resourceId].owner.name }}</span>
                 <span
                   v-if="
-                    isCorpus(resource) &&
-                    resource.job &&
-                    Object.values(resource.job.status).includes('error')
+                    isCorpus(resources[resourceId]) &&
+                    resources[resourceId].job &&
+                    Object.values(resources[resourceId].job.status).includes(
+                      'error',
+                    )
                   "
                 >
                   {{ $t("job.status.error") }}
@@ -96,9 +98,9 @@ async function load(resourceId: string) {
           </div>
 
           <AdminResourcePreview
-            v-if="previewToggles[resourceId] && 'type' in resource"
+            v-if="previewToggles[resourceId] && resourceId in resources"
             :resource-id="resourceId"
-            :resource="resource"
+            :resource="resources[resourceId]"
           />
         </PendingContent>
       </PendingContent>
