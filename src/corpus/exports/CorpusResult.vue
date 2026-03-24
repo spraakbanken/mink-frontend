@@ -5,7 +5,7 @@ import { computedAsync } from "@vueuse/core";
 import { groupBy } from "es-toolkit";
 import { useI18n } from "vue-i18n";
 import { useCorpus } from "../corpus.composable";
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
@@ -18,7 +18,7 @@ import useSpin from "@/spin/spin.composable";
 import useMessenger from "@/message/messenger.composable";
 import SortableTable from "@/components/SortableTable.vue";
 
-const corpusId = useCorpusIdParam();
+const corpusId = useResourceIdParam();
 const { locale } = useI18n();
 const { filesize } = useLocale();
 const { exports, downloadResult, downloadResultFile, getDownloadFilename } =

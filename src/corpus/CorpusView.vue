@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import { computedAsync } from "@vueuse/core";
+import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import useLocale from "@/i18n/locale.composable";
 import { useCorpusStore } from "@/store/corpus.store";
-import { computedAsync } from "@vueuse/core";
 import useMessenger from "@/message/messenger.composable";
 import useNotFound from "@/components/notfound.composable";
 
-const corpusId = useCorpusIdParam();
+const corpusId = useResourceIdParam();
 const { loadCorpus } = useCorpusStore();
 const { th } = useLocale();
 const { alertError } = useMessenger();

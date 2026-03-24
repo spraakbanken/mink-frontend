@@ -17,6 +17,7 @@ export default function useNotFound() {
     handle404(reason: unknown) {
       if (isAxiosError(reason) && reason.status == 404) showNotFoundPage();
       else throw reason;
+      return undefined;
     },
 
     /** Redirect to the "Page not found" route without changing the URL */

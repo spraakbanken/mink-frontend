@@ -4,7 +4,7 @@ import { computed, defineAsyncComponent, ref, watchEffect } from "vue";
 import { computedAsync } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
 import { useCorpus } from "../corpus.composable";
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import useMessenger from "@/message/messenger.composable";
@@ -15,7 +15,7 @@ import ActionButton from "@/components/ActionButton.vue";
 import api from "@/api/api";
 import LayoutSection from "@/components/LayoutSection.vue";
 
-const corpusId = useCorpusIdParam();
+const corpusId = useResourceIdParam();
 const { config } = useCorpus(corpusId);
 const { alertError } = useMessenger();
 const corpusStore = useCorpusStore();

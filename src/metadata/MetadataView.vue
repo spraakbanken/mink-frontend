@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { computedAsync } from "@vueuse/core";
 import useMetadata from "@/metadata/metadata.composable";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import useMessenger from "@/message/messenger.composable";
-import { computedAsync } from "@vueuse/core";
 import useNotFound from "@/components/notfound.composable";
 
 const resourceId = useResourceIdParam();

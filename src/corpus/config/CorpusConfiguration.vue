@@ -23,7 +23,7 @@ import type { ConfigSentenceSegmenter } from "@/api/sparvConfig.types";
 import HelpBox from "@/components/HelpBox.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import RouteButton from "@/components/RouteButton.vue";
 import useMessenger from "@/message/messenger.composable";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -55,7 +55,7 @@ type Form = {
 };
 
 const router = useRouter();
-const corpusId = useCorpusIdParam();
+const corpusId = useResourceIdParam();
 const { config, saveConfigOptions, extensions } = useCorpus(corpusId);
 const { alert, alertError } = useMessenger();
 const { t } = useI18n();

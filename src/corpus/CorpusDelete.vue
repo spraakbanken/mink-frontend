@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { PhTrash } from "@phosphor-icons/vue";
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import useDeleteCorpus from "@/corpus/deleteCorpus.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
@@ -12,7 +12,7 @@ import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
 
 const router = useRouter();
-const corpusId = useCorpusIdParam();
+const corpusId = useResourceIdParam();
 const { deleteCorpus } = useDeleteCorpus();
 const corpusStore = useCorpusStore();
 const { canAdmin } = useAuth();

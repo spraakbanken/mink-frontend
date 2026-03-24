@@ -2,7 +2,7 @@
 import { PhPencilSimple } from "@phosphor-icons/vue";
 import SharingPanel from "../auth/SharingPanel.vue";
 import { useCorpus } from "./corpus.composable";
-import useCorpusIdParam from "@/corpus/corpusIdParam.composable";
+import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import ConfigPanel from "@/corpus/config/ConfigPanel.vue";
 import SourcesPanel from "@/corpus/sources/SourcesPanel.vue";
 import JobStatus from "@/corpus/job/JobStatus.vue";
@@ -13,7 +13,7 @@ import RouteButton from "@/components/RouteButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import { useAuth } from "@/auth/auth.composable";
 
-const corpusId = useCorpusIdParam();
+const corpusId = useResourceIdParam();
 const { isConfigValid } = useCorpus(corpusId);
 const { canWrite } = useAuth();
 </script>

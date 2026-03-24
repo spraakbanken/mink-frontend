@@ -29,7 +29,7 @@ const corpusRoutes: RouteRecordRaw[] = [
     },
   },
   {
-    path: "/library/corpus/:corpusId",
+    path: "/library/corpus/:resourceId",
     component: CorpusView,
     meta: { protected: true },
     children: [
