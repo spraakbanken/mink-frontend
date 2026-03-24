@@ -14,7 +14,7 @@ const lexiconRoutes: RouteRecordRaw[] = [
     },
   },
   {
-    path: "/library/lexicon/:resourceId",
+    path: "/library/lexicon/:id",
     component: LexiconView,
     meta: { protected: true },
     children: [
