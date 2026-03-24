@@ -3,6 +3,7 @@ import { useRouter } from "vue-router";
 import { PhPlusCircle, PhUsers } from "@phosphor-icons/vue";
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
+import { useI18n } from "vue-i18n";
 import useLocale from "@/i18n/locale.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import useAdmin from "@/user/admin.composable";
@@ -21,7 +22,6 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import useMessenger from "@/message/messenger.composable";
 import SortableTable from "@/components/SortableTable.vue";
-import { useI18n } from "vue-i18n";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
