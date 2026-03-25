@@ -21,7 +21,7 @@ import SortableTable, {
 } from "@/components/SortableTable.vue";
 
 const props = defineProps<{
-  corpusId: string;
+  id: string;
 }>();
 
 const {
@@ -32,7 +32,7 @@ const {
   extensions,
   configOptions,
   saveConfigOptions,
-} = useCorpus(props.corpusId);
+} = useCorpus(props.id);
 const { filesize } = useLocale();
 const { alert, alertError } = useMessenger();
 const { t, locale } = useI18n();
@@ -58,7 +58,7 @@ const columns = computed<SortableTableColumn<FileMeta>[]>(() => {
     },
   ];
 
-  if (canWrite("corpora", props.corpusId))
+  if (canWrite("corpora", props.id))
     cols.push({ title: t("file.operations"), thClass: "sr-only" });
 
   return cols;
@@ -99,7 +99,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
     </span>
   </div>
   <MaxHeight :max-height="400">
-    <PendingContent :on="`${corpusId}/sources/list`">
+    <PendingContent :on="`${id}/sources/list`">
       <SortableTable
         v-if="sources.length"
         :columns
@@ -109,16 +109,14 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
       >
         <template v-slot="{ row: source }">
           <td>
-            <router-link
-              :to="`/library/corpus/${corpusId}/sources/${source.name}`"
-            >
+            <router-link :to="`/library/corpus/${id}/sources/${source.name}`">
               {{ source.name }}
             </router-link>
           </td>
           <td class="text-end whitespace-nowrap">
             {{ filesize(source.size) }}
           </td>
-          <td v-if="canWrite('corpora', corpusId)">
+          <td v-if="canWrite('corpora', id)">
             <ActionButton
               class="hover:button-danger button-slim text-sm"
               @click="deleteSource(source).catch(alertError)"
@@ -133,8 +131,8 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
   </MaxHeight>
 
   <PendingContent
-    v-if="canWrite('corpora', corpusId)"
-    :on="`${corpusId}/sources/upload`"
+    v-if="canWrite('corpora', id)"
+    :on="`${id}/sources/upload`"
     blocking
   >
     <FileUpload

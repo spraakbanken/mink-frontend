@@ -4,10 +4,10 @@ import { useCorpusState } from "@/corpus/corpusState.composable";
 import HelpBox from "@/components/HelpBox.vue";
 
 const props = defineProps<{
-  corpusId: string;
+  id: string;
 }>();
 
-const { corpusState, isIncomplete, isError } = useCorpusState(props.corpusId);
+const { corpusState, isIncomplete, isError } = useCorpusState(props.id);
 </script>
 
 <template>

@@ -14,7 +14,7 @@ const metadataRoutes: RouteRecordRaw[] = [
     },
   },
   {
-    path: "/library/metadata/:resourceId",
+    path: "/library/metadata/:id",
     component: MetadataView,
     meta: { protected: true },
     children: [

@@ -143,7 +143,7 @@ alert("There is no coffee", "error");
 Helper for showing a failing Mink API response:
 
 ```js
-mink.runJob(corpusId).catch(alertError);
+api.runSparv(id).catch(alertError);
 ```
 
 ## Testing

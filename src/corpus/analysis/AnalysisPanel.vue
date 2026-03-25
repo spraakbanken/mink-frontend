@@ -9,7 +9,7 @@ import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
 
 const props = defineProps<{
-  corpusId: string;
+  id: string;
 }>();
 
 const { runJob } = useCorpusStore();
@@ -22,14 +22,14 @@ const {
   clearAnnotations,
   downloadResult,
   getDownloadFilename,
-} = useCorpus(props.corpusId);
+} = useCorpus(props.id);
 const { canWrite } = useAuth();
 const { alertError } = useMessenger();
 
 const isPending = ref(false);
 const canRun = computed(
   () =>
-    canWrite("corpora", props.corpusId) &&
+    canWrite("corpora", props.id) &&
     hasSources.value &&
     isConfigValid.value &&
     !isPending.value &&
@@ -38,7 +38,7 @@ const canRun = computed(
 
 async function doRunJob() {
   isPending.value = true;
-  await runJob(props.corpusId).catch(alertError);
+  await runJob(props.id).catch(alertError);
   isPending.value = false;
 }
 </script>
@@ -46,11 +46,11 @@ async function doRunJob() {
 <template>
   <div>
     <PendingContent
-      :on="`${corpusId}/job/sparv`"
+      :on="`${id}/job/sparv`"
       class="flex flex-col gap-3 items-start"
     >
       <PendingContent
-        :on="`${corpusId}/exports/list`"
+        :on="`${id}/exports/list`"
         v-if="!isJobRunning && exports?.length"
         class="flex gap-3 items-center"
       >
@@ -59,7 +59,7 @@ async function doRunJob() {
           {{ $t("annotations.clear.help") }}
         </div>
         <ActionButton
-          :disabled="!canWrite('corpora', corpusId)"
+          :disabled="!canWrite('corpora', id)"
           @click="clearAnnotations().catch(alertError)"
           class="whitespace-nowrap"
         >
@@ -107,7 +107,7 @@ async function doRunJob() {
       </div>
     </PendingContent>
 
-    <PendingContent :on="`${corpusId}/exports/list`" class="mt-4">
+    <PendingContent :on="`${id}/exports/list`" class="mt-4">
       <h3 class="text-lg uppercase">{{ $t("download") }}</h3>
       <p>{{ $t("exports.download.help") }}</p>
 
@@ -116,7 +116,7 @@ async function doRunJob() {
           <tr>
             <th>{{ $t("file.archive") }}</th>
             <td>
-              <PendingContent :on="`${corpusId}/exports/download`">
+              <PendingContent :on="`${id}/exports/download`">
                 <ActionButton
                   :class="{ 'button-primary': !isJobRunning }"
                   @click="downloadResult().catch(alertError)"
@@ -130,7 +130,7 @@ async function doRunJob() {
           <tr>
             <th>{{ $t("file.singles") }}</th>
             <td>
-              <router-link :to="`/library/corpus/${corpusId}/exports`">
+              <router-link :to="`/library/corpus/${id}/exports`">
                 {{ $t("show") }}…
               </router-link>
             </td>

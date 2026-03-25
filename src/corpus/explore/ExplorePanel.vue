@@ -11,13 +11,13 @@ import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
 
 const props = defineProps<{
-  corpusId: string;
+  id: string;
 }>();
 
 const { isPending } = useSpin();
 const { installKorp, installStrix, uninstallKorp, uninstallStrix } =
   useCorpusStore();
-const { isJobRunning, job, jobState } = useCorpus(props.corpusId);
+const { isJobRunning, job, jobState } = useCorpus(props.id);
 const { locale3 } = useLocale();
 const { canWrite } = useAuth();
 const { alertError } = useMessenger();
@@ -27,17 +27,17 @@ const strixUrl = ensureTrailingSlash(import.meta.env.VITE_STRIX_URL);
 
 const canInstall = computed(
   () =>
-    canWrite("corpora", props.corpusId) &&
+    canWrite("corpora", props.id) &&
     !isJobRunning.value &&
     jobState.value?.sparv == "done" &&
-    !isPending(`${props.corpusId}/job`),
+    !isPending(`${props.id}/job`),
 );
 </script>
 
 <template>
   <p>{{ $t("exports.tools.help") }}</p>
   <div class="grid gap-4 mt-4">
-    <PendingContent :on="`${corpusId}/job/install/korp`">
+    <PendingContent :on="`${id}/job/install/korp`">
       <ToolPanel
         name="Korp"
         :info="$t('exports.tools.help.korp')"
@@ -45,13 +45,13 @@ const canInstall = computed(
         :link-text="$t('exports.tools.help.korp.manual.text')"
         :can-install
         :is-installed="jobState?.korp == 'done' && job?.installed_korp"
-        :show-url="`${korpUrl}?mode=mink#?corpus=${corpusId}&lang=${locale3}`"
-        @install="installKorp(corpusId).catch(alertError)"
-        @uninstall="uninstallKorp(corpusId).catch(alertError)"
+        :show-url="`${korpUrl}?mode=mink#?corpus=${id}&lang=${locale3}`"
+        @install="installKorp(id).catch(alertError)"
+        @uninstall="uninstallKorp(id).catch(alertError)"
       />
     </PendingContent>
 
-    <PendingContent :on="`${corpusId}/job/install/strix`">
+    <PendingContent :on="`${id}/job/install/strix`">
       <ToolPanel
         name="Strix"
         :info="$t('exports.tools.help.strix')"
@@ -59,9 +59,9 @@ const canInstall = computed(
         :link-text="$t('exports.tools.help.strix.manual.text')"
         :can-install
         :is-installed="jobState?.strix == 'done' && job?.installed_strix"
-        :show-url="`${strixUrl}?mode=mink&corpora=${corpusId}`"
-        @install="installStrix(corpusId).catch(alertError)"
-        @uninstall="uninstallStrix(corpusId).catch(alertError)"
+        :show-url="`${strixUrl}?mode=mink&corpora=${id}`"
+        @install="installStrix(id).catch(alertError)"
+        @uninstall="uninstallStrix(id).catch(alertError)"
       />
     </PendingContent>
   </div>

@@ -11,7 +11,7 @@ import useMessenger from "@/message/messenger.composable";
 
 const props = defineProps<{
   resourceType: ResourceType;
-  resourceId: string;
+  id: string;
 }>();
 
 const store = useResourceStore();
@@ -20,7 +20,7 @@ const { getAccessLevel } = useAuth();
 const { alertError } = useMessenger();
 
 const resource = computedAsync(() =>
-  store.loadResource(props.resourceId).catch(alertError),
+  store.loadResource(props.id).catch(alertError),
 );
 </script>
 
@@ -46,12 +46,12 @@ const resource = computedAsync(() =>
                 {{ $t("sharing.level.admin_mode") }}
               </span>
               <TerminalOutput v-else class="inline leading-loose">
-                {{ getAccessLevel(resourceType, resourceId) }}
+                {{ getAccessLevel(resourceType, id) }}
               </TerminalOutput>
             </div>
             <UrlButton
-              v-if="getAccessLevel(resourceType, resourceId) == 'ADMIN'"
-              :href="getAuthGuiUrl(resourceId)"
+              v-if="getAccessLevel(resourceType, id) == 'ADMIN'"
+              :href="getAuthGuiUrl(id)"
               target="_blank"
             >
               <PhShareNetwork class="inline mr-1 mb-1" />

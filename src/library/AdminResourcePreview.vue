@@ -7,7 +7,7 @@ import { useCorpusStore } from "@/store/corpus.store";
 import useMessenger from "@/message/messenger.composable";
 
 const props = defineProps<{
-  resourceId: string;
+  id: string;
   resource: Resource;
 }>();
 
@@ -16,7 +16,7 @@ const { alertError } = useMessenger();
 
 onMounted(() => {
   if (isCorpus(props.resource))
-    corpusStore.loadConfig(props.resourceId).catch(alertError);
+    corpusStore.loadConfig(props.id).catch(alertError);
 });
 </script>
 
@@ -66,7 +66,7 @@ onMounted(() => {
     </table>
     <PendingContent
       v-if="isCorpus(resource) && resource.config"
-      :on="`${resourceId}/config`"
+      :on="`${id}/config`"
       class="flex-1"
     >
       <h3 class="font-semibold">{{ $t("configuration") }}</h3>

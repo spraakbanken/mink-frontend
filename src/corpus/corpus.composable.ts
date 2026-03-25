@@ -20,18 +20,18 @@ const pollTick = useInterval(2000);
 // Corpus ids are added as keys to this object to indicate that a status request is active.
 const pollTracker: Record<string, boolean> = {};
 
-export function useCorpus(corpusId: string) {
+export function useCorpus(id: string) {
   const corpusStore = useCorpusStore();
   const { spin } = useSpin();
   const matomo = useMatomo();
 
   const corpus = computed(() => {
-    corpusStore.loadCorpus(corpusId);
-    return corpusStore.corpora[corpusId];
+    corpusStore.loadCorpus(id);
+    return corpusStore.corpora[id];
   });
 
   const config = computed(() => {
-    corpusStore.loadConfig(corpusId);
+    corpusStore.loadConfig(id);
     return corpus.value?.config || undefined;
   });
   const configOptions = computed(getParsedConfig);
@@ -40,7 +40,7 @@ export function useCorpus(corpusId: string) {
   );
 
   const sources = computed(() => {
-    corpusStore.loadSources(corpusId);
+    corpusStore.loadSources(id);
     return corpus.value?.sources || [];
   });
   const hasSources = computed(() => sources.value.length > 0);
@@ -69,19 +69,19 @@ export function useCorpus(corpusId: string) {
 
   async function clearAnnotations() {
     matomo.value?.trackEvent("Corpus", "Annotation", "Clear");
-    await spin(api.clearAnnotations(corpusId), `${corpusId}/exports/list`);
-    await corpusStore.loadExports(corpusId, true);
+    await spin(api.clearAnnotations(id), `${id}/exports/list`);
+    await corpusStore.loadExports(id, true);
   }
 
   /** Exports sorted alphabetically by path, but "stats_*" first. */
   const exports = computed(() => {
-    corpusStore.loadExports(corpusId);
+    corpusStore.loadExports(id);
     return corpus.value?.exports || [];
   });
 
   async function saveConfigOptions(configOptions: ConfigOptions) {
-    const configYaml = makeConfig(corpusId, configOptions);
-    await corpusStore.uploadConfig(corpusId, configYaml);
+    const configYaml = makeConfig(id, configOptions);
+    await corpusStore.uploadConfig(id, configYaml);
   }
 
   function getParsedConfig() {
@@ -90,60 +90,54 @@ export function useCorpus(corpusId: string) {
       const parsed = parseConfig(config.value);
       return parsed;
     } catch (error) {
-      console.error(`Error parsing config for "${corpusId}":`, error);
+      console.error(`Error parsing config for "${id}":`, error);
     }
   }
 
   async function downloadSource(source: FileMeta, binary: boolean) {
     return spin(
-      api.downloadSources(corpusId, source.name, binary),
-      `${corpusId}/sources/${source.name}/raw`,
+      api.downloadSources(id, source.name, binary),
+      `${id}/sources/${source.name}/raw`,
     );
   }
 
   async function downloadPlaintext(source: FileMeta) {
     return spin(
-      api.downloadSourceText(corpusId, source.name),
-      `${corpusId}/sources/${source.name}/plain`,
+      api.downloadSourceText(id, source.name),
+      `${id}/sources/${source.name}/plain`,
     );
   }
 
   async function uploadSources(files: File[], onProgress?: ProgressHandler) {
     await spin(
-      api.uploadSources(corpusId, files, onProgress),
-      `${corpusId}/sources/upload`,
+      api.uploadSources(id, files, onProgress),
+      `${id}/sources/upload`,
     );
-    corpusStore.loadSources(corpusId, true);
+    corpusStore.loadSources(id, true);
   }
 
   async function deleteSource(source: FileMeta) {
-    await spin(
-      api.removeSource(corpusId, source.name),
-      `${corpusId}/sources/list`,
-    );
-    corpusStore.loadSources(corpusId, true);
+    await spin(api.removeSource(id, source.name), `${id}/sources/list`);
+    corpusStore.loadSources(id, true);
   }
 
   // Check status intermittently if active.
   watch(pollTick, async () => {
     // This composable can be active in multiple components with the same corpus id. Only send request once per corpus.
-    if (isJobRunning.value && !pollTracker[corpusId]) {
-      pollTracker[corpusId] = true;
-      await corpusStore.loadCorpus(corpusId, true);
-      pollTracker[corpusId] = false;
+    if (isJobRunning.value && !pollTracker[id]) {
+      pollTracker[id] = true;
+      await corpusStore.loadCorpus(id, true);
+      pollTracker[id] = false;
     }
   });
 
   function getDownloadFilename() {
-    return corpusId + ".zip";
+    return id + ".zip";
   }
 
   async function downloadResult() {
     matomo.value?.trackEvent("Corpus", "Download", "Export archive");
-    const data = await spin(
-      api.downloadExports(corpusId),
-      `${corpusId}/exports/download`,
-    );
+    const data = await spin(api.downloadExports(id), `${id}/exports/download`);
     downloadFile(data, getDownloadFilename());
   }
 
@@ -155,10 +149,7 @@ export function useCorpus(corpusId: string) {
   }
 
   async function loadResultFile(path: string) {
-    return spin(
-      api.downloadExportFile(corpusId, path),
-      `${corpusId}/exports/${path}`,
-    );
+    return spin(api.downloadExportFile(id, path), `${id}/exports/${path}`);
   }
 
   return {

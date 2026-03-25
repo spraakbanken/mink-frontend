@@ -19,17 +19,14 @@ export default function usePageTitle() {
     if (route.meta.createTitle) return route.meta.createTitle(route.params);
 
     // Look for resource id/name using route params
-    const resourceId =
-      (route.params.resourceId as string | undefined) ||
-      (route.params.corpusId as string | undefined);
-    const resourceName =
-      (resourceId && (await getName(resourceId))) || resourceId;
+    const id = route.params.id as string | undefined;
+    const resourceName = (id && (await getName(id))) || id;
     return resourceName;
   }
 
   /** Look for name in corpus config */
-  async function getName(corpusId: string): Promise<string | undefined> {
-    const config = corpusStore.corpora[corpusId]?.config;
+  async function getName(id: string): Promise<string | undefined> {
+    const config = corpusStore.corpora[id]?.config;
     if (!config) return;
 
     const { parseConfig } = await import("@/api/corpusConfig");
@@ -37,7 +34,7 @@ export default function usePageTitle() {
     try {
       parsedConfig = parseConfig(config);
     } catch (error) {
-      console.error(`Error parsing config for "${corpusId}":`, error);
+      console.error(`Error parsing config for "${id}":`, error);
       return;
     }
 

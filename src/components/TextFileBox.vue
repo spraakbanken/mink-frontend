@@ -51,7 +51,7 @@ async function download() {
 </script>
 
 <template>
-  <TextData v-if="text" :text="text" :language="language" />
+  <TextData v-if="text" :text :language />
 
   <div class="my-2 flex gap-2">
     <ActionButton

@@ -42,7 +42,7 @@ spin(loadPromise, "resources");
     </div>
 
     <div class="flex mt-2 text-sm">
-      <CorpusStateMessage :corpus-id="id" />
+      <CorpusStateMessage :id />
     </div>
   </PadButton>
 </template>

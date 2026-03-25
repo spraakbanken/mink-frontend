@@ -6,8 +6,8 @@ import PageTitle from "@/components/PageTitle.vue";
 import useMessenger from "@/message/messenger.composable";
 import useNotFound from "@/components/notfound.composable";
 
-const resourceId = useResourceIdParam();
-const { loadMetadata } = useMetadata(resourceId);
+const id = useResourceIdParam();
+const { loadMetadata } = useMetadata(id);
 const { alertError } = useMessenger();
 const { handle404 } = useNotFound();
 
@@ -20,10 +20,10 @@ const metadata = computedAsync(() =>
   <template v-if="metadata">
     <PageTitle subtitle="metadata">
       <router-link
-        :to="`/library/metadata/${resourceId}`"
+        :to="`/library/metadata/${id}`"
         class="text-inherit no-underline hover:underline"
       >
-        {{ resourceId }}
+        {{ id }}
       </router-link>
     </PageTitle>
 

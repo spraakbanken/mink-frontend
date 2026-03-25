@@ -6,25 +6,25 @@ import type { Metadata } from "@/store/resource.types";
 /** Tracks fully loaded resources, so subsequent load calls can be skipped. */
 const isFresh: Record<string, true> = {};
 
-export default function useMetadata(resourceId: string) {
+export default function useMetadata(id: string) {
   const resourceStore = useResourceStore();
   const { spin } = useSpin();
 
   /** Load data about a metadata and store it. */
   async function loadMetadata(): Promise<Metadata | undefined> {
     // Make sure the resource has an entry in the store.
-    const resource = (await resourceStore.loadResource(resourceId)) as Metadata;
+    const resource = (await resourceStore.loadResource(id)) as Metadata;
 
     // Skip if already loaded.
-    if (!isFresh[resourceId]) {
+    if (!isFresh[id]) {
       // Load remaining essential info, unless removed.
-      if (resourceId in resourceStore.metadatas) {
+      if (id in resourceStore.metadatas) {
         await loadYaml();
       }
     }
 
     // Remember to skip loading next time.
-    isFresh[resourceId] = true;
+    isFresh[id] = true;
 
     return resource;
   }
@@ -32,19 +32,16 @@ export default function useMetadata(resourceId: string) {
   /** Load and store the metadata yaml string. */
   async function loadYaml(): Promise<string | undefined> {
     const yaml = await spin(
-      api.downloadMetaataYaml(resourceId),
-      `resource/${resourceId}/metadata`,
+      api.downloadMetaataYaml(id),
+      `resource/${id}/metadata`,
     );
-    resourceStore.metadatas[resourceId]!.metadata = yaml;
+    resourceStore.metadatas[id]!.metadata = yaml;
     return yaml;
   }
 
   async function uploadYaml(yaml: string): Promise<void> {
-    await spin(
-      api.uploadMetadataYaml(resourceId, yaml),
-      `resource/${resourceId}/metadata`,
-    );
-    resourceStore.metadatas[resourceId]!.metadata = yaml;
+    await spin(api.uploadMetadataYaml(id, yaml), `resource/${id}/metadata`);
+    resourceStore.metadatas[id]!.metadata = yaml;
   }
 
   return {

@@ -7,10 +7,10 @@ import TerminalOutput from "@/components/TerminalOutput.vue";
 import { loadAnalysisMetadata } from "@/api/analysis";
 
 const props = defineProps<{
-  corpusId: string;
+  id: string;
 }>();
 
-const { configOptions } = useCorpus(props.corpusId);
+const { configOptions } = useCorpus(props.id);
 const { th, thCompare } = useLocale();
 
 const analyses = computedAsync(async () => {
@@ -27,7 +27,7 @@ const analyses = computedAsync(async () => {
 </script>
 
 <template>
-  <PendingContent :on="`${corpusId}/config`">
+  <PendingContent :on="`${id}/config`">
     <table class="w-full">
       <tbody>
         <tr>
@@ -51,7 +51,7 @@ const analyses = computedAsync(async () => {
           <th>{{ $t("identifier") }}</th>
           <td>
             <TerminalOutput class="inline leading-loose">
-              {{ corpusId }}
+              {{ id }}
             </TerminalOutput>
           </td>
         </tr>

@@ -15,7 +15,7 @@ import useSpin from "@/spin/spin.composable";
 export const useResourceStore = defineStore("resource", () => {
   const { spin } = useSpin();
 
-  const resourceIds = ref<string[]>([]);
+  const ids = ref<string[]>([]);
   const resources = reactive<Record<string, Resource>>({});
 
   const metadatas = computed<Record<string, Metadata>>(() =>
@@ -36,11 +36,11 @@ export const useResourceStore = defineStore("resource", () => {
 
   /** Load resource ids and update store to match. */
   async function loadResourceIds() {
-    const ids = await spin(api.listCorpora(), "resources");
-    resourceIds.value = ids;
+    const idsNew = await spin(api.listCorpora(), "resources");
+    ids.value = idsNew;
 
     // Forget absent resources
-    filterKeys(resources, ids);
+    filterKeys(resources, idsNew);
   }
 
   /** Load and store data about all the user's resources. */
@@ -48,11 +48,11 @@ export const useResourceStore = defineStore("resource", () => {
     // Skip if already loaded.
     if (!freshList) {
       const data = await spin(api.resourceInfoAll(), "resources");
-      const ids = data.resources.map((info) => info.resource.id);
-      resourceIds.value = ids;
+      const idsNew = data.resources.map((info) => info.resource.id);
+      ids.value = idsNew;
 
       // Forget old resources and store fresh info
-      filterKeys(resources, ids);
+      filterKeys(resources, idsNew);
       data.resources.forEach(storeResource);
       freshList = true;
     }
@@ -67,18 +67,15 @@ export const useResourceStore = defineStore("resource", () => {
 
   /** Load and store data about a given resource. */
   async function loadResource(
-    resourceId: string,
+    id: string,
     skipCache = false,
   ): Promise<Resource> {
-    if (skipCache) freshResources.delete(resourceId);
-    if (!freshResources.has(resourceId)) {
-      const data = await spin(
-        api.resourceInfoOne(resourceId),
-        `${resourceId}/info`,
-      );
+    if (skipCache) freshResources.delete(id);
+    if (!freshResources.has(id)) {
+      const data = await spin(api.resourceInfoOne(id), `${id}/info`);
       storeResource(data);
     }
-    return resources[resourceId];
+    return resources[id];
   }
 
   /** Store new state for a given resource. */
@@ -99,7 +96,7 @@ export const useResourceStore = defineStore("resource", () => {
     }
 
     const id = info.resource.id;
-    if (!resourceIds.value.includes(id)) resourceIds.value.push(id);
+    if (!ids.value.includes(id)) ids.value.push(id);
 
     // Merge with any existing record.
     resources[id] = {
@@ -116,7 +113,7 @@ export const useResourceStore = defineStore("resource", () => {
     loadResourceIds,
     loadResources,
     metadatas,
-    resourceIds,
+    ids,
     resources,
   };
 });

@@ -9,7 +9,7 @@ defineProps<{
 <template>
   <a
     :href="disabled ? undefined : href"
-    :target="target"
+    :target
     class="inline-block mink-button"
     :class="{ disabled }"
   >

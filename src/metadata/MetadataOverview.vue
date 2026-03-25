@@ -15,12 +15,12 @@ import HelpBox from "@/components/HelpBox.vue";
 import useMessenger from "@/message/messenger.composable";
 
 const resourceStore = useResourceStore();
-const resourceId = useResourceIdParam();
-const { uploadYaml } = useMetadata(resourceId);
+const id = useResourceIdParam();
+const { uploadYaml } = useMetadata(id);
 const { canAdmin, canWrite } = useAuth();
 const { alertError } = useMessenger();
 
-const metadata = computed(() => resourceStore.metadatas[resourceId]);
+const metadata = computed(() => resourceStore.metadatas[id]);
 
 async function uploadMetadata(files: File[]) {
   const yaml = await files[0]!.text();
@@ -35,9 +35,9 @@ async function uploadMetadata(files: File[]) {
         <p>Public id: {{ metadata.publicId }}</p>
 
         <RouteButton
-          :disabled="!canAdmin('corpora', resourceId)"
+          :disabled="!canAdmin('corpora', id)"
           class="button-danger"
-          :to="`/library/metadata/${resourceId}/delete`"
+          :to="`/library/metadata/${id}/delete`"
         >
           <PhTrash class="inline mb-1 mr-1" />
           {{ $t("delete") }}
@@ -45,12 +45,12 @@ async function uploadMetadata(files: File[]) {
       </LayoutBox>
 
       <LayoutBox :title="$t('sharing')">
-        <SharingPanel resource-type="corpora" :resourceId />
+        <SharingPanel resource-type="corpora" :id />
       </LayoutBox>
     </div>
 
     <div class="w-96 grow flex flex-col gap-4">
-      <PendingContent :on="`resource/${resourceId}/metadata`">
+      <PendingContent :on="`resource/${id}/metadata`">
         <LayoutBox title="content" class="flex-1">
           <TextData
             v-if="metadata.metadata"
@@ -58,7 +58,7 @@ async function uploadMetadata(files: File[]) {
           ></TextData>
 
           <FileUpload
-            v-if="canWrite('corpora', resourceId)"
+            v-if="canWrite('corpora', id)"
             :file-handler="uploadMetadata"
             :primary="!metadata.metadata"
             accept=".yaml,.yml"

@@ -18,17 +18,17 @@ import useSpin from "@/spin/spin.composable";
 import useMessenger from "@/message/messenger.composable";
 import SortableTable from "@/components/SortableTable.vue";
 
-const corpusId = useResourceIdParam();
+const id = useResourceIdParam();
 const { locale } = useI18n();
 const { filesize } = useLocale();
 const { exports, downloadResult, downloadResultFile, getDownloadFilename } =
-  useCorpus(corpusId);
+  useCorpus(id);
 const { spin } = useSpin();
 const { alertError } = useMessenger();
 
 /** Export type info */
 const exportTypes = computedAsync<ExportType[]>(
-  () => spin(api.sparvExports(), `${corpusId}/exports/list`),
+  () => spin(api.sparvExports(), `${id}/exports/list`),
   [],
 );
 
@@ -56,7 +56,7 @@ function identifyType(path: string): ExportType | undefined {
 </script>
 
 <template>
-  <PendingContent :on="`${corpusId}/exports/list`">
+  <PendingContent :on="`${id}/exports/list`">
     <LayoutSection :title="$t('result')">
       <HelpBox>
         <p>{{ $t("exports.help") }}</p>
@@ -69,7 +69,7 @@ function identifyType(path: string): ExportType | undefined {
         </aside>
       </HelpBox>
 
-      <PendingContent :on="`${corpusId}/exports/download`" class="my-4">
+      <PendingContent :on="`${id}/exports/download`" class="my-4">
         <LayoutBox v-if="exports && exports.length" :title="$t('file.archive')">
           {{ $t("download_export") }}:
           <ActionButton
@@ -111,7 +111,7 @@ function identifyType(path: string): ExportType | undefined {
               <td class="w-full">
                 {{ file.path.slice(0, file.path.lastIndexOf("/") + 1)
                 }}<router-link
-                  :to="`/library/corpus/${corpusId}/exports/${encodeURIComponent(file.path)}`"
+                  :to="`/library/corpus/${id}/exports/${encodeURIComponent(file.path)}`"
                 >
                   {{ file.name }}
                 </router-link>

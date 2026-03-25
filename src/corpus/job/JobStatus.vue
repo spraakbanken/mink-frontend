@@ -10,11 +10,11 @@ import { useCorpusStore } from "@/store/corpus.store";
 import useMessenger from "@/message/messenger.composable";
 
 const props = defineProps<{
-  corpusId: string;
+  id: string;
 }>();
 
 const { abortJob } = useCorpusStore();
-const { job, isJobRunning, hasError } = useCorpus(props.corpusId);
+const { job, isJobRunning, hasError } = useCorpus(props.id);
 const { formatDate } = useLocale();
 const { alertError } = useMessenger();
 
@@ -32,13 +32,13 @@ const isStarted = computed(
         <span v-if="job.current_process">
           {{ $t(`job.process.${job.current_process}`) }}:
         </span>
-        <JobStatusMessage :corpus-id="corpusId" />
+        <JobStatusMessage :id />
       </div>
 
       <ActionButton
         v-if="isJobRunning"
         class="button-danger ml-2"
-        @click="abortJob(corpusId).catch(alertError)"
+        @click="abortJob(id).catch(alertError)"
       >
         {{ $t("job.abort") }}
       </ActionButton>

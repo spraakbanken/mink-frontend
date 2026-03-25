@@ -32,7 +32,7 @@ const srcLight = computed(() =>
     <source media="(prefers-color-scheme: dark)" :srcset="srcLight" />
     <!-- Nudge the large version down a bit to compensate for the descender of the letter p in the slogan -->
     <img
-      :src="src"
+      :src
       :alt="$t('logo.alt')"
       :class="[large ? 'h-24 relative top-1' : 'h-16']"
     />

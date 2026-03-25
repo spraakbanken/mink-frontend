@@ -15,8 +15,8 @@ import ActionButton from "@/components/ActionButton.vue";
 import api from "@/api/api";
 import LayoutSection from "@/components/LayoutSection.vue";
 
-const corpusId = useResourceIdParam();
-const { config } = useCorpus(corpusId);
+const id = useResourceIdParam();
+const { config } = useCorpus(id);
 const { alertError } = useMessenger();
 const corpusStore = useCorpusStore();
 const { canWrite } = useAuth();
@@ -42,7 +42,7 @@ watchEffect(() => (input.value = config.value || ""));
 
 /** Save current input as config by uploading it */
 async function upload() {
-  await corpusStore.uploadConfig(corpusId, input.value).catch(alertError);
+  await corpusStore.uploadConfig(id, input.value).catch(alertError);
 }
 </script>
 
@@ -63,7 +63,7 @@ async function upload() {
       </i18n-t>
     </HelpBox>
 
-    <HelpBox v-if="!canWrite('corpora', corpusId)">
+    <HelpBox v-if="!canWrite('corpora', id)">
       <PhLock class="inline mb-0.5 mr-1" />
       {{ $t("resource.access_denied") }}
     </HelpBox>
@@ -81,11 +81,11 @@ async function upload() {
     </template>
 
     <LayoutBox>
-      <PendingContent :on="`${corpusId}/config`">
+      <PendingContent :on="`${id}/config`">
         <YamlEditor
           v-if="config"
           v-model="input"
-          :disabled="!canWrite('corpora', corpusId)"
+          :disabled="!canWrite('corpora', id)"
           :schema
           @validated="isValid = $event"
         >

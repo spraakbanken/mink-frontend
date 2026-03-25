@@ -12,28 +12,28 @@ import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
 
 const router = useRouter();
-const corpusId = useResourceIdParam();
+const id = useResourceIdParam();
 const { deleteCorpus } = useDeleteCorpus();
 const corpusStore = useCorpusStore();
 const { canAdmin } = useAuth();
 const { alertError } = useMessenger();
 
 async function doDelete() {
-  await deleteCorpus(corpusId).catch(alertError);
-  if (!(corpusId in corpusStore.corpora)) {
+  await deleteCorpus(id).catch(alertError);
+  if (!(id in corpusStore.corpora)) {
     router.push("/library");
   }
 }
 </script>
 
 <template>
-  <PendingContent :on="`${corpusId}`" blocking>
+  <PendingContent :on="`${id}`" blocking>
     <LayoutSection :title="$t('corpus.delete')">
       <p class="my-2">{{ $t("resource.delete.ask") }}</p>
 
       <div>
         <ActionButton
-          :disabled="!canAdmin('corpora', corpusId)"
+          :disabled="!canAdmin('corpora', id)"
           class="button-danger mr-4"
           @click="doDelete"
         >
@@ -41,7 +41,7 @@ async function doDelete() {
           {{ $t("corpus.delete") }}
         </ActionButton>
 
-        <RouteButton :to="`/library/corpus/${corpusId}`">{{
+        <RouteButton :to="`/library/corpus/${id}`">{{
           $t("cancel")
         }}</RouteButton>
       </div>

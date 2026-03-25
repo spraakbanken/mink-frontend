@@ -19,7 +19,7 @@ export default function useCreateCorpus() {
 
   async function createFromUpload(files: File[]) {
     if (!files[0]) throw new RangeError("No files");
-    const corpusId = await api.createCorpus();
+    const id = await api.createCorpus();
     // Have the new corpus included in further API calls.
     await refreshAuth();
 
@@ -31,8 +31,8 @@ export default function useCreateCorpus() {
 
     // Wait for sources and config to be uploaded in parallel.
     const results = await Promise.allSettled([
-      api.uploadSources(corpusId, files),
-      saveConfigOptions(config, corpusId),
+      api.uploadSources(id, files),
+      saveConfigOptions(config, id),
     ]);
 
     // If any error, abort and delete the corpus draft.
@@ -41,7 +41,7 @@ export default function useCreateCorpus() {
     );
     if (rejections.length) {
       // Discard the empty corpus.
-      await deleteCorpus(corpusId);
+      await deleteCorpus(id);
 
       // Throw one or multiple errors
       if (rejections.length == 1) throw rejections[0].reason;
@@ -49,16 +49,13 @@ export default function useCreateCorpus() {
     }
 
     // Visit new corpus when successfully created.
-    router.push(`/library/corpus/${corpusId}`);
+    router.push(`/library/corpus/${id}`);
   }
 
-  // Like the `saveConfigOptions` in `corpus.composable.ts` but takes `corpusId` as argument.
-  async function saveConfigOptions(
-    configOptions: ConfigOptions,
-    corpusId: string,
-  ) {
-    const configYaml = makeConfig(corpusId, configOptions);
-    await corpusStore.uploadConfig(corpusId, configYaml);
+  // Like the `saveConfigOptions` in `corpus.composable.ts` but takes `id` as argument.
+  async function saveConfigOptions(configOptions: ConfigOptions, id: string) {
+    const configYaml = makeConfig(id, configOptions);
+    await corpusStore.uploadConfig(id, configYaml);
   }
 
   async function createFromConfig(
@@ -76,22 +73,22 @@ export default function useCreateCorpus() {
     };
 
     // Create an empty corpus. If it fails, abort.
-    const corpusId = await api.createCorpus();
+    const id = await api.createCorpus();
     // Have the new corpus included in further API calls.
     await refreshAuth();
 
     // Upload the basic config.
     try {
-      await saveConfigOptions(config, corpusId);
+      await saveConfigOptions(config, id);
     } catch (e) {
       // Discard the empty corpus.
-      await deleteCorpus(corpusId);
+      await deleteCorpus(id);
       // Rethrow error
       throw e;
     }
 
     // Show the created corpus.
-    router.push(`/library/corpus/${corpusId}`);
+    router.push(`/library/corpus/${id}`);
   }
 
   return {

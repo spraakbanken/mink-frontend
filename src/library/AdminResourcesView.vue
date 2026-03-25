@@ -16,7 +16,7 @@ import useMessenger from "@/message/messenger.composable";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
-const { resourceIds, resources } = storeToRefs(resourceStore);
+const { ids, resources } = storeToRefs(resourceStore);
 const { adminMode } = useAdmin();
 const { alertError } = useMessenger();
 
@@ -28,9 +28,9 @@ watchImmediate(adminMode, () => {
   else if (adminMode.value === false) router.push("/library");
 });
 
-async function load(resourceId: string) {
-  await resourceStore.loadResource(resourceId).catch(alertError);
-  previewToggles[resourceId] = true;
+async function load(id: string) {
+  await resourceStore.loadResource(id).catch(alertError);
+  previewToggles[id] = true;
 }
 </script>
 
@@ -44,48 +44,36 @@ async function load(resourceId: string) {
 
     <LayoutSection>
       <PendingContent on="resources" class="my-4 flex flex-col gap-6">
-        <PendingContent
-          v-for="resourceId of resourceIds"
-          :key="resourceId"
-          :on="`${resourceId}/info`"
-        >
+        <PendingContent v-for="id of ids" :key="id" :on="`${id}/info`">
           <div class="flex items-baseline gap-2">
-            <router-link :to="`/library/resource/${resourceId}`">
+            <router-link :to="`/library/resource/${id}`">
               <header class="text-lg font-semibold font-mono">
-                {{ resourceId }}
+                {{ id }}
               </header>
             </router-link>
 
-            <ActionButton
-              v-if="!(resourceId in resources)"
-              @click.stop="load(resourceId)"
-            >
+            <ActionButton v-if="!(id in resources)" @click.stop="load(id)">
               {{ $t("load") }}
             </ActionButton>
             <ActionButton
-              v-else-if="previewToggles[resourceId]"
-              @click.stop="previewToggles[resourceId] = false"
+              v-else-if="previewToggles[id]"
+              @click.stop="previewToggles[id] = false"
             >
               {{ $t("expand.close") }}
             </ActionButton>
-            <ActionButton
-              v-else
-              @click.stop="previewToggles[resourceId] = true"
-            >
+            <ActionButton v-else @click.stop="previewToggles[id] = true">
               {{ $t("expand.open") }}
             </ActionButton>
 
             <!-- Show a few selected details if loaded -->
             <div class="ml-4">
-              <div v-if="resourceId in resources" class="flex gap-4">
-                <span>{{ resources[resourceId].owner.name }}</span>
+              <div v-if="id in resources" class="flex gap-4">
+                <span>{{ resources[id].owner.name }}</span>
                 <span
                   v-if="
-                    isCorpus(resources[resourceId]) &&
-                    resources[resourceId].job &&
-                    Object.values(resources[resourceId].job.status).includes(
-                      'error',
-                    )
+                    isCorpus(resources[id]) &&
+                    resources[id].job &&
+                    Object.values(resources[id].job.status).includes('error')
                   "
                 >
                   {{ $t("job.status.error") }}
@@ -98,9 +86,9 @@ async function load(resourceId: string) {
           </div>
 
           <AdminResourcePreview
-            v-if="previewToggles[resourceId] && resourceId in resources"
-            :resource-id="resourceId"
-            :resource="resources[resourceId]"
+            v-if="previewToggles[id] && id in resources"
+            :id
+            :resource="resources[id]"
           />
         </PendingContent>
       </PendingContent>

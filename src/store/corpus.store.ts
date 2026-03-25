@@ -26,56 +26,47 @@ export const useCorpusStore = defineStore("corpus", () => {
   const hasCorpora = computed(() => !!Object.keys(corpora).length);
 
   /** Load and store info for a corpus resource. */
-  async function loadCorpus(
-    corpusId: string,
-    skipCache = false,
-  ): Promise<Corpus> {
-    const resource = await loadResource(corpusId, skipCache);
+  async function loadCorpus(id: string, skipCache = false): Promise<Corpus> {
+    const resource = await loadResource(id, skipCache);
     return resource as Corpus;
   }
 
   /** Fetch and store the config of a corpus. */
   async function loadConfig(
-    corpusId: string,
+    id: string,
     skipCache = false,
   ): Promise<string | undefined> {
-    if (skipCache) freshConfigs.delete(corpusId);
+    if (skipCache) freshConfigs.delete(id);
 
-    const corpus = await loadCorpus(corpusId);
+    const corpus = await loadCorpus(id);
 
-    if (!freshConfigs.has(corpusId)) {
-      const config = await spin(
-        api.downloadConfig(corpusId),
-        `${corpusId}/config`,
-      );
+    if (!freshConfigs.has(id)) {
+      const config = await spin(api.downloadConfig(id), `${id}/config`);
       corpus.config = config;
-      freshConfigs.add(corpusId);
+      freshConfigs.add(id);
     }
     return corpus.config;
   }
 
-  async function uploadConfig(corpusId: string, configYaml: string) {
-    await spin(api.uploadConfig(corpusId, configYaml), `${corpusId}/config`);
+  async function uploadConfig(id: string, configYaml: string) {
+    await spin(api.uploadConfig(id, configYaml), `${id}/config`);
     // Backend may modify uploaded config, so fetch the real one
-    loadConfig(corpusId, true);
+    loadConfig(id, true);
     // Get new title
-    loadCorpus(corpusId, true);
+    loadCorpus(id, true);
   }
 
   async function loadSources(
-    corpusId: string,
+    id: string,
     skipCache = false,
   ): Promise<FileMeta[]> {
     // api.resourceInfoOne() is used first through loadCorpus() and then directly.
     // But in practice it will only be called once, because `skipCache` is only true after uploading,
     // in which case loadCorpus() will use a warm cache.
-    const corpus = await loadCorpus(corpusId);
+    const corpus = await loadCorpus(id);
 
     if (skipCache) {
-      const info = await spin(
-        api.resourceInfoOne(corpusId),
-        `${corpusId}/sources/list`,
-      );
+      const info = await spin(api.resourceInfoOne(id), `${id}/sources/list`);
       corpus.sources = info.resource.source_files.sort((a, b) =>
         a.name.localeCompare(b.name),
       );
@@ -84,67 +75,58 @@ export const useCorpusStore = defineStore("corpus", () => {
     return corpus.sources;
   }
 
-  async function runJob(corpusId: string) {
+  async function runJob(id: string) {
     matomo.value?.trackEvent("Corpus", "Annotation", "Start");
-    const info = await spin(api.runSparv(corpusId), `${corpusId}/job/sparv`);
-    corpora.value[corpusId]!.job = info.job;
+    const info = await spin(api.runSparv(id), `${id}/job/sparv`);
+    corpora.value[id]!.job = info.job;
   }
 
-  async function installKorp(corpusId: string) {
+  async function installKorp(id: string) {
     matomo.value?.trackEvent("Corpus", "Tool install", "Korp");
-    const info = await spin(
-      api.installKorp(corpusId),
-      `${corpusId}/job/install/korp`,
-    );
-    corpora.value[corpusId]!.job = info.job;
+    const info = await spin(api.installKorp(id), `${id}/job/install/korp`);
+    corpora.value[id]!.job = info.job;
   }
 
-  async function installStrix(corpusId: string) {
+  async function installStrix(id: string) {
     matomo.value?.trackEvent("Corpus", "Tool install", "Strix");
-    const info = await spin(
-      api.installStrix(corpusId),
-      `${corpusId}/job/install/strix`,
-    );
-    corpora.value[corpusId]!.job = info.job;
+    const info = await spin(api.installStrix(id), `${id}/job/install/strix`);
+    corpora.value[id]!.job = info.job;
   }
 
-  async function uninstallKorp(corpusId: string) {
+  async function uninstallKorp(id: string) {
     matomo.value?.trackEvent("Corpus", "Tool uninstall", "Korp");
-    await spin(api.uninstallKorp(corpusId), `${corpusId}/job/install/korp`);
+    await spin(api.uninstallKorp(id), `${id}/job/install/korp`);
     // Get updated job info
-    await loadCorpus(corpusId, true);
+    await loadCorpus(id, true);
   }
 
-  async function uninstallStrix(corpusId: string) {
+  async function uninstallStrix(id: string) {
     matomo.value?.trackEvent("Corpus", "Tool uninstall", "Strix");
-    await spin(api.uninstallStrix(corpusId), `${corpusId}/job/install/strix`);
+    await spin(api.uninstallStrix(id), `${id}/job/install/strix`);
     // Get updated job info
-    await loadCorpus(corpusId, true);
+    await loadCorpus(id, true);
   }
 
-  async function abortJob(corpusId: string) {
+  async function abortJob(id: string) {
     matomo.value?.trackEvent("Corpus", "Annotation", "Abort");
-    await spin(api.abortJob(corpusId), `${corpusId}/job/abort`);
-    await loadCorpus(corpusId, true);
+    await spin(api.abortJob(id), `${id}/job/abort`);
+    await loadCorpus(id, true);
   }
 
   async function loadExports(
-    corpusId: string,
+    id: string,
     skipCache = false,
   ): Promise<FileMeta[] | undefined> {
-    if (skipCache) freshExports.delete(corpusId);
-    const corpus = await loadCorpus(corpusId);
+    if (skipCache) freshExports.delete(id);
+    const corpus = await loadCorpus(id);
 
-    if (!freshExports.has(corpusId)) {
-      const exports = await spin(
-        api.listExports(corpusId),
-        `${corpusId}/exports/list`,
-      );
+    if (!freshExports.has(id)) {
+      const exports = await spin(api.listExports(id), `${id}/exports/list`);
       // Sort alphabetically by path, but "stats_*" first
       corpus.exports = exports
         .sort((a, b) => a.path.localeCompare(b.path))
         .sort((a, b) => b.path.indexOf("stats_") - a.path.indexOf("stats_"));
-      freshExports.add(corpusId);
+      freshExports.add(id);
     }
 
     return corpus.exports;

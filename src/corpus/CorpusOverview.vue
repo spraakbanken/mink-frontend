@@ -13,26 +13,26 @@ import RouteButton from "@/components/RouteButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import { useAuth } from "@/auth/auth.composable";
 
-const corpusId = useResourceIdParam();
-const { isConfigValid } = useCorpus(corpusId);
+const id = useResourceIdParam();
+const { isConfigValid } = useCorpus(id);
 const { canWrite } = useAuth();
 </script>
 
 <template>
   <div class="flex flex-wrap gap-4">
     <div class="w-full">
-      <CorpusStateHelp :corpus-id="corpusId" />
+      <CorpusStateHelp :id />
     </div>
 
     <div class="w-96 grow flex flex-col gap-4">
       <LayoutBox :title="$t('configuration')">
-        <ConfigPanel :corpus-id="corpusId" />
+        <ConfigPanel :id />
         <template #controls>
           <RouteButton
-            :to="`/library/corpus/${corpusId}/config`"
+            :to="`/library/corpus/${id}/config`"
             :class="{ 'button-primary': !isConfigValid }"
           >
-            <template v-if="canWrite('corpora', corpusId)">
+            <template v-if="canWrite('corpora', id)">
               <PhPencilSimple weight="bold" class="inline mb-1 mr-1" />
               {{ $t("edit") }}
             </template>
@@ -44,11 +44,11 @@ const { canWrite } = useAuth();
       </LayoutBox>
 
       <LayoutBox :title="$t('sharing')">
-        <SharingPanel resource-type="corpora" :resource-id="corpusId" />
+        <SharingPanel resource-type="corpora" :id />
       </LayoutBox>
 
       <LayoutBox :title="$t('sources')">
-        <SourcesPanel :corpus-id="corpusId" />
+        <SourcesPanel :id />
       </LayoutBox>
     </div>
 
@@ -57,15 +57,15 @@ const { canWrite } = useAuth();
         :title="$t('job.status')"
         class="bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
       >
-        <JobStatus :corpus-id="corpusId" />
+        <JobStatus :id />
       </LayoutBox>
 
       <LayoutBox :title="$t('analysis')">
-        <AnalysisPanel :corpus-id="corpusId" />
+        <AnalysisPanel :id />
       </LayoutBox>
 
       <LayoutBox :title="$t('exports.tools')">
-        <ExplorePanel :corpus-id="corpusId" />
+        <ExplorePanel :id />
       </LayoutBox>
     </div>
   </div>

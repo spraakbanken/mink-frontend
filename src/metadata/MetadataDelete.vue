@@ -11,27 +11,27 @@ import { useResourceStore } from "@/store/resource.store";
 import { useAuth } from "@/auth/auth.composable";
 
 const router = useRouter();
-const resourceId = useMetadataIdParam();
+const id = useMetadataIdParam();
 const { deleteMetadata } = useDeleteMetadata();
 const resourceStore = useResourceStore();
 const { canAdmin } = useAuth();
 
 async function doDelete() {
-  await deleteMetadata(resourceId);
-  if (!resourceStore.resourceIds.includes(resourceId)) {
+  await deleteMetadata(id);
+  if (!resourceStore.ids.includes(id)) {
     router.push("/library");
   }
 }
 </script>
 
 <template>
-  <PendingContent :on="`resource/${resourceId}`" blocking>
+  <PendingContent :on="`resource/${id}`" blocking>
     <LayoutSection :title="$t('metadata.delete')">
       <p class="my-2">{{ $t("resource.delete.ask") }}</p>
 
       <div>
         <ActionButton
-          :disabled="!canAdmin('corpora', resourceId)"
+          :disabled="!canAdmin('corpora', id)"
           class="button-danger mr-4"
           @click="doDelete"
         >
@@ -39,7 +39,7 @@ async function doDelete() {
           {{ $t("metadata.delete") }}
         </ActionButton>
 
-        <RouteButton :to="`/library/metadata/${resourceId}`">{{
+        <RouteButton :to="`/library/metadata/${id}`">{{
           $t("cancel")
         }}</RouteButton>
       </div>

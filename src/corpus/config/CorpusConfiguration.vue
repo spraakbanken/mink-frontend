@@ -55,8 +55,8 @@ type Form = {
 };
 
 const router = useRouter();
-const corpusId = useResourceIdParam();
-const { config, saveConfigOptions, extensions } = useCorpus(corpusId);
+const id = useResourceIdParam();
+const { config, saveConfigOptions, extensions } = useCorpus(id);
 const { alert, alertError } = useMessenger();
 const { t } = useI18n();
 const { th, thCompare } = useLocale();
@@ -127,7 +127,7 @@ function getParsedConfig() {
     return parsed;
   } catch (error) {
     alert(t("corpus.config.parse.error"), "error");
-    console.error(`Error parsing config for "${corpusId}":`, error);
+    console.error(`Error parsing config for "${id}":`, error);
   }
 }
 
@@ -155,7 +155,7 @@ async function submit(fields: Form) {
 
   try {
     await saveConfigOptions(configNew);
-    router.push(`/library/corpus/${corpusId}`);
+    router.push(`/library/corpus/${id}`);
   } catch (e) {
     if (e instanceof TypeError) {
       // Error from config serialization
@@ -166,7 +166,7 @@ async function submit(fields: Form) {
 </script>
 
 <template>
-  <PendingContent :on="`${corpusId}/config`">
+  <PendingContent :on="`${id}/config`">
     <LayoutSection :title="$t('configuration')">
       <TabsBar
         :tabs="[
@@ -183,7 +183,7 @@ async function submit(fields: Form) {
           id="corpus-config"
           v-slot="{ value }"
           type="form"
-          :disabled="!canWrite('corpora', corpusId)"
+          :disabled="!canWrite('corpora', id)"
           :submit-label="$t('save')"
           :submit-attrs="{
             inputClass: 'mink-button button-primary',
@@ -233,7 +233,7 @@ async function submit(fields: Form) {
               type="text"
               name="identifier"
               disabled
-              :value="corpusId"
+              :value="id"
               :help="$t('metadata.identifier.help')"
             >
               <template #label>
@@ -242,7 +242,7 @@ async function submit(fields: Form) {
               </template>
               <template #input>
                 <TerminalOutput class="inline leading-loose">
-                  {{ corpusId }}
+                  {{ id }}
                 </TerminalOutput>
               </template>
             </FormKit>
@@ -329,9 +329,7 @@ async function submit(fields: Form) {
               <HelpBox>
                 <i18n-t keypath="config.analyses.info" scope="global">
                   <template #custom_config>
-                    <router-link
-                      :to="`/library/corpus/${corpusId}/config/custom`"
-                    >
+                    <router-link :to="`/library/corpus/${id}/config/custom`">
                       {{ $t("config.custom") }}
                     </router-link>
                   </template>
@@ -383,13 +381,13 @@ async function submit(fields: Form) {
       </FormKitWrapper>
 
       <div class="flex justify-center items-baseline gap-4">
-        <RouteButton :to="`/library/corpus/${corpusId}/config/custom`">
+        <RouteButton :to="`/library/corpus/${id}/config/custom`">
           {{ $t("config.custom") }}
         </RouteButton>
 
         <RouteButton
-          :disabled="!canAdmin('corpora', corpusId)"
-          :to="`/library/corpus/${corpusId}/delete`"
+          :disabled="!canAdmin('corpora', id)"
+          :to="`/library/corpus/${id}/delete`"
           class="button-danger"
         >
           <PhTrash weight="fill" class="inline mb-1 mr-1" />

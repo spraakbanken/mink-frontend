@@ -20,16 +20,16 @@ type Form = {
 };
 
 async function submit(fields: Form) {
-  const resourceId = await spin(
+  const id = await spin(
     api.createMetadata(fields.publicId).catch(alertError),
     "create",
   );
-  if (!resourceId) return;
+  if (!id) return;
 
   // Have the new corpus included in further API calls.
   await refreshAuth();
 
-  router.push(`/library/metadata/${resourceId}`);
+  router.push(`/library/metadata/${id}`);
 }
 </script>
 

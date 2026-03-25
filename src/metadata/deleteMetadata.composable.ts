@@ -8,9 +8,9 @@ export default function useDeleteMetadata() {
   const { spin } = useSpin();
   const { loadResourceIds } = useResourceStore();
 
-  async function doDeleteMetadata(resourceId: string): Promise<void> {
+  async function doDeleteMetadata(id: string): Promise<void> {
     // Delete resource in the backend.
-    await api.removeMetadata(resourceId);
+    await api.removeMetadata(id);
     // The backend will have updated the remote JWT, so refresh our copy.
     // The backend uses the resource list within it when listing available resources.
     await refreshAuth();
@@ -20,9 +20,9 @@ export default function useDeleteMetadata() {
   /**
    * Delete a metadata resource in the backend and refresh resources.
    */
-  async function deleteMetadata(resourceId: string) {
+  async function deleteMetadata(id: string) {
     // Wrap deletion as well as refreshing in spin, for visual feedback.
-    return spin(doDeleteMetadata(resourceId), `resource/${resourceId}`);
+    return spin(doDeleteMetadata(id), `resource/${id}`);
   }
 
   return { deleteMetadata };

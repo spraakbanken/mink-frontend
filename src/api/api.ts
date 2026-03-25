@@ -105,41 +105,41 @@ class MinkApi {
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/remove-corpus-delete */
-  async removeCorpus(corpusId: string) {
+  async removeCorpus(id: string) {
     const response = await this.axios.delete<MinkResponse>("remove-corpus", {
-      params: { corpus_id: corpusId },
+      params: { corpus_id: id },
     });
     return response.data;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/remove-metadata-delete */
-  async removeMetadata(resourceId: string) {
+  async removeMetadata(id: string) {
     const response = await this.axios.delete<MinkResponse>("remove-metadata", {
-      params: { corpus_id: resourceId },
+      params: { corpus_id: id },
     });
     return response.data;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Config/operation/upload-config-put */
-  async uploadConfig(corpusId: string, config: string) {
+  async uploadConfig(id: string, config: string) {
     const formData = filesFormData("file", yamlAsFile("config.yaml", config));
     const response = await this.axios.put<MinkResponse>(
       "upload-config",
       formData,
-      { params: { corpus_id: corpusId } },
+      { params: { corpus_id: id } },
     );
     return response.data;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Sources/operation/download-sources-get */
   async downloadSources<B extends boolean>(
-    corpusId: string,
+    id: string,
     filename: string,
     binary: B,
   ) {
     const response = await this.axios
       .get<B extends true ? Blob : string>("download-sources", {
-        params: { corpus_id: corpusId, file: filename, zip: false },
+        params: { corpus_id: id, file: filename, zip: false },
         responseType: binary ? "blob" : "text",
       })
       .catch(rethrowBlobError);
@@ -147,25 +147,21 @@ class MinkApi {
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Exports/operation/download-source-text-get */
-  async downloadSourceText(corpusId: string, filename: string) {
+  async downloadSourceText(id: string, filename: string) {
     const response = await this.axios.get<string>("download-source-text", {
-      params: { corpus_id: corpusId, file: filename },
+      params: { corpus_id: id, file: filename },
     });
     return response.data;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Sources/operation/upload-sources-put */
-  async uploadSources(
-    corpusId: string,
-    files: File[],
-    onProgress?: ProgressHandler,
-  ) {
+  async uploadSources(id: string, files: File[], onProgress?: ProgressHandler) {
     const formData = filesFormData("files", ...files);
     const response = await this.axios.put<MinkResponse>(
       "upload-sources",
       formData,
       {
-        params: { corpus_id: corpusId },
+        params: { corpus_id: id },
         onUploadProgress: onProgress,
       },
     );
@@ -173,18 +169,18 @@ class MinkApi {
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Sources/operation/remove-sources-delete */
-  async removeSource(corpusId: string, name: string) {
+  async removeSource(id: string, name: string) {
     const response = await this.axios.delete<MinkResponse>("remove-sources", {
-      params: { corpus_id: corpusId, remove: name },
+      params: { corpus_id: id, remove: name },
     });
     return response.data;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Config/operation/download-config-get */
-  downloadConfig = deduplicateRequest(async (corpusId: string) => {
+  downloadConfig = deduplicateRequest(async (id: string) => {
     const response = await this.axios
       .get<string>("download-config", {
-        params: { corpus_id: corpusId },
+        params: { corpus_id: id },
       })
       .catch((error) => {
         // 404 means no config which is fine, rethrow other errors.
@@ -195,21 +191,21 @@ class MinkApi {
   });
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/upload-metadata-yaml-put */
-  async uploadMetadataYaml(resourceId: string, yaml: string) {
+  async uploadMetadataYaml(id: string, yaml: string) {
     const formData = filesFormData("file", yamlAsFile("metadata.yaml", yaml));
     const response = await this.axios.put<MinkResponse>(
       "upload-metadata-yaml",
       formData,
-      { params: { corpus_id: resourceId } },
+      { params: { corpus_id: id } },
     );
     return response.data;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/download-metadata-yaml-get */
-  async downloadMetaataYaml(resourceId: string) {
+  async downloadMetaataYaml(id: string) {
     const response = await this.axios
       .get<string>("download-metadata-yaml", {
-        params: { corpus_id: resourceId },
+        params: { corpus_id: id },
       })
       .catch((error) => {
         // 404 means no metadata yaml which is fine, rethrow other errors.
@@ -227,21 +223,21 @@ class MinkApi {
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/resource-info-get */
-  resourceInfoOne = deduplicateRequest(async (corpusId: string) => {
+  resourceInfoOne = deduplicateRequest(async (id: string) => {
     const response = await this.axios.get<MinkResponse<ResourceInfoOneData>>(
       "resource-info",
-      { params: { corpus_id: corpusId } },
+      { params: { corpus_id: id } },
     );
     return response.data;
   });
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/run-sparv-put */
-  async runSparv(corpusId: string) {
+  async runSparv(id: string) {
     const response = await this.axios.put<MinkResponse<ResourceInfoOneData>>(
       "run-sparv",
       null,
       {
-        params: { corpus_id: corpusId },
+        params: { corpus_id: id },
         // Errors are okay.
         validateStatus: () => true,
       },
@@ -250,38 +246,38 @@ class MinkApi {
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/abort-job-post */
-  async abortJob(corpusId: string) {
+  async abortJob(id: string) {
     const response = await this.axios.post<MinkResponse<JobStateMap>>(
       "abort-job",
       null,
-      { params: { corpus_id: corpusId } },
+      { params: { corpus_id: id } },
     );
     return response.data;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/clear-annotations-delete */
-  async clearAnnotations(corpusId: string) {
+  async clearAnnotations(id: string) {
     const response = await this.axios.delete<MinkResponse>(
       "clear-annotations",
-      { params: { corpus_id: corpusId } },
+      { params: { corpus_id: id } },
     );
     return response.data;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Exports/operation/list-exports-get */
-  async listExports(corpusId: string) {
+  async listExports(id: string) {
     const response = await this.axios.get<MinkResponse<ListExportsData>>(
       "list-exports",
-      { params: { corpus_id: corpusId } },
+      { params: { corpus_id: id } },
     );
     return response.data.contents;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Exports/operation/download-exports-get */
-  async downloadExports(corpusId: string) {
+  async downloadExports(id: string) {
     const response = await this.axios
       .get<Blob>("download-exports", {
-        params: { corpus_id: corpusId },
+        params: { corpus_id: id },
         responseType: "blob",
       })
       .catch(rethrowBlobError);
@@ -289,10 +285,10 @@ class MinkApi {
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Exports/operation/download-exports-get */
-  async downloadExportFile(corpusId: string, path: string) {
+  async downloadExportFile(id: string, path: string) {
     const response = await this.axios
       .get<Blob>("download-exports", {
-        params: { corpus_id: corpusId, file: path, zip: false },
+        params: { corpus_id: id, file: path, zip: false },
         responseType: "text",
       })
       .catch(rethrowBlobError);
@@ -300,37 +296,37 @@ class MinkApi {
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/install-korp-put */
-  async installKorp(corpusId: string) {
+  async installKorp(id: string) {
     const response = await this.axios.put<MinkResponse<ResourceInfoOneData>>(
       "install-korp",
       null,
-      { params: { resource_id: corpusId } },
+      { params: { resource_id: id } },
     );
     return response.data;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/install-strix-put */
-  async installStrix(corpusId: string) {
+  async installStrix(id: string) {
     const response = await this.axios.put<MinkResponse<ResourceInfoOneData>>(
       "install-strix",
       null,
-      { params: { resource_id: corpusId } },
+      { params: { resource_id: id } },
     );
     return response.data;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/uninstall-korp-delete */
-  async uninstallKorp(corpusId: string) {
+  async uninstallKorp(id: string) {
     const response = await this.axios.delete<MinkResponse>("uninstall-korp", {
-      params: { resource_id: corpusId },
+      params: { resource_id: id },
     });
     return response.data;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Process-Corpus/operation/uninstall-strix-delete */
-  async uninstallStrix(corpusId: string) {
+  async uninstallStrix(id: string) {
     const response = await this.axios.delete<MinkResponse>("uninstall-strix", {
-      params: { resource_id: corpusId },
+      params: { resource_id: id },
     });
     return response.data;
   }

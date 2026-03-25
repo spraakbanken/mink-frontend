@@ -2,11 +2,11 @@
 import { useCorpusState } from "@/corpus/corpusState.composable";
 
 const props = defineProps<{
-  corpusId: string;
+  id: string;
 }>();
 
 const { corpusState, isIncomplete, isError, isReady } = useCorpusState(
-  props.corpusId,
+  props.id,
 );
 </script>
 

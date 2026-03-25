@@ -10,11 +10,11 @@ import useLocale from "@/i18n/locale.composable";
 import useMessenger from "@/message/messenger.composable";
 
 const props = defineProps<{
-  corpusId: string;
+  id: string;
   path: string;
 }>();
 
-const { exports, loadResultFile } = useCorpus(props.corpusId);
+const { exports, loadResultFile } = useCorpus(props.id);
 const { filesize, formatDate } = useLocale();
 const { alert, alertError } = useMessenger();
 const { t } = useI18n();
@@ -54,7 +54,7 @@ async function loadFile() {
         <tr>
           <th>{{ $t("source.content") }}</th>
           <td>
-            <PendingContent :on="`${corpusId}/exports/${path}`">
+            <PendingContent :on="`${id}/exports/${path}`">
               <TextFileBox
                 :load="loadFile"
                 :filename="metadata.name"

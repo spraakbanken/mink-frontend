@@ -4,11 +4,11 @@ import { computed } from "vue";
 import { useCorpus } from "../corpus.composable";
 
 const props = defineProps<{
-  corpusId: string;
+  id: string;
 }>();
 
 const { t } = useI18n();
-const { currentStatus } = useCorpus(props.corpusId);
+const { currentStatus } = useCorpus(props.id);
 
 const status = computed(() => currentStatus.value);
 const message = computed(() => t(`job.status.${status.value || "none"}`));

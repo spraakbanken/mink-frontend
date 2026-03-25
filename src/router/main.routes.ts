@@ -31,7 +31,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     // Redirects to the resource page for an unknown resource type.
-    path: "/library/resource/:resourceId",
+    path: "/library/resource/:id",
     component: ResourceRedirectView,
     meta: { protected: true },
   },

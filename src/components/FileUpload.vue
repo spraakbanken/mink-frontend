@@ -86,10 +86,10 @@ function onProgress(progressEvent: AxiosProgressEvent) {
             <input
               id="file-input"
               type="file"
-              class="hidden"
-              :multiple="multiple"
-              :accept="accept"
+              :accept
+              :multiple
               @change="handleFileInput($event, handleUpload)"
+              class="hidden"
             />
 
             <ProgressBar

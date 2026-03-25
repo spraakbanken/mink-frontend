@@ -67,9 +67,9 @@ async function fileHandler(files: File[]) {
 
       <PendingContent on="resources" class="my-4 flex flex-wrap gap-4">
         <CorpusButton
-          v-for="(corpus, corpusId) of corpusStore.corpora"
-          :id="corpusId"
-          :key="corpusId"
+          v-for="(corpus, id) of corpusStore.corpora"
+          :key="id"
+          :id
         />
 
         <PadButton to="/library/corpus/new">

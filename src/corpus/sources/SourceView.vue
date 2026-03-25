@@ -12,12 +12,12 @@ import { READABLE_FORMATS, type FileFormat } from "@/api/corpusConfig";
 import useMessenger from "@/message/messenger.composable";
 
 const props = defineProps<{
-  corpusId: string;
+  id: string;
   filename: string;
 }>();
 
 const { downloadSource, downloadPlaintext, jobState, sources } = useCorpus(
-  props.corpusId,
+  props.id,
 );
 const { filesize, formatDate } = useLocale();
 const { alert, alertError } = useMessenger();
@@ -72,7 +72,7 @@ async function loadPlain() {
         <tr>
           <th>{{ $t("source.content") }}</th>
           <td>
-            <PendingContent :on="`${corpusId}/sources/${filename}/raw`">
+            <PendingContent :on="`${id}/sources/${filename}/raw`">
               <TextFileBox
                 :load="loadRaw"
                 :filename="metadata.name"
@@ -86,7 +86,7 @@ async function loadPlain() {
         <tr v-if="!isPlaintext">
           <th>{{ $t("txt") }}</th>
           <td>
-            <PendingContent :on="`${corpusId}/sources/${filename}/plain`">
+            <PendingContent :on="`${id}/sources/${filename}/plain`">
               <TextFileBox
                 v-if="jobState?.sparv == 'done'"
                 :load="loadPlain"
