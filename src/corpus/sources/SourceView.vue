@@ -72,7 +72,7 @@ async function loadPlain() {
         <tr>
           <th>{{ $t("source.content") }}</th>
           <td>
-            <PendingContent :on="`corpus/${corpusId}/sources/${filename}/raw`">
+            <PendingContent :on="`${corpusId}/sources/${filename}/raw`">
               <TextFileBox
                 :load="loadRaw"
                 :filename="metadata.name"
@@ -86,9 +86,7 @@ async function loadPlain() {
         <tr v-if="!isPlaintext">
           <th>{{ $t("txt") }}</th>
           <td>
-            <PendingContent
-              :on="`corpus/${corpusId}/sources/${filename}/plain`"
-            >
+            <PendingContent :on="`${corpusId}/sources/${filename}/plain`">
               <TextFileBox
                 v-if="jobState?.sparv == 'done'"
                 :load="loadPlain"

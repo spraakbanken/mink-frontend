@@ -27,7 +27,7 @@ async function doDelete() {
 </script>
 
 <template>
-  <PendingContent :on="`corpus/${corpusId}`" blocking>
+  <PendingContent :on="`${corpusId}`" blocking>
     <LayoutSection :title="$t('corpus.delete')">
       <p class="my-2">{{ $t("resource.delete.ask") }}</p>
 

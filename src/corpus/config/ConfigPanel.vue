@@ -27,7 +27,7 @@ const analyses = computedAsync(async () => {
 </script>
 
 <template>
-  <PendingContent :on="`corpus/${corpusId}/config`">
+  <PendingContent :on="`${corpusId}/config`">
     <table class="w-full">
       <tbody>
         <tr>

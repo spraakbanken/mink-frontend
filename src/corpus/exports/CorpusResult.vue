@@ -28,7 +28,7 @@ const { alertError } = useMessenger();
 
 /** Export type info */
 const exportTypes = computedAsync<ExportType[]>(
-  () => spin(api.sparvExports(), `corpus/${corpusId}/exports/list`),
+  () => spin(api.sparvExports(), `${corpusId}/exports/list`),
   [],
 );
 
@@ -56,7 +56,7 @@ function identifyType(path: string): ExportType | undefined {
 </script>
 
 <template>
-  <PendingContent :on="`corpus/${corpusId}/exports/list`">
+  <PendingContent :on="`${corpusId}/exports/list`">
     <LayoutSection :title="$t('result')">
       <HelpBox>
         <p>{{ $t("exports.help") }}</p>
@@ -69,7 +69,7 @@ function identifyType(path: string): ExportType | undefined {
         </aside>
       </HelpBox>
 
-      <PendingContent :on="`corpus/${corpusId}/exports/download`" class="my-4">
+      <PendingContent :on="`${corpusId}/exports/download`" class="my-4">
         <LayoutBox v-if="exports && exports.length" :title="$t('file.archive')">
           {{ $t("download_export") }}:
           <ActionButton

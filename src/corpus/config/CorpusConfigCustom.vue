@@ -81,7 +81,7 @@ async function upload() {
     </template>
 
     <LayoutBox>
-      <PendingContent :on="`corpus/${corpusId}/config`">
+      <PendingContent :on="`${corpusId}/config`">
         <YamlEditor
           v-if="config"
           v-model="input"

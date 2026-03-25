@@ -99,7 +99,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
     </span>
   </div>
   <MaxHeight :max-height="400">
-    <PendingContent :on="`corpus/${corpusId}/sources/list`">
+    <PendingContent :on="`${corpusId}/sources/list`">
       <SortableTable
         v-if="sources.length"
         :columns
@@ -134,7 +134,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
 
   <PendingContent
     v-if="canWrite('corpora', corpusId)"
-    :on="`corpus/${corpusId}/sources/upload`"
+    :on="`${corpusId}/sources/upload`"
     blocking
   >
     <FileUpload

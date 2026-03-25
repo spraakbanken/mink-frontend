@@ -66,7 +66,7 @@ onMounted(() => {
     </table>
     <PendingContent
       v-if="isCorpus(resource) && resource.config"
-      :on="`corpus/${resourceId}/config`"
+      :on="`${resourceId}/config`"
       class="flex-1"
     >
       <h3 class="font-semibold">{{ $t("configuration") }}</h3>

@@ -30,14 +30,14 @@ const canInstall = computed(
     canWrite("corpora", props.corpusId) &&
     !isJobRunning.value &&
     jobState.value?.sparv == "done" &&
-    !isPending(`corpus/${props.corpusId}/job`),
+    !isPending(`${props.corpusId}/job`),
 );
 </script>
 
 <template>
   <p>{{ $t("exports.tools.help") }}</p>
   <div class="grid gap-4 mt-4">
-    <PendingContent :on="`corpus/${corpusId}/job/install/korp`">
+    <PendingContent :on="`${corpusId}/job/install/korp`">
       <ToolPanel
         name="Korp"
         :info="$t('exports.tools.help.korp')"
@@ -51,7 +51,7 @@ const canInstall = computed(
       />
     </PendingContent>
 
-    <PendingContent :on="`corpus/${corpusId}/job/install/strix`">
+    <PendingContent :on="`${corpusId}/job/install/strix`">
       <ToolPanel
         name="Strix"
         :info="$t('exports.tools.help.strix')"

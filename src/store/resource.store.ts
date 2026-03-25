@@ -74,7 +74,7 @@ export const useResourceStore = defineStore("resource", () => {
     if (!freshResources.has(resourceId)) {
       const data = await spin(
         api.resourceInfoOne(resourceId),
-        `corpus/${resourceId}/info`,
+        `${resourceId}/info`,
       );
       storeResource(data);
     }

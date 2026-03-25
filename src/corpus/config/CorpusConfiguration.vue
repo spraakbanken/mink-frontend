@@ -166,7 +166,7 @@ async function submit(fields: Form) {
 </script>
 
 <template>
-  <PendingContent :on="`corpus/${corpusId}/config`">
+  <PendingContent :on="`${corpusId}/config`">
     <LayoutSection :title="$t('configuration')">
       <TabsBar
         :tabs="[

@@ -54,7 +54,7 @@ async function loadFile() {
         <tr>
           <th>{{ $t("source.content") }}</th>
           <td>
-            <PendingContent :on="`corpus/${corpusId}/exports/${path}`">
+            <PendingContent :on="`${corpusId}/exports/${path}`">
               <TextFileBox
                 :load="loadFile"
                 :filename="metadata.name"

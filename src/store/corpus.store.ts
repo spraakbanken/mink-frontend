@@ -46,7 +46,7 @@ export const useCorpusStore = defineStore("corpus", () => {
     if (!freshConfigs.has(corpusId)) {
       const config = await spin(
         api.downloadConfig(corpusId),
-        `corpus/${corpusId}/config`,
+        `${corpusId}/config`,
       );
       corpus.config = config;
       freshConfigs.add(corpusId);
@@ -55,10 +55,7 @@ export const useCorpusStore = defineStore("corpus", () => {
   }
 
   async function uploadConfig(corpusId: string, configYaml: string) {
-    await spin(
-      api.uploadConfig(corpusId, configYaml),
-      `corpus/${corpusId}/config`,
-    );
+    await spin(api.uploadConfig(corpusId, configYaml), `${corpusId}/config`);
     // Backend may modify uploaded config, so fetch the real one
     loadConfig(corpusId, true);
     // Get new title
@@ -77,7 +74,7 @@ export const useCorpusStore = defineStore("corpus", () => {
     if (skipCache) {
       const info = await spin(
         api.resourceInfoOne(corpusId),
-        `corpus/${corpusId}/sources/list`,
+        `${corpusId}/sources/list`,
       );
       corpus.sources = info.resource.source_files.sort((a, b) =>
         a.name.localeCompare(b.name),
@@ -89,10 +86,7 @@ export const useCorpusStore = defineStore("corpus", () => {
 
   async function runJob(corpusId: string) {
     matomo.value?.trackEvent("Corpus", "Annotation", "Start");
-    const info = await spin(
-      api.runSparv(corpusId),
-      `corpus/${corpusId}/job/sparv`,
-    );
+    const info = await spin(api.runSparv(corpusId), `${corpusId}/job/sparv`);
     corpora.value[corpusId]!.job = info.job;
   }
 
@@ -100,7 +94,7 @@ export const useCorpusStore = defineStore("corpus", () => {
     matomo.value?.trackEvent("Corpus", "Tool install", "Korp");
     const info = await spin(
       api.installKorp(corpusId),
-      `corpus/${corpusId}/job/install/korp`,
+      `${corpusId}/job/install/korp`,
     );
     corpora.value[corpusId]!.job = info.job;
   }
@@ -109,34 +103,28 @@ export const useCorpusStore = defineStore("corpus", () => {
     matomo.value?.trackEvent("Corpus", "Tool install", "Strix");
     const info = await spin(
       api.installStrix(corpusId),
-      `corpus/${corpusId}/job/install/strix`,
+      `${corpusId}/job/install/strix`,
     );
     corpora.value[corpusId]!.job = info.job;
   }
 
   async function uninstallKorp(corpusId: string) {
     matomo.value?.trackEvent("Corpus", "Tool uninstall", "Korp");
-    await spin(
-      api.uninstallKorp(corpusId),
-      `corpus/${corpusId}/job/install/korp`,
-    );
+    await spin(api.uninstallKorp(corpusId), `${corpusId}/job/install/korp`);
     // Get updated job info
     await loadCorpus(corpusId, true);
   }
 
   async function uninstallStrix(corpusId: string) {
     matomo.value?.trackEvent("Corpus", "Tool uninstall", "Strix");
-    await spin(
-      api.uninstallStrix(corpusId),
-      `corpus/${corpusId}/job/install/strix`,
-    );
+    await spin(api.uninstallStrix(corpusId), `${corpusId}/job/install/strix`);
     // Get updated job info
     await loadCorpus(corpusId, true);
   }
 
   async function abortJob(corpusId: string) {
     matomo.value?.trackEvent("Corpus", "Annotation", "Abort");
-    await spin(api.abortJob(corpusId), `corpus/${corpusId}/job/abort`);
+    await spin(api.abortJob(corpusId), `${corpusId}/job/abort`);
     await loadCorpus(corpusId, true);
   }
 
@@ -150,7 +138,7 @@ export const useCorpusStore = defineStore("corpus", () => {
     if (!freshExports.has(corpusId)) {
       const exports = await spin(
         api.listExports(corpusId),
-        `corpus/${corpusId}/exports/list`,
+        `${corpusId}/exports/list`,
       );
       // Sort alphabetically by path, but "stats_*" first
       corpus.exports = exports

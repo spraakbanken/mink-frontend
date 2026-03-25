@@ -22,7 +22,7 @@ export default function useDeleteCorpus() {
    */
   async function deleteCorpus(corpusId: string) {
     // Wrap whole delete flow in spin for visual feedback.
-    return spin(doDeleteCorpus(corpusId), `corpus/${corpusId}`);
+    return spin(doDeleteCorpus(corpusId), `${corpusId}`);
   }
 
   return { deleteCorpus };

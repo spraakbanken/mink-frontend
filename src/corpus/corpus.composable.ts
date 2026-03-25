@@ -69,10 +69,7 @@ export function useCorpus(corpusId: string) {
 
   async function clearAnnotations() {
     matomo.value?.trackEvent("Corpus", "Annotation", "Clear");
-    await spin(
-      api.clearAnnotations(corpusId),
-      `corpus/${corpusId}/exports/list`,
-    );
+    await spin(api.clearAnnotations(corpusId), `${corpusId}/exports/list`);
     await corpusStore.loadExports(corpusId, true);
   }
 
@@ -100,21 +97,21 @@ export function useCorpus(corpusId: string) {
   async function downloadSource(source: FileMeta, binary: boolean) {
     return spin(
       api.downloadSources(corpusId, source.name, binary),
-      `corpus/${corpusId}/sources/${source.name}/raw`,
+      `${corpusId}/sources/${source.name}/raw`,
     );
   }
 
   async function downloadPlaintext(source: FileMeta) {
     return spin(
       api.downloadSourceText(corpusId, source.name),
-      `corpus/${corpusId}/sources/${source.name}/plain`,
+      `${corpusId}/sources/${source.name}/plain`,
     );
   }
 
   async function uploadSources(files: File[], onProgress?: ProgressHandler) {
     await spin(
       api.uploadSources(corpusId, files, onProgress),
-      `corpus/${corpusId}/sources/upload`,
+      `${corpusId}/sources/upload`,
     );
     corpusStore.loadSources(corpusId, true);
   }
@@ -122,7 +119,7 @@ export function useCorpus(corpusId: string) {
   async function deleteSource(source: FileMeta) {
     await spin(
       api.removeSource(corpusId, source.name),
-      `corpus/${corpusId}/sources/list`,
+      `${corpusId}/sources/list`,
     );
     corpusStore.loadSources(corpusId, true);
   }
@@ -145,7 +142,7 @@ export function useCorpus(corpusId: string) {
     matomo.value?.trackEvent("Corpus", "Download", "Export archive");
     const data = await spin(
       api.downloadExports(corpusId),
-      `corpus/${corpusId}/exports/download`,
+      `${corpusId}/exports/download`,
     );
     downloadFile(data, getDownloadFilename());
   }
@@ -160,7 +157,7 @@ export function useCorpus(corpusId: string) {
   async function loadResultFile(path: string) {
     return spin(
       api.downloadExportFile(corpusId, path),
-      `corpus/${corpusId}/exports/${path}`,
+      `${corpusId}/exports/${path}`,
     );
   }
 

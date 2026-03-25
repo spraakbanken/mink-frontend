@@ -46,11 +46,11 @@ async function doRunJob() {
 <template>
   <div>
     <PendingContent
-      :on="`corpus/${corpusId}/job/sparv`"
+      :on="`${corpusId}/job/sparv`"
       class="flex flex-col gap-3 items-start"
     >
       <PendingContent
-        :on="`corpus/${corpusId}/exports/list`"
+        :on="`${corpusId}/exports/list`"
         v-if="!isJobRunning && exports?.length"
         class="flex gap-3 items-center"
       >
@@ -107,7 +107,7 @@ async function doRunJob() {
       </div>
     </PendingContent>
 
-    <PendingContent :on="`corpus/${corpusId}/exports/list`" class="mt-4">
+    <PendingContent :on="`${corpusId}/exports/list`" class="mt-4">
       <h3 class="text-lg uppercase">{{ $t("download") }}</h3>
       <p>{{ $t("exports.download.help") }}</p>
 
@@ -116,7 +116,7 @@ async function doRunJob() {
           <tr>
             <th>{{ $t("file.archive") }}</th>
             <td>
-              <PendingContent :on="`corpus/${corpusId}/exports/download`">
+              <PendingContent :on="`${corpusId}/exports/download`">
                 <ActionButton
                   :class="{ 'button-primary': !isJobRunning }"
                   @click="downloadResult().catch(alertError)"
