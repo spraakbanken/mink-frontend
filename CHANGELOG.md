@@ -21,6 +21,11 @@ As this project is a user-facing application, the places in the semantic version
 - Handle resource not found [#226](https://github.com/spraakbanken/mink-frontend/issues/226)
 - List allowed source file extensions on upload area [#234](https://github.com/spraakbanken/mink-frontend/issues/234)
 
+### Changed
+
+- Extract config and exports from the corpus store to their own stores
+- Many variables renamed from `corpusId`/`resourceId` to `id`
+
 ## [1.16.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.16.1) (2026-02-16)
 
 ### Fixed

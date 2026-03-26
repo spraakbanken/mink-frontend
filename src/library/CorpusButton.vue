@@ -1,28 +1,28 @@
 <script setup lang="ts">
 import { PhUser } from "@phosphor-icons/vue";
+import { onMounted } from "vue";
 import useSpin from "@/spin/spin.composable";
 import PadButton from "@/components/PadButton.vue";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
 import { useCorpus } from "@/corpus/corpus.composable";
-import { useCorpusStore } from "@/store/corpus.store";
 import useLocale from "@/i18n/locale.composable";
 import { useAuth } from "@/auth/auth.composable";
+import { useConfigStore } from "@/store/config.store";
 
 const props = defineProps<{
   id: string;
 }>();
 
-const corpusStore = useCorpusStore();
+const { loadConfig } = useConfigStore();
 const { spin } = useSpin();
 const { corpus, hasSources, sources } = useCorpus(props.id);
 const { th } = useLocale();
 const { isCurrentUser } = useAuth();
 
-const loadPromise = Promise.all([
-  corpusStore.loadConfig(props.id),
-  corpusStore.loadSources(props.id),
-]);
-spin(loadPromise, "resources");
+// Start loading specific data using a common spin token, to only show one spinner
+onMounted(() => {
+  spin(loadConfig(props.id), "resources");
+});
 </script>
 
 <template>
@@ -30,7 +30,7 @@ spin(loadPromise, "resources");
     <strong>{{ th(corpus?.name) || id }}</strong>
 
     <span v-if="hasSources">
-      {{ $t("files", sources.length) }}
+      {{ $t("files", sources?.length || 0) }}
     </span>
 
     <div

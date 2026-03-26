@@ -9,16 +9,16 @@ import HelpBox from "@/components/HelpBox.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import useMessenger from "@/message/messenger.composable";
 import PendingContent from "@/spin/PendingContent.vue";
-import { useCorpusStore } from "@/store/corpus.store";
 import { useAuth } from "@/auth/auth.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import api from "@/api/api";
 import LayoutSection from "@/components/LayoutSection.vue";
+import { useConfigStore } from "@/store/config.store";
 
 const id = useResourceIdParam();
 const { config } = useCorpus(id);
 const { alertError } = useMessenger();
-const corpusStore = useCorpusStore();
+const { uploadConfig } = useConfigStore();
 const { canWrite } = useAuth();
 const { t } = useI18n();
 
@@ -42,7 +42,7 @@ watchEffect(() => (input.value = config.value || ""));
 
 /** Save current input as config by uploading it */
 async function upload() {
-  await corpusStore.uploadConfig(id, input.value).catch(alertError);
+  await uploadConfig(id, input.value).catch(alertError);
 }
 </script>
 

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { computed } from "vue";
 import { PhLock, PhTrash } from "@phosphor-icons/vue";
-import useMetadata from "@/metadata/metadata.composable";
+import { computedAsync } from "@vueuse/core";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useResourceStore } from "@/store/resource.store";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
@@ -13,18 +12,20 @@ import SharingPanel from "@/auth/SharingPanel.vue";
 import { useAuth } from "@/auth/auth.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import useMessenger from "@/message/messenger.composable";
+import { useMetadataStore } from "@/store/metadata.store";
 
-const resourceStore = useResourceStore();
 const id = useResourceIdParam();
-const { uploadYaml } = useMetadata(id);
+const { loadResource } = useResourceStore();
+const { loadConfig, uploadConfig } = useMetadataStore();
 const { canAdmin, canWrite } = useAuth();
 const { alertError } = useMessenger();
 
-const metadata = computed(() => resourceStore.metadatas[id]);
+const metadata = computedAsync(() => loadResource(id));
+const config = computedAsync(() => loadConfig(id));
 
 async function uploadMetadata(files: File[]) {
   const yaml = await files[0]!.text();
-  await uploadYaml(yaml).catch(alertError);
+  await uploadConfig(id, yaml).catch(alertError);
 }
 </script>
 
@@ -52,15 +53,12 @@ async function uploadMetadata(files: File[]) {
     <div class="w-96 grow flex flex-col gap-4">
       <PendingContent :on="`resource/${id}/metadata`">
         <LayoutBox title="content" class="flex-1">
-          <TextData
-            v-if="metadata.metadata"
-            :text="metadata.metadata"
-          ></TextData>
+          <TextData v-if="config" :text="config"></TextData>
 
           <FileUpload
             v-if="canWrite('corpora', id)"
             :file-handler="uploadMetadata"
-            :primary="!metadata.metadata"
+            :primary="!config"
             accept=".yaml,.yml"
           />
           <HelpBox v-else>

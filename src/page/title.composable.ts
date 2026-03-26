@@ -1,16 +1,17 @@
 import { useRoute, type RouteLocation } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { computedAsync } from "@vueuse/core";
+import { storeToRefs } from "pinia";
 import useLocale from "@/i18n/locale.composable";
-import { useCorpusStore } from "@/store/corpus.store";
 import type { ConfigOptions } from "@/api/corpusConfig";
+import { useConfigStore } from "@/store/config.store";
 
 /** Handle the custom title/createTitle route meta options. */
 export default function usePageTitle() {
   const route = useRoute();
   const { t } = useI18n();
   const { th } = useLocale();
-  const corpusStore = useCorpusStore();
+  const { configs } = storeToRefs(useConfigStore());
 
   /** Get the title for a route */
   async function getTitle(route: RouteLocation): Promise<string | undefined> {
@@ -26,13 +27,12 @@ export default function usePageTitle() {
 
   /** Look for name in corpus config */
   async function getName(id: string): Promise<string | undefined> {
-    const config = corpusStore.corpora[id]?.config;
-    if (!config) return;
+    if (!configs.value[id]) return;
 
     const { parseConfig } = await import("@/api/corpusConfig");
     let parsedConfig: ConfigOptions;
     try {
-      parsedConfig = parseConfig(config);
+      parsedConfig = parseConfig(configs.value[id]);
     } catch (error) {
       console.error(`Error parsing config for "${id}":`, error);
       return;

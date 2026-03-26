@@ -1,13 +1,8 @@
-import { computed, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import { defineStore } from "pinia";
 import { pick } from "es-toolkit";
-import {
-  isCorpus,
-  isMetadata,
-  type Metadata,
-  type Resource,
-} from "./resource.types";
-import { filterKeys, pickByType } from "@/util";
+import { type Resource } from "./resource.types";
+import { filterKeys } from "@/util";
 import api from "@/api/api";
 import type { ResourceInfo } from "@/api/api.types";
 import useSpin from "@/spin/spin.composable";
@@ -17,16 +12,6 @@ export const useResourceStore = defineStore("resource", () => {
 
   const ids = ref<string[]>([]);
   const resources = reactive<Record<string, Resource>>({});
-
-  const metadatas = computed<Record<string, Metadata>>(() =>
-    pickByType(resources, isMetadata),
-  );
-
-  // Resource fetching is essentially on three levels: list, info and (only for corpus) config.
-  // (Additionally, there's exports, but it has a more specific use.)
-  // For each of the three levels, we have flags to indicate whether data is fresh or not.
-  // This enables a pattern of using cached async load functions when using data, and invalidating
-  // caches when data is known to be out of date.
 
   /** Whether the list of resources is fetched and not modified. */
   let freshList = false;
@@ -41,6 +26,8 @@ export const useResourceStore = defineStore("resource", () => {
 
     // Forget absent resources
     filterKeys(resources, idsNew);
+
+    return idsNew;
   }
 
   /** Load and store data about all the user's resources. */
@@ -69,10 +56,11 @@ export const useResourceStore = defineStore("resource", () => {
   async function loadResource(
     id: string,
     skipCache = false,
+    spinToken?: string,
   ): Promise<Resource> {
-    if (skipCache) freshResources.delete(id);
-    if (!freshResources.has(id)) {
-      const data = await spin(api.resourceInfoOne(id), `${id}/info`);
+    spinToken ??= `${id}/info`;
+    if (skipCache || !resources[id]) {
+      const data = await spin(api.resourceInfoOne(id), spinToken);
       storeResource(data);
     }
     return resources[id];
@@ -84,25 +72,17 @@ export const useResourceStore = defineStore("resource", () => {
       type: info.resource.type,
       name: info.resource.name,
       owner: pick(info.owner, ["id", "email", "name"]),
+      job: info.job,
+      publicId: info.resource.public_id,
+      sources: info.resource.source_files.sort((a, b) =>
+        a.name.localeCompare(b.name),
+      ),
     };
-
-    if (isCorpus(resource)) {
-      resource.sources = info.resource.source_files;
-      resource.job = info.job;
-    }
-
-    if (isMetadata(resource)) {
-      resource.publicId = info.resource.public_id;
-    }
 
     const id = info.resource.id;
     if (!ids.value.includes(id)) ids.value.push(id);
 
-    // Merge with any existing record.
-    resources[id] = {
-      ...resources[id],
-      ...resource,
-    };
+    resources[id] = resource;
     freshResources.add(id);
     return resource;
   }
@@ -112,7 +92,6 @@ export const useResourceStore = defineStore("resource", () => {
     loadResource,
     loadResourceIds,
     loadResources,
-    metadatas,
     ids,
     resources,
   };

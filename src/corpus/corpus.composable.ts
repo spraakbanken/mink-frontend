@@ -1,6 +1,6 @@
 import { computed, watch } from "vue";
 import { attempt, uniq } from "es-toolkit";
-import { useInterval } from "@vueuse/core";
+import { computedAsync, useInterval } from "@vueuse/core";
 import { useMatomo } from "vue3-matomo";
 import { useCorpusStore } from "@/store/corpus.store";
 import {
@@ -13,6 +13,9 @@ import { downloadFile, getFilenameExtension } from "@/util";
 import useSpin from "@/spin/spin.composable";
 import type { FileMeta, ProgressHandler } from "@/api/api.types";
 import api from "@/api/api";
+import { useConfigStore } from "@/store/config.store";
+import { useExportStore } from "@/store/export.store";
+import { useResourceStore } from "@/store/resource.store";
 
 // Module-scope ticker, can be watched to perform task intermittently
 const pollTick = useInterval(2000);
@@ -21,29 +24,38 @@ const pollTick = useInterval(2000);
 const pollTracker: Record<string, boolean> = {};
 
 export function useCorpus(id: string) {
-  const corpusStore = useCorpusStore();
+  const { loadResource } = useResourceStore();
+  const { loadSources } = useCorpusStore();
+  const { loadConfig, uploadConfig } = useConfigStore();
+  const { loadExports } = useExportStore();
   const { spin } = useSpin();
   const matomo = useMatomo();
 
-  const corpus = computed(() => {
-    corpusStore.loadCorpus(id);
-    return corpusStore.corpora[id];
+  const corpus = computedAsync(() => loadResource(id));
+
+  const config = computedAsync(() => loadConfig(id), undefined, { lazy: true });
+
+  const exports = computedAsync(() => loadExports(id), undefined, {
+    lazy: true,
   });
 
-  const config = computed(() => {
-    corpusStore.loadConfig(id);
-    return corpus.value?.config || undefined;
+  const configOptions = computed(() => {
+    try {
+      if (config.value) return parseConfig(config.value);
+    } catch (error) {
+      console.error(`Error parsing config for "${id}":`, error);
+    }
+    return undefined;
   });
-  const configOptions = computed(getParsedConfig);
+
   const isConfigValid = computed(
     () => !attempt(() => validateConfig(configOptions.value!))[0],
   );
 
-  const sources = computed(() => {
-    corpusStore.loadSources(id);
-    return corpus.value?.sources || [];
-  });
-  const hasSources = computed(() => sources.value.length > 0);
+  const sources = computed(() => corpus.value?.sources);
+
+  const hasSources = computed(() => !!sources.value?.length);
+
   /** Find file extensions present in source files. Undefined if no files. */
   const extensions = computed(() =>
     uniq(
@@ -70,28 +82,12 @@ export function useCorpus(id: string) {
   async function clearAnnotations() {
     matomo.value?.trackEvent("Corpus", "Annotation", "Clear");
     await spin(api.clearAnnotations(id), `${id}/exports/list`);
-    await corpusStore.loadExports(id, true);
+    await loadExports(id, true);
   }
-
-  /** Exports sorted alphabetically by path, but "stats_*" first. */
-  const exports = computed(() => {
-    corpusStore.loadExports(id);
-    return corpus.value?.exports || [];
-  });
 
   async function saveConfigOptions(configOptions: ConfigOptions) {
     const configYaml = makeConfig(id, configOptions);
-    await corpusStore.uploadConfig(id, configYaml);
-  }
-
-  function getParsedConfig() {
-    if (!config.value) return undefined;
-    try {
-      const parsed = parseConfig(config.value);
-      return parsed;
-    } catch (error) {
-      console.error(`Error parsing config for "${id}":`, error);
-    }
+    await uploadConfig(id, configYaml);
   }
 
   async function downloadSource(source: FileMeta, binary: boolean) {
@@ -113,12 +109,12 @@ export function useCorpus(id: string) {
       api.uploadSources(id, files, onProgress),
       `${id}/sources/upload`,
     );
-    corpusStore.loadSources(id, true);
+    loadSources(id, true);
   }
 
   async function deleteSource(source: FileMeta) {
     await spin(api.removeSource(id, source.name), `${id}/sources/list`);
-    corpusStore.loadSources(id, true);
+    loadSources(id, true);
   }
 
   // Check status intermittently if active.
@@ -126,7 +122,7 @@ export function useCorpus(id: string) {
     // This composable can be active in multiple components with the same corpus id. Only send request once per corpus.
     if (isJobRunning.value && !pollTracker[id]) {
       pollTracker[id] = true;
-      await corpusStore.loadCorpus(id, true);
+      await loadResource(id, true);
       pollTracker[id] = false;
     }
   });

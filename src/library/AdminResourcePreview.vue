@@ -1,23 +1,22 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { computedAsync } from "@vueuse/core";
 import { type Resource, isCorpus } from "@/store/resource.types";
 import PendingContent from "@/spin/PendingContent.vue";
 import TextData from "@/components/TextData.vue";
-import { useCorpusStore } from "@/store/corpus.store";
 import useMessenger from "@/message/messenger.composable";
+import { useConfigStore } from "@/store/config.store";
 
 const props = defineProps<{
   id: string;
   resource: Resource;
 }>();
 
-const corpusStore = useCorpusStore();
+const { loadConfig } = useConfigStore();
 const { alertError } = useMessenger();
 
-onMounted(() => {
-  if (isCorpus(props.resource))
-    corpusStore.loadConfig(props.id).catch(alertError);
-});
+const config = computedAsync(() =>
+  isCorpus(props.resource) ? loadConfig(props.id).catch(alertError) : undefined,
+);
 </script>
 
 <template>
@@ -65,12 +64,12 @@ onMounted(() => {
       </tbody>
     </table>
     <PendingContent
-      v-if="isCorpus(resource) && resource.config"
+      v-if="isCorpus(resource) && config"
       :on="`${id}/config`"
       class="flex-1"
     >
       <h3 class="font-semibold">{{ $t("configuration") }}</h3>
-      <TextData :text="resource.config" language="yaml" />
+      <TextData :text="config" language="yaml" />
     </PendingContent>
   </div>
 </template>

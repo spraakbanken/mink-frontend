@@ -7,21 +7,21 @@ import ActionButton from "@/components/ActionButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import { useCorpusStore } from "@/store/corpus.store";
 import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
 
 const router = useRouter();
 const id = useResourceIdParam();
 const { deleteCorpus } = useDeleteCorpus();
-const corpusStore = useCorpusStore();
 const { canAdmin } = useAuth();
 const { alertError } = useMessenger();
 
 async function doDelete() {
-  await deleteCorpus(id).catch(alertError);
-  if (!(id in corpusStore.corpora)) {
+  try {
+    await deleteCorpus(id);
     router.push("/library");
+  } catch (error) {
+    alertError(error);
   }
 }
 </script>

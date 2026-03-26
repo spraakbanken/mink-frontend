@@ -2,6 +2,7 @@
 import { useRouter } from "vue-router";
 import { PhPlusCircle } from "@phosphor-icons/vue";
 import { computed } from "vue";
+import { storeToRefs } from "pinia";
 import CorpusButton from "@/library/CorpusButton.vue";
 import useLocale from "@/i18n/locale.composable";
 import PadButton from "@/components/PadButton.vue";
@@ -17,12 +18,14 @@ import useCreateCorpus from "@/corpus/createCorpus.composable";
 import FileUpload from "@/components/FileUpload.vue";
 import { FORMATS_EXT } from "@/api/corpusConfig";
 import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
-import { useCorpusStore } from "@/store/corpus.store";
 import useMessenger from "@/message/messenger.composable";
+import { useMetadataStore } from "@/store/metadata.store";
+import { useCorpusStore } from "@/store/corpus.store";
 
 const router = useRouter();
-const resourceStore = useResourceStore();
-const corpusStore = useCorpusStore();
+const { loadResources } = useResourceStore();
+const { corpora, hasCorpora } = storeToRefs(useCorpusStore());
+const { metadatas } = storeToRefs(useMetadataStore());
 const { adminMode, checkAdminMode } = useAdmin();
 const { canUserAdmin } = useAuth();
 const { createFromUpload } = useCreateCorpus();
@@ -41,7 +44,7 @@ const { th } = useLocale();
     }
   }
 
-  resourceStore.loadResources().catch(alertError);
+  loadResources().catch(alertError);
 })();
 
 const accept = computed(() => FORMATS_EXT.map((ext) => `.${ext}`).join());
@@ -58,7 +61,7 @@ async function fileHandler(files: File[]) {
       <HelpBox>
         <p>
           {{
-            corpusStore.hasCorpora
+            hasCorpora
               ? $t("library.help.corpora")
               : $t("library.help.corpora.none")
           }}
@@ -66,11 +69,7 @@ async function fileHandler(files: File[]) {
       </HelpBox>
 
       <PendingContent on="resources" class="my-4 flex flex-wrap gap-4">
-        <CorpusButton
-          v-for="(corpus, id) of corpusStore.corpora"
-          :key="id"
-          :id
-        />
+        <CorpusButton v-for="(corpus, id) of corpora" :key="id" :id />
 
         <PadButton to="/library/corpus/new">
           <PhPlusCircle size="2em" class="mb-2" />
@@ -83,7 +82,7 @@ async function fileHandler(files: File[]) {
       <PendingContent on="create" blocking>
         <FileUpload
           :file-handler
-          :primary="!corpusStore.hasCorpora"
+          :primary="!hasCorpora"
           :accept
           multiple
           show-progress
@@ -99,7 +98,7 @@ async function fileHandler(files: File[]) {
       </HelpBox>
 
       <div class="my-4 flex flex-wrap gap-4">
-        <template v-for="(metadata, id) of resourceStore.metadatas" :key="id">
+        <template v-for="(metadata, id) of metadatas" :key="id">
           <PadButton :to="`/library/metadata/${id}`">
             <strong>{{ th(metadata.name) || id }}</strong>
             {{ metadata.publicId }}

@@ -40,7 +40,7 @@ const { canWrite } = useAuth();
 
 const info = computedAsync(getInfo);
 const totalSize = computed(() =>
-  sources.value.reduce((sum, source) => sum + Number(source.size), 0),
+  (sources.value || []).reduce((sum, source) => sum + Number(source.size), 0),
 );
 const accept = computed(() => extensions.value.map((ext) => `.${ext}`).join());
 
@@ -88,7 +88,9 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
 
 <template>
   <div class="flex flex-wrap gap-x-8">
-    <span>{{ $t("files", sources.length) }}, {{ filesize(totalSize) }}</span>
+    <span>
+      {{ $t("files", sources?.length || 0) }}, {{ filesize(totalSize) }}
+    </span>
     <span v-if="info">
       {{ $t("source.limit.corpus.recommended") }}:
       {{ filesize(info.recommendedFileSize.min_file_length.value) }}
@@ -101,7 +103,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
   <MaxHeight :max-height="400">
     <PendingContent :on="`${id}/sources/list`">
       <SortableTable
-        v-if="sources.length"
+        v-if="sources?.length"
         :columns
         :rows="sources"
         :get-row-key="(source) => source.path"

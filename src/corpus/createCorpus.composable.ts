@@ -1,6 +1,5 @@
 import { useRouter } from "vue-router";
-import { useCorpusStore } from "@/store/corpus.store";
-import useDeleteCorpus from "@/corpus/deleteCorpus.composable";
+import useDeleteCorpus from "./deleteCorpus.composable";
 import { getFilenameExtension } from "@/util";
 import {
   makeConfig,
@@ -10,10 +9,11 @@ import {
 } from "@/api/corpusConfig";
 import api from "@/api/api";
 import { useAuth } from "@/auth/auth.composable";
+import { useConfigStore } from "@/store/config.store";
 
 export default function useCreateCorpus() {
   const { refreshAuth } = useAuth();
-  const corpusStore = useCorpusStore();
+  const { uploadConfig } = useConfigStore();
   const router = useRouter();
   const { deleteCorpus } = useDeleteCorpus();
 
@@ -55,7 +55,7 @@ export default function useCreateCorpus() {
   // Like the `saveConfigOptions` in `corpus.composable.ts` but takes `id` as argument.
   async function saveConfigOptions(configOptions: ConfigOptions, id: string) {
     const configYaml = makeConfig(id, configOptions);
-    await corpusStore.uploadConfig(id, configYaml);
+    await uploadConfig(id, configYaml);
   }
 
   async function createFromConfig(

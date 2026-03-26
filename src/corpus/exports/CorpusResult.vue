@@ -34,7 +34,7 @@ const exportTypes = computedAsync<ExportType[]>(
 
 /** Export files grouped by export type */
 const exportGroups = computed<Record<string, FileMeta[]> | undefined>(() => {
-  if (!exports.value.length) return undefined;
+  if (!exports.value?.length) return undefined;
   return groupBy(
     exports.value,
     (file) => identifyType(file.path)?.export || "",

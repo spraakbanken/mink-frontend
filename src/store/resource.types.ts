@@ -1,10 +1,14 @@
 import type { ByLang } from "@/util.types";
 import type { CorpusJob, FileMeta, ResourceType } from "@/api/api.types";
 
-export type Resource = {
-  type: ResourceType;
+export type Resource<T extends ResourceType = ResourceType> = {
+  type: T;
   name: ByLang;
   owner: User;
+  job: CorpusJob;
+  /** For Metadata, this can be different from the Mink id. */
+  publicId: string;
+  sources: FileMeta[];
 };
 
 export type User = {
@@ -13,19 +17,8 @@ export type User = {
   name: string;
 };
 
-export type Corpus = Resource & {
-  type: "corpus";
-  sources: FileMeta[];
-  config?: string;
-  job: CorpusJob;
-  exports?: FileMeta[];
-};
-
-export type Metadata = Resource & {
-  type: "metadata";
-  publicId: string;
-  metadata?: string; // YAML
-};
+export type Corpus = Resource<"corpus">;
+export type Metadata = Resource<"metadata">;
 
 // User-defined type guards to help inform TypeScript
 // See https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards

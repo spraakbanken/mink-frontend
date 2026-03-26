@@ -265,13 +265,13 @@ class MinkApi {
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Exports/operation/list-exports-get */
-  async listExports(id: string) {
+  listExports = deduplicateRequest(async (id: string) => {
     const response = await this.axios.get<MinkResponse<ListExportsData>>(
       "list-exports",
       { params: { corpus_id: id } },
     );
     return response.data.contents;
-  }
+  });
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Exports/operation/download-exports-get */
   async downloadExports(id: string) {
