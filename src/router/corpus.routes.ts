@@ -12,14 +12,6 @@ const ExportView = () => import("@/corpus/exports/ExportView.vue");
 const SourceView = () => import("@/corpus/sources/SourceView.vue");
 
 const corpusRoutes: RouteRecordRaw[] = [
-  { path: "/corpus", redirect: "/library" },
-  {
-    // Redirect /corpus/* to /library/corpus/*
-    path: "/corpus/:pathMatch(.*)*",
-    redirect: (to) => ({
-      path: `/library/corpus/${(to.params.pathMatch as string[]).join("/")}`,
-    }),
-  },
   {
     path: "/library/corpus/new",
     component: CreateCorpus,

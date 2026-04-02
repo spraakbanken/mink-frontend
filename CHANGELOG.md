@@ -25,6 +25,7 @@ As this project is a user-facing application, the places in the semantic version
 
 - Extract config and exports from the corpus store to their own stores
 - Many variables renamed from `corpusId`/`resourceId` to `id`
+- Removed redirect from `/corpus` to `/library/corpus`
 
 ## [1.16.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.16.1) (2026-02-16)
 
