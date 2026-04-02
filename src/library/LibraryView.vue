@@ -16,7 +16,7 @@ import useCreateCorpus from "@/corpus/createCorpus.composable";
 import FileUpload from "@/components/FileUpload.vue";
 import { FORMATS_EXT } from "@/api/corpusConfig";
 import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
-import { isCorpus, type Resource, type User } from "@/store/resource.types";
+import { isCorpus, type Resource } from "@/store/resource.types";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import RouteButton from "@/components/RouteButton.vue";
@@ -63,11 +63,8 @@ async function fileHandler(files: File[]) {
   await spin(createFromUpload(files), "create").catch(alertError);
 }
 
-const getType = (resource: object | Resource) =>
+const getType = (resource: Resource) =>
   "type" in resource ? resource.type : "resource";
-
-const getOwner = (resource: object) =>
-  "owner" in resource ? (resource.owner as User) : undefined;
 </script>
 
 <template>
@@ -110,9 +107,7 @@ const getOwner = (resource: object) =>
                     <router-link
                       :to="`/library/${getType(resource)}/${resource.id}`"
                     >
-                      {{
-                        ("type" in resource && th(resource.name)) || resource.id
-                      }}
+                      {{ th(resource.name) || resource.id }}
                     </router-link>
                   </td>
                   <td>{{ $t(getType(resource)) }}</td>
@@ -124,10 +119,7 @@ const getOwner = (resource: object) =>
 
                     <!-- Shared icon if other owner -->
                     <PhUsers
-                      v-if="
-                        getOwner(resource) &&
-                        !isCurrentUser(getOwner(resource)!)
-                      "
+                      v-if="!isCurrentUser(resource.owner)"
                       class="inline mx-1"
                     />
                   </td>
