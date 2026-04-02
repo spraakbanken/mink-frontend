@@ -12,14 +12,14 @@ const { isAuthenticated } = useAuth();
 
 whenever(isAuthenticated, () => {
   const destination = route.query.destination as string;
-  router.push(destination || "/corpus");
+  router.push(destination || "/library");
 });
 </script>
 
 <template>
   <UrlButton
     class="button-primary"
-    :href="getLoginUrl((route.query.destination as string) || '/corpus')"
+    :href="getLoginUrl((route.query.destination as string) || '/library')"
   >
     <PhSignIn weight="bold" class="inline mb-1 mr-1" />
     {{ $t("login") }}
