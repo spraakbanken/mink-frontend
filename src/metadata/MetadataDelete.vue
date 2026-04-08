@@ -31,7 +31,7 @@ async function doDelete() {
 
       <div>
         <ActionButton
-          :disabled="!canAdmin('corpora', id)"
+          :disabled="!canAdmin('metadata', id)"
           class="button-danger mr-4"
           @click="doDelete"
         >

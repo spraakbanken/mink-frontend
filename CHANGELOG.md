@@ -27,6 +27,10 @@ As this project is a user-facing application, the places in the semantic version
 - Many variables renamed from `corpusId`/`resourceId` to `id`
 - Removed redirect from `/corpus` to `/library/corpus`
 
+### Fixed
+
+- Metadata resource access checks
+
 ## [1.16.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.16.1) (2026-02-16)
 
 ### Fixed

@@ -36,7 +36,7 @@ async function uploadMetadata(files: File[]) {
         <p>Public id: {{ metadata.publicId }}</p>
 
         <RouteButton
-          :disabled="!canAdmin('corpora', id)"
+          :disabled="!canAdmin('metadata', id)"
           class="button-danger"
           :to="`/library/metadata/${id}/delete`"
         >
@@ -46,7 +46,7 @@ async function uploadMetadata(files: File[]) {
       </LayoutBox>
 
       <LayoutBox :title="$t('sharing')">
-        <SharingPanel resource-type="corpora" :id />
+        <SharingPanel resource-type="metadata" :id />
       </LayoutBox>
     </div>
 
@@ -56,7 +56,7 @@ async function uploadMetadata(files: File[]) {
           <TextData v-if="config" :text="config"></TextData>
 
           <FileUpload
-            v-if="canWrite('corpora', id)"
+            v-if="canWrite('metadata', id)"
             :file-handler="uploadMetadata"
             :primary="!config"
             accept=".yaml,.yml"
