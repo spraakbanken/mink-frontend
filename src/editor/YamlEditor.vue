@@ -33,10 +33,13 @@ const isWrapEnabled = useLocalStorage("editor.wrap", false);
 
 /** Validation linter extension with schema support if present, otherwise without it */
 const validationExtension = computedAsync(async () => {
+  // computedAsync only tracks dependencies in the first call stack, so make sure to use them before any await.
+  const schema = props.schema;
+
   // Lazy-load the Ajv lib
   const yamlValidator = await import("./yamlValidator");
   const YamlValidator = yamlValidator.default;
-  const validator = new YamlValidator(props.schema);
+  const validator = new YamlValidator(schema);
 
   const linterExtension = linter(
     (view) => {
@@ -111,7 +114,7 @@ function onUpdate(viewUpdate: ViewUpdate) {
       <slot name="toolbar-left" />
 
       <!-- Spacer -->
-      <div class="flex-grow" />
+      <div class="grow" />
 
       <!-- Custom buttons -->
       <slot name="toolbar-right" />

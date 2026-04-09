@@ -29,6 +29,7 @@ As this project is a user-facing application, the places in the semantic version
 
 ### Fixed
 
+- Metadata editor sometimes missing validation [#242](https://github.com/spraakbanken/mink-frontend/issues/242)
 - Metadata resource access checks
 
 ## [1.16.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.16.1) (2026-02-16)
