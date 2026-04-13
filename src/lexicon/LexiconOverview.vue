@@ -6,6 +6,7 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import SharingPanel from "@/auth/SharingPanel.vue";
+import SourcesPanel from "@/sources/SourcesPanel.vue";
 
 const id = useResourceIdParam();
 const { canWrite } = useAuth();
@@ -34,7 +35,7 @@ const { canWrite } = useAuth();
       </LayoutBox>
 
       <LayoutBox :title="$t('sources')">
-        <SourcesPanel :id />
+        <SourcesPanel type="lexicon" :id />
       </LayoutBox>
     </div>
 

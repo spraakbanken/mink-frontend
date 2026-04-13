@@ -14,7 +14,7 @@ import { useResourceStore } from "@/store/resource.store";
 import useSpin from "@/spin/spin.composable";
 import useCreateCorpus from "@/corpus/createCorpus.composable";
 import FileUpload from "@/components/FileUpload.vue";
-import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
+import UploadSizeLimits from "@/sources/UploadSizeLimits.vue";
 import { isCorpus, type Resource } from "@/store/resource.types";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
 import LayoutBox from "@/components/LayoutBox.vue";

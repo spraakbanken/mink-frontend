@@ -3,6 +3,7 @@ import { computed } from "vue";
 import { PhTrash } from "@phosphor-icons/vue";
 import { useI18n } from "vue-i18n";
 import { computedAsync } from "@vueuse/core";
+import { sum } from "es-toolkit";
 import UploadSizeLimits from "./UploadSizeLimits.vue";
 import { getInfo } from "@/api/apiInfo";
 import ActionButton from "@/components/ActionButton.vue";
@@ -20,6 +21,7 @@ import SortableTable, {
 } from "@/components/SortableTable.vue";
 import { useResourceStore } from "@/store/resource.store";
 import useSources from "@/resource/sources.composable";
+import { SOURCE_FORMATS } from "@/file";
 
 const props = defineProps<{
   type: ResourceType;
@@ -43,12 +45,16 @@ const { canWrite } = useAuth();
 const resource = computedAsync(() => loadResource(props.id));
 const info = computedAsync(getInfo);
 const totalSize = computed(() =>
-  (resource.value?.sources || []).reduce(
-    (sum, source) => sum + Number(source.size),
-    0,
-  ),
+  sum((resource.value?.sources || []).map((source) => source.size)),
 );
-const accept = computed(() => extensions.value.map((ext) => `.${ext}`).join());
+
+const accept = computed(() => {
+  const exts = extensions.value.length
+    ? extensions.value
+    : SOURCE_FORMATS[props.type];
+  return exts.map((ext) => `.${ext}`).join();
+});
+
 // TODO Move somewhere central
 const authResourceType = computed(() => {
   const mapping = {

@@ -4,7 +4,7 @@ import SharingPanel from "../auth/SharingPanel.vue";
 import { useCorpus } from "./corpus.composable";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import ConfigPanel from "@/corpus/config/ConfigPanel.vue";
-import SourcesPanel from "@/corpus/sources/SourcesPanel.vue";
+import SourcesPanel from "@/sources/SourcesPanel.vue";
 import JobStatus from "@/corpus/job/JobStatus.vue";
 import AnalysisPanel from "@/corpus/analysis/AnalysisPanel.vue";
 import ExplorePanel from "@/corpus/explore/ExplorePanel.vue";

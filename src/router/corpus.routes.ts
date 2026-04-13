@@ -9,7 +9,7 @@ const CorpusConfigCustom = () =>
 const CorpusResult = () => import("@/corpus/exports/CorpusResult.vue");
 const CorpusDelete = () => import("@/corpus/CorpusDelete.vue");
 const ExportView = () => import("@/corpus/exports/ExportView.vue");
-const SourceView = () => import("@/corpus/sources/SourceView.vue");
+const SourceView = () => import("@/sources/SourceView.vue");
 
 const corpusRoutes: RouteRecordRaw[] = [
   {

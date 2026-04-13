@@ -172,7 +172,10 @@ class MinkApi {
     files: File[],
     onProgress?: ProgressHandler,
   ) {
-    const formData = filesFormData("files", ...files);
+    const formData =
+      type == "corpus"
+        ? filesFormData("files", ...files)
+        : filesFormData("file", ...files);
     const response = await this.axios.put<MinkResponse>(
       `${type}/sources/upload/${id}`,
       formData,
