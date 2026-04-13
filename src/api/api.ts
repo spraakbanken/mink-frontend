@@ -14,6 +14,7 @@ import type {
   SparvSchemaData,
   SparvExportsData,
   ResourceInfo,
+  ResourceType,
 } from "@/api/api.types";
 
 /** Create a `text/yaml` file object with content */
@@ -128,21 +129,15 @@ class MinkApi {
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Config/operation/upload-config */
-  async uploadConfig(id: string, config: string) {
+  /**
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/upload-corpus-config
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/upload-lexicon-config
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Metadata/operation/upload_metadata_yaml_metadata_config_upload__resource_id__put
+   */
+  async uploadConfig(type: ResourceType, id: string, config: string) {
     const formData = filesFormData("file", yamlAsFile("config.yaml", config));
     const response = await this.axios.put<MinkResponse>(
-      "corpus/config/upload/" + id,
-      formData,
-    );
-    return response.data;
-  }
-
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/upload-lexicon-config */
-  async uploadLexiconConfig(id: string, config: string) {
-    const formData = filesFormData("file", yamlAsFile("config.yaml", config));
-    const response = await this.axios.put<MinkResponse>(
-      "lexicon/config/upload/" + id,
+      `${type}/config/upload/${id}`,
       formData,
     );
     return response.data;
@@ -183,39 +178,23 @@ class MinkApi {
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Config/operation/download-config */
-  downloadConfig = deduplicateRequest(async (id: string) => {
-    const response = await this.axios
-      .get<string>("corpus/config/download/" + id)
-      .catch((error) => {
-        // 404 means no config which is fine, rethrow other errors.
-        if (error.response?.status == 404) return undefined;
-        throw error;
-      });
-    return response?.data;
-  });
-
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Metadata/operation/upload-metadata-yaml */
-  async uploadMetadataYaml(id: string, yaml: string) {
-    const formData = filesFormData("file", yamlAsFile("metadata.yaml", yaml));
-    const response = await this.axios.put<MinkResponse>(
-      "metadata/config/upload/" + id,
-      formData,
-    );
-    return response.data;
-  }
-
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Metadata/operation/download-metadata-yaml */
-  async downloadMetadataYaml(id: string) {
-    const response = await this.axios
-      .get<string>("metadata/config/download/" + id)
-      .catch((error) => {
-        // 404 means no metadata yaml which is fine, rethrow other errors.
-        if (error.response?.status == 404) return undefined;
-        throw error;
-      });
-    return response?.data;
-  }
+  /**
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/download-corpus-config
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/download-lexicon-config
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Metadata/operation/download_metadata_yaml_metadata_config_download__resource_id__get
+   */
+  downloadConfig = deduplicateRequest(
+    async (type: ResourceType, id: string) => {
+      const response = await this.axios
+        .get<string>(`${type}/config/download/${id}`)
+        .catch((error) => {
+          // 404 means no config which is fine, rethrow other errors.
+          if (error.response?.status == 404) return undefined;
+          throw error;
+        });
+      return response?.data;
+    },
+  );
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Resources/operation/list-resource-statuses */
   async listResourceStatuses() {

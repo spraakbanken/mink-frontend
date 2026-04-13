@@ -12,20 +12,20 @@ import SharingPanel from "@/auth/SharingPanel.vue";
 import { useAuth } from "@/auth/auth.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import useMessenger from "@/message/messenger.composable";
-import { useMetadataStore } from "@/store/metadata.store";
+import { useConfigStore } from "@/store/config.store";
 
 const id = useResourceIdParam();
 const { loadResource } = useResourceStore();
-const { loadConfig, uploadConfig } = useMetadataStore();
+const { loadConfig, uploadConfig } = useConfigStore();
 const { canAdmin, canWrite } = useAuth();
 const { alertError } = useMessenger();
 
 const metadata = computedAsync(() => loadResource(id));
-const config = computedAsync(() => loadConfig(id));
+const config = computedAsync(() => loadConfig("metadata", id));
 
 async function uploadMetadata(files: File[]) {
   const yaml = await files[0]!.text();
-  await uploadConfig(id, yaml).catch(alertError);
+  await uploadConfig("metadata", id, yaml).catch(alertError);
 }
 </script>
 

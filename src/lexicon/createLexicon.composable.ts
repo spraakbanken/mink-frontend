@@ -17,7 +17,7 @@ export default function useCreateLexicon() {
       name: { swe: name, eng: name },
     };
 
-    await api.uploadLexiconConfig(id, makeConfig(configOptions));
+    await api.uploadConfig("lexicon", id, makeConfig(configOptions));
 
     // Show the created resource.
     router.push(`/library/lexicon/${id}`);

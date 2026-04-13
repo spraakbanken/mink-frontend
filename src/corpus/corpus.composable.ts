@@ -33,7 +33,9 @@ export function useCorpus(id: string) {
 
   const corpus = computedAsync(() => loadResource(id));
 
-  const config = computedAsync(() => loadConfig(id), undefined, { lazy: true });
+  const config = computedAsync(() => loadConfig("corpus", id), undefined, {
+    lazy: true,
+  });
 
   const exports = computedAsync(() => loadExports(id), undefined, {
     lazy: true,
@@ -87,7 +89,7 @@ export function useCorpus(id: string) {
 
   async function saveConfigOptions(configOptions: ConfigOptions) {
     const configYaml = makeConfig(id, configOptions);
-    await uploadConfig(id, configYaml);
+    await uploadConfig("corpus", id, configYaml);
   }
 
   async function downloadSource(source: FileMeta, binary: boolean) {

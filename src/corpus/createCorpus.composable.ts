@@ -55,7 +55,7 @@ export default function useCreateCorpus() {
   // Like the `saveConfigOptions` in `corpus.composable.ts` but takes `id` as argument.
   async function saveConfigOptions(configOptions: ConfigOptions, id: string) {
     const configYaml = makeConfig(id, configOptions);
-    await uploadConfig(id, configYaml);
+    await uploadConfig("corpus", id, configYaml);
   }
 
   async function createFromConfig(
