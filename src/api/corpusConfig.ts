@@ -206,7 +206,7 @@ export async function defaultConfig(): Promise<ConfigOptions> {
  * May throw all kinds of errors, the sky is the limit (:
  */
 export function parseConfig(configYaml: string): ConfigOptions {
-  const config = parse(configYaml) as unknown as Partial<SparvConfig>;
+  const config = parse(configYaml) as Partial<SparvConfig>;
 
   if (!config)
     throw new TypeError(`Parsing config failed, returned "${config}"`);

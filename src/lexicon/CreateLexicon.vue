@@ -1,17 +1,24 @@
 <script setup lang="ts">
 import { FormKit } from "@formkit/vue";
+import useCreateLexicon from "./createLexicon.composable";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import PendingContent from "@/spin/PendingContent.vue";
+import useSpin from "@/spin/spin.composable";
+import useMessenger from "@/message/messenger.composable";
 
 type Form = {
   name: string;
 };
 
+const { spin } = useSpin();
+const { createLexicon } = useCreateLexicon();
+const { alertError } = useMessenger();
+
 async function submit(fields: Form) {
-  console.log("submitted:", fields);
+  spin(createLexicon(fields.name), "create").catch(alertError);
 }
 </script>
 

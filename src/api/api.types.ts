@@ -71,13 +71,8 @@ export type ResourceListData = {
   resources: string[];
 };
 
-/** Data in the create-corpus response */
-export type CreateCorpusData = {
-  resource_id: string;
-};
-
-/** Data in the create-metadata response */
-export type CreateMetadataData = {
+/** Data in the create-<resource type> response */
+export type CreateResourceData = {
   resource_id: string;
 };
 

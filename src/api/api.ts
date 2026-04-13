@@ -5,11 +5,10 @@ import type {
   MinkResponse,
   InfoData,
   ResourceListData,
-  CreateCorpusData,
+  CreateResourceData,
   ResourceStatusListData,
   ListExportsData,
   AdminModeStatusData,
-  CreateMetadataData,
   ProgressHandler,
   JobStateMap,
   SparvSchemaData,
@@ -92,17 +91,24 @@ class MinkApi {
   /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/create-corpus */
   async createCorpus() {
     const response =
-      await this.axios.post<MinkResponse<CreateCorpusData>>("corpus/create");
+      await this.axios.post<MinkResponse<CreateResourceData>>("corpus/create");
     return response.data.resource_id;
   }
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Metadata/operation/create-metadata */
   async createMetadata(publicId: string) {
-    const response = await this.axios.post<MinkResponse<CreateMetadataData>>(
+    const response = await this.axios.post<MinkResponse<CreateResourceData>>(
       "metadata/create",
       undefined,
       { params: { public_id: publicId } },
     );
+    return response.data.resource_id;
+  }
+
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/create-lexicon */
+  async createLexicon() {
+    const response =
+      await this.axios.post<MinkResponse<CreateResourceData>>("lexicon/create");
     return response.data.resource_id;
   }
 
@@ -127,6 +133,16 @@ class MinkApi {
     const formData = filesFormData("file", yamlAsFile("config.yaml", config));
     const response = await this.axios.put<MinkResponse>(
       "corpus/config/upload/" + id,
+      formData,
+    );
+    return response.data;
+  }
+
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/upload-lexicon-config */
+  async uploadLexiconConfig(id: string, config: string) {
+    const formData = filesFormData("file", yamlAsFile("config.yaml", config));
+    const response = await this.axios.put<MinkResponse>(
+      "lexicon/config/upload/" + id,
       formData,
     );
     return response.data;
