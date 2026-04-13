@@ -114,12 +114,11 @@ sharing.help.levels.after: Tillgången till en Mink-resurs gäller även i de ve
 source.limit.file.recommended: Rekommenderad filstorlek
 source.limit.file.max: Högsta tillåtna filstorlek
 source.limit.upload.max: Största tillåtna uppladdning
-source.limit.corpus.recommended: Rekommenderad korpusstorlek
-source.limit.corpus.max: Största tillåtna korpus
+source.limit.total.recommended: Rekommenderad högsta totalstorlek
+source.limit.total.max: Högsta tillåtna totalstorlek
 source.notfound: Denna källfil kunde inte hittas
 source.list.loading: Listar källfiler
 source.content: Innehåll
-source.upload.config_format.trigger_change: "Korpuskonfigurationen uppdateras för att stämma med filformatet: {format}"
 upload.accept: Filtyper
 upload.label.single: Lägg till fil
 upload.label.multiple: Lägg till filer

@@ -1,13 +1,14 @@
 import { computed } from "vue";
 import { useCorpus } from "./corpus.composable";
+import useSources from "@/resource/sources.composable";
 
 /** The "corpus state" is related to the job status, but is more about predicting what action the user needs to take. */
 export function useCorpusState(id: string) {
-  const { hasSources, isConfigValid, jobState, job, currentStatus } =
-    useCorpus(id);
+  const { isConfigValid, jobState, job, currentStatus } = useCorpus(id);
+  const { sources } = useSources("corpus", id);
 
   const corpusState = computed(() => {
-    if (!hasSources.value) return CorpusState.EMPTY;
+    if (!sources.value.length) return CorpusState.EMPTY;
     if (!isConfigValid.value) return CorpusState.NEEDING_CONFIG;
 
     if (!jobState.value) {

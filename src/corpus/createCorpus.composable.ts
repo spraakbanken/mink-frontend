@@ -3,7 +3,7 @@ import useDeleteCorpus from "./deleteCorpus.composable";
 import { getFilenameExtension } from "@/util";
 import {
   makeConfig,
-  type FileFormat,
+  type CorpusSourceFormat,
   type ConfigOptions,
   defaultConfig,
 } from "@/api/corpusConfig";
@@ -27,11 +27,11 @@ export default function useCreateCorpus() {
     const config = await defaultConfig();
 
     // Get file extension of first file, assuming all are using the same extension.
-    config.format = getFilenameExtension(files[0].name) as FileFormat;
+    config.format = getFilenameExtension(files[0].name) as CorpusSourceFormat;
 
     // Wait for sources and config to be uploaded in parallel.
     const results = await Promise.allSettled([
-      api.uploadSources(id, files),
+      api.uploadSources("corpus", id, files),
       saveConfigOptions(config, id),
     ]);
 
@@ -61,7 +61,7 @@ export default function useCreateCorpus() {
   async function createFromConfig(
     name: string,
     description: string,
-    format: FileFormat,
+    format: CorpusSourceFormat,
     textAnnotation?: string,
   ) {
     const config = {

@@ -2,37 +2,39 @@
 import { computed } from "vue";
 import { watchImmediate } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
-import { useCorpus } from "../corpus.composable";
 import TextFileBox from "@/components/TextFileBox.vue";
 import { getFilenameExtension } from "@/util";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
-import { READABLE_FORMATS, type FileFormat } from "@/api/corpusConfig";
 import useMessenger from "@/message/messenger.composable";
+import useSources from "@/resource/sources.composable";
+import type { ResourceType } from "@/api/api.types";
+import { isReadable } from "@/file";
 
 const props = defineProps<{
+  type: ResourceType;
   id: string;
   filename: string;
 }>();
 
-const { downloadSource, sources } = useCorpus(props.id);
+const { sources, downloadSource } = useSources(props.type, props.id);
 const { filesize, formatDate } = useLocale();
 const { alert, alertError } = useMessenger();
 const { t } = useI18n();
 
 const metadata = computed(() =>
-  sources.value?.find((source) => source.name === props.filename),
+  sources.value.find((source) => source.name === props.filename),
 );
 const isBinary = computed(() => {
-  const extension = getFilenameExtension(props.filename) as FileFormat;
-  return !READABLE_FORMATS.includes(extension);
+  const extension = getFilenameExtension(props.filename);
+  return !isReadable(extension);
 });
 const isXml = computed(() => /\/xml$/.test(metadata.value?.type || ""));
 
 // Show error if given filename is not found
 watchImmediate([sources, metadata], () => {
-  if (sources.value?.length && !metadata.value)
+  if (sources.value.length && !metadata.value)
     alert(t("source.notfound"), "error");
 });
 

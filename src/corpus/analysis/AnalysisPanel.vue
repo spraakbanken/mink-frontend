@@ -7,6 +7,7 @@ import PendingContent from "@/spin/PendingContent.vue";
 import { useCorpusStore } from "@/store/corpus.store";
 import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
+import useSources from "@/resource/sources.composable";
 
 const props = defineProps<{
   id: string;
@@ -14,7 +15,6 @@ const props = defineProps<{
 
 const { runJob } = useCorpusStore();
 const {
-  hasSources,
   isConfigValid,
   jobState,
   isJobRunning,
@@ -23,6 +23,7 @@ const {
   downloadResult,
   getDownloadFilename,
 } = useCorpus(props.id);
+const { sources } = useSources("corpus", props.id);
 const { canWrite } = useAuth();
 const { alertError } = useMessenger();
 
@@ -30,7 +31,7 @@ const isPending = ref(false);
 const canRun = computed(
   () =>
     canWrite("corpora", props.id) &&
-    hasSources.value &&
+    sources.value.length &&
     isConfigValid.value &&
     !isPending.value &&
     !isJobRunning.value,

@@ -143,14 +143,18 @@ class MinkApi {
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Sources/operation/download-sources */
+  /**
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/download-corpus-sources
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/download-lexicon-sources
+   */
   async downloadSources<B extends boolean>(
+    type: ResourceType,
     id: string,
     filename: string,
     binary: B,
   ) {
     const response = await this.axios
-      .get<B extends true ? Blob : string>("corpus/sources/download/" + id, {
+      .get<B extends true ? Blob : string>(`${type}/sources/download/${id}`, {
         params: { file: filename, zip: false },
         responseType: binary ? "blob" : "text",
       })
@@ -158,21 +162,32 @@ class MinkApi {
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Sources/operation/upload-sources */
-  async uploadSources(id: string, files: File[], onProgress?: ProgressHandler) {
+  /**
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/upload-corpus-sources
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/upload-lexicon-sources
+   */
+  async uploadSources(
+    type: ResourceType,
+    id: string,
+    files: File[],
+    onProgress?: ProgressHandler,
+  ) {
     const formData = filesFormData("files", ...files);
     const response = await this.axios.put<MinkResponse>(
-      "corpus/sources/upload/" + id,
+      `${type}/sources/upload/${id}`,
       formData,
       { onUploadProgress: onProgress },
     );
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Sources/operation/remove-sources */
-  async removeSource(id: string, name: string) {
+  /**
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/remove-corpus-sources
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/remove-lexicon-sources
+   */
+  async removeSource(type: ResourceType, id: string, name: string) {
     const response = await this.axios.delete<MinkResponse>(
-      "corpus/sources/remove/" + id,
+      `${type}/sources/remove/${id}`,
       { params: { remove: name } },
     );
     return response.data;

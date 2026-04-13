@@ -7,7 +7,6 @@ import { useResourceStore } from "./resource.store";
 import { useExportStore } from "./export.store";
 import useSpin from "@/spin/spin.composable";
 import { pickByType } from "@/util";
-import type { FileMeta } from "@/api/api.types";
 import api from "@/api/api";
 
 export const useCorpusStore = defineStore("corpus", () => {
@@ -28,14 +27,6 @@ export const useCorpusStore = defineStore("corpus", () => {
   async function loadCorpus(id: string, skipCache = false): Promise<Corpus> {
     const resource = await loadResource(id, skipCache);
     return resource as Corpus;
-  }
-
-  async function loadSources(
-    id: string,
-    skipCache = false,
-  ): Promise<FileMeta[]> {
-    const resource = await loadResource(id, skipCache, `${id}/sources/list`);
-    return resource.sources;
   }
 
   async function runJob(id: string) {
@@ -95,7 +86,6 @@ export const useCorpusStore = defineStore("corpus", () => {
     corpora,
     hasCorpora,
     loadCorpus,
-    loadSources,
     runJob,
     abortJob,
     installKorp,

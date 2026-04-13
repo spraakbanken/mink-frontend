@@ -10,21 +10,13 @@ import type {
   SparvConfig,
 } from "@/api/sparvConfig.types";
 import type { ByLang } from "@/util.types";
+import { CORPUS_SOURCE_FORMATS } from "@/file";
 
-export type FileFormat =
-  | "txt"
-  | "xml"
-  | "odt"
-  | "docx"
-  | "pdf"
-  | "conllu"
-  | "mp3"
-  | "ogg"
-  | "wav";
+export type CorpusSourceFormat = (typeof CORPUS_SOURCE_FORMATS)[number];
 
 /** Frontend-internal format of a Sparv config. */
 export type ConfigOptions = {
-  format: FileFormat;
+  format: CorpusSourceFormat;
   name?: ByLang;
   description?: ByLang;
   textAnnotation?: string;
@@ -37,7 +29,7 @@ export type ConfigOptions = {
   analyses: Record<AnalysisId, boolean>;
 };
 
-const FORMATS: Record<FileFormat, string> = {
+const IMPORTERS = {
   txt: "text_import:parse",
   xml: "xml_import:parse",
   odt: "odt_import:parse",
@@ -47,24 +39,14 @@ const FORMATS: Record<FileFormat, string> = {
   mp3: "sbx_whisper_import:parse_mp3",
   ogg: "sbx_whisper_import:parse_ogg",
   wav: "sbx_whisper_import:parse_wav",
-};
-
-/** Supported source filename extensions */
-export const FORMATS_EXT = Object.keys(FORMATS);
+} as const;
 
 export const SEGMENTERS: ConfigSentenceSegmenter[] = ["linebreaks"];
 
-/** File formats that allow segmenting text with linebreaks */
-export const SEGMENTABLE_FORMATS: FileFormat[] = [
-  "txt",
-  "xml",
-  "odt",
-  "docx",
-  "pdf",
-];
-
-/** Human-readable file formats */
-export const READABLE_FORMATS: FileFormat[] = ["txt", "xml", "conllu"];
+/** Whether file format allows segmenting text with linebreaks */
+export function isSegmentable(format?: string): boolean {
+  return ["txt", "xml", "odt", "docx", "pdf"].includes(format || "");
+}
 
 /** Write simplified frontend-internal config model to a Sparv-compatible config YAML. */
 export function makeConfig(id: string, options: ConfigOptions): string {
@@ -89,7 +71,7 @@ export function makeConfig(id: string, options: ConfigOptions): string {
       description,
     },
     import: {
-      importer: FORMATS[format],
+      importer: IMPORTERS[format],
     },
     export: {},
   };
@@ -213,8 +195,8 @@ export function parseConfig(configYaml: string): ConfigOptions {
 
   // Throw specific errors if required parts are missing.
   if (!config.import?.importer) throw new TypeError(`Importer setting missing`);
-  const format = (Object.keys(FORMATS) as FileFormat[]).find(
-    (ext) => FORMATS[ext as FileFormat] == config.import?.importer,
+  const format = CORPUS_SOURCE_FORMATS.find(
+    (ext) => IMPORTERS[ext] == config.import?.importer,
   );
   if (!format)
     throw new TypeError(

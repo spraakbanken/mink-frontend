@@ -14,7 +14,7 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import { useAuth } from "@/auth/auth.composable";
 
 const id = useResourceIdParam();
-const { isConfigValid } = useCorpus(id);
+const { isConfigValid, updateSourceFormat } = useCorpus(id);
 const { canWrite } = useAuth();
 </script>
 
@@ -48,7 +48,7 @@ const { canWrite } = useAuth();
       </LayoutBox>
 
       <LayoutBox :title="$t('sources')">
-        <SourcesPanel :id />
+        <SourcesPanel type="corpus" :id @upload="updateSourceFormat" />
       </LayoutBox>
     </div>
 

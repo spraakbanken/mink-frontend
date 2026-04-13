@@ -16,7 +16,7 @@ const corpusRoutes: RouteRecordRaw[] = [
     path: "/library/corpus/new",
     component: CreateCorpus,
     meta: {
-      title: "new_corpus",
+      title: "corpus.new",
       protected: true,
     },
   },
@@ -50,7 +50,11 @@ const corpusRoutes: RouteRecordRaw[] = [
       {
         path: "sources/:filename",
         component: SourceView,
-        props: true,
+        props: (route) => ({
+          type: "corpus",
+          id: route.params.id as string,
+          filename: route.params.filename as string,
+        }),
         meta: {
           createTitle: (params) => params.filename as string,
           protected: true,

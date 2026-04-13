@@ -14,7 +14,6 @@ import { useResourceStore } from "@/store/resource.store";
 import useSpin from "@/spin/spin.composable";
 import useCreateCorpus from "@/corpus/createCorpus.composable";
 import FileUpload from "@/components/FileUpload.vue";
-import { FORMATS_EXT } from "@/api/corpusConfig";
 import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
 import { isCorpus, type Resource } from "@/store/resource.types";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
@@ -22,6 +21,7 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import useMessenger from "@/message/messenger.composable";
 import SortableTable from "@/components/SortableTable.vue";
+import { SOURCE_FORMATS } from "@/file";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
@@ -56,7 +56,12 @@ const resourcesList = computed(() => {
   loadResources().catch(alertError);
 })();
 
-const accept = computed(() => FORMATS_EXT.map((ext) => `.${ext}`).join());
+const accept = computed(() =>
+  Object.values(SOURCE_FORMATS)
+    .flat()
+    .map((ext) => `.${ext}`)
+    .join(),
+);
 
 async function fileHandler(files: File[]) {
   // TODO Detect what resource type to create

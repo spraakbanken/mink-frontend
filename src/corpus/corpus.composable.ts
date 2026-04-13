@@ -1,21 +1,21 @@
 import { computed, watch } from "vue";
-import { attempt, uniq } from "es-toolkit";
+import { attempt } from "es-toolkit";
 import { computedAsync, useInterval } from "@vueuse/core";
 import { useMatomo } from "vue3-matomo";
-import { useCorpusStore } from "@/store/corpus.store";
 import {
   makeConfig,
   parseConfig,
   validateConfig,
   type ConfigOptions,
+  type CorpusSourceFormat,
 } from "@/api/corpusConfig";
-import { downloadFile, getFilenameExtension } from "@/util";
+import { downloadFile } from "@/util";
 import useSpin from "@/spin/spin.composable";
-import type { FileMeta, ProgressHandler } from "@/api/api.types";
 import api from "@/api/api";
 import { useConfigStore } from "@/store/config.store";
 import { useExportStore } from "@/store/export.store";
 import { useResourceStore } from "@/store/resource.store";
+import { CORPUS_SOURCE_FORMATS } from "@/file";
 
 // Module-scope ticker, can be watched to perform task intermittently
 const pollTick = useInterval(2000);
@@ -25,7 +25,6 @@ const pollTracker: Record<string, boolean> = {};
 
 export function useCorpus(id: string) {
   const { loadResource } = useResourceStore();
-  const { loadSources } = useCorpusStore();
   const { loadConfig, uploadConfig } = useConfigStore();
   const { loadExports } = useExportStore();
   const { spin } = useSpin();
@@ -54,16 +53,17 @@ export function useCorpus(id: string) {
     () => !attempt(() => validateConfig(configOptions.value!))[0],
   );
 
-  const sources = computed(() => corpus.value?.sources);
-
-  const hasSources = computed(() => !!sources.value?.length);
-
-  /** Find file extensions present in source files. Undefined if no files. */
-  const extensions = computed(() =>
-    uniq(
-      sources.value?.map((source) => getFilenameExtension(source.name)) || [],
-    ),
-  );
+  /** Update importer in corpus config according to source format if needed */
+  async function updateSourceFormat(extension: string) {
+    const format = extension as CorpusSourceFormat;
+    if (
+      configOptions.value &&
+      format != configOptions.value.format &&
+      CORPUS_SOURCE_FORMATS.includes(format)
+    ) {
+      await saveConfigOptions({ ...configOptions.value, format });
+    }
+  }
 
   const job = computed(() => corpus.value?.job);
   const jobState = computed(() => corpus.value?.job?.status);
@@ -90,26 +90,6 @@ export function useCorpus(id: string) {
   async function saveConfigOptions(configOptions: ConfigOptions) {
     const configYaml = makeConfig(id, configOptions);
     await uploadConfig("corpus", id, configYaml);
-  }
-
-  async function downloadSource(source: FileMeta, binary: boolean) {
-    return spin(
-      api.downloadSources(id, source.name, binary),
-      `${id}/sources/${source.name}`,
-    );
-  }
-
-  async function uploadSources(files: File[], onProgress?: ProgressHandler) {
-    await spin(
-      api.uploadSources(id, files, onProgress),
-      `${id}/sources/upload`,
-    );
-    loadSources(id, true);
-  }
-
-  async function deleteSource(source: FileMeta) {
-    await spin(api.removeSource(id, source.name), `${id}/sources/list`);
-    loadSources(id, true);
   }
 
   // Check status intermittently if active.
@@ -149,12 +129,7 @@ export function useCorpus(id: string) {
     configOptions,
     isConfigValid,
     saveConfigOptions,
-    sources,
-    hasSources,
-    downloadSource,
-    uploadSources,
-    deleteSource,
-    extensions,
+    updateSourceFormat,
     job,
     jobState,
     currentStatus,
