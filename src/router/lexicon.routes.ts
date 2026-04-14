@@ -1,5 +1,7 @@
 import { type RouteRecordRaw } from "vue-router";
 const CreateLexicon = () => import("@/lexicon/CreateLexicon.vue");
+const LexiconConfigurationView = () =>
+  import("@/lexicon/config/LexiconConfigurationView.vue");
 const LexiconView = () => import("@/lexicon/LexiconView.vue");
 const LexiconOverview = () => import("@/lexicon/LexiconOverview.vue");
 const LexiconDelete = () => import("@/lexicon/LexiconDelete.vue");
@@ -22,6 +24,14 @@ const lexiconRoutes: RouteRecordRaw[] = [
         path: "",
         component: LexiconOverview,
         meta: { protected: true },
+      },
+      {
+        path: "config",
+        component: LexiconConfigurationView,
+        meta: {
+          title: "configuration",
+          protected: true,
+        },
       },
       {
         path: "delete",

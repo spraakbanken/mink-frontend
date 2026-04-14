@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { FormKitOptionsList } from "@formkit/inputs";
-import type { AxiosError } from "axios";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
@@ -9,7 +8,6 @@ import { PhLightbulbFilament, PhTrash } from "@phosphor-icons/vue";
 import { computedAsync } from "@vueuse/core";
 import { groupBy } from "es-toolkit";
 import { useCorpus } from "../corpus.composable";
-import type { MinkResponse } from "@/api/api.types";
 import {
   type ConfigOptions,
   type CorpusSourceFormat,
@@ -162,7 +160,7 @@ async function submit(fields: Form) {
     if (e instanceof TypeError) {
       // Error from config serialization
       alert(e.message, "error");
-    } else alertError(e as AxiosError<MinkResponse>);
+    } else alertError(e);
   }
 }
 </script>

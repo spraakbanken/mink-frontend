@@ -18,7 +18,7 @@ const { canWrite } = useAuth();
       <LayoutBox :title="$t('configuration')">
         <ConfigPanel :id />
         <template #controls>
-          <RouteButton :to="`/library/resource/${id}/config`">
+          <RouteButton :to="`/library/lexicon/${id}/config`">
             <template v-if="canWrite('lexica', id)">
               <PhPencilSimple weight="bold" class="inline mb-1 mr-1" />
               {{ $t("edit") }}
