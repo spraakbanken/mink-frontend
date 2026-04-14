@@ -113,18 +113,14 @@ class MinkApi {
     return response.data.resource_id;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/remove-corpus */
-  async removeCorpus(id: string) {
+  /**
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/remove-corpus
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Metadata/operation/remove-metadata
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/remove-lexicon
+   */
+  async removeResource(type: ResourceType, id: string) {
     const response = await this.axios.delete<MinkResponse>(
-      "corpus/remove/" + id,
-    );
-    return response.data;
-  }
-
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Metadata/operation/remove-metadata */
-  async removeMetadata(id: string) {
-    const response = await this.axios.delete<MinkResponse>(
-      "metadata/remove/" + id,
+      `${type}/remove/${id}`,
     );
     return response.data;
   }

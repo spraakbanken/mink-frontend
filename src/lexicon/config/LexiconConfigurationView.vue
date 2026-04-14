@@ -4,6 +4,7 @@ import { attempt } from "es-toolkit";
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
+import { PhTrash } from "@phosphor-icons/vue";
 import { makeConfig, parseConfig } from "../lexiconConfig";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
@@ -15,6 +16,7 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import type { ByLang } from "@/util.types";
 import useMessenger from "@/message/messenger.composable";
+import RouteButton from "@/components/RouteButton.vue";
 
 type Form = {
   name: ByLang;
@@ -23,7 +25,7 @@ type Form = {
 
 const id = useResourceIdParam();
 const { loadConfig, uploadConfig } = useConfigStore();
-const { canWrite } = useAuth();
+const { canWrite, canAdmin } = useAuth();
 const router = useRouter();
 const { alert, alertError } = useMessenger();
 
@@ -116,6 +118,17 @@ async function submit(fields: Form) {
           </FormKit>
         </FormKit>
       </FormKitWrapper>
+
+      <div class="flex justify-center items-baseline gap-4">
+        <RouteButton
+          :disabled="!canAdmin('lexica', id)"
+          :to="`/library/lexicon/${id}/delete`"
+          class="button-danger"
+        >
+          <PhTrash weight="fill" class="inline mb-1 mr-1" />
+          {{ $t("lexicon.delete") }}
+        </RouteButton>
+      </div>
     </LayoutSection>
   </PendingContent>
 </template>

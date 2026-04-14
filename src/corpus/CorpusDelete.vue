@@ -2,7 +2,7 @@
 import { useRouter } from "vue-router";
 import { PhTrash } from "@phosphor-icons/vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
-import useDeleteCorpus from "@/corpus/deleteCorpus.composable";
+import useDeleteResource from "@/resource/deleteResource.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
@@ -12,13 +12,13 @@ import useMessenger from "@/message/messenger.composable";
 
 const router = useRouter();
 const id = useResourceIdParam();
-const { deleteCorpus } = useDeleteCorpus();
+const { deleteResource } = useDeleteResource();
 const { canAdmin } = useAuth();
 const { alertError } = useMessenger();
 
 async function doDelete() {
   try {
-    await deleteCorpus(id);
+    await deleteResource("corpus", id);
     router.push("/library");
   } catch (error) {
     alertError(error);

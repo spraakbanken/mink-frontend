@@ -71,6 +71,7 @@ corpus.state.help.failed_install: Ett fel uppstod under installation. Om du beh�
 lexicon: Lexikon
 lexicon.help: Ett lexikon är en lista med ingångar, vilka kan vara allt från enkla ord till komplexa datastrukturer.
 lexicon.new: Nytt lexikon
+lexicon.delete: Radera lexikon
 metadata: Metadata
 metadata.help: Om du har tilldelats ett organisationsprefix kan du använda Metadata för att förbereda en resurs för publicering.
 metadata.new: Ny metadata

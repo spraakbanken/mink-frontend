@@ -71,6 +71,7 @@ corpus.state.help.failed_install: An error occurred while installing your corpus
 lexicon: Lexicon
 lexicon.help: A lexicon is a list of entries, which can be anything from simple words to complex data structures.
 lexicon.new: New lexicon
+lexicon.delete: Delete lexicon
 metadata: Metadata
 metadata.help: If you have been assigned an organization prefix, use Metadata to prepare a resource for publication.
 metadata.new: New metadata

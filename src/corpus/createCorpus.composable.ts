@@ -1,5 +1,5 @@
 import { useRouter } from "vue-router";
-import useDeleteCorpus from "./deleteCorpus.composable";
+import useDeleteResource from "@/resource/deleteResource.composable";
 import { getFilenameExtension } from "@/util";
 import {
   makeConfig,
@@ -15,7 +15,7 @@ export default function useCreateCorpus() {
   const { refreshAuth } = useAuth();
   const { uploadConfig } = useConfigStore();
   const router = useRouter();
-  const { deleteCorpus } = useDeleteCorpus();
+  const { deleteResource } = useDeleteResource();
 
   async function createFromUpload(files: File[]) {
     if (!files[0]) throw new RangeError("No files");
@@ -41,7 +41,7 @@ export default function useCreateCorpus() {
     );
     if (rejections.length) {
       // Discard the empty corpus.
-      await deleteCorpus(id);
+      await deleteResource("corpus", id);
 
       // Throw one or multiple errors
       if (rejections.length == 1) throw rejections[0].reason;
@@ -82,7 +82,7 @@ export default function useCreateCorpus() {
       await saveConfigOptions(config, id);
     } catch (e) {
       // Discard the empty corpus.
-      await deleteCorpus(id);
+      await deleteResource("corpus", id);
       // Rethrow error
       throw e;
     }
