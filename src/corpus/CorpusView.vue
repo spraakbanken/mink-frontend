@@ -1,21 +1,28 @@
 <script setup lang="ts">
-import { computedAsync } from "@vueuse/core";
+import { ref } from "vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import useLocale from "@/i18n/locale.composable";
-import { useCorpusStore } from "@/store/corpus.store";
+import { useResourceStore } from "@/store/resource.store";
+import { isCorpus, type Corpus } from "@/store/resource.types";
 import useMessenger from "@/message/messenger.composable";
 import useNotFound from "@/components/notfound.composable";
 
 const id = useResourceIdParam();
-const { loadCorpus } = useCorpusStore();
+const { loadResource } = useResourceStore();
 const { th } = useLocale();
 const { alertError } = useMessenger();
 const { handle404 } = useNotFound();
 
-const corpus = computedAsync(() =>
-  loadCorpus(id).catch(handle404).catch(alertError),
-);
+const corpus = ref<Corpus>();
+
+loadResource(id)
+  .then((resource) => {
+    if (!isCorpus(resource)) throw new Error("Resource is not corpus");
+    corpus.value = resource;
+  })
+  .catch(handle404)
+  .catch(alertError);
 </script>
 
 <template>
