@@ -42,11 +42,28 @@ export default function useSources(type: ResourceType, id: string) {
     loadResource(id, true);
   }
 
+  /** Delete sources and upload new ones */
+  async function replaceSources(
+    sources: FileMeta[],
+    files: File[],
+    onProgress?: ProgressHandler,
+  ) {
+    async function doReplaceResource() {
+      await Promise.all(
+        sources.map((source) => api.removeSource(type, id, source.name)),
+      );
+      await api.uploadSources(type, id, files, onProgress);
+    }
+    await spin(doReplaceResource(), `${id}/sources`);
+    loadResource(id, true);
+  }
+
   return {
     sources,
     extensions,
     downloadSource,
     uploadSources,
     deleteSource,
+    replaceSources,
   };
 }

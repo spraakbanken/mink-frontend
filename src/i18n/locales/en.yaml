@@ -119,9 +119,9 @@ source.limit.total.max: Maximum total size
 source.notfound: This source file was not found
 source.list.loading: Listing source files
 source.content: Content
-upload.label.single: Add file
-upload.label.multiple: Add files
 upload.accept: File type | File types
+upload.label.single: Upload file
+upload.label.multiple: Upload files
 upload.dnd.single: Drag and drop file here, or click here to choose
 upload.dnd.multiple: Drag and drop files here, or click here to choose
 upload.drop.empty: No file was dropped. Drag-and-drop may not be supported on your system.
@@ -198,6 +198,7 @@ locale.switcher.label: Interface language
 en: English
 sv: Swedish
 file: File
+source_file: Source file
 sources: Source files
 configuration: Configuration
 settings: Settings

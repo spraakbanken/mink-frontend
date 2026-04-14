@@ -119,9 +119,9 @@ source.limit.total.max: Högsta tillåtna totalstorlek
 source.notfound: Denna källfil kunde inte hittas
 source.list.loading: Listar källfiler
 source.content: Innehåll
-upload.label.single: Lägg till fil
-upload.label.multiple: Lägg till filer
 upload.accept: Filtyp | Filtyper
+upload.label.single: Ladda upp fil
+upload.label.multiple: Ladda upp filer
 upload.dnd.single: Dra och släpp en fil hit, eller klicka här för att välja
 upload.dnd.multiple: Dra och släpp filer hit, eller klicka här för att välja
 upload.drop.empty: Ingen fil släpptes. Dra-och-släpp kanske inte stöds på ditt system.
@@ -199,6 +199,7 @@ locale.switcher.label: Gränssnittsspråk
 en: Engelska
 sv: Svenska
 file: Fil
+source_file: Källfil
 sources: Källfiler
 configuration: Konfiguration
 settings: Inställningar
