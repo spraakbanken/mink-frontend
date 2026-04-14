@@ -119,9 +119,9 @@ source.limit.total.max: Maximum total size
 source.notfound: This source file was not found
 source.list.loading: Listing source files
 source.content: Content
-upload.accept: File types
 upload.label.single: Add file
 upload.label.multiple: Add files
+upload.accept: File type | File types
 upload.dnd.single: Drag and drop file here, or click here to choose
 upload.dnd.multiple: Drag and drop files here, or click here to choose
 upload.drop.empty: No file was dropped. Drag-and-drop may not be supported on your system.

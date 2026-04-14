@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import type { AxiosProgressEvent } from "axios";
 import FileDropArea from "@/components/FileDropArea.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
@@ -13,20 +13,14 @@ const props = defineProps<{
    */
   fileHandler: (files: File[], onProgress: ProgressHandler) => Promise<void>;
   primary?: boolean;
-  accept?: string;
+  accept?: string[];
   multiple?: boolean;
+  replace?: boolean;
   showProgress?: boolean;
 }>();
 
 const { clear } = useMessenger();
 const progress = ref<number>();
-
-const filetypes = computed(() =>
-  props.accept
-    ?.split(",")
-    .map((ext) => ext.replace(/^\./, ""))
-    .join(", "),
-);
 
 /** Call upload function. */
 async function handleUpload(files: File[]) {
@@ -82,13 +76,14 @@ function onProgress(progressEvent: AxiosProgressEvent) {
             </div>
 
             <div v-if="accept" class="my-2">
-              <strong>{{ $t("upload.accept") }}:</strong> {{ filetypes }}
+              <strong>{{ $t("upload.accept", accept.length) }}:</strong>
+              {{ accept.join(", ") }}
             </div>
 
             <input
               id="file-input"
               type="file"
-              :accept
+              :accept="accept?.map((ext) => `.${ext}`).join()"
               :multiple
               @change="handleFileInput($event, handleUpload)"
               class="hidden"

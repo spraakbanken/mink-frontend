@@ -56,12 +56,7 @@ const resourcesList = computed(() => {
   loadResources().catch(alertError);
 })();
 
-const accept = computed(() =>
-  Object.values(SOURCE_FORMATS)
-    .flat()
-    .map((ext) => `.${ext}`)
-    .join(),
-);
+const accept = computed(() => Object.values(SOURCE_FORMATS).flat());
 
 async function fileHandler(files: File[]) {
   // TODO Detect what resource type to create

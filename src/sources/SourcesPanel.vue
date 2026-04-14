@@ -49,10 +49,9 @@ const totalSize = computed(() =>
 );
 
 const accept = computed(() => {
-  const exts = extensions.value.length
+  return extensions.value.length
     ? extensions.value
-    : SOURCE_FORMATS[props.type];
-  return exts.map((ext) => `.${ext}`).join();
+    : [...SOURCE_FORMATS[props.type]];
 });
 
 // TODO Move somewhere central
