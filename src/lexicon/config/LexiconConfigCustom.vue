@@ -1,5 +1,10 @@
-<script lang="ts" setup></script>
+<script setup lang="ts">
+import useResourceIdParam from "@/resource/resourceIdParam.composable";
+import ResourceConfigCustom from "@/resource/ResourceConfigCustom.vue";
+
+const id = useResourceIdParam();
+</script>
 
 <template>
-  <div>TODO</div>
+  <ResourceConfigCustom type="lexicon" :id />
 </template>

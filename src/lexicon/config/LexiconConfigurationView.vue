@@ -120,6 +120,10 @@ async function submit(fields: Form) {
       </FormKitWrapper>
 
       <div class="flex justify-center items-baseline gap-4">
+        <RouteButton :to="`/library/lexicon/${id}/config/custom`">
+          {{ $t("config.custom") }}
+        </RouteButton>
+
         <RouteButton
           :disabled="!canAdmin('lexicon', id)"
           :to="`/library/lexicon/${id}/delete`"
