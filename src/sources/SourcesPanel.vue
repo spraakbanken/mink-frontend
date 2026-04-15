@@ -15,7 +15,6 @@ import useMessenger from "@/message/messenger.composable";
 import { getFilenameExtension } from "@/util";
 import FileUpload from "@/components/FileUpload.vue";
 import { useAuth } from "@/auth/auth.composable";
-import { type ResourceType as AuthResourceType } from "@/api/sbauth";
 import SortableTable, {
   type SortableTableColumn,
 } from "@/components/SortableTable.vue";
@@ -55,16 +54,6 @@ const accept = computed(() => {
     : [...SOURCE_FORMATS[props.type]];
 });
 
-// TODO Move somewhere central
-const authResourceType = computed(() => {
-  const mapping = {
-    corpus: "corpora",
-    lexicon: "lexica",
-    metadata: "metadata",
-  };
-  return mapping[props.type] as AuthResourceType;
-});
-
 const columns = computed<SortableTableColumn<FileMeta>[]>(() => {
   const cols: SortableTableColumn<FileMeta>[] = [
     {
@@ -79,7 +68,7 @@ const columns = computed<SortableTableColumn<FileMeta>[]>(() => {
     },
   ];
 
-  if (canWrite(authResourceType.value, props.id))
+  if (canWrite(props.type, props.id))
     cols.push({ title: t("file.operations"), thClass: "sr-only" });
 
   return cols;
@@ -134,7 +123,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
           <td class="text-end whitespace-nowrap">
             {{ filesize(source.size) }}
           </td>
-          <td v-if="canWrite(authResourceType, id)">
+          <td v-if="canWrite(type, id)">
             <ActionButton
               class="hover:button-danger button-slim text-sm"
               @click="deleteSource(source).catch(alertError)"
@@ -149,7 +138,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
   </MaxHeight>
 
   <PendingContent
-    v-if="canWrite(authResourceType, id)"
+    v-if="canWrite(type, id)"
     :on="`${id}/sources/upload`"
     blocking
   >

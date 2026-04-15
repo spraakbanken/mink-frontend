@@ -33,7 +33,7 @@ async function doDelete() {
 
       <div>
         <ActionButton
-          :disabled="!canAdmin('lexica', id)"
+          :disabled="!canAdmin('lexicon', id)"
           class="button-danger mr-4"
           @click="doDelete"
         >

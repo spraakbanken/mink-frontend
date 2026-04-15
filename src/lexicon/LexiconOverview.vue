@@ -19,7 +19,7 @@ const { canWrite } = useAuth();
         <ConfigPanel :id />
         <template #controls>
           <RouteButton :to="`/library/lexicon/${id}/config`">
-            <template v-if="canWrite('lexica', id)">
+            <template v-if="canWrite('lexicon', id)">
               <PhPencilSimple weight="bold" class="inline mb-1 mr-1" />
               {{ $t("edit") }}
             </template>
@@ -31,7 +31,7 @@ const { canWrite } = useAuth();
       </LayoutBox>
 
       <LayoutBox :title="$t('sharing')">
-        <SharingPanel resource-type="lexica" :id />
+        <SharingPanel resource-type="lexicon" :id />
       </LayoutBox>
 
       <LayoutBox :title="$t('source_file')">

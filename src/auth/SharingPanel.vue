@@ -4,10 +4,11 @@ import { computedAsync } from "@vueuse/core";
 import UrlButton from "@/components/UrlButton.vue";
 import useAdmin from "@/user/admin.composable";
 import { useAuth } from "@/auth/auth.composable";
-import { getAuthGuiUrl, type ResourceType } from "@/api/sbauth";
+import { getAuthGuiUrl } from "@/api/sbauth";
 import { useResourceStore } from "@/store/resource.store";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import useMessenger from "@/message/messenger.composable";
+import type { ResourceType } from "@/api/api.types";
 
 const props = defineProps<{
   resourceType: ResourceType;

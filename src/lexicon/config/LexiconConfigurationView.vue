@@ -61,7 +61,7 @@ async function submit(fields: Form) {
         <FormKit
           id="lexicon-config"
           type="form"
-          :disabled="!canWrite('lexica', id)"
+          :disabled="!canWrite('lexicon', id)"
           :submit-label="$t('save')"
           :submit-attrs="{
             inputClass: 'mink-button button-primary',
@@ -121,7 +121,7 @@ async function submit(fields: Form) {
 
       <div class="flex justify-center items-baseline gap-4">
         <RouteButton
-          :disabled="!canAdmin('lexica', id)"
+          :disabled="!canAdmin('lexicon', id)"
           :to="`/library/lexicon/${id}/delete`"
           class="button-danger"
         >

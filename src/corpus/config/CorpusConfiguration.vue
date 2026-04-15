@@ -183,7 +183,7 @@ async function submit(fields: Form) {
           id="corpus-config"
           v-slot="{ value }"
           type="form"
-          :disabled="!canWrite('corpora', id)"
+          :disabled="!canWrite('corpus', id)"
           :submit-label="$t('save')"
           :submit-attrs="{
             inputClass: 'mink-button button-primary',
@@ -386,7 +386,7 @@ async function submit(fields: Form) {
         </RouteButton>
 
         <RouteButton
-          :disabled="!canAdmin('corpora', id)"
+          :disabled="!canAdmin('corpus', id)"
           :to="`/library/corpus/${id}/delete`"
           class="button-danger"
         >

@@ -27,7 +27,7 @@ const strixUrl = ensureTrailingSlash(import.meta.env.VITE_STRIX_URL);
 
 const canInstall = computed(
   () =>
-    canWrite("corpora", props.id) &&
+    canWrite("corpus", props.id) &&
     !isJobRunning.value &&
     jobState.value?.sparv == "done" &&
     !isPending(`${props.id}/job`),

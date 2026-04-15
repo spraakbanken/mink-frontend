@@ -63,7 +63,7 @@ async function upload() {
       </i18n-t>
     </HelpBox>
 
-    <HelpBox v-if="!canWrite('corpora', id)">
+    <HelpBox v-if="!canWrite('corpus', id)">
       <PhLock class="inline mb-0.5 mr-1" />
       {{ $t("resource.access_denied") }}
     </HelpBox>
@@ -85,7 +85,7 @@ async function upload() {
         <YamlEditor
           v-if="config"
           v-model="input"
-          :disabled="!canWrite('corpora', id)"
+          :disabled="!canWrite('corpus', id)"
           :schema
           @validated="isValid = $event"
         >
