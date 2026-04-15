@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import type { AxiosProgressEvent } from "axios";
 import FileDropArea from "@/components/FileDropArea.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
@@ -21,10 +21,12 @@ const props = defineProps<{
 const { clear } = useMessenger();
 const progress = ref<number>();
 
-const filetypes = props.accept
-  ?.split(",")
-  .map((ext) => ext.replace(/^\./, ""))
-  .join(", ");
+const filetypes = computed(() =>
+  props.accept
+    ?.split(",")
+    .map((ext) => ext.replace(/^\./, ""))
+    .join(", "),
+);
 
 /** Call upload function. */
 async function handleUpload(files: File[]) {
