@@ -107,6 +107,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
         :columns
         :rows="sources"
         :get-row-key="(source) => source.path"
+        :default-sort="{ title: columns[0].title, reverse: false }"
         class="w-full mt-4 striped"
       >
         <template v-slot="{ row: source }">

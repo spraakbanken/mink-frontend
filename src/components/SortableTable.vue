@@ -13,7 +13,7 @@ export type SortableTableColumn<T> = {
 };
 
 /** Holds current sort state */
-type SortState = {
+export type SortState = {
   /** Column title */
   title: string;
   reverse: boolean;
@@ -24,10 +24,11 @@ const props = defineProps<{
   rows: T[];
   /** Should return a unique value from each row */
   getRowKey?: (row: T) => string | number;
+  defaultSort?: SortState;
 }>();
 
 /** Current sort choice */
-const sortState = ref<SortState>();
+const sortState = ref<SortState | undefined>(props.defaultSort);
 
 /** Rows after applying chosen sorting */
 const rowsSorted = computed(() => {

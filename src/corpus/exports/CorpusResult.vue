@@ -104,6 +104,7 @@ function identifyType(path: string): ExportType | undefined {
             ]"
             :rows="files"
             :get-row-key="(file) => file.name"
+            :default-sort="{ title: $t('filename'), reverse: false }"
             class="w-full mt-2 striped"
           >
             <template v-slot="{ row: file }">
