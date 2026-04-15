@@ -40,7 +40,7 @@ async function submit(fields: Form) {
     name: fields.name,
     description: fields.description,
   };
-  const yaml = makeConfig(config);
+  const yaml = makeConfig(id, config);
   try {
     await uploadConfig("lexicon", id, yaml);
     router.push(`/library/lexicon/${id}`);

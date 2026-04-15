@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
+  readonly VITE_MINK_URL: string;
   readonly VITE_BACKEND_URL: string;
   readonly VITE_AUTH_URL: string;
   readonly VITE_AUTH_GUI_URL: string;
