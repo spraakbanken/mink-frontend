@@ -32,41 +32,47 @@ export const useCorpusStore = defineStore("corpus", () => {
   async function runJob(id: string) {
     matomo.value?.trackEvent("Corpus", "Annotation", "Start");
     const resource = await loadResource(id);
-    const info = await spin(api.runSparv(id), `${id}/job/sparv`);
+    const info = await spin(api.runJob("corpus", id), `${id}/job/sparv`);
     resource.job = info.job;
   }
 
   async function installKorp(id: string) {
     matomo.value?.trackEvent("Corpus", "Tool install", "Korp");
     const resource = await loadResource(id);
-    const info = await spin(api.installKorp(id), `${id}/job/install/korp`);
+    const info = await spin(
+      api.install("corpus", id, "korp"),
+      `${id}/job/install/korp`,
+    );
     resource.job = info.job;
   }
 
   async function installStrix(id: string) {
     matomo.value?.trackEvent("Corpus", "Tool install", "Strix");
     const resource = await loadResource(id);
-    const info = await spin(api.installStrix(id), `${id}/job/install/strix`);
+    const info = await spin(
+      api.install("corpus", id, "strix"),
+      `${id}/job/install/strix`,
+    );
     resource.job = info.job;
   }
 
   async function uninstallKorp(id: string) {
     matomo.value?.trackEvent("Corpus", "Tool uninstall", "Korp");
-    await spin(api.uninstallKorp(id), `${id}/job/install/korp`);
+    await spin(api.uninstall("corpus", id, "korp"), `${id}/job/install/korp`);
     // Get updated job info
     await loadCorpus(id, true);
   }
 
   async function uninstallStrix(id: string) {
     matomo.value?.trackEvent("Corpus", "Tool uninstall", "Strix");
-    await spin(api.uninstallStrix(id), `${id}/job/install/strix`);
+    await spin(api.uninstall("corpus", id, "strix"), `${id}/job/install/strix`);
     // Get updated job info
     await loadCorpus(id, true);
   }
 
   async function abortJob(id: string) {
     matomo.value?.trackEvent("Corpus", "Annotation", "Abort");
-    await spin(api.abortJob(id), `${id}/job/abort`);
+    await spin(api.abortJob("corpus", id), `${id}/job/abort`);
     // Get updated job info
     await loadCorpus(id, true);
   }

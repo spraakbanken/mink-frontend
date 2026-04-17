@@ -41,41 +41,33 @@ export const useLexiconStore = defineStore("lexicon", () => {
   async function runJob(id: string) {
     matomo.value?.trackEvent("Lexicon", "Annotation", "Start");
     const resource = await loadResource(id);
-    const info = await spin(api.runSparv(id), `${id}/job/sparv`);
+    const info = await spin(api.runJob("lexicon", id), `${id}/job/sparv`);
     resource.job = info.job;
   }
 
-  async function installKorp(id: string) {
-    matomo.value?.trackEvent("Lexicon", "Tool install", "Korp");
+  async function installKarps(id: string) {
+    matomo.value?.trackEvent("Lexicon", "Tool install", "Karps");
     const resource = await loadResource(id);
-    const info = await spin(api.installKorp(id), `${id}/job/install/korp`);
+    const info = await spin(
+      api.install("lexicon", id, "karps"),
+      `${id}/job/install/karps`,
+    );
     resource.job = info.job;
   }
 
-  async function installStrix(id: string) {
-    matomo.value?.trackEvent("Lexicon", "Tool install", "Strix");
-    const resource = await loadResource(id);
-    const info = await spin(api.installStrix(id), `${id}/job/install/strix`);
-    resource.job = info.job;
-  }
-
-  async function uninstallKorp(id: string) {
-    matomo.value?.trackEvent("Lexicon", "Tool uninstall", "Korp");
-    await spin(api.uninstallKorp(id), `${id}/job/install/korp`);
-    // Get updated job info
-    await loadLexicon(id, true);
-  }
-
-  async function uninstallStrix(id: string) {
-    matomo.value?.trackEvent("Lexicon", "Tool uninstall", "Strix");
-    await spin(api.uninstallStrix(id), `${id}/job/install/strix`);
+  async function uninstallKarps(id: string) {
+    matomo.value?.trackEvent("Lexicon", "Tool uninstall", "Karps");
+    await spin(
+      api.uninstall("lexicon", id, "karps"),
+      `${id}/job/install/karps`,
+    );
     // Get updated job info
     await loadLexicon(id, true);
   }
 
   async function abortJob(id: string) {
     matomo.value?.trackEvent("Lexicon", "Annotation", "Abort");
-    await spin(api.abortJob(id), `${id}/job/abort`);
+    await spin(api.abortJob("lexicon", id), `${id}/job/abort`);
     // Get updated job info
     await loadLexicon(id, true);
   }
@@ -98,9 +90,7 @@ export const useLexiconStore = defineStore("lexicon", () => {
     loadSources,
     runJob,
     abortJob,
-    installKorp,
-    installStrix,
-    uninstallKorp,
-    uninstallStrix,
+    installKarps,
+    uninstallKarps,
   };
 });

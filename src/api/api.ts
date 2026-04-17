@@ -225,10 +225,13 @@ class MinkApi {
     return response.data;
   });
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Process-Corpus/operation/run-sparv */
-  async runSparv(id: string) {
+  /**
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/run-corpus-job
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/run-lexicon-job
+   */
+  async runJob(type: ResourceType, id: string) {
     const response = await this.axios.put<MinkResponse<ResourceInfo>>(
-      "corpus/job/run/" + id,
+      `${type}/job/run/${id}`,
       null,
       // Errors are okay.
       { validateStatus: () => true },
@@ -236,10 +239,13 @@ class MinkApi {
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Process-Corpus/operation/abort-job */
-  async abortJob(id: string) {
+  /**
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/abort-corpus-job
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/abort-lexicon-job
+   */
+  async abortJob(type: ResourceType, id: string) {
     const response = await this.axios.post<MinkResponse>(
-      "corpus/job/abort/" + id,
+      `${type}/job/abort/${id}`,
     );
     return response.data;
   }
@@ -279,34 +285,26 @@ class MinkApi {
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Process-Corpus/operation/install-korp */
-  async installKorp(id: string) {
+  /**
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/install-korp
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/install-strix
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/install-karps
+   */
+  async install(type: ResourceType, id: string, tool: string) {
     const response = await this.axios.put<MinkResponse<ResourceInfo>>(
-      "corpus/korp/install/" + id,
+      `${type}/${tool}/install/${id}`,
     );
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Process-Corpus/operation/install-strix */
-  async installStrix(id: string) {
-    const response = await this.axios.put<MinkResponse<ResourceInfo>>(
-      "corpus/strix/install/" + id,
-    );
-    return response.data;
-  }
-
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Process-Corpus/operation/uninstall-korp */
-  async uninstallKorp(id: string) {
+  /**
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/uninstall-korp
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/uninstall-strix
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/uninstall-karps
+   */
+  async uninstall(type: ResourceType, id: string, tool: string) {
     const response = await this.axios.delete<MinkResponse>(
-      "corpus/korp/uninstall/" + id,
-    );
-    return response.data;
-  }
-
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Process-Corpus/operation/uninstall-strix */
-  async uninstallStrix(id: string) {
-    const response = await this.axios.delete<MinkResponse>(
-      "corpus/strix/uninstall/" + id,
+      `${type}/${tool}/uninstall/${id}`,
     );
     return response.data;
   }
