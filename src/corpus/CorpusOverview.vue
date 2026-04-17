@@ -2,7 +2,6 @@
 import { PhPencilSimple } from "@phosphor-icons/vue";
 import SharingPanel from "../auth/SharingPanel.vue";
 import { useCorpus } from "./corpus.composable";
-import StatusPanel from "./job/StatusPanel.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import ConfigPanel from "@/corpus/config/ConfigPanel.vue";
 import SourcesPanel from "@/sources/SourcesPanel.vue";
@@ -12,6 +11,7 @@ import CorpusStateHelp from "@/corpus/CorpusStateHelp.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import { useAuth } from "@/auth/auth.composable";
+import JobStatusPanel from "@/job/JobStatusPanel.vue";
 
 const id = useResourceIdParam();
 const { isConfigValid, updateSourceFormat } = useCorpus(id);
@@ -57,7 +57,7 @@ const { canWrite } = useAuth();
         :title="$t('job.status')"
         class="bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
       >
-        <StatusPanel :id />
+        <JobStatusPanel :id />
       </LayoutBox>
 
       <LayoutBox :title="$t('analysis')">

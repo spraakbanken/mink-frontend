@@ -4,7 +4,6 @@ import { PhDownloadSimple, PhGearFine, PhInfo } from "@phosphor-icons/vue";
 import { useCorpus } from "../corpus.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import { useCorpusStore } from "@/store/corpus.store";
 import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
 import useSources from "@/resource/sources.composable";
@@ -14,7 +13,6 @@ const props = defineProps<{
   id: string;
 }>();
 
-const { runJob } = useCorpusStore();
 const {
   isConfigValid,
   exports,
@@ -22,7 +20,7 @@ const {
   downloadResult,
   getDownloadFilename,
 } = useCorpus(props.id);
-const { job, isRunning } = useResource(props.id);
+const { job, isRunning, runJob } = useResource(props.id);
 const { sources } = useSources("corpus", props.id);
 const { canWrite } = useAuth();
 const { alertError } = useMessenger();
@@ -39,7 +37,7 @@ const canRun = computed(
 
 async function doRunJob() {
   isPending.value = true;
-  await runJob(props.id).catch(alertError);
+  await runJob().catch(alertError);
   isPending.value = false;
 }
 </script>
@@ -47,7 +45,7 @@ async function doRunJob() {
 <template>
   <div>
     <PendingContent
-      :on="`${id}/job/sparv`"
+      :on="`${id}/job/run`"
       class="flex flex-col gap-3 items-start"
     >
       <PendingContent

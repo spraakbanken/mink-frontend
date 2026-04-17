@@ -7,6 +7,7 @@ import RouteButton from "@/components/RouteButton.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import SharingPanel from "@/auth/SharingPanel.vue";
 import SourcesPanel from "@/sources/SourcesPanel.vue";
+import JobStatusPanel from "@/job/JobStatusPanel.vue";
 
 const id = useResourceIdParam();
 const { canWrite } = useAuth();
@@ -44,7 +45,7 @@ const { canWrite } = useAuth();
         :title="$t('job.status')"
         class="bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
       >
-        <StatusPanel :id />
+        <JobStatusPanel :id />
       </LayoutBox>
 
       <LayoutBox :title="$t('analysis')">
