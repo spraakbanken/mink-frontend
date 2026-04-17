@@ -5,20 +5,17 @@ import PageTitle from "@/components/PageTitle.vue";
 import useMessenger from "@/message/messenger.composable";
 import useNotFound from "@/components/notfound.composable";
 import { useResourceStore } from "@/store/resource.store";
-import { isMetadata, type Metadata } from "@/store/resource.types";
+import { type Metadata } from "@/store/resource.types";
 
 const id = useResourceIdParam();
-const { loadResource } = useResourceStore();
+const { loadTypedResource } = useResourceStore();
 const { alertError } = useMessenger();
 const { handle404 } = useNotFound();
 
 const metadata = ref<Metadata>();
 
-loadResource(id)
-  .then((resource) => {
-    if (!isMetadata(resource)) throw new Error("Resource is not metadata");
-    metadata.value = resource;
-  })
+loadTypedResource("metadata", id)
+  .then((resource) => (metadata.value = resource))
   .catch(handle404)
   .catch(alertError);
 </script>

@@ -16,7 +16,6 @@ import { useConfigStore } from "@/store/config.store";
 import { useExportStore } from "@/store/export.store";
 import { useResourceStore } from "@/store/resource.store";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
-import { isCorpus } from "@/store/resource.types";
 
 // Module-scope ticker, can be watched to perform task intermittently
 const pollTick = useInterval(2000);
@@ -25,17 +24,13 @@ const pollTick = useInterval(2000);
 const pollTracker: Record<string, boolean> = {};
 
 export function useCorpus(id: string) {
-  const { loadResource } = useResourceStore();
+  const { loadTypedResource, loadResource } = useResourceStore();
   const { loadConfig, uploadConfig } = useConfigStore();
   const { loadExports } = useExportStore();
   const { spin } = useSpin();
   const matomo = useMatomo();
 
-  const corpus = computedAsync(async () => {
-    const resource = await loadResource(id);
-    if (!isCorpus(resource)) throw new Error(`Resource is not corpus`);
-    return resource;
-  });
+  const corpus = computedAsync(() => loadTypedResource("corpus", id));
 
   const config = computedAsync(() => loadConfig("corpus", id), undefined, {
     lazy: true,

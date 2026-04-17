@@ -5,22 +5,19 @@ import PageTitle from "@/components/PageTitle.vue";
 import useLocale from "@/i18n/locale.composable";
 import useMessenger from "@/message/messenger.composable";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
-import { isLexicon, type Lexicon } from "@/store/resource.types";
+import { type Lexicon } from "@/store/resource.types";
 import { useResourceStore } from "@/store/resource.store";
 
 const id = useResourceIdParam();
-const { loadResource } = useResourceStore();
+const { loadTypedResource } = useResourceStore();
 const { th } = useLocale();
 const { alertError } = useMessenger();
 const { handle404 } = useNotFound();
 
 const lexicon = ref<Lexicon>();
 
-loadResource(id)
-  .then((resource) => {
-    if (!isLexicon(resource)) throw new Error("Resource is not lexicon");
-    lexicon.value = resource;
-  })
+loadTypedResource("lexicon", id)
+  .then((resource) => (lexicon.value = resource))
   .catch(handle404)
   .catch(alertError);
 </script>
