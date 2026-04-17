@@ -1,11 +1,11 @@
 import type { ByLang } from "@/util.types";
-import type { CorpusJob, FileMeta, ResourceType } from "@/api/api.types";
+import type { FileMeta, JobInfo, ResourceType } from "@/api/api.types";
 
 export type Resource<T extends ResourceType = ResourceType> = {
   type: T;
   name: ByLang;
   owner: User;
-  job: CorpusJob;
+  job: JobInfo<T>;
   /** For Metadata, this can be different from the Mink id. */
   publicId: string;
   sources: FileMeta[];

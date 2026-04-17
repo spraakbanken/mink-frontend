@@ -83,9 +83,9 @@ export const useLexiconStore = defineStore("lexicon", () => {
   // Refresh exports when Sparv is done
   watchDeep(lexicons, (lexiconsNew, lexiconsOld) => {
     Object.keys(lexiconsNew).forEach((id) => {
-      const sparvNew = lexiconsNew[id]?.job?.status.sparv;
-      const sparvOld = lexiconsOld[id]?.job?.status.sparv;
-      if (sparvNew == "done" && sparvOld && sparvOld != "done") {
+      const statusNew = lexiconsNew[id]?.job?.status.karp_pipeline;
+      const statusOld = lexiconsOld[id]?.job?.status.karp_pipeline;
+      if (statusNew == "done" && statusOld && statusOld != "done") {
         loadExports(id, true);
       }
     });

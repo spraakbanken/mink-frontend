@@ -10,7 +10,6 @@ import type {
   ListExportsData,
   AdminModeStatusData,
   ProgressHandler,
-  JobStateMap,
   SparvSchemaData,
   SparvExportsData,
   ResourceInfo,
@@ -239,7 +238,7 @@ class MinkApi {
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Process-Corpus/operation/abort-job */
   async abortJob(id: string) {
-    const response = await this.axios.post<MinkResponse<JobStateMap>>(
+    const response = await this.axios.post<MinkResponse>(
       "corpus/job/abort/" + id,
     );
     return response.data;
