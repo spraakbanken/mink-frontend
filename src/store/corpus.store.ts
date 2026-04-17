@@ -29,15 +29,8 @@ export const useCorpusStore = defineStore("corpus", () => {
     return resource as Corpus;
   }
 
-  async function runJob(id: string) {
-    matomo.value?.trackEvent("Corpus", "Annotation", "Start");
-    const resource = await loadResource(id);
-    const info = await spin(api.runJob("corpus", id), `${id}/job/sparv`);
-    resource.job = info.job;
-  }
-
   async function installKorp(id: string) {
-    matomo.value?.trackEvent("Corpus", "Tool install", "Korp");
+    matomo.value?.trackEvent("Job", "Install", "corpus korp");
     const resource = await loadResource(id);
     const info = await spin(
       api.install("corpus", id, "korp"),
@@ -47,7 +40,7 @@ export const useCorpusStore = defineStore("corpus", () => {
   }
 
   async function installStrix(id: string) {
-    matomo.value?.trackEvent("Corpus", "Tool install", "Strix");
+    matomo.value?.trackEvent("Job", "Install", "corpus strix");
     const resource = await loadResource(id);
     const info = await spin(
       api.install("corpus", id, "strix"),
@@ -57,22 +50,15 @@ export const useCorpusStore = defineStore("corpus", () => {
   }
 
   async function uninstallKorp(id: string) {
-    matomo.value?.trackEvent("Corpus", "Tool uninstall", "Korp");
+    matomo.value?.trackEvent("Job", "Uninstall", "corpus korp");
     await spin(api.uninstall("corpus", id, "korp"), `${id}/job/install/korp`);
     // Get updated job info
     await loadCorpus(id, true);
   }
 
   async function uninstallStrix(id: string) {
-    matomo.value?.trackEvent("Corpus", "Tool uninstall", "Strix");
+    matomo.value?.trackEvent("Job", "Uninstall", "corpus strix");
     await spin(api.uninstall("corpus", id, "strix"), `${id}/job/install/strix`);
-    // Get updated job info
-    await loadCorpus(id, true);
-  }
-
-  async function abortJob(id: string) {
-    matomo.value?.trackEvent("Corpus", "Annotation", "Abort");
-    await spin(api.abortJob("corpus", id), `${id}/job/abort`);
     // Get updated job info
     await loadCorpus(id, true);
   }
@@ -92,8 +78,6 @@ export const useCorpusStore = defineStore("corpus", () => {
     corpora,
     hasCorpora,
     loadCorpus,
-    runJob,
-    abortJob,
     installKorp,
     installStrix,
     uninstallKorp,

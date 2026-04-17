@@ -38,15 +38,8 @@ export const useLexiconStore = defineStore("lexicon", () => {
     return resource.sources;
   }
 
-  async function runJob(id: string) {
-    matomo.value?.trackEvent("Lexicon", "Annotation", "Start");
-    const resource = await loadResource(id);
-    const info = await spin(api.runJob("lexicon", id), `${id}/job/sparv`);
-    resource.job = info.job;
-  }
-
   async function installKarps(id: string) {
-    matomo.value?.trackEvent("Lexicon", "Tool install", "Karps");
+    matomo.value?.trackEvent("Job", "Install", "lexicon karps");
     const resource = await loadResource(id);
     const info = await spin(
       api.install("lexicon", id, "karps"),
@@ -56,18 +49,11 @@ export const useLexiconStore = defineStore("lexicon", () => {
   }
 
   async function uninstallKarps(id: string) {
-    matomo.value?.trackEvent("Lexicon", "Tool uninstall", "Karps");
+    matomo.value?.trackEvent("Job", "Uninstall", "lexicon karps");
     await spin(
       api.uninstall("lexicon", id, "karps"),
       `${id}/job/install/karps`,
     );
-    // Get updated job info
-    await loadLexicon(id, true);
-  }
-
-  async function abortJob(id: string) {
-    matomo.value?.trackEvent("Lexicon", "Annotation", "Abort");
-    await spin(api.abortJob("lexicon", id), `${id}/job/abort`);
     // Get updated job info
     await loadLexicon(id, true);
   }
@@ -88,8 +74,6 @@ export const useLexiconStore = defineStore("lexicon", () => {
     hasLexicons,
     loadLexicon,
     loadSources,
-    runJob,
-    abortJob,
     installKarps,
     uninstallKarps,
   };
