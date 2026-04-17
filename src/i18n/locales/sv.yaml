@@ -229,9 +229,9 @@ create: Skapa
 cancel: Avbryt
 message: Meddelande
 sparv.url: https://spraakbanken.gu.se/verktyg/sparv
-sparvOutput: Output från Sparv
 download: Ladda ner
 download_export: Ladda ner all utdata
+job.process_output: Processoutput
 job.status.done: Färdig
 job.status.none: Inte startad
 job.status.aborted: Avbruten

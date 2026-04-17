@@ -8,6 +8,7 @@ import { useCorpusStore } from "@/store/corpus.store";
 import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
 import useSources from "@/resource/sources.composable";
+import useResource from "@/resource/resource.composable";
 
 const props = defineProps<{
   id: string;
@@ -16,13 +17,12 @@ const props = defineProps<{
 const { runJob } = useCorpusStore();
 const {
   isConfigValid,
-  jobState,
-  isJobRunning,
   exports,
   clearAnnotations,
   downloadResult,
   getDownloadFilename,
 } = useCorpus(props.id);
+const { job, isRunning } = useResource(props.id);
 const { sources } = useSources("corpus", props.id);
 const { canWrite } = useAuth();
 const { alertError } = useMessenger();
@@ -34,7 +34,7 @@ const canRun = computed(
     sources.value.length &&
     isConfigValid.value &&
     !isPending.value &&
-    !isJobRunning.value,
+    !isRunning.value,
 );
 
 async function doRunJob() {
@@ -52,7 +52,7 @@ async function doRunJob() {
     >
       <PendingContent
         :on="`${id}/exports/list`"
-        v-if="!isJobRunning && exports?.length"
+        v-if="!isRunning && exports?.length"
         class="flex gap-3 items-center"
       >
         <div>
@@ -88,15 +88,15 @@ async function doRunJob() {
       </div>
 
       <div>
-        <div v-if="!isJobRunning && exports?.length" class="text-sm">
+        <div v-if="!isRunning && exports?.length" class="text-sm">
           <PhInfo class="inline mb-0.5 mr-1" />
           {{ $t("job.rerun.overwrite") }}
         </div>
 
         <div
           v-if="
-            !isJobRunning &&
-            (jobState?.korp == 'done' || jobState?.strix == 'done')
+            !isRunning &&
+            (job?.status.korp == 'done' || job?.status.strix == 'done')
           "
           class="text-sm"
         >
@@ -117,7 +117,7 @@ async function doRunJob() {
             <td>
               <PendingContent :on="`${id}/exports/download`">
                 <ActionButton
-                  :class="{ 'button-primary': !isJobRunning }"
+                  :class="{ 'button-primary': !isRunning }"
                   @click="downloadResult().catch(alertError)"
                 >
                   <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />

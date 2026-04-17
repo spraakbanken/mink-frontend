@@ -2,10 +2,10 @@
 import { PhPencilSimple } from "@phosphor-icons/vue";
 import SharingPanel from "../auth/SharingPanel.vue";
 import { useCorpus } from "./corpus.composable";
+import StatusPanel from "./job/StatusPanel.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import ConfigPanel from "@/corpus/config/ConfigPanel.vue";
 import SourcesPanel from "@/sources/SourcesPanel.vue";
-import JobStatus from "@/corpus/job/JobStatus.vue";
 import AnalysisPanel from "@/corpus/analysis/AnalysisPanel.vue";
 import ExplorePanel from "@/corpus/explore/ExplorePanel.vue";
 import CorpusStateHelp from "@/corpus/CorpusStateHelp.vue";
@@ -57,7 +57,7 @@ const { canWrite } = useAuth();
         :title="$t('job.status')"
         class="bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
       >
-        <JobStatus :id />
+        <StatusPanel :id />
       </LayoutBox>
 
       <LayoutBox :title="$t('analysis')">

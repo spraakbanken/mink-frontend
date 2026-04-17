@@ -44,7 +44,7 @@ const { canWrite } = useAuth();
         :title="$t('job.status')"
         class="bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
       >
-        <JobStatus :id />
+        <StatusPanel :id />
       </LayoutBox>
 
       <LayoutBox :title="$t('analysis')">

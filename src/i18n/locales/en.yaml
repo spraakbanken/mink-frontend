@@ -228,9 +228,9 @@ create: Create
 cancel: Cancel
 message: Message
 sparv.url: https://spraakbanken.gu.se/en/tools/sparv
-sparvOutput: Sparv output
 download: Download
 download_export: Download full result
+job.process_output: Process output
 job.status.done: Done
 job.status.none: Not started
 job.status.aborted: Aborted

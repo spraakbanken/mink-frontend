@@ -1,17 +1,19 @@
 import { computed } from "vue";
 import { useCorpus } from "./corpus.composable";
 import useSources from "@/resource/sources.composable";
+import useResource from "@/resource/resource.composable";
 
 /** The "corpus state" is related to the job status, but is more about predicting what action the user needs to take. */
 export function useCorpusState(id: string) {
-  const { isConfigValid, jobState, job, currentStatus } = useCorpus(id);
+  const { job, currentStatus } = useResource(id);
+  const { isConfigValid } = useCorpus(id);
   const { sources } = useSources("corpus", id);
 
   const corpusState = computed(() => {
     if (!sources.value.length) return CorpusState.EMPTY;
     if (!isConfigValid.value) return CorpusState.NEEDING_CONFIG;
 
-    if (!jobState.value) {
+    if (!job.value?.status) {
       console.warn(`Missing job state for ${id}`);
       return CorpusState.UNKNOWN;
     }
@@ -23,7 +25,7 @@ export function useCorpusState(id: string) {
       return isTool ? CorpusState.RUNNING_INSTALL : CorpusState.RUNNING;
 
     // If the last Sparv job was aborted, encourage re-annotation (even if last process was a tool install)
-    if (jobState.value.sparv == "none" || jobState.value.sparv == "aborted")
+    if (["aborted", "none"].includes(job.value?.status.sparv))
       return CorpusState.READY;
 
     if (currentStatus.value == "error")
@@ -32,7 +34,7 @@ export function useCorpusState(id: string) {
     if (currentStatus.value == "done")
       return isTool ? CorpusState.DONE_INSTALL : CorpusState.DONE;
 
-    console.warn("Invalid state", JSON.stringify(jobState.value));
+    console.warn("Invalid state", JSON.stringify(job.value?.status));
     return CorpusState.UNKNOWN;
   });
 

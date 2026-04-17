@@ -16,6 +16,7 @@ import { useConfigStore } from "@/store/config.store";
 import { useExportStore } from "@/store/export.store";
 import { useResourceStore } from "@/store/resource.store";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
+import useResource from "@/resource/resource.composable";
 
 // Module-scope ticker, can be watched to perform task intermittently
 const pollTick = useInterval(2000);
@@ -25,6 +26,7 @@ const pollTracker: Record<string, boolean> = {};
 
 export function useCorpus(id: string) {
   const { loadTypedResource, loadResource } = useResourceStore();
+  const { isRunning } = useResource(id);
   const { loadConfig, uploadConfig } = useConfigStore();
   const { loadExports } = useExportStore();
   const { spin } = useSpin();
@@ -65,22 +67,6 @@ export function useCorpus(id: string) {
     }
   }
 
-  const job = computed(() => corpus.value?.job);
-  const jobState = computed(() => corpus.value?.job?.status);
-  const currentStatus = computed(() => {
-    const process = job.value?.current_process;
-    return process && job.value?.status?.[process];
-  });
-  const hasError = computed(() => currentStatus.value == "error");
-
-  // "Running" if any job is waiting/running.
-  const isJobRunning = computed(() => {
-    if (!jobState.value) return false;
-    return Object.values(jobState.value).some((state) =>
-      ["waiting", "running"].includes(state),
-    );
-  });
-
   async function clearAnnotations() {
     matomo.value?.trackEvent("Corpus", "Annotation", "Clear");
     await spin(api.clearAnnotations(id), `${id}/exports/list`);
@@ -95,7 +81,7 @@ export function useCorpus(id: string) {
   // Check status intermittently if active.
   watch(pollTick, async () => {
     // This composable can be active in multiple components with the same corpus id. Only send request once per corpus.
-    if (isJobRunning.value && !pollTracker[id]) {
+    if (isRunning.value && !pollTracker[id]) {
       pollTracker[id] = true;
       await loadResource(id, true);
       pollTracker[id] = false;
@@ -130,11 +116,6 @@ export function useCorpus(id: string) {
     isConfigValid,
     saveConfigOptions,
     updateSourceFormat,
-    job,
-    jobState,
-    currentStatus,
-    isJobRunning,
-    hasError,
     clearAnnotations,
     exports,
     downloadResult,
