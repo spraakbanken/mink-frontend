@@ -9,7 +9,6 @@ import {
   type ConfigOptions,
   type CorpusSourceFormat,
 } from "@/api/corpusConfig";
-import { downloadFile } from "@/util";
 import useSpin from "@/spin/spin.composable";
 import api from "@/api/api";
 import { useConfigStore } from "@/store/config.store";
@@ -88,27 +87,6 @@ export function useCorpus(id: string) {
     }
   });
 
-  function getDownloadFilename() {
-    return id + ".zip";
-  }
-
-  async function downloadResult() {
-    matomo.value?.trackEvent("Corpus", "Download", "Export archive");
-    const data = await spin(api.downloadExports(id), `${id}/exports/download`);
-    downloadFile(data, getDownloadFilename());
-  }
-
-  async function downloadResultFile(path: string) {
-    const filename = path.split("/").pop()!;
-    matomo.value?.trackEvent("Corpus", "Download", "Export file");
-    const data = await loadResultFile(path);
-    downloadFile(data, filename);
-  }
-
-  async function loadResultFile(path: string) {
-    return spin(api.downloadExportFile(id, path), `${id}/exports/${path}`);
-  }
-
   return {
     corpus,
     config,
@@ -118,9 +96,5 @@ export function useCorpus(id: string) {
     updateSourceFormat,
     clearAnnotations,
     exports,
-    downloadResult,
-    downloadResultFile,
-    loadResultFile,
-    getDownloadFilename,
   };
 }

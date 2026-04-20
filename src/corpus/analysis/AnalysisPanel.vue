@@ -8,20 +8,16 @@ import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
 import useSources from "@/resource/sources.composable";
 import useResource from "@/resource/resource.composable";
+import useExports from "@/exports/exports.composable";
 
 const props = defineProps<{
   id: string;
 }>();
 
-const {
-  isConfigValid,
-  exports,
-  clearAnnotations,
-  downloadResult,
-  getDownloadFilename,
-} = useCorpus(props.id);
+const { isConfigValid, exports, clearAnnotations } = useCorpus(props.id);
 const { job, isRunning, runJob } = useResource(props.id);
 const { sources } = useSources("corpus", props.id);
+const { downloadResult, getDownloadFilename } = useExports("corpus", props.id);
 const { canWrite } = useAuth();
 const { alertError } = useMessenger();
 

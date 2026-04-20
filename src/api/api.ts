@@ -269,18 +269,24 @@ class MinkApi {
     return response.data.contents;
   });
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Exports/operation/download-exports */
-  async downloadExports(id: string) {
+  /**
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/download-corpus-exports
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/download-lexicon-exports
+   */
+  async downloadExports(type: ResourceType, id: string) {
     const response = await this.axios
-      .get<Blob>("corpus/exports/download/" + id, { responseType: "blob" })
+      .get<Blob>(`${type}/exports/download/${id}`, { responseType: "blob" })
       .catch(rethrowBlobError);
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Exports/operation/download-exports */
-  async downloadExportFile(id: string, path: string) {
+  /**
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/download-corpus-exports
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/download-lexicon-exports
+   */
+  async downloadExportFile(type: ResourceType, id: string, path: string) {
     const response = await this.axios
-      .get<Blob>("corpus/exports/download/" + id, {
+      .get<Blob>(`${type}/exports/download/${id}`, {
         params: { file: path, zip: false },
         responseType: "text",
       })

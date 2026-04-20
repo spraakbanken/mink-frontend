@@ -17,12 +17,16 @@ import type { ExportType, FileMeta } from "@/api/api.types";
 import useSpin from "@/spin/spin.composable";
 import useMessenger from "@/message/messenger.composable";
 import SortableTable from "@/components/SortableTable.vue";
+import useExports from "@/exports/exports.composable";
 
 const id = useResourceIdParam();
 const { locale } = useI18n();
 const { filesize } = useLocale();
-const { exports, downloadResult, downloadResultFile, getDownloadFilename } =
-  useCorpus(id);
+const { exports } = useCorpus(id);
+const { downloadResult, downloadResultFile, getDownloadFilename } = useExports(
+  "corpus",
+  id,
+);
 const { spin } = useSpin();
 const { alertError } = useMessenger();
 

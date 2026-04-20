@@ -8,13 +8,15 @@ import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import useMessenger from "@/message/messenger.composable";
+import useExports from "@/exports/exports.composable";
 
 const props = defineProps<{
   id: string;
   path: string;
 }>();
 
-const { exports, loadResultFile } = useCorpus(props.id);
+const { exports } = useCorpus(props.id);
+const { loadResultFile } = useExports("corpus", props.id);
 const { filesize, formatDate } = useLocale();
 const { alert, alertError } = useMessenger();
 const { t } = useI18n();

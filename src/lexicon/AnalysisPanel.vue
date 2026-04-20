@@ -8,6 +8,7 @@ import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
 import useSources from "@/resource/sources.composable";
 import useResource from "@/resource/resource.composable";
+import useExports from "@/exports/exports.composable";
 
 const props = defineProps<{
   id: string;
@@ -16,6 +17,7 @@ const props = defineProps<{
 const { job, isRunning, runJob } = useResource(props.id);
 const { exports } = useLexicon(props.id);
 const { sources } = useSources("lexicon", props.id);
+const { downloadResult, getDownloadFilename } = useExports("lexicon", props.id);
 const { canWrite } = useAuth();
 const { alertError } = useMessenger();
 
@@ -86,14 +88,13 @@ async function doRunJob() {
             <th>{{ $t("file.archive") }}</th>
             <td>
               <PendingContent :on="`${id}/exports/download`">
-                TODO
-                <!-- <ActionButton
+                <ActionButton
                   :class="{ 'button-primary': !isRunning }"
                   @click="downloadResult().catch(alertError)"
                 >
                   <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
                   {{ getDownloadFilename() }}
-                </ActionButton> -->
+                </ActionButton>
               </PendingContent>
             </td>
           </tr>
