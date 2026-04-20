@@ -69,7 +69,7 @@ export const useCorpusStore = defineStore("corpus", () => {
       const sparvNew = corporaNew[id]?.job?.status.sparv;
       const sparvOld = corporaOld[id]?.job?.status.sparv;
       if (sparvNew == "done" && sparvOld && sparvOld != "done") {
-        loadExports(id, true);
+        loadExports("corpus", id, true);
       }
     });
   });

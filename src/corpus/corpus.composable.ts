@@ -38,7 +38,7 @@ export function useCorpus(id: string) {
     lazy: true,
   });
 
-  const exports = computedAsync(() => loadExports(id), undefined, {
+  const exports = computedAsync(() => loadExports("corpus", id), undefined, {
     lazy: true,
   });
 
@@ -70,7 +70,7 @@ export function useCorpus(id: string) {
   async function clearAnnotations() {
     matomo.value?.trackEvent("Corpus", "Annotation", "Clear");
     await spin(api.clearAnnotations(id), `${id}/exports/list`);
-    await loadExports(id, true);
+    await loadExports("corpus", id, true);
   }
 
   async function saveConfigOptions(configOptions: ConfigOptions) {

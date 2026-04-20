@@ -258,10 +258,13 @@ class MinkApi {
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Exports/operation/list-exports */
-  listExports = deduplicateRequest(async (id: string) => {
+  /**
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/list-corpus-exports
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/list-lexicon-exports
+   */
+  listExports = deduplicateRequest(async (type: ResourceType, id: string) => {
     const response = await this.axios.get<MinkResponse<ListExportsData>>(
-      "corpus/exports/list/" + id,
+      `${type}/exports/list/${id}`,
     );
     return response.data.contents;
   });

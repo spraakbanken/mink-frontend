@@ -3,12 +3,12 @@ import { useResourceStore } from "@/store/resource.store";
 import { useExportStore } from "@/store/export.store";
 
 export function useLexicon(id: string) {
-  const { loadResource } = useResourceStore();
+  const { loadTypedResource } = useResourceStore();
   const { loadExports } = useExportStore();
 
-  const lexicon = computedAsync(() => loadResource(id));
+  const lexicon = computedAsync(() => loadTypedResource("lexicon", id));
 
-  const exports = computedAsync(() => loadExports(id), undefined, {
+  const exports = computedAsync(() => loadExports("lexicon", id), undefined, {
     lazy: true,
   });
 

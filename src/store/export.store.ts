@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { reactive, readonly } from "vue";
 import useSpin from "@/spin/spin.composable";
-import type { FileMeta } from "@/api/api.types";
+import type { FileMeta, ResourceType } from "@/api/api.types";
 import api from "@/api/api";
 
 export const useExportStore = defineStore("export", () => {
@@ -12,11 +12,12 @@ export const useExportStore = defineStore("export", () => {
 
   /** Load export files of a resource */
   async function loadExports(
+    type: ResourceType,
     id: string,
     skipCache = false,
   ): Promise<FileMeta[]> {
     if (skipCache || !exports[id]) {
-      const files = await spin(api.listExports(id), `${id}/exports/list`);
+      const files = await spin(api.listExports(type, id), `${id}/exports/list`);
       // Sort alphabetically by path, but "stats_*" first
       exports[id] = files
         .sort((a, b) => a.path.localeCompare(b.path))

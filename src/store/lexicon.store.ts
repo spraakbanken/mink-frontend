@@ -64,7 +64,7 @@ export const useLexiconStore = defineStore("lexicon", () => {
       const statusNew = lexiconsNew[id]?.job?.status.karp_pipeline;
       const statusOld = lexiconsOld[id]?.job?.status.karp_pipeline;
       if (statusNew == "done" && statusOld && statusOld != "done") {
-        loadExports(id, true);
+        loadExports("lexicon", id, true);
       }
     });
   });
