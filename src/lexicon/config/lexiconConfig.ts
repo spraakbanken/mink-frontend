@@ -7,29 +7,44 @@ export type LexiconConfig = {
   resource_id: string;
   name?: ByLang;
   description?: ByLang;
-  karps: { link: string };
+  karps: {
+    entry_word: LexiconField;
+    link: string;
+  };
 };
 
 /** Frontend-internal format of a lexicon config */
 export type LexiconConfigOptions = {
   name?: ByLang;
   description?: ByLang;
+  entryWord: LexiconField;
+};
+
+/** Identifies a field in the lexicon data and assigns a human-readable label */
+export type LexiconField = {
+  field: string;
+  description: ByLang;
 };
 
 export function emptyConfig(): LexiconConfigOptions {
   return {
     name: { swe: "", eng: "" },
     description: { swe: "", eng: "" },
+    entryWord: {
+      field: "baseform",
+      description: { swe: "grundform", eng: "baseform" },
+    },
   };
 }
 
 /** Parse a lexicon config YAML string */
 export function parseConfig(yaml: string): LexiconConfigOptions {
   const config = parse(yaml) as LexiconConfig;
-  const { name, description } = config;
+  const { name, description, karps } = config;
   return {
     name,
     description,
+    entryWord: karps.entry_word,
   };
 }
 
@@ -40,7 +55,10 @@ export function makeConfig(id: string, options: LexiconConfigOptions): string {
   const config: LexiconConfig = {
     ...options,
     resource_id: id,
-    karps: { link },
+    karps: {
+      entry_word: options.entryWord,
+      link,
+    },
   };
   return stringify(config, { indentSeq: false });
 }

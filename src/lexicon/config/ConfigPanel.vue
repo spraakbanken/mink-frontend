@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computedAsync } from "@vueuse/core";
 import { computed } from "vue";
-import { parseConfig } from "../lexiconConfig";
+import { parseConfig } from "./lexiconConfig";
 import useLocale from "@/i18n/locale.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";

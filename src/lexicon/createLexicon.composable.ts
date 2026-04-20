@@ -1,5 +1,5 @@
 import { useRouter } from "vue-router";
-import { emptyConfig, makeConfig } from "./lexiconConfig";
+import { emptyConfig, makeConfig } from "./config/lexiconConfig";
 import api from "@/api/api";
 import { useAuth } from "@/auth/auth.composable";
 

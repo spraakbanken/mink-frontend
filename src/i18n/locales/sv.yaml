@@ -72,6 +72,10 @@ lexicon: Lexikon
 lexicon.help: Ett lexikon är en lista med ingångar, vilka kan vara allt från enkla ord till komplexa datastrukturer.
 lexicon.new: Nytt lexikon
 lexicon.delete: Radera lexikon
+lexicon.config.entry_word.field: Entry field
+lexicon.config.entry_word.field.help: Choose a field from the source file that should work as a main entry to each row.
+lexicon.config.entry_word.description: Field label
+lexicon.config.entry_word.description.help: The name of the field, for displaying to human users.
 lexicon.karp_pipeline.run: Starta Karp pipeline
 lexicon.karp_pipeline.rerun: Starta om Karp pipeline
 lexicon.karp_pipeline.help: Karp pipeline processar datan och förbereder den för användning i Karp-S.
@@ -286,7 +290,7 @@ save.invalid: Ogiltig inmatning kan inte sparas
 name: Namn
 metadata.name.help: Det går bra att använda mellanslag och specialtecken.
 identifier: Identifierare
-metadata.identifier.help: Ett automatiskt genererat maskinnamn som används för att identifiera den här korpusen på servern.
+metadata.identifier.help: Ett automatiskt genererat maskinnamn som används för att identifiera den här resursen på servern.
 description: Beskrivning
 metadata.description.help: |
   Detta kan vara en sammanfattning av materialet för din egen skull.

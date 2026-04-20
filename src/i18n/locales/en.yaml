@@ -72,6 +72,10 @@ lexicon: Lexicon
 lexicon.help: A lexicon is a list of entries, which can be anything from simple words to complex data structures.
 lexicon.new: New lexicon
 lexicon.delete: Delete lexicon
+lexicon.config.entry_word.field: Ingångsfält
+lexicon.config.entry_word.field.help: Välj ett fält i källdatan som skall fungera som huvudingång till varje rad.
+lexicon.config.entry_word.description: Fältnamn
+lexicon.config.entry_word.description.help: Namnet på fältet, så som det visas för mänskliga användare.
 lexicon.karp_pipeline.run: Run Karp Pipeline
 lexicon.karp_pipeline.help: Karp Pipeline processes your data and prepares it for use in Karp-S.
 lexicon.karp_pipeline.rerun: Re-run Karp pipeline
@@ -285,7 +289,7 @@ save.invalid: Cannot save invalid data
 name: Name
 metadata.name.help: You can use spaces and special characters.
 identifier: Identifier
-metadata.identifier.help: This automatically generated machine name is used to identify this particular corpus on the server.
+metadata.identifier.help: This automatically generated machine name is used to identify this particular resource on the server.
 description: Description
 metadata.description.help: |
   This can be a summary of the material for your own benefit.
