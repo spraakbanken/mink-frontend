@@ -72,6 +72,9 @@ lexicon: Lexikon
 lexicon.help: Ett lexikon är en lista med ingångar, vilka kan vara allt från enkla ord till komplexa datastrukturer.
 lexicon.new: Nytt lexikon
 lexicon.delete: Radera lexikon
+lexicon.karp_pipeline.run: Starta Karp pipeline
+lexicon.karp_pipeline.rerun: Starta om Karp pipeline
+lexicon.karp_pipeline.help: Karp pipeline processar datan och förbereder den för användning i Karp-S.
 metadata: Metadata
 metadata.help: Om du har tilldelats ett organisationsprefix kan du använda Metadata för att förbereda en resurs för publicering.
 metadata.new: Ny metadata
@@ -89,7 +92,7 @@ analysis.help: Kör automatiska språkteknologiska analyser på din textdata enl
 analysis.sparv.url: https://spraakbanken.gu.se/verktyg/sparv
 job.run: Starta annotering
 job.rerun: Starta om annotering
-job.rerun.overwrite: Ny annotering skriver över tidigare resultat.
+job.rerun.overwrite: En ny körning skriver över tidigare resultat.
 job.rerun.tools_outdated: Verktygen kommer att behålla det gamla resultatet. Glöm inte att installera om vid behov.
 job.abort: Avbryt
 job.status: Status
@@ -100,6 +103,8 @@ job.time_taken: Tidsåtgång
 job.process.sparv: Analys
 job.process.korp: Installation i Korp
 job.process.strix: Installation i Strix
+job.process.karp_pipeline: Karp pipeline
+job.process.karps: Karp-S
 sharing: Delning
 sharing.level: Din behörighetsnivå
 sharing.level.admin_mode: Administratörsläge aktiverat

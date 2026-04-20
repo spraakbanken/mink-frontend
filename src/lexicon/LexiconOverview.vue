@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { PhPencilSimple } from "@phosphor-icons/vue";
 import ConfigPanel from "./config/ConfigPanel.vue";
+import AnalysisPanel from "./AnalysisPanel.vue";
 import { useAuth } from "@/auth/auth.composable";
 import LayoutBox from "@/components/LayoutBox.vue";
 import RouteButton from "@/components/RouteButton.vue";

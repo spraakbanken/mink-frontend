@@ -34,7 +34,6 @@ export default function useResource<T extends ResourceType = ResourceType>(
     matomo.value?.trackEvent("Job", "Start", resource.type);
     const info = await spin(api.runJob(resource.type, id), `${id}/job/run`);
     resource.job = info.job;
-    console.log(resource.job);
   }
 
   async function abortJob(id: string) {

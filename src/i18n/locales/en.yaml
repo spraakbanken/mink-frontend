@@ -72,6 +72,9 @@ lexicon: Lexicon
 lexicon.help: A lexicon is a list of entries, which can be anything from simple words to complex data structures.
 lexicon.new: New lexicon
 lexicon.delete: Delete lexicon
+lexicon.karp_pipeline.run: Run Karp Pipeline
+lexicon.karp_pipeline.help: Karp Pipeline processes your data and prepares it for use in Karp-S.
+lexicon.karp_pipeline.rerun: Re-run Karp pipeline
 metadata: Metadata
 metadata.help: If you have been assigned an organization prefix, use Metadata to prepare a resource for publication.
 metadata.new: New metadata
@@ -89,7 +92,7 @@ analysis.help: Run automated language technology methods on your text data accor
 analysis.sparv.url: https://spraakbanken.gu.se/en/tools/sparv
 job.run: Run annotation
 job.rerun: Re-run annotation
-job.rerun.overwrite: Re-running annotation will overwrite previous results.
+job.rerun.overwrite: Re-running will overwrite previous results.
 job.rerun.tools_outdated: The old results will remain in the tools. Do not forget to re-install it if needed.
 job.abort: Abort
 job.status: Status
@@ -100,6 +103,8 @@ job.time_taken: Time taken
 job.process.sparv: Analysis
 job.process.korp: Installation to Korp
 job.process.strix: Installation to Strix
+job.process.karp_pipeline: Karp pipeline
+job.process.karps: Karp-S
 sharing: Sharing
 sharing.level: Your access level
 sharing.level.admin_mode: Admin mode enabled
