@@ -7,7 +7,7 @@ const LexiconOverview = () => import("@/lexicon/LexiconOverview.vue");
 const LexiconConfigCustom = () =>
   import("@/lexicon/config/LexiconConfigCustom.vue");
 const SourceView = () => import("@/sources/SourceView.vue");
-const LexiconResult = () => import("@/lexicon/exports/LexiconResult.vue");
+const ExportListView = () => import("@/lexicon/exports/ExportListView.vue");
 const ExportView = () => import("@/lexicon/exports/ExportView.vue");
 const LexiconDelete = () => import("@/lexicon/LexiconDelete.vue");
 
@@ -61,7 +61,7 @@ const lexiconRoutes: RouteRecordRaw[] = [
       },
       {
         path: "exports",
-        component: LexiconResult,
+        component: ExportListView,
         meta: {
           title: "result",
           protected: true,

@@ -6,7 +6,7 @@ const CorpusConfiguration = () =>
   import("@/corpus/config/CorpusConfiguration.vue");
 const CorpusConfigCustom = () =>
   import("@/corpus/config/CorpusConfigCustom.vue");
-const CorpusResult = () => import("@/corpus/exports/CorpusResult.vue");
+const ExportListView = () => import("@/corpus/exports/ExportListView.vue");
 const CorpusDelete = () => import("@/corpus/CorpusDelete.vue");
 const ExportView = () => import("@/corpus/exports/ExportView.vue");
 const SourceView = () => import("@/sources/SourceView.vue");
@@ -62,7 +62,7 @@ const corpusRoutes: RouteRecordRaw[] = [
       },
       {
         path: "exports",
-        component: CorpusResult,
+        component: ExportListView,
         meta: {
           title: "result",
           protected: true,
