@@ -79,6 +79,8 @@ lexicon.config.entry_word.description.help: The name of the field, for displayin
 lexicon.karp_pipeline.run: Starta Karp pipeline
 lexicon.karp_pipeline.rerun: Starta om Karp pipeline
 lexicon.karp_pipeline.help: Karp pipeline processar datan och förbereder den för användning i Karp-S.
+lexicon.karps.help: Sök bland ingångarna och ta fram statistik.
+lexicon.tools.help: Använd den här datan i Språkbankens andra plattformar. Din data visas bara för dig.
 metadata: Metadata
 metadata.help: Om du har tilldelats ett organisationsprefix kan du använda Metadata för att förbereda en resurs för publicering.
 metadata.new: Ny metadata
