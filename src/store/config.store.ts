@@ -36,7 +36,7 @@ export const useConfigStore = defineStore("config", () => {
       // Backend may modify uploaded config, so fetch the real one
       loadConfig(type, id, true),
       // Get new title
-      loadResource(id, true),
+      loadResource(id, true, `${id}/config`),
     ]);
   }
 

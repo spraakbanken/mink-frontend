@@ -77,6 +77,40 @@ export function useCorpus(id: string) {
     await uploadConfig("corpus", id, configYaml);
   }
 
+  async function installKorp() {
+    matomo.value?.trackEvent("Job", "Install", "corpus korp");
+    const resource = await loadResource(id);
+    const info = await spin(
+      api.install("corpus", id, "korp"),
+      `${id}/job/install/korp`,
+    );
+    resource.job = info.job;
+  }
+
+  async function installStrix() {
+    matomo.value?.trackEvent("Job", "Install", "corpus strix");
+    const resource = await loadResource(id);
+    const info = await spin(
+      api.install("corpus", id, "strix"),
+      `${id}/job/install/strix`,
+    );
+    resource.job = info.job;
+  }
+
+  async function uninstallKorp() {
+    matomo.value?.trackEvent("Job", "Uninstall", "corpus korp");
+    await spin(api.uninstall("corpus", id, "korp"), `${id}/job/install/korp`);
+    // Get updated job info
+    await loadResource(id, true, `${id}/job/install/korp`);
+  }
+
+  async function uninstallStrix() {
+    matomo.value?.trackEvent("Job", "Uninstall", "corpus strix");
+    await spin(api.uninstall("corpus", id, "strix"), `${id}/job/install/strix`);
+    // Get updated job info
+    await loadResource(id, true, `${id}/job/install/strix`);
+  }
+
   // Check status intermittently if active.
   watch(pollTick, async () => {
     // This composable can be active in multiple components with the same corpus id. Only send request once per corpus.
@@ -92,9 +126,13 @@ export function useCorpus(id: string) {
     config,
     configOptions,
     isConfigValid,
+    exports,
     saveConfigOptions,
     updateSourceFormat,
     clearAnnotations,
-    exports,
+    installKorp,
+    installStrix,
+    uninstallKorp,
+    uninstallStrix,
   };
 }
