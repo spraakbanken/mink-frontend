@@ -1,6 +1,6 @@
-import { computed, watch } from "vue";
+import { computed } from "vue";
 import { attempt } from "es-toolkit";
-import { computedAsync, useInterval } from "@vueuse/core";
+import { computedAsync } from "@vueuse/core";
 import { useMatomo } from "vue3-matomo";
 import {
   makeConfig,
@@ -15,17 +15,9 @@ import { useConfigStore } from "@/store/config.store";
 import { useExportStore } from "@/store/export.store";
 import { useResourceStore } from "@/store/resource.store";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
-import useResource from "@/resource/resource.composable";
-
-// Module-scope ticker, can be watched to perform task intermittently
-const pollTick = useInterval(2000);
-
-// Corpus ids are added as keys to this object to indicate that a status request is active.
-const pollTracker: Record<string, boolean> = {};
 
 export function useCorpus(id: string) {
   const { loadTypedResource, loadResource } = useResourceStore();
-  const { isRunning } = useResource(id);
   const { loadConfig, uploadConfig } = useConfigStore();
   const { loadExports } = useExportStore();
   const { spin } = useSpin();
@@ -110,16 +102,6 @@ export function useCorpus(id: string) {
     // Get updated job info
     await loadResource(id, true, `${id}/job/install/strix`);
   }
-
-  // Check status intermittently if active.
-  watch(pollTick, async () => {
-    // This composable can be active in multiple components with the same corpus id. Only send request once per corpus.
-    if (isRunning.value && !pollTracker[id]) {
-      pollTracker[id] = true;
-      await loadResource(id, true);
-      pollTracker[id] = false;
-    }
-  });
 
   return {
     corpus,

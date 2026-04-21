@@ -1,11 +1,14 @@
-import { computedAsync } from "@vueuse/core";
-import { computed } from "vue";
+import { computedAsync, useInterval } from "@vueuse/core";
+import { computed, watch } from "vue";
 import { useMatomo } from "vue3-matomo";
 import { useResourceStore } from "@/store/resource.store";
 import type { ResourceType } from "@/api/api.types";
 import type { Resource } from "@/store/resource.types";
 import useSpin from "@/spin/spin.composable";
 import api from "@/api/api";
+
+// A ticker for enabling status polling. Defined in module scope to synchronize when this composable is used in parallel.
+const ticker = useInterval(2000);
 
 export default function useResource<T extends ResourceType = ResourceType>(
   id: string,
@@ -43,6 +46,14 @@ export default function useResource<T extends ResourceType = ResourceType>(
     // Get updated job info
     await loadResource(id, true);
   }
+
+  // Check status intermittently if active
+  watch(ticker, async () => {
+    if (isRunning.value) {
+      console.log("Polling status for resource", id);
+      await loadResource(id, true);
+    }
+  });
 
   return {
     resource,
