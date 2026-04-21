@@ -6,7 +6,7 @@ import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import ConfigPanel from "@/corpus/config/ConfigPanel.vue";
 import SourcesPanel from "@/sources/SourcesPanel.vue";
 import AnalysisPanel from "@/corpus/analysis/AnalysisPanel.vue";
-import ExplorePanel from "@/corpus/explore/ExplorePanel.vue";
+import ExplorePanel from "@/corpus/ExplorePanel.vue";
 import CorpusStateHelp from "@/corpus/CorpusStateHelp.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
