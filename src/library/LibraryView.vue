@@ -15,13 +15,14 @@ import useSpin from "@/spin/spin.composable";
 import useCreateCorpus from "@/corpus/createCorpus.composable";
 import FileUpload from "@/components/FileUpload.vue";
 import UploadSizeLimits from "@/sources/UploadSizeLimits.vue";
-import { isCorpus, type Resource } from "@/store/resource.types";
+import { isCorpus, isLexicon, type Resource } from "@/store/resource.types";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import useMessenger from "@/message/messenger.composable";
 import SortableTable from "@/components/SortableTable.vue";
 import { SOURCE_FORMATS } from "@/file";
+import ResourceStatus from "@/resource/ResourceStatus.vue";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
@@ -116,6 +117,7 @@ const getType = (resource: Resource) =>
                       v-if="isCorpus(resource)"
                       :id="resource.id"
                     />
+                    <ResourceStatus v-else :id="resource.id" />
 
                     <!-- Shared icon if other owner -->
                     <PhUsers
