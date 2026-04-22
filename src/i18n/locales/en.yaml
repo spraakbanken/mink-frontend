@@ -68,8 +68,10 @@ corpus.state.help.running_install: Installation is running in the background. Fe
 corpus.state.help.done_install: Successfully installed!
 corpus.state.help.failed: An error occurred while processing your data. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.state.help.failed_install: An error occurred while installing your corpus. If you need help, please contact sb-info{'@'}svenska.gu.se
+corpus.sparv.run: Run annotation
+corpus.sparv.rerun: Re-run annotation
 lexicon: Lexicon
-lexicon.help: A lexicon is a list of entries, which can be anything from simple words to complex data structures.
+lexicon.help: A lexicon is a set of items with structured data fields. It doesn't have to be about words.
 lexicon.new: New lexicon
 lexicon.delete: Delete lexicon
 lexicon.config.entry_word.field: Ingångsfält
@@ -80,7 +82,7 @@ lexicon.karp_pipeline.run: Run Karp Pipeline
 lexicon.karp_pipeline.help: Karp Pipeline processes your data and prepares it for use in Karp-S.
 lexicon.karp_pipeline.rerun: Re-run Karp pipeline
 metadata: Metadata
-metadata.help: If you have been assigned an organization prefix, use Metadata to prepare a resource for publication.
+metadata.help: If you have been assigned an organization prefix, use metadata to prepare a resource for publication.
 metadata.new: New metadata
 metadata.public_id.help: In Mink, all resources have fixed, unmodifiable identifiers. The public identifier is what this resource will get once it is exported to a repository. Try to make it recognizable and descriptive, but not too long. It must only contain lowercase letters, numbers and dashes, and start with your assigned organization prefix.
 metadata.public_id.error.format: The public identifier must only contain lowercase letters (a-z), numbers (0-9) and dashes (-). It must not start or end with a dash.
@@ -94,8 +96,6 @@ corpus.config.parse.error: The config of this corpus could not be parsed. Try ed
 config.saving: Saving metadata
 analysis.help: Run automated language technology methods on your text data according to your settings. Mink uses {sparv} under the hood.
 analysis.sparv.url: https://spraakbanken.gu.se/en/tools/sparv
-job.run: Run annotation
-job.rerun: Re-run annotation
 job.rerun.overwrite: Re-running will overwrite previous results.
 job.rerun.tools_outdated: The old results will remain in the tools. Do not forget to re-install it if needed.
 job.abort: Abort

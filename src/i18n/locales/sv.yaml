@@ -68,8 +68,10 @@ corpus.state.help.running_install: Installationen körs i bakgrunden. Det går b
 corpus.state.help.done_install: Nu är datan installerad!
 corpus.state.help.failed: Ett fel uppstod under annotering. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 corpus.state.help.failed_install: Ett fel uppstod under installation. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
+corpus.sparv.run: Starta annotering
+corpus.sparv.rerun: Starta om annotering
 lexicon: Lexikon
-lexicon.help: Ett lexikon är en lista med ingångar, vilka kan vara allt från enkla ord till komplexa datastrukturer.
+lexicon.help: Ett lexikon listar en mängd element med olika strukturerade fält. Det behöver inte handla om ord.
 lexicon.new: Nytt lexikon
 lexicon.delete: Radera lexikon
 lexicon.config.entry_word.field: Entry field
@@ -82,7 +84,7 @@ lexicon.karp_pipeline.help: Karp pipeline processar datan och förbereder den f�
 lexicon.karps.help: Sök bland ingångarna och ta fram statistik.
 lexicon.tools.help: Använd den här datan i Språkbankens andra plattformar. Din data visas bara för dig.
 metadata: Metadata
-metadata.help: Om du har tilldelats ett organisationsprefix kan du använda Metadata för att förbereda en resurs för publicering.
+metadata.help: Om du har tilldelats ett organisationsprefix kan du använda metadata för att förbereda en resurs för publicering.
 metadata.new: Ny metadata
 metadata.public_id.help: Varje resurs i Mink har en förutbestämd identifierare. Den publika identifieraren är vad denna resurs kommer at få när den exporteras till en datakatalog. Välj gärna något unikt och beskrivande, men inte för långt. Den får endast innehålla små bokstäver, siffror och bindestreck, och måste börja med ditt tilldelade organisationsprefix.
 metadata.public_id.error.format: Den publika identifieraren får endast innehålla små bokstäver (a-z), siffror (0-9) och bindestreck (-). Den får inte börja eller sluta med bindestreck.
@@ -96,8 +98,6 @@ corpus.config.parse.error: Korpusens config kunde inte läsas. Prova att rediger
 config.saving: Sparar metadata
 analysis.help: Kör automatiska språkteknologiska analyser på din textdata enligt inställningarna. Mink använder {sparv} i bakgrunden.
 analysis.sparv.url: https://spraakbanken.gu.se/verktyg/sparv
-job.run: Starta annotering
-job.rerun: Starta om annotering
 job.rerun.overwrite: En ny körning skriver över tidigare resultat.
 job.rerun.tools_outdated: Verktygen kommer att behålla det gamla resultatet. Glöm inte att installera om vid behov.
 job.abort: Avbryt

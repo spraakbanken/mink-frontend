@@ -63,7 +63,7 @@ async function doRunJob() {
 
       <div class="flex gap-3 items-center">
         <div>
-          <div class="font-semibold">{{ $t("job.run") }}</div>
+          <div class="font-semibold">{{ $t("corpus.sparv.run") }}</div>
           <i18n-t keypath="analysis.help" scope="global">
             <template #sparv>
               <a :href="$t('analysis.sparv.url')">Sparv</a>
@@ -77,7 +77,9 @@ async function doRunJob() {
           @click="canRun ? doRunJob() : null"
         >
           <PhGearFine weight="bold" class="inline mb-1 mr-1" />
-          {{ !exports?.length ? $t("job.run") : $t("job.rerun") }}
+          {{
+            !exports?.length ? $t("corpus.sparv.run") : $t("corpus.sparv.rerun")
+          }}
         </ActionButton>
       </div>
 
