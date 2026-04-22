@@ -137,6 +137,7 @@ upload.label.multiple: Ladda upp filer
 upload.dnd.single: Dra och släpp en fil hit, eller klicka här för att välja
 upload.dnd.multiple: Dra och släpp filer hit, eller klicka här för att välja
 upload.drop.empty: Ingen fil släpptes. Dra-och-släpp kanske inte stöds på ditt system.
+upload.format_unknown: Okänt filformat "{ext}"
 exports.tools: Utforska
 exports.tools.help: Använd den här datan i Språkbankens korpusverktyg. Din data visas bara för dig, i ett särskilt Mink-läge.
 exports.tools.help.korp: I Korp finns konkordanssökning, detaljerade sökfrågor, frekvensstatistik med mera.

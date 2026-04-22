@@ -135,6 +135,7 @@ upload.label.multiple: Upload files
 upload.dnd.single: Drag and drop file here, or click here to choose
 upload.dnd.multiple: Drag and drop files here, or click here to choose
 upload.drop.empty: No file was dropped. Drag-and-drop may not be supported on your system.
+upload.format_unknown: Unknown file format "{ext}"
 exports.tools: Explore
 exports.tools.help: Use this data in Språkbanken's corpus tools. Your data will be available to you only, in a special Mink mode.
 exports.tools.help.korp: Korp offers concordance search, detailed queries, frequency statistics and more.

@@ -15,7 +15,7 @@ import useSpin from "@/spin/spin.composable";
 import useCreateCorpus from "@/corpus/createCorpus.composable";
 import FileUpload from "@/components/FileUpload.vue";
 import UploadSizeLimits from "@/sources/UploadSizeLimits.vue";
-import { isCorpus, isLexicon, type Resource } from "@/store/resource.types";
+import { isCorpus, type Resource } from "@/store/resource.types";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import RouteButton from "@/components/RouteButton.vue";
@@ -23,14 +23,17 @@ import useMessenger from "@/message/messenger.composable";
 import SortableTable from "@/components/SortableTable.vue";
 import { SOURCE_FORMATS } from "@/file";
 import ResourceStatus from "@/resource/ResourceStatus.vue";
+import { getFilenameExtension } from "@/util";
+import useCreateLexicon from "@/lexicon/createLexicon.composable";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
 const { adminMode, checkAdminMode } = useAdmin();
 const { canUserAdmin, isCurrentUser } = useAuth();
-const { createFromUpload } = useCreateCorpus();
+const { createCorpusFromUpload } = useCreateCorpus();
+const { createLexiconFromUpload } = useCreateLexicon();
 const { spin } = useSpin();
-const { alertError } = useMessenger();
+const { alert, alertError } = useMessenger();
 const { t, locale } = useI18n();
 const { th } = useLocale();
 
@@ -60,8 +63,20 @@ const resourcesList = computed(() => {
 const accept = computed(() => Object.values(SOURCE_FORMATS).flat());
 
 async function fileHandler(files: File[]) {
-  // TODO Detect what resource type to create
-  await spin(createFromUpload(files), "create").catch(alertError);
+  // Silently abort if no files
+  if (!files[0]) return;
+
+  // Find file extension; assume all are same, otherwise the upload will fail with a message
+  const ext = getFilenameExtension(files[0].name);
+
+  // Create a resource matching the file type
+  if (SOURCE_FORMATS.corpus.find((format) => format == ext)) {
+    await spin(createCorpusFromUpload(files), "create").catch(alertError);
+  } else if (SOURCE_FORMATS.lexicon.find((format) => format == ext)) {
+    await spin(createLexiconFromUpload(files), "create").catch(alertError);
+  } else {
+    alert(t("upload.format_unknown", { ext }), "error");
+  }
 }
 
 const getType = (resource: Resource) =>

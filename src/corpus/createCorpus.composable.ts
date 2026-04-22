@@ -17,8 +17,7 @@ export default function useCreateCorpus() {
   const router = useRouter();
   const { deleteResource } = useDeleteResource();
 
-  async function createFromUpload(files: File[]) {
-    if (!files[0]) throw new RangeError("No files");
+  async function createCorpusFromUpload(files: File[]) {
     const id = await api.createCorpus();
     // Have the new corpus included in further API calls.
     await refreshAuth();
@@ -30,26 +29,18 @@ export default function useCreateCorpus() {
     config.format = getFilenameExtension(files[0].name) as CorpusSourceFormat;
 
     // Wait for sources and config to be uploaded in parallel.
-    const results = await Promise.allSettled([
-      api.uploadSources("corpus", id, files),
-      saveConfigOptions(config, id),
-    ]);
-
-    // If any error, abort and delete the corpus draft.
-    const rejections = results.filter(
-      (result): result is PromiseRejectedResult => result.status != "fulfilled",
-    );
-    if (rejections.length) {
-      // Discard the empty corpus.
+    try {
+      await Promise.all([
+        api.uploadSources("corpus", id, files),
+        saveConfigOptions(config, id),
+      ]);
+      // Visit new corpus when successfully created.
+      router.push(`/library/corpus/${id}`);
+    } catch (error) {
+      // If something fails, delete the corpus draft and abort.
       await deleteResource("corpus", id);
-
-      // Throw one or multiple errors
-      if (rejections.length == 1) throw rejections[0].reason;
-      throw new AggregateError(rejections.map((result) => result.reason));
+      throw error;
     }
-
-    // Visit new corpus when successfully created.
-    router.push(`/library/corpus/${id}`);
   }
 
   // Like the `saveConfigOptions` in `corpus.composable.ts` but takes `id` as argument.
@@ -58,7 +49,7 @@ export default function useCreateCorpus() {
     await uploadConfig("corpus", id, configYaml);
   }
 
-  async function createFromConfig(
+  async function createCorpus(
     name: string,
     description: string,
     format: CorpusSourceFormat,
@@ -92,7 +83,7 @@ export default function useCreateCorpus() {
   }
 
   return {
-    createFromUpload,
-    createFromConfig,
+    createCorpusFromUpload,
+    createCorpus,
   };
 }
