@@ -6,18 +6,33 @@ import { useResourceStore } from "./resource.store";
 import { useExportStore } from "./export.store";
 import { pickByType } from "@/util";
 import type { FileMeta } from "@/api/api.types";
+import { emptyConfig, makeConfig } from "@/lexicon/config/lexiconConfig";
+import useCreateResource from "@/resource/createResource.composable";
 
 export const useLexiconStore = defineStore("lexicon", () => {
   const resourceStore = useResourceStore();
   const { loadResource } = resourceStore;
   const { resources } = storeToRefs(resourceStore);
   const { loadExports } = useExportStore();
+  const { createResource } = useCreateResource();
 
   const lexicons = computed<Record<string, Lexicon>>(() =>
     pickByType(resources.value, isLexicon),
   );
 
   const hasLexicons = computed(() => !!Object.keys(lexicons.value).length);
+
+  async function createLexicon(name = "", files: File[] = []) {
+    const configOptions = {
+      ...emptyConfig(),
+      name: { swe: name, eng: name },
+    };
+    await createResource(
+      "lexicon",
+      (id) => makeConfig(id, configOptions),
+      files,
+    );
+  }
 
   /** Load and store info for a lexicon resource. */
   async function loadLexicon(id: string, skipCache = false): Promise<Lexicon> {
@@ -47,6 +62,7 @@ export const useLexiconStore = defineStore("lexicon", () => {
   return {
     lexicons,
     hasLexicons,
+    createLexicon,
     loadLexicon,
     loadSources,
   };

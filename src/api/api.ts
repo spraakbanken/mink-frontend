@@ -88,10 +88,14 @@ class MinkApi {
     return response.data.resources;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/create-corpus */
-  async createCorpus() {
-    const response =
-      await this.axios.post<MinkResponse<CreateResourceData>>("corpus/create");
+  /**
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/create-corpus
+   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/create-lexicon
+   */
+  async createResource(type: ResourceType) {
+    const response = await this.axios.post<MinkResponse<CreateResourceData>>(
+      `${type}/create`,
+    );
     return response.data.resource_id;
   }
 
@@ -102,13 +106,6 @@ class MinkApi {
       undefined,
       { params: { public_id: publicId } },
     );
-    return response.data.resource_id;
-  }
-
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/create-lexicon */
-  async createLexicon() {
-    const response =
-      await this.axios.post<MinkResponse<CreateResourceData>>("lexicon/create");
     return response.data.resource_id;
   }
 

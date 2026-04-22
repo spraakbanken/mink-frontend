@@ -24,14 +24,14 @@ import SortableTable from "@/components/SortableTable.vue";
 import { SOURCE_FORMATS } from "@/file";
 import ResourceStatus from "@/resource/ResourceStatus.vue";
 import { getFilenameExtension } from "@/util";
-import useCreateLexicon from "@/lexicon/createLexicon.composable";
+import { useLexiconStore } from "@/store/lexicon.store";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
+const { createLexicon } = useLexiconStore();
 const { adminMode, checkAdminMode } = useAdmin();
 const { canUserAdmin, isCurrentUser } = useAuth();
 const { createCorpusFromUpload } = useCreateCorpus();
-const { createLexiconFromUpload } = useCreateLexicon();
 const { spin } = useSpin();
 const { alert, alertError } = useMessenger();
 const { t, locale } = useI18n();
@@ -73,7 +73,7 @@ async function fileHandler(files: File[]) {
   if (SOURCE_FORMATS.corpus.find((format) => format == ext)) {
     await spin(createCorpusFromUpload(files), "create").catch(alertError);
   } else if (SOURCE_FORMATS.lexicon.find((format) => format == ext)) {
-    await spin(createLexiconFromUpload(files), "create").catch(alertError);
+    await createLexicon("", files).catch(alertError);
   } else {
     alert(t("upload.format_unknown", { ext }), "error");
   }
