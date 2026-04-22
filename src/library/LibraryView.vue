@@ -113,35 +113,30 @@ const getType = (resource: Resource) =>
             class="w-full my-4 striped"
           >
             <template #tr="{ row: resource }">
-              <router-link
-                custom
-                v-slot="{ navigate }"
-                :to="`/library/${getType(resource)}/${resource.id}`"
-              >
-                <tr @click="navigate" class="cursor-pointer">
-                  <td class="py-2!">
-                    <router-link
-                      :to="`/library/${getType(resource)}/${resource.id}`"
-                    >
-                      {{ th(resource.name) || resource.id }}
-                    </router-link>
-                  </td>
-                  <td>{{ $t(getType(resource)) }}</td>
-                  <td>
-                    <CorpusStateMessage
-                      v-if="isCorpus(resource)"
-                      :id="resource.id"
-                    />
-                    <ResourceStatus v-else :id="resource.id" />
+              <tr>
+                <td class="py-2!">
+                  <router-link
+                    :to="`/library/${getType(resource)}/${resource.id}`"
+                    class="block"
+                  >
+                    {{ th(resource.name) || resource.id }}
+                  </router-link>
+                </td>
+                <td>{{ $t(getType(resource)) }}</td>
+                <td>
+                  <CorpusStateMessage
+                    v-if="isCorpus(resource)"
+                    :id="resource.id"
+                  />
+                  <ResourceStatus v-else :id="resource.id" />
 
-                    <!-- Shared icon if other owner -->
-                    <PhUsers
-                      v-if="!isCurrentUser(resource.owner)"
-                      class="inline mx-1"
-                    />
-                  </td>
-                </tr>
-              </router-link>
+                  <!-- Shared icon if other owner -->
+                  <PhUsers
+                    v-if="!isCurrentUser(resource.owner)"
+                    class="inline mx-1"
+                  />
+                </td>
+              </tr>
             </template>
           </SortableTable>
 
