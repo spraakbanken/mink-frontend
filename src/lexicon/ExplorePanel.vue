@@ -35,7 +35,7 @@ const canInstall = computed(
   <div class="grid gap-4 mt-4">
     <PendingContent :on="`${id}/job/install/karps`">
       <ToolPanel
-        name="Karp-S"
+        :name="$t('lexicon.karps')"
         :info="$t('lexicon.karps.help')"
         :can-install
         :is-installed="job?.installed_karps"

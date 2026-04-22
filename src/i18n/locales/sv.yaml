@@ -80,7 +80,8 @@ lexicon.config.entry_word.description: Field label
 lexicon.config.entry_word.description.help: The name of the field, for displaying to human users.
 lexicon.karp_pipeline.run: Starta Karp pipeline
 lexicon.karp_pipeline.rerun: Starta om Karp pipeline
-lexicon.karp_pipeline.help: Karp pipeline processar datan och förbereder den för användning i Karp-S.
+lexicon.karp_pipeline.help: Karp pipeline processar datan och förbereder den för användning i Karp.
+lexicon.karps: Karps sökgränssnitt
 lexicon.karps.help: Sök bland ingångarna och ta fram statistik.
 lexicon.tools.help: Använd den här datan i Språkbankens andra plattformar. Din data visas bara för dig.
 metadata: Metadata
@@ -110,7 +111,7 @@ job.process.sparv: Analys
 job.process.korp: Installation i Korp
 job.process.strix: Installation i Strix
 job.process.karp_pipeline: Karp pipeline
-job.process.karps: Karp-S
+job.process.karps: Installation i Karp
 sharing: Delning
 sharing.level: Din behörighetsnivå
 sharing.level.admin_mode: Administratörsläge aktiverat

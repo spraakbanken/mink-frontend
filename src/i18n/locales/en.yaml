@@ -79,8 +79,11 @@ lexicon.config.entry_word.field.help: Välj ett fält i källdatan som skall fun
 lexicon.config.entry_word.description: Fältnamn
 lexicon.config.entry_word.description.help: Namnet på fältet, så som det visas för mänskliga användare.
 lexicon.karp_pipeline.run: Run Karp Pipeline
-lexicon.karp_pipeline.help: Karp Pipeline processes your data and prepares it for use in Karp-S.
-lexicon.karp_pipeline.rerun: Re-run Karp pipeline
+lexicon.karp_pipeline.help: Karp Pipeline processes your data and prepares it for use in Karp.
+lexicon.karp_pipeline.rerun: Re-run Karp Pipeline
+lexicon.karps: Karp search interface
+lexicon.karps.help: Search through entries and produce statistics.
+lexicon.tools.help: Use this data in Språkbanken's other platforms. Your data will be available to you only.
 metadata: Metadata
 metadata.help: If you have been assigned an organization prefix, use metadata to prepare a resource for publication.
 metadata.new: New metadata
@@ -97,7 +100,7 @@ config.saving: Saving metadata
 analysis.help: Run automated language technology methods on your text data according to your settings. Mink uses {sparv} under the hood.
 analysis.sparv.url: https://spraakbanken.gu.se/en/tools/sparv
 job.rerun.overwrite: Re-running will overwrite previous results.
-job.rerun.tools_outdated: The old results will remain in the tools. Do not forget to re-install it if needed.
+job.rerun.tools_outdated: Previous results will remain in other platforms if it has been installed there. Do not forget to re-install if needed.
 job.abort: Abort
 job.status: Status
 job.priority: Place in queue
@@ -108,7 +111,7 @@ job.process.sparv: Analysis
 job.process.korp: Installation to Korp
 job.process.strix: Installation to Strix
 job.process.karp_pipeline: Karp pipeline
-job.process.karps: Karp-S
+job.process.karps: Installation to Karp
 sharing: Sharing
 sharing.level: Your access level
 sharing.level.admin_mode: Admin mode enabled
@@ -137,7 +140,7 @@ upload.dnd.multiple: Drag and drop files here, or click here to choose
 upload.drop.empty: No file was dropped. Drag-and-drop may not be supported on your system.
 upload.format_unknown: Unknown file format "{ext}"
 exports.tools: Explore
-exports.tools.help: Use this data in Språkbanken's corpus tools. Your data will be available to you only, in a special Mink mode.
+exports.tools.help: Use this data in Språkbanken's corpus platforms. Your data will be available to you only, in a special Mink mode.
 exports.tools.help.korp: Korp offers concordance search, detailed queries, frequency statistics and more.
 exports.tools.help.korp.manual.url: https://spraakbanken.gu.se/en/tools/korp/user-manual
 exports.tools.help.korp.manual.text: User manual
