@@ -11,7 +11,6 @@ import { useAuth } from "@/auth/auth.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import { useResourceStore } from "@/store/resource.store";
-import useSpin from "@/spin/spin.composable";
 import useCreateCorpus from "@/corpus/createCorpus.composable";
 import FileUpload from "@/components/FileUpload.vue";
 import UploadSizeLimits from "@/sources/UploadSizeLimits.vue";
@@ -32,7 +31,6 @@ const { createLexicon } = useLexiconStore();
 const { adminMode, checkAdminMode } = useAdmin();
 const { canUserAdmin, isCurrentUser } = useAuth();
 const { createCorpusFromUpload } = useCreateCorpus();
-const { spin } = useSpin();
 const { alert, alertError } = useMessenger();
 const { t, locale } = useI18n();
 const { th } = useLocale();
@@ -71,7 +69,7 @@ async function fileHandler(files: File[]) {
 
   // Create a resource matching the file type
   if (SOURCE_FORMATS.corpus.find((format) => format == ext)) {
-    await spin(createCorpusFromUpload(files), "create").catch(alertError);
+    await createCorpusFromUpload(files).catch(alertError);
   } else if (SOURCE_FORMATS.lexicon.find((format) => format == ext)) {
     await createLexicon("", files).catch(alertError);
   } else {
