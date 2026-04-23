@@ -42,7 +42,6 @@ const info = computedAsync(getInfo);
 const totalSize = computed(() =>
   (sources.value || []).reduce((sum, source) => sum + Number(source.size), 0),
 );
-const accept = computed(() => extensions.value.map((ext) => `.${ext}`).join());
 
 const columns = computed<SortableTableColumn<FileMeta>[]>(() => {
   const cols: SortableTableColumn<FileMeta>[] = [
@@ -141,7 +140,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
     <FileUpload
       :file-handler
       :primary="!hasSources"
-      :accept
+      :accept="extensions"
       multiple
       show-progress
     >

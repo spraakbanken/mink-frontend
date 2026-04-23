@@ -59,7 +59,7 @@ async function uploadMetadata(files: File[]) {
             v-if="canWrite('metadata', id)"
             :file-handler="uploadMetadata"
             :primary="!config"
-            accept=".yaml,.yml"
+            :accept="['yaml', 'yml']"
           />
           <HelpBox v-else>
             <PhLock class="inline mb-0.5 mr-1" />

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { PhPlusCircle } from "@phosphor-icons/vue";
-import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import CorpusButton from "@/library/CorpusButton.vue";
 import useLocale from "@/i18n/locale.composable";
@@ -47,8 +46,6 @@ const { th } = useLocale();
   loadResources().catch(alertError);
 })();
 
-const accept = computed(() => FORMATS_EXT.map((ext) => `.${ext}`).join());
-
 async function fileHandler(files: File[]) {
   await spin(createFromUpload(files), "create").catch(alertError);
 }
@@ -83,7 +80,7 @@ async function fileHandler(files: File[]) {
         <FileUpload
           :file-handler
           :primary="!hasCorpora"
-          :accept
+          :accept="FORMATS_EXT"
           multiple
           show-progress
         >

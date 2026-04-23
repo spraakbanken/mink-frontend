@@ -21,6 +21,7 @@ As this project is a user-facing application, the places in the semantic version
 
 - Mirror favicon to match logo
 - Source upload filetypes listing reactivity broken
+- Pluralize "file types" in upload area
 
 ## [1.17.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.17.0) (2026-04-15)
 

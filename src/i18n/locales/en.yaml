@@ -113,7 +113,7 @@ source.notfound: This source file was not found
 source.list.loading: Listing source files
 source.content: Content
 source.upload.config_format.trigger_change: "Corpus configuration is updated to match the file format: {format}"
-upload.accept: File types
+upload.accept: File type | File types
 upload.label.single: Add file
 upload.label.multiple: Add files
 upload.dnd.single: Drag and drop file here, or click here to choose
