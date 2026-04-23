@@ -7,7 +7,7 @@ import { getFilenameExtension } from "@/util";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import useSources from "@/resource/sources.composable";
 import type { ResourceType } from "@/api/api.types";
 import { isReadable } from "@/file";
@@ -20,7 +20,7 @@ const props = defineProps<{
 
 const { sources, downloadSource } = useSources(props.type, props.id);
 const { filesize, formatDate } = useLocale();
-const { alert, alertError } = useMessenger();
+const { showAlert } = useAlert();
 const { t } = useI18n();
 
 const metadata = computed(() =>
@@ -34,14 +34,13 @@ const isXml = computed(() => /\/xml$/.test(metadata.value?.type || ""));
 
 // Show error if given filename is not found
 watchImmediate([sources, metadata], () => {
-  if (sources.value.length && !metadata.value)
-    alert(t("source.notfound"), "error");
+  if (sources.value.length && !metadata.value) showAlert(t("source.notfound"));
 });
 
 async function loadFile() {
   return (
     metadata.value &&
-    (await downloadSource(metadata.value, isBinary.value).catch(alertError))
+    (await downloadSource(metadata.value, isBinary.value).catch(showAlert))
   );
 }
 </script>

@@ -4,7 +4,7 @@ import { ref } from "vue";
 import PageTitle from "@/components/PageTitle.vue";
 import useLocale from "@/i18n/locale.composable";
 import { useResourceStore } from "@/store/resource.store";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import useNotFound from "@/components/notfound.composable";
 import type { ResourceType } from "@/api/api.types";
 import type { Resource } from "@/store/resource.types";
@@ -16,7 +16,7 @@ const props = defineProps<{
 
 const { loadTypedResource } = useResourceStore();
 const { th } = useLocale();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 const { handle404 } = useNotFound();
 
 const resource = ref<Resource<T>>();
@@ -24,7 +24,7 @@ const resource = ref<Resource<T>>();
 loadTypedResource(props.type, props.id)
   .then((data) => (resource.value = data))
   .catch(handle404)
-  .catch(alertError);
+  .catch(showAlert);
 </script>
 
 <template>

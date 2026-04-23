@@ -3,7 +3,7 @@ import { ref } from "vue";
 import type { AxiosProgressEvent } from "axios";
 import FileDropArea from "@/components/FileDropArea.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import type { ProgressHandler } from "@/api/api.types";
 import { handleFileInput } from "@/util";
 
@@ -18,7 +18,7 @@ const props = defineProps<{
   showProgress?: boolean;
 }>();
 
-const { clear } = useMessenger();
+const { clear } = useAlert();
 const progress = ref<number>();
 
 /** Call upload function. */

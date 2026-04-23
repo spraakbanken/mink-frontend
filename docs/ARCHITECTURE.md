@@ -63,7 +63,7 @@ src/router/ - config for vue-router
 src/store/ - app state
 
 Helper subsystems:
-src/message/ - showing alerts and other feedback messages
+src/alert/ - showing alerts and other feedback messages
 src/spin/ - UI feedback about pending API requests
 ```
 
@@ -132,18 +132,18 @@ Show loading animation on top of related UI elements with:
 <PendingContent :on="token">[dependent content here]</PendingContent>
 ```
 
-### Message (`src/message/`)
+### Alert (`src/alert/`)
 
-Show a message:
+Show an alert:
 
 ```js
-alert("There is no coffee", "error");
+showAlert("There is no coffee");
 ```
 
-Helper for showing a failing Mink API response:
+It handles Mink backend errors specially:
 
 ```js
-api.runJob("corpus", id).catch(alertError);
+api.runJob("corpus", id).catch(showAlert);
 ```
 
 ## Testing

@@ -4,13 +4,13 @@ import { useI18n } from "vue-i18n";
 import { decodeJwt, fetchJwt, type Payload } from "@/api/sbauth";
 import api from "@/api/api";
 import useSpin from "@/spin/spin.composable";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import { deduplicateRequest } from "@/util";
 
 export const useJwtStore = defineStore("jwt", () => {
   const { spin } = useSpin();
   const { t } = useI18n();
-  const { alert } = useMessenger();
+  const { showAlert } = useAlert();
 
   /**
    * A JWT, if fetched.
@@ -59,7 +59,7 @@ export const useJwtStore = defineStore("jwt", () => {
         }
       } catch (error) {
         // On error, show message and treat as not authenticated
-        alert(`${t("login.fail")}: ${error}`, "error");
+        showAlert(`${t("login.fail")}: ${error}`);
       }
     }
 

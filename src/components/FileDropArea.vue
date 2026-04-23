@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import { getFilesFromDataTransferItems } from "datatransfer-files-promise";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import useDropToPage from "@/components/droptopage.composable";
 
 const props = defineProps<{
@@ -12,7 +12,7 @@ const emit = defineEmits<{
   (e: "drop", files: File[]): void;
 }>();
 
-const { alert } = useMessenger();
+const { showAlert } = useAlert();
 const { t } = useI18n();
 
 async function drop(event: DragEvent) {
@@ -21,7 +21,7 @@ async function drop(event: DragEvent) {
   // On Chrome+Ubuntu, the file list may be empty for security reasons.
   // See https://askubuntu.com/a/1411727
   if (!event.dataTransfer?.files[0]) {
-    alert(t("upload.drop.empty"), "error");
+    showAlert(t("upload.drop.empty"));
     return;
   }
 

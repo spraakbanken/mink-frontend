@@ -19,7 +19,7 @@ import useCreateCorpus from "@/corpus/createCorpus.composable";
 import FileUpload from "@/components/FileUpload.vue";
 import { SOURCE_FORMATS } from "@/file";
 import UploadSizeLimits from "@/sources/UploadSizeLimits.vue";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import { isCorpus, isMetadata } from "@/store/resource.types";
 import { getFilenameExtension } from "@/util";
 
@@ -29,7 +29,7 @@ const { adminMode, checkAdminMode } = useAdmin();
 const { canUserAdmin } = useAuth();
 const { createCorpusFromUpload } = useCreateCorpus();
 const { spin } = useSpin();
-const { alert, alertError } = useMessenger();
+const { showAlert } = useAlert();
 const { t } = useI18n();
 const { th } = useLocale();
 
@@ -53,7 +53,7 @@ const resourcesList = computed(() => {
     }
   }
 
-  loadResources().catch(alertError);
+  loadResources().catch(showAlert);
 })();
 
 const corpora = computed(() => resourcesList.value.filter(isCorpus));
@@ -68,9 +68,9 @@ async function fileHandler(files: File[]) {
 
   // Create a resource matching the file type
   if (SOURCE_FORMATS.corpus.find((format) => format == ext)) {
-    await spin(createCorpusFromUpload(files), "create").catch(alertError);
+    await spin(createCorpusFromUpload(files), "create").catch(showAlert);
   } else {
-    alert(t("upload.format_unknown", { ext }), "error");
+    showAlert(t("upload.format_unknown", { ext }));
   }
 }
 </script>

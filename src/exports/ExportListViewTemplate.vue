@@ -12,7 +12,7 @@ import HelpBox from "@/components/HelpBox.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import type { ExportType, FileMeta, ResourceType } from "@/api/api.types";
 import useSpin from "@/spin/spin.composable";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import useExports from "@/exports/exports.composable";
 import { useExportStore } from "@/store/export.store";
 
@@ -28,7 +28,7 @@ const { downloadResult, getDownloadFilename } = useExports(
   props.id,
 );
 const { spin } = useSpin();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 
 const exports = computedAsync(() =>
   spin(loadExports(props.type, props.id), `${props.id}/exports/list`),
@@ -76,7 +76,7 @@ function identifyType(path: string): ExportType | undefined {
           {{ $t("download_export") }}:
           <ActionButton
             class="button-primary mr-2"
-            @click="downloadResult().catch(alertError)"
+            @click="downloadResult().catch(showAlert)"
           >
             <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
             {{ getDownloadFilename() }}

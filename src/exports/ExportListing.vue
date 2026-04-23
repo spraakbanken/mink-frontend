@@ -5,7 +5,7 @@ import { useI18n } from "vue-i18n";
 import ActionButton from "@/components/ActionButton.vue";
 import useLocale from "@/i18n/locale.composable";
 import type { FileMeta, ResourceType } from "@/api/api.types";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import SortableTable from "@/components/SortableTable.vue";
 import useExports from "@/exports/exports.composable";
 
@@ -18,7 +18,7 @@ const props = defineProps<{
 const { locale } = useI18n();
 const { filesize } = useLocale();
 const { downloadResultFile } = useExports(props.type, props.id);
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 </script>
 
 <template>
@@ -60,7 +60,7 @@ const { alertError } = useMessenger();
       <td>
         <ActionButton
           class="button-slim"
-          @click="downloadResultFile(file.path).catch(alertError)"
+          @click="downloadResultFile(file.path).catch(showAlert)"
         >
           <PhDownloadSimple class="inline mb-0.5" />
           <span class="sr-only">{{ $t("download") }}</span>

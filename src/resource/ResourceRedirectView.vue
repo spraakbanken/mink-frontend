@@ -3,13 +3,13 @@ import { useRouter } from "vue-router";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import { useResourceStore } from "@/store/resource.store";
 import SpinIndicator from "@/spin/SpinIndicator.vue";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import useNotFound from "@/components/notfound.composable";
 
 const router = useRouter();
 const id = useResourceIdParam();
 const resourceStore = useResourceStore();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 const { handle404 } = useNotFound();
 
 // Load resource and immediately redirect according to its type.
@@ -20,7 +20,7 @@ resourceStore
     else router.push("/library");
   })
   .catch(handle404)
-  .catch(alertError);
+  .catch(showAlert);
 </script>
 
 <template>

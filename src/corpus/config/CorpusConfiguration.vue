@@ -22,7 +22,7 @@ import LayoutSection from "@/components/LayoutSection.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import RouteButton from "@/components/RouteButton.vue";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import type { ByLang } from "@/util.types";
 import LayoutBox from "@/components/LayoutBox.vue";
@@ -57,7 +57,7 @@ const router = useRouter();
 const id = useResourceIdParam();
 const { config, saveConfigOptions } = useCorpus(id);
 const { extensions } = useSources("corpus", id);
-const { alert, alertError } = useMessenger();
+const { showAlert } = useAlert();
 const { t } = useI18n();
 const { th, thCompare } = useLocale();
 const { spin } = useSpin();
@@ -69,7 +69,7 @@ const tabSelected = ref<TabKey>("metadata");
 const analyses = computedAsync(async () => {
   const analyses =
     (await spin(loadAnalysisMetadata(), "analysis/metadata").catch(
-      alertError,
+      showAlert,
     )) || [];
 
   // Skip analyses that do not have annotations
@@ -126,7 +126,7 @@ function getParsedConfig() {
     const parsed = parseConfig(config.value);
     return parsed;
   } catch (error) {
-    alert(t("corpus.config.parse.error"), "error");
+    showAlert(t("corpus.config.parse.error"));
     console.error(`Error parsing config for "${id}":`, error);
   }
 }
@@ -157,10 +157,7 @@ async function submit(fields: Form) {
     await saveConfigOptions(configNew);
     router.push(`/library/corpus/${id}`);
   } catch (e) {
-    if (e instanceof TypeError) {
-      // Error from config serialization
-      alert(e.message, "error");
-    } else alertError(e);
+    showAlert(e);
   }
 }
 </script>
