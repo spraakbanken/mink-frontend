@@ -18,7 +18,7 @@ import { isCorpus, type Resource } from "@/store/resource.types";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import RouteButton from "@/components/RouteButton.vue";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import SortableTable from "@/components/SortableTable.vue";
 import { SOURCE_FORMATS } from "@/file";
 import ResourceStatus from "@/resource/ResourceStatus.vue";
@@ -31,7 +31,7 @@ const { createLexicon } = useLexiconStore();
 const { adminMode, checkAdminMode } = useAdmin();
 const { canUserAdmin, isCurrentUser } = useAuth();
 const { createCorpusFromUpload } = useCreateCorpus();
-const { alert, alertError } = useMessenger();
+const { showAlert } = useAlert();
 const { t, locale } = useI18n();
 const { th } = useLocale();
 
@@ -55,7 +55,7 @@ const resourcesList = computed(() => {
     }
   }
 
-  loadResources().catch(alertError);
+  loadResources().catch(showAlert);
 })();
 
 const accept = computed(() => Object.values(SOURCE_FORMATS).flat());
@@ -69,11 +69,11 @@ async function fileHandler(files: File[]) {
 
   // Create a resource matching the file type
   if (SOURCE_FORMATS.corpus.find((format) => format == ext)) {
-    await createCorpusFromUpload(files).catch(alertError);
+    await createCorpusFromUpload(files).catch(showAlert);
   } else if (SOURCE_FORMATS.lexicon.find((format) => format == ext)) {
-    await createLexicon("", files).catch(alertError);
+    await createLexicon("", files).catch(showAlert);
   } else {
-    alert(t("upload.format_unknown", { ext }), "error");
+    showAlert(t("upload.format_unknown", { ext }));
   }
 }
 

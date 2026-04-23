@@ -6,7 +6,7 @@ import { ensureTrailingSlash } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
 import useSpin from "@/spin/spin.composable";
 import { useAuth } from "@/auth/auth.composable";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import useResource from "@/resource/resource.composable";
 
 const props = defineProps<{
@@ -17,7 +17,7 @@ const { isPending } = useSpin();
 const { installKarps, uninstallKarps } = useLexicon(props.id);
 const { isRunning, job } = useResource<"lexicon">(props.id);
 const { canWrite } = useAuth();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 
 const karpsUrl = ensureTrailingSlash(import.meta.env.VITE_KARPS_URL);
 
@@ -40,8 +40,8 @@ const canInstall = computed(
         :can-install
         :is-installed="job?.installed_karps"
         :show-url="`${karpsUrl}?resources=${id}`"
-        @install="installKarps().catch(alertError)"
-        @uninstall="uninstallKarps().catch(alertError)"
+        @install="installKarps().catch(showAlert)"
+        @uninstall="uninstallKarps().catch(showAlert)"
       />
     </PendingContent>
   </div>

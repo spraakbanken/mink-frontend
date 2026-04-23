@@ -1,4 +1,4 @@
-import Axios, { type AxiosInstance } from "axios";
+import Axios, { isAxiosError, type AxiosInstance } from "axios";
 import { once } from "es-toolkit";
 import { deduplicateRequest, ensureTrailingSlash } from "@/util";
 import type {
@@ -14,6 +14,7 @@ import type {
   SparvExportsData,
   ResourceInfo,
   ResourceType,
+  BackendError,
 } from "@/api/api.types";
 
 /** Create a `text/yaml` file object with content */
@@ -25,6 +26,13 @@ function filesFormData(name: string, ...files: File[]): FormData {
   const formData = new FormData();
   files.forEach((file) => formData.append(name, file));
   return formData;
+}
+
+/** Check if the given error is an Axios error with a Mink response. */
+export function isBackendError(err: unknown): err is BackendError {
+  if (!isAxiosError(err) || !err.response?.data) return false;
+  const data = err.response.data;
+  return "status" in data && "return_code" in data && "message" in data;
 }
 
 /** Handle an exception from an API call that may be encoded as Blob */

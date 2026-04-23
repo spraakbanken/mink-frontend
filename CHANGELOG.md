@@ -23,6 +23,7 @@ As this project is a user-facing application, the places in the semantic version
 - Added resource type as a parameter for API functions
 - Switched to singular resource type name in permission checks
 - Refactor code to abstract over resource type
+- Merged and moved `{ alert, alertError } = useMessenger()` to `{ showAlert } = useAlert()`
 
 ### Fixed
 

@@ -2,7 +2,7 @@
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
 import api from "@/api/api";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import useSpin from "@/spin/spin.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useAuth } from "@/auth/auth.composable";
@@ -12,7 +12,7 @@ import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import HelpBox from "@/components/HelpBox.vue";
 
 const router = useRouter();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 const { refreshAuth } = useAuth();
 const { spin } = useSpin();
 
@@ -22,7 +22,7 @@ type Form = {
 
 async function submit(fields: Form) {
   const id = await spin(
-    api.createMetadata(fields.publicId).catch(alertError),
+    api.createMetadata(fields.publicId).catch(showAlert),
     "create",
   );
   if (!id) return;

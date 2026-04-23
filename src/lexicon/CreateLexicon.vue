@@ -6,7 +6,7 @@ import LayoutSection from "@/components/LayoutSection.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useSpin from "@/spin/spin.composable";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import { useLexiconStore } from "@/store/lexicon.store";
 
 type Form = {
@@ -15,10 +15,10 @@ type Form = {
 
 const { spin } = useSpin();
 const { createLexicon } = useLexiconStore();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 
 async function submit(fields: Form) {
-  spin(createLexicon(fields.name), "create").catch(alertError);
+  spin(createLexicon(fields.name), "create").catch(showAlert);
 }
 </script>
 

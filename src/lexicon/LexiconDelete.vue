@@ -8,20 +8,20 @@ import RouteButton from "@/components/RouteButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useAuth } from "@/auth/auth.composable";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 
 const router = useRouter();
 const id = useResourceIdParam();
 const { deleteResource } = useDeleteResource();
 const { canAdmin } = useAuth();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 
 async function doDelete() {
   try {
     await deleteResource("lexicon", id);
     router.push("/library");
   } catch (error) {
-    alertError(error);
+    showAlert(error);
   }
 }
 </script>

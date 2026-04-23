@@ -15,7 +15,7 @@ import { useAuth } from "@/auth/auth.composable";
 import LayoutBox from "@/components/LayoutBox.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import type { ByLang } from "@/util.types";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import RouteButton from "@/components/RouteButton.vue";
 import TabsBar from "@/components/TabsBar.vue";
 import TabsContent from "@/components/TabsContent.vue";
@@ -32,7 +32,7 @@ const id = useResourceIdParam();
 const { loadConfig, uploadConfig } = useConfigStore();
 const { canWrite, canAdmin } = useAuth();
 const router = useRouter();
-const { alert, alertError } = useMessenger();
+const { showAlert } = useAlert();
 
 const tabSelected = ref<TabKey>("metadata");
 
@@ -55,8 +55,8 @@ async function submit(fields: Form) {
   } catch (e) {
     if (e instanceof TypeError) {
       // Error from config serialization
-      alert(e.message, "error");
-    } else alertError(e);
+      showAlert(e.message);
+    } else showAlert(e);
   }
 }
 </script>

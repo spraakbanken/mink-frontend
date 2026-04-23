@@ -4,11 +4,11 @@ import { whenever } from "@vueuse/core";
 import useAdmin from "@/user/admin.composable";
 import { useAuth } from "@/auth/auth.composable";
 import ActionButton from "@/components/ActionButton.vue";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 
 const { canUserAdmin } = useAuth();
 const { adminMode, checkAdminMode, disableAdminMode } = useAdmin();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 
 whenever(canUserAdmin, checkAdminMode);
 </script>
@@ -23,7 +23,7 @@ whenever(canUserAdmin, checkAdminMode);
       {{ $t("user.admin_mode.warning") }}
       <ActionButton
         class="button-slim text-sm"
-        @click="disableAdminMode().catch(alertError)"
+        @click="disableAdminMode().catch(showAlert)"
       >
         {{ $t("disable") }}
       </ActionButton>

@@ -5,7 +5,7 @@ import { useCorpus } from "../corpus.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useAuth } from "@/auth/auth.composable";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import useSources from "@/resource/sources.composable";
 import useResource from "@/resource/resource.composable";
 import useExports from "@/exports/exports.composable";
@@ -19,7 +19,7 @@ const { job, isRunning, runJob } = useResource(props.id);
 const { sources } = useSources("corpus", props.id);
 const { downloadResult, getDownloadFilename } = useExports("corpus", props.id);
 const { canWrite } = useAuth();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 
 const isPending = ref(false);
 const canRun = computed(
@@ -33,7 +33,7 @@ const canRun = computed(
 
 async function doRunJob() {
   isPending.value = true;
-  await runJob().catch(alertError);
+  await runJob().catch(showAlert);
   isPending.value = false;
 }
 </script>
@@ -55,7 +55,7 @@ async function doRunJob() {
         </div>
         <ActionButton
           :disabled="!canWrite('corpus', id)"
-          @click="clearAnnotations().catch(alertError)"
+          @click="clearAnnotations().catch(showAlert)"
         >
           {{ $t("annotations.clear") }}
         </ActionButton>
@@ -114,7 +114,7 @@ async function doRunJob() {
               <PendingContent :on="`${id}/exports/download`">
                 <ActionButton
                   :class="{ 'button-primary': !isRunning }"
-                  @click="downloadResult().catch(alertError)"
+                  @click="downloadResult().catch(showAlert)"
                 >
                   <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
                   {{ getDownloadFilename() }}

@@ -5,7 +5,7 @@ import { computedAsync } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
 import HelpBox from "@/components/HelpBox.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useAuth } from "@/auth/auth.composable";
 import ActionButton from "@/components/ActionButton.vue";
@@ -20,7 +20,7 @@ const props = defineProps<{
 }>();
 
 const { loadConfig, uploadConfig } = useConfigStore();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 const { canWrite } = useAuth();
 const { t } = useI18n();
 
@@ -46,7 +46,7 @@ watchEffect(() => (input.value = config.value || ""));
 
 /** Save current input as config by uploading it */
 async function upload() {
-  await uploadConfig(props.type, props.id, input.value).catch(alertError);
+  await uploadConfig(props.type, props.id, input.value).catch(showAlert);
 }
 </script>
 
