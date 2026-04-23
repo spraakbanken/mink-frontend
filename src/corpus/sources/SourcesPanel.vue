@@ -58,7 +58,7 @@ const columns = computed<SortableTableColumn<FileMeta>[]>(() => {
     },
   ];
 
-  if (canWrite("corpora", props.id))
+  if (canWrite("corpus", props.id))
     cols.push({ title: t("file.operations"), thClass: "sr-only" });
 
   return cols;
@@ -119,7 +119,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
           <td class="text-end whitespace-nowrap">
             {{ filesize(source.size) }}
           </td>
-          <td v-if="canWrite('corpora', id)">
+          <td v-if="canWrite('corpus', id)">
             <ActionButton
               class="hover:button-danger button-slim text-sm"
               @click="deleteSource(source).catch(alertError)"
@@ -134,7 +134,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
   </MaxHeight>
 
   <PendingContent
-    v-if="canWrite('corpora', id)"
+    v-if="canWrite('corpus', id)"
     :on="`${id}/sources/upload`"
     blocking
   >

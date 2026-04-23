@@ -32,7 +32,7 @@ const { canWrite } = useAuth();
             :to="`/library/corpus/${id}/config`"
             :class="{ 'button-primary': !isConfigValid }"
           >
-            <template v-if="canWrite('corpora', id)">
+            <template v-if="canWrite('corpus', id)">
               <PhPencilSimple weight="bold" class="inline mb-1 mr-1" />
               {{ $t("edit") }}
             </template>
@@ -44,7 +44,7 @@ const { canWrite } = useAuth();
       </LayoutBox>
 
       <LayoutBox :title="$t('sharing')">
-        <SharingPanel resource-type="corpora" :id />
+        <SharingPanel resource-type="corpus" :id />
       </LayoutBox>
 
       <LayoutBox :title="$t('sources')">

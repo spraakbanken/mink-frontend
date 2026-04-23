@@ -29,7 +29,7 @@ const { alertError } = useMessenger();
 const isPending = ref(false);
 const canRun = computed(
   () =>
-    canWrite("corpora", props.id) &&
+    canWrite("corpus", props.id) &&
     hasSources.value &&
     isConfigValid.value &&
     !isPending.value &&
@@ -59,7 +59,7 @@ async function doRunJob() {
           {{ $t("annotations.clear.help") }}
         </div>
         <ActionButton
-          :disabled="!canWrite('corpora', id)"
+          :disabled="!canWrite('corpus', id)"
           @click="clearAnnotations().catch(alertError)"
         >
           {{ $t("annotations.clear") }}
