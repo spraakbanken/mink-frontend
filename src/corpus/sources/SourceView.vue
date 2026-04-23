@@ -8,8 +8,9 @@ import { getFilenameExtension } from "@/util";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
-import { READABLE_FORMATS, type FileFormat } from "@/api/corpusConfig";
+import { type CorpusSourceFormat } from "@/api/corpusConfig";
 import useMessenger from "@/message/messenger.composable";
+import { isReadable } from "@/file";
 
 const props = defineProps<{
   id: string;
@@ -25,8 +26,8 @@ const metadata = computed(() =>
   sources.value?.find((source) => source.name === props.filename),
 );
 const isBinary = computed(() => {
-  const extension = getFilenameExtension(props.filename) as FileFormat;
-  return !READABLE_FORMATS.includes(extension);
+  const extension = getFilenameExtension(props.filename) as CorpusSourceFormat;
+  return !isReadable(extension);
 });
 const isXml = computed(() => /\/xml$/.test(metadata.value?.type || ""));
 

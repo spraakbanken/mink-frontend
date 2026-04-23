@@ -13,12 +13,13 @@ import MaxHeight from "@/components/MaxHeight.vue";
 import type { FileMeta, ProgressHandler } from "@/api/api.types";
 import useMessenger from "@/message/messenger.composable";
 import { getFilenameExtension } from "@/util";
-import { FORMATS_EXT, type FileFormat } from "@/api/corpusConfig";
+import { type CorpusSourceFormat } from "@/api/corpusConfig";
 import FileUpload from "@/components/FileUpload.vue";
 import { useAuth } from "@/auth/auth.composable";
 import SortableTable, {
   type SortableTableColumn,
 } from "@/components/SortableTable.vue";
+import { CORPUS_SOURCE_FORMATS } from "@/file";
 
 const props = defineProps<{
   id: string;
@@ -69,11 +70,11 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
 
   // Also update format setting in config if needed
   const extension = getFilenameExtension(files[0].name);
-  const format = extension.toLowerCase() as FileFormat;
+  const format = extension.toLowerCase() as CorpusSourceFormat;
   if (
     configOptions.value &&
     format != configOptions.value.format &&
-    FORMATS_EXT.includes(format)
+    CORPUS_SOURCE_FORMATS.includes(format)
   ) {
     alert(
       t("source.upload.config_format.trigger_change", { format: t(format) }),

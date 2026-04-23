@@ -15,11 +15,11 @@ import { useResourceStore } from "@/store/resource.store";
 import useSpin from "@/spin/spin.composable";
 import useCreateCorpus from "@/corpus/createCorpus.composable";
 import FileUpload from "@/components/FileUpload.vue";
-import { FORMATS_EXT } from "@/api/corpusConfig";
 import UploadSizeLimits from "@/corpus/sources/UploadSizeLimits.vue";
 import useMessenger from "@/message/messenger.composable";
 import { useMetadataStore } from "@/store/metadata.store";
 import { useCorpusStore } from "@/store/corpus.store";
+import { SOURCE_FORMATS } from "@/file";
 
 const router = useRouter();
 const { loadResources } = useResourceStore();
@@ -80,7 +80,7 @@ async function fileHandler(files: File[]) {
         <FileUpload
           :file-handler
           :primary="!hasCorpora"
-          :accept="FORMATS_EXT"
+          :accept="Object.values(SOURCE_FORMATS).flat()"
           multiple
           show-progress
         >

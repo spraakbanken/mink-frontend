@@ -7,11 +7,12 @@ import PageTitle from "@/components/PageTitle.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import useSpin from "@/spin/spin.composable";
 import PendingContent from "@/spin/PendingContent.vue";
-import { FORMATS_EXT, type FileFormat } from "@/api/corpusConfig";
+import { type CorpusSourceFormat } from "@/api/corpusConfig";
 import useCreateCorpus from "@/corpus/createCorpus.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import useMessenger from "@/message/messenger.composable";
+import { CORPUS_SOURCE_FORMATS } from "@/file";
 
 const { createFromConfig } = useCreateCorpus();
 const { t } = useI18n();
@@ -21,12 +22,12 @@ const { alertError } = useMessenger();
 type Form = {
   name?: string;
   description?: string;
-  format: FileFormat;
+  format: CorpusSourceFormat;
   textAnnotation?: string;
 };
 
 const formatOptions = computed(() =>
-  FORMATS_EXT.reduce(
+  CORPUS_SOURCE_FORMATS.reduce(
     (options, ext) => ({
       ...options,
       [ext]: `${t(ext)} (.${ext})`,

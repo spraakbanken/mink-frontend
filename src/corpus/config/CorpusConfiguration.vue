@@ -12,11 +12,10 @@ import { useCorpus } from "../corpus.composable";
 import type { MinkResponse } from "@/api/api.types";
 import {
   type ConfigOptions,
-  FORMATS_EXT,
-  type FileFormat,
-  SEGMENTABLE_FORMATS,
+  type CorpusSourceFormat,
   SEGMENTERS,
   emptyConfig,
+  isSegmentable,
   parseConfig,
 } from "@/api/corpusConfig";
 import type { ConfigSentenceSegmenter } from "@/api/sparvConfig.types";
@@ -40,13 +39,14 @@ import TabsBar from "@/components/TabsBar.vue";
 import TabsContent from "@/components/TabsContent.vue";
 import useSpin from "@/spin/spin.composable";
 import { useAuth } from "@/auth/auth.composable";
+import { CORPUS_SOURCE_FORMATS } from "@/file";
 
 type TabKey = "metadata" | "settings" | "analyses";
 
 type Form = {
   name: ByLang;
   description: ByLang;
-  format: FileFormat;
+  format: CorpusSourceFormat;
   textAnnotation: string;
   sentenceSegmenter: ConfigSentenceSegmenter;
   datetimeFrom: string;
@@ -90,7 +90,7 @@ const analyses = computedAsync(async () => {
 const configOptions = computed(getParsedConfig);
 
 const formatOptions = computed<FormKitOptionsList>(() =>
-  FORMATS_EXT.map((ext) => ({
+  CORPUS_SOURCE_FORMATS.map((ext) => ({
     value: ext,
     label: `${t(ext)} (.${ext})`,
     // If there are source files, disable all formats not present there.
@@ -101,7 +101,7 @@ const formatOptions = computed<FormKitOptionsList>(() =>
 );
 
 // Auto-select the file format present among source files, if any.
-const selectedFormat = computed<FileFormat | undefined>(() =>
+const selectedFormat = computed<CorpusSourceFormat | undefined>(() =>
   configOptions.value?.format &&
   (!extensions.value.length ||
     extensions.value.includes(configOptions.value?.format))
@@ -287,7 +287,7 @@ async function submit(fields: Form) {
             </FormKit>
 
             <FormKit
-              v-if="SEGMENTABLE_FORMATS.includes((value as Form).format)"
+              v-if="isSegmentable((value as Form).format)"
               name="sentenceSegmenter"
               :label="$t('segmenter_sentence')"
               :value="configOptions.sentenceSegmenter || ''"
