@@ -31,7 +31,7 @@ const emit = defineEmits<{
   (e: "upload", extension: string): void;
 }>();
 
-const { deleteSource, uploadSources, replaceSources, extensions } = useSources(
+const { deleteSource, uploadSources, extensions } = useSources(
   props.type,
   props.id,
 );
@@ -41,7 +41,6 @@ const { alertError } = useMessenger();
 const { t, locale } = useI18n();
 const { canWrite } = useAuth();
 
-const multiple = computed(() => props.type == "corpus");
 const resource = computedAsync(() => loadResource(props.id));
 const info = computedAsync(getInfo);
 const totalSize = computed(() =>
@@ -81,16 +80,12 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
   const extension = getFilenameExtension(files[0].name);
   emit("upload", extension.toLowerCase());
 
-  // If limited to one file, replace existing; otherwise just add
-  const sources = resource.value?.sources;
-  if (!multiple.value && sources?.length)
-    await replaceSources(sources, files, onProgress).catch(alertError);
-  else await uploadSources(files, onProgress).catch(alertError);
+  await uploadSources(files, onProgress).catch(alertError);
 }
 </script>
 
 <template>
-  <div v-if="multiple" class="mb-4 flex flex-wrap gap-x-8">
+  <div class="mb-4 flex flex-wrap gap-x-8">
     <span>
       {{ $t("files", resource?.sources.length || 0) }},
       {{ filesize(totalSize) }}
@@ -146,10 +141,10 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
       :file-handler
       :primary="!resource?.sources.length"
       :accept
-      :multiple
+      multiple
       show-progress
     >
-      <UploadSizeLimits :multiple />
+      <UploadSizeLimits />
     </FileUpload>
   </PendingContent>
 </template>

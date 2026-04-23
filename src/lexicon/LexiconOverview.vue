@@ -37,7 +37,7 @@ const { canWrite } = useAuth();
         <SharingPanel resource-type="lexicon" :id />
       </LayoutBox>
 
-      <LayoutBox :title="$t('source_file')">
+      <LayoutBox :title="$t('sources')">
         <SourcesPanel type="lexicon" :id />
       </LayoutBox>
     </div>

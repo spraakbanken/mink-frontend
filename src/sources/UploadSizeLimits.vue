@@ -3,10 +3,6 @@ import { computedAsync } from "@vueuse/core";
 import { getInfo } from "@/api/apiInfo";
 import useLocale from "@/i18n/locale.composable";
 
-defineProps<{
-  multiple?: boolean;
-}>();
-
 const info = computedAsync(getInfo);
 // Use filesize with precision 0 to have "1 MB" instead of "1.0 MB".
 const { filesize } = useLocale();
@@ -32,7 +28,7 @@ const { filesize } = useLocale();
           {{ filesize(info.fileSizeLimits.max_file_length.value, 0) }}
         </td>
       </tr>
-      <tr v-if="multiple">
+      <tr>
         <th>{{ $t("source.limit.upload.max") }}</th>
         <td class="text-right">
           {{ filesize(info.fileSizeLimits.max_content_length.value, 0) }}

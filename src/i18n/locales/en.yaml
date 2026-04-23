@@ -212,7 +212,6 @@ locale.switcher.label: Interface language
 en: English
 sv: Swedish
 file: File
-source_file: Source file
 sources: Source files
 configuration: Configuration
 settings: Settings
