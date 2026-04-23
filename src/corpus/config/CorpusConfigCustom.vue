@@ -42,7 +42,7 @@ watchEffect(() => (input.value = config.value || ""));
 
 /** Save current input as config by uploading it */
 async function upload() {
-  await uploadConfig(id, input.value).catch(alertError);
+  await uploadConfig("corpus", id, input.value).catch(alertError);
 }
 </script>
 

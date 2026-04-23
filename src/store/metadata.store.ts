@@ -26,7 +26,7 @@ export const useMetadataStore = defineStore("metadata", () => {
   ): Promise<string | undefined> {
     if (skipCache || !configs[id]) {
       const config = await spin(
-        api.downloadMetadataYaml(id),
+        api.downloadConfig("metadata", id),
         `resource/${id}/metadata`,
       );
       configs[id] = config;
@@ -37,7 +37,7 @@ export const useMetadataStore = defineStore("metadata", () => {
   // TODO Merge with useConfigStore when the backend routes have been merged.
   async function uploadConfig(id: string, configYaml: string) {
     await spin(
-      api.uploadMetadataYaml(id, configYaml),
+      api.uploadConfig("metadata", id, configYaml),
       `resource/${id}/metadata`,
     );
 

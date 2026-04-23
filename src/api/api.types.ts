@@ -71,26 +71,21 @@ export type ResourceListData = {
   resources: string[];
 };
 
-/** Data in the create-corpus response */
-export type CreateCorpusData = {
+/** Data in the create-<resource type> response */
+export type CreateResourceData = {
   resource_id: string;
 };
 
-/** Data in the create-metadata response */
-export type CreateMetadataData = {
-  resource_id: string;
-};
-
-/** Data in the resource-info response, if no corpus_id param is given */
+/** Data in the `resource/status/list` response */
 export type ResourceStatusListData = {
   resources: ResourceInfo[];
 };
 
 /** Data about a resource and its job status */
-export type ResourceInfo = {
+export type ResourceInfo<T extends ResourceType = ResourceType> = {
   owner: UserData;
   resource: ResourceData;
-  job: CorpusJob;
+  job: JobInfo<T>;
   job_status: JobState;
 };
 
@@ -114,26 +109,33 @@ export type ResourceData = {
 export type ResourceType = "corpus" | "metadata";
 
 /** Job status for a resource */
-// There's more but we're not using everything.
-export type CorpusJob = {
-  current_process: JobType | null;
-  status: JobStateMap;
-  warnings: string;
-  errors: string;
-  sparv_output: string;
-  installed_korp: boolean;
-  installed_strix: boolean;
-  /** ISO 8601 date */
-  started: string | "";
+export type JobInfo<T extends ResourceType> = {
+  current_process: JobType<T> | null;
+  duration: number;
   /** ISO 8601 date */
   ended: string | "";
+  errors: string;
+  output: string;
   /** Queue number, starting at 1 */
   priority: number | "";
   /** Percentage of job completion, if running */
   progress: `${number}%` | "";
+  /** ISO 8601 date */
+  started: string | "";
+  status: JobStateMap<T>;
+  warnings: string;
+} & JobInfoExtra[T];
+
+type JobInfoExtra = {
+  corpus: {
+    installed_korp: boolean;
+    installed_strix: boolean;
+  };
+  // Metadata has no extra job info, `object` means `{}`
+  metadata: object;
 };
 
-export type JobStateMap = Record<JobType, JobState>;
+export type JobStateMap<T extends ResourceType> = Record<JobType<T>, JobState>;
 
 /** File metadata */
 export type FileMeta = {
@@ -150,7 +152,11 @@ export type FileMeta = {
 };
 
 /** Indicates a job type that the backend can do */
-export type JobType = "sparv" | "korp" | "strix" | "sync2storage";
+export type JobType<T extends ResourceType> = T extends "corpus"
+  ? CorpusJobType
+  : never;
+
+export type CorpusJobType = "sparv" | "korp" | "strix" | "sync2storage";
 
 /** The states a job can have */
 export type JobState =

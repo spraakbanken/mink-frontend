@@ -24,18 +24,20 @@ const pollTick = useInterval(2000);
 const pollTracker: Record<string, boolean> = {};
 
 export function useCorpus(id: string) {
-  const { loadResource } = useResourceStore();
+  const { loadTypedResource, loadResource } = useResourceStore();
   const { loadSources } = useCorpusStore();
   const { loadConfig, uploadConfig } = useConfigStore();
   const { loadExports } = useExportStore();
   const { spin } = useSpin();
   const matomo = useMatomo();
 
-  const corpus = computedAsync(() => loadResource(id));
+  const corpus = computedAsync(() => loadTypedResource("corpus", id));
 
-  const config = computedAsync(() => loadConfig(id), undefined, { lazy: true });
+  const config = computedAsync(() => loadConfig("corpus", id), undefined, {
+    lazy: true,
+  });
 
-  const exports = computedAsync(() => loadExports(id), undefined, {
+  const exports = computedAsync(() => loadExports("corpus", id), undefined, {
     lazy: true,
   });
 
@@ -82,31 +84,34 @@ export function useCorpus(id: string) {
   async function clearAnnotations() {
     matomo.value?.trackEvent("Corpus", "Annotation", "Clear");
     await spin(api.clearAnnotations(id), `${id}/exports/list`);
-    await loadExports(id, true);
+    await loadExports("corpus", id, true);
   }
 
   async function saveConfigOptions(configOptions: ConfigOptions) {
     const configYaml = makeConfig(id, configOptions);
-    await uploadConfig(id, configYaml);
+    await uploadConfig("corpus", id, configYaml);
   }
 
   async function downloadSource(source: FileMeta, binary: boolean) {
     return spin(
-      api.downloadSources(id, source.name, binary),
+      api.downloadSources("corpus", id, source.name, binary),
       `${id}/sources/${source.name}`,
     );
   }
 
   async function uploadSources(files: File[], onProgress?: ProgressHandler) {
     await spin(
-      api.uploadSources(id, files, onProgress),
+      api.uploadSources("corpus", id, files, onProgress),
       `${id}/sources/upload`,
     );
     loadSources(id, true);
   }
 
   async function deleteSource(source: FileMeta) {
-    await spin(api.removeSource(id, source.name), `${id}/sources/list`);
+    await spin(
+      api.removeSource("corpus", id, source.name),
+      `${id}/sources/list`,
+    );
     loadSources(id, true);
   }
 
@@ -126,7 +131,10 @@ export function useCorpus(id: string) {
 
   async function downloadResult() {
     matomo.value?.trackEvent("Corpus", "Download", "Export archive");
-    const data = await spin(api.downloadExports(id), `${id}/exports/download`);
+    const data = await spin(
+      api.downloadExports("corpus", id),
+      `${id}/exports/download`,
+    );
     downloadFile(data, getDownloadFilename());
   }
 
@@ -138,7 +146,10 @@ export function useCorpus(id: string) {
   }
 
   async function loadResultFile(path: string) {
-    return spin(api.downloadExportFile(id, path), `${id}/exports/${path}`);
+    return spin(
+      api.downloadExportFile("corpus", id, path),
+      `${id}/exports/${path}`,
+    );
   }
 
   return {

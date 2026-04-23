@@ -4,7 +4,7 @@ import { pick } from "es-toolkit";
 import { type Resource } from "./resource.types";
 import { filterKeys } from "@/util";
 import api from "@/api/api";
-import type { ResourceInfo } from "@/api/api.types";
+import type { ResourceInfo, ResourceType } from "@/api/api.types";
 import useSpin from "@/spin/spin.composable";
 
 export const useResourceStore = defineStore("resource", () => {
@@ -66,6 +66,14 @@ export const useResourceStore = defineStore("resource", () => {
     return resources[id];
   }
 
+  /** Loads a resource and asserts it is of the given type; throws error otherwise */
+  const loadTypedResource = <T extends ResourceType>(type: T, id: string) =>
+    loadResource(id).then((resource) => {
+      if (resource.type != type)
+        throw new Error(`Resource ${id} is not of type ${type}`);
+      return resource as Resource<T>;
+    });
+
   /** Store new state for a given resource. */
   function storeResource(info: ResourceInfo): Resource {
     const resource = {
@@ -90,6 +98,7 @@ export const useResourceStore = defineStore("resource", () => {
   return {
     invalidateResources,
     loadResource,
+    loadTypedResource,
     loadResourceIds,
     loadResources,
     ids,

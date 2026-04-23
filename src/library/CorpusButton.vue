@@ -21,7 +21,7 @@ const { isCurrentUser } = useAuth();
 
 // Start loading specific data using a common spin token, to only show one spinner
 onMounted(() => {
-  spin(loadConfig(props.id), "resources");
+  spin(loadConfig("corpus", props.id), "resources");
 });
 </script>
 

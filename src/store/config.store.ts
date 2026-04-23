@@ -3,6 +3,7 @@ import { reactive, readonly } from "vue";
 import { useResourceStore } from "./resource.store";
 import useSpin from "@/spin/spin.composable";
 import api from "@/api/api";
+import type { ResourceType } from "@/api/api.types";
 
 export const useConfigStore = defineStore("config", () => {
   const { loadResource } = useResourceStore();
@@ -13,22 +14,27 @@ export const useConfigStore = defineStore("config", () => {
 
   /** Fetch and store the config of a resource. */
   async function loadConfig(
+    type: ResourceType,
     id: string,
     skipCache = false,
   ): Promise<string | undefined> {
     if (skipCache || !configs[id]) {
-      const config = await spin(api.downloadConfig(id), `${id}/config`);
+      const config = await spin(api.downloadConfig(type, id), `${id}/config`);
       configs[id] = config;
     }
     return configs[id];
   }
 
-  async function uploadConfig(id: string, configYaml: string) {
-    await spin(api.uploadConfig(id, configYaml), `${id}/config`);
+  async function uploadConfig(
+    type: ResourceType,
+    id: string,
+    configYaml: string,
+  ) {
+    await spin(api.uploadConfig(type, id, configYaml), `${id}/config`);
 
     await Promise.all([
       // Backend may modify uploaded config, so fetch the real one
-      loadConfig(id, true),
+      loadConfig(type, id, true),
       // Get new title
       loadResource(id, true),
     ]);

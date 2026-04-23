@@ -19,7 +19,7 @@ export default function useCreateCorpus() {
 
   async function createFromUpload(files: File[]) {
     if (!files[0]) throw new RangeError("No files");
-    const id = await api.createCorpus();
+    const id = await api.createResource("corpus");
     // Have the new corpus included in further API calls.
     await refreshAuth();
 
@@ -31,7 +31,7 @@ export default function useCreateCorpus() {
 
     // Wait for sources and config to be uploaded in parallel.
     const results = await Promise.allSettled([
-      api.uploadSources(id, files),
+      api.uploadSources("corpus", id, files),
       saveConfigOptions(config, id),
     ]);
 
@@ -55,7 +55,7 @@ export default function useCreateCorpus() {
   // Like the `saveConfigOptions` in `corpus.composable.ts` but takes `id` as argument.
   async function saveConfigOptions(configOptions: ConfigOptions, id: string) {
     const configYaml = makeConfig(id, configOptions);
-    await uploadConfig(id, configYaml);
+    await uploadConfig("corpus", id, configYaml);
   }
 
   async function createFromConfig(
@@ -73,7 +73,7 @@ export default function useCreateCorpus() {
     };
 
     // Create an empty corpus. If it fails, abort.
-    const id = await api.createCorpus();
+    const id = await api.createResource("corpus");
     // Have the new corpus included in further API calls.
     await refreshAuth();
 

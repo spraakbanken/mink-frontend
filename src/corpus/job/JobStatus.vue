@@ -72,12 +72,12 @@ const isStarted = computed(
           </td>
         </tr>
 
-        <tr v-if="hasError && job.sparv_output">
+        <tr v-if="hasError && job.output">
           <th colspan="2">{{ $t("sparvOutput") }}</th>
         </tr>
-        <tr v-if="hasError && job.sparv_output">
+        <tr v-if="hasError && job.output">
           <td colspan="2">
-            <TextData :text="job.sparv_output" class="mb-2" />
+            <TextData :text="job.output" class="mb-2" />
           </td>
         </tr>
 

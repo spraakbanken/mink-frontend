@@ -15,7 +15,9 @@ const { loadConfig } = useConfigStore();
 const { alertError } = useMessenger();
 
 const config = computedAsync(() =>
-  isCorpus(props.resource) ? loadConfig(props.id).catch(alertError) : undefined,
+  isCorpus(props.resource)
+    ? loadConfig(props.resource.type, props.id).catch(alertError)
+    : undefined,
 );
 </script>
 

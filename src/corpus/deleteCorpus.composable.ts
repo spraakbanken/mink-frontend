@@ -10,7 +10,7 @@ export default function useDeleteCorpus() {
 
   async function doDeleteCorpus(id: string): Promise<void> {
     // Delete corpus in the backend.
-    await api.removeCorpus(id);
+    await api.removeResource("corpus", id);
     // The backend will have updated the remote JWT, so refresh our copy.
     // The backend uses the corpus list within it when listing available corpora.
     await refreshAuth();

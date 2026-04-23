@@ -16,6 +16,7 @@ As this project is a user-facing application, the places in the semantic version
 ### Changed
 
 - Use the Jost font for headings
+- Added resource type as a parameter for API functions
 
 ### Fixed
 

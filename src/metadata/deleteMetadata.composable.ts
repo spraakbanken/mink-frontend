@@ -10,7 +10,7 @@ export default function useDeleteMetadata() {
 
   async function doDeleteMetadata(id: string): Promise<void> {
     // Delete resource in the backend.
-    await api.removeMetadata(id);
+    await api.removeResource("metadata", id);
     // The backend will have updated the remote JWT, so refresh our copy.
     // The backend uses the resource list within it when listing available resources.
     await refreshAuth();
