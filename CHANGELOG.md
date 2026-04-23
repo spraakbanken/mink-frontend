@@ -13,6 +13,10 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.17.0...HEAD)
 
+### Added
+
+- New resource type: lexicons [#240](https://github.com/spraakbanken/mink-frontend/issues/240)
+
 ### Changed
 
 - Use the Jost font for headings
