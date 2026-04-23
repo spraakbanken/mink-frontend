@@ -1,6 +1,5 @@
 import { useRoute, type RouteLocation } from "vue-router";
 import { useI18n } from "vue-i18n";
-import { storeToRefs } from "pinia";
 import { computed } from "vue";
 import useLocale from "@/i18n/locale.composable";
 import { useResourceStore } from "@/store/resource.store";
@@ -10,7 +9,7 @@ export default function usePageTitle() {
   const route = useRoute();
   const { t } = useI18n();
   const { th } = useLocale();
-  const { resources } = storeToRefs(useResourceStore());
+  const { resources } = useResourceStore();
 
   /** Get the title for a route */
   function getTitle(route: RouteLocation): string | undefined {
@@ -20,7 +19,7 @@ export default function usePageTitle() {
 
     // Look for resource id/name using route params
     const id = route.params.id as string | undefined;
-    if (id) return th(resources.value[id]?.name) || id;
+    if (id) return th(resources[id]?.name) || id;
 
     return undefined;
   }

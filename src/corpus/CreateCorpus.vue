@@ -14,7 +14,7 @@ import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import useMessenger from "@/message/messenger.composable";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
 
-const { createFromConfig } = useCreateCorpus();
+const { createCorpus } = useCreateCorpus();
 const { t } = useI18n();
 const { spin } = useSpin();
 const { alertError } = useMessenger();
@@ -37,7 +37,7 @@ const formatOptions = computed(() =>
 );
 
 async function submit(fields: Form) {
-  const createPromise = createFromConfig(
+  const createPromise = createCorpus(
     fields.name?.trim() || "",
     fields.description?.trim() || "",
     fields.format,
@@ -49,9 +49,12 @@ async function submit(fields: Form) {
 </script>
 
 <template>
-  <PageTitle>{{ $t("new_corpus") }}</PageTitle>
+  <PageTitle>{{ $t("corpus.new") }}</PageTitle>
   <LayoutSection>
-    <HelpBox>{{ $t("corpus.create.help") }}</HelpBox>
+    <HelpBox>
+      {{ $t("corpus.help") }}
+      {{ $t("resource.create.help") }}
+    </HelpBox>
 
     <PendingContent on="create">
       <FormKitWrapper>

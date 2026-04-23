@@ -1,23 +1,24 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useCorpus } from "../corpus.composable";
-import ToolPanel from "@/corpus/explore/ToolPanel.vue";
+import { useCorpus } from "./corpus.composable";
+import ToolPanel from "@/resource/ToolPanel.vue";
 import { ensureTrailingSlash } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import useSpin from "@/spin/spin.composable";
-import { useCorpusStore } from "@/store/corpus.store";
 import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
+import useResource from "@/resource/resource.composable";
 
 const props = defineProps<{
   id: string;
 }>();
 
 const { isPending } = useSpin();
-const { installKorp, installStrix, uninstallKorp, uninstallStrix } =
-  useCorpusStore();
-const { isJobRunning, job, jobState } = useCorpus(props.id);
+const { installKorp, installStrix, uninstallKorp, uninstallStrix } = useCorpus(
+  props.id,
+);
+const { isRunning, job } = useResource<"corpus">(props.id);
 const { locale3 } = useLocale();
 const { canWrite } = useAuth();
 const { alertError } = useMessenger();
@@ -28,8 +29,8 @@ const strixUrl = ensureTrailingSlash(import.meta.env.VITE_STRIX_URL);
 const canInstall = computed(
   () =>
     canWrite("corpus", props.id) &&
-    !isJobRunning.value &&
-    jobState.value?.sparv == "done" &&
+    !isRunning.value &&
+    job.value?.status.sparv == "done" &&
     !isPending(`${props.id}/job`),
 );
 </script>
@@ -44,10 +45,10 @@ const canInstall = computed(
         :link-url="$t('exports.tools.help.korp.manual.url')"
         :link-text="$t('exports.tools.help.korp.manual.text')"
         :can-install
-        :is-installed="jobState?.korp == 'done' && job?.installed_korp"
+        :is-installed="job?.status.korp == 'done' && job?.installed_korp"
         :show-url="`${korpUrl}?mode=mink#?corpus=${id}&lang=${locale3}`"
-        @install="installKorp(id).catch(alertError)"
-        @uninstall="uninstallKorp(id).catch(alertError)"
+        @install="installKorp().catch(alertError)"
+        @uninstall="uninstallKorp().catch(alertError)"
       />
     </PendingContent>
 
@@ -58,10 +59,10 @@ const canInstall = computed(
         :link-url="$t('exports.tools.help.strix.manual.url')"
         :link-text="$t('exports.tools.help.strix.manual.text')"
         :can-install
-        :is-installed="jobState?.strix == 'done' && job?.installed_strix"
+        :is-installed="job?.status.strix == 'done' && job?.installed_strix"
         :show-url="`${strixUrl}?mode=mink&corpora=${id}`"
-        @install="installStrix(id).catch(alertError)"
-        @uninstall="uninstallStrix(id).catch(alertError)"
+        @install="installStrix().catch(alertError)"
+        @uninstall="uninstallStrix().catch(alertError)"
       />
     </PendingContent>
   </div>

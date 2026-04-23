@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import { computed } from "vue";
-import { useCorpus } from "../corpus.composable";
+import useResource from "@/resource/resource.composable";
 
 const props = defineProps<{
   id: string;
 }>();
 
 const { t } = useI18n();
-const { currentStatus } = useCorpus(props.id);
+const { currentStatus } = useResource(props.id);
 
 const status = computed(() => currentStatus.value);
 const message = computed(() => t(`job.status.${status.value || "none"}`));

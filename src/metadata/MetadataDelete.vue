@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { PhTrash } from "@phosphor-icons/vue";
-import useDeleteMetadata from "@/metadata/deleteMetadata.composable";
+import useDeleteResource from "@/resource/deleteResource.composable";
 import useMetadataIdParam from "@/resource/resourceIdParam.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
@@ -12,12 +12,12 @@ import { useAuth } from "@/auth/auth.composable";
 
 const router = useRouter();
 const id = useMetadataIdParam();
-const { deleteMetadata } = useDeleteMetadata();
+const { deleteResource } = useDeleteResource();
 const resourceStore = useResourceStore();
 const { canAdmin } = useAuth();
 
 async function doDelete() {
-  await deleteMetadata(id);
+  await deleteResource("metadata", id);
   if (!resourceStore.ids.includes(id)) {
     router.push("/library");
   }

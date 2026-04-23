@@ -1,27 +1,24 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useCorpus } from "../corpus.composable";
-import JobStatusMessage from "@/corpus/job/JobStatusMessage.vue";
+import JobStatusMessage from "./JobStatusMessage.vue";
 import useLocale from "@/i18n/locale.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
 import TextData from "@/components/TextData.vue";
-import { useCorpusStore } from "@/store/corpus.store";
+import useResource from "@/resource/resource.composable";
 import useMessenger from "@/message/messenger.composable";
 
 const props = defineProps<{
   id: string;
 }>();
 
-const { abortJob } = useCorpusStore();
-const { job, isJobRunning, hasError } = useCorpus(props.id);
+const { currentStatus, job, isRunning, abortJob } = useResource(props.id);
 const { formatDate } = useLocale();
 const { alertError } = useMessenger();
 
-const isStarted = computed(
-  () =>
-    Object.values(job.value?.status || {}).some((status) => status != "none") ||
-    job.value?.priority,
+/** Whether this resource has not yet been processed at all */
+const isNew = computed(() =>
+  Object.values(job.value?.status || {}).every((status) => status == "none"),
 );
 </script>
 
@@ -36,7 +33,7 @@ const isStarted = computed(
       </div>
 
       <ActionButton
-        v-if="isJobRunning"
+        v-if="isRunning"
         class="button-danger ml-2"
         @click="abortJob(id).catch(alertError)"
       >
@@ -47,11 +44,11 @@ const isStarted = computed(
     <ProgressBar
       v-if="job?.progress"
       :percent="parseInt(job.progress)"
-      :running="isJobRunning"
+      :running="isRunning"
       class="w-full my-2"
     />
 
-    <table v-if="isStarted" class="w-full table-fixed">
+    <table v-if="!isNew" class="w-full table-fixed">
       <thead></thead>
       <tbody>
         <tr v-if="job.errors">
@@ -72,10 +69,10 @@ const isStarted = computed(
           </td>
         </tr>
 
-        <tr v-if="hasError && job.output">
-          <th colspan="2">{{ $t("sparvOutput") }}</th>
+        <tr v-if="currentStatus == 'error' && job.output">
+          <th colspan="2">{{ $t("job.process_output") }}</th>
         </tr>
-        <tr v-if="hasError && job.output">
+        <tr v-if="currentStatus == 'error' && job.output">
           <td colspan="2">
             <TextData :text="job.output" class="mb-2" />
           </td>

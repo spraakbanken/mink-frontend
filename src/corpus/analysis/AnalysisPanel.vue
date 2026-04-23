@@ -4,25 +4,20 @@ import { PhDownloadSimple, PhGearFine, PhInfo } from "@phosphor-icons/vue";
 import { useCorpus } from "../corpus.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import { useCorpusStore } from "@/store/corpus.store";
 import { useAuth } from "@/auth/auth.composable";
 import useMessenger from "@/message/messenger.composable";
+import useSources from "@/resource/sources.composable";
+import useResource from "@/resource/resource.composable";
+import useExports from "@/exports/exports.composable";
 
 const props = defineProps<{
   id: string;
 }>();
 
-const { runJob } = useCorpusStore();
-const {
-  hasSources,
-  isConfigValid,
-  jobState,
-  isJobRunning,
-  exports,
-  clearAnnotations,
-  downloadResult,
-  getDownloadFilename,
-} = useCorpus(props.id);
+const { isConfigValid, exports, clearAnnotations } = useCorpus(props.id);
+const { job, isRunning, runJob } = useResource(props.id);
+const { sources } = useSources("corpus", props.id);
+const { downloadResult, getDownloadFilename } = useExports("corpus", props.id);
 const { canWrite } = useAuth();
 const { alertError } = useMessenger();
 
@@ -30,15 +25,15 @@ const isPending = ref(false);
 const canRun = computed(
   () =>
     canWrite("corpus", props.id) &&
-    hasSources.value &&
+    sources.value.length &&
     isConfigValid.value &&
     !isPending.value &&
-    !isJobRunning.value,
+    !isRunning.value,
 );
 
 async function doRunJob() {
   isPending.value = true;
-  await runJob(props.id).catch(alertError);
+  await runJob().catch(alertError);
   isPending.value = false;
 }
 </script>
@@ -46,12 +41,12 @@ async function doRunJob() {
 <template>
   <div>
     <PendingContent
-      :on="`${id}/job/sparv`"
+      :on="`${id}/job/run`"
       class="flex flex-col gap-3 items-start"
     >
       <PendingContent
         :on="`${id}/exports/list`"
-        v-if="!isJobRunning && exports?.length"
+        v-if="!isRunning && exports?.length"
         class="flex gap-3 items-center"
       >
         <div>
@@ -68,7 +63,7 @@ async function doRunJob() {
 
       <div class="flex gap-3 items-center">
         <div>
-          <div class="font-semibold">{{ $t("job.run") }}</div>
+          <div class="font-semibold">{{ $t("corpus.sparv.run") }}</div>
           <i18n-t keypath="analysis.help" scope="global">
             <template #sparv>
               <a :href="$t('analysis.sparv.url')">Sparv</a>
@@ -82,20 +77,22 @@ async function doRunJob() {
           @click="canRun ? doRunJob() : null"
         >
           <PhGearFine weight="bold" class="inline mb-1 mr-1" />
-          {{ !exports?.length ? $t("job.run") : $t("job.rerun") }}
+          {{
+            !exports?.length ? $t("corpus.sparv.run") : $t("corpus.sparv.rerun")
+          }}
         </ActionButton>
       </div>
 
       <div>
-        <div v-if="!isJobRunning && exports?.length" class="text-sm">
+        <div v-if="!isRunning && exports?.length" class="text-sm">
           <PhInfo class="inline mb-0.5 mr-1" />
           {{ $t("job.rerun.overwrite") }}
         </div>
 
         <div
           v-if="
-            !isJobRunning &&
-            (jobState?.korp == 'done' || jobState?.strix == 'done')
+            !isRunning &&
+            (job?.status.korp == 'done' || job?.status.strix == 'done')
           "
           class="text-sm"
         >
@@ -116,7 +113,7 @@ async function doRunJob() {
             <td>
               <PendingContent :on="`${id}/exports/download`">
                 <ActionButton
-                  :class="{ 'button-primary': !isJobRunning }"
+                  :class="{ 'button-primary': !isRunning }"
                   @click="downloadResult().catch(alertError)"
                 >
                   <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />

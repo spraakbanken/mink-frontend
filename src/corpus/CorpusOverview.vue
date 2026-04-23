@@ -4,17 +4,17 @@ import SharingPanel from "../auth/SharingPanel.vue";
 import { useCorpus } from "./corpus.composable";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import ConfigPanel from "@/corpus/config/ConfigPanel.vue";
-import SourcesPanel from "@/corpus/sources/SourcesPanel.vue";
-import JobStatus from "@/corpus/job/JobStatus.vue";
+import SourcesPanel from "@/sources/SourcesPanel.vue";
 import AnalysisPanel from "@/corpus/analysis/AnalysisPanel.vue";
-import ExplorePanel from "@/corpus/explore/ExplorePanel.vue";
+import ExplorePanel from "@/corpus/ExplorePanel.vue";
 import CorpusStateHelp from "@/corpus/CorpusStateHelp.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import { useAuth } from "@/auth/auth.composable";
+import JobStatusPanel from "@/job/JobStatusPanel.vue";
 
 const id = useResourceIdParam();
-const { isConfigValid } = useCorpus(id);
+const { isConfigValid, updateSourceFormat } = useCorpus(id);
 const { canWrite } = useAuth();
 </script>
 
@@ -48,7 +48,7 @@ const { canWrite } = useAuth();
       </LayoutBox>
 
       <LayoutBox :title="$t('sources')">
-        <SourcesPanel :id />
+        <SourcesPanel type="corpus" :id @upload="updateSourceFormat" />
       </LayoutBox>
     </div>
 
@@ -57,7 +57,7 @@ const { canWrite } = useAuth();
         :title="$t('job.status')"
         class="bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
       >
-        <JobStatus :id />
+        <JobStatusPanel :id />
       </LayoutBox>
 
       <LayoutBox :title="$t('analysis')">

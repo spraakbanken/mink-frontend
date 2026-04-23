@@ -5,6 +5,7 @@ import useSpin from "@/spin/spin.composable";
 import PadButton from "@/components/PadButton.vue";
 import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
 import { useCorpus } from "@/corpus/corpus.composable";
+import useSources from "@/resource/sources.composable";
 import useLocale from "@/i18n/locale.composable";
 import { useAuth } from "@/auth/auth.composable";
 import { useConfigStore } from "@/store/config.store";
@@ -15,7 +16,8 @@ const props = defineProps<{
 
 const { loadConfig } = useConfigStore();
 const { spin } = useSpin();
-const { corpus, hasSources, sources } = useCorpus(props.id);
+const { corpus } = useCorpus(props.id);
+const { sources } = useSources("corpus", props.id);
 const { th } = useLocale();
 const { isCurrentUser } = useAuth();
 
@@ -29,8 +31,8 @@ onMounted(() => {
   <PadButton class="flex" :to="`/library/corpus/${id}`">
     <strong>{{ th(corpus?.name) || id }}</strong>
 
-    <span v-if="hasSources">
-      {{ $t("files", sources?.length || 0) }}
+    <span v-if="sources.length">
+      {{ $t("files", sources.length || 0) }}
     </span>
 
     <div

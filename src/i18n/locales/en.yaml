@@ -45,7 +45,9 @@ library: Library
 library.help.corpora: These are the corpora that you have created. Only you can see them. Click them to view more details.
 library.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "@:{'new_corpus'}" button or drop files into the upload field below.
 library.help.metadata: A metadata record holds information describing an arbitrary resource. Mink will not process any data for this resource, but you can export the metadata to a repository.
-corpus.create.help: The corpus will be accessible by you only. You can always change these values later.
+corpus: Corpus
+corpus.help: A corpus is a collection of text, typically used with statistical analysis and distant reading.
+corpus.new: New corpus
 corpus.delete: Delete corpus
 corpus.state.unknown: Unknown
 corpus.state.empty: No files
@@ -67,10 +69,15 @@ corpus.state.help.running_install: Installation is running in the background. Fe
 corpus.state.help.done_install: Successfully installed!
 corpus.state.help.failed: An error occurred while processing your data. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.state.help.failed_install: An error occurred while installing your corpus. If you need help, please contact sb-info{'@'}svenska.gu.se
+corpus.sparv.run: Run annotation
+corpus.sparv.rerun: Re-run annotation
+metadata: Metadata
+metadata.help: If you have been assigned an organization prefix, use metadata to prepare a resource for publication.
 metadata.new: New metadata
 metadata.public_id.help: In Mink, all resources have fixed, unmodifiable identifiers. The public identifier is what this resource will get once it is exported to a repository. Try to make it recognizable and descriptive, but not too long. It must only contain lowercase letters, numbers and dashes, and start with your assigned organization prefix.
 metadata.public_id.error.format: The public identifier must only contain lowercase letters (a-z), numbers (0-9) and dashes (-). It must not start or end with a dash.
 metadata.delete: Delete metadata
+resource.create.help: The resource will be accessible by you only. You can always change these values later.
 resource.delete.ask: Are you sure you want to delete this resource?
 resource.access_denied: This requires a higher access level to the resource
 config.metadata.help: Metadata is information about the data, meant for assessment by interested users (if you release the data), and for categorization in data repositories.
@@ -79,10 +86,8 @@ corpus.config.parse.error: The config of this corpus could not be parsed. Try ed
 config.saving: Saving metadata
 analysis.help: Run automated language technology methods on your text data according to your settings. Mink uses {sparv} under the hood.
 analysis.sparv.url: https://spraakbanken.gu.se/en/tools/sparv
-job.run: Run annotation
-job.rerun: Re-run annotation
-job.rerun.overwrite: Re-running annotation will overwrite previous results.
-job.rerun.tools_outdated: The old results will remain in the tools. Do not forget to re-install it if needed.
+job.rerun.overwrite: Re-running will overwrite previous results.
+job.rerun.tools_outdated: Previous results will remain in other platforms if it has been installed there. Do not forget to re-install if needed.
 job.abort: Abort
 job.status: Status
 job.priority: Place in queue
@@ -107,20 +112,20 @@ sharing.help.levels.after: Access to a Mink resource also applies in the tools w
 source.limit.file.recommended: Recommended max file size
 source.limit.file.max: Maximum file size
 source.limit.upload.max: Maximum batch upload size
-source.limit.corpus.recommended: Recommended max corpus size
-source.limit.corpus.max: Maximum corpus size
+source.limit.total.recommended: Recommended max total size
+source.limit.total.max: Maximum total size
 source.notfound: This source file was not found
 source.list.loading: Listing source files
 source.content: Content
-source.upload.config_format.trigger_change: "Corpus configuration is updated to match the file format: {format}"
 upload.accept: File type | File types
-upload.label.single: Add file
-upload.label.multiple: Add files
+upload.label.single: Upload file
+upload.label.multiple: Upload files
 upload.dnd.single: Drag and drop file here, or click here to choose
 upload.dnd.multiple: Drag and drop files here, or click here to choose
 upload.drop.empty: No file was dropped. Drag-and-drop may not be supported on your system.
+upload.format_unknown: Unknown file format "{ext}"
 exports.tools: Explore
-exports.tools.help: Use this data in Språkbanken's corpus tools. Your data will be available to you only, in a special Mink mode.
+exports.tools.help: Use this data in Språkbanken's corpus platforms. Your data will be available to you only, in a special Mink mode.
 exports.tools.help.korp: Korp offers concordance search, detailed queries, frequency statistics and more.
 exports.tools.help.korp.manual.url: https://spraakbanken.gu.se/en/tools/korp/user-manual
 exports.tools.help.korp.manual.text: User manual
@@ -192,19 +197,17 @@ locale.switcher.label: Interface language
 en: English
 sv: Swedish
 file: File
-metadata: Metadata
 sources: Source files
 configuration: Configuration
 settings: Settings
 analysis: Analysis
 result: Result
 resources: Resources
-corpus: Corpus
-corpora: Corpora
 files: No files | 1 file | {count} files
 none: None
-new_corpus: New corpus
 filename: Name
+status: Status
+resource: Resource
 type: Type
 upload: Upload
 uploaded: Uploaded
@@ -221,9 +224,9 @@ create: Create
 cancel: Cancel
 message: Message
 sparv.url: https://spraakbanken.gu.se/en/tools/sparv
-sparvOutput: Sparv output
 download: Download
 download_export: Download full result
+job.process_output: Process output
 job.status.done: Done
 job.status.none: Not started
 job.status.aborted: Aborted
@@ -273,7 +276,7 @@ save.invalid: Cannot save invalid data
 name: Name
 metadata.name.help: You can use spaces and special characters.
 identifier: Identifier
-metadata.identifier.help: This automatically generated machine name is used to identify this particular corpus on the server.
+metadata.identifier.help: This automatically generated machine name is used to identify this particular resource on the server.
 description: Description
 metadata.description.help: |
   This can be a summary of the material for your own benefit.
@@ -297,6 +300,7 @@ config.custom.upload.overwrite: Saving the standard configuration form may overw
 config.datetime.validate_both: Both or none of these dates must be set.
 config.format.help: Select the file format of the source files. All files must be of the selected format.
 config.format.note.pdf: The PDF file format is primarily designed for display. Please note that extracting text from them can sometimes give unsatisfactory results. Performing OCR on scanned documents is (currently) outside the scope of Mink.
+config.metadata: Metadata
 config.text_annotation: Text element
 config.text_annotation.help: In your source files, what XML element is most representative of a single text? Any text-level annotations will be attached to this element.
 segmenter_sentence: Existing sentence segmentation

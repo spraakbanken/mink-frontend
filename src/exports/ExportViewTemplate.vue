@@ -1,52 +1,50 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { watchImmediate } from "@vueuse/core";
+import { computedAsync, watchImmediate } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
-import { useCorpus } from "../corpus.composable";
 import TextFileBox from "@/components/TextFileBox.vue";
-import { getFilenameExtension } from "@/util";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
-import { type CorpusSourceFormat } from "@/api/corpusConfig";
 import useMessenger from "@/message/messenger.composable";
-import { isReadable } from "@/file";
+import useExports from "@/exports/exports.composable";
+import type { ResourceType } from "@/api/api.types";
+import { useExportStore } from "@/store/export.store";
 
 const props = defineProps<{
+  type: ResourceType;
   id: string;
-  filename: string;
+  path: string;
 }>();
 
-const { downloadSource, sources } = useCorpus(props.id);
+const { loadExports } = useExportStore();
+const { loadResultFile } = useExports(props.type, props.id);
 const { filesize, formatDate } = useLocale();
 const { alert, alertError } = useMessenger();
 const { t } = useI18n();
 
+const exports = computedAsync(() => loadExports(props.type, props.id));
+
+const path = computed(() => decodeURIComponent(props.path));
 const metadata = computed(() =>
-  sources.value?.find((source) => source.name === props.filename),
+  exports.value?.find((file) => file.path === path.value),
 );
-const isBinary = computed(() => {
-  const extension = getFilenameExtension(props.filename) as CorpusSourceFormat;
-  return !isReadable(extension);
-});
 const isXml = computed(() => /\/xml$/.test(metadata.value?.type || ""));
 
 // Show error if given filename is not found
-watchImmediate([sources, metadata], () => {
-  if (sources.value?.length && !metadata.value)
+watchImmediate([exports, metadata], () => {
+  if (exports.value?.length && !metadata.value)
     alert(t("source.notfound"), "error");
 });
 
 async function loadFile() {
-  return (
-    metadata.value &&
-    (await downloadSource(metadata.value, isBinary.value).catch(alertError))
-  );
+  return metadata.value && (await loadResultFile(path.value).catch(alertError));
 }
 </script>
 
 <template>
-  <LayoutSection :title="filename">
+  <LayoutSection>
+    <h2>{{ path }}</h2>
     <table v-if="metadata" class="w-full mt-4">
       <tbody>
         <tr>
@@ -62,11 +60,10 @@ async function loadFile() {
         <tr>
           <th>{{ $t("source.content") }}</th>
           <td>
-            <PendingContent :on="`${id}/sources/${filename}`">
+            <PendingContent :on="`${id}/exports/${path}`">
               <TextFileBox
                 :load="loadFile"
                 :filename="metadata.name"
-                :no-load="isBinary"
                 :size="metadata.size"
                 :language="isXml ? 'xml' : undefined"
               />

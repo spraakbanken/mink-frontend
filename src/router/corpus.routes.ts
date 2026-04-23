@@ -6,17 +6,17 @@ const CorpusConfiguration = () =>
   import("@/corpus/config/CorpusConfiguration.vue");
 const CorpusConfigCustom = () =>
   import("@/corpus/config/CorpusConfigCustom.vue");
-const CorpusResult = () => import("@/corpus/exports/CorpusResult.vue");
+const ExportListView = () => import("@/corpus/exports/ExportListView.vue");
 const CorpusDelete = () => import("@/corpus/CorpusDelete.vue");
 const ExportView = () => import("@/corpus/exports/ExportView.vue");
-const SourceView = () => import("@/corpus/sources/SourceView.vue");
+const SourceView = () => import("@/sources/SourceView.vue");
 
 const corpusRoutes: RouteRecordRaw[] = [
   {
     path: "/library/corpus/new",
     component: CreateCorpus,
     meta: {
-      title: "new_corpus",
+      title: "corpus.new",
       protected: true,
     },
   },
@@ -27,6 +27,7 @@ const corpusRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: "",
+        name: "corpus.overview",
         component: CorpusOverview,
         meta: { protected: true },
       },
@@ -49,7 +50,11 @@ const corpusRoutes: RouteRecordRaw[] = [
       {
         path: "sources/:filename",
         component: SourceView,
-        props: true,
+        props: (route) => ({
+          type: "corpus",
+          id: route.params.id as string,
+          filename: route.params.filename as string,
+        }),
         meta: {
           createTitle: (params) => params.filename as string,
           protected: true,
@@ -57,7 +62,7 @@ const corpusRoutes: RouteRecordRaw[] = [
       },
       {
         path: "exports",
-        component: CorpusResult,
+        component: ExportListView,
         meta: {
           title: "result",
           protected: true,

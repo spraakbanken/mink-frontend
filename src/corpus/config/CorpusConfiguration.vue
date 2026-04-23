@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { FormKitOptionsList } from "@formkit/inputs";
-import type { AxiosError } from "axios";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
@@ -9,7 +8,6 @@ import { PhLightbulbFilament, PhTrash } from "@phosphor-icons/vue";
 import { computedAsync } from "@vueuse/core";
 import { groupBy } from "es-toolkit";
 import { useCorpus } from "../corpus.composable";
-import type { MinkResponse } from "@/api/api.types";
 import {
   type ConfigOptions,
   type CorpusSourceFormat,
@@ -39,6 +37,7 @@ import TabsBar from "@/components/TabsBar.vue";
 import TabsContent from "@/components/TabsContent.vue";
 import useSpin from "@/spin/spin.composable";
 import { useAuth } from "@/auth/auth.composable";
+import useSources from "@/resource/sources.composable";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
 
 type TabKey = "metadata" | "settings" | "analyses";
@@ -56,7 +55,8 @@ type Form = {
 
 const router = useRouter();
 const id = useResourceIdParam();
-const { config, saveConfigOptions, extensions } = useCorpus(id);
+const { config, saveConfigOptions } = useCorpus(id);
+const { extensions } = useSources("corpus", id);
 const { alert, alertError } = useMessenger();
 const { t } = useI18n();
 const { th, thCompare } = useLocale();
@@ -160,7 +160,7 @@ async function submit(fields: Form) {
     if (e instanceof TypeError) {
       // Error from config serialization
       alert(e.message, "error");
-    } else alertError(e as AxiosError<MinkResponse>);
+    } else alertError(e);
   }
 }
 </script>
@@ -170,7 +170,7 @@ async function submit(fields: Form) {
     <LayoutSection :title="$t('configuration')">
       <TabsBar
         :tabs="[
-          { key: 'metadata', label: $t('metadata') },
+          { key: 'metadata', label: $t('config.metadata') },
           { key: 'settings', label: $t('settings') },
           { key: 'analyses', label: $t('config.analyses') },
         ]"
