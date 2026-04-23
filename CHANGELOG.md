@@ -13,9 +13,18 @@ As this project is a user-facing application, the places in the semantic version
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.17.0...HEAD)
 
+### Changed
+
+- Use the Jost font for headings
+- Added resource type as a parameter for API functions
+- Switched to singular resource type name in permission checks
+- Refactor code to abstract over resource type
+
 ### Fixed
 
+- Mirror favicon to match logo
 - Source upload filetypes listing reactivity broken
+- Pluralize "file types" in upload area
 
 ## [1.17.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.17.0) (2026-04-15)
 

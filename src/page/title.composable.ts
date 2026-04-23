@@ -1,6 +1,6 @@
 import { useRoute, type RouteLocation } from "vue-router";
 import { useI18n } from "vue-i18n";
-import { computedAsync } from "@vueuse/core";
+import { computed } from "vue";
 import useLocale from "@/i18n/locale.composable";
 import { useResourceStore } from "@/store/resource.store";
 
@@ -12,7 +12,7 @@ export default function usePageTitle() {
   const { resources } = useResourceStore();
 
   /** Get the title for a route */
-  async function getTitle(route: RouteLocation): Promise<string | undefined> {
+  function getTitle(route: RouteLocation): string | undefined {
     // Prefer excplicit title or title function from route config
     if (route.meta.title) return t(route.meta.title);
     if (route.meta.createTitle) return route.meta.createTitle(route.params);
@@ -25,7 +25,7 @@ export default function usePageTitle() {
   }
 
   /** Computed title of the current route */
-  const title = computedAsync(() => getTitle(route));
+  const title = computed(() => getTitle(route));
 
   return {
     getTitle,

@@ -69,7 +69,18 @@
   }
 
   h2 {
-    @apply text-2xl;
+    @apply text-3xl;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  legend,
+  thead {
+    font-family: "Jost Variable", "Source Sans 3 Variable", sans-serif;
   }
 
   p {

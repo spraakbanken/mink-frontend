@@ -45,7 +45,7 @@ const canInstall = computed(
         :link-url="$t('exports.tools.help.korp.manual.url')"
         :link-text="$t('exports.tools.help.korp.manual.text')"
         :can-install
-        :is-installed="job?.installed_korp"
+        :is-installed="job?.status.korp == 'done' && job?.installed_korp"
         :show-url="`${korpUrl}?mode=mink#?corpus=${id}&lang=${locale3}`"
         @install="installKorp().catch(alertError)"
         @uninstall="uninstallKorp().catch(alertError)"
@@ -59,7 +59,7 @@ const canInstall = computed(
         :link-url="$t('exports.tools.help.strix.manual.url')"
         :link-text="$t('exports.tools.help.strix.manual.text')"
         :can-install
-        :is-installed="job?.installed_strix"
+        :is-installed="job?.status.strix == 'done' && job?.installed_strix"
         :show-url="`${strixUrl}?mode=mink&corpora=${id}`"
         @install="installStrix().catch(alertError)"
         @uninstall="uninstallStrix().catch(alertError)"

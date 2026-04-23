@@ -16,7 +16,7 @@ const { alertError } = useMessenger();
 
 const config = computedAsync(() =>
   isCorpus(props.resource)
-    ? loadConfig("corpus", props.id).catch(alertError)
+    ? loadConfig(props.resource.type, props.id).catch(alertError)
     : undefined,
 );
 </script>

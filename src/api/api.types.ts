@@ -134,6 +134,7 @@ type JobInfoExtra = {
   lexicon: {
     installed_karps: boolean;
   };
+  // Metadata has no extra job info, `object` means `{}`
   metadata: object;
 };
 

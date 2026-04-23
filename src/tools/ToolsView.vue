@@ -9,7 +9,7 @@ import PageTitle from "@/components/PageTitle.vue";
   <ul class="flex flex-col gap-4">
     <li>
       <HelpBox>
-        <h3 class="text-2xl">
+        <h3 class="text-3xl">
           <router-link to="/tools/metadata-editor">
             {{ $t("metadata_editor") }}
           </router-link>

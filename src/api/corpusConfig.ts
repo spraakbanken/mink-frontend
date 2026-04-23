@@ -29,7 +29,7 @@ export type ConfigOptions = {
   analyses: Record<AnalysisId, boolean>;
 };
 
-const IMPORTERS = {
+const IMPORTERS: Record<CorpusSourceFormat, string> = {
   txt: "text_import:parse",
   xml: "xml_import:parse",
   odt: "odt_import:parse",
@@ -39,7 +39,7 @@ const IMPORTERS = {
   mp3: "sbx_whisper_import:parse_mp3",
   ogg: "sbx_whisper_import:parse_ogg",
   wav: "sbx_whisper_import:parse_wav",
-} as const;
+};
 
 export const SEGMENTERS: ConfigSentenceSegmenter[] = ["linebreaks"];
 
