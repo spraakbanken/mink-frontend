@@ -3,17 +3,13 @@
   "version": "1.17.0",
   "license": "MIT",
   "scripts": {
-    "dev": "vite",
     "build": "yarn run typecheck && vite build",
+    "dev": "vite",
+    "lint": "yarn run eslint && yarn run prettier . --list-different",
+    "lintfix": "yarn run eslint --fix && prettier . --list-different --write",
     "serve": "vite preview",
-    "validate": "yarn run typecheck && yarn run lint && yarn run format",
-    "fix": "yarn run lintfix && yarn run formatfix",
-    "typecheck": "vue-tsc --noEmit",
-    "lint": "eslint",
-    "lintfix": "eslint --fix",
-    "format": "prettier . --list-different",
-    "formatfix": "prettier . --list-different --write",
-    "test": "vitest"
+    "test": "vitest",
+    "typecheck": "vue-tsc --noEmit"
   },
   "engines": {
     "node": ">=22"

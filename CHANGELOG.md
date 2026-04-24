@@ -2,14 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
-As this project is a user-facing application, the places in the semantic versioning number `MAJOR`.`MINOR`.`PATCH` are redefined as follows:
+Versioning is inspired by [Semantic Versioning](https://semver.org/),
+but as this project is a user-facing application,
+the places in the semantic versioning number `MAJOR`.`MINOR`.`PATCH` are redefined as follows:
 
-- `MAJOR` denotes changes that are expected to significantly disrupt the flow of a returning user with some experience of the application, _or_ that significantly affects the development workflow
-- `MINOR` denotes changes that may affect the user experience _or_ the development workflow
-- `PATCH` denotes changes that are insignificant to the user experience or the develpment workflow
+- `MAJOR` denotes changes that are expected to **significantly affect** or the user experience or the development workflow
+- `MINOR` denotes changes that **may affect** the user experience or the development workflow
+- `PATCH` denotes changes that are **insignificant** to the user experience or the develpment workflow
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.17.0...HEAD)
 
