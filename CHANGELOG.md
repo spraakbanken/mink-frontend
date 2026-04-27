@@ -14,6 +14,10 @@ the places in the semantic versioning number `MAJOR`.`MINOR`.`PATCH` are redefin
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.17.0...HEAD)
 
+### Added
+
+- New resource type: lexicons [#240](https://github.com/spraakbanken/mink-frontend/issues/240)
+
 ### Changed
 
 - Use the Jost font for headings

@@ -42,9 +42,8 @@ welcome: Welcome, {name}!
 mydata: My data
 news: News
 library: Library
-library.help.corpora: These are the corpora that you have created. Only you can see them. Click them to view more details.
-library.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "@:{'new_corpus'}" button or drop files into the upload field below.
-library.help.metadata: A metadata record holds information describing an arbitrary resource. Mink will not process any data for this resource, but you can export the metadata to a repository.
+library.help.resources: These are your resources. Click them to view more details.
+library.help.resources.none: Your resources will be listed here.
 corpus: Corpus
 corpus.help: A corpus is a collection of text, typically used with statistical analysis and distant reading.
 corpus.new: New corpus
@@ -71,6 +70,20 @@ corpus.state.help.failed: An error occurred while processing your data. If you n
 corpus.state.help.failed_install: An error occurred while installing your corpus. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.sparv.run: Run annotation
 corpus.sparv.rerun: Re-run annotation
+lexicon: Lexicon
+lexicon.help: A lexicon is a set of items with structured data fields. It doesn't have to be about words.
+lexicon.new: New lexicon
+lexicon.delete: Delete lexicon
+lexicon.config.entry_word.field: Ingångsfält
+lexicon.config.entry_word.field.help: Välj ett fält i källdatan som skall fungera som huvudingång till varje rad.
+lexicon.config.entry_word.description: Fältnamn
+lexicon.config.entry_word.description.help: Namnet på fältet, så som det visas för mänskliga användare.
+lexicon.karp_pipeline.run: Run Karp Pipeline
+lexicon.karp_pipeline.help: Karp Pipeline processes your data and prepares it for use in Karp.
+lexicon.karp_pipeline.rerun: Re-run Karp Pipeline
+lexicon.karps: Karp search interface
+lexicon.karps.help: Search through entries and produce statistics.
+lexicon.tools.help: Use this data in Språkbanken's other platforms. Your data will be available to you only.
 metadata: Metadata
 metadata.help: If you have been assigned an organization prefix, use metadata to prepare a resource for publication.
 metadata.new: New metadata
@@ -97,6 +110,8 @@ job.time_taken: Time taken
 job.process.sparv: Analysis
 job.process.korp: Installation to Korp
 job.process.strix: Installation to Strix
+job.process.karp_pipeline: Karp pipeline
+job.process.karps: Installation to Karp
 sharing: Sharing
 sharing.level: Your access level
 sharing.level.admin_mode: Admin mode enabled
@@ -208,6 +223,7 @@ none: None
 filename: Name
 status: Status
 resource: Resource
+resource_new: New resource
 type: Type
 upload: Upload
 uploaded: Uploaded

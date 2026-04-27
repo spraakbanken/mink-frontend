@@ -1,40 +1,42 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { PhPlusCircle } from "@phosphor-icons/vue";
+import { PhPlusCircle, PhUsers } from "@phosphor-icons/vue";
+import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
-import { computed } from "vue";
-import CorpusButton from "@/library/CorpusButton.vue";
 import useLocale from "@/i18n/locale.composable";
-import PadButton from "@/components/PadButton.vue";
-import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useAdmin from "@/user/admin.composable";
 import { useAuth } from "@/auth/auth.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import { useResourceStore } from "@/store/resource.store";
-import useSpin from "@/spin/spin.composable";
 import useCreateCorpus from "@/corpus/createCorpus.composable";
 import FileUpload from "@/components/FileUpload.vue";
-import { SOURCE_FORMATS } from "@/file";
 import UploadSizeLimits from "@/sources/UploadSizeLimits.vue";
+import { isCorpus, type Resource } from "@/store/resource.types";
+import CorpusStateMessage from "@/corpus/CorpusStateMessage.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
+import RouteButton from "@/components/RouteButton.vue";
 import useAlert from "@/alert/alert.composable";
-import { isCorpus, isMetadata } from "@/store/resource.types";
+import SortableTable from "@/components/SortableTable.vue";
+import { SOURCE_FORMATS } from "@/file";
+import ResourceStatus from "@/resource/ResourceStatus.vue";
 import { getFilenameExtension } from "@/util";
+import { useLexiconStore } from "@/store/lexicon.store";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
+const { createLexicon } = useLexiconStore();
 const { adminMode, checkAdminMode } = useAdmin();
-const { canUserAdmin } = useAuth();
+const { canUserAdmin, isCurrentUser } = useAuth();
 const { createCorpusFromUpload } = useCreateCorpus();
-const { spin } = useSpin();
 const { showAlert } = useAlert();
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const { th } = useLocale();
 
 const { loadResources } = resourceStore;
-const { resources } = storeToRefs(resourceStore);
+const { hasResources, resources } = storeToRefs(resourceStore);
 
 /** Resource objects as a list with each id as a member */
 const resourcesList = computed(() => {
@@ -56,8 +58,7 @@ const resourcesList = computed(() => {
   loadResources().catch(showAlert);
 })();
 
-const corpora = computed(() => resourcesList.value.filter(isCorpus));
-const metadatas = computed(() => resourcesList.value.filter(isMetadata));
+const accept = computed(() => Object.values(SOURCE_FORMATS).flat());
 
 async function fileHandler(files: File[]) {
   // Silently abort if no files
@@ -68,69 +69,137 @@ async function fileHandler(files: File[]) {
 
   // Create a resource matching the file type
   if (SOURCE_FORMATS.corpus.find((format) => format == ext)) {
-    await spin(createCorpusFromUpload(files), "create").catch(showAlert);
+    await createCorpusFromUpload(files).catch(showAlert);
+  } else if (SOURCE_FORMATS.lexicon.find((format) => format == ext)) {
+    await createLexicon("", files).catch(showAlert);
   } else {
     showAlert(t("upload.format_unknown", { ext }));
   }
 }
+
+const getType = (resource: Resource) =>
+  "type" in resource ? resource.type : "resource";
 </script>
 
 <template>
   <div v-if="!adminMode">
     <PageTitle>{{ $t("library") }}</PageTitle>
-    <LayoutSection :title="$t('corpora')">
-      <HelpBox>
-        <p>
-          {{
-            corpora.length
-              ? $t("library.help.corpora")
-              : $t("library.help.corpora.none")
-          }}
-        </p>
-      </HelpBox>
 
-      <PendingContent on="resources" class="my-4 flex flex-wrap gap-4">
-        <CorpusButton v-for="{ id } of corpora" :key="id" :id />
+    <div class="flex flex-col xl:flex-row xl:items-start gap-4">
+      <LayoutBox :title="$t('resources')" class="flex-1">
+        <PendingContent on="resources">
+          <SortableTable
+            :columns="[
+              {
+                title: $t('name'),
+                comparator: (a, b) =>
+                  (th(a.name) || a.id).localeCompare(
+                    th(b.name) || b.id,
+                    locale,
+                  ),
+              },
+              {
+                title: $t('type'),
+                comparator: (a, b) =>
+                  t(getType(a)).localeCompare(t(getType(b)), locale),
+              },
+              { title: $t('status') },
+            ]"
+            :rows="resourcesList"
+            :get-row-key="(resource) => resource.id"
+            :default-sort="{ title: $t('name'), reverse: false }"
+            class="w-full my-4 striped"
+          >
+            <template #tr="{ row: resource }">
+              <tr>
+                <td class="py-2!">
+                  <router-link
+                    :to="`/library/${getType(resource)}/${resource.id}`"
+                    class="block"
+                  >
+                    {{ th(resource.name) || resource.id }}
+                  </router-link>
+                </td>
+                <td>{{ $t(getType(resource)) }}</td>
+                <td>
+                  <CorpusStateMessage
+                    v-if="isCorpus(resource)"
+                    :id="resource.id"
+                  />
+                  <ResourceStatus v-else :id="resource.id" />
 
-        <PadButton to="/library/corpus/new">
-          <PhPlusCircle size="2em" class="mb-2" />
-          {{ $t("corpus.new") }}
-        </PadButton>
-      </PendingContent>
-    </LayoutSection>
+                  <!-- Shared icon if other owner -->
+                  <PhUsers
+                    v-if="!isCurrentUser(resource.owner)"
+                    class="inline mx-1"
+                  />
+                </td>
+              </tr>
+            </template>
+          </SortableTable>
 
-    <LayoutSection :title="$t('corpus.new')">
-      <PendingContent on="create" blocking>
-        <FileUpload
-          :file-handler
-          :primary="!corpora.length"
-          :accept="Object.values(SOURCE_FORMATS).flat()"
-          multiple
-          show-progress
-        >
-          <UploadSizeLimits />
-        </FileUpload>
-      </PendingContent>
-    </LayoutSection>
+          <HelpBox v-if="hasResources">
+            {{ $t("library.help.resources") }}
+          </HelpBox>
+          <HelpBox v-else>{{ $t("library.help.resources.none") }}</HelpBox>
+        </PendingContent>
+      </LayoutBox>
 
-    <LayoutSection :title="$t('metadata')">
-      <HelpBox>
-        <p>{{ $t("library.help.metadata") }}</p>
-      </HelpBox>
+      <LayoutBox :title="$t('resource_new')" class="flex-1">
+        <div class="flex gap-3 items-center my-4">
+          <div class="grow">
+            <div class="font-semibold">{{ $t("corpus") }}</div>
+            {{ $t("corpus.help") }}
+          </div>
+          <RouteButton
+            to="/library/corpus/new"
+            :class="{ 'button-primary': !hasResources }"
+          >
+            <PhPlusCircle weight="bold" class="inline mb-1 mr-1" />
+            {{ $t("corpus.new") }}
+          </RouteButton>
+        </div>
 
-      <div class="my-4 flex flex-wrap gap-4">
-        <template v-for="{ id, ...metadata } of metadatas" :key="id">
-          <PadButton :to="`/library/metadata/${id}`">
-            <strong>{{ th(metadata.name) || id }}</strong>
-            {{ metadata.publicId }}
-          </PadButton>
-        </template>
+        <div class="flex gap-3 items-center my-4">
+          <div class="grow">
+            <div class="font-semibold">{{ $t("lexicon") }}</div>
+            {{ $t("lexicon.help") }}
+          </div>
+          <RouteButton
+            to="/library/lexicon/new"
+            :class="{ 'button-primary': !hasResources }"
+          >
+            <PhPlusCircle weight="bold" class="inline mb-1 mr-1" />
+            {{ $t("lexicon.new") }}
+          </RouteButton>
+        </div>
 
-        <PadButton to="/library/metadata/new">
-          <PhPlusCircle size="2em" class="mb-2" />
-          {{ $t("metadata.new") }}
-        </PadButton>
-      </div>
-    </LayoutSection>
+        <div class="flex gap-3 items-center my-4">
+          <div class="grow">
+            <div class="font-semibold">{{ $t("metadata") }}</div>
+            {{ $t("metadata.help") }}
+          </div>
+          <RouteButton
+            to="/library/metadata/new"
+            :class="{ 'button-primary': !hasResources }"
+          >
+            <PhPlusCircle weight="bold" class="inline mb-1 mr-1" />
+            {{ $t("metadata.new") }}
+          </RouteButton>
+        </div>
+
+        <PendingContent on="create" blocking>
+          <FileUpload
+            :file-handler
+            :primary="!hasResources"
+            :accept
+            multiple
+            show-progress
+          >
+            <UploadSizeLimits />
+          </FileUpload>
+        </PendingContent>
+      </LayoutBox>
+    </div>
   </div>
 </template>

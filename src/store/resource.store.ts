@@ -1,4 +1,4 @@
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { defineStore } from "pinia";
 import { pick } from "es-toolkit";
 import { type Resource } from "./resource.types";
@@ -12,6 +12,7 @@ export const useResourceStore = defineStore("resource", () => {
 
   const ids = ref<string[]>([]);
   const resources = reactive<Record<string, Resource>>({});
+  const hasResources = computed(() => Object.keys(resources).length);
 
   /** Whether the list of resources is fetched and not modified. */
   let freshList = false;
@@ -102,6 +103,7 @@ export const useResourceStore = defineStore("resource", () => {
     loadResourceIds,
     loadResources,
     ids,
+    hasResources,
     resources,
   };
 });

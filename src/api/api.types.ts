@@ -108,7 +108,7 @@ export type ResourceData = {
   source_files: FileMeta[];
 };
 
-export type ResourceType = "corpus" | "metadata";
+export type ResourceType = "corpus" | "lexicon" | "metadata";
 
 /** Job status for a resource */
 export type JobInfo<T extends ResourceType> = {
@@ -133,6 +133,9 @@ type JobInfoExtra = {
     installed_korp: boolean;
     installed_strix: boolean;
   };
+  lexicon: {
+    installed_karps: boolean;
+  };
   // Metadata has no extra job info, `object` means `{}`
   metadata: object;
 };
@@ -156,9 +159,12 @@ export type FileMeta = {
 /** Indicates a job type that the backend can do */
 export type JobType<T extends ResourceType> = T extends "corpus"
   ? CorpusJobType
-  : never;
+  : T extends "lexicon"
+    ? LexiconJobType
+    : never;
 
 export type CorpusJobType = "sparv" | "korp" | "strix" | "sync2storage";
+export type LexiconJobType = "karp_pipeline" | "karps";
 
 /** The states a job can have */
 export type JobState =

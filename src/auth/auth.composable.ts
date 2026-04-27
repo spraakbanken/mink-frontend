@@ -12,6 +12,7 @@ import useAdmin from "@/user/admin.composable";
 
 const TYPE_MAP: Readonly<Record<ResourceType, AuthResourceType>> = {
   corpus: "corpora",
+  lexicon: "lexica",
   metadata: "metadata",
 };
 
