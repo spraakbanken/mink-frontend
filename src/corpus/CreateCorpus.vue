@@ -11,13 +11,13 @@ import { type CorpusSourceFormat } from "@/api/corpusConfig";
 import useCreateCorpus from "@/corpus/createCorpus.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
 
 const { createCorpus } = useCreateCorpus();
 const { t } = useI18n();
 const { spin } = useSpin();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 
 type Form = {
   name?: string;
@@ -44,7 +44,7 @@ async function submit(fields: Form) {
     fields.textAnnotation,
   );
 
-  await spin(createPromise, "create").catch(alertError);
+  await spin(createPromise, "create").catch(showAlert);
 }
 </script>
 

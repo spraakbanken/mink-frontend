@@ -3,7 +3,7 @@ import { computedAsync } from "@vueuse/core";
 import { type Resource, isCorpus } from "@/store/resource.types";
 import PendingContent from "@/spin/PendingContent.vue";
 import TextData from "@/components/TextData.vue";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import { useConfigStore } from "@/store/config.store";
 
 const props = defineProps<{
@@ -12,11 +12,11 @@ const props = defineProps<{
 }>();
 
 const { loadConfig } = useConfigStore();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 
 const config = computedAsync(() =>
   isCorpus(props.resource)
-    ? loadConfig(props.resource.type, props.id).catch(alertError)
+    ? loadConfig(props.resource.type, props.id).catch(showAlert)
     : undefined,
 );
 </script>

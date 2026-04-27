@@ -1,5 +1,5 @@
-import type { AxiosProgressEvent } from "axios";
-import type { ByLang, SweEng } from "@/util.types";
+import type { AxiosError, AxiosProgressEvent } from "axios";
+import type { ByLang, RequiredKeys, SweEng } from "@/util.types";
 
 /** Properties common to most backend responses */
 export type MinkResponse<
@@ -39,6 +39,8 @@ export type InfoData = {
     };
   };
 };
+
+export type BackendError = RequiredKeys<AxiosError<MinkResponse>, "response">;
 
 /** A structure for a section in the backend info response */
 type InfoDataSection<T> = {

@@ -6,7 +6,7 @@ import ActionButton from "@/components/ActionButton.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
 import TextData from "@/components/TextData.vue";
 import useResource from "@/resource/resource.composable";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 
 const props = defineProps<{
   id: string;
@@ -14,7 +14,7 @@ const props = defineProps<{
 
 const { currentStatus, job, isRunning, abortJob } = useResource(props.id);
 const { formatDate } = useLocale();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 
 /** Whether this resource has not yet been processed at all */
 const isNew = computed(() =>
@@ -35,7 +35,7 @@ const isNew = computed(() =>
       <ActionButton
         v-if="isRunning"
         class="button-danger ml-2"
-        @click="abortJob(id).catch(alertError)"
+        @click="abortJob(id).catch(showAlert)"
       >
         {{ $t("job.abort") }}
       </ActionButton>

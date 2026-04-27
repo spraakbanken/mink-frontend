@@ -11,7 +11,7 @@ import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import MaxHeight from "@/components/MaxHeight.vue";
 import type { FileMeta, ProgressHandler, ResourceType } from "@/api/api.types";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import { getFilenameExtension } from "@/util";
 import FileUpload from "@/components/FileUpload.vue";
 import { useAuth } from "@/auth/auth.composable";
@@ -37,7 +37,7 @@ const { deleteSource, uploadSources, extensions } = useSources(
 );
 const { loadResource } = useResourceStore();
 const { filesize } = useLocale();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 const { t, locale } = useI18n();
 const { canWrite } = useAuth();
 
@@ -80,7 +80,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
   const extension = getFilenameExtension(files[0].name);
   emit("upload", extension.toLowerCase());
 
-  await uploadSources(files, onProgress).catch(alertError);
+  await uploadSources(files, onProgress).catch(showAlert);
 }
 </script>
 
@@ -121,7 +121,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
           <td v-if="canWrite(type, id)">
             <ActionButton
               class="hover:button-danger button-slim text-sm"
-              @click="deleteSource(source).catch(alertError)"
+              @click="deleteSource(source).catch(showAlert)"
             >
               <PhTrash class="inline mb-0.5" />
               <span class="sr-only">{{ $t("delete") }}</span>

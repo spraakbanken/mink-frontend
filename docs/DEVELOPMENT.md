@@ -29,13 +29,14 @@ Recommended VSCode settings (see [docs on settings.json](https://code.visualstud
     "source.fixAll.eslint": "always"
   },
   "editor.formatOnSave": true,
+  "editor.formatOnType": true,
   "[javascript][typescript][vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[json][jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[html]": {
+  "[html][css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
@@ -54,53 +55,54 @@ For SB-Auth to allow authentication requests, the frontend must be served under 
 
 ### Environment variables
 
-Vite will read variables from [.env](../.env), see [Vite docs](https://vitejs.dev/guide/env-and-mode). It will also read from .env.local, which is ignored by Git, so you can create it locally to override .env.
+Vite will read variables from [.env](../.env), see [Vite docs](https://vitejs.dev/guide/env-and-mode).
+It will also read from `.env.local`, which is ignored by Git, so you can create it locally to override `.env`.
 
 The dev server might not properly pick up on changes to these, so better restart `yarn dev`.
 
 ## Development tasks
 
-Some of these use commands defined in the `scripts` section of `package.json`.
+These use commands defined in the `scripts` section of `package.json`.
 See https://classic.yarnpkg.com/lang/en/docs/cli/run/
 (Note that `yarn <cmd>` will map to `yarn run <cmd>`, unless `cmd` is a built-in yarn command.)
 
-### Install dependencies
+| Task                                                 | Command        |
+| ---------------------------------------------------- | -------------- |
+| Install the dependencies needed to run the code      | `yarn install` |
+| Serve the frontend from a temporary local dev server | `yarn dev`     |
+| Run tests and watch files to rerun on changes        | `yarn test`    |
+| Check for formatting problems                        | `yarn lint`    |
+| Attempt to fix formatting problems automatically     | `yarn lintfix` |
+| Build the frontend as optimized HTML + assets        | `yarn build`   |
 
-Install the dependencies needed to run the code (Vite, Vue, etc): `yarn` or `yarn install`
+### Deploying
 
-### Run dev server
+After building, the files in `dist/` can be copied to the web server.
 
-Serve the frontend from a temporary local development server: `yarn dev`
+Sample deploy script:
 
-Now you can open the frontend in a web browser at https://minkdev.spraakbanken.gu.se:5173/mink/
+```sh
+#!/bin/bash
+set -e # Abort on errors
 
-### Run tests
+yarn install
+yarn lint
 
-Run tests and watch to rerun on changes: `yarn test`
+export VITE_BACKEND_URL="https://example.com/mink-backend/"
+yarn build
 
-Note that test coverage is very low so far. One thing that makes testing difficult is that most API calls require authentication.
-
-### Check code quality
-
-Lint, check formatting etc: `yarn validate`
-
-Some problems can be fixed automatically with: `yarn fix`
-
-### Build
-
-Build the frontend as optimized static HTML+JS+CSS assets: `yarn build`
-
-The files in `dist/` can now be copied to the web server. The `rsync` command is useful for copying across servers and including hidden files like `.htaccess`.
+rsync -a --delete-after dist/ user@example.com:/var/www/mink/
+```
 
 ## Code
 
-See [ARCHITECTURE.md](ARCHITECTURE) for an overview of the structure and [STYLE.md](STYLE.md) for code style.
+See [ARCHITECTURE.md](ARCHITECTURE.md) for an overview of the structure and [STYLE.md](STYLE.md) for code style.
 
 ## Version control
 
 ### Commits
 
-A commit should contain a single, coherent change.
+A commit should contain a single, coherent change. If suitable, note the change in [CHANGELOG.md](../CHANGELOG.md).
 
 The commit message must be of this form, based on [Conventional commits](https://www.conventionalcommits.org/en/v1.0.0/):
 
@@ -136,7 +138,10 @@ where
 
 ### Branches
 
-Continual development happens on the **main** branch. It should always be healthy, so any changes that break the build should be fixed as soon as possible. There is a GitHub action [ci.yml](../.github/workflows/ci.yml) for this purpose, meaning someone will be notified if the code is broken.
+Continual development happens on the **main** branch.
+It should always be healthy, so any changes that break the build should be fixed as soon as possible.
+There is a GitHub action [ci.yaml](../.github/workflows/ci.yaml) for this purpose,
+meaning someone will be notified if the code is broken.
 
 For a larger change, please create a specific branch, and squash-merge to main when ready.
 
@@ -155,7 +160,7 @@ The timing of a release is determined by maintainers, and may be more or less co
    1. Update the list under _Unreleased_ to reflect changes made since the last release
    2. From the list of changes, determine whether this is a major, minor or patch release
    3. Add a release number heading directly under the _Unreleased_ heading
-   4. Update the compare urls in the bottom of the file
+   4. Update the _Unreleased_ heading link target
 3. Update the version number in `package.json`
 4. Commit as `release: version <version>`
 5. Tag the commit as `v` + version number, e.g. `git tag v1.2.3`
@@ -167,7 +172,7 @@ The timing of a release is determined by maintainers, and may be more or less co
 
 Sometimes we need to release a fix quickly, without other changes that may be happening on the main branch.
 In such cases, it is okay to commit the fix on a new branch directly off the last release commit, and then do the release workflow on that branch.
-For this reason, the deploy build must happen on the _latest relase commit_, rather than the latest main branch commit.
+For this reason, the deploy build must happen on the _latest release commit_, rather than the latest main branch commit.
 
 Get the latest release commit: `git tag --list 'v[0-9]*' --sort=version:refname | tail -n1`
 

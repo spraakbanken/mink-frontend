@@ -12,24 +12,24 @@ import { isCorpus } from "@/store/resource.types";
 import useAdmin from "@/user/admin.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import ActionButton from "@/components/ActionButton.vue";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
 const { ids, resources } = storeToRefs(resourceStore);
 const { adminMode } = useAdmin();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 
 const previewToggles = reactive<Record<string, boolean>>({});
 
 watchImmediate(adminMode, () => {
   // adminMode is undefined initially. If it resolves to false, go to the normal Library view instead.
-  if (adminMode.value) resourceStore.loadResourceIds().catch(alertError);
+  if (adminMode.value) resourceStore.loadResourceIds().catch(showAlert);
   else if (adminMode.value === false) router.push("/library");
 });
 
 async function load(id: string) {
-  await resourceStore.loadResource(id).catch(alertError);
+  await resourceStore.loadResource(id).catch(showAlert);
   previewToggles[id] = true;
 }
 </script>

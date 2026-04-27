@@ -1,8 +1,8 @@
 <img src="src/assets/mink-slogan-en.svg" width="300" alt="Mink - Språkbanken's data platform" />
 
-Mink is our effort to put Språkbanken Text’s research infrastructure into the hands of the researchers.
-You can use Mink to apply our language technology methods on texts that you have collected yourself.
-The resulting data can be downloaded or made available through our research tools, such as Korp and Strix, behind login.
+Mink is a web application for processing and exploring user-owned datasets of language data.
+It is specifically designed for use with the platforms of [Språkbanken Text](https://spraakbanken.gu.se/):
+Create your own corpus, add customizable automatic annotations and download or explore the results.
 
 [Use Mink](https://spraakbanken.gu.se/mink/)
 • [Language data](https://spraakbanken.gu.se/en/resources)
@@ -12,9 +12,9 @@ The resulting data can be downloaded or made available through our research tool
 
 This code makes up the user interface at [spraakbanken.gu.se/mink](https://spraakbanken.gu.se/mink/).
 
-It is a single-page web app that communicates with the [Mink backend](https://github.com/spraakbanken/mink-backend/) to load/send data and perform operations.
-
-It is written in [TypeScript](https://www.typescriptlang.org/) and uses the [Vue 3](https://vuejs.org/) framework backed up by [Axios](https://axios-http.com/) and [Tailwind CSS](https://tailwindcss.com/), among other libraries.
+It is a single-page web app
+written in [Vue 3](https://vuejs.org/)
+that talks to the [Mink backend](https://github.com/spraakbanken/mink-backend/).
 
 ## User documentation
 

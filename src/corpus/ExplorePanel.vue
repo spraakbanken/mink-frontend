@@ -7,7 +7,7 @@ import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import useSpin from "@/spin/spin.composable";
 import { useAuth } from "@/auth/auth.composable";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import useResource from "@/resource/resource.composable";
 
 const props = defineProps<{
@@ -21,7 +21,7 @@ const { installKorp, installStrix, uninstallKorp, uninstallStrix } = useCorpus(
 const { isRunning, job } = useResource<"corpus">(props.id);
 const { locale3 } = useLocale();
 const { canWrite } = useAuth();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 
 const korpUrl = ensureTrailingSlash(import.meta.env.VITE_KORP_URL);
 const strixUrl = ensureTrailingSlash(import.meta.env.VITE_STRIX_URL);
@@ -47,8 +47,8 @@ const canInstall = computed(
         :can-install
         :is-installed="job?.status.korp == 'done' && job?.installed_korp"
         :show-url="`${korpUrl}?mode=mink#?corpus=${id}&lang=${locale3}`"
-        @install="installKorp().catch(alertError)"
-        @uninstall="uninstallKorp().catch(alertError)"
+        @install="installKorp().catch(showAlert)"
+        @uninstall="uninstallKorp().catch(showAlert)"
       />
     </PendingContent>
 
@@ -61,8 +61,8 @@ const canInstall = computed(
         :can-install
         :is-installed="job?.status.strix == 'done' && job?.installed_strix"
         :show-url="`${strixUrl}?mode=mink&corpora=${id}`"
-        @install="installStrix().catch(alertError)"
-        @uninstall="uninstallStrix().catch(alertError)"
+        @install="installStrix().catch(showAlert)"
+        @uninstall="uninstallStrix().catch(showAlert)"
       />
     </PendingContent>
   </div>

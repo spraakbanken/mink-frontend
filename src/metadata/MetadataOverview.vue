@@ -11,21 +11,21 @@ import FileUpload from "@/components/FileUpload.vue";
 import SharingPanel from "@/auth/SharingPanel.vue";
 import { useAuth } from "@/auth/auth.composable";
 import HelpBox from "@/components/HelpBox.vue";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 import { useConfigStore } from "@/store/config.store";
 
 const id = useResourceIdParam();
 const { loadResource } = useResourceStore();
 const { loadConfig, uploadConfig } = useConfigStore();
 const { canAdmin, canWrite } = useAuth();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 
 const metadata = computedAsync(() => loadResource(id));
 const config = computedAsync(() => loadConfig("metadata", id));
 
 async function uploadMetadata(files: File[]) {
   const yaml = await files[0]!.text();
-  await uploadConfig("metadata", id, yaml).catch(alertError);
+  await uploadConfig("metadata", id, yaml).catch(showAlert);
 }
 </script>
 

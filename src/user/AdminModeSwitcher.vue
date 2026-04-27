@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import useAdmin from "@/user/admin.composable";
 import PendingContent from "@/spin/PendingContent.vue";
-import useMessenger from "@/message/messenger.composable";
+import useAlert from "@/alert/alert.composable";
 
 const { enableAdminMode, disableAdminMode, adminMode } = useAdmin();
-const { alertError } = useMessenger();
+const { showAlert } = useAlert();
 
 const toggle = () =>
-  (adminMode.value ? disableAdminMode : enableAdminMode)().catch(alertError);
+  (adminMode.value ? disableAdminMode : enableAdminMode)().catch(showAlert);
 </script>
 
 <template>
