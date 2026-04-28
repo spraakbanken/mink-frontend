@@ -14,6 +14,10 @@ the places in the semantic versioning number `MAJOR`.`MINOR`.`PATCH` are redefin
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.18.0...HEAD)
 
+### Fixed
+
+- Translation strings
+
 ## [1.18.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.18.0) (2026-04-28)
 
 ### Changed

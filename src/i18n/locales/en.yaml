@@ -43,7 +43,7 @@ mydata: My data
 news: News
 library: Library
 library.help.corpora: These are the corpora that you have created. Only you can see them. Click them to view more details.
-library.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "@:{'new_corpus'}" button or drop files into the upload field below.
+library.help.corpora.none: Mink provides automatic linguistic analysis for your data. Start by creating a corpus; use the "New corpus" button or drop files into the upload field below.
 library.help.metadata: A metadata record holds information describing an arbitrary resource. Mink will not process any data for this resource, but you can export the metadata to a repository.
 corpus: Corpus
 corpus.help: A corpus is a collection of text, typically used with statistical analysis and distant reading.
@@ -71,6 +71,7 @@ corpus.state.help.failed: An error occurred while processing your data. If you n
 corpus.state.help.failed_install: An error occurred while installing your corpus. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.sparv.run: Run annotation
 corpus.sparv.rerun: Re-run annotation
+corpora: Corpora
 metadata: Metadata
 metadata.help: If you have been assigned an organization prefix, use metadata to prepare a resource for publication.
 metadata.new: New metadata
