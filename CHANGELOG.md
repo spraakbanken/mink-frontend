@@ -12,7 +12,9 @@ the places in the semantic versioning number `MAJOR`.`MINOR`.`PATCH` are redefin
 - `MINOR` denotes changes that **may affect** the user experience or the development workflow
 - `PATCH` denotes changes that are **insignificant** to the user experience or the develpment workflow
 
-## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.18.0...HEAD)
+## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.18.1...HEAD)
+
+## [1.18.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.18.1) (2026-04-28)
 
 ### Fixed
 
