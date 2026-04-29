@@ -22,6 +22,10 @@ the places in the semantic versioning number `MAJOR`.`MINOR`.`PATCH` are redefin
 
 - Showing resources on the Library page in a combined list
 
+### Fixed
+
+- Use user id from backend
+
 ## [1.18.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.18.1) (2026-04-28)
 
 ### Fixed

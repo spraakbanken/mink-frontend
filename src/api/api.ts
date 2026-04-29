@@ -15,6 +15,7 @@ import type {
   ResourceInfo,
   ResourceType,
   BackendError,
+  UserData,
 } from "@/api/api.types";
 
 /** Create a `text/yaml` file object with content */
@@ -88,6 +89,13 @@ class MinkApi {
     );
     return response.data.sparv_schema;
   });
+
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/User-Management/operation/get-user-info */
+  async getUserInfo() {
+    const response =
+      await this.axios.get<MinkResponse<UserData>>("user/info/get");
+    return response.data.user;
+  }
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Resources/operation/list-resources */
   async listResources() {

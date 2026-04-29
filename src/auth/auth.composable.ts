@@ -9,6 +9,7 @@ import {
 } from "@/api/sbauth";
 import type { ResourceType } from "@/api/api.types";
 import useAdmin from "@/user/admin.composable";
+import { useUserStore } from "@/store/user.store";
 
 const TYPE_MAP: Readonly<Record<ResourceType, AuthResourceType>> = {
   corpus: "corpora",
@@ -19,13 +20,17 @@ export function useAuth() {
   const jwtStore = useJwtStore();
   const { payload } = storeToRefs(jwtStore);
   const { loadJwt, unloadJwt } = jwtStore;
-
   const { adminMode } = useAdmin();
+  const { userInfo } = storeToRefs(useUserStore());
+
   const isAuthenticated = computed<boolean>(() => !!payload.value);
+
   const canUserAdmin = computed<boolean>(() =>
     hasAccessLevel(payload.value, "other", "mink-app", "ADMIN"),
   );
+
   const canUserWrite = computed(() => isAuthenticated.value);
+
   const userName = computed(() => payload.value?.name || payload.value?.email);
 
   /** Force reload JWT */
@@ -36,11 +41,9 @@ export function useAuth() {
 
   /** Check if a resource user is the currently logged in user. */
   function isCurrentUser(other: User): boolean {
-    if (!payload.value) return false;
-    const { idp, sub } = payload.value;
-    // Build a user ID the same way as backend.
-    const userId = `${idp}-${sub}`.replace(/[^\w\-_\.]/g, "");
-    return other.id == userId;
+    if (!userInfo.value) return false;
+    const { id } = userInfo.value;
+    return other.id == id;
   }
 
   /** Get current user's access level to a resource */

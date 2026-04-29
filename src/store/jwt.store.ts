@@ -47,10 +47,11 @@ export const useJwtStore = defineStore("jwt", () => {
     // Fetch JWT if needed.
     if (!jwt.value) {
       try {
-        jwt.value = await spin(fetchJwt(), "jwt");
+        const jwtValue = await spin(fetchJwt(), "jwt");
 
-        // Register new JWT with API client.
-        api.setJwt(jwt.value);
+        // Register new JWT with API client before storing it in ref, which may trigger API calls
+        api.setJwt(jwtValue);
+        jwt.value = jwtValue;
 
         // Schedule next request shortly before expiration time.
         clearTimeout(refreshTimer);
