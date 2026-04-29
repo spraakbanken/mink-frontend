@@ -84,6 +84,7 @@ lexicon.karp_pipeline.rerun: Re-run Karp Pipeline
 lexicon.karps: Karp search interface
 lexicon.karps.help: Search through entries and produce statistics.
 lexicon.tools.help: Use this data in Språkbanken's other platforms. Your data will be available to you only.
+corpora: Corpora
 metadata: Metadata
 metadata.help: If you have been assigned an organization prefix, use metadata to prepare a resource for publication.
 metadata.new: New metadata

@@ -12,11 +12,24 @@ the places in the semantic versioning number `MAJOR`.`MINOR`.`PATCH` are redefin
 - `MINOR` denotes changes that **may affect** the user experience or the development workflow
 - `PATCH` denotes changes that are **insignificant** to the user experience or the develpment workflow
 
-## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.17.0...HEAD)
+## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.18.1...HEAD)
 
 ### Added
 
 - New resource type: lexicons [#240](https://github.com/spraakbanken/mink-frontend/issues/240)
+- Log alerts as Matomo events
+
+### Changed
+
+- Showing resources on the Library page in a combined list
+
+## [1.18.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.18.1) (2026-04-28)
+
+### Fixed
+
+- Translation strings
+
+## [1.18.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.18.0) (2026-04-28)
 
 ### Changed
 
@@ -28,6 +41,7 @@ the places in the semantic versioning number `MAJOR`.`MINOR`.`PATCH` are redefin
 
 ### Fixed
 
+- Changing corpus source format from upload is broken [#263](https://github.com/spraakbanken/mink-frontend/issues/263)
 - Mirror favicon to match logo
 - Source upload filetypes listing reactivity broken
 - Pluralize "file types" in upload area

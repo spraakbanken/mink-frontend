@@ -1,5 +1,7 @@
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { useMatomo } from "vue3-matomo";
+import { useRoute } from "vue-router";
 import { randomString } from "@/util";
 import type { BackendError } from "@/api/api.types";
 import { isBackendError } from "@/api/api";
@@ -13,12 +15,25 @@ const alerts = ref<Alert[]>([]);
 
 export default function useAlert() {
   const { t, te } = useI18n();
+  const matomo = useMatomo();
+  const route = useRoute();
 
   function push(message: string) {
+    // Add message to list
     alerts.value.push({
       key: randomString(),
       message,
     });
+
+    // Log as tracked event in Matomo
+    try {
+      // Get the path template (without param values) for anonymization
+      // `route.matched` has parent/child routes, the last is the most specific
+      const path = route.matched[route.matched.length - 1]?.path;
+      matomo.value?.trackEvent("Alert", path, message);
+    } catch (err) {
+      console.warn("Failed to track alert event in Matomo", err);
+    }
   }
 
   function dismiss(key: string) {

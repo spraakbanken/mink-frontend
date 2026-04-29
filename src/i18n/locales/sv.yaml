@@ -84,6 +84,7 @@ lexicon.karp_pipeline.help: Karp pipeline processar datan och förbereder den f�
 lexicon.karps: Karps sökgränssnitt
 lexicon.karps.help: Sök bland ingångarna och ta fram statistik.
 lexicon.tools.help: Använd den här datan i Språkbankens andra plattformar. Din data visas bara för dig.
+corpora: Korpusar
 metadata: Metadata
 metadata.help: Om du har tilldelats ett organisationsprefix kan du använda metadata för att förbereda en resurs för publicering.
 metadata.new: Ny metadata
