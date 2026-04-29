@@ -44,7 +44,7 @@ news: Nyheter
 library: Bibliotek
 library.help.corpora: Här listas de korpusar du har skapat. De är bara synliga för dig. Klicka på dem för att visa mer.
 library.help.corpora.none: >-
-  Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en korpus: använd knappen "Ny korpus" eller dra filer till uppladdningsrutan nedan.
+  Mink erbjuder automatisk språkvetenskaplig analys av din data. Börja med att skapa en korpus: använd knappen "@:{'corpus.new'}" eller dra filer till uppladdningsrutan nedan.
 library.help.metadata: Ett metadataobjekt har information som beskriver en godtycklig resurs. Mink bearbetar ingen data för dessa objekt, men de kan exporteras till en datakatalog.
 corpus: Korpus
 corpus.help: En korpus är en samling av text som ofta används för statistisk analys och fjärrläsning.
