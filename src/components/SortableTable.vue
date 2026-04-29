@@ -81,9 +81,16 @@ function toggleSort(column: SortableTableColumn<T>) {
     </thead>
 
     <tbody>
-      <tr v-for="(row, i) in rowsSorted" :key="getRowKey ? getRowKey(row) : i">
-        <slot :row />
-      </tr>
+      <slot
+        v-for="(row, i) in rowsSorted"
+        :key="getRowKey ? getRowKey(row) : i"
+        name="tr"
+        :row
+      >
+        <tr>
+          <slot :row />
+        </tr>
+      </slot>
     </tbody>
   </table>
 </template>
