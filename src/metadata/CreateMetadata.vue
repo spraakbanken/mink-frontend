@@ -5,15 +5,15 @@ import api from "@/api/api";
 import useAlert from "@/alert/alert.composable";
 import useSpin from "@/spin/spin.composable";
 import PendingContent from "@/spin/PendingContent.vue";
-import { useAuth } from "@/auth/auth.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import HelpBox from "@/components/HelpBox.vue";
+import { useJwtStore } from "@/store/jwt.store";
 
 const router = useRouter();
 const { showAlert } = useAlert();
-const { refreshAuth } = useAuth();
+const { loadJwt } = useJwtStore();
 const { spin } = useSpin();
 
 type Form = {
@@ -28,7 +28,7 @@ async function submit(fields: Form) {
   if (!id) return;
 
   // Have the new corpus included in further API calls.
-  await refreshAuth();
+  await loadJwt(true);
 
   router.push(`/library/metadata/${id}`);
 }

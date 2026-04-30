@@ -1,12 +1,12 @@
 import { useRouter } from "vue-router";
 import api from "@/api/api";
-import { useAuth } from "@/auth/auth.composable";
 import useDeleteResource from "@/resource/deleteResource.composable";
 import type { ResourceType } from "@/api/api.types";
 import useSpin from "@/spin/spin.composable";
+import { useJwtStore } from "@/store/jwt.store";
 
 export default function useCreateResource() {
-  const { refreshAuth } = useAuth();
+  const { loadJwt } = useJwtStore();
   const { deleteResource } = useDeleteResource();
   const router = useRouter();
   const { spin } = useSpin();
@@ -19,7 +19,7 @@ export default function useCreateResource() {
     async function inner() {
       const id = await api.createResource(type);
       // Have the new resource included in further API calls.
-      await refreshAuth();
+      await loadJwt(true);
 
       const config = createConfig(id);
       const uploads = [api.uploadConfig(type, id, config)];

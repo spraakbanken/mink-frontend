@@ -18,19 +18,12 @@ const TYPE_MAP: Readonly<Record<ResourceType, AuthResourceType>> = {
 export function useAuth() {
   const jwtStore = useJwtStore();
   const { payload } = storeToRefs(jwtStore);
-  const { loadJwt, unloadJwt } = jwtStore;
   const { userInfo, adminMode } = storeToRefs(useUserStore());
 
   const isAuthenticated = computed<boolean>(() => !!payload.value);
   const canUserWrite = computed(() => isAuthenticated.value);
 
   const userName = computed(() => payload.value?.name || payload.value?.email);
-
-  /** Force reload JWT */
-  async function refreshAuth() {
-    unloadJwt();
-    await loadJwt();
-  }
 
   /** Check if a resource user is the currently logged in user. */
   function isCurrentUser(other: User): boolean {
@@ -62,7 +55,6 @@ export function useAuth() {
     isAuthenticated,
     canUserWrite,
     userName,
-    refreshAuth,
     isCurrentUser,
     getAccessLevel,
     canRead,

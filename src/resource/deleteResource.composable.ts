@@ -1,11 +1,11 @@
-import { useAuth } from "@/auth/auth.composable";
 import { useResourceStore } from "@/store/resource.store";
 import useSpin from "@/spin/spin.composable";
 import api from "@/api/api";
 import type { ResourceType } from "@/api/api.types";
+import { useJwtStore } from "@/store/jwt.store";
 
 export default function useDeleteResource() {
-  const { refreshAuth } = useAuth();
+  const { loadJwt } = useJwtStore();
   const { spin } = useSpin();
   const { loadResourceIds } = useResourceStore();
 
@@ -17,7 +17,7 @@ export default function useDeleteResource() {
     await api.removeResource(type, id);
     // The backend will have updated the remote JWT, so refresh our copy.
     // The backend uses the resource list within it when listing available resources.
-    await refreshAuth();
+    await loadJwt(true);
     // TODO This triggers `loadResource(id)` computeds in (Type)View.vue and results in 404 page
     await loadResourceIds();
   }
