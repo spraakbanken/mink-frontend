@@ -2,13 +2,13 @@
 import { PhShareNetwork } from "@phosphor-icons/vue";
 import { computedAsync } from "@vueuse/core";
 import UrlButton from "@/components/UrlButton.vue";
-import useAdmin from "@/user/admin.composable";
 import { useAuth } from "@/auth/auth.composable";
 import { getAuthGuiUrl } from "@/api/sbauth";
 import { useResourceStore } from "@/store/resource.store";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import useAlert from "@/alert/alert.composable";
 import type { ResourceType } from "@/api/api.types";
+import { useUserStore } from "@/store/user.store";
 
 const props = defineProps<{
   resourceType: ResourceType;
@@ -16,7 +16,7 @@ const props = defineProps<{
 }>();
 
 const store = useResourceStore();
-const { adminMode } = useAdmin();
+const { adminMode } = useUserStore();
 const { getAccessLevel } = useAuth();
 const { showAlert } = useAlert();
 

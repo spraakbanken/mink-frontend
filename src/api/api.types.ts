@@ -70,11 +70,7 @@ export type SparvSchemaData = {
 
 /** Data in the user info response */
 export type UserData = {
-  user: UserInfo & {
-    admin_mode: boolean;
-    is_admin: boolean;
-    organization_prefix: string | null;
-  };
+  user: UserInfoFull;
 };
 
 /** Data in the list-corpora response */
@@ -108,6 +104,12 @@ export type UserInfo = {
   name: string;
   sub: string;
   ui_language: SweEng;
+};
+
+export type UserInfoFull = UserInfo & {
+  admin_mode: boolean;
+  is_admin: boolean;
+  organization_prefix: string | null;
 };
 
 /** Basic data about a resource */

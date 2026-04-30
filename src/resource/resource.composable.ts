@@ -17,6 +17,7 @@ export default function useResource<T extends ResourceType = ResourceType>(
   const matomo = useMatomo();
   const { spin } = useSpin();
 
+  // TODO Gets retriggered when this resource is removed (or hidden when leaving admin mode), resulting in a 404
   const resource = computedAsync(
     () => loadResource(id) as Promise<Resource<T>>,
   );

@@ -4,9 +4,9 @@ import { PhPlusCircle, PhUsers } from "@phosphor-icons/vue";
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
+import { watchImmediate } from "@vueuse/core";
 import useLocale from "@/i18n/locale.composable";
 import PendingContent from "@/spin/PendingContent.vue";
-import useAdmin from "@/user/admin.composable";
 import { useAuth } from "@/auth/auth.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import HelpBox from "@/components/HelpBox.vue";
@@ -23,11 +23,12 @@ import SortableTable from "@/components/SortableTable.vue";
 import { SOURCE_FORMATS } from "@/file";
 import ResourceStatus from "@/resource/ResourceStatus.vue";
 import { getFilenameExtension } from "@/util";
+import { useUserStore } from "@/store/user.store";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
-const { adminMode, checkAdminMode } = useAdmin();
-const { canUserAdmin, isCurrentUser } = useAuth();
+const { adminMode } = storeToRefs(useUserStore());
+const { isCurrentUser } = useAuth();
 const { createCorpusFromUpload } = useCreateCorpus();
 const { showAlert } = useAlert();
 const { t, locale } = useI18n();
@@ -42,19 +43,17 @@ const resourcesList = computed(() => {
   return entries.map(([id, resource]) => ({ id, ...resource }));
 });
 
-// Only load full resource list if not admin
-(async () => {
-  if (canUserAdmin.value) {
-    // Make sure user is not in admin mode before proceeding to load all full resources
-    const adminMode = await checkAdminMode();
-    if (adminMode) {
-      router.push("/admin/resources");
-      return;
-    }
+// Require user info to determine if admin mode is active
+watchImmediate(adminMode, () => {
+  if (adminMode.value === undefined) return;
+  if (adminMode.value) {
+    // Go to admin view
+    router.push("/admin/resources");
+  } else {
+    // Load resources as normal
+    loadResources().catch(showAlert);
   }
-
-  loadResources().catch(showAlert);
-})();
+});
 
 const accept = computed(() => Object.values(SOURCE_FORMATS).flat());
 

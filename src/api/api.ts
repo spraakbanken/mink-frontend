@@ -8,7 +8,6 @@ import type {
   CreateResourceData,
   ResourceStatusListData,
   ListExportsData,
-  AdminModeStatusData,
   ProgressHandler,
   SparvSchemaData,
   SparvExportsData,
@@ -314,24 +313,19 @@ class MinkApi {
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Admin-Mode/operation/admin-mode-status */
-  async adminModeStatus() {
-    const response =
-      await this.axios.get<MinkResponse<AdminModeStatusData>>(
-        "admin-mode-status",
-      );
-    return response.data.admin_mode_status;
-  }
-
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Admin-Mode/operation/admin-mode-on */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/User-Management/operation/activate-admin-mode */
   async adminModeOn() {
-    const response = await this.axios.post<MinkResponse>("admin-mode-on");
+    const response = await this.axios.post<MinkResponse>(
+      "user/admin-mode/activate",
+    );
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Admin-Mode/operation/admin-mode-off */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/User-Management/operation/deactivate-admin-mode */
   async adminModeOff() {
-    const response = await this.axios.post<MinkResponse>("admin-mode-off");
+    const response = await this.axios.post<MinkResponse>(
+      "user/admin-mode/deactivate",
+    );
     return response.data;
   }
 }

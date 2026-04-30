@@ -8,7 +8,6 @@ import {
   type ResourceType as AuthResourceType,
 } from "@/api/sbauth";
 import type { ResourceType } from "@/api/api.types";
-import useAdmin from "@/user/admin.composable";
 import { useUserStore } from "@/store/user.store";
 
 const TYPE_MAP: Readonly<Record<ResourceType, AuthResourceType>> = {
@@ -20,8 +19,7 @@ export function useAuth() {
   const jwtStore = useJwtStore();
   const { payload } = storeToRefs(jwtStore);
   const { loadJwt, unloadJwt } = jwtStore;
-  const { adminMode } = useAdmin();
-  const { userInfo } = storeToRefs(useUserStore());
+  const { userInfo, adminMode } = storeToRefs(useUserStore());
 
   const isAuthenticated = computed<boolean>(() => !!payload.value);
 
