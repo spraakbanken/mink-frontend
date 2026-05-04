@@ -4,11 +4,11 @@ import { PhDownloadSimple, PhGearFine, PhInfo } from "@phosphor-icons/vue";
 import { useCorpus } from "../corpus.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import { useAuth } from "@/auth/auth.composable";
 import useAlert from "@/alert/alert.composable";
 import useSources from "@/resource/sources.composable";
 import useResource from "@/resource/resource.composable";
 import useExports from "@/exports/exports.composable";
+import { useUserStore } from "@/store/user.store";
 
 const props = defineProps<{
   id: string;
@@ -18,7 +18,7 @@ const { isConfigValid, exports, clearAnnotations } = useCorpus(props.id);
 const { job, isRunning, runJob } = useResource(props.id);
 const { sources } = useSources("corpus", props.id);
 const { downloadResult, getDownloadFilename } = useExports("corpus", props.id);
-const { canWrite } = useAuth();
+const { canWrite } = useUserStore();
 const { showAlert } = useAlert();
 
 const isPending = ref(false);

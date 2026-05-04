@@ -34,6 +34,12 @@ export const useJwtStore = defineStore("jwt", () => {
     return undefined;
   });
 
+  const isAuthenticated = computed<boolean>(() => !!payload.value);
+
+  const userName = computed(
+    () => payload.value?.name || payload.value?.email || payload.value?.sub,
+  );
+
   /** How many ms remain until current JWT expires */
   const getTimeout = () =>
     payload.value ? payload.value.exp * 1000 - Date.now() : -1;
@@ -67,7 +73,9 @@ export const useJwtStore = defineStore("jwt", () => {
   });
 
   return {
+    isAuthenticated,
     payload,
+    userName,
     loadJwt,
   };
 });

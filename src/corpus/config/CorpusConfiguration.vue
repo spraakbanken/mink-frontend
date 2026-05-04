@@ -36,9 +36,9 @@ import useLocale from "@/i18n/locale.composable";
 import TabsBar from "@/components/TabsBar.vue";
 import TabsContent from "@/components/TabsContent.vue";
 import useSpin from "@/spin/spin.composable";
-import { useAuth } from "@/auth/auth.composable";
 import useSources from "@/resource/sources.composable";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
+import { useUserStore } from "@/store/user.store";
 
 type TabKey = "metadata" | "settings" | "analyses";
 
@@ -61,7 +61,7 @@ const { showAlert } = useAlert();
 const { t } = useI18n();
 const { th, thCompare } = useLocale();
 const { spin } = useSpin();
-const { canWrite, canAdmin } = useAuth();
+const { canAdmin, canWrite } = useUserStore();
 
 const tabSelected = ref<TabKey>("metadata");
 

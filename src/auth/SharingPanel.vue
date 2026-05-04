@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { PhShareNetwork } from "@phosphor-icons/vue";
 import { computedAsync } from "@vueuse/core";
+import { storeToRefs } from "pinia";
 import UrlButton from "@/components/UrlButton.vue";
-import { useAuth } from "@/auth/auth.composable";
 import { getAuthGuiUrl } from "@/api/sbauth";
 import { useResourceStore } from "@/store/resource.store";
 import TerminalOutput from "@/components/TerminalOutput.vue";
@@ -16,8 +16,9 @@ const props = defineProps<{
 }>();
 
 const store = useResourceStore();
-const { adminMode } = useUserStore();
-const { getAccessLevel } = useAuth();
+const userStore = useUserStore();
+const { adminMode } = storeToRefs(userStore);
+const { getAccessLevel } = userStore;
 const { showAlert } = useAlert();
 
 const resource = computedAsync(() =>

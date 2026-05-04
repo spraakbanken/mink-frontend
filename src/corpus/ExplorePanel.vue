@@ -6,9 +6,9 @@ import { ensureTrailingSlash } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import useSpin from "@/spin/spin.composable";
-import { useAuth } from "@/auth/auth.composable";
 import useAlert from "@/alert/alert.composable";
 import useResource from "@/resource/resource.composable";
+import { useUserStore } from "@/store/user.store";
 
 const props = defineProps<{
   id: string;
@@ -20,7 +20,7 @@ const { installKorp, installStrix, uninstallKorp, uninstallStrix } = useCorpus(
 );
 const { isRunning, job } = useResource<"corpus">(props.id);
 const { locale3 } = useLocale();
-const { canWrite } = useAuth();
+const { canWrite } = useUserStore();
 const { showAlert } = useAlert();
 
 const korpUrl = ensureTrailingSlash(import.meta.env.VITE_KORP_URL);

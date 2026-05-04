@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { PhSignOut, PhUserPlus } from "@phosphor-icons/vue";
+import { storeToRefs } from "pinia";
 import HomeNews from "./HomeNews.vue";
 import HomeNewsFeatured from "@/home/HomeNewsFeatured.vue";
-import { useAuth } from "@/auth/auth.composable";
 import LayoutSection from "@/components/LayoutSection.vue";
 import { getLogoutUrl } from "@/api/sbauth";
 import LoginButton from "@/auth/LoginButton.vue";
@@ -10,8 +10,9 @@ import UrlButton from "@/components/UrlButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import minkScreen from "@/assets/mink-screen.png";
 import minkScreenDark from "@/assets/mink-screen-dark.png";
+import { useJwtStore } from "@/store/jwt.store";
 
-const { isAuthenticated, userName } = useAuth();
+const { isAuthenticated, userName } = storeToRefs(useJwtStore());
 </script>
 
 <template>

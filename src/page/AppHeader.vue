@@ -2,18 +2,19 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { PhQuestion, PhUser } from "@phosphor-icons/vue";
+import { storeToRefs } from "pinia";
 import MinkLogo from "@/page/MinkLogo.vue";
-import { useAuth } from "@/auth/auth.composable";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
 import SpinIndicator from "@/spin/SpinIndicator.vue";
 import useSpin from "@/spin/spin.composable";
+import { useJwtStore } from "@/store/jwt.store";
 
 defineProps<{
   large: boolean;
 }>();
 
-const { isAuthenticated, userName } = useAuth();
+const { isAuthenticated, userName } = storeToRefs(useJwtStore());
 const route = useRoute();
 const { isPending } = useSpin();
 

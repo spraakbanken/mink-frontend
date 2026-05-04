@@ -10,12 +10,12 @@ import ExplorePanel from "@/corpus/ExplorePanel.vue";
 import CorpusStateHelp from "@/corpus/CorpusStateHelp.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
-import { useAuth } from "@/auth/auth.composable";
 import JobStatusPanel from "@/job/JobStatusPanel.vue";
+import { useUserStore } from "@/store/user.store";
 
 const id = useResourceIdParam();
 const { isConfigValid, updateSourceFormat } = useCorpus(id);
-const { canWrite } = useAuth();
+const { canWrite } = useUserStore();
 </script>
 
 <template>

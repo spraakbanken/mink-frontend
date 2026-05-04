@@ -50,9 +50,6 @@ class MinkApi {
   /** An instance of the Axios HTTP client. */
   axios: AxiosInstance;
 
-  /** A JWT token used to authenticate API requests. */
-  jwt: string | undefined;
-
   /** Creates the client instance */
   constructor() {
     this.axios = Axios.create({
@@ -63,7 +60,6 @@ class MinkApi {
 
   /** Sets a JWT token which is then used to authenticate API requests. */
   setJwt(jwt?: string) {
-    this.jwt = jwt;
     this.axios.defaults.headers["Authorization"] = jwt ? `Bearer ${jwt}` : null;
   }
 
