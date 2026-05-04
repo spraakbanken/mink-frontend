@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { useMatomo } from "@/matomo";
 import { useRoute } from "vue-router";
+import { useMatomo } from "@/matomo";
 import { randomString } from "@/util";
 import type { BackendError } from "@/api/api.types";
 import { isBackendError } from "@/api/api";
