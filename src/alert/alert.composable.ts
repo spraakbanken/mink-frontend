@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { useMatomo } from "vue3-matomo";
+import { useMatomo } from "@/matomo";
 import { useRoute } from "vue-router";
 import { randomString } from "@/util";
 import type { BackendError } from "@/api/api.types";

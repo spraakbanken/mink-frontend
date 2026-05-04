@@ -25,6 +25,7 @@ the places in the semantic versioning number `MAJOR`.`MINOR`.`PATCH` are redefin
 ### Fixed
 
 - Use user id from backend, using the new user info API [#250](https://github.com/spraakbanken/mink-frontend/issues/250)
+- Fix conditional enabling of Matomo plugin [#251](https://github.com/spraakbanken/mink-frontend/issues/251)
 
 ## [1.18.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.18.1) (2026-04-28)
 
