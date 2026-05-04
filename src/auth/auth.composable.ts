@@ -21,7 +21,6 @@ export function useAuth() {
   const { userInfo, adminMode } = storeToRefs(useUserStore());
 
   const isAuthenticated = computed<boolean>(() => !!payload.value);
-  const canUserWrite = computed(() => isAuthenticated.value);
 
   const userName = computed(() => payload.value?.name || payload.value?.email);
 
@@ -53,7 +52,6 @@ export function useAuth() {
 
   return {
     isAuthenticated,
-    canUserWrite,
     userName,
     isCurrentUser,
     getAccessLevel,

@@ -3,7 +3,6 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { PhQuestion, PhUser } from "@phosphor-icons/vue";
 import MinkLogo from "@/page/MinkLogo.vue";
-import { getLogoutUrl } from "@/api/sbauth";
 import { useAuth } from "@/auth/auth.composable";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
@@ -14,7 +13,7 @@ defineProps<{
   large: boolean;
 }>();
 
-const { isAuthenticated, canUserWrite, userName } = useAuth();
+const { isAuthenticated, userName } = useAuth();
 const route = useRoute();
 const { isPending } = useSpin();
 
@@ -82,16 +81,12 @@ const isActiveClass = (path: string) =>
         <!-- User link if logged in -->
         <template v-if="isAuthenticated">
           <router-link
-            v-if="canUserWrite"
             to="/user"
             class="no-underline hover:underline"
             :class="isActiveClass('/user')"
           >
             <PhUser class="inline mb-0.5 mr-1" />{{ userName }}
           </router-link>
-          <a v-else :href="getLogoutUrl()" class="no-underline hover:underline">
-            <PhUser class="inline mb-0.5 mr-1" />{{ $t("logout") }}
-          </a>
         </template>
 
         <!-- Help link -->

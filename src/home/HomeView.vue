@@ -11,7 +11,7 @@ import RouteButton from "@/components/RouteButton.vue";
 import minkScreen from "@/assets/mink-screen.png";
 import minkScreenDark from "@/assets/mink-screen-dark.png";
 
-const { isAuthenticated, canUserWrite, userName } = useAuth();
+const { isAuthenticated, userName } = useAuth();
 </script>
 
 <template>
@@ -67,7 +67,7 @@ const { isAuthenticated, canUserWrite, userName } = useAuth();
             </div>
 
             <div
-              v-if="canUserWrite"
+              v-if="isAuthenticated"
               class="bg-sky-100 dark:bg-sky-900 p-4 rounded-sm shadow-inner flex flex-wrap justify-center items-baseline gap-4"
             >
               <div>{{ $t("welcome", { name: userName }) }}</div>
