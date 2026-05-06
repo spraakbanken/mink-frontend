@@ -1,7 +1,7 @@
 import { computed } from "vue";
 import { attempt } from "es-toolkit";
 import { computedAsync } from "@vueuse/core";
-import { useMatomo } from "@/matomo";
+import { useMatomo } from "vue3-matomo";
 import {
   makeConfig,
   parseConfig,

@@ -1,6 +1,6 @@
 /** @file Adaptations of the vue3-matomo plugin */
-import { inject, toRef, type App } from "vue";
-import { createVueMatomo, matomoKey } from "vue3-matomo";
+import { type App } from "vue";
+import { createVueMatomo } from "vue3-matomo";
 import router from "./router/router";
 
 /** Vue plugin that wraps the original Matomo plugin but only enables it if configured */
@@ -19,8 +19,3 @@ export const matomo = {
     }
   },
 };
-
-/** Replacement for `useMatomo()` that works even if the plugin is not installed */
-export function useMatomo() {
-  return toRef(inject(matomoKey, undefined));
-}

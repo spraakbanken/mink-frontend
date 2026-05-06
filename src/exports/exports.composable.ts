@@ -1,4 +1,4 @@
-import { useMatomo } from "@/matomo";
+import { useMatomo } from "vue3-matomo";
 import api from "@/api/api";
 import type { ResourceType } from "@/api/api.types";
 import useSpin from "@/spin/spin.composable";

@@ -1,6 +1,6 @@
 import { computedAsync, useInterval } from "@vueuse/core";
 import { computed, watch } from "vue";
-import { useMatomo } from "@/matomo";
+import { useMatomo } from "vue3-matomo";
 import { useResourceStore } from "@/store/resource.store";
 import type { ResourceType } from "@/api/api.types";
 import type { Resource } from "@/store/resource.types";
