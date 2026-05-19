@@ -16,6 +16,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
+      - run: scripts/ensure-instance.sh
       - run: yarn install
       - run: yarn lint
       - run: yarn test run

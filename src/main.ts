@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
+import createInstancePlugin from "@instance/plugin";
 import router from "@/router/router";
 import App from "@/App.vue";
 import i18n from "@/i18n/i18n";
@@ -14,6 +15,7 @@ const app = createApp(App) //
   .use(router)
   .use(pinia)
   .use(i18n)
-  .use(matomo);
+  .use(matomo)
+  .use(createInstancePlugin());
 
 app.mount("#app");

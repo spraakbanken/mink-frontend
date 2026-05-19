@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, defineAsyncComponent, inject } from "vue";
 import { useRoute } from "vue-router";
 import { PhQuestion, PhUser } from "@phosphor-icons/vue";
 import { storeToRefs } from "pinia";
-import MinkLogo from "@/page/MinkLogo.vue";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
 import SpinIndicator from "@/spin/SpinIndicator.vue";
 import useSpin from "@/spin/spin.composable";
 import { useJwtStore } from "@/store/jwt.store";
+import { injectionKeys } from "@/injection";
 
 defineProps<{
   large: boolean;
@@ -17,6 +17,11 @@ defineProps<{
 const { isAuthenticated, userName } = storeToRefs(useJwtStore());
 const route = useRoute();
 const { isPending } = useSpin();
+
+const MinkLogo = inject(
+  injectionKeys.component.MinkLogo,
+  defineAsyncComponent(() => import("@/page/MinkLogo.vue")),
+);
 
 const isHome = computed(() => route.path == "/");
 const isAuthenticating = computed(() => isPending("jwt"));
