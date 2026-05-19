@@ -9,11 +9,13 @@ import SpinIndicator from "@/spin/SpinIndicator.vue";
 import useSpin from "@/spin/spin.composable";
 import { useJwtStore } from "@/store/jwt.store";
 import { injectionKeys } from "@/injection";
+import { useAppConfig } from "@/app/useConfig";
 
 defineProps<{
   large: boolean;
 }>();
 
+const { tools } = useAppConfig();
 const { isAuthenticated, userName } = storeToRefs(useJwtStore());
 const route = useRoute();
 const { isPending } = useSpin();
@@ -69,6 +71,7 @@ const isActiveClass = (path: string) =>
         </router-link>
 
         <router-link
+          v-if="tools.length"
           to="/tools"
           class="no-underline hover:underline"
           :class="isActiveClass('/tools')"

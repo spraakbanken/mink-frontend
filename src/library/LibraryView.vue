@@ -5,6 +5,7 @@ import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 import { watchImmediate } from "@vueuse/core";
+import { pick } from "es-toolkit";
 import useLocale from "@/i18n/locale.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import PageTitle from "@/components/PageTitle.vue";
@@ -23,8 +24,10 @@ import { SOURCE_FORMATS } from "@/file";
 import ResourceStatus from "@/resource/ResourceStatus.vue";
 import { getFilenameExtension } from "@/util";
 import { useUserStore } from "@/store/user.store";
+import { useAppConfig } from "@/app/useConfig";
 
 const router = useRouter();
+const { resourceTypes } = useAppConfig();
 const resourceStore = useResourceStore();
 const userStore = useUserStore();
 const { adminMode } = storeToRefs(userStore);
@@ -55,7 +58,9 @@ watchImmediate(adminMode, () => {
   }
 });
 
-const accept = computed(() => Object.values(SOURCE_FORMATS).flat());
+const accept = computed(() =>
+  Object.values(pick(SOURCE_FORMATS, resourceTypes)).flat(),
+);
 
 async function fileHandler(files: File[]) {
   // Silently abort if no files
@@ -140,8 +145,16 @@ const getType = (resource: Resource) =>
         </PendingContent>
       </LayoutBox>
 
-      <LayoutBox :title="$t('resource_new')" class="flex-1">
-        <div class="flex gap-3 items-center my-4">
+      <LayoutBox
+        v-if="resourceTypes.length"
+        :title="$t('resource_new')"
+        class="flex-1"
+      >
+        <!-- New corpus -->
+        <div
+          v-if="resourceTypes.includes('corpus')"
+          class="flex gap-3 items-center my-4"
+        >
           <div class="grow">
             <div class="font-semibold">{{ $t("corpus") }}</div>
             {{ $t("corpus.help") }}
@@ -155,7 +168,11 @@ const getType = (resource: Resource) =>
           </RouteButton>
         </div>
 
-        <div class="flex gap-3 items-center my-4">
+        <!-- New metadata -->
+        <div
+          v-if="resourceTypes.includes('metadata')"
+          class="flex gap-3 items-center my-4"
+        >
           <div class="grow">
             <div class="font-semibold">{{ $t("metadata") }}</div>
             {{ $t("metadata.help") }}
