@@ -50,7 +50,9 @@ export default function useLocale() {
 
   /** Create a comparator function (for `list.sort()`) that sorts by mutilanguage labels. */
   const thCompare =
-    <T>(getLabel: (item: T) => ByLang | undefined): ((a: T, b: T) => number) =>
+    <T>(
+      getLabel: (item: T) => ByLang | string | undefined,
+    ): ((a: T, b: T) => number) =>
     (a, b) => {
       const labelA = th(getLabel(a));
       const labelB = th(getLabel(b));

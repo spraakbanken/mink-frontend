@@ -1,16 +1,14 @@
 import { parse, stringify } from "yaml";
-import {
-  analysisAnnotations,
-  annotationAnalyses,
-  loadAnalysisMetadata,
-  type AnalysisId,
-} from "./analysis";
 import type {
   ConfigSentenceSegmenter,
   SparvConfig,
 } from "@/api/sparvConfig.types";
 import type { ByLang } from "@/util.types";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
+import type {
+  AnalysisId,
+  AnalysisRegistryService,
+} from "@/analyses/analyses.types";
 
 export type CorpusSourceFormat = (typeof CORPUS_SOURCE_FORMATS)[number];
 
@@ -49,7 +47,11 @@ export function isSegmentable(format?: string): boolean {
 }
 
 /** Write simplified frontend-internal config model to a Sparv-compatible config YAML. */
-export function makeConfig(id: string, options: ConfigOptions): string {
+export function makeConfig(
+  id: string,
+  options: ConfigOptions,
+  analysisRegistry: AnalysisRegistryService,
+): string {
   const {
     format,
     name,
@@ -107,10 +109,8 @@ export function makeConfig(id: string, options: ConfigOptions): string {
 
   // Add annotation definitions for each enabled analysis
   const enabledAnalysisIds = Object.keys(analyses).filter((id) => analyses[id]);
-  for (const analysisId of enabledAnalysisIds) {
-    const annotations = analysisAnnotations[analysisId];
-    if (annotations) config.export.annotations.push(...annotations);
-  }
+  const annotations = analysisRegistry.getAnnotations(enabledAnalysisIds);
+  config.export.annotations.push(...annotations);
 
   if (datetime) {
     // Add annotations on the text level with custom values
@@ -164,17 +164,13 @@ export function emptyConfig(): ConfigOptions {
 }
 
 /** Default config */
-export async function defaultConfig(): Promise<ConfigOptions> {
-  // Let all analyses be enabled by default, except NER because it is heavy, and Geo because it depends on NER.
-  const disabledAnalyses = [
-    "sbx-swe-namedentity-swener",
-    "sbx-swe-geotagcontext-sparv",
-  ];
-
+export async function defaultConfig(
+  analysisRegistry: AnalysisRegistryService,
+): Promise<ConfigOptions> {
   const config = emptyConfig();
 
-  for (const { id } of await loadAnalysisMetadata())
-    if (!disabledAnalyses.includes(id)) config.analyses[id] = true;
+  const analyses = await analysisRegistry.getDefaultAnalyses();
+  analyses.forEach((id) => (config.analyses[id] = true));
 
   return config;
 }
@@ -187,7 +183,10 @@ export async function defaultConfig(): Promise<ConfigOptions> {
  *
  * May throw all kinds of errors, the sky is the limit (:
  */
-export function parseConfig(configYaml: string): ConfigOptions {
+export function parseConfig(
+  configYaml: string,
+  analysisRegistry: AnalysisRegistryService,
+): ConfigOptions {
   const config = parse(configYaml) as Partial<SparvConfig>;
 
   if (!config)
@@ -233,10 +232,9 @@ export function parseConfig(configYaml: string): ConfigOptions {
 
   options.analyses = {};
 
-  for (const annotation of config.export?.annotations || []) {
-    const analysisId = annotationAnalyses[annotation];
-    if (analysisId) options.analyses[analysisId] = true;
-  }
+  const annotations = config.export?.annotations || [];
+  const analyses = analysisRegistry.getAnalyses(annotations);
+  analyses.forEach((analysisId) => (options.analyses[analysisId] = true));
 
   return options;
 }
