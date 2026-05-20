@@ -3,8 +3,8 @@ import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useTitle } from "@vueuse/core";
 import SpinIndicator from "./spin/SpinIndicator.vue";
-import AppFooter from "./page/AppFooter.vue";
 import { useJwtStore } from "./store/jwt.store";
+import { injectComponent } from "./injection";
 import AppHeader from "@/page/AppHeader.vue";
 import api from "@/api/api";
 import * as util from "@/util";
@@ -23,6 +23,11 @@ useTitle(title, { titleTemplate: "%s | Mink" });
 const route = useRoute();
 const router = useRouter();
 const resourceStore = useResourceStore();
+
+const AppFooter = injectComponent(
+  "AppFooter",
+  () => import("@/page/AppFooter.vue"),
+);
 
 const isRouteLoading = ref(false);
 const isHome = computed(() => route.path == "/");
@@ -50,7 +55,7 @@ if (import.meta.env.DEV) {
   <BreadcrumbBar />
   <AlertList />
 
-  <div class="flex-grow container py-2">
+  <div class="grow container py-2">
     <router-view />
     <SpinIndicator v-if="isRouteLoading" />
   </div>

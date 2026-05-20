@@ -3,7 +3,6 @@
   "include": ["env.d.ts", "index.d.ts", "src/**/*", "instance/**/*"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@instance/*": ["./instance/*"]

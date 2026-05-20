@@ -1,47 +1,12 @@
 logo.alt: Mink logo
-links.sbx.url: https://spraakbanken.gu.se/en
-links.gu.label: University of Gothenburg
-links.gu.url: https://gu.se/en
-links.contact.label: Contact us
-links.contact.url: https://spraakbanken.gu.se/en/contact
-links.about.label: About us
-links.about.url: https://spraakbanken.gu.se/en/about
-links.news.label: News
-links.news.url: https://spraakbanken.gu.se/en/news-and-events
-links.platforms.label: Other platforms
-links.platforms.url: https://spraakbanken.gu.se/en/tools
 home: Home
 home.hero.alt: Screenshot of Mink's user interface
-home.hero.sb: "{0} is a research infrastructure for language data. We create and maintain language data analysed with state-of-the-art language technology methods for researchers everywhere, and take pride in providing free and open access where possible."
-home.hero.mink: "{0} is our effort to put Språkbanken Text’s research infrastructure into the hands of the researchers. You can use Mink to apply our language technology methods on texts that you have collected yourself. The resulting data can be downloaded or made available through our research tools, such as Korp and Strix, behind login."
-home.hero.privacy: Your resources are private to you and those you explicitly invite (see {0}). Forthcoming versions will include the possibility to publish datasets openly.
-home.hero.privacy.link.url: https://spraakbanken.gu.se/en/tools/mink/data-policy
-home.hero.privacy.link.label: Privacy and data policy
-home.hero.readmore: Read more in the {0}.
-home.hero.readmore.link.label: Mink documentation
-home.features.sparv.title: Configurable language technology analysis
-home.features.sparv.body: Your language data are analyzed by our language technology platform {sparv} according to your settings.
-home.features.sparv.alt: Screenshot of a configuration form with labels and buttons
-home.features.upload.title: Deposit your text
-home.features.upload.body: Upload your text files, XML or speech audio.
-home.features.upload.xml: "When using XML, the output of the analyses is added while keeping the input structure intact: {link}"
-home.features.upload.xml.link.url: https://spraakbanken.gu.se/en/blog/20240820-anvand-mink-med-egen-berikning-i-kalldata
-home.features.upload.xml.link.label: Using Mink with custom annotations in source (blog entry in Swedish)
-home.features.upload.alt: Screenshot of a list of filenames and an upload area
-home.features.explore.title: Explore in Korp and Strix
-home.features.explore.body: Export the resulting data, for search and statistical analysis, to {korp} and {strix}.
-home.features.explore.alt: Screenshot of the Korp search tool
-home.features.share.title: Share and collaborate
-home.features.share.body: Invite fellow researchers to view your data in our research tools, protected by login. If you want to share your data with the research community, contact us to discuss publication.
-home.features.share.alt: Screenshot from an access management system
-home.otherdata.title: Mink or no Mink?
-home.otherdata.body: Make sure to first get acquainted with any existing language data sets related to your interests! Språkbanken's growing collection of research data can be browsed on the {0} section of our website. At a larger scale, Språkbanken forms a part of the CLARIN ERIC, whose collected assortment of data can be browsed in the {1}.
-home.otherdata.sbdata.url: "https://spraakbanken.gu.se/en/resources"
-home.otherdata.sbdata.title: "Språkbanken Text: Language resources"
 welcome: Welcome, {name}!
 mydata: My data
 news: News
 library: Library
+library.help.resources: Here are your resources. Click on them to see more.
+library.help.resources.none: Your resources will be listed here.
 corpus: Corpus
 corpus.help: A corpus is a collection of text, typically used with statistical analysis and distant reading.
 corpus.new: New corpus
@@ -83,7 +48,6 @@ config.configuration.help: These settings are information for the automatic anal
 corpus.config.parse.error: The config of this corpus could not be parsed. Try editing the settings or metadata again. If you need help, please contact sb-info{'@'}svenska.gu.se
 config.saving: Saving metadata
 analysis.help: Run automated language technology methods on your text data according to your settings. Mink uses {sparv} under the hood.
-analysis.sparv.url: https://spraakbanken.gu.se/en/tools/sparv
 job.rerun.overwrite: Re-running will overwrite previous results.
 job.rerun.tools_outdated: Previous results will remain in other platforms if it has been installed there. Do not forget to re-install if needed.
 job.abort: Abort
