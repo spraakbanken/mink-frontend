@@ -22,25 +22,86 @@ As a suggestion, run
 
 Recommended VSCode settings (see [docs on settings.json](https://code.visualstudio.com/docs/getstarted/settings#_settingsjson)):
 
-```json
+```jsonc
 {
   "css.lint.unknownAtRules": "ignore", // Ignore Tailwind's @apply etc
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "always"
+    "source.fixAll.eslint": "always",
   },
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
   "[javascript][typescript][vue]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[json][jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[html][css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+  // Include instance code when searching
+  "search.useIgnoreFiles": false,
+  "search.exclude": {
+    "dist": true,
+    "stats.html": true,
+  },
 }
 ```
+
+### Instance plugin
+
+For the code to build, you must create `instance/plugin.ts` with an function returning a Vue plugin.
+The `instance/` directory is left out of version control so that you can control its content separately.
+The recommended approach is to keep your instance code in an external directory and symlink to it:
+
+```
+mink-frontend/
+  instance -> ../mink-frontend-custom
+  ...
+mink-frontend-custom/
+  plugin.ts
+```
+
+Sample `plugin.ts`:
+
+```ts
+import type { Plugin } from "vue";
+import { injectionKeys } from "@/injection";
+import appConfig from "./config.yaml";
+import { MyAnalysisRegistryService } from "./services/MyAnalysisRegistryService";
+import i18n, { languageNames } from "@/i18n/i18n";
+
+export default function createPlugin(): Plugin {
+  return (app) => {
+    // Use app config object from YAML file
+    app.provide(injectionKeys.config, appConfig);
+
+    // Provide services and components
+    app.provide(
+      injectionKeys.service.analysisRegistry,
+      new MyAnalysisRegistryService(),
+    );
+    app.provide(
+      injectionKeys.component.MinkLogo,
+      () => import("./components/MyMinkLogo.vue"),
+    );
+
+    // Modify a language
+    import("./locales/sv.yaml").then((module) => {
+      i18n.global.mergeLocaleMessage("sv", module.default);
+    });
+
+    // Add a language
+    import("./locales/es.yaml").then((module) => {
+      const messages = module.default as Record<string, string>;
+      i18n.global.setLocaleMessage("es", messages);
+      languageNames.es = "Español";
+    });
+  };
+}
+```
+
+Find more examples at [mink-frontend-sb](https://github.com/spraakbanken/mink-frontend-sb)
 
 ### SSL in development
 
