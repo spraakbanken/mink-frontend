@@ -3,20 +3,27 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { PhQuestion, PhUser } from "@phosphor-icons/vue";
 import { storeToRefs } from "pinia";
-import MinkLogo from "@/page/MinkLogo.vue";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
 import SpinIndicator from "@/spin/SpinIndicator.vue";
 import useSpin from "@/spin/spin.composable";
 import { useJwtStore } from "@/store/jwt.store";
+import { injectComponent } from "@/injection";
+import { useAppConfig } from "@/app/useConfig";
 
 defineProps<{
   large: boolean;
 }>();
 
+const { tools } = useAppConfig();
 const { isAuthenticated, userName } = storeToRefs(useJwtStore());
 const route = useRoute();
 const { isPending } = useSpin();
+
+const MinkLogo = injectComponent(
+  "MinkLogo",
+  () => import("@/page/MinkLogo.vue"),
+);
 
 const isHome = computed(() => route.path == "/");
 const isAuthenticating = computed(() => isPending("jwt"));
@@ -64,6 +71,7 @@ const isActiveClass = (path: string) =>
         </router-link>
 
         <router-link
+          v-if="tools.length"
           to="/tools"
           class="no-underline hover:underline"
           :class="isActiveClass('/tools')"

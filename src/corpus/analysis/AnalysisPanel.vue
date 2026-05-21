@@ -66,7 +66,7 @@ async function doRunJob() {
           <div class="font-semibold">{{ $t("corpus.sparv.run") }}</div>
           <i18n-t keypath="analysis.help" scope="global">
             <template #sparv>
-              <a :href="$t('analysis.sparv.url')">Sparv</a>
+              <a :href="$t('sparv.url')">Sparv</a>
             </template>
           </i18n-t>
         </div>

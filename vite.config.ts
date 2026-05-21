@@ -37,7 +37,11 @@ export default defineConfig(async ({ mode }) => {
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
+        // Resolve imports of app settings and custom code
+        "@instance": path.resolve(__dirname, "./instance"),
       },
+      // Support module resolution in instance code when symlinked from an external directory
+      preserveSymlinks: true,
     },
     base: env.BASE,
     server: {

@@ -15,11 +15,13 @@ import { useConfigStore } from "@/store/config.store";
 import { useExportStore } from "@/store/export.store";
 import { useResourceStore } from "@/store/resource.store";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
+import { useAnalysisRegistry } from "@/analyses/useAnalysisRegistry";
 
 export function useCorpus(id: string) {
   const { loadTypedResource, loadResource } = useResourceStore();
   const { loadConfig, uploadConfig } = useConfigStore();
   const { loadExports } = useExportStore();
+  const analysisRegistry = useAnalysisRegistry();
   const { spin } = useSpin();
   const matomo = useMatomo();
 
@@ -35,7 +37,7 @@ export function useCorpus(id: string) {
 
   const configOptions = computed(() => {
     try {
-      if (config.value) return parseConfig(config.value);
+      if (config.value) return parseConfig(config.value, analysisRegistry);
     } catch (error) {
       console.error(`Error parsing config for "${id}":`, error);
     }
@@ -65,7 +67,7 @@ export function useCorpus(id: string) {
   }
 
   async function saveConfigOptions(configOptions: ConfigOptions) {
-    const configYaml = makeConfig(id, configOptions);
+    const configYaml = makeConfig(id, configOptions, analysisRegistry);
     await uploadConfig("corpus", id, configYaml);
   }
 
