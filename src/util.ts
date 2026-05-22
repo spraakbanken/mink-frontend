@@ -59,10 +59,10 @@ export function downloadFile(data: string | Blob, filename: string) {
 export const enarray = <T>(x: T | T[]): T[] => (Array.isArray(x) ? x : [x]);
 
 /** Converts and formats a date to the given locale */
-export function formatDate(dateStr: string, locale: string) {
-  return new Date(dateStr).toLocaleString(locale, {
+export function formatDate(date: Date | string, locale: string, time = true) {
+  return new Date(date).toLocaleString(locale, {
     dateStyle: "long", // Spell out month name to avoid ambiguity with M/D/Y in English
-    timeStyle: "medium", // With seconds but not timezone details
+    timeStyle: time ? "medium" : undefined, // With seconds but not timezone details
   });
 }
 

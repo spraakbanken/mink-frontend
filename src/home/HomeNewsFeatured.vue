@@ -1,22 +1,16 @@
 <script setup lang="ts">
-import { onMounted, reactive } from "vue";
+import { computedAsync } from "@vueuse/core";
 import useLocale from "@/i18n/locale.composable";
-import { fetchNews, type NewsItem } from "@/home/news.service";
+import { useNews } from "@/news/useNews";
+import type { NewsItem } from "@/news/news.types";
 
-const { locale, th } = useLocale();
-const items = reactive<NewsItem[]>([]);
+const { formatDate, th } = useLocale();
+const newsService = useNews();
 
-onMounted(async () => {
-  try {
-    items.push(...(await fetchNews(true)));
-  } catch (error) {
-    console.error("Could not fetch and parse news", error);
-  }
-});
-
-function getDate(date: Date) {
-  return date.toLocaleDateString(locale.value, { dateStyle: "long" });
-}
+const items = computedAsync<NewsItem[]>(
+  () => newsService.loadFeaturedNews(),
+  [],
+);
 </script>
 
 <template>
@@ -29,10 +23,9 @@ function getDate(date: Date) {
       <header class="font-semibold">{{ th(item.title) }}</header>
 
       <time :datetime="item.created.toString()" class="my-1 text-sm italic">
-        {{ getDate(item.created) }}
+        {{ formatDate(item.created, false) }}
       </time>
 
-      <!-- eslint-disable-next-line vue/no-v-html -->
       <div v-html="th(item.body)"></div>
     </article>
   </div>

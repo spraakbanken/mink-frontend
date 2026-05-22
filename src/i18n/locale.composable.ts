@@ -71,8 +71,8 @@ export default function useLocale() {
     return str.replace(/[\d.]+e[+\d]+/, (numStr) => String(parseFloat(numStr)));
   }
 
-  const formatDateLocalized = (dateStr: string) =>
-    formatDate(dateStr, locale.value);
+  const formatDateLocalized = (date: Date | string, includeTime = true) =>
+    formatDate(date, locale.value, includeTime);
 
   return {
     locale,
