@@ -15,24 +15,24 @@ corpus.state.unknown: Unknown
 corpus.state.empty: No files
 corpus.state.needing_config: Configuration needed
 corpus.state.ready: Ready to run
-corpus.state.running: Annotating
-corpus.state.done: Done annotating
+corpus.state.running: Analysing
+corpus.state.done: Done analysing
 corpus.state.running_install: Installing
 corpus.state.done_install: Done installing
 corpus.state.failed: Failed
 corpus.state.failed_install: Failed
 corpus.state.help.unknown: The state of this corpus is unknown. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.state.help.empty: There are no source files in this corpus. Upload some files below.
-corpus.state.help.needing_config: This corpus needs you to change some settings before it can be processed.
-corpus.state.help.ready: Ready for annotation. You can also supply more source files or edit the configuration.
-corpus.state.help.running: Annotation is running in the background. Feel free to close the website, have some coffee and check back later!
-corpus.state.help.done: Annotation done! You can download the results or install it to Korp or Strix.
+corpus.state.help.needing_config: This corpus needs you to change some settings before it can be analysed.
+corpus.state.help.ready: Ready for analysis. You can also supply more source files or edit the configuration.
+corpus.state.help.running: Analysis is running in the background. Feel free to close the website, have some coffee and check back later!
+corpus.state.help.done: Analysis done! You can download the results or install it to Korp or Strix.
 corpus.state.help.running_install: Installation is running in the background. Feel free to close the website, have some coffee and check back later!
 corpus.state.help.done_install: Successfully installed!
 corpus.state.help.failed: An error occurred while processing your data. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.state.help.failed_install: An error occurred while installing your corpus. If you need help, please contact sb-info{'@'}svenska.gu.se
-corpus.sparv.run: Run annotation
-corpus.sparv.rerun: Re-run annotation
+corpus.sparv.run: Analyse
+corpus.sparv.rerun: Re-analyse
 corpora: Corpora
 metadata: Metadata
 metadata.help: If you have been assigned an organization prefix, use metadata to prepare a resource for publication.
@@ -100,7 +100,7 @@ exports.tools.uninstall: Uninstall
 exports.tools.view: Open
 exports.download.help: Results can be downloaded as machine-readable files for processing in scripts or other specialized software.
 exports.download.placeholder: Downloads will be available here after successful analysis.
-exports.help: The annotation process yields export files for each input file. You can download each single export file or all of them in a bundle. The exact structure of the files depends on the input files as well as the configuration. They are stored on the server indefinitely, but re-running the annotation will replace them with new ones.
+exports.help: The analysis process yields export files for each input file. You can download each single export file or all of them in a bundle. The exact structure of the files depends on the input files as well as the configuration. They are stored on the server indefinitely, but re-analysing will replace them with new ones.
 exports.help.more.label: Read more about export files in the user manual
 exports.type.unknown: Unknown
 
@@ -162,7 +162,7 @@ file: File
 sources: Source files
 configuration: Configuration
 settings: Settings
-analysis: Analysis
+analysis: Analyse
 result: Result
 resources: Resources
 files: No files | 1 file | {count} files
@@ -180,7 +180,7 @@ file.operations: Operations
 delete: Delete
 original: Original
 public_id: Public identifier
-source_text_help: Plain text is extracted during the annotation process, and can then be shown here.
+source_text_help: Plain text is extracted during the analysis process, and can then be shown here.
 contact: Contact
 save: Save
 create: Create
@@ -244,7 +244,7 @@ description: Description
 metadata.description.help: |
   This can be a summary of the material for your own benefit.
   If you aim to share or publish the results, we recommend entering one or two sentences
-  to summarize the content or purpose to a potential user.
+  to summarise the content or purpose to a potential user.
 fileFormat: Source format
 config.analysis: Analysis
 config.analyses: Analyses
@@ -275,7 +275,7 @@ timespan_from: From
 timespan_to: To
 edit: Edit
 annotations.clear: Clear annotations
-annotations.clear.help: Use this before processing a previously annotated corpus with new annotation settings.
+annotations.clear.help: Use this before processing a previously analysed corpus with new annotation settings.
 admin.page.subtitle: Administration
 admin.goto: Shortcuts
 admin.resources.help: In this administrative listing, you need to load detailed information manually, because loading everything takes a long time.

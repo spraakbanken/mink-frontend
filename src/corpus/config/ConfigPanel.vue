@@ -106,7 +106,7 @@ const analyses = computedAsync(async () => {
 
         <tr>
           <td colspan="2">
-            <h3 class="text-lg my-2">{{ $t("analysis") }}</h3>
+            <h3 class="text-lg my-2">{{ $t("config.analyses") }}</h3>
           </td>
         </tr>
         <tr>

@@ -15,24 +15,24 @@ corpus.state.unknown: Okänt
 corpus.state.empty: Inga filer
 corpus.state.needing_config: Behöver konfigureras
 corpus.state.ready: Klar för start
-corpus.state.running: Annoterar
-corpus.state.done: Annotering färdig
+corpus.state.running: Analyserar
+corpus.state.done: Analys färdig
 corpus.state.running_install: Installerar
 corpus.state.done_install: Installation färdig
 corpus.state.failed: Fel
 corpus.state.failed_install: Fel
 corpus.state.help.unknown: Den här korpusen är i ett okänt tillstånd. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 corpus.state.help.empty: Den här korpusen har inga källfiler. Ladda upp filer nedan.
-corpus.state.help.needing_config: Den här korpusen behöver några inställningar innan annoteringen kan startas.
-corpus.state.help.ready: Redo för annotering. Du kan också lägga till fler källfiler eller redigera konfigurationen.
-corpus.state.help.running: Annoteringen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
-corpus.state.help.done: Annotering klar! Du kan ladda ner resultaten eller installera datan i Korp eller Strix.
+corpus.state.help.needing_config: Den här korpusen behöver några inställningar innan den kan analyseras.
+corpus.state.help.ready: Redo att analysera. Du kan också lägga till fler källfiler eller redigera konfigurationen.
+corpus.state.help.running: Korpusen analyseras i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
+corpus.state.help.done: Analysen är klar! Du kan ladda ner resultaten eller installera datan i Korp eller Strix.
 corpus.state.help.running_install: Installationen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
 corpus.state.help.done_install: Nu är datan installerad!
-corpus.state.help.failed: Ett fel uppstod under annotering. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
+corpus.state.help.failed: Ett fel uppstod under analyseringen. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 corpus.state.help.failed_install: Ett fel uppstod under installation. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
-corpus.sparv.run: Starta annotering
-corpus.sparv.rerun: Starta om annotering
+corpus.sparv.run: Analysera
+corpus.sparv.rerun: Analysera igen
 corpora: Korpusar
 metadata: Metadata
 metadata.help: Om du har tilldelats ett organisationsprefix kan du använda metadata för att förbereda en resurs för publicering.
@@ -56,7 +56,7 @@ job.priority: Plats i kön
 job.started: Senast startad
 job.ended: Senast avslutad
 job.time_taken: Tidsåtgång
-job.process.sparv: Analys
+job.process.sparv: Analysering
 job.process.korp: Installation i Korp
 job.process.strix: Installation i Strix
 sharing: Delning
@@ -99,8 +99,8 @@ exports.tools.reinstall: Installera om
 exports.tools.uninstall: Avinstallera
 exports.tools.view: Öppna
 exports.download.help: Resultatet kan laddas ner som maskinläsbara filer för bearbetning i script eller speciella program.
-exports.download.placeholder: Nedladdningar finns här efter slutförd annotering.
-exports.help: Annoteringsprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen. De lagras på servern tillsvidare, men ersätts med nya om du kör om annoteringen på nytt.
+exports.download.placeholder: Nedladdningar finns här efter slutförd analys.
+exports.help: Analysprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen. De lagras på servern tillsvidare, men ersätts med nya om du analyserar om på nytt.
 exports.help.more.label: Läs mer om exportfiler i användarhandledningen
 exports.type.unknown: Okänd
 
@@ -163,7 +163,7 @@ file: Fil
 sources: Källfiler
 configuration: Konfiguration
 settings: Inställningar
-analysis: Analys
+analysis: Analysera
 result: Resultat
 resources: Resurser
 files: Inga filer | 1 fil | {count} filer
@@ -181,7 +181,7 @@ file.operations: Operationer
 delete: Radera
 original: Original
 public_id: Publik identifierare
-source_text_help: Under annoteringen extraheras ren text från filen, och kan sedan visas här.
+source_text_help: Under analysen extraheras ren text från filen, och kan sedan visas här.
 contact: Kontakt
 save: Spara
 create: Skapa
@@ -276,7 +276,7 @@ timespan_from: Från
 timespan_to: Till
 edit: Redigera
 annotations.clear: Rensa annotationer
-annotations.clear.help: Gör detta för att kunna köra om en tidigare annoterad korpus med nya annoteringsinställningar.
+annotations.clear.help: Gör detta för att kunna analysera om en korpus med nya inställningar.
 admin.page.subtitle: Administration
 admin.goto: Genvägar
 admin.resources.help: I denna administrativa resurslista behöver du ladda in detaljerad resursinformation manuellt, eftersom det tar lång tid att ladda allt.
