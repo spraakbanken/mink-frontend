@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { PhQuestion, PhUser } from "@phosphor-icons/vue";
+import { PhQuestion, PhSignIn, PhUser } from "@phosphor-icons/vue";
 import { storeToRefs } from "pinia";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
@@ -87,6 +87,15 @@ const isActiveClass = (path: string) =>
       />
 
       <div class="flex sm:max-lg:flex-col gap-x-4 text-nowrap">
+        <!-- Login link -->
+        <router-link
+          v-if="!isAuthenticated"
+          to="/login"
+          class="no-underline hover:underline"
+        >
+          <PhSignIn weight="bold" class="inline mb-0.5 mr-1" />{{ $t("login") }}
+        </router-link>
+
         <!-- User link if logged in -->
         <template v-if="isAuthenticated">
           <router-link

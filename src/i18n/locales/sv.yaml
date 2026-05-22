@@ -198,7 +198,7 @@ job.status.error: Fel
 job.status.waiting: Väntar
 job.status.running: Arbetar
 login: Logga in
-login.required: Den här sidan kräver autentisering.
+login.required: Den här sidan kräver att du loggar in.
 login.help: De flesta med akademisk anknytning kan logga in direkt.
 login.fail: Autentiseringsfrågan misslyckades
 logout: Logga ut

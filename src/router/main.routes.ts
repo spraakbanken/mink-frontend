@@ -7,7 +7,6 @@ const ToolsView = () => import("@/tools/ToolsView.vue");
 const MetadataEditorView = () =>
   import("@/tools/metadata_editor/MetadataEditorView.vue");
 import LoginView from "@/auth/LoginView.vue";
-import SignupView from "@/auth/SignupView.vue";
 const UserView = () => import("@/user/UserView.vue");
 const AdminResourcesView = () => import("@/library/AdminResourcesView.vue");
 import AccessDenied from "@/auth/AccessDenied.vue";
@@ -54,8 +53,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: "/signup",
-    component: SignupView,
-    meta: { title: "signup" },
+    redirect: "/login",
   },
   {
     path: "/user",

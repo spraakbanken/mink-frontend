@@ -197,7 +197,7 @@ job.status.error: Error
 job.status.waiting: Waiting
 job.status.running: Working
 login: Sign in
-login.required: This page requires you to authenticate.
+login.required: This page requires you to sign in.
 login.help: Most university users can sign in directly.
 login.fail: Authentication check failed
 logout: Logout
