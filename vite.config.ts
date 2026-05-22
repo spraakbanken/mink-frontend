@@ -2,6 +2,7 @@ import path from "path";
 import { ServerOptions } from "https";
 import { defineConfig, loadEnv, Plugin } from "vite";
 import vue from "@vitejs/plugin-vue";
+import tailwindcss from "@tailwindcss/vite";
 import checker from "vite-plugin-checker";
 import vueDevTools from "vite-plugin-vue-devtools";
 import { visualizer } from "rollup-plugin-visualizer";
@@ -29,6 +30,7 @@ export default defineConfig(async ({ mode }) => {
     plugins: [
       vue(),
       yamlLoader(),
+      tailwindcss(),
       vueDevTools(),
       // Enable typechecking, see https://vite-plugin-checker.netlify.app/introduction/getting-started.html
       checker({ vueTsc: true }),

@@ -26,7 +26,7 @@
     "@fsegurai/codemirror-theme-monokai": "^6.2.5",
     "@highlightjs/vue-plugin": "^2.1.0",
     "@phosphor-icons/vue": "^2.2.1",
-    "@tailwindcss/postcss": "^4.3.0",
+    "@tailwindcss/vite": "^4.3.0",
     "@vitejs/plugin-vue": "^6.0.7",
     "@vue/tsconfig": "^0.9.1",
     "@vueuse/core": "^14.3.0",
