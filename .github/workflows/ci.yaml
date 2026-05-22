@@ -18,6 +18,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: scripts/ensure-instance.sh
       - run: npm install
-      - run: npm run lint
-      - run: npm test run
-      - run: npm build
+      - run: npm run check
+      - run: npm run build

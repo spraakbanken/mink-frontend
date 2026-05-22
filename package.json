@@ -3,13 +3,15 @@
   "version": "1.18.1",
   "license": "MIT",
   "scripts": {
-    "build": "npm run typecheck && vite build",
-    "dev": "vite",
-    "lint": "npm run eslint && npm run prettier . --list-different",
-    "lintfix": "npm run eslint --fix && npm run prettier . --list-different --write",
+    "start": "vite",
+    "build": "vite build",
     "serve": "vite preview",
     "test": "vitest",
-    "typecheck": "vue-tsc --noEmit"
+    "lint": "eslint",
+    "format": "prettier . --check",
+    "fix": "run-p \"lint -- --fix\" \"format -- --write\"",
+    "typecheck": "vue-tsc --noEmit",
+    "check": "run-p lint format \"test run\" typecheck"
   },
   "engines": {
     "node": ">=22"
@@ -60,6 +62,7 @@
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-vue": "^10.9.1",
     "happy-dom": "^20.9.0",
+    "npm-run-all2": "^8.0.4",
     "prettier": "^3.8.3",
     "vite-plugin-checker": "^0.13.0",
     "vite-plugin-vue-devtools": "^8.1.2",

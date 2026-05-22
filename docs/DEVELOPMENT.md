@@ -119,20 +119,20 @@ For SB-Auth to allow authentication requests, the frontend must be served under 
 Vite will read variables from [.env](../.env), see [Vite docs](https://vitejs.dev/guide/env-and-mode).
 It will also read from `.env.local`, which is ignored by Git, so you can create it locally to override `.env`.
 
-The dev server might not properly pick up on changes to these, so better restart `npm run dev`.
+The dev server might not properly pick up on changes to these, so better restart `npm start`.
 
 ## Development tasks
 
 These use commands defined in the `scripts` section of `package.json`.
 
-| Task                                                 | Command           |
-| ---------------------------------------------------- | ----------------- |
-| Install the dependencies needed to run the code      | `npm install`     |
-| Serve the frontend from a temporary local dev server | `npm run dev`     |
-| Run tests and watch files to rerun on changes        | `npm test`        |
-| Check for formatting problems                        | `npm run lint`    |
-| Attempt to fix formatting problems automatically     | `npm run lintfix` |
-| Build the frontend as optimized HTML + assets        | `npm run build`   |
+| Task                                                 | Command         |
+| ---------------------------------------------------- | --------------- |
+| Install the dependencies needed to run the code      | `npm install`   |
+| Serve the frontend from a temporary local dev server | `npm start`     |
+| Run tests and watch files to rerun on changes        | `npm test`      |
+| Run tests once and check for formatting problems     | `npm run check` |
+| Attempt to fix formatting problems automatically     | `npm run fix`   |
+| Build the frontend as optimized HTML + assets        | `npm run build` |
 
 ### Deploying
 
