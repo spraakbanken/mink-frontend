@@ -15,5 +15,5 @@ test("frontpage", () => {
     },
   });
 
-  getByText("Configurable language technology analysis");
+  getByText("Sign in");
 });

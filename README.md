@@ -1,4 +1,4 @@
-<img src="src/assets/mink-slogan-en.svg" width="300" alt="Mink - Språkbanken's data platform" />
+<img src="src/assets/mink.svg" width="300" alt="Mink - Språkbanken's data platform" />
 
 Mink is a web application for processing and exploring user-owned datasets of language data.
 It is specifically designed for use with the platforms of [Språkbanken Text](https://spraakbanken.gu.se/):

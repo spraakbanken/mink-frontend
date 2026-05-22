@@ -68,6 +68,11 @@ export type SparvSchemaData = {
   sparv_schema: object;
 };
 
+/** Data in the user info response */
+export type UserData = {
+  user: UserInfoFull;
+};
+
 /** Data in the list-corpora response */
 export type ResourceListData = {
   resources: string[];
@@ -85,18 +90,26 @@ export type ResourceStatusListData = {
 
 /** Data about a resource and its job status */
 export type ResourceInfo<T extends ResourceType = ResourceType> = {
-  owner: UserData;
+  owner: UserInfo;
   resource: ResourceData;
   job: JobInfo<T>;
   job_status: JobState;
 };
 
 /** Data about a Mink user */
-export type UserData = {
-  id: string;
-  name: string;
+export type UserInfo = {
   email: string;
+  id: string;
+  idp: string;
+  name: string;
+  sub: string;
   ui_language: SweEng;
+};
+
+export type UserInfoFull = UserInfo & {
+  admin_mode: boolean;
+  is_admin: boolean;
+  organization_prefix: string | null;
 };
 
 /** Basic data about a resource */

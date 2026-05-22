@@ -4,13 +4,14 @@ import { useCorpus } from "../corpus.composable";
 import useLocale from "@/i18n/locale.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
-import { loadAnalysisMetadata } from "@/api/analysis";
+import { useAnalysisRegistry } from "@/analyses/useAnalysisRegistry";
 
 const props = defineProps<{
   id: string;
 }>();
 
 const { configOptions } = useCorpus(props.id);
+const analysisRegistry = useAnalysisRegistry();
 const { th, thCompare } = useLocale();
 
 const analyses = computedAsync(async () => {
@@ -19,10 +20,10 @@ const analyses = computedAsync(async () => {
   const map = configOptions.value.analyses;
   const ids = Object.keys(map).filter((id) => map[id]);
   // Get metadata for selected analyses
-  const metadata = await loadAnalysisMetadata();
+  const metadata = await analysisRegistry.loadMetadata();
   return metadata
     .filter((analysis) => ids.includes(analysis.id))
-    .sort(thCompare((x) => x.name));
+    .sort(thCompare((x) => x.label));
 });
 </script>
 
@@ -105,7 +106,7 @@ const analyses = computedAsync(async () => {
 
         <tr>
           <td colspan="2">
-            <h3 class="text-lg my-2">{{ $t("analysis") }}</h3>
+            <h3 class="text-lg my-2">{{ $t("config.analyses") }}</h3>
           </td>
         </tr>
         <tr>
@@ -116,7 +117,7 @@ const analyses = computedAsync(async () => {
               </summary>
               <ul class="list-disc list-outside pl-5 mt-2">
                 <li v-for="analysis of analyses" :key="analysis.id">
-                  {{ th(analysis.name) }}
+                  {{ th(analysis.label) }}
                   (<a
                     :href="$t('config.analyses.url', analysis.id)"
                     target="_blank"

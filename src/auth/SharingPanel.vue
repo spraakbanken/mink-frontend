@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { PhShareNetwork } from "@phosphor-icons/vue";
 import { computedAsync } from "@vueuse/core";
+import { storeToRefs } from "pinia";
+import { computed } from "vue";
 import UrlButton from "@/components/UrlButton.vue";
-import useAdmin from "@/user/admin.composable";
-import { useAuth } from "@/auth/auth.composable";
 import { getAuthGuiUrl } from "@/api/sbauth";
 import { useResourceStore } from "@/store/resource.store";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import useAlert from "@/alert/alert.composable";
 import type { ResourceType } from "@/api/api.types";
+import { useUserStore } from "@/store/user.store";
 
 const props = defineProps<{
   resourceType: ResourceType;
@@ -16,13 +17,16 @@ const props = defineProps<{
 }>();
 
 const store = useResourceStore();
-const { adminMode } = useAdmin();
-const { getAccessLevel } = useAuth();
+const userStore = useUserStore();
+const { adminMode } = storeToRefs(userStore);
+const { canAdmin, getAccessLevel } = userStore;
 const { showAlert } = useAlert();
 
 const resource = computedAsync(() =>
   store.loadResource(props.id).catch(showAlert),
 );
+
+const authGuiUrl = computed(() => getAuthGuiUrl(props.id));
 </script>
 
 <template>
@@ -51,8 +55,8 @@ const resource = computedAsync(() =>
               </TerminalOutput>
             </div>
             <UrlButton
-              v-if="getAccessLevel(resourceType, id) == 'ADMIN'"
-              :href="getAuthGuiUrl(id)"
+              v-if="canAdmin(resourceType, id) && authGuiUrl"
+              :href="authGuiUrl"
               target="_blank"
             >
               <PhShareNetwork class="inline mr-1 mb-1" />

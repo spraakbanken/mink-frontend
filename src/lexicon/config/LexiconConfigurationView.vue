@@ -11,7 +11,7 @@ import LayoutSection from "@/components/LayoutSection.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useConfigStore } from "@/store/config.store";
-import { useAuth } from "@/auth/auth.composable";
+import { useUserStore } from "@/store/user.store";
 import LayoutBox from "@/components/LayoutBox.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import type { ByLang } from "@/util.types";
@@ -30,7 +30,7 @@ type Form = {
 
 const id = useResourceIdParam();
 const { loadConfig, uploadConfig } = useConfigStore();
-const { canWrite, canAdmin } = useAuth();
+const { canWrite, canAdmin } = useUserStore();
 const router = useRouter();
 const { showAlert } = useMessenger();
 

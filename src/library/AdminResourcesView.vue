@@ -9,15 +9,15 @@ import PendingContent from "@/spin/PendingContent.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import { useResourceStore } from "@/store/resource.store";
 import { isCorpus } from "@/store/resource.types";
-import useAdmin from "@/user/admin.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import ActionButton from "@/components/ActionButton.vue";
 import useAlert from "@/alert/alert.composable";
+import { useUserStore } from "@/store/user.store";
 
 const router = useRouter();
 const resourceStore = useResourceStore();
 const { ids, resources } = storeToRefs(resourceStore);
-const { adminMode } = useAdmin();
+const { adminMode } = storeToRefs(useUserStore());
 const { showAlert } = useAlert();
 
 const previewToggles = reactive<Record<string, boolean>>({});

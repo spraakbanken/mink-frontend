@@ -49,7 +49,7 @@ export const useResourceStore = defineStore("resource", () => {
   }
 
   /** Signal that info needs to be reloaded */
-  async function invalidateResources() {
+  function invalidateResources() {
     freshList = false;
   }
 

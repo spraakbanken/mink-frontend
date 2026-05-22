@@ -27,18 +27,15 @@ import PendingContent from "@/spin/PendingContent.vue";
 import type { ByLang } from "@/util.types";
 import LayoutBox from "@/components/LayoutBox.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
-import {
-  analysisAnnotations,
-  loadAnalysisMetadata,
-  type AnalysisId,
-} from "@/api/analysis";
 import useLocale from "@/i18n/locale.composable";
 import TabsBar from "@/components/TabsBar.vue";
 import TabsContent from "@/components/TabsContent.vue";
 import useSpin from "@/spin/spin.composable";
-import { useAuth } from "@/auth/auth.composable";
 import useSources from "@/resource/sources.composable";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
+import { useUserStore } from "@/store/user.store";
+import { useAnalysisRegistry } from "@/analyses/useAnalysisRegistry";
+import type { AnalysisId } from "@/analyses/analyses.types";
 
 type TabKey = "metadata" | "settings" | "analyses";
 
@@ -57,31 +54,32 @@ const router = useRouter();
 const id = useResourceIdParam();
 const { config, saveConfigOptions } = useCorpus(id);
 const { extensions } = useSources("corpus", id);
+const analysisRegistry = useAnalysisRegistry();
 const { showAlert } = useAlert();
 const { t } = useI18n();
 const { th, thCompare } = useLocale();
 const { spin } = useSpin();
-const { canWrite, canAdmin } = useAuth();
+const { canAdmin, canWrite } = useUserStore();
 
 const tabSelected = ref<TabKey>("metadata");
 
 /** List of metadata for relevant analyses */
 const analyses = computedAsync(async () => {
   const analyses =
-    (await spin(loadAnalysisMetadata(), "analysis/metadata").catch(
+    (await spin(analysisRegistry.loadMetadata(), "analysis/metadata").catch(
       showAlert,
     )) || [];
 
   // Skip analyses that do not have annotations
   // Sort by most significant property last
   const filtered = analyses
-    .filter((analysis) => analysisAnnotations[analysis.id])
-    .sort(thCompare((x) => x.name))
-    .sort(thCompare((x) => x.analysis_unit));
+    .filter((analysis) => analysisRegistry.getAnnotations([analysis.id]).length)
+    .sort(thCompare((x) => x.label))
+    .sort(thCompare((x) => x.unit));
 
   // Group by unit: text, token or other
   return groupBy(filtered, (analysis) => {
-    const unit = analysis.analysis_unit?.eng;
+    const unit = typeof analysis.unit == "object" ? analysis.unit.eng : "";
     if (unit == "text" || unit == "token") return unit;
     return "other";
   });
@@ -123,7 +121,7 @@ const segmenterOptions = computed<SegmenterOptions>(() => {
 function getParsedConfig() {
   if (!config.value) return undefined;
   try {
-    const parsed = parseConfig(config.value);
+    const parsed = parseConfig(config.value, analysisRegistry);
     return parsed;
   } catch (error) {
     showAlert(t("corpus.config.parse.error"));
@@ -353,10 +351,10 @@ async function submit(fields: Form) {
                       <td>
                         <FormKit
                           :name="analysis.id"
-                          :label="th(analysis.name)"
+                          :label="th(analysis.label)"
                           :value="configOptions.analyses[analysis.id]"
                           type="checkbox"
-                          :help="th(analysis.short_description)"
+                          :help="th(analysis.summary)"
                         />
                       </td>
                       <td>

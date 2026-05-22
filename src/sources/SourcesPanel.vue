@@ -14,13 +14,13 @@ import type { FileMeta, ProgressHandler, ResourceType } from "@/api/api.types";
 import useAlert from "@/alert/alert.composable";
 import { getFilenameExtension } from "@/util";
 import FileUpload from "@/components/FileUpload.vue";
-import { useAuth } from "@/auth/auth.composable";
 import SortableTable, {
   type SortableTableColumn,
 } from "@/components/SortableTable.vue";
 import { useResourceStore } from "@/store/resource.store";
 import useSources from "@/resource/sources.composable";
 import { SOURCE_FORMATS } from "@/file";
+import { useUserStore } from "@/store/user.store";
 
 const props = defineProps<{
   type: ResourceType;
@@ -39,7 +39,7 @@ const { loadResource } = useResourceStore();
 const { filesize } = useLocale();
 const { showAlert } = useAlert();
 const { t, locale } = useI18n();
-const { canWrite } = useAuth();
+const { canWrite } = useUserStore();
 
 const resource = computedAsync(() => loadResource(props.id));
 const info = computedAsync(getInfo);

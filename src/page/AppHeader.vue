@@ -1,22 +1,29 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { PhQuestion, PhUser } from "@phosphor-icons/vue";
-import MinkLogo from "@/page/MinkLogo.vue";
-import { getLogoutUrl } from "@/api/sbauth";
-import { useAuth } from "@/auth/auth.composable";
+import { PhQuestion, PhSignIn, PhUser } from "@phosphor-icons/vue";
+import { storeToRefs } from "pinia";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher.vue";
 import AdminModeBanner from "@/user/AdminModeBanner.vue";
 import SpinIndicator from "@/spin/SpinIndicator.vue";
 import useSpin from "@/spin/spin.composable";
+import { useJwtStore } from "@/store/jwt.store";
+import { injectComponent } from "@/injection";
+import { useAppConfig } from "@/app/useConfig";
 
 defineProps<{
   large: boolean;
 }>();
 
-const { isAuthenticated, canUserWrite, userName } = useAuth();
+const { tools } = useAppConfig();
+const { isAuthenticated, userName } = storeToRefs(useJwtStore());
 const route = useRoute();
 const { isPending } = useSpin();
+
+const MinkLogo = injectComponent(
+  "MinkLogo",
+  () => import("@/page/MinkLogo.vue"),
+);
 
 const isHome = computed(() => route.path == "/");
 const isAuthenticating = computed(() => isPending("jwt"));
@@ -64,6 +71,7 @@ const isActiveClass = (path: string) =>
         </router-link>
 
         <router-link
+          v-if="tools.length"
           to="/tools"
           class="no-underline hover:underline"
           :class="isActiveClass('/tools')"
@@ -79,19 +87,24 @@ const isActiveClass = (path: string) =>
       />
 
       <div class="flex sm:max-lg:flex-col gap-x-4 text-nowrap">
+        <!-- Login link -->
+        <router-link
+          v-if="!isAuthenticated"
+          to="/login"
+          class="no-underline hover:underline"
+        >
+          <PhSignIn weight="bold" class="inline mb-0.5 mr-1" />{{ $t("login") }}
+        </router-link>
+
         <!-- User link if logged in -->
         <template v-if="isAuthenticated">
           <router-link
-            v-if="canUserWrite"
             to="/user"
             class="no-underline hover:underline"
             :class="isActiveClass('/user')"
           >
             <PhUser class="inline mb-0.5 mr-1" />{{ userName }}
           </router-link>
-          <a v-else :href="getLogoutUrl()" class="no-underline hover:underline">
-            <PhUser class="inline mb-0.5 mr-1" />{{ $t("logout") }}
-          </a>
         </template>
 
         <!-- Help link -->

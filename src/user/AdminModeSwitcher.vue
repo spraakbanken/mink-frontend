@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import useAdmin from "@/user/admin.composable";
+import { storeToRefs } from "pinia";
 import PendingContent from "@/spin/PendingContent.vue";
 import useAlert from "@/alert/alert.composable";
+import { useUserStore } from "@/store/user.store";
 
-const { enableAdminMode, disableAdminMode, adminMode } = useAdmin();
+const userStore = useUserStore();
+const { adminMode } = storeToRefs(userStore);
+const { enableAdminMode, disableAdminMode } = userStore;
 const { showAlert } = useAlert();
 
 const toggle = () =>

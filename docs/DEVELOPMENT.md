@@ -1,6 +1,6 @@
 # Development
 
-To run the code, you need Node.js 20 or higher, [Yarn 1](https://classic.yarnpkg.com/en/docs) and [mkcert](https://mkcert.dev) or similar.
+To run the code, you need Node.js 22 or higher and [mkcert](https://mkcert.dev) or similar.
 
 Contents:
 
@@ -22,25 +22,86 @@ As a suggestion, run
 
 Recommended VSCode settings (see [docs on settings.json](https://code.visualstudio.com/docs/getstarted/settings#_settingsjson)):
 
-```json
+```jsonc
 {
   "css.lint.unknownAtRules": "ignore", // Ignore Tailwind's @apply etc
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "always"
+    "source.fixAll.eslint": "always",
   },
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
   "[javascript][typescript][vue]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[json][jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "[html][css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
+  // Include instance code when searching
+  "search.useIgnoreFiles": false,
+  "search.exclude": {
+    "dist": true,
+    "stats.html": true,
+  },
 }
 ```
+
+### Instance plugin
+
+For the code to build, you must create `instance/plugin.ts` with an function returning a Vue plugin.
+The `instance/` directory is left out of version control so that you can control its content separately.
+The recommended approach is to keep your instance code in an external directory and symlink to it:
+
+```
+mink-frontend/
+  instance -> ../mink-frontend-custom
+  ...
+mink-frontend-custom/
+  plugin.ts
+```
+
+Sample `plugin.ts`:
+
+```ts
+import type { Plugin } from "vue";
+import { injectionKeys } from "@/injection";
+import appConfig from "./config.yaml";
+import { MyAnalysisRegistryService } from "./services/MyAnalysisRegistryService";
+import i18n, { languageNames } from "@/i18n/i18n";
+
+export default function createPlugin(): Plugin {
+  return (app) => {
+    // Use app config object from YAML file
+    app.provide(injectionKeys.config, appConfig);
+
+    // Provide services and components
+    app.provide(
+      injectionKeys.service.analysisRegistry,
+      new MyAnalysisRegistryService(),
+    );
+    app.provide(
+      injectionKeys.component.MinkLogo,
+      () => import("./components/MyMinkLogo.vue"),
+    );
+
+    // Modify a language
+    import("./locales/sv.yaml").then((module) => {
+      i18n.global.mergeLocaleMessage("sv", module.default);
+    });
+
+    // Add a language
+    import("./locales/es.yaml").then((module) => {
+      const messages = module.default as Record<string, string>;
+      i18n.global.setLocaleMessage("es", messages);
+      languageNames.es = "Español";
+    });
+  };
+}
+```
+
+Find more examples at [mink-frontend-sb](https://github.com/spraakbanken/mink-frontend-sb)
 
 ### SSL in development
 
@@ -58,22 +119,20 @@ For SB-Auth to allow authentication requests, the frontend must be served under 
 Vite will read variables from [.env](../.env), see [Vite docs](https://vitejs.dev/guide/env-and-mode).
 It will also read from `.env.local`, which is ignored by Git, so you can create it locally to override `.env`.
 
-The dev server might not properly pick up on changes to these, so better restart `yarn dev`.
+The dev server might not properly pick up on changes to these, so better restart `npm start`.
 
 ## Development tasks
 
 These use commands defined in the `scripts` section of `package.json`.
-See https://classic.yarnpkg.com/lang/en/docs/cli/run/
-(Note that `yarn <cmd>` will map to `yarn run <cmd>`, unless `cmd` is a built-in yarn command.)
 
-| Task                                                 | Command        |
-| ---------------------------------------------------- | -------------- |
-| Install the dependencies needed to run the code      | `yarn install` |
-| Serve the frontend from a temporary local dev server | `yarn dev`     |
-| Run tests and watch files to rerun on changes        | `yarn test`    |
-| Check for formatting problems                        | `yarn lint`    |
-| Attempt to fix formatting problems automatically     | `yarn lintfix` |
-| Build the frontend as optimized HTML + assets        | `yarn build`   |
+| Task                                                 | Command         |
+| ---------------------------------------------------- | --------------- |
+| Install the dependencies needed to run the code      | `npm install`   |
+| Serve the frontend from a temporary local dev server | `npm start`     |
+| Run tests and watch files to rerun on changes        | `npm test`      |
+| Run tests once and check for formatting problems     | `npm run check` |
+| Attempt to fix formatting problems automatically     | `npm run fix`   |
+| Build the frontend as optimized HTML + assets        | `npm run build` |
 
 ### Deploying
 
@@ -85,11 +144,11 @@ Sample deploy script:
 #!/bin/bash
 set -e # Abort on errors
 
-yarn install
-yarn lint
+npm install
+npm run check
 
 export VITE_BACKEND_URL="https://example.com/mink-backend/"
-yarn build
+npm run build
 
 rsync -a --delete-after dist/ user@example.com:/var/www/mink/
 ```

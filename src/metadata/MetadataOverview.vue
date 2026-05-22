@@ -9,15 +9,15 @@ import RouteButton from "@/components/RouteButton.vue";
 import TextData from "@/components/TextData.vue";
 import FileUpload from "@/components/FileUpload.vue";
 import SharingPanel from "@/auth/SharingPanel.vue";
-import { useAuth } from "@/auth/auth.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import useAlert from "@/alert/alert.composable";
 import { useConfigStore } from "@/store/config.store";
+import { useUserStore } from "@/store/user.store";
 
 const id = useResourceIdParam();
 const { loadResource } = useResourceStore();
 const { loadConfig, uploadConfig } = useConfigStore();
-const { canAdmin, canWrite } = useAuth();
+const { canAdmin, canWrite } = useUserStore();
 const { showAlert } = useAlert();
 
 const metadata = computedAsync(() => loadResource(id));

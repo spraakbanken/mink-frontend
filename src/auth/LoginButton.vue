@@ -2,13 +2,14 @@
 import { useRoute, useRouter } from "vue-router";
 import { PhSignIn } from "@phosphor-icons/vue";
 import { whenever } from "@vueuse/core";
-import { useAuth } from "./auth.composable";
+import { storeToRefs } from "pinia";
 import { getLoginUrl } from "@/api/sbauth";
 import UrlButton from "@/components/UrlButton.vue";
+import { useJwtStore } from "@/store/jwt.store";
 
 const route = useRoute();
 const router = useRouter();
-const { isAuthenticated } = useAuth();
+const { isAuthenticated } = storeToRefs(useJwtStore());
 
 whenever(isAuthenticated, () => {
   const destination = route.query.destination as string;

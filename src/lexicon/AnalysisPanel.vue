@@ -4,7 +4,7 @@ import { PhDownloadSimple, PhGearFine, PhInfo } from "@phosphor-icons/vue";
 import { useLexicon } from "./lexicon.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import { useAuth } from "@/auth/auth.composable";
+import { useUserStore } from "@/store/user.store";
 import useMessenger from "@/alert/alert.composable";
 import useSources from "@/resource/sources.composable";
 import useResource from "@/resource/resource.composable";
@@ -18,7 +18,7 @@ const { job, isRunning, runJob } = useResource(props.id);
 const { exports } = useLexicon(props.id);
 const { sources } = useSources("lexicon", props.id);
 const { downloadResult, getDownloadFilename } = useExports("lexicon", props.id);
-const { canWrite } = useAuth();
+const { canWrite } = useUserStore();
 const { showAlert } = useMessenger();
 
 const isPending = ref(false);

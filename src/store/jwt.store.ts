@@ -34,28 +34,34 @@ export const useJwtStore = defineStore("jwt", () => {
     return undefined;
   });
 
-  /** How many ms remain until shortly before current JWT expires */
-  const timeout = computed(
-    () => payload.value && (payload.value.exp - 30) * 1000 - Date.now(),
+  const isAuthenticated = computed<boolean>(() => !!payload.value);
+
+  const userName = computed(
+    () => payload.value?.name || payload.value?.email || payload.value?.sub,
   );
 
+  /** How many ms remain until current JWT expires */
+  const getTimeout = () =>
+    payload.value ? payload.value.exp * 1000 - Date.now() : -1;
+
   /** Loads JWT, caches it in the ref and registers it with the Mink API client. */
-  const loadJwt = deduplicateRequest(async () => {
-    // Check if cached JWT has expired.
-    if ((timeout.value || 0) < 0) jwt.value = undefined;
+  const loadJwt = deduplicateRequest(async (skipCache = false) => {
+    // Unset current JWT is it is outdated
+    if (getTimeout() < 0 || skipCache) jwt.value = undefined;
 
     // Fetch JWT if needed.
     if (!jwt.value) {
       try {
-        jwt.value = await spin(fetchJwt(), "jwt");
+        const jwtValue = await spin(fetchJwt(), "jwt");
 
-        // Register new JWT with API client.
-        api.setJwt(jwt.value);
+        // Register new JWT with API client before storing it in ref, which may trigger API calls
+        api.setJwt(jwtValue);
+        jwt.value = jwtValue;
 
-        // Schedule next request shortly before expiration time.
-        clearTimeout(refreshTimer);
-        if (payload.value?.exp) {
-          refreshTimer = setTimeout(loadJwt, timeout.value);
+        if (jwtValue) {
+          // Schedule next request shortly before expiration time.
+          clearTimeout(refreshTimer);
+          refreshTimer = setTimeout(() => loadJwt(true), getTimeout() - 5000);
         }
       } catch (error) {
         // On error, show message and treat as not authenticated
@@ -66,14 +72,10 @@ export const useJwtStore = defineStore("jwt", () => {
     return jwt.value;
   });
 
-  function unloadJwt() {
-    jwt.value = undefined;
-    api.setJwt();
-  }
-
   return {
+    isAuthenticated,
     payload,
+    userName,
     loadJwt,
-    unloadJwt,
   };
 });

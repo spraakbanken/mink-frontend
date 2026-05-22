@@ -3,7 +3,7 @@ import { PhPencilSimple } from "@phosphor-icons/vue";
 import ConfigPanel from "./config/ConfigPanel.vue";
 import AnalysisPanel from "./AnalysisPanel.vue";
 import ExplorePanel from "./ExplorePanel.vue";
-import { useAuth } from "@/auth/auth.composable";
+import { useUserStore } from "@/store/user.store";
 import LayoutBox from "@/components/LayoutBox.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
@@ -12,7 +12,7 @@ import SourcesPanel from "@/sources/SourcesPanel.vue";
 import JobStatusPanel from "@/job/JobStatusPanel.vue";
 
 const id = useResourceIdParam();
-const { canWrite } = useAuth();
+const { canWrite } = useUserStore();
 </script>
 
 <template>

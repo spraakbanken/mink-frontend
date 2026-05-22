@@ -7,11 +7,11 @@ import HelpBox from "@/components/HelpBox.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import useAlert from "@/alert/alert.composable";
 import PendingContent from "@/spin/PendingContent.vue";
-import { useAuth } from "@/auth/auth.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import { useConfigStore } from "@/store/config.store";
 import type { ResourceType } from "@/api/api.types";
+import { useUserStore } from "@/store/user.store";
 
 const props = defineProps<{
   type: ResourceType;
@@ -21,7 +21,7 @@ const props = defineProps<{
 
 const { loadConfig, uploadConfig } = useConfigStore();
 const { showAlert } = useAlert();
-const { canWrite } = useAuth();
+const { canWrite } = useUserStore();
 const { t } = useI18n();
 
 // TODO Use store `configs` so it's reloaded

@@ -7,13 +7,13 @@ import ActionButton from "@/components/ActionButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
-import { useAuth } from "@/auth/auth.composable";
+import { useUserStore } from "@/store/user.store";
 import useMessenger from "@/alert/alert.composable";
 
 const router = useRouter();
 const id = useResourceIdParam();
 const { deleteResource } = useDeleteResource();
-const { canAdmin } = useAuth();
+const { canAdmin } = useUserStore();
 const { showAlert } = useMessenger();
 
 async function doDelete() {

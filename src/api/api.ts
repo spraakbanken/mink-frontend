@@ -8,13 +8,13 @@ import type {
   CreateResourceData,
   ResourceStatusListData,
   ListExportsData,
-  AdminModeStatusData,
   ProgressHandler,
   SparvSchemaData,
   SparvExportsData,
   ResourceInfo,
   ResourceType,
   BackendError,
+  UserData,
 } from "@/api/api.types";
 
 /** Create a `text/yaml` file object with content */
@@ -50,9 +50,6 @@ class MinkApi {
   /** An instance of the Axios HTTP client. */
   axios: AxiosInstance;
 
-  /** A JWT token used to authenticate API requests. */
-  jwt: string | undefined;
-
   /** Creates the client instance */
   constructor() {
     this.axios = Axios.create({
@@ -63,7 +60,6 @@ class MinkApi {
 
   /** Sets a JWT token which is then used to authenticate API requests. */
   setJwt(jwt?: string) {
-    this.jwt = jwt;
     this.axios.defaults.headers["Authorization"] = jwt ? `Bearer ${jwt}` : null;
   }
 
@@ -88,6 +84,13 @@ class MinkApi {
     );
     return response.data.sparv_schema;
   });
+
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/User-Management/operation/get-user-info */
+  async getUserInfo() {
+    const response =
+      await this.axios.get<MinkResponse<UserData>>("user/info/get");
+    return response.data.user;
+  }
 
   /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Resources/operation/list-resources */
   async listResources() {
@@ -320,24 +323,19 @@ class MinkApi {
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Admin-Mode/operation/admin-mode-status */
-  async adminModeStatus() {
-    const response =
-      await this.axios.get<MinkResponse<AdminModeStatusData>>(
-        "admin-mode-status",
-      );
-    return response.data.admin_mode_status;
-  }
-
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Admin-Mode/operation/admin-mode-on */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/User-Management/operation/activate-admin-mode */
   async adminModeOn() {
-    const response = await this.axios.post<MinkResponse>("admin-mode-on");
+    const response = await this.axios.post<MinkResponse>(
+      "user/admin-mode/activate",
+    );
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Admin-Mode/operation/admin-mode-off */
+  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/User-Management/operation/deactivate-admin-mode */
   async adminModeOff() {
-    const response = await this.axios.post<MinkResponse>("admin-mode-off");
+    const response = await this.axios.post<MinkResponse>(
+      "user/admin-mode/deactivate",
+    );
     return response.data;
   }
 }

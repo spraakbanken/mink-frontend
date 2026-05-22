@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import { PhWarning } from "@phosphor-icons/vue";
-import { whenever } from "@vueuse/core";
-import useAdmin from "@/user/admin.composable";
-import { useAuth } from "@/auth/auth.composable";
+import { storeToRefs } from "pinia";
 import ActionButton from "@/components/ActionButton.vue";
 import useAlert from "@/alert/alert.composable";
+import { useUserStore } from "@/store/user.store";
 
-const { canUserAdmin } = useAuth();
-const { adminMode, checkAdminMode, disableAdminMode } = useAdmin();
+const userStore = useUserStore();
+const { adminMode } = storeToRefs(userStore);
+const { disableAdminMode } = userStore;
 const { showAlert } = useAlert();
-
-whenever(canUserAdmin, checkAdminMode);
 </script>
 
 <template>

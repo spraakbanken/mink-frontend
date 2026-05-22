@@ -6,21 +6,23 @@ import { ensureTrailingSlash } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import useSpin from "@/spin/spin.composable";
-import { useAuth } from "@/auth/auth.composable";
 import useAlert from "@/alert/alert.composable";
 import useResource from "@/resource/resource.composable";
+import { useUserStore } from "@/store/user.store";
+import { useAppConfig } from "@/app/useConfig";
 
 const props = defineProps<{
   id: string;
 }>();
 
+const { exploreTools } = useAppConfig();
 const { isPending } = useSpin();
 const { installKorp, installStrix, uninstallKorp, uninstallStrix } = useCorpus(
   props.id,
 );
 const { isRunning, job } = useResource<"corpus">(props.id);
 const { locale3 } = useLocale();
-const { canWrite } = useAuth();
+const { canWrite } = useUserStore();
 const { showAlert } = useAlert();
 
 const korpUrl = ensureTrailingSlash(import.meta.env.VITE_KORP_URL);
@@ -38,7 +40,10 @@ const canInstall = computed(
 <template>
   <p>{{ $t("exports.tools.help") }}</p>
   <div class="grid gap-4 mt-4">
-    <PendingContent :on="`${id}/job/install/korp`">
+    <PendingContent
+      v-if="exploreTools.includes('korp')"
+      :on="`${id}/job/install/korp`"
+    >
       <ToolPanel
         name="Korp"
         :info="$t('exports.tools.help.korp')"
@@ -52,7 +57,10 @@ const canInstall = computed(
       />
     </PendingContent>
 
-    <PendingContent :on="`${id}/job/install/strix`">
+    <PendingContent
+      v-if="exploreTools.includes('strix')"
+      :on="`${id}/job/install/strix`"
+    >
       <ToolPanel
         name="Strix"
         :info="$t('exports.tools.help.strix')"

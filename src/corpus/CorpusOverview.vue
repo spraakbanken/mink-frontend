@@ -10,12 +10,14 @@ import ExplorePanel from "@/corpus/ExplorePanel.vue";
 import CorpusStateHelp from "@/corpus/CorpusStateHelp.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
-import { useAuth } from "@/auth/auth.composable";
 import JobStatusPanel from "@/job/JobStatusPanel.vue";
+import { useUserStore } from "@/store/user.store";
+import { useAppConfig } from "@/app/useConfig";
 
 const id = useResourceIdParam();
+const { appConfig, exploreTools } = useAppConfig();
 const { isConfigValid, updateSourceFormat } = useCorpus(id);
-const { canWrite } = useAuth();
+const { canWrite } = useUserStore();
 </script>
 
 <template>
@@ -43,7 +45,7 @@ const { canWrite } = useAuth();
         </template>
       </LayoutBox>
 
-      <LayoutBox :title="$t('sharing')">
+      <LayoutBox v-if="appConfig.sharing" :title="$t('sharing')">
         <SharingPanel resource-type="corpus" :id />
       </LayoutBox>
 
@@ -64,7 +66,7 @@ const { canWrite } = useAuth();
         <AnalysisPanel :id />
       </LayoutBox>
 
-      <LayoutBox :title="$t('exports.tools')">
+      <LayoutBox v-if="exploreTools.length" :title="$t('exports.tools')">
         <ExplorePanel :id />
       </LayoutBox>
     </div>

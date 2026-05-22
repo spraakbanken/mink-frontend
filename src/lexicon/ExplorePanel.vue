@@ -5,7 +5,7 @@ import ToolPanel from "@/resource/ToolPanel.vue";
 import { ensureTrailingSlash } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
 import useSpin from "@/spin/spin.composable";
-import { useAuth } from "@/auth/auth.composable";
+import { useUserStore } from "@/store/user.store";
 import useMessenger from "@/alert/alert.composable";
 import useResource from "@/resource/resource.composable";
 
@@ -16,7 +16,7 @@ const props = defineProps<{
 const { isPending } = useSpin();
 const { installKarps, uninstallKarps } = useLexicon(props.id);
 const { isRunning, job } = useResource<"lexicon">(props.id);
-const { canWrite } = useAuth();
+const { canWrite } = useUserStore();
 const { showAlert } = useMessenger();
 
 const karpsUrl = ensureTrailingSlash(import.meta.env.VITE_KARPS_URL);

@@ -17,11 +17,20 @@ the places in the semantic versioning number `MAJOR`.`MINOR`.`PATCH` are redefin
 ### Added
 
 - New resource type: lexicons [#240](https://github.com/spraakbanken/mink-frontend/issues/240)
+- Configurable instances: customize Mink for self-hosting [#253](https://github.com/spraakbanken/mink-frontend/issues/253)
+- Switch from Yarn to npm [#256](https://github.com/spraakbanken/mink-frontend/issues/256)
+- Optional auth GUI URL [#274](https://github.com/spraakbanken/mink-frontend/issues/274)
+- Login link in header [#277](https://github.com/spraakbanken/mink-frontend/issues/277)
 - Log alerts as Matomo events
 
 ### Changed
 
 - Showing resources on the Library page in a combined list
+
+### Fixed
+
+- Use user id from backend, using the new user info API [#250](https://github.com/spraakbanken/mink-frontend/issues/250)
+- Fix conditional enabling of Matomo plugin [#251](https://github.com/spraakbanken/mink-frontend/issues/251)
 
 ## [1.18.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v1.18.1) (2026-04-28)
 
