@@ -18,6 +18,7 @@ the places in the semantic versioning number `MAJOR`.`MINOR`.`PATCH` are redefin
 
 - Configurable instances: customize Mink for self-hosting [#253](https://github.com/spraakbanken/mink-frontend/issues/253)
 - Switch from Yarn to npm [#256](https://github.com/spraakbanken/mink-frontend/issues/256)
+- Optional auth GUI URL [#274](https://github.com/spraakbanken/mink-frontend/issues/274)
 - Log alerts as Matomo events
 
 ### Changed

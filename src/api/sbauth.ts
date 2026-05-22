@@ -26,8 +26,7 @@ export const levels: Level[] = ["READ", "WRITE", "ADMIN"];
 
 const AUTH_URL: string =
   import.meta.env.VITE_AUTH_URL || "https://sp.spraakbanken.gu.se/auth/";
-const AUTH_GUI_URL: string =
-  import.meta.env.VITE_AUTH_GUI_URL || "https://spraakbanken.gu.se/auth/";
+const AUTH_GUI_URL: string = import.meta.env.VITE_AUTH_GUI_URL || "";
 const LOGOUT_URL: string =
   import.meta.env.VITE_LOGOUT_URL ||
   "https://sp.spraakbanken.gu.se/Shibboleth.sso/Logout";
@@ -58,7 +57,7 @@ export const getLogoutUrl = () => LOGOUT_URL;
 
 /** Creates the URL to access management for a given resource. */
 export const getAuthGuiUrl = (resourceId: string) =>
-  pathJoin(AUTH_GUI_URL, `resource/${resourceId}`);
+  AUTH_GUI_URL ? pathJoin(AUTH_GUI_URL, `resource/${resourceId}`) : null;
 
 /** Find the access level to a given resource in a JWT payload */
 export const getAccess = (
