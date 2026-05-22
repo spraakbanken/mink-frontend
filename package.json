@@ -3,10 +3,10 @@
   "version": "1.18.1",
   "license": "MIT",
   "scripts": {
-    "build": "yarn run typecheck && vite build",
+    "build": "npm run typecheck && vite build",
     "dev": "vite",
-    "lint": "yarn run eslint && yarn run prettier . --list-different",
-    "lintfix": "yarn run eslint --fix && prettier . --list-different --write",
+    "lint": "npm run eslint && npm run prettier . --list-different",
+    "lintfix": "npm run eslint --fix && npm run prettier . --list-different --write",
     "serve": "vite preview",
     "test": "vitest",
     "typecheck": "vue-tsc --noEmit"

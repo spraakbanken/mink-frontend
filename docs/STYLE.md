@@ -9,8 +9,8 @@ Use Prettier and Eslint to automatically check for formatting problems:
 
 They can be invoked by scripts defined in `package.json`:
 
-- `yarn lint` will run them and report problems
-- `yarn lintfix` will also attempt to fix them
+- `npm run lint` will run them and report problems
+- `npm run lintfix` will also attempt to fix them
 
 Committed code must pass the lint script. The [ci.yaml](../.github/workflows/ci.yaml) workflow will alert if it doesn't.
 
