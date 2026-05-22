@@ -1,6 +1,6 @@
 # Development
 
-To run the code, you need Node.js 20 or higher, [Yarn 1](https://classic.yarnpkg.com/en/docs) and [mkcert](https://mkcert.dev) or similar.
+To run the code, you need Node.js 22 or higher and [mkcert](https://mkcert.dev) or similar.
 
 Contents:
 
@@ -119,22 +119,20 @@ For SB-Auth to allow authentication requests, the frontend must be served under 
 Vite will read variables from [.env](../.env), see [Vite docs](https://vitejs.dev/guide/env-and-mode).
 It will also read from `.env.local`, which is ignored by Git, so you can create it locally to override `.env`.
 
-The dev server might not properly pick up on changes to these, so better restart `yarn dev`.
+The dev server might not properly pick up on changes to these, so better restart `npm start`.
 
 ## Development tasks
 
 These use commands defined in the `scripts` section of `package.json`.
-See https://classic.yarnpkg.com/lang/en/docs/cli/run/
-(Note that `yarn <cmd>` will map to `yarn run <cmd>`, unless `cmd` is a built-in yarn command.)
 
-| Task                                                 | Command        |
-| ---------------------------------------------------- | -------------- |
-| Install the dependencies needed to run the code      | `yarn install` |
-| Serve the frontend from a temporary local dev server | `yarn dev`     |
-| Run tests and watch files to rerun on changes        | `yarn test`    |
-| Check for formatting problems                        | `yarn lint`    |
-| Attempt to fix formatting problems automatically     | `yarn lintfix` |
-| Build the frontend as optimized HTML + assets        | `yarn build`   |
+| Task                                                 | Command         |
+| ---------------------------------------------------- | --------------- |
+| Install the dependencies needed to run the code      | `npm install`   |
+| Serve the frontend from a temporary local dev server | `npm start`     |
+| Run tests and watch files to rerun on changes        | `npm test`      |
+| Run tests once and check for formatting problems     | `npm run check` |
+| Attempt to fix formatting problems automatically     | `npm run fix`   |
+| Build the frontend as optimized HTML + assets        | `npm run build` |
 
 ### Deploying
 
@@ -146,11 +144,11 @@ Sample deploy script:
 #!/bin/bash
 set -e # Abort on errors
 
-yarn install
-yarn lint
+npm install
+npm run check
 
 export VITE_BACKEND_URL="https://example.com/mink-backend/"
-yarn build
+npm run build
 
 rsync -a --delete-after dist/ user@example.com:/var/www/mink/
 ```

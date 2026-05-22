@@ -133,7 +133,7 @@ api.runJob("corpus", id).catch(showAlert);
 
 Test files should be named after the files they test, so `HomeView.vue` is tested by `HomeView.test.ts`.
 
-Tests are run with `yarn test`
+Tests are run with `npm test`
 
 ⚠️ Coverage is currently tiny, partly because most features require authentication. We need some kind of mock authentication.
 
