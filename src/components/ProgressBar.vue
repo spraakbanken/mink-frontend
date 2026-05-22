@@ -22,7 +22,7 @@ const percentStr = computed(() =>
     class="inline-block bg-slate-500 rounded-sm h-6 relative text-center overflow-hidden"
   >
     <div
-      class="bg-sborange-600 h-6 absolute"
+      class="bg-primary-600 h-6 absolute"
       :class="{ 'motion-safe:duration-1000': percent > 0 }"
       :style="{ width: percent + '%' }"
     ></div>

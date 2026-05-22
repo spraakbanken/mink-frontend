@@ -28,7 +28,7 @@ const HomeSecondary = injectComponent(
 
         <div class="flex-1">
           <div
-            class="bg-sborange-600 dark:bg-sbteal-900 rounded-full aspect-square flex items-center"
+            class="bg-primary-600 dark:bg-primary-800 rounded-full aspect-square flex items-center"
           >
             <picture class="shadow-lg image3d">
               <source

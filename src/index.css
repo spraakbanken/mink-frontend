@@ -2,15 +2,13 @@
 @source "../instance";
 
 @theme {
-  --color-sborange-100: #f2dbd1;
-  --color-sborange-500: #f46d37;
-  --color-sborange-600: #f2581a;
-  --color-sborange-700: #c6410b;
-  --color-sborange-800: #7a2807;
-  --color-sborange-900: #4a1804;
-  --color-sbteal-100: #d7ebeb;
-  --color-sbteal-600: #1e989f;
-  --color-sbteal-900: #1b3c3e;
+  /* Tailwind theme variables, see https://tailwindcss.com/docs/theme */
+  --color-primary-100: #f2dbd1;
+  --color-primary-500: #f46d37;
+  --color-primary-600: #f2581a;
+  --color-primary-700: #c6410b;
+  --color-primary-800: #7a2807;
+  --color-primary-900: #4a1804;
   --font-sans: "Source Sans 3 Variable", sans-serif;
   --font-heading: "Jost Variable", "Source Sans 3 Variable", sans-serif;
 }
@@ -26,7 +24,7 @@
   }
 
   a {
-    @apply underline hover:text-sborange-600;
+    @apply underline hover:text-primary-600;
   }
 
   h1 {
