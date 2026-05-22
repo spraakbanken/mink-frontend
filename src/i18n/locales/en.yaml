@@ -41,9 +41,9 @@ lexicon.config.entry_word.field: Ingångsfält
 lexicon.config.entry_word.field.help: Välj ett fält i källdatan som skall fungera som huvudingång till varje rad.
 lexicon.config.entry_word.description: Fältnamn
 lexicon.config.entry_word.description.help: Namnet på fältet, så som det visas för mänskliga användare.
-lexicon.karp_pipeline.run: Run Karp Pipeline
-lexicon.karp_pipeline.help: Karp Pipeline processes your data and prepares it for use in Karp.
-lexicon.karp_pipeline.rerun: Re-run Karp Pipeline
+lexicon.karp_pipeline.run: Analyse
+lexicon.karp_pipeline.rerun: Analyse again
+lexicon.karp_pipeline.help: Prepare your data for use in Karp.
 lexicon.karps: Karp search interface
 lexicon.karps.help: Search through entries and produce statistics.
 lexicon.tools.help: Use this data in Språkbanken's other platforms. Your data will be available to you only.
@@ -73,7 +73,7 @@ job.time_taken: Time taken
 job.process.sparv: Analysis
 job.process.korp: Installation to Korp
 job.process.strix: Installation to Strix
-job.process.karp_pipeline: Karp pipeline
+job.process.karp_pipeline: Analysis
 job.process.karps: Installation to Karp
 sharing: Sharing
 sharing.level: Your access level
