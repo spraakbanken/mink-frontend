@@ -172,7 +172,10 @@ const getType = (resource: Resource) =>
           </RouteButton>
         </div>
 
-        <div class="flex gap-3 items-center my-4">
+        <div
+          v-if="resourceTypes.includes('lexicon')"
+          class="flex gap-3 items-center my-4"
+        >
           <div class="grow">
             <div class="font-semibold">{{ $t("lexicon") }}</div>
             {{ $t("lexicon.help") }}

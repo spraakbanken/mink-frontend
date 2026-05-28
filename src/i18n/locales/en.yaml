@@ -37,10 +37,10 @@ lexicon: Lexicon
 lexicon.help: A lexicon is a set of items with structured data fields. It doesn't have to be about words.
 lexicon.new: New lexicon
 lexicon.delete: Delete lexicon
-lexicon.config.entry_word.field: Ingångsfält
-lexicon.config.entry_word.field.help: Välj ett fält i källdatan som skall fungera som huvudingång till varje rad.
-lexicon.config.entry_word.description: Fältnamn
-lexicon.config.entry_word.description.help: Namnet på fältet, så som det visas för mänskliga användare.
+lexicon.config.entry_word.field: Entry field
+lexicon.config.entry_word.field.help: Choose a field from the source file that should work as a main entry to each row.
+lexicon.config.entry_word.description: Field label
+lexicon.config.entry_word.description.help: The name of the field, for displaying to human users.
 lexicon.karp_pipeline.run: Analyse
 lexicon.karp_pipeline.rerun: Analyse again
 lexicon.karp_pipeline.help: Prepare your data for use in Karp.
