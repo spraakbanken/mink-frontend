@@ -53,8 +53,9 @@ export function makeConfig(id: string, options: LexiconConfigOptions): string {
   const link = createLink(id);
 
   const config: LexiconConfig = {
-    ...options,
     resource_id: id,
+    name: options.name,
+    description: options.description,
     karps: {
       entry_word: options.entryWord,
       link,
