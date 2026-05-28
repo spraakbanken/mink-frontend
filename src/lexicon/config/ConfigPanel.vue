@@ -45,6 +45,13 @@ const configOptions = computed(() =>
             </TerminalOutput>
           </td>
         </tr>
+        <tr>
+          <th>{{ $t("lexicon.config.entry_word.field") }}</th>
+          <td>
+            <code class="text-sm">{{ configOptions?.entryWord.field }}</code> –
+            {{ th(configOptions?.entryWord.description) }}
+          </td>
+        </tr>
       </tbody>
     </table>
   </PendingContent>
