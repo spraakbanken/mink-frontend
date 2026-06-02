@@ -15,7 +15,6 @@ const props = defineProps<{
   primary?: boolean;
   accept?: string[];
   multiple?: boolean;
-  replace?: boolean;
   showProgress?: boolean;
 }>();
 
