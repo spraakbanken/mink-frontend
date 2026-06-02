@@ -9,7 +9,7 @@ import useSpin from "@/spin/spin.composable";
 import useAlert from "@/alert/alert.composable";
 import useResource from "@/resource/resource.composable";
 import { useUserStore } from "@/store/user.store";
-import { useAppConfig } from "@/app/useConfig";
+import { useAppConfig } from "@/app/useAppConfig";
 
 const props = defineProps<{
   id: string;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAppConfig } from "@/app/useConfig";
+import { useAppConfig } from "@/app/useAppConfig";
 import HelpBox from "@/components/HelpBox.vue";
 import useNotFound from "@/components/notfound.composable";
 import PageTitle from "@/components/PageTitle.vue";

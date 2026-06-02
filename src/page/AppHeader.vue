@@ -9,7 +9,7 @@ import SpinIndicator from "@/spin/SpinIndicator.vue";
 import useSpin from "@/spin/spin.composable";
 import { useJwtStore } from "@/store/jwt.store";
 import { injectComponent } from "@/injection";
-import { useAppConfig } from "@/app/useConfig";
+import { useAppConfig } from "@/app/useAppConfig";
 
 defineProps<{
   large: boolean;

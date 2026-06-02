@@ -25,7 +25,7 @@ import ResourceStatus from "@/resource/ResourceStatus.vue";
 import { getFilenameExtension } from "@/util";
 import { useLexiconStore } from "@/store/lexicon.store";
 import { useUserStore } from "@/store/user.store";
-import { useAppConfig } from "@/app/useConfig";
+import { useAppConfig } from "@/app/useAppConfig";
 
 const router = useRouter();
 const { resourceTypes } = useAppConfig();

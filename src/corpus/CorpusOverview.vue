@@ -12,7 +12,7 @@ import RouteButton from "@/components/RouteButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import JobStatusPanel from "@/job/JobStatusPanel.vue";
 import { useUserStore } from "@/store/user.store";
-import { useAppConfig } from "@/app/useConfig";
+import { useAppConfig } from "@/app/useAppConfig";
 
 const id = useResourceIdParam();
 const { appConfig, exploreTools } = useAppConfig();
