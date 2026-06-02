@@ -23,12 +23,14 @@ import SortableTable from "@/components/SortableTable.vue";
 import { SOURCE_FORMATS } from "@/file";
 import ResourceStatus from "@/resource/ResourceStatus.vue";
 import { getFilenameExtension } from "@/util";
+import { useLexiconStore } from "@/store/lexicon.store";
 import { useUserStore } from "@/store/user.store";
 import { useAppConfig } from "@/app/useConfig";
 
 const router = useRouter();
 const { resourceTypes } = useAppConfig();
 const resourceStore = useResourceStore();
+const { createLexicon } = useLexiconStore();
 const userStore = useUserStore();
 const { adminMode } = storeToRefs(userStore);
 const { isCurrentUser } = userStore;
@@ -72,6 +74,8 @@ async function fileHandler(files: File[]) {
   // Create a resource matching the file type
   if (SOURCE_FORMATS.corpus.find((format) => format == ext)) {
     await createCorpusFromUpload(files).catch(showAlert);
+  } else if (SOURCE_FORMATS.lexicon.find((format) => format == ext)) {
+    await createLexicon("", files).catch(showAlert);
   } else {
     showAlert(t("upload.format_unknown", { ext }));
   }
@@ -165,6 +169,23 @@ const getType = (resource: Resource) =>
           >
             <PhPlusCircle weight="bold" class="inline mb-1 mr-1" />
             {{ $t("corpus.new") }}
+          </RouteButton>
+        </div>
+
+        <div
+          v-if="resourceTypes.includes('lexicon')"
+          class="flex gap-3 items-center my-4"
+        >
+          <div class="grow">
+            <div class="font-semibold">{{ $t("lexicon") }}</div>
+            {{ $t("lexicon.help") }}
+          </div>
+          <RouteButton
+            to="/library/lexicon/new"
+            :class="{ 'button-primary': !hasResources }"
+          >
+            <PhPlusCircle weight="bold" class="inline mb-1 mr-1" />
+            {{ $t("lexicon.new") }}
           </RouteButton>
         </div>
 

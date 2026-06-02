@@ -18,11 +18,14 @@ export type User = {
 };
 
 export type Corpus = Resource<"corpus">;
+export type Lexicon = Resource<"lexicon">;
 export type Metadata = Resource<"metadata">;
 
 // User-defined type guards to help inform TypeScript
 // See https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards
 export const isCorpus = (resource: Resource): resource is Corpus =>
   resource.type == "corpus";
+export const isLexicon = (resource: Resource): resource is Lexicon =>
+  resource.type == "lexicon";
 export const isMetadata = (resource: Resource): resource is Metadata =>
   resource.type == "metadata";

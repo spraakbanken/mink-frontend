@@ -33,6 +33,20 @@ corpus.state.help.failed: Ett fel uppstod under analyseringen. Om du behöver hj
 corpus.state.help.failed_install: Ett fel uppstod under installation. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 corpus.sparv.run: Analysera
 corpus.sparv.rerun: Analysera igen
+lexicon: Lexikon
+lexicon.help: Ett lexikon listar en mängd element med olika strukturerade fält. Det behöver inte handla om ord.
+lexicon.new: Nytt lexikon
+lexicon.delete: Radera lexikon
+lexicon.config.entry_word.field: Ingångsfält
+lexicon.config.entry_word.field.help: Välj ett fält i källdatan som skall fungera som huvudingång till varje rad.
+lexicon.config.entry_word.description: Fältnamn
+lexicon.config.entry_word.description.help: Namnet på fältet, så som det visas för mänskliga användare.
+lexicon.karp_pipeline.run: Analysera
+lexicon.karp_pipeline.rerun: Analysera igen
+lexicon.karp_pipeline.help: Förbered datan för användning i Karp.
+lexicon.karps: Karps sökgränssnitt
+lexicon.karps.help: Sök bland ingångarna och ta fram statistik.
+lexicon.tools.help: Använd den här datan i Språkbankens andra plattformar. Din data visas bara för dig.
 corpora: Korpusar
 metadata: Metadata
 metadata.help: Om du har tilldelats ett organisationsprefix kan du använda metadata för att förbereda en resurs för publicering.
@@ -59,6 +73,8 @@ job.time_taken: Tidsåtgång
 job.process.sparv: Analysering
 job.process.korp: Installation i Korp
 job.process.strix: Installation i Strix
+job.process.karp_pipeline: Karp pipeline
+job.process.karps: Installation i Karp
 sharing: Delning
 sharing.level: Din behörighetsnivå
 sharing.level.admin_mode: Administratörsläge aktiverat
