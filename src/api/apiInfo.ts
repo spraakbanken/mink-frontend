@@ -1,5 +1,5 @@
 import { keyBy } from "es-toolkit";
-import api from "@/api/api";
+import { useApi } from "@/api/useApi";
 import type { InfoData } from "@/api/api.types";
 import { objsToDict } from "@/util";
 
@@ -25,6 +25,8 @@ export type Info = {
 
 /** Reformat the `/info` response */
 export async function getInfo(): Promise<Info> {
+  const api = useApi();
+
   const original = await api.getInfo();
 
   const statusCodes = objsToDict(

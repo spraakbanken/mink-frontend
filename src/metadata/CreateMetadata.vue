@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
-import api from "@/api/api";
+import { useApi } from "@/api/useApi";
 import useAlert from "@/alert/alert.composable";
 import useSpin from "@/spin/spin.composable";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -12,6 +12,7 @@ import HelpBox from "@/components/HelpBox.vue";
 import { useJwtStore } from "@/store/jwt.store";
 
 const router = useRouter();
+const api = useApi();
 const { showAlert } = useAlert();
 const { loadJwt } = useJwtStore();
 const { spin } = useSpin();

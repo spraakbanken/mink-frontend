@@ -5,7 +5,7 @@ import { useResourceStore } from "@/store/resource.store";
 import type { ResourceType } from "@/api/api.types";
 import type { Resource } from "@/store/resource.types";
 import useSpin from "@/spin/spin.composable";
-import api from "@/api/api";
+import { useApi } from "@/api/useApi";
 
 // A ticker for enabling status polling. Defined in module scope to synchronize when this composable is used in parallel.
 const ticker = useInterval(2000);
@@ -13,6 +13,7 @@ const ticker = useInterval(2000);
 export default function useResource<T extends ResourceType = ResourceType>(
   id: string,
 ) {
+  const api = useApi();
   const { loadResource } = useResourceStore();
   const matomo = useMatomo();
   const { spin } = useSpin();

@@ -1,13 +1,14 @@
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
 import { uniq } from "es-toolkit";
-import api from "@/api/api";
+import { useApi } from "@/api/useApi";
 import type { FileMeta, ProgressHandler, ResourceType } from "@/api/api.types";
 import useSpin from "@/spin/spin.composable";
 import { useResourceStore } from "@/store/resource.store";
 import { getFilenameExtension } from "@/util";
 
 export default function useSources(type: ResourceType, id: string) {
+  const api = useApi();
   const { spin } = useSpin();
   const resourceStore = useResourceStore();
   const { loadResource } = resourceStore;

@@ -1,10 +1,11 @@
 import { useResourceStore } from "@/store/resource.store";
 import useSpin from "@/spin/spin.composable";
-import api from "@/api/api";
+import { useApi } from "@/api/useApi";
 import type { ResourceType } from "@/api/api.types";
 import { useJwtStore } from "@/store/jwt.store";
 
 export default function useDeleteResource() {
+  const api = useApi();
   const { loadJwt } = useJwtStore();
   const { spin } = useSpin();
   const { loadResourceIds } = useResourceStore();

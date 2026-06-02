@@ -6,7 +6,7 @@ import SpinIndicator from "./spin/SpinIndicator.vue";
 import { useJwtStore } from "./store/jwt.store";
 import { injectComponent } from "./injection";
 import AppHeader from "@/page/AppHeader.vue";
-import api from "@/api/api";
+import { useApi } from "@/api/useApi";
 import * as util from "@/util";
 import useLocale from "@/i18n/locale.composable";
 import { useResourceStore } from "@/store/resource.store";
@@ -14,6 +14,7 @@ import AlertList from "@/alert/AlertList.vue";
 import usePageTitle from "@/page/title.composable";
 import BreadcrumbBar from "@/page/BreadcrumbBar.vue";
 
+const api = useApi();
 const { loadJwt } = useJwtStore();
 useLocale();
 // The `title` ref is automatically updated from route meta.

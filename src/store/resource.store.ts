@@ -3,11 +3,12 @@ import { defineStore } from "pinia";
 import { pick } from "es-toolkit";
 import { type Resource } from "./resource.types";
 import { filterKeys } from "@/util";
-import api from "@/api/api";
+import { useApi } from "@/api/useApi";
 import type { ResourceInfo, ResourceType } from "@/api/api.types";
 import useSpin from "@/spin/spin.composable";
 
 export const useResourceStore = defineStore("resource", () => {
+  const api = useApi();
   const { spin } = useSpin();
 
   const ids = ref<string[]>([]);

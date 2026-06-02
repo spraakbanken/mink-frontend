@@ -2,10 +2,11 @@ import { defineStore } from "pinia";
 import { reactive, readonly } from "vue";
 import { useResourceStore } from "./resource.store";
 import useSpin from "@/spin/spin.composable";
-import api from "@/api/api";
+import { useApi } from "@/api/useApi";
 import type { ResourceType } from "@/api/api.types";
 
 export const useConfigStore = defineStore("config", () => {
+  const api = useApi();
   const { loadResource } = useResourceStore();
   const { spin } = useSpin();
 

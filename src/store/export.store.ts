@@ -2,9 +2,10 @@ import { defineStore } from "pinia";
 import { reactive, readonly } from "vue";
 import useSpin from "@/spin/spin.composable";
 import type { FileMeta, ResourceType } from "@/api/api.types";
-import api from "@/api/api";
+import { useApi } from "@/api/useApi";
 
 export const useExportStore = defineStore("export", () => {
+  const api = useApi();
   const { spin } = useSpin();
 
   /** Export files by resource id */

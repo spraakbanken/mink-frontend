@@ -3,9 +3,10 @@ import { useMatomo } from "vue3-matomo";
 import { useResourceStore } from "@/store/resource.store";
 import { useExportStore } from "@/store/export.store";
 import useSpin from "@/spin/spin.composable";
-import api from "@/api/api";
+import { useApi } from "@/api/useApi";
 
 export function useLexicon(id: string) {
+  const api = useApi();
   const { loadResource, loadTypedResource } = useResourceStore();
   const { loadExports } = useExportStore();
   const { spin } = useSpin();

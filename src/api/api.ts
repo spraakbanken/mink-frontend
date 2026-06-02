@@ -46,14 +46,14 @@ async function rethrowBlobError(error: unknown): Promise<never> {
 }
 
 /** Mink backend API client */
-class MinkApi {
+export class MinkClient {
   /** An instance of the Axios HTTP client. */
   axios: AxiosInstance;
 
   /** Creates the client instance */
-  constructor() {
+  constructor(baseUrl: string) {
     this.axios = Axios.create({
-      baseURL: ensureTrailingSlash(import.meta.env.VITE_BACKEND_URL),
+      baseURL: ensureTrailingSlash(baseUrl),
       withCredentials: true,
     });
   }
@@ -339,6 +339,3 @@ class MinkApi {
     return response.data;
   }
 }
-
-/** API client singleton instance. */
-export default new MinkApi();

@@ -2,10 +2,11 @@
 import { computedAsync } from "@vueuse/core";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import HelpBox from "@/components/HelpBox.vue";
-import api from "@/api/api";
+import { useApi } from "@/api/useApi";
 import ResourceConfigCustom from "@/resource/ResourceConfigCustom.vue";
 
 const id = useResourceIdParam();
+const api = useApi();
 
 const schema = computedAsync(() => api.sparvSchema());
 </script>

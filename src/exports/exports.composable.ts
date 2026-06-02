@@ -1,10 +1,11 @@
 import { useMatomo } from "vue3-matomo";
-import api from "@/api/api";
+import { useApi } from "@/api/useApi";
 import type { ResourceType } from "@/api/api.types";
 import useSpin from "@/spin/spin.composable";
 import { downloadFile } from "@/util";
 
 export default function useExports(type: ResourceType, id: string) {
+  const api = useApi();
   const { spin } = useSpin();
   const matomo = useMatomo();
 

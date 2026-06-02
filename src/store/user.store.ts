@@ -4,7 +4,7 @@ import { readonly, ref, watchEffect } from "vue";
 import { useJwtStore } from "./jwt.store";
 import { useResourceStore } from "./resource.store";
 import type { User } from "./resource.types";
-import api from "@/api/api";
+import { useApi } from "@/api/useApi";
 import useSpin from "@/spin/spin.composable";
 import type { ResourceType, UserInfoFull } from "@/api/api.types";
 import {
@@ -20,6 +20,7 @@ const TYPE_MAP: Readonly<Record<ResourceType, AuthResourceType>> = {
 };
 
 export const useUserStore = defineStore("user", () => {
+  const api = useApi();
   const { payload } = storeToRefs(useJwtStore());
   const { invalidateResources } = useResourceStore();
   const { spin } = useSpin();

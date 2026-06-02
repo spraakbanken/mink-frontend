@@ -3,10 +3,11 @@ import { computedAsync } from "@vueuse/core";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import ExportListViewTemplate from "@/exports/ExportListViewTemplate.vue";
 import type { ExportType } from "@/api/api.types";
-import api from "@/api/api";
+import { useApi } from "@/api/useApi";
 import useSpin from "@/spin/spin.composable";
 
 const id = useResourceIdParam();
+const api = useApi();
 const { spin } = useSpin();
 
 /** Sparv export type info */

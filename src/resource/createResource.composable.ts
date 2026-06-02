@@ -1,11 +1,12 @@
 import { useRouter } from "vue-router";
-import api from "@/api/api";
+import { useApi } from "@/api/useApi";
 import useDeleteResource from "@/resource/deleteResource.composable";
 import type { ResourceType } from "@/api/api.types";
 import useSpin from "@/spin/spin.composable";
 import { useJwtStore } from "@/store/jwt.store";
 
 export default function useCreateResource() {
+  const api = useApi();
   const { loadJwt } = useJwtStore();
   const { deleteResource } = useDeleteResource();
   const router = useRouter();

@@ -2,12 +2,13 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { decodeJwt, fetchJwt, type Payload } from "@/api/sbauth";
-import api from "@/api/api";
+import { useApi } from "@/api/useApi";
 import useSpin from "@/spin/spin.composable";
 import useAlert from "@/alert/alert.composable";
 import { deduplicateRequest } from "@/util";
 
 export const useJwtStore = defineStore("jwt", () => {
+  const api = useApi();
   const { spin } = useSpin();
   const { t } = useI18n();
   const { showAlert } = useAlert();
