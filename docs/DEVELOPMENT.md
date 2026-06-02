@@ -221,6 +221,7 @@ The timing of a release is determined by maintainers, and may be more or less co
    3. Add a release number heading directly under the _Unreleased_ heading
    4. Update the _Unreleased_ heading link target
 3. Update the version number in `package.json`
+   - and run `npm install` to have it propagated into `package-lock.json`
 4. Commit as `release: version <version>`
 5. Tag the commit as `v` + version number, e.g. `git tag v1.2.3`
 6. Push the branch and the tag: `git push --tags origin main`

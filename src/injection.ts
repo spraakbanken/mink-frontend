@@ -6,6 +6,7 @@ import {
 } from "vue";
 import type { AppConfig } from "./app/config.types";
 import type { AnalysisRegistryService } from "./analyses/analyses.types";
+import type { NewsService } from "./news/news.types";
 
 export const injectionKeys = {
   config: Symbol() as InjectionKey<AppConfig>,
@@ -17,6 +18,7 @@ export const injectionKeys = {
   },
   service: {
     analysisRegistry: Symbol() as InjectionKey<AnalysisRegistryService>,
+    news: Symbol() as InjectionKey<NewsService>,
   },
 };
 

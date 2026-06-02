@@ -17,12 +17,12 @@ defineProps<{
     :code
     :language
     :autodetect="false"
-    class="text-xs rounded-sm whitespace-pre-wrap [overflow-wrap:anywhere]"
+    class="text-xs rounded-sm whitespace-pre-wrap wrap-anywhere"
   />
 </template>
 
 <style>
-@reference "tailwindcss";
+@reference "@/index.css";
 
 pre code.hljs {
   @apply p-2 bg-stone-800;

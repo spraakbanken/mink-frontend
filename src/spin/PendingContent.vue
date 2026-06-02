@@ -19,7 +19,7 @@ const { isPending } = useSpin();
 </script>
 
 <template>
-  <div class="relative" :class="{ 'animate-pulse2': isPending(on) }">
+  <div class="relative" :class="{ 'animate-pulse': isPending(on) }">
     <slot />
     <div
       v-if="isPending(on)"

@@ -1,25 +1,28 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project shall be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/).
-
-Versioning is inspired by [Semantic Versioning](https://semver.org/),
-but as this project is a user-facing application,
-the places in the semantic versioning number `MAJOR`.`MINOR`.`PATCH` are redefined as follows:
+Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 
 - `MAJOR` denotes changes that are expected to **significantly affect** or the user experience or the development workflow
 - `MINOR` denotes changes that **may affect** the user experience or the development workflow
 - `PATCH` denotes changes that are **insignificant** to the user experience or the develpment workflow
 
-## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v1.18.1...HEAD)
+## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v2.0.0...HEAD)
 
 ### Added
 
 - New resource type: lexicons [#240](https://github.com/spraakbanken/mink-frontend/issues/240)
+
+## [2.0.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.0.0) (2026-06-01)
+
+### Added
+
 - Configurable instances: customize Mink for self-hosting [#253](https://github.com/spraakbanken/mink-frontend/issues/253)
 - Switch from Yarn to npm [#256](https://github.com/spraakbanken/mink-frontend/issues/256)
+- Replaceable news service [#273](https://github.com/spraakbanken/mink-frontend/issues/273)
 - Optional auth GUI URL [#274](https://github.com/spraakbanken/mink-frontend/issues/274)
+- Configurable theme variables [#275](https://github.com/spraakbanken/mink-frontend/issues/275)
 - Login link in header [#277](https://github.com/spraakbanken/mink-frontend/issues/277)
 - Log alerts as Matomo events
 

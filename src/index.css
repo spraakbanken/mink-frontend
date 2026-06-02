@@ -1,53 +1,16 @@
 @import "tailwindcss";
+@source "../instance";
 
-@config '../tailwind.config.ts';
-
-@layer base {
-  img {
-    /* Keep intrinsic aspect ratio when images are resized by width xor height */
-    aspect-ratio: auto;
-  }
-}
-
-@utility mink-button {
-  @apply p-1 px-2 rounded-sm shadow-sm bg-zinc-100 shadow-zinc-400 text-gray-700 no-underline cursor-pointer font-medium hover:drop-shadow-md hover:brightness-110 transition-all;
-  @apply dark:bg-zinc-800 dark:shadow-none dark:text-zinc-300;
-
-  &[disabled],
-  &.disabled {
-    @apply bg-slate-100! shadow-sm! text-slate-400! cursor-not-allowed! hover:drop-shadow-none! hover:brightness-100!;
-    @apply dark:bg-slate-600! dark:text-gray-400!;
-  }
-}
-
-@utility button-primary {
-  @apply not-disabled:bg-sky-700 not-disabled:shadow-sky-900 not-disabled:text-white;
-  @apply not-disabled:dark:text-sky-50;
-}
-
-@utility button-danger {
-  @apply not-disabled:bg-red-600 not-disabled:shadow-red-700 not-disabled:text-white;
-  @apply not-disabled:dark:bg-red-700;
-}
-
-@utility button-success {
-  @apply not-disabled:bg-green-600 not-disabled:shadow-green-800 not-disabled:text-white;
-}
-
-@utility button-warning {
-  @apply not-disabled:bg-amber-300 not-disabled:shadow-amber-600 not-disabled:text-amber-900;
-  @apply not-disabled:dark:bg-amber-700 not-disabled:dark:shadow-amber-800 not-disabled:dark:text-white;
-}
-
-@utility button-mute {
-  @apply border-0 shadow-none;
-  &:not(:hover):not([disabled]) {
-    @apply bg-transparent! text-inherit!;
-  }
-}
-
-@utility button-slim {
-  @apply p-0 px-1;
+@theme {
+  /* Tailwind theme variables, see https://tailwindcss.com/docs/theme */
+  --color-primary-100: #f2dbd1;
+  --color-primary-500: #f46d37;
+  --color-primary-600: #f2581a;
+  --color-primary-700: #c6410b;
+  --color-primary-800: #7a2807;
+  --color-primary-900: #4a1804;
+  --font-sans: "Source Sans 3 Variable", sans-serif;
+  --font-heading: "Jost Variable", "Source Sans 3 Variable", sans-serif;
 }
 
 @layer base {
@@ -61,7 +24,7 @@
   }
 
   a {
-    @apply underline hover:text-sborange-600;
+    @apply underline hover:text-primary-600;
   }
 
   h1 {
@@ -80,7 +43,7 @@
   h6,
   legend,
   thead {
-    font-family: "Jost Variable", "Source Sans 3 Variable", sans-serif;
+    @apply font-heading;
   }
 
   p {
@@ -95,6 +58,11 @@
 
   strong {
     @apply font-semibold;
+  }
+
+  img {
+    /* Keep intrinsic aspect ratio when images are resized by width xor height */
+    aspect-ratio: auto;
   }
 
   thead {
@@ -186,4 +154,49 @@
   .prose ul li {
     list-style-type: disc;
   }
+}
+
+@utility container {
+  @apply mx-auto px-8;
+}
+
+@utility mink-button {
+  @apply p-1 px-2 rounded-sm shadow-sm bg-zinc-100 shadow-zinc-400 text-gray-700 no-underline cursor-pointer font-medium hover:drop-shadow-md hover:brightness-110 transition-all;
+  @apply dark:bg-zinc-800 dark:shadow-none dark:text-zinc-300;
+
+  &[disabled],
+  &.disabled {
+    @apply bg-slate-100! shadow-sm! text-slate-400! cursor-not-allowed! hover:drop-shadow-none! hover:brightness-100!;
+    @apply dark:bg-slate-600! dark:text-gray-400!;
+  }
+}
+
+@utility button-primary {
+  @apply not-disabled:bg-sky-700 not-disabled:shadow-sky-900 not-disabled:text-white;
+  @apply not-disabled:dark:text-sky-50;
+}
+
+@utility button-danger {
+  @apply not-disabled:bg-red-600 not-disabled:shadow-red-700 not-disabled:text-white;
+  @apply not-disabled:dark:bg-red-700;
+}
+
+@utility button-success {
+  @apply not-disabled:bg-green-600 not-disabled:shadow-green-800 not-disabled:text-white;
+}
+
+@utility button-warning {
+  @apply not-disabled:bg-amber-300 not-disabled:shadow-amber-600 not-disabled:text-amber-900;
+  @apply not-disabled:dark:bg-amber-700 not-disabled:dark:shadow-amber-800 not-disabled:dark:text-white;
+}
+
+@utility button-mute {
+  @apply border-0 shadow-none;
+  &:not(:hover):not([disabled]) {
+    @apply bg-transparent! text-inherit!;
+  }
+}
+
+@utility button-slim {
+  @apply p-0 px-1;
 }

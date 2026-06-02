@@ -73,6 +73,12 @@ describe("formatDate", () => {
       "November 30, 2022 at 1:44:37 PM",
     );
   });
+
+  test("formats a date without time", () => {
+    const dateStr = "2022-11-30T12:44:37Z";
+    expect(formatDate(dateStr, "sv", false)).toBe("30 november 2022");
+    expect(formatDate(dateStr, "en", false)).toBe("November 30, 2022");
+  });
 });
 
 describe("ensureExtension", () => {

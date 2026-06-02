@@ -8,10 +8,10 @@ let service: AnalysisRegistryService | undefined;
 
 /** Provide the analysis registry service */
 export function useAnalysisRegistry() {
-  if (!service) {
+  if (!service)
     service =
       inject(injectionKeys.service.analysisRegistry, undefined) ||
       new DefaultAnalysisRegistryService();
-  }
+
   return service;
 }

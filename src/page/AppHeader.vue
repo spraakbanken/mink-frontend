@@ -30,7 +30,7 @@ const isAuthenticating = computed(() => isPending("jwt"));
 
 /** Replacement for the RouterLink `active-class` prop, because it only checks route nesting, not the path string. */
 const isActiveClass = (path: string) =>
-  route.path.startsWith(path) ? "text-sborange-600" : "";
+  route.path.startsWith(path) ? "text-primary-600" : "";
 </script>
 
 <template>
@@ -57,7 +57,7 @@ const isActiveClass = (path: string) =>
         <router-link
           to="/"
           class="no-underline hover:underline"
-          exact-active-class="text-sborange-600"
+          exact-active-class="text-primary-600"
         >
           {{ $t("home") }}
         </router-link>

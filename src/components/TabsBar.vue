@@ -12,7 +12,7 @@ defineModel<string>();
       <li
         v-for="tab in tabs"
         :key="tab.key"
-        class="p-2 -mb-0.5 border border-b-0 text-lg font-medium hover:underline underline-offset-4 decoration-2 hover:text-sborange-600 cursor-pointer"
+        class="p-2 -mb-0.5 border border-b-0 text-lg font-medium hover:underline underline-offset-4 decoration-2 hover:text-primary-600 cursor-pointer"
         :class="
           tab.key == modelValue
             ? 'underline rounded-t-sm p-2 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700 overflow-hidden'
