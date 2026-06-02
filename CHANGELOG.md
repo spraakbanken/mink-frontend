@@ -10,6 +10,10 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v2.0.0...HEAD)
 
+### Added
+
+- New resource type: lexicons [#240](https://github.com/spraakbanken/mink-frontend/issues/240)
+
 ## [2.0.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.0.0) (2026-06-01)
 
 ### Added

@@ -48,6 +48,7 @@ src/page/ - site-wide singular elements (header etc)
 
 Resources:
 src/corpus/ - corpus-related pages and logic
+src/lexicon/ - lexicon-related pages and logic
 src/metadata/ - metadata-related pages and logic
 src/resource/ - logic common to all resource types
 src/sources/ - related to source files

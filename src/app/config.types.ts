@@ -10,6 +10,7 @@ export type AppConfig = {
         strix?: true;
       };
     };
+    lexicon?: true;
     metadata?: true;
   };
   tools?: {
