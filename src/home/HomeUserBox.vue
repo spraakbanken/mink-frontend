@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { PhSignOut, PhUserPlus } from "@phosphor-icons/vue";
 import { storeToRefs } from "pinia";
-import { getLogoutUrl } from "@/api/sbauth";
+import { useAuth } from "@/api/useAuth";
 import LoginButton from "@/auth/LoginButton.vue";
 import UrlButton from "@/components/UrlButton.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import { useJwtStore } from "@/store/jwt.store";
 
+const auth = useAuth();
 const { isAuthenticated, userName } = storeToRefs(useJwtStore());
 </script>
 
@@ -39,7 +40,7 @@ const { isAuthenticated, userName } = storeToRefs(useJwtStore());
         {{ $t("mydata") }}
       </RouteButton>
 
-      <UrlButton :href="getLogoutUrl()">
+      <UrlButton :href="auth.getLogoutUrl()">
         <PhSignOut class="inline mb-1 mr-1" />
         {{ $t("logout") }}
       </UrlButton>

@@ -49,8 +49,13 @@ export function parseConfig(yaml: string): LexiconConfigOptions {
 }
 
 /** Create a lexicon config YAML string */
-export function makeConfig(id: string, options: LexiconConfigOptions): string {
-  const link = createLink(id);
+export function makeConfig(
+  id: string,
+  options: LexiconConfigOptions,
+  minkUrl: string,
+): string {
+  // Build full URL to lexicon overview page
+  const link = pathJoin(minkUrl, `/library/lexicon/${id}`);
 
   const config: LexiconConfig = {
     resource_id: id,
@@ -63,7 +68,3 @@ export function makeConfig(id: string, options: LexiconConfigOptions): string {
   };
   return stringify(config, { indentSeq: false });
 }
-
-/** Build full URL to lexicon overview page */
-const createLink = (id: string): string =>
-  pathJoin(import.meta.env.VITE_MINK_URL, `/library/lexicon/${id}`);

@@ -7,11 +7,8 @@ import type { User } from "./resource.types";
 import { useApi } from "@/api/useApi";
 import useSpin from "@/spin/spin.composable";
 import type { ResourceType, UserInfoFull } from "@/api/api.types";
-import {
-  getAccess,
-  hasAccessLevel,
-  type ResourceType as AuthResourceType,
-} from "@/api/sbauth";
+import { type ResourceType as AuthResourceType } from "@/api/sbauth";
+import { useAuth } from "@/api/useAuth";
 
 const TYPE_MAP: Readonly<Record<ResourceType, AuthResourceType>> = {
   corpus: "corpora",
@@ -20,6 +17,7 @@ const TYPE_MAP: Readonly<Record<ResourceType, AuthResourceType>> = {
 };
 
 export const useUserStore = defineStore("user", () => {
+  const auth = useAuth();
   const api = useApi();
   const { payload } = storeToRefs(useJwtStore());
   const { invalidateResources } = useResourceStore();
@@ -60,22 +58,22 @@ export const useUserStore = defineStore("user", () => {
 
   /** Get current user's access level to a resource */
   const getAccessLevel = (type: ResourceType, id: string) =>
-    getAccess(payload.value, TYPE_MAP[type], id);
+    auth.getAccess(payload.value, TYPE_MAP[type], id);
 
   /** Check if current user has at least READ access to a resource */
   const canRead = (type: ResourceType, id: string): boolean =>
     adminMode.value ||
-    hasAccessLevel(payload.value, TYPE_MAP[type], id, "READ");
+    auth.hasAccessLevel(payload.value, TYPE_MAP[type], id, "READ");
 
   /** Check if current user has at least WRITE access to a resource */
   const canWrite = (type: ResourceType, id: string): boolean =>
     adminMode.value ||
-    hasAccessLevel(payload.value, TYPE_MAP[type], id, "WRITE");
+    auth.hasAccessLevel(payload.value, TYPE_MAP[type], id, "WRITE");
 
   /** Check if current user has ADMIN access to a resource */
   const canAdmin = (type: ResourceType, id: string): boolean =>
     adminMode.value ||
-    hasAccessLevel(payload.value, TYPE_MAP[type], id, "ADMIN");
+    auth.hasAccessLevel(payload.value, TYPE_MAP[type], id, "ADMIN");
 
   return {
     userInfo: readonly(userInfo),

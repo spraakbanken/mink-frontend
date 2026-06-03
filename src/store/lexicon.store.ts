@@ -8,8 +8,10 @@ import { pickByType } from "@/util";
 import type { FileMeta } from "@/api/api.types";
 import { emptyConfig, makeConfig } from "@/lexicon/config/lexiconConfig";
 import useCreateResource from "@/resource/createResource.composable";
+import { useAppConfig } from "@/app/useAppConfig";
 
 export const useLexiconStore = defineStore("lexicon", () => {
+  const { lexiconSettings } = useAppConfig();
   const resourceStore = useResourceStore();
   const { loadResource } = resourceStore;
   const { resources } = storeToRefs(resourceStore);
@@ -29,7 +31,7 @@ export const useLexiconStore = defineStore("lexicon", () => {
     };
     await createResource(
       "lexicon",
-      (id) => makeConfig(id, configOptions),
+      (id) => makeConfig(id, configOptions, lexiconSettings.minkUrl),
       files,
     );
   }

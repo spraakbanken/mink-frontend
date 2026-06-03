@@ -4,7 +4,7 @@ import { computedAsync } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
 import UrlButton from "@/components/UrlButton.vue";
-import { getAuthGuiUrl } from "@/api/sbauth";
+import { useAuth } from "@/api/useAuth";
 import { useResourceStore } from "@/store/resource.store";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import useAlert from "@/alert/alert.composable";
@@ -18,6 +18,7 @@ const props = defineProps<{
 
 const store = useResourceStore();
 const userStore = useUserStore();
+const auth = useAuth();
 const { adminMode } = storeToRefs(userStore);
 const { canAdmin, getAccessLevel } = userStore;
 const { showAlert } = useAlert();
@@ -26,7 +27,7 @@ const resource = computedAsync(() =>
   store.loadResource(props.id).catch(showAlert),
 );
 
-const authGuiUrl = computed(() => getAuthGuiUrl(props.id));
+const authGuiUrl = computed(() => auth.getGuiUrl(props.id));
 </script>
 
 <template>

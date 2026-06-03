@@ -8,18 +8,21 @@ import useSpin from "@/spin/spin.composable";
 import { useUserStore } from "@/store/user.store";
 import useMessenger from "@/alert/alert.composable";
 import useResource from "@/resource/resource.composable";
+import { useAppConfig } from "@/app/useAppConfig";
 
 const props = defineProps<{
   id: string;
 }>();
 
+const { lexiconSettings } = useAppConfig();
 const { isPending } = useSpin();
 const { installKarps, uninstallKarps } = useLexicon(props.id);
 const { isRunning, job } = useResource<"lexicon">(props.id);
 const { canWrite } = useUserStore();
 const { showAlert } = useMessenger();
 
-const karpsUrl = ensureTrailingSlash(import.meta.env.VITE_KARPS_URL);
+const karpsUrl =
+  lexiconSettings.karps && ensureTrailingSlash(lexiconSettings.karps.url);
 
 const canInstall = computed(
   () =>

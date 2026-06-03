@@ -2,13 +2,14 @@
 import { PhSignOut } from "@phosphor-icons/vue";
 import { storeToRefs } from "pinia";
 import AdminModeSwitcher from "@/user/AdminModeSwitcher.vue";
-import { getLogoutUrl } from "@/api/sbauth";
+import { useAuth } from "@/api/useAuth";
 import PageTitle from "@/components/PageTitle.vue";
 import UrlButton from "@/components/UrlButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import { useUserStore } from "@/store/user.store";
 import { useJwtStore } from "@/store/jwt.store";
 
+const auth = useAuth();
 const { userName } = storeToRefs(useJwtStore());
 const { userInfo } = useUserStore();
 </script>
@@ -17,7 +18,7 @@ const { userInfo } = useUserStore();
   <PageTitle>{{ userName }}</PageTitle>
 
   <div class="my-4">
-    <UrlButton class="button-warning" :href="getLogoutUrl()">
+    <UrlButton class="button-warning" :href="auth.getLogoutUrl()">
       <PhSignOut weight="bold" class="inline mb-1 mr-1" />
       {{ $t("logout") }}
     </UrlButton>

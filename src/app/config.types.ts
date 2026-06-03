@@ -2,19 +2,52 @@
 
 /** App config object */
 export type AppConfig = {
-  types?: {
-    // Keys correspond to `ResourceType`
-    corpus?: {
-      explore?: {
-        korp?: true;
-        strix?: true;
-      };
-    };
-    lexicon?: true;
-    metadata?: true;
+  auth: {
+    /** URL to SB-Auth */
+    apiUrl: string;
+    /** URL to SB-Auth GUI */
+    guiUrl?: string;
+    /** SB-Auth logout URL */
+    logoutUrl: string;
   };
+
+  /** Base URL to Mink backend */
+  backendUrl: string;
+
+  /** Enable sharing features in UI */
+  sharing?: true;
+
+  /** Tools */
   tools?: {
+    /** The Språkbanken metadata YAML editor */
     metadataEditor?: true;
   };
-  sharing?: true;
+
+  /** Settings by resource type; omit an item to disable that type */
+  types?: {
+    corpus?: {
+      /** Settings for corpus explore tools */
+      explore?: {
+        korp?: {
+          /** URL to Korp frontend */
+          url: string;
+        };
+        strix?: {
+          /** URL to Strix frontend */
+          url: string;
+        };
+      };
+    };
+
+    lexicon?: {
+      karps?: {
+        /** URL to Karp search frontend */
+        url: string;
+      };
+      /** Full URL where Mink frontend is served, to use for the lexicon link URL */
+      minkUrl?: string;
+    };
+
+    metadata?: true;
+  };
 };

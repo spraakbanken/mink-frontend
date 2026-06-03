@@ -19,6 +19,7 @@ import useMessenger from "@/alert/alert.composable";
 import RouteButton from "@/components/RouteButton.vue";
 import TabsBar from "@/components/TabsBar.vue";
 import TabsContent from "@/components/TabsContent.vue";
+import { useAppConfig } from "@/app/useAppConfig";
 
 type TabKey = "metadata" | "settings";
 
@@ -29,6 +30,7 @@ type Form = {
 };
 
 const id = useResourceIdParam();
+const { lexiconSettings } = useAppConfig();
 const { loadConfig, uploadConfig } = useConfigStore();
 const { canWrite, canAdmin } = useUserStore();
 const router = useRouter();
@@ -48,7 +50,7 @@ async function submit(fields: Form) {
     description: fields.description,
     entryWord: fields.entryWord,
   };
-  const yaml = makeConfig(id, config);
+  const yaml = makeConfig(id, config, lexiconSettings.minkUrl);
   try {
     await uploadConfig("lexicon", id, yaml);
     router.push(`/library/lexicon/${id}`);

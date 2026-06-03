@@ -112,14 +112,30 @@ For SB-Auth to allow authentication requests, the frontend must be served under 
    ```sh
    mkcert "*.spraakbanken.gu.se"
    ```
-   and refer to them in .env.local, as per examples in [.env](../.env).
+3. Specify host and certificate paths in environment variables, as described in the next section.
 
 ### Environment variables
 
-Vite will read variables from [.env](../.env), see [Vite docs](https://vitejs.dev/guide/env-and-mode).
-It will also read from `.env.local`, which is ignored by Git, so you can create it locally to override `.env`.
+Vite will read variables from env files in the instance directory.
+See [Vite docs](https://vitejs.dev/guide/env-and-mode).
 
-The dev server might not properly pick up on changes to these, so better restart `npm start`.
+It is recommended to keep local variables in `.env.local` and exclude it from git.
+
+| Variable        | Comment                         |
+| --------------- | ------------------------------- |
+| BASE            | Base path, defaults to `/mink/` |
+| DEV_HOST        | Hostname for dev server         |
+| DEV_HTTPS_CERT  | Path to HTTPS certificate file  |
+| DEV_HTTPS_KEY   | Path to HTTPS private key file  |
+| VITE_MATOMO_URL | URL to Matomo instance          |
+| VITE_MATOMO_ID  | Matomo site id                  |
+
+Omit any of the Matomo variables to disable [Matomo](https://matomo.org/).
+
+### App configuration
+
+Aside from the env variables listed above, the app is configured using a **config object** provided by the instance plugin.
+See the sample plugin above and the [config.types.ts](../src/app/config.types.ts) file for documentation.
 
 ## Development tasks
 
@@ -146,8 +162,6 @@ set -e # Abort on errors
 
 npm install
 npm run check
-
-export VITE_BACKEND_URL="https://example.com/mink-backend/"
 npm run build
 
 rsync -a --delete-after dist/ user@example.com:/var/www/mink/

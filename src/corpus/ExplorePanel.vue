@@ -15,7 +15,7 @@ const props = defineProps<{
   id: string;
 }>();
 
-const { exploreTools } = useAppConfig();
+const { exploreTools, corpusSettings } = useAppConfig();
 const { isPending } = useSpin();
 const { installKorp, installStrix, uninstallKorp, uninstallStrix } = useCorpus(
   props.id,
@@ -25,8 +25,12 @@ const { locale3 } = useLocale();
 const { canWrite } = useUserStore();
 const { showAlert } = useAlert();
 
-const korpUrl = ensureTrailingSlash(import.meta.env.VITE_KORP_URL);
-const strixUrl = ensureTrailingSlash(import.meta.env.VITE_STRIX_URL);
+const korpUrl =
+  corpusSettings.explore?.korp &&
+  ensureTrailingSlash(corpusSettings.explore.korp.url);
+const strixUrl =
+  corpusSettings.explore?.strix &&
+  ensureTrailingSlash(corpusSettings.explore.strix.url);
 
 const canInstall = computed(
   () =>

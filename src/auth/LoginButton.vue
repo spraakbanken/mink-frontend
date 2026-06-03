@@ -3,12 +3,13 @@ import { useRoute, useRouter } from "vue-router";
 import { PhSignIn } from "@phosphor-icons/vue";
 import { whenever } from "@vueuse/core";
 import { storeToRefs } from "pinia";
-import { getLoginUrl } from "@/api/sbauth";
+import { useAuth } from "@/api/useAuth";
 import UrlButton from "@/components/UrlButton.vue";
 import { useJwtStore } from "@/store/jwt.store";
 
 const route = useRoute();
 const router = useRouter();
+const auth = useAuth();
 const { isAuthenticated } = storeToRefs(useJwtStore());
 
 whenever(isAuthenticated, () => {
@@ -20,7 +21,7 @@ whenever(isAuthenticated, () => {
 <template>
   <UrlButton
     class="button-primary"
-    :href="getLoginUrl((route.query.destination as string) || '/library')"
+    :href="auth.getLoginUrl((route.query.destination as string) || '/library')"
   >
     <PhSignIn weight="bold" class="inline mb-1 mr-1" />
     {{ $t("login") }}

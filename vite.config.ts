@@ -1,5 +1,6 @@
-import path from "path";
 import { ServerOptions } from "https";
+import { fileURLToPath } from "url";
+import { readFileSync } from "fs";
 import { defineConfig, loadEnv, Plugin } from "vite";
 import vue from "@vitejs/plugin-vue";
 import tailwindcss from "@tailwindcss/vite";
@@ -10,23 +11,25 @@ import { parse } from "yaml";
 
 type HttpsOptions = Pick<ServerOptions, "key" | "cert">;
 
+const srcDir = fileURLToPath(new URL("src", import.meta.url));
+const instanceDir = fileURLToPath(new URL("instance", import.meta.url));
+
 // https://vitejs.dev/config/
 export default defineConfig(async ({ mode }) => {
   // Load .env files. Vite will do it itself, but only later. See https://vite.dev/config/#using-environment-variables-in-config
-  const env = loadEnv(mode, process.cwd(), "");
+  const env = loadEnv(mode, instanceDir, "");
 
-  /** Read HTTPS cert and key, if their paths are specified in env. */
-  async function getHttpsOptions(): Promise<HttpsOptions | undefined> {
-    if (env.DEV_HTTPS_KEY && env.DEV_HTTPS_CERT) {
-      const fs = await import("fs");
+  function getHttpsOptions(): HttpsOptions | undefined {
+    if (env.DEV_HTTPS_KEY && env.DEV_HTTPS_CERT)
       return {
-        key: fs.readFileSync(env.DEV_HTTPS_KEY),
-        cert: fs.readFileSync(env.DEV_HTTPS_CERT),
+        key: readFileSync(env.DEV_HTTPS_KEY),
+        cert: readFileSync(env.DEV_HTTPS_CERT),
       };
-    }
   }
 
   return {
+    // Load env files from the instance folder
+    envDir: instanceDir,
     plugins: [
       vue(),
       yamlLoader(),
@@ -38,19 +41,20 @@ export default defineConfig(async ({ mode }) => {
     ],
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "./src"),
-        // Resolve imports of app settings and custom code
-        "@instance": path.resolve(__dirname, "./instance"),
+        "@": srcDir,
+        // Resolve imports of the instance plugin and custom code
+        "@instance": instanceDir,
       },
       // Support module resolution in instance code when symlinked from an external directory
       preserveSymlinks: true,
     },
-    base: env.BASE,
+    // Allow env variable to override the base URL
+    base: env.BASE || "/mink/",
     server: {
-      // Remap hostname and enable HTTPS, in order for authentication to work.
+      // Change hostname and enable HTTPS if needed for authentication.
       // Map this hostname to 127.0.0.1 in /etc/hosts.
-      host: "minkdev.spraakbanken.gu.se",
-      https: await getHttpsOptions(),
+      host: env.DEV_HOST,
+      https: getHttpsOptions(),
     },
     test: {
       environment: "happy-dom",

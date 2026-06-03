@@ -1,13 +1,15 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { decodeJwt, fetchJwt, type Payload } from "@/api/sbauth";
+import { type Payload } from "@/api/sbauth";
+import { useAuth } from "@/api/useAuth";
 import { useApi } from "@/api/useApi";
 import useSpin from "@/spin/spin.composable";
 import useAlert from "@/alert/alert.composable";
 import { deduplicateRequest } from "@/util";
 
 export const useJwtStore = defineStore("jwt", () => {
+  const auth = useAuth();
   const api = useApi();
   const { spin } = useSpin();
   const { t } = useI18n();
@@ -28,7 +30,7 @@ export const useJwtStore = defineStore("jwt", () => {
   const payload = computed<Payload | undefined>(() => {
     if (!jwt.value) return;
     try {
-      return decodeJwt(jwt.value);
+      return auth.decodeJwt(jwt.value);
     } catch (error) {
       console.error("JWT payload not valid:", jwt.value, error);
     }
@@ -53,7 +55,7 @@ export const useJwtStore = defineStore("jwt", () => {
     // Fetch JWT if needed.
     if (!jwt.value) {
       try {
-        const jwtValue = await spin(fetchJwt(), "jwt");
+        const jwtValue = await spin(auth.fetchJwt(), "jwt");
 
         // Register new JWT with API client before storing it in ref, which may trigger API calls
         api.setJwt(jwtValue);
