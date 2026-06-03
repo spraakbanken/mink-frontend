@@ -9,7 +9,7 @@ import { languageNames } from "./i18n";
     <select
       :aria-label="$t('locale.switcher.label')"
       v-model="$i18n.locale"
-      class="bg-transparent border-0 appearance-none py-0 ps-4 pe-3 -ms-5 w-7"
+      class="bg-transparent border-0 appearance-none py-0 ps-4 pe-3 -ms-5 w-7 cursor-pointer"
     >
       <option
         v-for="locale in $i18n.availableLocales"
