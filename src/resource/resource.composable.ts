@@ -51,10 +51,7 @@ export default function useResource<T extends ResourceType = ResourceType>(
 
   // Check status intermittently if active
   watch(ticker, async () => {
-    if (isRunning.value) {
-      console.log("Polling status for resource", id);
-      await loadResource(id, true);
-    }
+    if (isRunning.value) await loadResource(id, true);
   });
 
   return {
