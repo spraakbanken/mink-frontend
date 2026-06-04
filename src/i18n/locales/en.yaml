@@ -4,6 +4,9 @@ home.hero.alt: Screenshot of Mink's user interface
 welcome: Welcome, {name}!
 mydata: My data
 news: News
+lab.title: Mink Lab
+lab.description: New functionality is tested here. Data may differ from normal Mink.
+lab.goto_mink: Go to normal Mink
 library: Library
 library.help.resources: These are your resources. Click them to view more details.
 library.help.resources.none: Your resources will be listed here.

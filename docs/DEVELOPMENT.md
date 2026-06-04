@@ -127,8 +127,13 @@ It is recommended to keep local variables in `.env.local` and exclude it from gi
 | DEV_HOST        | Hostname for dev server         |
 | DEV_HTTPS_CERT  | Path to HTTPS certificate file  |
 | DEV_HTTPS_KEY   | Path to HTTPS private key file  |
+| VITE_LAB        | Enable lab mode                 |
 | VITE_MATOMO_URL | URL to Matomo instance          |
 | VITE_MATOMO_ID  | Matomo site id                  |
+
+**Lab mode** can be enabled when deploying a staging site beside the main instance.
+You can use it in instance code to alter config or enable experimental features.
+By default, it just changes the page header appearance.
 
 Omit any of the Matomo variables to disable [Matomo](https://matomo.org/).
 
@@ -162,6 +167,7 @@ set -e # Abort on errors
 
 npm install
 npm run check
+export VITE_LAB=1 # If building for Lab mode
 npm run build
 
 rsync -a --delete-after dist/ user@example.com:/var/www/mink/

@@ -4,6 +4,9 @@ home.hero.alt: Skärmbild av Minks användargränssnitt
 welcome: Välkommen, {name}!
 mydata: Mina data
 news: Nyheter
+lab.title: Minklabbet
+lab.description: Här provar vi ny funktionalitet. Datan kan skilja sig från vanliga Mink.
+lab.goto_mink: Gå till vanliga Mink
 library: Bibliotek
 library.help.resources: Här listas dina resurser. Klicka på dem för att visa mer.
 library.help.resources.none: Här kommer dina resurser att listas.

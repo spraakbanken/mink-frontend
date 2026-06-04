@@ -13,22 +13,23 @@ export function useAppConfig() {
     );
   }
 
+  // Provide current instance URL as fallback for minkUrl
+  const minkUrl =
+    appConfig.minkUrl || location.origin + import.meta.env.BASE_URL;
+
   const resourceTypes = enabledKeys(appConfig.types || {});
 
   const corpusSettings = { ...appConfig.types?.corpus };
 
   const exploreTools = enabledKeys(appConfig.types?.corpus?.explore || {});
 
-  const lexiconSettings = {
-    // Use current base URL as default Mink URL
-    minkUrl: location.origin + import.meta.env.BASE_URL,
-    ...appConfig.types?.lexicon,
-  };
+  const lexiconSettings = { ...appConfig.types?.lexicon };
 
   const tools = enabledKeys(appConfig.tools || {});
 
   return {
     appConfig,
+    minkUrl,
     resourceTypes,
     exploreTools,
     corpusSettings,

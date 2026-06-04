@@ -30,7 +30,7 @@ type Form = {
 };
 
 const id = useResourceIdParam();
-const { lexiconSettings } = useAppConfig();
+const { minkUrl } = useAppConfig();
 const { loadConfig, uploadConfig } = useConfigStore();
 const { canWrite, canAdmin } = useUserStore();
 const router = useRouter();
@@ -50,7 +50,7 @@ async function submit(fields: Form) {
     description: fields.description,
     entryWord: fields.entryWord,
   };
-  const yaml = makeConfig(id, config, lexiconSettings.minkUrl);
+  const yaml = makeConfig(id, config, minkUrl);
   try {
     await uploadConfig("lexicon", id, yaml);
     router.push(`/library/lexicon/${id}`);

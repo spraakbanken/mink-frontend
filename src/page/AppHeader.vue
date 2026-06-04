@@ -25,6 +25,12 @@ const MinkLogo = injectComponent(
   () => import("@/page/MinkLogo.vue"),
 );
 
+const LabIndicator = injectComponent(
+  "LabIndicator",
+  () => import("@/page/LabIndicator.vue"),
+);
+
+const isLab = !!import.meta.env.VITE_LAB;
 const isHome = computed(() => route.path == "/");
 const isAuthenticating = computed(() => isPending("jwt"));
 
@@ -34,7 +40,12 @@ const isActiveClass = (path: string) =>
 </script>
 
 <template>
-  <header class="mb-2 shadow-sm bg-white dark:bg-zinc-800">
+  <header
+    class="mb-2 shadow-sm"
+    :class="
+      isLab ? 'bg-amber-50 dark:bg-yellow-950' : 'bg-white dark:bg-zinc-800'
+    "
+  >
     <!-- Main row -->
     <div
       class="container pt-4 pb-2 flex max-sm:flex-col flex-wrap sm:items-baseline-last gap-4 gap-y-2"
@@ -42,7 +53,7 @@ const isActiveClass = (path: string) =>
       <!-- Logo -->
       <component
         :is="isHome ? 'h1' : 'div'"
-        class="text-4xl min-w-max mr-8 max-sm:mb-2"
+        class="text-4xl min-w-max max-sm:mb-2"
         :class="large ? 'h-24' : 'h-16'"
       >
         <router-link to="/" class="text-current" :title="$t('home')">
@@ -50,9 +61,11 @@ const isActiveClass = (path: string) =>
         </router-link>
       </component>
 
+      <LabIndicator v-if="isLab" />
+
       <!-- Main navigation -->
       <div
-        class="flex sm:max-lg:flex-col gap-x-4 items-start text-nowrap text-lg font-medium"
+        class="ms-8 flex sm:max-lg:flex-col gap-x-4 items-start text-nowrap text-lg font-medium"
       >
         <router-link
           to="/"

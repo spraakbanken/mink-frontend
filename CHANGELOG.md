@@ -13,6 +13,7 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 ### Added
 
 - New resource type: lexicons [#240](https://github.com/spraakbanken/mink-frontend/issues/240)
+- Lab mode
 
 ### Changed
 

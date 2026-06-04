@@ -11,7 +11,7 @@ import useCreateResource from "@/resource/createResource.composable";
 import { useAppConfig } from "@/app/useAppConfig";
 
 export const useLexiconStore = defineStore("lexicon", () => {
-  const { lexiconSettings } = useAppConfig();
+  const { minkUrl } = useAppConfig();
   const resourceStore = useResourceStore();
   const { loadResource } = resourceStore;
   const { resources } = storeToRefs(resourceStore);
@@ -31,7 +31,7 @@ export const useLexiconStore = defineStore("lexicon", () => {
     };
     await createResource(
       "lexicon",
-      (id) => makeConfig(id, configOptions, lexiconSettings.minkUrl),
+      (id) => makeConfig(id, configOptions, minkUrl),
       files,
     );
   }

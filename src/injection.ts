@@ -14,6 +14,7 @@ export const injectionKeys = {
     AppFooter: Symbol() as InjectionKey<() => Promise<Component>>,
     HomeIntro: Symbol() as InjectionKey<() => Promise<Component>>,
     HomeSecondary: Symbol() as InjectionKey<() => Promise<Component>>,
+    LabIndicator: Symbol() as InjectionKey<() => Promise<Component>>,
     MinkLogo: Symbol() as InjectionKey<() => Promise<Component>>,
   },
   service: {

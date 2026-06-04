@@ -14,6 +14,9 @@ export type AppConfig = {
   /** Base URL to Mink backend */
   backendUrl: string;
 
+  /** Main instance URL */
+  minkUrl?: string;
+
   /** Enable sharing features in UI */
   sharing?: true;
 
@@ -44,8 +47,6 @@ export type AppConfig = {
         /** URL to Karp search frontend */
         url: string;
       };
-      /** Full URL where Mink frontend is served, to use for the lexicon link URL */
-      minkUrl?: string;
     };
 
     metadata?: true;
