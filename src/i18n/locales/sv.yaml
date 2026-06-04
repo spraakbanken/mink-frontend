@@ -47,7 +47,7 @@ lexicon.config.entry_word.description.help: Namnet på fältet, så som det visa
 lexicon.karp_pipeline.run: Analysera
 lexicon.karp_pipeline.rerun: Analysera igen
 lexicon.karp_pipeline.help: Förbered datan för användning i Karp.
-lexicon.karps: Karps sökgränssnitt
+lexicon.karps: Karps sökläge
 lexicon.karps.help: Sök bland ingångarna och ta fram statistik.
 lexicon.tools.help: Använd den här datan i Språkbankens andra plattformar. Din data visas bara för dig.
 corpora: Korpusar
