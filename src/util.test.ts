@@ -7,6 +7,7 @@ import {
   ensureExtension,
   filterKeys,
   formatDate,
+  fromKeys,
   getBaseUrl,
   getFilenameExtension,
   objsToDict,
@@ -164,6 +165,14 @@ describe("filterKeys", () => {
     const a = { a: 1, b: 2 };
     expect(filterKeys(a, ["b", "c"])).toEqual({ b: 2 });
     expect(a).toEqual({ b: 2 });
+  });
+});
+
+describe("fromKeys", () => {
+  test("creates object", () => {
+    const keys = ["a", "a", "b"];
+    const getValue = (key: string) => key.toUpperCase();
+    expect(fromKeys(keys, getValue)).toEqual({ a: "A", b: "B" });
   });
 });
 

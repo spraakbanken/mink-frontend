@@ -20,8 +20,13 @@ export function useSparvAnalyses() {
     );
   };
 
+  /** Get a string for language code and optional variety */
+  const getLanguageCode = (code: string, variety?: string) =>
+    variety ? `${code}-${variety}` : code;
+
   return {
     analyses,
     getAnalysesByAnnotations,
+    getLanguageCode,
   };
 }

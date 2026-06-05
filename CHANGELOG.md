@@ -12,6 +12,7 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 
 ### Changed
 
+- Select corpus language to filter available analyses [#252](https://github.com/spraakbanken/mink-frontend/issues/252)
 - The analysis registry service is removed and replaced with usage of the new `corpus/sparv/list-analyses` API route
 
 ## [2.2.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.2.0) (2026-09-09)

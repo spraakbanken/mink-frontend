@@ -3,6 +3,7 @@ import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { FormKit } from "@formkit/vue";
 import { PhLightbulbFilament } from "@phosphor-icons/vue";
+import { computedAsync } from "@vueuse/core";
 import PageTitle from "@/components/PageTitle.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import useSpin from "@/spin/spin.composable";
@@ -13,8 +14,14 @@ import HelpBox from "@/components/HelpBox.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import useAlert from "@/alert/alert.composable";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
+import { useAppConfig } from "@/app/useAppConfig";
+import { useApi } from "@/api/useApi";
+import { useSparvAnalyses } from "@/api/useSparvAnalyses";
 
+const { appConfig } = useAppConfig();
 const { createCorpus } = useCreateCorpus();
+const api = useApi();
+const { getLanguageCode } = useSparvAnalyses();
 const { t } = useI18n();
 const { spin } = useSpin();
 const { showAlert } = useAlert();
@@ -23,6 +30,7 @@ type Form = {
   name?: string;
   description?: string;
   format: CorpusSourceFormat;
+  language: string;
   textAnnotation?: string;
 };
 
@@ -36,11 +44,21 @@ const formatOptions = computed(() =>
   ),
 );
 
+const languages = computedAsync(() => api.sparvLanguages(), []);
+
+const languageOptions = computed(() =>
+  languages.value.map(({ code, name, variety }) => ({
+    value: getLanguageCode(code, variety),
+    label: `${name}`,
+  })),
+);
+
 async function submit(fields: Form) {
   const createPromise = createCorpus(
     fields.name?.trim() || "",
     fields.description?.trim() || "",
     fields.format,
+    fields.language,
     fields.textAnnotation,
   );
 
@@ -74,6 +92,17 @@ async function submit(fields: Form) {
             name="name"
             input-class="w-72"
             :help="$t('metadata.name.help')"
+          />
+
+          <FormKit
+            name="language"
+            :label="$t('config.language')"
+            type="select"
+            :value="getLanguageCode(appConfig.defaultLanguage || '')"
+            input-class="w-72"
+            :options="languageOptions"
+            validation="required"
+            :help="$t('config.language.help')"
           />
 
           <FormKit

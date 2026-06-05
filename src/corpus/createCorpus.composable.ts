@@ -35,6 +35,7 @@ export default function useCreateCorpus() {
     name: string,
     description: string,
     format: CorpusSourceFormat,
+    language: string,
     textAnnotation?: string,
   ) {
     const configOptions = {
@@ -42,6 +43,7 @@ export default function useCreateCorpus() {
       name: createByLang(name),
       description: createByLang(description),
       format,
+      language,
       textAnnotation,
     };
 
