@@ -53,10 +53,10 @@ export type SparvAnalysesData = {
 };
 
 export type SparvAnalysis = {
-  analysis_unit: ByLang;
+  analysis_unit?: ByLang;
   annotations: string[];
   id: string;
-  languages: Language[];
+  languages?: Language[];
   language_varieties?: string[];
   name: ByLang;
   short_description?: ByLang;
@@ -79,6 +79,20 @@ export type ExportType = {
   description: string;
   export: string;
   export_files: string[];
+};
+
+export type SparvLanguagesData = {
+  /** Languages available in Sparv */
+  languages: SparvLanguage[];
+};
+
+export type SparvLanguage = {
+  /** Three-letter ISO 639-3 code */
+  code: string;
+  /** Name in English */
+  name: string;
+  /** Optional language variety code (not ISO) */
+  variety?: string;
 };
 
 /** Data in the sparv-schema response */

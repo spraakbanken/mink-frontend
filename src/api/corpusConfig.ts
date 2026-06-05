@@ -14,6 +14,8 @@ export type ConfigOptions = {
   name?: ByLang;
   description?: ByLang;
   textAnnotation?: string;
+  language?: string;
+  variety?: string;
   sentenceSegmenter?: ConfigSentenceSegmenter;
   datetime?: {
     from: string;
@@ -52,6 +54,8 @@ export function makeConfig(id: string, options: ConfigOptions): string {
     sentenceSegmenter,
     datetime,
     annotations,
+    language,
+    variety,
   } = options;
 
   if (!format) {
@@ -63,6 +67,8 @@ export function makeConfig(id: string, options: ConfigOptions): string {
       id,
       name,
       description,
+      language,
+      variety,
     },
     import: {
       importer: IMPORTERS[format],
@@ -177,11 +183,15 @@ export function parseConfig(configYaml: string): ConfigOptions {
 
   // Extract metadata
   const name = config.metadata?.name;
+  const language = config.metadata?.language;
+  const variety = config.metadata?.variety;
 
   // Build options object
   const options = {
     ...emptyConfig(),
     format,
+    language,
+    variety,
     name,
     description: config.metadata?.description,
     textAnnotation: config.import.text_annotation,

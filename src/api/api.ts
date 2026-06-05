@@ -17,6 +17,7 @@ import type {
   UserData,
   QueueHealthData,
   SparvAnalysesData,
+  SparvLanguagesData,
 } from "@/api/api.types";
 
 /** Create a `text/yaml` file object with content */
@@ -85,6 +86,14 @@ export class MinkClient {
       "corpus/sparv/list-exports",
     );
     return response.data.exports;
+  });
+
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/list-sparv-languages */
+  sparvLanguages = once(async () => {
+    const response = await this.axios.get<MinkResponse<SparvLanguagesData>>(
+      "corpus/sparv/list-languages",
+    );
+    return response.data.languages;
   });
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/get-sparv-schema */
