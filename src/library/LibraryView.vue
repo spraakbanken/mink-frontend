@@ -32,7 +32,7 @@ const { resourceTypes } = useAppConfig();
 const resourceStore = useResourceStore();
 const { createLexicon } = useLexiconStore();
 const userStore = useUserStore();
-const { adminMode } = storeToRefs(userStore);
+const { adminMode, userInfo } = storeToRefs(userStore);
 const { isCurrentUser } = userStore;
 const { createCorpusFromUpload } = useCreateCorpus();
 const { showAlert } = useAlert();
@@ -191,7 +191,9 @@ const getType = (resource: Resource) =>
 
         <!-- New metadata -->
         <div
-          v-if="resourceTypes.includes('metadata')"
+          v-if="
+            resourceTypes.includes('metadata') && userInfo?.organization_prefix
+          "
           class="flex gap-3 items-center my-4"
         >
           <div class="grow">
