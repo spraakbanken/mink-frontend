@@ -2,10 +2,9 @@
 import { computed, onMounted, ref } from "vue";
 import { once } from "es-toolkit";
 import { PhArrowsClockwise, PhDownloadSimple } from "@phosphor-icons/vue";
+import TextData from "./TextData.vue";
 import { downloadFile } from "@/util";
 import ActionButton from "@/components/ActionButton.vue";
-import TextData from "@/components/TextData.vue";
-import type { SyntaxLanguage } from "@/highlight";
 
 /** Defer loading if file is large. */
 const AUTOLOAD_LIMIT = 500_000;
@@ -16,7 +15,7 @@ const props = defineProps<{
   /** File size (bytes) */
   size?: number;
   noLoad?: boolean;
-  language?: SyntaxLanguage & "xml";
+  language?: string;
 }>();
 
 const disabled = ref(false);

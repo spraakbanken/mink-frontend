@@ -30,7 +30,6 @@ const isBinary = computed(() => {
   const extension = getFilenameExtension(props.filename);
   return !isReadable(extension);
 });
-const isXml = computed(() => /\/xml$/.test(metadata.value?.type || ""));
 
 // Show error if given filename is not found
 watchImmediate([sources, metadata], () => {
@@ -68,7 +67,7 @@ async function loadFile() {
                 :filename="metadata.name"
                 :no-load="isBinary"
                 :size="metadata.size"
-                :language="isXml ? 'xml' : undefined"
+                :language="getFilenameExtension(filename)"
               />
             </PendingContent>
           </td>
