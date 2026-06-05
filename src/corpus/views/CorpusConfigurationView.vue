@@ -5,9 +5,10 @@ import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
 import { PhLightbulbFilament, PhTrash } from "@phosphor-icons/vue";
-import { computedAsync, watchImmediate } from "@vueuse/core";
+import { watchImmediate } from "@vueuse/core";
 import { omit, pickBy } from "es-toolkit";
 import { useCorpus } from "../corpus.composable";
+import { useSparv } from "../sparv.composable";
 import {
   type ConfigOptions,
   type CorpusSourceFormat,
@@ -31,8 +32,6 @@ import TabsContent from "@/components/TabsContent.vue";
 import useSources from "@/resource/sources.composable";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
 import { useUserStore } from "@/store/user.store";
-import { useSparvAnalyses } from "@/api/useSparvAnalyses";
-import { useApi } from "@/api/useApi";
 import { useAppConfig } from "@/app/useAppConfig";
 
 type TabKey = "metadata" | "settings" | "analyses";
@@ -52,26 +51,16 @@ type Form = {
 const { appConfig } = useAppConfig();
 const router = useRouter();
 const id = useResourceIdParam();
-const api = useApi();
 const { config, configOptions, saveConfigOptions } = useCorpus(id);
 const { extensions } = useSources("corpus", id);
-const { analyses, getAnalysesByAnnotations, getLanguageCode } =
-  useSparvAnalyses();
+const { analyses, languageOptions, getAnalysesByAnnotations, getLanguageCode } =
+  useSparv();
 const { showAlert } = useAlert();
 const { t } = useI18n();
 const { locale3, th, thCompare } = useLocale();
 const { canAdmin, canWrite } = useUserStore();
 
 const tabSelected = ref<TabKey>("metadata");
-
-const languages = computedAsync(() => api.sparvLanguages(), []);
-
-const languageOptions = computed(() =>
-  languages.value.map(({ code, name, variety }) => ({
-    value: getLanguageCode(code, variety),
-    label: name,
-  })),
-);
 
 const selectedLanguage = computed(() => {
   if (!configOptions.value?.language) return appConfig.defaultLanguage;

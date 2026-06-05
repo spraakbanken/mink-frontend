@@ -1,20 +1,10 @@
 <script setup lang="ts">
-import { computedAsync } from "@vueuse/core";
+import { useSparv } from "../sparv.composable";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import ExportListViewTemplate from "@/exports/ExportListViewTemplate.vue";
-import type { ExportType } from "@/api/api.types";
-import { useApi } from "@/api/useApi";
-import useSpin from "@/spin/spin.composable";
 
 const id = useResourceIdParam();
-const api = useApi();
-const { spin } = useSpin();
-
-/** Sparv export type info */
-const exportTypes = computedAsync<ExportType[]>(
-  () => spin(api.sparvExports(), `${id}/exports/list`),
-  [],
-);
+const { exportTypes } = useSparv();
 </script>
 
 <template>

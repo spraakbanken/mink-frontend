@@ -3,10 +3,10 @@ import { watchImmediate } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
 import { computed } from "vue";
 import { useCorpus } from "./corpus.composable";
+import { useSparv } from "./sparv.composable";
 import useLocale from "@/i18n/locale.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
-import { useSparvAnalyses } from "@/api/useSparvAnalyses";
 import useAlert from "@/alert/alert.composable";
 
 const props = defineProps<{
@@ -14,7 +14,7 @@ const props = defineProps<{
 }>();
 
 const { configOptions } = useCorpus(props.id);
-const { getAnalysesByAnnotations } = useSparvAnalyses();
+const { getAnalysesByAnnotations } = useSparv();
 const { t } = useI18n();
 const { th, thCompare } = useLocale();
 const { showAlert } = useAlert();

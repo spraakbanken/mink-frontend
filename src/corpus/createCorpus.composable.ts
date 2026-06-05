@@ -1,3 +1,4 @@
+import { useSparv } from "./sparv.composable";
 import { getFilenameExtension } from "@/util";
 import {
   makeConfig,
@@ -6,14 +7,13 @@ import {
   type ConfigOptions,
 } from "@/api/corpusConfig";
 import useCreateResource from "@/resource/createResource.composable";
-import { useSparvAnalyses } from "@/api/useSparvAnalyses";
 import useLocale from "@/i18n/locale.composable";
 import { useAppConfig } from "@/app/useAppConfig";
 
 export default function useCreateCorpus() {
   const { corpusSettings } = useAppConfig();
   const { createResource } = useCreateResource();
-  const { analyses } = useSparvAnalyses();
+  const { analyses } = useSparv();
   const { createByLang } = useLocale();
 
   async function createCorpusFromUpload(files: File[]) {
