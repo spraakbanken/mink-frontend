@@ -270,6 +270,7 @@ config.analysis: Analys
 config.analyses: Analyser
 config.analyses.selected_count: Inga analyser valda | 1 analys vald | {count} analyser valda
 config.analyses.info: Välj vilka analyser som ska göras på källtexten. Mer utförlig konfiguration kan göras på sidan {custom_config}.
+config.analyses.none: Inga tillgängliga analyser
 config.analyses.task: Uppgift
 config.analyses.unit: Enhet
 config.analyses.unit.text: Text
@@ -283,6 +284,8 @@ config.custom.upload.overwrite: Om du sparar i det vanliga formuläret igen kan 
 config.datetime.validate_both: Båda eller inget av dessa datum måste anges.
 config.format.help: Ange vilket filformat källfilerna har. Alla filer måste ha det valda formatet.
 config.format.note.pdf: PDF-formatet är byggt främst för visuell presentation. Text som extraheras från PDF-filer kan ibland ge bristfälliga resultat. OCR-behandling av scannade dokument är (för närvarande) inget som Mink stödjer.
+config.language: Språk
+config.language.help: Vilket språk är texterna på? Valet kan påverka vilka analyser som är tillgängliga.
 config.metadata: Metadata
 config.text_annotation: Textelement
 config.text_annotation.help: Vilket XML-element i dina källfiler representerar bäst en enskild text? Eventuella annotationer på textnivå kommer att sättas på det elementet.

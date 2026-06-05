@@ -14,6 +14,9 @@ export type AppConfig = {
   /** Base URL to Mink backend */
   backendUrl: string;
 
+  /** Default data language */
+  defaultLanguage?: string;
+
   /** Main instance URL */
   minkUrl?: string;
 
