@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { FormKit } from "@formkit/vue";
 import { PhLightbulbFilament } from "@phosphor-icons/vue";
-import { computedAsync } from "@vueuse/core";
+import { useSparv } from "../sparv.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import useSpin from "@/spin/spin.composable";
@@ -15,13 +15,10 @@ import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import useAlert from "@/alert/alert.composable";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
 import { useAppConfig } from "@/app/useAppConfig";
-import { useApi } from "@/api/useApi";
-import { useSparvAnalyses } from "@/api/useSparvAnalyses";
 
 const { appConfig } = useAppConfig();
 const { createCorpus } = useCreateCorpus();
-const api = useApi();
-const { getLanguageCode } = useSparvAnalyses();
+const { languageOptions, getLanguageCode } = useSparv();
 const { t } = useI18n();
 const { spin } = useSpin();
 const { showAlert } = useAlert();
@@ -42,15 +39,6 @@ const formatOptions = computed(() =>
     }),
     {},
   ),
-);
-
-const languages = computedAsync(() => api.sparvLanguages(), []);
-
-const languageOptions = computed(() =>
-  languages.value.map(({ code, name, variety }) => ({
-    value: getLanguageCode(code, variety),
-    label: `${name}`,
-  })),
 );
 
 async function submit(fields: Form) {

@@ -58,7 +58,7 @@ function identifyType(path: string): ExportType | undefined {
 </script>
 
 <template>
-  <PendingContent :on="`${id}/exports/list`">
+  <PendingContent :on="[`${id}/exports/list`, 'exports']">
     <LayoutSection :title="$t('result')">
       <HelpBox>
         <p>{{ $t("exports.help") }}</p>
