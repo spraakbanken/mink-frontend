@@ -23,14 +23,14 @@ import SortableTable from "@/components/SortableTable.vue";
 import { SOURCE_FORMATS } from "@/file";
 import ResourceStatus from "@/resource/ResourceStatus.vue";
 import { getFilenameExtension } from "@/util";
-import { useLexiconStore } from "@/store/lexicon.store";
+import { useCreateLexicon } from "@/lexicon/createLexicon.composable";
 import { useUserStore } from "@/store/user.store";
 import { useAppConfig } from "@/app/useAppConfig";
 
 const router = useRouter();
 const { resourceTypes } = useAppConfig();
 const resourceStore = useResourceStore();
-const { createLexicon } = useLexiconStore();
+const { createLexicon } = useCreateLexicon();
 const userStore = useUserStore();
 const { adminMode, userInfo } = storeToRefs(userStore);
 const { isCurrentUser } = userStore;

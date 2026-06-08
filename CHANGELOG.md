@@ -20,6 +20,10 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 - Most configuration options have moved from env variables to the app config object
 - Hide Metadata resource type unless user has organization prefix
 
+### Fixed
+
+- Export files not loading automatically when analysis finishes [#279](https://github.com/spraakbanken/mink-frontend/issues/279)
+
 ## [2.0.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.0.0) (2026-06-01)
 
 ### Added

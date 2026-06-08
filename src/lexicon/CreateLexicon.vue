@@ -7,14 +7,14 @@ import PageTitle from "@/components/PageTitle.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useSpin from "@/spin/spin.composable";
 import useMessenger from "@/alert/alert.composable";
-import { useLexiconStore } from "@/store/lexicon.store";
+import { useCreateLexicon } from "@/lexicon/createLexicon.composable";
 
 type Form = {
   name: string;
 };
 
 const { spin } = useSpin();
-const { createLexicon } = useLexiconStore();
+const { createLexicon } = useCreateLexicon();
 const { showAlert } = useMessenger();
 
 async function submit(fields: Form) {

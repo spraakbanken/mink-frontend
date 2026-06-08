@@ -1,5 +1,6 @@
 import { computedAsync } from "@vueuse/core";
 import { useMatomo } from "vue3-matomo";
+import { computed, watch } from "vue";
 import { useResourceStore } from "@/store/resource.store";
 import { useExportStore } from "@/store/export.store";
 import useSpin from "@/spin/spin.composable";
@@ -17,6 +18,10 @@ export function useLexicon(id: string) {
   const exports = computedAsync(() => loadExports("lexicon", id), undefined, {
     lazy: true,
   });
+
+  const analysisStatus = computed(
+    () => lexicon.value?.job?.status.karp_pipeline,
+  );
 
   async function installKarps() {
     matomo.value?.trackEvent("Job", "Install", "lexicon karps");
@@ -37,6 +42,12 @@ export function useLexicon(id: string) {
     // Get updated job info
     await loadResource(id, true, `${id}/job/install/karps`);
   }
+
+  // Refresh exports when analysis is done
+  watch(analysisStatus, (current, old) => {
+    if (current == "done" && old && old != "done")
+      loadExports("lexicon", id, true);
+  });
 
   return {
     lexicon,

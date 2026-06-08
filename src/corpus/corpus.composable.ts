@@ -1,4 +1,4 @@
-import { computed } from "vue";
+import { computed, watch } from "vue";
 import { attempt } from "es-toolkit";
 import { computedAsync } from "@vueuse/core";
 import { useMatomo } from "vue3-matomo";
@@ -48,6 +48,8 @@ export function useCorpus(id: string) {
   const isConfigValid = computed(
     () => !attempt(() => validateConfig(configOptions.value!))[0],
   );
+
+  const sparvStatus = computed(() => corpus.value?.job?.status.sparv);
 
   /** Update importer in corpus config according to source format if needed */
   async function updateSourceFormat(extension: string) {
@@ -105,6 +107,12 @@ export function useCorpus(id: string) {
     // Get updated job info
     await loadResource(id, true, `${id}/job/install/strix`);
   }
+
+  // Refresh exports when Sparv is done
+  watch(sparvStatus, (current, old) => {
+    if (current == "done" && old && old != "done")
+      loadExports("corpus", id, true);
+  });
 
   return {
     corpus,
