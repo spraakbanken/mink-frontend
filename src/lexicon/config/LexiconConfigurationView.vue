@@ -149,6 +149,7 @@ async function submit(fields: Form) {
                 :label="$t('lexicon.config.entry_word.field')"
                 type="text"
                 name="field"
+                validation="required"
                 :value="configOptions?.entryWord?.field"
                 :help="$t('lexicon.config.entry_word.field.help')"
               />
