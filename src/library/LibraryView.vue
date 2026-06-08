@@ -86,7 +86,7 @@ const getType = (resource: Resource) =>
 </script>
 
 <template>
-  <div v-if="!adminMode">
+  <div v-if="adminMode === false">
     <PageTitle>{{ $t("library") }}</PageTitle>
 
     <div class="flex flex-col xl:flex-row xl:items-start gap-4">

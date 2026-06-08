@@ -9,6 +9,7 @@ import useSpin from "@/spin/spin.composable";
 import type { ResourceType, UserInfoFull } from "@/api/api.types";
 import { type ResourceType as AuthResourceType } from "@/api/sbauth";
 import { useAuth } from "@/api/useAuth";
+import useAlert from "@/alert/alert.composable";
 
 const TYPE_MAP: Readonly<Record<ResourceType, AuthResourceType>> = {
   corpus: "corpora",
@@ -22,6 +23,7 @@ export const useUserStore = defineStore("user", () => {
   const { payload } = storeToRefs(useJwtStore());
   const { invalidateResources } = useResourceStore();
   const { spin } = useSpin();
+  const { showAlert } = useAlert();
 
   const userInfo = ref<UserInfoFull>();
   const adminMode = ref<boolean | undefined>();
@@ -30,7 +32,7 @@ export const useUserStore = defineStore("user", () => {
   whenever(
     () => !!payload.value,
     async () => {
-      userInfo.value = await spin(api.getUserInfo(), "jwt");
+      userInfo.value = await spin(api.getUserInfo(), "jwt").catch(showAlert);
     },
   );
 

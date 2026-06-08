@@ -9,6 +9,7 @@ import { isBackendError } from "@/api/api";
 export type Alert = {
   key: string;
   message: string;
+  time: Date;
 };
 
 const alerts = ref<Alert[]>([]);
@@ -23,6 +24,7 @@ export default function useAlert() {
     alerts.value.push({
       key: randomString(),
       message,
+      time: new Date(),
     });
 
     // Log as tracked event in Matomo
@@ -30,7 +32,7 @@ export default function useAlert() {
       // Get the path template (without param values) for anonymization
       // `route.matched` has parent/child routes, the last is the most specific
       const path = route.matched[route.matched.length - 1]?.path;
-      matomo.value?.trackEvent("Alert", path, message);
+      matomo.value?.trackEvent("Alert", path || "(no path)", message);
     } catch (err) {
       console.warn("Failed to track alert event in Matomo", err);
     }
@@ -41,7 +43,10 @@ export default function useAlert() {
   }
 
   function clear() {
-    alerts.value = [];
+    // Keep alerts from the last second, to avoid abrupt disappearance of just-added alerts
+    alerts.value = alerts.value.filter(
+      (item) => item.time > new Date(Date.now() - 1000),
+    );
   }
 
   function showAlert(error: unknown): undefined {
