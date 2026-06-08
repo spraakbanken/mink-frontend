@@ -40,12 +40,9 @@ async function doRunJob() {
 
 <template>
   <div>
-    <PendingContent
-      :on="`${id}/job/run`"
-      class="flex flex-col gap-3 items-stretch"
-    >
+    <PendingContent :on="`${id}/job/run`" class="flex flex-col gap-3">
       <div class="flex gap-3 items-center">
-        <div>
+        <div class="grow">
           <div class="font-semibold">{{ $t("lexicon.karp_pipeline.run") }}</div>
           {{ $t("lexicon.karp_pipeline.help") }}
         </div>

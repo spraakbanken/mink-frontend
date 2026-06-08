@@ -40,19 +40,17 @@ async function doRunJob() {
 
 <template>
   <div>
-    <PendingContent
-      :on="`${id}/job/run`"
-      class="flex flex-col gap-3 items-start"
-    >
+    <PendingContent :on="`${id}/job/run`" class="flex flex-col gap-3">
       <PendingContent
         :on="`${id}/exports/list`"
         v-if="!isRunning && exports?.length"
         class="flex gap-3 items-center"
       >
-        <div>
+        <div class="grow">
           <div class="font-semibold">{{ $t("annotations.clear") }}</div>
           {{ $t("annotations.clear.help") }}
         </div>
+
         <ActionButton
           :disabled="!canWrite('corpus', id)"
           @click="clearAnnotations().catch(showAlert)"
@@ -62,7 +60,7 @@ async function doRunJob() {
       </PendingContent>
 
       <div class="flex gap-3 items-center">
-        <div>
+        <div class="grow">
           <div class="font-semibold">{{ $t("corpus.sparv.run") }}</div>
           <i18n-t keypath="analysis.help" scope="global">
             <template #sparv>
