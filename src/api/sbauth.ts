@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { invert } from "es-toolkit";
-import { pathJoin } from "@/util";
+import { getBaseUrl, pathJoin } from "@/util";
 
 export type Payload = {
   name: string;
@@ -48,11 +48,7 @@ export class SbAuthService {
   /** Return the SB Auth login url, with a redirect back to the given local path. */
   getLoginUrl(redirectLocation = "") {
     // Prepend redirect location with Mink base url.
-    redirectLocation = pathJoin(
-      window.location.origin,
-      import.meta.env.BASE_URL,
-      redirectLocation,
-    );
+    redirectLocation = pathJoin(getBaseUrl(), redirectLocation);
     return pathJoin(this.apiUrl, `login?redirect=${redirectLocation}`);
   }
 

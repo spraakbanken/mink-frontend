@@ -1,5 +1,6 @@
 import { inject } from "vue";
 import { injectionKeys } from "@/injection";
+import { getBaseUrl } from "@/util";
 
 /** Injects app config from instance plugin */
 export function useAppConfig() {
@@ -14,8 +15,7 @@ export function useAppConfig() {
   }
 
   // Provide current instance URL as fallback for minkUrl
-  const minkUrl =
-    appConfig.minkUrl || location.origin + import.meta.env.BASE_URL;
+  const minkUrl = appConfig.minkUrl || getBaseUrl();
 
   const resourceTypes = enabledKeys(appConfig.types || {});
 

@@ -7,6 +7,7 @@ import {
   ensureExtension,
   filterKeys,
   formatDate,
+  getBaseUrl,
   getFilenameExtension,
   objsToDict,
   pathJoin,
@@ -16,6 +17,13 @@ import {
   setKeys,
   unarray,
 } from "@/util";
+
+describe("getBaseUrl", () => {
+  test("is a url", () => {
+    expect(getBaseUrl()).toMatch(/^https?:\/\/[^/]+\//);
+    expect(new URL(getBaseUrl())).toBeTruthy();
+  });
+});
 
 describe("addDays", () => {
   const d = new Date("2024-04-24 08:00");

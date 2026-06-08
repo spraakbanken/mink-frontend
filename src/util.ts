@@ -8,6 +8,9 @@ import { attempt, clone, pickBy, trim } from "es-toolkit";
 /** The number of milliseconds in a full day. */
 const DAY_MS = 24 * 60 * 60 * 1000;
 
+/** Build the base URL of the Mink instance */
+export const getBaseUrl = () => location.origin + import.meta.env.BASE_URL;
+
 /**
  * Add or subtract a number of days to a date
  *

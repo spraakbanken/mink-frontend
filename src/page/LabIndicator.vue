@@ -1,14 +1,9 @@
 <script lang="ts" setup>
 import { PhFlask } from "@phosphor-icons/vue";
-import { computed } from "vue";
 import { useAppConfig } from "@/app/useAppConfig";
+import { getBaseUrl } from "@/util";
 
-const { appConfig, minkUrl } = useAppConfig();
-
-/** Whether configured main URL is different from current */
-const isMain = computed(
-  () => !appConfig.minkUrl || appConfig.minkUrl == minkUrl,
-);
+const { minkUrl } = useAppConfig();
 </script>
 
 <template>
@@ -22,7 +17,7 @@ const isMain = computed(
 
       <p class="my-0">
         {{ $t("lab.description") }}
-        <a v-if="!isMain" :href="appConfig.minkUrl">
+        <a v-if="minkUrl != getBaseUrl()" :href="minkUrl">
           {{ $t("lab.goto_mink") }}
         </a>
       </p>
