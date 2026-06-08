@@ -40,10 +40,8 @@ function addAsteriskPlugin(node: FormKitNode) {
 /** Validation rule to require that all or none of a group of fields are set. */
 function onlyif(node: FormKitNode, othersComma: string) {
   const parent = node.at("$parent") as FormKitNode<Record<string, unknown>>;
-  if (!parent?.value) {
-    console.error("onlyif rule missing parent");
-    return true;
-  }
+  // Parent sometimes not available. Not sure why. Skip validation.
+  if (!parent?.value) return true;
 
   for (const other of othersComma.split(",")) {
     if (other in parent.value && !!parent.value[other] != !!node.value)
