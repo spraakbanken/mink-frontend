@@ -25,6 +25,7 @@ export const useCorpusStore = defineStore("corpus", () => {
   }
 
   // Refresh exports when Sparv is done
+  // TODO Broken
   watchDeep(corpora, (corporaNew, corporaOld) => {
     Object.keys(corporaNew).forEach((id) => {
       const sparvNew = corporaNew[id]?.job?.status.sparv;

@@ -44,7 +44,6 @@ async function submit(fields: Form) {
           <FormKit
             :label="$t('name')"
             type="text"
-            validation="required:trim"
             name="name"
             input-class="w-72"
           />

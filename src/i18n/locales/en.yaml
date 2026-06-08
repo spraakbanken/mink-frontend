@@ -35,7 +35,7 @@ corpus.state.help.done_install: Successfully installed!
 corpus.state.help.failed: An error occurred while processing your data. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.state.help.failed_install: An error occurred while installing your corpus. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.sparv.run: Analyse
-corpus.sparv.rerun: Re-analyse
+corpus.sparv.rerun: Analyse again
 lexicon: Lexicon
 lexicon.help: A lexicon is a set of items with structured data fields. It doesn't have to be about words.
 lexicon.new: New lexicon

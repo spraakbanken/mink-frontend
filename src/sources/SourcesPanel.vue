@@ -111,7 +111,10 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
       >
         <template v-slot="{ row: source }">
           <td>
-            <router-link :to="`/library/${type}/${id}/sources/${source.name}`">
+            <router-link
+              :to="`/library/${type}/${id}/sources/${source.name}`"
+              class="block"
+            >
               {{ source.name }}
             </router-link>
           </td>
