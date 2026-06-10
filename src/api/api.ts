@@ -63,13 +63,13 @@ export class MinkClient {
     this.axios.defaults.headers["Authorization"] = jwt ? `Bearer ${jwt}` : null;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Documentation/operation/info */
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/info */
   getInfo = once(async () => {
     const response = await this.axios.get<MinkResponse<InfoData>>("info");
     return response.data;
   });
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Documentation/operation/sparv-exports */
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/list-sparv-exports */
   sparvExports = once(async () => {
     const response = await this.axios.get<MinkResponse<SparvExportsData>>(
       "corpus/sparv/list-exports",
@@ -77,7 +77,7 @@ export class MinkClient {
     return response.data.exports;
   });
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Documentation/operation/sparv-schema */
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/get-sparv-schema */
   sparvSchema = once(async () => {
     const response = await this.axios.get<MinkResponse<SparvSchemaData>>(
       "corpus/sparv/get-schema",
@@ -85,14 +85,14 @@ export class MinkClient {
     return response.data.sparv_schema;
   });
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/User-Management/operation/get-user-info */
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/User-Management/operation/get-user-info */
   async getUserInfo() {
     const response =
       await this.axios.get<MinkResponse<UserData>>("user/info/get");
     return response.data.user;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Resources/operation/list-resources */
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Resources/operation/list-resources */
   async listResources() {
     const response =
       await this.axios.get<MinkResponse<ResourceListData>>("resource/list");
@@ -100,8 +100,8 @@ export class MinkClient {
   }
 
   /**
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/create-corpus
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/create-lexicon
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/create-corpus
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/create-lexicon
    */
   async createResource(type: ResourceType) {
     const response = await this.axios.post<MinkResponse<CreateResourceData>>(
@@ -110,7 +110,7 @@ export class MinkClient {
     return response.data.resource_id;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Metadata/operation/create-metadata */
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/create-metadata */
   async createMetadata(publicId: string) {
     const response = await this.axios.post<MinkResponse<CreateResourceData>>(
       "metadata/create",
@@ -121,9 +121,9 @@ export class MinkClient {
   }
 
   /**
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/remove-corpus
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Metadata/operation/remove-metadata
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/remove-lexicon
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/remove-corpus
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/remove-metadata
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/remove-lexicon
    */
   async removeResource(type: ResourceType, id: string) {
     const response = await this.axios.delete<MinkResponse>(
@@ -133,9 +133,9 @@ export class MinkClient {
   }
 
   /**
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/upload-corpus-config
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/upload-lexicon-config
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Metadata/operation/upload_metadata_yaml_metadata_config_upload__resource_id__put
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/upload-corpus-config
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/upload-lexicon-config
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/upload_metadata_yaml_metadata_config_upload__resource_id__put
    */
   async uploadConfig(type: ResourceType, id: string, config: string) {
     const formData = filesFormData("file", yamlAsFile("config.yaml", config));
@@ -147,8 +147,8 @@ export class MinkClient {
   }
 
   /**
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/download-corpus-sources
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/download-lexicon-sources
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/download-corpus-sources
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/download-lexicon-sources
    */
   async downloadSources<B extends boolean>(
     type: ResourceType,
@@ -166,8 +166,8 @@ export class MinkClient {
   }
 
   /**
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/upload-corpus-sources
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/upload-lexicon-sources
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/upload-corpus-sources
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/upload-lexicon-sources
    */
   async uploadSources(
     type: ResourceType,
@@ -185,8 +185,8 @@ export class MinkClient {
   }
 
   /**
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/remove-corpus-sources
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/remove-lexicon-sources
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/remove-corpus-sources
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/remove-lexicon-sources
    */
   async removeSource(type: ResourceType, id: string, name: string) {
     const response = await this.axios.delete<MinkResponse>(
@@ -197,9 +197,9 @@ export class MinkClient {
   }
 
   /**
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/download-corpus-config
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/download-lexicon-config
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Metadata/operation/download_metadata_yaml_metadata_config_download__resource_id__get
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/download-corpus-config
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/download-lexicon-config
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/download_metadata_yaml_metadata_config_download__resource_id__get
    */
   downloadConfig = deduplicateRequest(
     async (type: ResourceType, id: string) => {
@@ -214,7 +214,7 @@ export class MinkClient {
     },
   );
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Resources/operation/list-resource-statuses */
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Resources/operation/list-resource-statuses */
   async listResourceStatuses() {
     const response = await this.axios.get<MinkResponse<ResourceStatusListData>>(
       "resource/status/list",
@@ -222,7 +222,7 @@ export class MinkClient {
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Resources/operation/get-resource-status */
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Resources/operation/get-resource-status */
   getResourceStatus = deduplicateRequest(async (id: string) => {
     const response = await this.axios.get<MinkResponse<ResourceInfo>>(
       "resource/status/get/" + id,
@@ -231,8 +231,8 @@ export class MinkClient {
   });
 
   /**
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/run-corpus-job
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/run-lexicon-job
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/run-corpus-job
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/run-lexicon-job
    */
   async runJob(type: ResourceType, id: string) {
     const response = await this.axios.put<MinkResponse<ResourceInfo>>(
@@ -245,8 +245,8 @@ export class MinkClient {
   }
 
   /**
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/abort-corpus-job
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/abort-lexicon-job
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/abort-corpus-job
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/abort-lexicon-job
    */
   async abortJob(type: ResourceType, id: string) {
     const response = await this.axios.post<MinkResponse>(
@@ -255,7 +255,7 @@ export class MinkClient {
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Process-Corpus/operation/clear-annotations */
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/clear-corpus-annotations */
   async clearAnnotations(id: string) {
     const response = await this.axios.delete<MinkResponse>(
       "corpus/annotations/remove/" + id,
@@ -264,8 +264,8 @@ export class MinkClient {
   }
 
   /**
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/list-corpus-exports
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/list-lexicon-exports
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/list-corpus-exports
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/list-lexicon-exports
    */
   listExports = deduplicateRequest(async (type: ResourceType, id: string) => {
     const response = await this.axios.get<MinkResponse<ListExportsData>>(
@@ -275,8 +275,8 @@ export class MinkClient {
   });
 
   /**
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/download-corpus-exports
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/download-lexicon-exports
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/download-corpus-exports
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/download-lexicon-exports
    */
   async downloadExports(type: ResourceType, id: string) {
     const response = await this.axios
@@ -286,8 +286,8 @@ export class MinkClient {
   }
 
   /**
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/download-corpus-exports
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/download-lexicon-exports
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/download-corpus-exports
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/download-lexicon-exports
    */
   async downloadExportFile(type: ResourceType, id: string, path: string) {
     const response = await this.axios
@@ -300,9 +300,9 @@ export class MinkClient {
   }
 
   /**
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/install-korp
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/install-strix
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/install-karps
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/install-korp
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/install-strix
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/install-karps
    */
   async install(type: ResourceType, id: string, tool: string) {
     const response = await this.axios.put<MinkResponse<ResourceInfo>>(
@@ -312,9 +312,9 @@ export class MinkClient {
   }
 
   /**
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/uninstall-korp
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Corpora/operation/uninstall-strix
-   * @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/Manage-Lexicons/operation/uninstall-karps
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/uninstall-korp
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/uninstall-strix
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/uninstall-karps
    */
   async uninstall(type: ResourceType, id: string, tool: string) {
     const response = await this.axios.delete<MinkResponse>(
@@ -323,7 +323,7 @@ export class MinkClient {
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/User-Management/operation/activate-admin-mode */
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/User-Management/operation/activate-admin-mode */
   async adminModeOn() {
     const response = await this.axios.post<MinkResponse>(
       "user/admin-mode/activate",
@@ -331,7 +331,7 @@ export class MinkClient {
     return response.data;
   }
 
-  /** @see https://ws.spraakbanken.gu.se/ws/mink/dev/redoc#tag/User-Management/operation/deactivate-admin-mode */
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/User-Management/operation/deactivate-admin-mode */
   async adminModeOff() {
     const response = await this.axios.post<MinkResponse>(
       "user/admin-mode/deactivate",
