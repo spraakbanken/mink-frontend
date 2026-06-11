@@ -12,10 +12,10 @@ const { isAuthenticated, userName } = storeToRefs(useJwtStore());
 </script>
 
 <template>
-  <div class="flex justify-center gap-4 p-4 text-center text-xl">
+  <div class="flex justify-center gap-6 p-6 text-center text-xl">
     <div v-if="!isAuthenticated">
       <LoginButton />
-      <div class="my-1 text-sm opacity-70">
+      <div class="my-2 text-base opacity-70">
         {{ $t("login.help") }}
       </div>
     </div>
@@ -25,7 +25,7 @@ const { isAuthenticated, userName } = storeToRefs(useJwtStore());
         <PhUserPlus weight="fill" class="inline mb-0.5 mr-1" />
         {{ $t("signup") }}
       </RouteButton>
-      <div class="my-1 text-sm opacity-70">
+      <div class="my-2 text-base opacity-70">
         {{ $t("signup.help") }}
       </div>
     </div>

@@ -35,6 +35,10 @@
     @apply text-3xl;
   }
 
+  h3 {
+    @apply text-lg;
+  }
+
   h1,
   h2,
   h3,

@@ -22,7 +22,7 @@ const config = computedAsync(() =>
 </script>
 
 <template>
-  <div class="flex flex-wrap items-stretch text-sm">
+  <div class="flex flex-wrap items-stretch">
     <table
       v-if="resource"
       class="flex-1 flex border-separate border-spacing-2 -m-2"
@@ -70,7 +70,7 @@ const config = computedAsync(() =>
       :on="`${id}/config`"
       class="flex-1"
     >
-      <h3 class="font-semibold">{{ $t("configuration") }}</h3>
+      <h3 class="text-base font-semibold">{{ $t("configuration") }}</h3>
       <TextData :text="config" language="yaml" />
     </PendingContent>
   </div>

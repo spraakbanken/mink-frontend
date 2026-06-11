@@ -21,7 +21,7 @@ defineEmits<{
 <template>
   <div class="flex gap-3 items-center">
     <div class="flex-1 self-start">
-      <h3 class="font-semibold">{{ name }}</h3>
+      <h3>{{ name }}</h3>
       <div class="text-sm text-gray-500 dark:text-gray-400">
         <div>{{ info }}</div>
         <a v-if="linkUrl && linkText" :href="linkUrl" target="_blank">

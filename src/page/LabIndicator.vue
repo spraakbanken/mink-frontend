@@ -13,7 +13,7 @@ const { minkUrl } = useAppConfig();
     <PhFlask weight="bold" class="shrink-0 text-2xl text-amber-400" />
 
     <div>
-      <h3>{{ $t("lab.title") }}</h3>
+      <h4>{{ $t("lab.title") }}</h4>
 
       <p class="my-0">
         {{ $t("lab.description") }}
