@@ -8,7 +8,17 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 - `MINOR` denotes changes that **may affect** the user experience or the development workflow
 - `PATCH` denotes changes that are **insignificant** to the user experience or the develpment workflow
 
-## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v2.1.0...HEAD)
+## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v2.1.1...HEAD)
+
+## [2.1.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.1.1) (2026-06-12)
+
+### Added
+
+- Show error if user info load fails
+
+### Fixed
+
+- Lexicon baseform field required
 
 ## [2.1.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.1.0) (2026-06-08)
 
