@@ -48,7 +48,7 @@ const isActiveClass = (path: string) =>
   >
     <!-- Main row -->
     <div
-      class="container pt-4 pb-2 flex max-sm:flex-col flex-wrap sm:items-baseline-last gap-4 gap-y-2"
+      class="container pt-4 pb-2 flex justify-between max-sm:flex-col flex-wrap sm:items-baseline-last gap-4 gap-y-2"
     >
       <!-- Logo -->
       <component
@@ -61,11 +61,14 @@ const isActiveClass = (path: string) =>
         </router-link>
       </component>
 
-      <LabIndicator v-if="isLab" />
+      <LabIndicator v-if="isLab" class="w-sm sm:self-end lg:mb-2" />
+
+      <!-- Spacer -->
+      <div class="w-4" />
 
       <!-- Main navigation -->
       <div
-        class="ms-8 flex sm:max-lg:flex-col gap-x-4 items-start text-nowrap text-lg font-medium"
+        class="flex sm:max-md:dflex-col gap-x-4 items-start text-nowrap text-lg font-medium"
       >
         <router-link
           to="/"
@@ -99,7 +102,7 @@ const isActiveClass = (path: string) =>
         :class="{ invisible: !isAuthenticating }"
       />
 
-      <div class="flex sm:max-lg:flex-col gap-x-4 text-nowrap">
+      <div class="flex gap-x-4 text-nowrap">
         <!-- Login link -->
         <router-link
           v-if="!isAuthenticated"
