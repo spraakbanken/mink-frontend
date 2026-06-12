@@ -8,7 +8,7 @@ const { minkUrl } = useAppConfig();
 
 <template>
   <div
-    class="w-sm self-end-safe bg-amber-100 border-2 border-amber-300 dark:bg-zinc-900 dark:border-0 dark:text-amber-400 p-1 rounded-sm cursor-help flex items-center gap-3"
+    class="w-sm self-end mb-2 bg-amber-100 border-2 border-amber-300 dark:bg-zinc-900 dark:border-0 dark:text-amber-400 p-1 rounded-sm flex items-center gap-3"
   >
     <PhFlask weight="bold" class="shrink-0 text-2xl text-amber-400" />
 
