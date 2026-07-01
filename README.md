@@ -6,7 +6,7 @@ Create your own corpus, add customizable automatic annotations and download or e
 
 [Use Mink](https://spraakbanken.gu.se/mink/)
 • [Language data](https://spraakbanken.gu.se/en/resources)
-• [Tools](https://spraakbanken.gu.se/en/tools)
+• [Platforms](https://spraakbanken.gu.se/en/tools)
 
 # Mink frontend
 

@@ -82,7 +82,7 @@ Directly under `src/` there is:
 ### Instance code
 
 Core code expects **instance** source code to live in `instance/`.
-This is where you can add your own branding and customize functionality without modifying core code.
+This is where you can add your own branding and customize functionality without modifying base code.
 
 The directory is left out of version control so that you can control its content separately.
 The recommended approach is to keep your instance code in an external directory and symlink to it:

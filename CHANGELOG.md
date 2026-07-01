@@ -6,7 +6,7 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 
 - `MAJOR` denotes changes that are expected to **significantly affect** or the user experience or the development workflow
 - `MINOR` denotes changes that **may affect** the user experience or the development workflow
-- `PATCH` denotes changes that are **insignificant** to the user experience or the develpment workflow
+- `PATCH` denotes changes that are **insignificant** to the user experience or the development workflow
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v2.1.1...HEAD)
 
