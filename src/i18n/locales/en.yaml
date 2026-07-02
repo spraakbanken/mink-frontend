@@ -44,6 +44,7 @@ lexicon.config.entry_word.field: Entry field
 lexicon.config.entry_word.field.help: Choose a field from the source file that should work as a main entry to each row.
 lexicon.config.entry_word.description: Field label
 lexicon.config.entry_word.description.help: The name of the field, for displaying to human users.
+lexicon.config.entry_word.description.default: baseform
 lexicon.karp_pipeline.run: Analyse
 lexicon.karp_pipeline.rerun: Analyse again
 lexicon.karp_pipeline.help: Prepare your data for use in Karp.
@@ -175,8 +176,6 @@ show_more: Show more
 docs.label: Help
 docs.url: https://spraakbanken.gu.se/en/tools/mink
 locale.switcher.label: Interface language
-en: English
-sv: Swedish
 file: File
 sources: Source files
 configuration: Configuration

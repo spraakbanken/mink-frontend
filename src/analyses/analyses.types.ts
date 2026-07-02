@@ -1,4 +1,4 @@
-import type { ByLang } from "@/util.types";
+import type { ByLang } from "@/util";
 
 /** Interface for a service that provides metadata on available Sparv analyses */
 export type AnalysisRegistryService = {

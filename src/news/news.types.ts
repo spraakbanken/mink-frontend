@@ -1,4 +1,4 @@
-import type { ByLang } from "@/util.types";
+import type { ByLang } from "@/util";
 
 /** Interface for a service that provides news about the app */
 export type NewsService = {

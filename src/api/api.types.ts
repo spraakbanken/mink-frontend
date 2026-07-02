@@ -1,5 +1,5 @@
 import type { AxiosError, AxiosProgressEvent } from "axios";
-import type { ByLang, RequiredKeys, SweEng } from "@/util.types";
+import type { ByLang, RequiredKeys } from "@/util";
 
 /** Properties common to most backend responses */
 export type MinkResponse<
@@ -52,8 +52,6 @@ type InfoDataSection<T> = {
 export type SparvExportsData = {
   /** List of available export formats */
   exports: ExportType[];
-  /** ISO code of the language chosen for the export listing */
-  language: "swe";
 };
 
 /** Data in the sparv-exports response */
@@ -103,7 +101,7 @@ export type UserInfo = {
   idp: string;
   name: string;
   sub: string;
-  ui_language: SweEng;
+  ui_language: string;
 };
 
 export type UserInfoFull = UserInfo & {

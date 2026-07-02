@@ -27,6 +27,11 @@ export function useAppConfig() {
 
   const tools = enabledKeys(appConfig.tools || {});
 
+  const uiLanguages = appConfig.ui?.languages || [
+    { id: "sv", key: "swe", name: "Svenska" },
+    { id: "en", key: "eng", name: "English" },
+  ];
+
   return {
     appConfig,
     minkUrl,
@@ -35,6 +40,7 @@ export function useAppConfig() {
     corpusSettings,
     lexiconSettings,
     tools,
+    uiLanguages,
   };
 }
 

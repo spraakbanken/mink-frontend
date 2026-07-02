@@ -6,7 +6,7 @@ import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
 import { PhLightbulbFilament, PhTrash } from "@phosphor-icons/vue";
 import { computedAsync } from "@vueuse/core";
-import { groupBy } from "es-toolkit";
+import { groupBy, omit } from "es-toolkit";
 import { useCorpus } from "../corpus.composable";
 import {
   type ConfigOptions,
@@ -24,8 +24,7 @@ import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import RouteButton from "@/components/RouteButton.vue";
 import useAlert from "@/alert/alert.composable";
 import PendingContent from "@/spin/PendingContent.vue";
-import type { ByLang } from "@/util.types";
-import LayoutBox from "@/components/LayoutBox.vue";
+import type { ByLang } from "@/util";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import useLocale from "@/i18n/locale.composable";
 import TabsBar from "@/components/TabsBar.vue";
@@ -57,7 +56,7 @@ const { extensions } = useSources("corpus", id);
 const analysisRegistry = useAnalysisRegistry();
 const { showAlert } = useAlert();
 const { t } = useI18n();
-const { th, thCompare } = useLocale();
+const { locale3, th, thCompare } = useLocale();
 const { spin } = useSpin();
 const { canAdmin, canWrite } = useUserStore();
 
@@ -131,28 +130,27 @@ function getParsedConfig() {
 
 async function submit(fields: Form) {
   // If there is no previous config file, start from a minimal one.
-  const configOld = configOptions.value || emptyConfig();
+  const original = configOptions.value || emptyConfig();
 
-  // Merge new form values with existing config.
+  // Use datetime if both are set
+  const datetime =
+    fields.datetimeFrom && fields.datetimeTo
+      ? { from: fields.datetimeFrom, to: fields.datetimeTo }
+      : undefined;
   const configNew: ConfigOptions = {
-    ...configOld,
-    name: fields.name,
-    description: fields.description,
-    format: fields.format,
-    textAnnotation: fields.textAnnotation,
-    sentenceSegmenter: fields.sentenceSegmenter,
-    datetime:
-      fields.datetimeFrom && fields.datetimeTo
-        ? {
-            from: fields.datetimeFrom,
-            to: fields.datetimeTo,
-          }
-        : undefined,
-    analyses: { ...fields.analyses },
+    ...omit(fields, ["datetimeFrom", "datetimeTo"]),
+    datetime,
   };
 
+  // Preserve hidden translations
+  configNew.name = { ...original.name, ...configNew.name };
+  configNew.description = { ...original.description, ...configNew.description };
+
+  // Merge new form values with existing config.
+  const config = { ...original, ...configNew };
+
   try {
-    await saveConfigOptions(configNew);
+    await saveConfigOptions(config);
     router.push(`/library/corpus/${id}`);
   } catch (e) {
     showAlert(e);
@@ -193,35 +191,29 @@ async function submit(fields: Form) {
               <p>{{ $t("config.metadata.help") }}</p>
             </HelpBox>
 
-            <div class="grid md:grid-cols-2 gap-4">
-              <LayoutBox
-                v-for="(lang2, lang3) of { swe: 'sv', eng: 'en' }"
-                :key="lang3"
-                :title="$t(lang2)"
-              >
-                <FormKit type="group" name="name">
-                  <FormKit
-                    :name="lang3"
-                    :label="$t('name')"
-                    :value="configOptions.name?.[lang3]"
-                    :help="$t('metadata.name.help')"
-                    type="text"
-                    input-class="w-72"
-                  />
-                </FormKit>
+            <!-- Use current UI language, so if it's "swe", show input for `name.swe` etc -->
+            <!-- TODO Manage current input if user switches locale while editing -->
+            <FormKit type="group" name="name">
+              <FormKit
+                :name="locale3"
+                :label="$t('name')"
+                :value="configOptions.name?.[locale3]"
+                :help="$t('metadata.name.help')"
+                type="text"
+                input-class="w-72"
+              />
+            </FormKit>
 
-                <FormKit type="group" name="description">
-                  <FormKit
-                    :name="lang3"
-                    :label="$t('description')"
-                    :value="configOptions.description?.[lang3]"
-                    :help="$t('metadata.description.help')"
-                    type="textarea"
-                    input-class="w-full h-20"
-                  />
-                </FormKit>
-              </LayoutBox>
-            </div>
+            <FormKit type="group" name="description">
+              <FormKit
+                :name="locale3"
+                :label="$t('description')"
+                :value="configOptions.description?.[locale3]"
+                :help="$t('metadata.description.help')"
+                type="textarea"
+                input-class="w-full h-20"
+              />
+            </FormKit>
 
             <FormKit
               :label="$t('identifier')"

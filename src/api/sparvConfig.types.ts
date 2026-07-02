@@ -1,4 +1,4 @@
-import type { ByLang } from "@/util.types";
+import type { ByLang } from "@/util";
 
 /** Models a Sparv config file */
 export type SparvConfig = {

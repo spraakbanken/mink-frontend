@@ -5,6 +5,12 @@ import axios, {
 } from "axios";
 import { attempt, clone, pickBy, trim } from "es-toolkit";
 
+/** A record mapping (3-letter) language codes to their translated strings */
+export type ByLang = Record<string, string>;
+
+/** Make the given keys required in the given type. */
+export type RequiredKeys<T, K extends keyof T> = T & Required<Pick<T, K>>;
+
 /** The number of milliseconds in a full day. */
 const DAY_MS = 24 * 60 * 60 * 1000;
 

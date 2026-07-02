@@ -2,12 +2,12 @@ import { computed, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { filesize } from "filesize";
 import { useStorage } from "@vueuse/core";
-import { once } from "es-toolkit";
+import { isEqual, once } from "es-toolkit";
 import type { Ref } from "vue";
-import type { ByLang, SvEn, SweEng } from "@/util.types";
-import { formatDate } from "@/util";
+import { formatDate, type ByLang } from "@/util";
+import { useAppConfig } from "@/app/useAppConfig";
 
-const storedLocale = useStorage<SvEn | "">("locale", "");
+const storedLocale = useStorage<string>("locale", "");
 
 /** Set up locale sync */
 const setupLocale = once((locale: Ref<string>) => {
@@ -19,7 +19,7 @@ const setupLocale = once((locale: Ref<string>) => {
 
   // Then sync from switcher continually
   watch(locale, () => {
-    storedLocale.value = (locale.value as SvEn) || "";
+    storedLocale.value = locale.value || "";
     exportLocale(locale.value);
   });
 });
@@ -29,14 +29,23 @@ const exportLocale = (lang: string) =>
 
 /** Set up locale sync and provide helpers */
 export default function useLocale() {
-  const { locale } = useI18n();
+  const { locale, availableLocales } = useI18n();
+  const { uiLanguages } = useAppConfig();
+
+  const langKeys = Object.fromEntries(uiLanguages.map((l) => [l.id, l.key]));
+
+  if (
+    !isEqual(new Set(availableLocales), new Set(uiLanguages.map((l) => l.id)))
+  ) {
+    console.error(
+      `Vue-i18n availableLocales (${availableLocales.join()}) does not match appConfig.ui.languages (${uiLanguages.map((l) => l.id).join()})`,
+    );
+  }
 
   setupLocale(locale);
 
-  // The ISO 639-3 code is used in many parts of the Språkbanken infrastructure.
-  const locale3 = computed<SweEng>(() =>
-    locale.value == "en" ? "eng" : "swe",
-  );
+  // The ISO 639-3 code is used with Sparv etc.
+  const locale3 = computed<string>(() => langKeys[locale.value]);
 
   /** Translate here - picks the current language out of a strings-by-language object. */
   function th(map?: ByLang | string): string | undefined {
@@ -44,7 +53,7 @@ export default function useLocale() {
     if (typeof map == "string") return map;
 
     // Pick first language found, current language first.
-    const langsOrdered: SweEng[] = [locale3.value, "eng", "swe"];
+    const langsOrdered = [locale3.value, ...uiLanguages.map((l) => l.key)];
     for (const lang of langsOrdered) if (map[lang]) return map[lang];
   }
 
@@ -74,6 +83,10 @@ export default function useLocale() {
   const formatDateLocalized = (date: Date | string, includeTime = true) =>
     formatDate(date, locale.value, includeTime);
 
+  /** Create a translatable string with the same value in all languages */
+  const createByLang = (value: string): ByLang =>
+    Object.fromEntries(uiLanguages.map((l) => [l.key, value]));
+
   return {
     locale,
     locale3,
@@ -81,5 +94,6 @@ export default function useLocale() {
     thCompare,
     filesize: myFilesize,
     formatDate: formatDateLocalized,
+    createByLang,
   };
 }

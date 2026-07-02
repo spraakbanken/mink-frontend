@@ -3,7 +3,7 @@ import type {
   ConfigSentenceSegmenter,
   SparvConfig,
 } from "@/api/sparvConfig.types";
-import type { ByLang } from "@/util.types";
+import type { ByLang } from "@/util";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
 import type {
   AnalysisId,
@@ -155,8 +155,8 @@ export function makeConfig(
 /** A minimal config */
 export function emptyConfig(): ConfigOptions {
   return {
-    name: { swe: "", eng: "" },
-    description: { swe: "", eng: "" },
+    name: {},
+    description: {},
     format: "txt",
     datetime: undefined,
     analyses: {},

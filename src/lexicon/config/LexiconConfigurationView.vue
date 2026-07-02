@@ -5,21 +5,26 @@ import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
 import { PhTrash } from "@phosphor-icons/vue";
-import { makeConfig, parseConfig, type LexiconField } from "./lexiconConfig";
+import {
+  emptyConfig,
+  makeConfig,
+  parseConfig,
+  type LexiconField,
+} from "./lexiconConfig";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import { useConfigStore } from "@/store/config.store";
 import { useUserStore } from "@/store/user.store";
-import LayoutBox from "@/components/LayoutBox.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
-import type { ByLang } from "@/util.types";
+import type { ByLang } from "@/util";
 import useMessenger from "@/alert/alert.composable";
 import RouteButton from "@/components/RouteButton.vue";
 import TabsBar from "@/components/TabsBar.vue";
 import TabsContent from "@/components/TabsContent.vue";
 import { useAppConfig } from "@/app/useAppConfig";
+import useLocale from "@/i18n/locale.composable";
 
 type TabKey = "metadata" | "settings";
 
@@ -35,6 +40,7 @@ const { loadConfig, uploadConfig } = useConfigStore();
 const { canWrite, canAdmin } = useUserStore();
 const router = useRouter();
 const { showAlert } = useMessenger();
+const { locale3 } = useLocale();
 
 const tabSelected = ref<TabKey>("metadata");
 
@@ -45,11 +51,18 @@ const configOptions = computed(
 );
 
 async function submit(fields: Form) {
-  const config = {
-    name: fields.name,
-    description: fields.description,
-    entryWord: fields.entryWord,
+  const original = configOptions.value || emptyConfig();
+
+  const configNew = { ...fields };
+  // Preserve hidden translations
+  configNew.name = { ...original.name, ...fields.name };
+  configNew.description = { ...original.description, ...fields.description };
+  configNew.entryWord.description = {
+    ...original.entryWord.description,
+    ...fields.entryWord.description,
   };
+
+  const config = { ...original, ...configNew };
   const yaml = makeConfig(id, config, minkUrl);
   try {
     await uploadConfig("lexicon", id, yaml);
@@ -90,35 +103,29 @@ async function submit(fields: Form) {
             :title="$t('metadata')"
             v-show="tabSelected == 'metadata'"
           >
-            <div class="grid md:grid-cols-2 gap-4">
-              <LayoutBox
-                v-for="(lang2, lang3) of { swe: 'sv', eng: 'en' }"
-                :key="lang3"
-                :title="$t(lang2)"
-              >
-                <FormKit type="group" name="name">
-                  <FormKit
-                    :name="lang3"
-                    :label="$t('name')"
-                    :value="configOptions?.name?.[lang3]"
-                    :help="$t('metadata.name.help')"
-                    type="text"
-                    input-class="w-72"
-                  />
-                </FormKit>
+            <!-- Use current UI language, so if it's "swe", show input for `name.swe` etc -->
+            <!-- TODO Manage current input if user switches locale while editing -->
+            <FormKit type="group" name="name">
+              <FormKit
+                :name="locale3"
+                :label="$t('name')"
+                :value="configOptions?.name?.[locale3]"
+                :help="$t('metadata.name.help')"
+                type="text"
+                input-class="w-72"
+              />
+            </FormKit>
 
-                <FormKit type="group" name="description">
-                  <FormKit
-                    :name="lang3"
-                    :label="$t('description')"
-                    :value="configOptions?.description?.[lang3]"
-                    :help="$t('metadata.description.help')"
-                    type="textarea"
-                    input-class="w-full h-20"
-                  />
-                </FormKit>
-              </LayoutBox>
-            </div>
+            <FormKit type="group" name="description">
+              <FormKit
+                :name="locale3"
+                :label="$t('description')"
+                :value="configOptions?.description?.[locale3]"
+                :help="$t('metadata.description.help')"
+                type="textarea"
+                input-class="w-full h-20"
+              />
+            </FormKit>
 
             <FormKit
               :label="$t('identifier')"
@@ -154,24 +161,16 @@ async function submit(fields: Form) {
                 :help="$t('lexicon.config.entry_word.field.help')"
               />
 
-              <div class="grid md:grid-cols-2 gap-4">
-                <LayoutBox
-                  v-for="(lang2, lang3) of { swe: 'sv', eng: 'en' }"
-                  :key="lang3"
-                  :title="$t(lang2)"
-                >
-                  <FormKit type="group" name="description">
-                    <FormKit
-                      :name="lang3"
-                      :label="$t('lexicon.config.entry_word.description')"
-                      :value="configOptions?.entryWord?.description?.[lang3]"
-                      :help="$t('lexicon.config.entry_word.description.help')"
-                      type="text"
-                      input-class="w-72"
-                    />
-                  </FormKit>
-                </LayoutBox>
-              </div>
+              <FormKit type="group" name="description">
+                <FormKit
+                  :name="locale3"
+                  :label="$t('lexicon.config.entry_word.description')"
+                  :value="configOptions?.entryWord?.description?.[locale3]"
+                  :help="$t('lexicon.config.entry_word.description.help')"
+                  type="text"
+                  input-class="w-72"
+                />
+              </FormKit>
             </FormKit>
           </TabsContent>
         </FormKit>

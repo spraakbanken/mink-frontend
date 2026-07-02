@@ -1,6 +1,5 @@
 import { parse, stringify } from "yaml";
-import type { ByLang } from "@/util.types";
-import { pathJoin } from "@/util";
+import { pathJoin, type ByLang } from "@/util";
 
 /** Structure of lexicon config YAML */
 export type LexiconConfig = {
@@ -28,11 +27,9 @@ export type LexiconField = {
 
 export function emptyConfig(): LexiconConfigOptions {
   return {
-    name: { swe: "", eng: "" },
-    description: { swe: "", eng: "" },
     entryWord: {
       field: "baseform",
-      description: { swe: "grundform", eng: "baseform" },
+      description: {},
     },
   };
 }

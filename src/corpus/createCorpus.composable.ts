@@ -6,10 +6,12 @@ import {
 } from "@/api/corpusConfig";
 import useCreateResource from "@/resource/createResource.composable";
 import { useAnalysisRegistry } from "@/analyses/useAnalysisRegistry";
+import useLocale from "@/i18n/locale.composable";
 
 export default function useCreateCorpus() {
   const { createResource } = useCreateResource();
   const analysisRegistry = useAnalysisRegistry();
+  const { createByLang } = useLocale();
 
   async function createCorpusFromUpload(files: File[]) {
     // Create default config.
@@ -34,8 +36,8 @@ export default function useCreateCorpus() {
   ) {
     const configOptions = {
       ...(await defaultConfig(analysisRegistry)),
-      name: { swe: name, eng: name },
-      description: { swe: description, eng: description },
+      name: createByLang(name),
+      description: createByLang(description),
       format,
       textAnnotation,
     };

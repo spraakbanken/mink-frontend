@@ -1,4 +1,4 @@
-import type { ByLang } from "@/util.types";
+import type { ByLang } from "@/util";
 import type { FileMeta, JobInfo, ResourceType } from "@/api/api.types";
 
 export type Resource<T extends ResourceType = ResourceType> = {

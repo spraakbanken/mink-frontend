@@ -51,4 +51,21 @@ export type AppConfig = {
 
     metadata?: true;
   };
+
+  ui?: {
+    /**
+     * Available UI languages, must be the same as those added to the Vue-I18n plugin.
+     *
+     * Vue-I18n only uses the 2-letter id, but the 3-letter key and the name are used in the UI.
+     */
+    languages?: {
+      // Mnemonic: the keys "id" and "key" themselves have 2 and 3 letters respectively
+      /** Language code to use with Vue-I18n, preferrably ISO 639-1 (two letters) */
+      id: string;
+      /** Language code to use in translatable strings, preferrably ISO 639-3 (three letters) */
+      key: string;
+      /** Human-readable name, in the language itself */
+      name: string;
+    }[];
+  };
 };
