@@ -137,11 +137,17 @@ export class MinkClient {
    * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/upload-lexicon-config
    * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/upload_metadata_yaml_metadata_config_upload__resource_id__put
    */
-  async uploadConfig(type: ResourceType, id: string, config: string) {
+  async uploadConfig(
+    type: ResourceType,
+    id: string,
+    config: string,
+    custom: boolean,
+  ) {
     const formData = filesFormData("file", yamlAsFile("config.yaml", config));
     const response = await this.axios.put<MinkResponse>(
       `${type}/config/upload/${id}`,
       formData,
+      { params: { "custom-config": custom } },
     );
     return response.data;
   }

@@ -23,7 +23,7 @@ export default function useCreateResource() {
       await loadJwt(true);
 
       const config = createConfig(id);
-      const uploads = [api.uploadConfig(type, id, config)];
+      const uploads = [api.uploadConfig(type, id, config, false)];
 
       if (sources.length) uploads.push(api.uploadSources(type, id, sources));
 

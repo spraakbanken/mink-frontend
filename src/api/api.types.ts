@@ -116,6 +116,7 @@ export type ResourceData = {
   id: string;
   public_id: string;
   name: ByLang;
+  custom_config: boolean;
   source_files: FileMeta[];
 };
 

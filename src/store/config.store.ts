@@ -30,8 +30,9 @@ export const useConfigStore = defineStore("config", () => {
     type: ResourceType,
     id: string,
     configYaml: string,
+    custom = false,
   ) {
-    await spin(api.uploadConfig(type, id, configYaml), `${id}/config`);
+    await spin(api.uploadConfig(type, id, configYaml, custom), `${id}/config`);
 
     await Promise.all([
       // Backend may modify uploaded config, so fetch the real one

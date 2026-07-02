@@ -46,7 +46,7 @@ watchEffect(() => (input.value = config.value || ""));
 
 /** Save current input as config by uploading it */
 async function upload() {
-  await uploadConfig(props.type, props.id, input.value).catch(showAlert);
+  await uploadConfig(props.type, props.id, input.value, true).catch(showAlert);
 }
 </script>
 
