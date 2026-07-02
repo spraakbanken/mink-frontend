@@ -11,7 +11,7 @@ import { useJwtStore } from "@/store/jwt.store";
 
 const auth = useAuth();
 const { userName } = storeToRefs(useJwtStore());
-const { userInfo } = useUserStore();
+const { userInfo } = storeToRefs(useUserStore());
 </script>
 
 <template>

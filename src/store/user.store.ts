@@ -2,7 +2,6 @@ import { whenever } from "@vueuse/core";
 import { defineStore, storeToRefs } from "pinia";
 import { readonly, ref, watchEffect } from "vue";
 import { useJwtStore } from "./jwt.store";
-import { useResourceStore } from "./resource.store";
 import type { User } from "./resource.types";
 import { useApi } from "@/api/useApi";
 import useSpin from "@/spin/spin.composable";
@@ -21,7 +20,6 @@ export const useUserStore = defineStore("user", () => {
   const auth = useAuth();
   const api = useApi();
   const { payload } = storeToRefs(useJwtStore());
-  const { invalidateResources } = useResourceStore();
   const { spin } = useSpin();
   const { showAlert } = useAlert();
 
@@ -42,13 +40,11 @@ export const useUserStore = defineStore("user", () => {
   async function enableAdminMode() {
     await spin(api.adminModeOn(), "admin-mode");
     adminMode.value = true;
-    invalidateResources();
   }
 
   async function disableAdminMode() {
     await spin(api.adminModeOff(), "admin-mode");
     adminMode.value = false;
-    invalidateResources();
   }
 
   /** Check if a resource user is the currently logged in user. */

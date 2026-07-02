@@ -1,7 +1,8 @@
-import { computed, reactive, ref } from "vue";
-import { defineStore } from "pinia";
+import { computed, reactive, ref, watch } from "vue";
+import { defineStore, storeToRefs } from "pinia";
 import { pick } from "es-toolkit";
 import { type Resource } from "./resource.types";
+import { useUserStore } from "./user.store";
 import { filterKeys } from "@/util";
 import { useApi } from "@/api/useApi";
 import type { ResourceInfo, ResourceType } from "@/api/api.types";
@@ -10,6 +11,8 @@ import useSpin from "@/spin/spin.composable";
 export const useResourceStore = defineStore("resource", () => {
   const api = useApi();
   const { spin } = useSpin();
+  const userStore = useUserStore();
+  const { adminMode } = storeToRefs(userStore);
 
   const ids = ref<string[]>([]);
   const resources = reactive<Record<string, Resource>>({});
@@ -34,6 +37,10 @@ export const useResourceStore = defineStore("resource", () => {
 
   /** Load and store data about all the user's resources. */
   async function loadResources() {
+    // If a coding error causes this to be called in admin mode, throw an error instead of making a huge request.
+    if (adminMode.value)
+      throw new Error("Full resource info must not be loaded in admin mode");
+
     // Skip if already loaded.
     if (!freshList) {
       const data = await spin(api.listResourceStatuses(), "resources");
@@ -47,11 +54,6 @@ export const useResourceStore = defineStore("resource", () => {
     }
 
     return resources;
-  }
-
-  /** Signal that info needs to be reloaded */
-  function invalidateResources() {
-    freshList = false;
   }
 
   /** Load and store data about a given resource. */
@@ -97,8 +99,10 @@ export const useResourceStore = defineStore("resource", () => {
     return resource;
   }
 
+  // Invalidate resource list when switching admin mode on/off
+  watch(adminMode, () => (freshList = false));
+
   return {
-    invalidateResources,
     loadResource,
     loadTypedResource,
     loadResourceIds,
