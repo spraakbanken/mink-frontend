@@ -55,6 +55,9 @@ export default defineConfig(async ({ mode }) => {
       // Map this hostname to 127.0.0.1 in /etc/hosts.
       host: env.DEV_HOST,
       https: getHttpsOptions(),
+      watch: {
+        ignored: [/\.md$/],
+      },
     },
     test: {
       environment: "happy-dom",
