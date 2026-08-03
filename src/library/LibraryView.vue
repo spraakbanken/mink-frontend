@@ -112,7 +112,7 @@ const getType = (resource: Resource) =>
             :rows="resourcesList"
             :get-row-key="(resource) => resource.id"
             :default-sort="{ title: $t('name'), reverse: false }"
-            class="w-full my-4 striped"
+            class="w-full my-4"
           >
             <template #tr="{ row: resource }">
               <tr>

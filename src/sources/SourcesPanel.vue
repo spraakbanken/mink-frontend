@@ -107,10 +107,10 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
         :rows="resource.sources"
         :get-row-key="(source) => source.path"
         :default-sort="{ title: columns[0].title, reverse: false }"
-        class="w-full striped"
+        class="w-full"
       >
         <template v-slot="{ row: source }">
-          <td>
+          <td class="py-1">
             <router-link
               :to="`/library/${type}/${id}/sources/${source.name}`"
               class="block"
@@ -118,7 +118,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
               {{ source.name }}
             </router-link>
           </td>
-          <td class="text-end whitespace-nowrap">
+          <td class="text-end whitespace-nowrap px-2">
             {{ filesize(source.size) }}
           </td>
           <td v-if="canWrite(type, id)">

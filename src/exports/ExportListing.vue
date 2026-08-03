@@ -38,11 +38,11 @@ const { showAlert } = useAlert();
     :rows="files"
     :get-row-key="(file) => file.name"
     :default-sort="{ title: $t('filename'), reverse: false }"
-    class="w-full mt-2 striped"
+    class="w-full mt-2"
   >
     <template v-slot="{ row: file }">
       <!-- Filename link -->
-      <td class="w-full">
+      <td class="w-full py-1">
         {{ file.path.slice(0, file.path.lastIndexOf("/") + 1)
         }}<router-link
           :to="`/library/${type}/${id}/exports/${encodeURIComponent(file.path)}`"
@@ -52,7 +52,7 @@ const { showAlert } = useAlert();
       </td>
 
       <!-- File size -->
-      <td class="text-end whitespace-nowrap">
+      <td class="text-end whitespace-nowrap px-2">
         {{ filesize(file.size) }}
       </td>
 

@@ -324,7 +324,7 @@ async function submit(fields: Form) {
               </HelpBox>
 
               <FormKit type="group" name="analyses">
-                <table class="my-2 striped">
+                <table class="my-2">
                   <thead>
                     <tr>
                       <th>{{ $t("description") }}</th>
@@ -340,7 +340,7 @@ async function submit(fields: Form) {
                       </th>
                     </tr>
                     <tr v-for="analysis in group" :key="analysis.id">
-                      <td>
+                      <td class="py-1">
                         <FormKit
                           :name="analysis.id"
                           :label="th(analysis.label)"
