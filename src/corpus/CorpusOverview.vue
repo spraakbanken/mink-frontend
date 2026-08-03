@@ -8,7 +8,6 @@ import SourcesPanel from "@/sources/SourcesPanel.vue";
 import AnalysisPanel from "@/corpus/analysis/AnalysisPanel.vue";
 import ExplorePanel from "@/corpus/ExplorePanel.vue";
 import CorpusStateHelp from "@/corpus/CorpusStateHelp.vue";
-import RouteButton from "@/components/RouteButton.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import JobStatusPanel from "@/job/JobStatusPanel.vue";
 import { useUserStore } from "@/store/user.store";
@@ -30,18 +29,19 @@ const { canWrite } = useUserStore();
       <LayoutBox :title="$t('configuration')">
         <ConfigPanel :id />
         <template #controls>
-          <RouteButton
+          <router-link
             :to="`/library/corpus/${id}/config`"
-            :class="{ 'button-primary': !isConfigValid }"
+            class="flex items-baseline"
+            :class="{ 'link-primary': !isConfigValid }"
           >
             <template v-if="canWrite('corpus', id)">
-              <PhPencilSimple weight="bold" class="inline mb-1 mr-1" />
+              <PhPencilSimple weight="bold" class="self-center mr-1" />
               {{ $t("edit") }}
             </template>
             <template v-else>
               {{ $t("show_more") }}
             </template>
-          </RouteButton>
+          </router-link>
         </template>
       </LayoutBox>
 

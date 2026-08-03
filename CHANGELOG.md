@@ -16,6 +16,10 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 - Corpus config labels in any language [#286](https://github.com/spraakbanken/mink-frontend/issues/286)
   - App config `ui.languages` must be configured to match i18n locales
 
+### Changed
+
+- Use links and buttons consistently [#258](https://github.com/spraakbanken/mink-frontend/issues/258)
+
 ## [2.1.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.1.1) (2026-06-12)
 
 ### Added

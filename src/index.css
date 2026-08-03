@@ -204,3 +204,7 @@
 @utility button-slim {
   @apply p-0 px-1;
 }
+
+@utility link-primary {
+  @apply text-sky-700 dark:text-sky-300 font-medium;
+}

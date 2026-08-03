@@ -368,9 +368,9 @@ async function submit(fields: Form) {
       </FormKitWrapper>
 
       <div class="flex justify-center items-baseline gap-4">
-        <RouteButton :to="`/library/corpus/${id}/config/custom`">
+        <router-link :to="`/library/corpus/${id}/config/custom`">
           {{ $t("config.custom") }}
-        </RouteButton>
+        </router-link>
 
         <RouteButton
           :disabled="!canAdmin('corpus', id)"

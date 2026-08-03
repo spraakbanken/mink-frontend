@@ -36,9 +36,9 @@ const { isAuthenticated, userName } = storeToRefs(useJwtStore());
     >
       <div>{{ $t("welcome", { name: userName }) }}</div>
 
-      <RouteButton to="/library" class="button-primary">
+      <router-link to="/library">
         {{ $t("mydata") }}
-      </RouteButton>
+      </router-link>
 
       <UrlButton :href="auth.getLogoutUrl()">
         <PhSignOut class="inline mb-1 mr-1" />

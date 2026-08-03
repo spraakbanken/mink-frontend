@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { PhArrowSquareOut, PhGearFine, PhTrash } from "@phosphor-icons/vue";
 import ActionButton from "@/components/ActionButton.vue";
-import UrlButton from "@/components/UrlButton.vue";
 
 defineProps<{
   name: string;
@@ -31,15 +30,15 @@ defineEmits<{
     </div>
 
     <div class="flex flex-col gap-2 items-end">
-      <UrlButton
+      <a
         v-if="isInstalled"
         :href="showUrl"
         target="_blank"
-        class="button-primary"
+        class="flex items-baseline link-primary"
       >
-        <PhArrowSquareOut weight="bold" class="inline mb-1 mr-1" />
+        <PhArrowSquareOut weight="bold" class="self-center mr-1" />
         {{ $t("exports.tools.view") }}
-      </UrlButton>
+      </a>
 
       <ActionButton
         :disabled="!canInstall"

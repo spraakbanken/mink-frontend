@@ -5,7 +5,6 @@ import AnalysisPanel from "./AnalysisPanel.vue";
 import ExplorePanel from "./ExplorePanel.vue";
 import { useUserStore } from "@/store/user.store";
 import LayoutBox from "@/components/LayoutBox.vue";
-import RouteButton from "@/components/RouteButton.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import SharingPanel from "@/auth/SharingPanel.vue";
 import SourcesPanel from "@/sources/SourcesPanel.vue";
@@ -21,15 +20,18 @@ const { canWrite } = useUserStore();
       <LayoutBox :title="$t('configuration')">
         <ConfigPanel :id />
         <template #controls>
-          <RouteButton :to="`/library/lexicon/${id}/config`">
+          <router-link
+            :to="`/library/lexicon/${id}/config`"
+            class="flex items-baseline"
+          >
             <template v-if="canWrite('lexicon', id)">
-              <PhPencilSimple weight="bold" class="inline mb-1 mr-1" />
+              <PhPencilSimple weight="bold" class="self-center mr-1" />
               {{ $t("edit") }}
             </template>
             <template v-else>
               {{ $t("show_more") }}
             </template>
-          </RouteButton>
+          </router-link>
         </template>
       </LayoutBox>
 

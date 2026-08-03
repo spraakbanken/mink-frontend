@@ -3,7 +3,6 @@ import { PhShareNetwork } from "@phosphor-icons/vue";
 import { computedAsync } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
-import UrlButton from "@/components/UrlButton.vue";
 import { useAuth } from "@/api/useAuth";
 import { useResourceStore } from "@/store/resource.store";
 import TerminalOutput from "@/components/TerminalOutput.vue";
@@ -55,14 +54,15 @@ const authGuiUrl = computed(() => auth.getGuiUrl(props.id));
                 {{ getAccessLevel(resourceType, id) }}
               </TerminalOutput>
             </div>
-            <UrlButton
+            <a
               v-if="canAdmin(resourceType, id) && authGuiUrl"
               :href="authGuiUrl"
               target="_blank"
+              class="flex items-baseline"
             >
-              <PhShareNetwork class="inline mr-1 mb-1" />
+              <PhShareNetwork class="self-center mr-1" />
               {{ $t("sharing.manage") }}
-            </UrlButton>
+            </a>
           </td>
         </tr>
       </tbody>
