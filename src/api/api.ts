@@ -1,5 +1,6 @@
 import Axios, { isAxiosError, type AxiosInstance } from "axios";
 import { once } from "es-toolkit";
+import { ApiRequest } from "./request";
 import { deduplicateRequest, ensureTrailingSlash } from "@/util";
 import type {
   MinkResponse,
@@ -47,8 +48,10 @@ async function rethrowBlobError(error: unknown): Promise<never> {
 
 /** Mink backend API client */
 export class MinkClient {
-  /** An instance of the Axios HTTP client. */
+  /** @deprecated An instance of the Axios HTTP client. */
   axios: AxiosInstance;
+  baseUrl: string;
+  jwt?: string;
 
   /** Creates the client instance */
   constructor(baseUrl: string) {
@@ -56,47 +59,79 @@ export class MinkClient {
       baseURL: ensureTrailingSlash(baseUrl),
       withCredentials: true,
     });
+    this.baseUrl = ensureTrailingSlash(baseUrl);
   }
 
   /** Sets a JWT token which is then used to authenticate API requests. */
   setJwt(jwt?: string) {
     this.axios.defaults.headers["Authorization"] = jwt ? `Bearer ${jwt}` : null;
+    this.jwt = jwt;
+  }
+
+  /** Send an (authenticated) Mink backend request */
+  request(
+    endpoint: string,
+    method: "GET" | "POST" | "PUT" | "DELETE" = "GET",
+    config: RequestInit = {},
+  ) {
+    // Prepare request config
+    config.method = method;
+    config.credentials = "include";
+    if (this.jwt) {
+      config.headers = {
+        ...config.headers,
+        Authorization: `Bearer ${this.jwt}`,
+      };
+    }
+
+    // Build URL
+    const url = this.baseUrl + endpoint;
+
+    // Send request
+    return new ApiRequest(url, config);
+  }
+
+  get(endpoint: string) {
+    return this.request(endpoint);
+  }
+
+  post(endpoint: string) {
+    return this.request(endpoint, "POST");
+  }
+
+  put(endpoint: string, body?: BodyInit) {
+    return this.request(endpoint, "PUT", { body });
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/info */
-  getInfo = once(async () => {
-    const response = await this.axios.get<MinkResponse<InfoData>>("info");
-    return response.data;
-  });
+  getInfo = once(async () => await this.request("info").json<InfoData>());
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/list-sparv-exports */
   sparvExports = once(async () => {
-    const response = await this.axios.get<MinkResponse<SparvExportsData>>(
-      "corpus/sparv/list-exports",
-    );
-    return response.data.exports;
+    const request = this.request("corpus/sparv/list-exports");
+    const data = await request.json<SparvExportsData>();
+    return data.exports;
   });
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/get-sparv-schema */
   sparvSchema = once(async () => {
-    const response = await this.axios.get<MinkResponse<SparvSchemaData>>(
-      "corpus/sparv/get-schema",
-    );
-    return response.data.sparv_schema;
+    const request = this.request("corpus/sparv/get-schema");
+    const data = await request.json<SparvSchemaData>();
+    return data.sparv_schema;
   });
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/User-Management/operation/get-user-info */
   async getUserInfo() {
-    const response =
-      await this.axios.get<MinkResponse<UserData>>("user/info/get");
-    return response.data.user;
+    const request = this.request("user/info/get");
+    const data = await request.json<UserData>();
+    return data.user;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Resources/operation/list-resources */
   async listResources() {
-    const response =
-      await this.axios.get<MinkResponse<ResourceListData>>("resource/list");
-    return response.data.resources;
+    const request = this.request("resource/list");
+    const data = await request.json<ResourceListData>();
+    return data.resources;
   }
 
   /**
@@ -104,20 +139,17 @@ export class MinkClient {
    * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/create-lexicon
    */
   async createResource(type: ResourceType) {
-    const response = await this.axios.post<MinkResponse<CreateResourceData>>(
-      `${type}/create`,
-    );
-    return response.data.resource_id;
+    const request = this.request(`${type}/create`, "POST");
+    const data = await request.json<CreateResourceData>();
+    return data.resource_id;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Metadata/operation/create-metadata */
   async createMetadata(publicId: string) {
-    const response = await this.axios.post<MinkResponse<CreateResourceData>>(
-      "metadata/create",
-      undefined,
-      { params: { public_id: publicId } },
-    );
-    return response.data.resource_id;
+    const request = this.request("metadata/create", "POST");
+    request.setParams({ public_id: publicId });
+    const data = await request.json<CreateResourceData>();
+    return data.resource_id;
   }
 
   /**
@@ -126,10 +158,8 @@ export class MinkClient {
    * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/remove-lexicon
    */
   async removeResource(type: ResourceType, id: string) {
-    const response = await this.axios.delete<MinkResponse>(
-      `${type}/remove/${id}`,
-    );
-    return response.data;
+    const request = this.request(`${type}/remove/${id}`, "DELETE");
+    request.send();
   }
 
   /**
@@ -144,12 +174,11 @@ export class MinkClient {
     custom: boolean,
   ) {
     const formData = filesFormData("file", yamlAsFile("config.yaml", config));
-    const response = await this.axios.put<MinkResponse>(
-      `${type}/config/upload/${id}`,
-      formData,
-      { params: { "custom-config": custom } },
-    );
-    return response.data;
+    const request = this.request(`${type}/config/upload/${id}`, "PUT", {
+      body: formData,
+    });
+    request.setParams({ "custom-config": custom ? "true" : "false" });
+    await request.send();
   }
 
   /**
@@ -162,13 +191,10 @@ export class MinkClient {
     filename: string,
     binary: B,
   ) {
-    const response = await this.axios
-      .get<B extends true ? Blob : string>(`${type}/sources/download/${id}`, {
-        params: { file: filename, zip: false },
-        responseType: binary ? "blob" : "text",
-      })
-      .catch(rethrowBlobError);
-    return response.data;
+    const request = this.request(`${type}/sources/download/${id}`);
+    request.setParams({ file: filename, zip: "false" });
+    // TODO Handle error? Was: rethrowBlobError
+    return binary ? request.blob() : request.text();
   }
 
   /**
@@ -182,12 +208,12 @@ export class MinkClient {
     onProgress?: ProgressHandler,
   ) {
     const formData = filesFormData("files", ...files);
-    const response = await this.axios.put<MinkResponse>(
-      `${type}/sources/upload/${id}`,
-      formData,
-      { onUploadProgress: onProgress },
-    );
-    return response.data;
+    const request = this.request(`${type}/sources/upload/${id}`, "PUT", {
+      body: formData,
+      // @ts-expect-error TODO Upload progress not supported by fetch()
+      onUploadProgress: onProgress,
+    });
+    await request.send();
   }
 
   /**
@@ -195,11 +221,9 @@ export class MinkClient {
    * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/remove-lexicon-sources
    */
   async removeSource(type: ResourceType, id: string, name: string) {
-    const response = await this.axios.delete<MinkResponse>(
-      `${type}/sources/remove/${id}`,
-      { params: { remove: name } },
-    );
-    return response.data;
+    const request = this.request(`${type}/sources/remove/${id}`, "DELETE");
+    request.setParams({ remove: name });
+    await request.send();
   }
 
   /**
@@ -209,31 +233,25 @@ export class MinkClient {
    */
   downloadConfig = deduplicateRequest(
     async (type: ResourceType, id: string) => {
-      const response = await this.axios
-        .get<string>(`${type}/config/download/${id}`)
-        .catch((error) => {
-          // 404 means no config which is fine, rethrow other errors.
-          if (error.response?.status == 404) return undefined;
-          throw error;
-        });
-      return response?.data;
+      const request = this.request(`${type}/config/download/${id}`);
+      return await request.text().catch((error) => {
+        // 404 means no config which is fine, rethrow other errors.
+        if (error.response?.status == 404) return undefined;
+        throw error;
+      });
     },
   );
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Resources/operation/list-resource-statuses */
   async listResourceStatuses() {
-    const response = await this.axios.get<MinkResponse<ResourceStatusListData>>(
-      "resource/status/list",
-    );
-    return response.data;
+    const request = this.request("resource/status/list");
+    return await request.json<ResourceStatusListData>();
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Resources/operation/get-resource-status */
   getResourceStatus = deduplicateRequest(async (id: string) => {
-    const response = await this.axios.get<MinkResponse<ResourceInfo>>(
-      "resource/status/get/" + id,
-    );
-    return response.data;
+    const request = this.request("resource/status/get/" + id);
+    return request.json<ResourceInfo>();
   });
 
   /**
@@ -241,13 +259,9 @@ export class MinkClient {
    * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/run-lexicon-job
    */
   async runJob(type: ResourceType, id: string) {
-    const response = await this.axios.put<MinkResponse<ResourceInfo>>(
-      `${type}/job/run/${id}`,
-      null,
-      // Errors are okay.
-      { validateStatus: () => true },
-    );
-    return response.data;
+    const request = this.request(`${type}/job/run/${id}`, "PUT");
+    // TODO Errors are okay
+    return request.json<ResourceInfo>();
   }
 
   /**
