@@ -19,20 +19,17 @@ const metadataRoutes: RouteRecordRaw[] = [
   {
     path: "/library/metadata/:id",
     component: MetadataView,
+    // The `protected` flag is inherited by child routes
     meta: { protected: true },
     children: [
       {
         path: "",
         component: MetadataOverviewView,
-        meta: { protected: true },
       },
       {
         path: "delete",
         component: MetadataDeleteView,
-        meta: {
-          title: "delete",
-          protected: true,
-        },
+        meta: { title: "delete" },
       },
     ],
   },

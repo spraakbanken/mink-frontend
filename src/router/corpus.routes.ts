@@ -25,55 +25,41 @@ const corpusRoutes: RouteRecordRaw[] = [
   {
     path: "/library/corpus/:id",
     component: CorpusView,
+    // The `protected` flag is inherited by child routes
     meta: { protected: true },
     children: [
       {
         path: "",
         component: CorpusOverviewView,
-        meta: { protected: true },
       },
       {
         path: "config",
         component: CorpusConfigurationView,
-        meta: {
-          title: "configuration",
-          protected: true,
-        },
+        meta: { title: "configuration" },
       },
       {
         path: "config/custom",
         component: CorpusConfigCustomView,
-        meta: {
-          title: "config.custom",
-          protected: true,
-        },
+        meta: { title: "config.custom" },
       },
       {
         path: "sources/:filename",
         component: CorpusSourceView,
-        meta: { protected: true },
       },
       {
         path: "exports",
         component: CorpusExportListView,
-        meta: {
-          title: "result",
-          protected: true,
-        },
+        meta: { title: "result" },
       },
       {
         path: "exports/:path",
         component: CorpusExportView,
         props: true,
-        meta: { protected: true },
       },
       {
         path: "delete",
         component: CorpusDeleteView,
-        meta: {
-          title: "delete",
-          protected: true,
-        },
+        meta: { title: "delete" },
       },
     ],
   },
