@@ -15,6 +15,7 @@ import type {
   ResourceType,
   BackendError,
   UserData,
+  QueueHealthData,
 } from "@/api/api.types";
 
 /** Create a `text/yaml` file object with content */
@@ -342,6 +343,12 @@ export class MinkClient {
     const response = await this.axios.post<MinkResponse>(
       "user/admin-mode/deactivate",
     );
+    return response.data;
+  }
+
+  async queueHealth() {
+    const response =
+      await this.axios.get<MinkResponse<QueueHealthData>>("queue/health");
     return response.data;
   }
 }

@@ -3,6 +3,7 @@ import { useRouter } from "vue-router";
 import { watchImmediate } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 import AdminResourceList from "./AdminResourceList.vue";
+import AdminQueue from "./AdminQueue.vue";
 import PageTitle from "@/components/PageTitle.vue";
 import { useResourceStore } from "@/store/resource.store";
 import HelpBox from "@/components/HelpBox.vue";
@@ -29,6 +30,10 @@ watchImmediate(adminMode, () => {
       {{ $t("admin.resources.help") }}
     </HelpBox>
 
-    <AdminResourceList />
+    <div class="flex flex-col gap-4">
+      <AdminQueue />
+
+      <AdminResourceList />
+    </div>
   </div>
 </template>

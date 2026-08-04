@@ -12,6 +12,7 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 
 ### Added
 
+- Show current jobs in admin view [#257](https://github.com/spraakbanken/mink-frontend/issues/257)
 - Mark custom config [#261](https://github.com/spraakbanken/mink-frontend/issues/261)
 - Corpus config labels in any language [#286](https://github.com/spraakbanken/mink-frontend/issues/286)
   - App config `ui.languages` must be configured to match i18n locales

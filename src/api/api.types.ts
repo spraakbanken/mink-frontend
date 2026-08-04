@@ -197,4 +197,38 @@ export type AdminModeStatusData = {
   admin_mode_status: boolean;
 };
 
+export type QueueHealthData = {
+  healthy: boolean;
+  /** Date */
+  last_started: string;
+  max_workers: number;
+  message: string;
+  /** Date */
+  oldest_running_started: string;
+  oldest_running_seconds: number;
+  /** Date */
+  oldest_waiting_queued: string;
+  oldest_waiting_seconds: number;
+  queue_jobs: QueueItem[];
+  queue_size: number;
+  running_jobs: number;
+  seconds_since_last_start: number;
+  waiting_jobs: number;
+  warning_threshold_seconds: number;
+};
+
+export type QueueItem<T extends ResourceType = ResourceType> = {
+  age_reference: string;
+  age_seconds: number;
+  current_process: JobType<T>;
+  job_status: JobState;
+  priority: number | "";
+  /** Date */
+  queued: string;
+  resource_id: string;
+  resource_type: T;
+  /** Date */
+  started: string;
+};
+
 export type ProgressHandler = (progressEvent: AxiosProgressEvent) => void;

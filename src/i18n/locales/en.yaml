@@ -68,8 +68,10 @@ job.rerun.tools_outdated: Previous results will remain in other platforms if it 
 job.abort: Abort
 job.status: Status
 job.priority: Place in queue
-job.started: Last run started
-job.ended: Last run ended
+job.process: Current process
+job.started: Started
+job.ended: Ended
+job.queued: Queued
 job.time_taken: Time taken
 job.process.sparv: Analysis
 job.process.korp: Installation to Korp
@@ -190,6 +192,7 @@ type: Type
 upload: Upload
 uploaded: Uploaded
 lastModify: Last modified
+seconds_ago: "{count}s ago"
 fileSize: Size
 file.operations: Operations
 delete: Delete
@@ -294,6 +297,8 @@ annotations.clear.help: Use this before processing a previously analysed corpus 
 admin.page.subtitle: Administration
 admin.goto: Shortcuts
 admin.resources.help: In this administrative listing, you need to load detailed information manually, because loading everything takes a long time.
+admin.queue: Queue
+admin.queue.empty: There are no jobs in the queue
 accessdenied: Access denied
 accessdenied.contact: If you have questions, or you want to report a bug, please contact sb-info{'@'}svenska.gu.se. Thank you!
 notfound: Page not found

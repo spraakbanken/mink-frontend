@@ -68,8 +68,10 @@ job.rerun.tools_outdated: Verktygen kommer att behålla det gamla resultatet. Gl
 job.abort: Avbryt
 job.status: Status
 job.priority: Plats i kön
-job.started: Senast startad
-job.ended: Senast avslutad
+job.process: Pågående process
+job.started: Startad
+job.ended: Avslutad
+job.queued: Ställd i kön
 job.time_taken: Tidsåtgång
 job.process.sparv: Analysering
 job.process.korp: Installation i Korp
@@ -191,6 +193,7 @@ type: Typ
 upload: Ladda upp
 uploaded: Uppladdad
 lastModify: Senast ändrad
+seconds_ago: "{count} s sedan"
 fileSize: Storlek
 file.operations: Operationer
 delete: Radera
@@ -295,6 +298,8 @@ annotations.clear.help: Gör detta för att kunna analysera om en korpus med nya
 admin.page.subtitle: Administration
 admin.goto: Genvägar
 admin.resources.help: I denna administrativa resurslista behöver du ladda in detaljerad resursinformation manuellt, eftersom det tar lång tid att ladda allt.
+admin.queue: Körningskö
+admin.queue.empty: Det finns inga körningar i kön
 accessdenied: Åtkomst nekad
 accessdenied.contact: Om du har frågor eller vill rapportera en bugg, kontakta gärna sb-info{'@'}svenska.gu.se. Tack!
 notfound: Sidan kan inte hittas
