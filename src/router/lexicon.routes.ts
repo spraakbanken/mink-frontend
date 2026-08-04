@@ -51,10 +51,7 @@ const lexiconRoutes: RouteRecordRaw[] = [
       {
         path: "sources/:filename",
         component: LexiconSourceView,
-        meta: {
-          createTitle: (params) => params.filename as string,
-          protected: true,
-        },
+        meta: { protected: true },
       },
       {
         path: "exports",
@@ -68,10 +65,7 @@ const lexiconRoutes: RouteRecordRaw[] = [
         path: "exports/:path",
         component: LexiconExportView,
         props: true,
-        meta: {
-          createTitle: (params) => decodeURIComponent(params.path as string),
-          protected: true,
-        },
+        meta: { protected: true },
       },
       {
         path: "delete",

@@ -51,10 +51,7 @@ const corpusRoutes: RouteRecordRaw[] = [
       {
         path: "sources/:filename",
         component: CorpusSourceView,
-        meta: {
-          createTitle: (params) => params.filename as string,
-          protected: true,
-        },
+        meta: { protected: true },
       },
       {
         path: "exports",
@@ -68,10 +65,7 @@ const corpusRoutes: RouteRecordRaw[] = [
         path: "exports/:path",
         component: CorpusExportView,
         props: true,
-        meta: {
-          createTitle: (params) => decodeURIComponent(params.path as string),
-          protected: true,
-        },
+        meta: { protected: true },
       },
       {
         path: "delete",

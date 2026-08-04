@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, type RouteParams } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import { useJwtStore } from "@/store/jwt.store";
 import routes from "@/router/main.routes";
 
@@ -7,10 +7,6 @@ import "vue-router";
 declare module "vue-router" {
   interface RouteMeta {
     title?: string;
-    createTitle?: (
-      params: RouteParams,
-      resourceName?: string,
-    ) => string | undefined;
     /** Require authentication to view page. */
     protected?: boolean;
   }
