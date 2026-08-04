@@ -1,20 +1,22 @@
 import { type RouteRecordRaw } from "vue-router";
-const CreateLexicon = () => import("@/lexicon/CreateLexicon.vue");
+const LexiconConfigCustomView = () =>
+  import("@/lexicon/config/LexiconConfigCustomView.vue");
 const LexiconConfigurationView = () =>
   import("@/lexicon/config/LexiconConfigurationView.vue");
+const LexiconCreateView = () => import("@/lexicon/LexiconCreateView.vue");
+const LexiconDeleteView = () => import("@/lexicon/LexiconDeleteView.vue");
+const LexiconExportListView = () =>
+  import("@/lexicon/exports/LexiconExportListView.vue");
+const LexiconExportView = () =>
+  import("@/lexicon/exports/LexiconExportView.vue");
+const LexiconOverviewView = () => import("@/lexicon/LexiconOverviewView.vue");
 const LexiconView = () => import("@/lexicon/LexiconView.vue");
-const LexiconOverview = () => import("@/lexicon/LexiconOverview.vue");
-const LexiconConfigCustom = () =>
-  import("@/lexicon/config/LexiconConfigCustom.vue");
 const SourceView = () => import("@/sources/SourceView.vue");
-const ExportListView = () => import("@/lexicon/exports/ExportListView.vue");
-const ExportView = () => import("@/lexicon/exports/ExportView.vue");
-const LexiconDelete = () => import("@/lexicon/LexiconDelete.vue");
 
 const lexiconRoutes: RouteRecordRaw[] = [
   {
     path: "/library/lexicon/new",
-    component: CreateLexicon,
+    component: LexiconCreateView,
     meta: {
       title: "lexicon.new",
       protected: true,
@@ -27,7 +29,7 @@ const lexiconRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: "",
-        component: LexiconOverview,
+        component: LexiconOverviewView,
         meta: { protected: true },
       },
       {
@@ -40,7 +42,7 @@ const lexiconRoutes: RouteRecordRaw[] = [
       },
       {
         path: "config/custom",
-        component: LexiconConfigCustom,
+        component: LexiconConfigCustomView,
         meta: {
           title: "config.custom",
           protected: true,
@@ -61,7 +63,7 @@ const lexiconRoutes: RouteRecordRaw[] = [
       },
       {
         path: "exports",
-        component: ExportListView,
+        component: LexiconExportListView,
         meta: {
           title: "result",
           protected: true,
@@ -69,7 +71,7 @@ const lexiconRoutes: RouteRecordRaw[] = [
       },
       {
         path: "exports/:path",
-        component: ExportView,
+        component: LexiconExportView,
         props: true,
         meta: {
           createTitle: (params) => decodeURIComponent(params.path as string),
@@ -78,7 +80,7 @@ const lexiconRoutes: RouteRecordRaw[] = [
       },
       {
         path: "delete",
-        component: LexiconDelete,
+        component: LexiconDeleteView,
         meta: {
           title: "delete",
           protected: true,

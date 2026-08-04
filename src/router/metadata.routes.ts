@@ -1,13 +1,14 @@
 import { type RouteRecordRaw } from "vue-router";
+const MetadataCreateView = () => import("@/metadata/MetadataCreateView.vue");
+const MetadataDeleteView = () => import("@/metadata/MetadataDeleteView.vue");
+const MetadataOverviewView = () =>
+  import("@/metadata/MetadataOverviewView.vue");
 const MetadataView = () => import("@/metadata/MetadataView.vue");
-const MetadataOverview = () => import("@/metadata/MetadataOverview.vue");
-const CreateMetadata = () => import("@/metadata/CreateMetadata.vue");
-const MetadataDelete = () => import("@/metadata/MetadataDelete.vue");
 
 const metadataRoutes: RouteRecordRaw[] = [
   {
     path: "/library/metadata/new",
-    component: CreateMetadata,
+    component: MetadataCreateView,
     meta: {
       title: "metadata.new",
       protected: true,
@@ -20,12 +21,12 @@ const metadataRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: "",
-        component: MetadataOverview,
+        component: MetadataOverviewView,
         meta: { protected: true },
       },
       {
         path: "delete",
-        component: MetadataDelete,
+        component: MetadataDeleteView,
         meta: {
           title: "delete",
           protected: true,

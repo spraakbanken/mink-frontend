@@ -9,8 +9,8 @@ const MetadataEditorView = () =>
 import LoginView from "@/auth/LoginView.vue";
 const UserView = () => import("@/user/UserView.vue");
 const AdminResourcesView = () => import("@/library/AdminResourcesView.vue");
-import AccessDenied from "@/auth/AccessDenied.vue";
-import NotFound from "@/page/NotFound.vue";
+import AccessDeniedView from "@/auth/AccessDeniedView.vue";
+import NotFoundView from "@/page/NotFoundView.vue";
 import corpusRoutes from "@/router/corpus.routes";
 import metadataRoutes from "@/router/metadata.routes";
 import lexiconRoutes from "@/router/lexicon.routes";
@@ -66,7 +66,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: "/access-denied",
-    component: AccessDenied,
+    component: AccessDeniedView,
     meta: { title: "accessdenied" },
   },
   {
@@ -83,7 +83,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/:pathMatch(.*)*",
     name: "notfound",
-    component: NotFound,
+    component: NotFoundView,
     meta: { title: "notfound" },
   },
 ];

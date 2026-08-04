@@ -1,20 +1,21 @@
 import { type RouteRecordRaw } from "vue-router";
-const CreateCorpus = () => import("@/corpus/CreateCorpus.vue");
+const CorpusConfigCustomView = () =>
+  import("@/corpus/config/CorpusConfigCustomView.vue");
+const CorpusConfigurationView = () =>
+  import("@/corpus/config/CorpusConfigurationView.vue");
+const CorpusCreateView = () => import("@/corpus/CorpusCreateView.vue");
+const CorpusDeleteView = () => import("@/corpus/CorpusDeleteView.vue");
+const CorpusExportListView = () =>
+  import("@/corpus/exports/CorpusExportListView.vue");
+const CorpusExportView = () => import("@/corpus/exports/CorpusExportView.vue");
+const CorpusOverviewView = () => import("@/corpus/CorpusOverviewView.vue");
 const CorpusView = () => import("@/corpus/CorpusView.vue");
-const CorpusOverview = () => import("@/corpus/CorpusOverview.vue");
-const CorpusConfiguration = () =>
-  import("@/corpus/config/CorpusConfiguration.vue");
-const CorpusConfigCustom = () =>
-  import("@/corpus/config/CorpusConfigCustom.vue");
-const ExportListView = () => import("@/corpus/exports/ExportListView.vue");
-const CorpusDelete = () => import("@/corpus/CorpusDelete.vue");
-const ExportView = () => import("@/corpus/exports/ExportView.vue");
 const SourceView = () => import("@/sources/SourceView.vue");
 
 const corpusRoutes: RouteRecordRaw[] = [
   {
     path: "/library/corpus/new",
-    component: CreateCorpus,
+    component: CorpusCreateView,
     meta: {
       title: "corpus.new",
       protected: true,
@@ -27,13 +28,12 @@ const corpusRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: "",
-        name: "corpus.overview",
-        component: CorpusOverview,
+        component: CorpusOverviewView,
         meta: { protected: true },
       },
       {
         path: "config",
-        component: CorpusConfiguration,
+        component: CorpusConfigurationView,
         meta: {
           title: "configuration",
           protected: true,
@@ -41,7 +41,7 @@ const corpusRoutes: RouteRecordRaw[] = [
       },
       {
         path: "config/custom",
-        component: CorpusConfigCustom,
+        component: CorpusConfigCustomView,
         meta: {
           title: "config.custom",
           protected: true,
@@ -62,7 +62,7 @@ const corpusRoutes: RouteRecordRaw[] = [
       },
       {
         path: "exports",
-        component: ExportListView,
+        component: CorpusExportListView,
         meta: {
           title: "result",
           protected: true,
@@ -70,7 +70,7 @@ const corpusRoutes: RouteRecordRaw[] = [
       },
       {
         path: "exports/:path",
-        component: ExportView,
+        component: CorpusExportView,
         props: true,
         meta: {
           createTitle: (params) => decodeURIComponent(params.path as string),
@@ -79,7 +79,7 @@ const corpusRoutes: RouteRecordRaw[] = [
       },
       {
         path: "delete",
-        component: CorpusDelete,
+        component: CorpusDeleteView,
         meta: {
           title: "delete",
           protected: true,
