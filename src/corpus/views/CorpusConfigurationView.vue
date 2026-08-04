@@ -5,7 +5,7 @@ import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
 import { PhLightbulbFilament, PhTrash } from "@phosphor-icons/vue";
-import { computedAsync } from "@vueuse/core";
+import { computedAsync, watchImmediate } from "@vueuse/core";
 import { groupBy, omit } from "es-toolkit";
 import { useCorpus } from "../corpus.composable";
 import {
@@ -14,7 +14,6 @@ import {
   SEGMENTERS,
   emptyConfig,
   isSegmentable,
-  parseConfig,
 } from "@/api/corpusConfig";
 import type { ConfigSentenceSegmenter } from "@/api/sparvConfig.types";
 import HelpBox from "@/components/HelpBox.vue";
@@ -51,7 +50,7 @@ type Form = {
 
 const router = useRouter();
 const id = useResourceIdParam();
-const { config, saveConfigOptions } = useCorpus(id);
+const { config, configOptions, saveConfigOptions } = useCorpus(id);
 const { extensions } = useSources("corpus", id);
 const analysisRegistry = useAnalysisRegistry();
 const { showAlert } = useAlert();
@@ -84,8 +83,6 @@ const analyses = computedAsync(async () => {
   });
 });
 
-const configOptions = computed(getParsedConfig);
-
 const formatOptions = computed<FormKitOptionsList>(() =>
   CORPUS_SOURCE_FORMATS.map((ext) => ({
     value: ext,
@@ -116,38 +113,37 @@ const segmenterOptions = computed<SegmenterOptions>(() => {
   return options as SegmenterOptions;
 });
 
-// Like `getParsedConfig` in `corpus.composable.ts` but also alerts on error.
-function getParsedConfig() {
-  if (!config.value) return undefined;
-  try {
-    const parsed = parseConfig(config.value, analysisRegistry);
-    return parsed;
-  } catch (error) {
-    showAlert(t("corpus.config.parse.error"));
-    console.error(`Error parsing config for "${id}":`, error);
-  }
-}
+/** Original values from the current config, or defaults if not loaded or parsing failed */
+const original = computed(() => configOptions.value || emptyConfig());
+
+// Alert if parsing fails
+watchImmediate(configOptions, () => {
+  if (configOptions.value === null) showAlert(t("corpus.config.parse.error"));
+});
 
 async function submit(fields: Form) {
-  // If there is no previous config file, start from a minimal one.
-  const original = configOptions.value || emptyConfig();
+  const configOld = original.value;
 
   // Use datetime if both are set
   const datetime =
     fields.datetimeFrom && fields.datetimeTo
       ? { from: fields.datetimeFrom, to: fields.datetimeTo }
       : undefined;
+
   const configNew: ConfigOptions = {
     ...omit(fields, ["datetimeFrom", "datetimeTo"]),
     datetime,
   };
 
   // Preserve hidden translations
-  configNew.name = { ...original.name, ...configNew.name };
-  configNew.description = { ...original.description, ...configNew.description };
+  configNew.name = { ...configOld.name, ...configNew.name };
+  configNew.description = {
+    ...configOld.description,
+    ...configNew.description,
+  };
 
   // Merge new form values with existing config.
-  const config = { ...original, ...configNew };
+  const config = { ...configOld, ...configNew };
 
   try {
     await saveConfigOptions(config);
@@ -171,7 +167,7 @@ async function submit(fields: Form) {
       />
 
       <!-- Using the key attribute to re-render whole form after fetching config -->
-      <FormKitWrapper v-if="configOptions" :key="config">
+      <FormKitWrapper v-if="configOptions !== undefined" :key="config">
         <FormKit
           id="corpus-config"
           v-slot="{ value }"
@@ -184,8 +180,8 @@ async function submit(fields: Form) {
           @submit="submit"
         >
           <TabsContent
-            :title="$t('metadata')"
             v-show="tabSelected == 'metadata'"
+            :title="$t('metadata')"
           >
             <HelpBox>
               <p>{{ $t("config.metadata.help") }}</p>
@@ -197,7 +193,7 @@ async function submit(fields: Form) {
               <FormKit
                 :name="locale3"
                 :label="$t('name')"
-                :value="configOptions.name?.[locale3]"
+                :value="original.name?.[locale3]"
                 :help="$t('metadata.name.help')"
                 type="text"
                 input-class="w-72"
@@ -208,7 +204,7 @@ async function submit(fields: Form) {
               <FormKit
                 :name="locale3"
                 :label="$t('description')"
-                :value="configOptions.description?.[locale3]"
+                :value="original.description?.[locale3]"
                 :help="$t('metadata.description.help')"
                 type="textarea"
                 input-class="w-full h-20"
@@ -236,8 +232,8 @@ async function submit(fields: Form) {
           </TabsContent>
 
           <TabsContent
-            :title="$t('settings')"
             v-show="tabSelected == 'settings'"
+            :title="$t('settings')"
           >
             <HelpBox>
               <p>{{ $t("config.configuration.help") }}</p>
@@ -264,7 +260,7 @@ async function submit(fields: Form) {
               name="textAnnotation"
               :label="$t('config.text_annotation')"
               type="text"
-              :value="configOptions.textAnnotation"
+              :value="original.textAnnotation"
               validation="required:trim|matches:/^[^<>\s]*$/"
               input-class="w-40 font-mono"
               :help="$t('config.text_annotation.help')"
@@ -277,7 +273,7 @@ async function submit(fields: Form) {
               v-if="isSegmentable((value as Form).format)"
               name="sentenceSegmenter"
               :label="$t('segmenter_sentence')"
-              :value="configOptions.sentenceSegmenter || ''"
+              :value="original.sentenceSegmenter || ''"
               type="radio"
               :options="segmenterOptions"
               :help="$t('segmenter_sentence_help')"
@@ -287,7 +283,7 @@ async function submit(fields: Form) {
               name="datetimeFrom"
               type="date"
               :label="`${$t('timespan')}: ${$t('timespan_from')}`"
-              :value="configOptions.datetime?.from"
+              :value="original.datetime?.from"
               :max="(value as Form).datetimeTo"
               validation="onlyif:datetimeTo"
               :validation-messages="{
@@ -298,7 +294,7 @@ async function submit(fields: Form) {
               name="datetimeTo"
               type="date"
               :label="`${$t('timespan')}: ${$t('timespan_to')}`"
-              :value="configOptions.datetime?.to"
+              :value="original.datetime?.to"
               :min="(value as Form).datetimeFrom"
               validation="onlyif:datetimeFrom"
               :validation-messages="{
@@ -310,8 +306,8 @@ async function submit(fields: Form) {
 
           <PendingContent on="analysis/metadata">
             <TabsContent
-              :title="$t('config.analyses')"
               v-show="tabSelected == 'analyses'"
+              :title="$t('config.analyses')"
             >
               <HelpBox>
                 <i18n-t keypath="config.analyses.info" scope="global">
@@ -344,7 +340,7 @@ async function submit(fields: Form) {
                         <FormKit
                           :name="analysis.id"
                           :label="th(analysis.label)"
-                          :value="configOptions.analyses[analysis.id]"
+                          :value="original.analyses[analysis.id]"
                           type="checkbox"
                           :help="th(analysis.summary)"
                         />

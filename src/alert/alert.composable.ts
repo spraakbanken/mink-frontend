@@ -56,7 +56,7 @@ export default function useAlert() {
     } else {
       const message = error instanceof Error ? error.message : String(error);
       push(message);
-      // Log to console for debugging
+      // Log to console with trace for debugging
       console.warn(error);
     }
   }

@@ -36,13 +36,15 @@ export function useCorpus(id: string) {
     lazy: true,
   });
 
-  const configOptions = computed(() => {
+  /** Parsed config; `undefined` if no config, `null` if parsing fails */
+  const configOptions = computed<ConfigOptions | null | undefined>(() => {
+    if (!config.value) return undefined;
     try {
-      if (config.value) return parseConfig(config.value, analysisRegistry);
+      return parseConfig(config.value, analysisRegistry);
     } catch (error) {
       console.error(`Error parsing config for "${id}":`, error);
     }
-    return undefined;
+    return null;
   });
 
   const isConfigValid = computed(

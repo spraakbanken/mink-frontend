@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { computedAsync } from "@vueuse/core";
+import { computedAsync, watchImmediate } from "@vueuse/core";
+import { useI18n } from "vue-i18n";
 import { useCorpus } from "./corpus.composable";
 import useLocale from "@/i18n/locale.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import { useAnalysisRegistry } from "@/analyses/useAnalysisRegistry";
+import useAlert from "@/alert/alert.composable";
 
 const props = defineProps<{
   id: string;
@@ -12,7 +14,9 @@ const props = defineProps<{
 
 const { configOptions } = useCorpus(props.id);
 const analysisRegistry = useAnalysisRegistry();
+const { t } = useI18n();
 const { th, thCompare } = useLocale();
+const { showAlert } = useAlert();
 
 const analyses = computedAsync(async () => {
   if (!configOptions.value) return;
@@ -24,6 +28,10 @@ const analyses = computedAsync(async () => {
   return metadata
     .filter((analysis) => ids.includes(analysis.id))
     .sort(thCompare((x) => x.label));
+});
+
+watchImmediate(configOptions, () => {
+  if (configOptions.value === null) showAlert(t("corpus.config.parse.error"));
 });
 </script>
 
