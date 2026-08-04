@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useCorpus } from "./corpus.composable";
+import { useCorpus } from "../corpus.composable";
 import ToolPanel from "@/resource/ToolPanel.vue";
 import { ensureTrailingSlash } from "@/util";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -10,17 +10,14 @@ import useAlert from "@/alert/alert.composable";
 import useResource from "@/resource/resource.composable";
 import { useUserStore } from "@/store/user.store";
 import { useAppConfig } from "@/app/useAppConfig";
-
-const props = defineProps<{
-  id: string;
-}>();
+import useResourceIdParam from "@/resource/resourceIdParam.composable";
 
 const { exploreTools, corpusSettings } = useAppConfig();
+const id = useResourceIdParam();
 const { isPending } = useSpin();
-const { installKorp, installStrix, uninstallKorp, uninstallStrix } = useCorpus(
-  props.id,
-);
-const { isRunning, job } = useResource<"corpus">(props.id);
+const { installKorp, installStrix, uninstallKorp, uninstallStrix } =
+  useCorpus(id);
+const { isRunning, job } = useResource<"corpus">(id);
 const { locale3 } = useLocale();
 const { canWrite } = useUserStore();
 const { showAlert } = useAlert();
@@ -34,10 +31,10 @@ const strixUrl =
 
 const canInstall = computed(
   () =>
-    canWrite("corpus", props.id) &&
+    canWrite("corpus", id) &&
     !isRunning.value &&
     job.value?.status.sparv == "done" &&
-    !isPending(`${props.id}/job`),
+    !isPending(`${id}/job`),
 );
 </script>
 

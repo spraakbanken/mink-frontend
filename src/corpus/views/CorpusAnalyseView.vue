@@ -1,26 +1,21 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { PhDownloadSimple, PhGearFine, PhInfo } from "@phosphor-icons/vue";
-import { useCorpus } from "./corpus.composable";
-import { useSparv } from "./sparv.composable";
+import { PhGearFine, PhInfo } from "@phosphor-icons/vue";
+import { useCorpus } from "../corpus.composable";
+import { useSparv } from "../sparv.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useAlert from "@/alert/alert.composable";
 import useSources from "@/resource/sources.composable";
 import useResource from "@/resource/resource.composable";
-import useExports from "@/exports/exports.composable";
 import { useUserStore } from "@/store/user.store";
+import useResourceIdParam from "@/resource/resourceIdParam.composable";
 
-const props = defineProps<{
-  id: string;
-}>();
-
-const { configOptions, isConfigValid, exports, clearAnnotations } = useCorpus(
-  props.id,
-);
-const { job, isRunning, runJob } = useResource(props.id);
-const { sources } = useSources("corpus", props.id);
-const { downloadResult, getDownloadFilename } = useExports("corpus", props.id);
+const id = useResourceIdParam();
+const { configOptions, isConfigValid, exports, clearAnnotations } =
+  useCorpus(id);
+const { job, isRunning, runJob } = useResource(id);
+const { sources } = useSources("corpus", id);
 const { canWrite } = useUserStore();
 const { loadExporters } = useSparv();
 const { showAlert } = useAlert();
@@ -28,7 +23,7 @@ const { showAlert } = useAlert();
 const isPending = ref(false);
 const canRun = computed(
   () =>
-    canWrite("corpus", props.id) &&
+    canWrite("corpus", id) &&
     sources.value.length &&
     isConfigValid.value &&
     !isPending.value &&
@@ -111,41 +106,6 @@ async function loadExporterNames() {
           {{ $t("job.rerun.tools_outdated") }}
         </div>
       </div>
-    </PendingContent>
-
-    <PendingContent :on="`${id}/exports/list`" class="mt-4">
-      <h3 class="text-lg">{{ $t("download") }}</h3>
-      <p>{{ $t("exports.download.help") }}</p>
-
-      <table v-if="exports?.length">
-        <tbody>
-          <tr>
-            <th>{{ $t("file.archive") }}</th>
-            <td>
-              <PendingContent :on="`${id}/exports/download`">
-                <ActionButton
-                  :class="{ 'button-primary': !isRunning }"
-                  @click="downloadResult().catch(showAlert)"
-                >
-                  <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
-                  {{ getDownloadFilename() }}
-                </ActionButton>
-              </PendingContent>
-            </td>
-          </tr>
-          <tr>
-            <th>{{ $t("file.singles") }}</th>
-            <td>
-              <router-link :to="`/library/corpus/${id}/exports`">
-                {{ $t("show") }}…
-              </router-link>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <p v-else class="opacity-70 italic">
-        {{ $t("exports.download.placeholder") }}
-      </p>
     </PendingContent>
   </div>
 </template>
