@@ -13,7 +13,6 @@ library.help.resources.none: Your resources will be listed here.
 corpus: Corpus
 corpus.help: A corpus is a collection of text, typically used with statistical analysis and distant reading.
 corpus.new: New corpus
-corpus.delete: Delete corpus
 corpus.state.unknown: Unknown
 corpus.state.empty: No files
 corpus.state.needing_config: Configuration needed
@@ -39,7 +38,6 @@ corpus.sparv.rerun: Analyse again
 lexicon: Lexicon
 lexicon.help: A lexicon is a set of items with structured data fields. It doesn't have to be about words.
 lexicon.new: New lexicon
-lexicon.delete: Delete lexicon
 lexicon.config.entry_word.field: Entry field
 lexicon.config.entry_word.field.help: Choose a field from the source file that should work as a main entry to each row.
 lexicon.config.entry_word.description: Field label
@@ -57,7 +55,6 @@ metadata.help: If you have been assigned an organization prefix, use metadata to
 metadata.new: New metadata
 metadata.public_id.help: In Mink, all resources have fixed, unmodifiable identifiers. The public identifier is what this resource will get once it is exported to a repository. Try to make it recognizable and descriptive, but not too long. It must only contain lowercase letters, numbers and dashes, and start with your assigned organization prefix.
 metadata.public_id.error.format: The public identifier must only contain lowercase letters (a-z), numbers (0-9) and dashes (-). It must not start or end with a dash.
-metadata.delete: Delete metadata
 resource.create.help: The resource will be accessible by you only. You can always change these values later.
 resource.delete.ask: Are you sure you want to delete this resource?
 resource.access_denied: This requires a higher access level to the resource

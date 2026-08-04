@@ -10,8 +10,8 @@ const LexiconExportListView = () =>
 const LexiconExportView = () => import("@/lexicon/views/LexiconExportView.vue");
 const LexiconOverviewView = () =>
   import("@/lexicon/views/LexiconOverviewView.vue");
+const LexiconSourceView = () => import("@/lexicon/views/LexiconSourceView.vue");
 const LexiconView = () => import("@/lexicon/views/LexiconView.vue");
-const SourceView = () => import("@/sources/SourceView.vue");
 
 const lexiconRoutes: RouteRecordRaw[] = [
   {
@@ -50,12 +50,7 @@ const lexiconRoutes: RouteRecordRaw[] = [
       },
       {
         path: "sources/:filename",
-        component: SourceView,
-        props: (route) => ({
-          type: "lexicon",
-          id: route.params.id as string,
-          filename: route.params.filename as string,
-        }),
+        component: LexiconSourceView,
         meta: {
           createTitle: (params) => params.filename as string,
           protected: true,

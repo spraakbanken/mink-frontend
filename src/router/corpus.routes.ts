@@ -10,8 +10,8 @@ const CorpusExportListView = () =>
 const CorpusExportView = () => import("@/corpus/views/CorpusExportView.vue");
 const CorpusOverviewView = () =>
   import("@/corpus/views/CorpusOverviewView.vue");
+const CorpusSourceView = () => import("@/corpus/views/CorpusSourceView.vue");
 const CorpusView = () => import("@/corpus/views/CorpusView.vue");
-const SourceView = () => import("@/sources/SourceView.vue");
 
 const corpusRoutes: RouteRecordRaw[] = [
   {
@@ -50,12 +50,7 @@ const corpusRoutes: RouteRecordRaw[] = [
       },
       {
         path: "sources/:filename",
-        component: SourceView,
-        props: (route) => ({
-          type: "corpus",
-          id: route.params.id as string,
-          filename: route.params.filename as string,
-        }),
+        component: CorpusSourceView,
         meta: {
           createTitle: (params) => params.filename as string,
           protected: true,

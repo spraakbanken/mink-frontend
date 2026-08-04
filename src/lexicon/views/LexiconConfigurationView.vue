@@ -187,7 +187,7 @@ async function submit(fields: Form) {
           class="button-danger"
         >
           <PhTrash weight="fill" class="inline mb-1 mr-1" />
-          {{ $t("lexicon.delete") }}
+          {{ $t("delete") }}
         </RouteButton>
       </div>
     </LayoutSection>

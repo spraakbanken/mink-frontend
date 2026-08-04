@@ -13,7 +13,6 @@ library.help.resources.none: Här kommer dina resurser att listas.
 corpus: Korpus
 corpus.help: En korpus är en samling av text som ofta används för statistisk analys och fjärrläsning.
 corpus.new: Ny korpus
-corpus.delete: Radera korpus
 corpus.state.unknown: Okänt
 corpus.state.empty: Inga filer
 corpus.state.needing_config: Behöver konfigureras
@@ -39,7 +38,6 @@ corpus.sparv.rerun: Analysera igen
 lexicon: Lexikon
 lexicon.help: Ett lexikon listar en mängd element med olika strukturerade fält. Det behöver inte handla om ord.
 lexicon.new: Nytt lexikon
-lexicon.delete: Radera lexikon
 lexicon.config.entry_word.field: Ingångsfält
 lexicon.config.entry_word.field.help: Välj ett fält i källdatan som skall fungera som huvudingång till varje rad.
 lexicon.config.entry_word.description: Fältnamn
@@ -57,7 +55,6 @@ metadata.help: Om du har tilldelats ett organisationsprefix kan du använda meta
 metadata.new: Ny metadata
 metadata.public_id.help: Varje resurs i Mink har en förutbestämd identifierare. Den publika identifieraren är vad denna resurs kommer at få när den exporteras till en datakatalog. Välj gärna något unikt och beskrivande, men inte för långt. Den får endast innehålla små bokstäver, siffror och bindestreck, och måste börja med ditt tilldelade organisationsprefix.
 metadata.public_id.error.format: Den publika identifieraren får endast innehålla små bokstäver (a-z), siffror (0-9) och bindestreck (-). Den får inte börja eller sluta med bindestreck.
-metadata.delete: Radera metadata
 resource.create.help: Resursen kommer bara att synas för dig. Du kan alltid uppdatera de här uppgifterna senare.
 resource.delete.ask: Är du säker på att du vill ta bort den här resursen?
 resource.access_denied: Den här funktionen kräver en högre behörighetsnivå till resursen

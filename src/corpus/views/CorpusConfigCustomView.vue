@@ -3,7 +3,7 @@ import { computedAsync } from "@vueuse/core";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import HelpBox from "@/components/HelpBox.vue";
 import { useApi } from "@/api/useApi";
-import ResourceConfigCustom from "@/resource/ResourceConfigCustom.vue";
+import ConfigCustomViewTemplate from "@/resource/ConfigCustomViewTemplate.vue";
 
 const id = useResourceIdParam();
 const api = useApi();
@@ -12,7 +12,7 @@ const schema = computedAsync(() => api.sparvSchema());
 </script>
 
 <template>
-  <ResourceConfigCustom type="corpus" :id :schema>
+  <ConfigCustomViewTemplate type="corpus" :id :schema>
     <template #head>
       <HelpBox>
         <i18n-t scope="global" keypath="config.custom.help">
@@ -29,5 +29,5 @@ const schema = computedAsync(() => api.sparvSchema());
         </i18n-t>
       </HelpBox>
     </template>
-  </ResourceConfigCustom>
+  </ConfigCustomViewTemplate>
 </template>
