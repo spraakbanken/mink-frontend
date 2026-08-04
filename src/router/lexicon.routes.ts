@@ -1,16 +1,16 @@
 import { type RouteRecordRaw } from "vue-router";
 const LexiconConfigCustomView = () =>
-  import("@/lexicon/config/LexiconConfigCustomView.vue");
+  import("@/lexicon/views/LexiconConfigCustomView.vue");
 const LexiconConfigurationView = () =>
-  import("@/lexicon/config/LexiconConfigurationView.vue");
-const LexiconCreateView = () => import("@/lexicon/LexiconCreateView.vue");
-const LexiconDeleteView = () => import("@/lexicon/LexiconDeleteView.vue");
+  import("@/lexicon/views/LexiconConfigurationView.vue");
+const LexiconCreateView = () => import("@/lexicon/views/LexiconCreateView.vue");
+const LexiconDeleteView = () => import("@/lexicon/views/LexiconDeleteView.vue");
 const LexiconExportListView = () =>
-  import("@/lexicon/exports/LexiconExportListView.vue");
-const LexiconExportView = () =>
-  import("@/lexicon/exports/LexiconExportView.vue");
-const LexiconOverviewView = () => import("@/lexicon/LexiconOverviewView.vue");
-const LexiconView = () => import("@/lexicon/LexiconView.vue");
+  import("@/lexicon/views/LexiconExportListView.vue");
+const LexiconExportView = () => import("@/lexicon/views/LexiconExportView.vue");
+const LexiconOverviewView = () =>
+  import("@/lexicon/views/LexiconOverviewView.vue");
+const LexiconView = () => import("@/lexicon/views/LexiconView.vue");
 const SourceView = () => import("@/sources/SourceView.vue");
 
 const lexiconRoutes: RouteRecordRaw[] = [

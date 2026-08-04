@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computedAsync } from "@vueuse/core";
-import { useCorpus } from "../corpus.composable";
+import { useCorpus } from "./corpus.composable";
 import useLocale from "@/i18n/locale.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";

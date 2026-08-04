@@ -10,7 +10,7 @@ import {
   makeConfig,
   parseConfig,
   type LexiconField,
-} from "./lexiconConfig";
+} from "../lexiconConfig";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";

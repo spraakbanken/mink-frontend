@@ -1,40 +1,30 @@
 <script setup lang="ts">
 import { PhPencilSimple } from "@phosphor-icons/vue";
-import SharingPanel from "../auth/SharingPanel.vue";
-import { useCorpus } from "./corpus.composable";
-import useResourceIdParam from "@/resource/resourceIdParam.composable";
-import ConfigPanel from "@/corpus/config/ConfigPanel.vue";
-import SourcesPanel from "@/sources/SourcesPanel.vue";
-import AnalysisPanel from "@/corpus/analysis/AnalysisPanel.vue";
-import ExplorePanel from "@/corpus/ExplorePanel.vue";
-import CorpusStateHelp from "@/corpus/CorpusStateHelp.vue";
-import LayoutBox from "@/components/LayoutBox.vue";
-import JobStatusPanel from "@/job/JobStatusPanel.vue";
+import ConfigPanel from "../ConfigPanel.vue";
+import AnalysisPanel from "../AnalysisPanel.vue";
+import ExplorePanel from "../ExplorePanel.vue";
 import { useUserStore } from "@/store/user.store";
-import { useAppConfig } from "@/app/useAppConfig";
+import LayoutBox from "@/components/LayoutBox.vue";
+import useResourceIdParam from "@/resource/resourceIdParam.composable";
+import SharingPanel from "@/auth/SharingPanel.vue";
+import SourcesPanel from "@/sources/SourcesPanel.vue";
+import JobStatusPanel from "@/job/JobStatusPanel.vue";
 
 const id = useResourceIdParam();
-const { appConfig, exploreTools } = useAppConfig();
-const { isConfigValid, updateSourceFormat } = useCorpus(id);
 const { canWrite } = useUserStore();
 </script>
 
 <template>
   <div class="flex flex-wrap gap-4">
-    <div class="w-full">
-      <CorpusStateHelp :id />
-    </div>
-
     <div class="w-96 grow flex flex-col gap-4">
       <LayoutBox :title="$t('configuration')">
         <ConfigPanel :id />
         <template #controls>
           <router-link
-            :to="`/library/corpus/${id}/config`"
+            :to="`/library/lexicon/${id}/config`"
             class="flex items-baseline"
-            :class="{ 'link-primary': !isConfigValid }"
           >
-            <template v-if="canWrite('corpus', id)">
+            <template v-if="canWrite('lexicon', id)">
               <PhPencilSimple weight="bold" class="self-center mr-1" />
               {{ $t("edit") }}
             </template>
@@ -45,12 +35,12 @@ const { canWrite } = useUserStore();
         </template>
       </LayoutBox>
 
-      <LayoutBox v-if="appConfig.sharing" :title="$t('sharing')">
-        <SharingPanel resource-type="corpus" :id />
+      <LayoutBox :title="$t('sharing')">
+        <SharingPanel resource-type="lexicon" :id />
       </LayoutBox>
 
       <LayoutBox :title="$t('sources')">
-        <SourcesPanel type="corpus" :id @upload="updateSourceFormat" />
+        <SourcesPanel type="lexicon" :id />
       </LayoutBox>
     </div>
 
@@ -66,7 +56,7 @@ const { canWrite } = useUserStore();
         <AnalysisPanel :id />
       </LayoutBox>
 
-      <LayoutBox v-if="exploreTools.length" :title="$t('exports.tools')">
+      <LayoutBox :title="$t('exports.tools')">
         <ExplorePanel :id />
       </LayoutBox>
     </div>

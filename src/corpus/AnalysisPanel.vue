@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { PhDownloadSimple, PhGearFine, PhInfo } from "@phosphor-icons/vue";
-import { useCorpus } from "../corpus.composable";
+import { useCorpus } from "./corpus.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useAlert from "@/alert/alert.composable";

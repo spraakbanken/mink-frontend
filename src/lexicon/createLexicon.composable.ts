@@ -1,5 +1,5 @@
 import { useI18n } from "vue-i18n";
-import { emptyConfig, makeConfig } from "./config/lexiconConfig";
+import { emptyConfig, makeConfig } from "./lexiconConfig";
 import { useAppConfig } from "@/app/useAppConfig";
 import useLocale from "@/i18n/locale.composable";
 import useCreateResource from "@/resource/createResource.composable";

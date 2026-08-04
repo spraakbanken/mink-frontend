@@ -1,30 +1,40 @@
 <script setup lang="ts">
 import { PhPencilSimple } from "@phosphor-icons/vue";
-import ConfigPanel from "./config/ConfigPanel.vue";
-import AnalysisPanel from "./AnalysisPanel.vue";
-import ExplorePanel from "./ExplorePanel.vue";
-import { useUserStore } from "@/store/user.store";
-import LayoutBox from "@/components/LayoutBox.vue";
+import { useCorpus } from "../corpus.composable";
+import ConfigPanel from "../ConfigPanel.vue";
+import AnalysisPanel from "../AnalysisPanel.vue";
+import ExplorePanel from "../ExplorePanel.vue";
+import CorpusStateHelp from "../CorpusStateHelp.vue";
+import SourcesPanel from "@/sources/SourcesPanel.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import SharingPanel from "@/auth/SharingPanel.vue";
-import SourcesPanel from "@/sources/SourcesPanel.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
 import JobStatusPanel from "@/job/JobStatusPanel.vue";
+import { useUserStore } from "@/store/user.store";
+import { useAppConfig } from "@/app/useAppConfig";
 
 const id = useResourceIdParam();
+const { appConfig, exploreTools } = useAppConfig();
+const { isConfigValid, updateSourceFormat } = useCorpus(id);
 const { canWrite } = useUserStore();
 </script>
 
 <template>
   <div class="flex flex-wrap gap-4">
+    <div class="w-full">
+      <CorpusStateHelp :id />
+    </div>
+
     <div class="w-96 grow flex flex-col gap-4">
       <LayoutBox :title="$t('configuration')">
         <ConfigPanel :id />
         <template #controls>
           <router-link
-            :to="`/library/lexicon/${id}/config`"
+            :to="`/library/corpus/${id}/config`"
             class="flex items-baseline"
+            :class="{ 'link-primary': !isConfigValid }"
           >
-            <template v-if="canWrite('lexicon', id)">
+            <template v-if="canWrite('corpus', id)">
               <PhPencilSimple weight="bold" class="self-center mr-1" />
               {{ $t("edit") }}
             </template>
@@ -35,12 +45,12 @@ const { canWrite } = useUserStore();
         </template>
       </LayoutBox>
 
-      <LayoutBox :title="$t('sharing')">
-        <SharingPanel resource-type="lexicon" :id />
+      <LayoutBox v-if="appConfig.sharing" :title="$t('sharing')">
+        <SharingPanel resource-type="corpus" :id />
       </LayoutBox>
 
       <LayoutBox :title="$t('sources')">
-        <SourcesPanel type="lexicon" :id />
+        <SourcesPanel type="corpus" :id @upload="updateSourceFormat" />
       </LayoutBox>
     </div>
 
@@ -56,7 +66,7 @@ const { canWrite } = useUserStore();
         <AnalysisPanel :id />
       </LayoutBox>
 
-      <LayoutBox :title="$t('exports.tools')">
+      <LayoutBox v-if="exploreTools.length" :title="$t('exports.tools')">
         <ExplorePanel :id />
       </LayoutBox>
     </div>

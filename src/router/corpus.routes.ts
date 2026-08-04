@@ -1,15 +1,16 @@
 import { type RouteRecordRaw } from "vue-router";
 const CorpusConfigCustomView = () =>
-  import("@/corpus/config/CorpusConfigCustomView.vue");
+  import("@/corpus/views/CorpusConfigCustomView.vue");
 const CorpusConfigurationView = () =>
-  import("@/corpus/config/CorpusConfigurationView.vue");
-const CorpusCreateView = () => import("@/corpus/CorpusCreateView.vue");
-const CorpusDeleteView = () => import("@/corpus/CorpusDeleteView.vue");
+  import("@/corpus/views/CorpusConfigurationView.vue");
+const CorpusCreateView = () => import("@/corpus/views/CorpusCreateView.vue");
+const CorpusDeleteView = () => import("@/corpus/views/CorpusDeleteView.vue");
 const CorpusExportListView = () =>
-  import("@/corpus/exports/CorpusExportListView.vue");
-const CorpusExportView = () => import("@/corpus/exports/CorpusExportView.vue");
-const CorpusOverviewView = () => import("@/corpus/CorpusOverviewView.vue");
-const CorpusView = () => import("@/corpus/CorpusView.vue");
+  import("@/corpus/views/CorpusExportListView.vue");
+const CorpusExportView = () => import("@/corpus/views/CorpusExportView.vue");
+const CorpusOverviewView = () =>
+  import("@/corpus/views/CorpusOverviewView.vue");
+const CorpusView = () => import("@/corpus/views/CorpusView.vue");
 const SourceView = () => import("@/sources/SourceView.vue");
 
 const corpusRoutes: RouteRecordRaw[] = [
