@@ -19,7 +19,6 @@ import {
 } from "@/api/corpusConfig";
 import type { ConfigSentenceSegmenter } from "@/api/sparvConfig.types";
 import HelpBox from "@/components/HelpBox.vue";
-import LayoutSection from "@/components/LayoutSection.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import RouteButton from "@/components/RouteButton.vue";
@@ -168,204 +167,196 @@ async function submit(fields: Form) {
 
 <template>
   <PendingContent :on="`${id}/config`">
-    <LayoutSection :title="$t('configuration')">
-      <TabsBar
-        :tabs="[
-          { key: 'metadata', label: $t('config.metadata') },
-          { key: 'settings', label: $t('settings') },
-          { key: 'analyses', label: $t('config.analyses') },
-        ]"
-        v-model="tabSelected"
-      />
+    <TabsBar
+      :tabs="[
+        { key: 'metadata', label: $t('config.metadata') },
+        { key: 'settings', label: $t('settings') },
+        { key: 'analyses', label: $t('config.analyses') },
+      ]"
+      v-model="tabSelected"
+    />
 
-      <!-- Using the key attribute to re-render whole form after fetching config -->
-      <FormKitWrapper v-if="configOptions !== undefined" :key="config">
-        <FormKit
-          id="corpus-config"
-          v-slot="{ value }"
-          type="form"
-          :disabled="!canWrite('corpus', id)"
-          :submit-label="$t('save')"
-          :submit-attrs="{
-            inputClass: 'mink-button button-primary',
-          }"
-          @submit="submit"
-        >
-          <TabsContent
-            v-show="tabSelected == 'metadata'"
-            :title="$t('metadata')"
-          >
-            <HelpBox>
-              <p>{{ $t("config.metadata.help") }}</p>
-            </HelpBox>
+    <!-- Using the key attribute to re-render whole form after fetching config -->
+    <FormKitWrapper v-if="configOptions !== undefined" :key="config">
+      <FormKit
+        id="corpus-config"
+        v-slot="{ value }"
+        type="form"
+        :disabled="!canWrite('corpus', id)"
+        :submit-label="$t('save')"
+        :submit-attrs="{
+          inputClass: 'mink-button button-primary',
+        }"
+        @submit="submit"
+      >
+        <TabsContent v-show="tabSelected == 'metadata'" :title="$t('metadata')">
+          <HelpBox>
+            <p>{{ $t("config.metadata.help") }}</p>
+          </HelpBox>
 
-            <!-- Use current UI language, so if it's "swe", show input for `name.swe` etc -->
-            <!-- TODO Manage current input if user switches locale while editing -->
-            <FormKit type="group" name="name">
-              <FormKit
-                :name="locale3"
-                :label="$t('name')"
-                :value="original.name?.[locale3]"
-                :help="$t('metadata.name.help')"
-                type="text"
-                input-class="w-72"
-              />
-            </FormKit>
-
-            <FormKit type="group" name="description">
-              <FormKit
-                :name="locale3"
-                :label="$t('description')"
-                :value="original.description?.[locale3]"
-                :help="$t('metadata.description.help')"
-                type="textarea"
-                input-class="w-full h-20"
-              />
-            </FormKit>
-
+          <!-- Use current UI language, so if it's "swe", show input for `name.swe` etc -->
+          <!-- TODO Manage current input if user switches locale while editing -->
+          <FormKit type="group" name="name">
             <FormKit
-              :label="$t('identifier')"
+              :name="locale3"
+              :label="$t('name')"
+              :value="original.name?.[locale3]"
+              :help="$t('metadata.name.help')"
               type="text"
-              name="identifier"
-              disabled
-              :value="id"
-              :help="$t('metadata.identifier.help')"
-            >
-              <template #label>
-                <!-- Avoid orphaned <label> for better accessibility -->
-                <span class="formkit-label">{{ $t("identifier") }}</span>
-              </template>
-              <template #input>
-                <TerminalOutput class="inline leading-loose">
-                  {{ id }}
-                </TerminalOutput>
-              </template>
-            </FormKit>
-          </TabsContent>
-
-          <TabsContent
-            v-show="tabSelected == 'settings'"
-            :title="$t('settings')"
-          >
-            <HelpBox>
-              <p>{{ $t("config.configuration.help") }}</p>
-            </HelpBox>
-
-            <FormKit
-              name="format"
-              :label="$t('fileFormat')"
-              :value="selectedFormat"
-              type="select"
               input-class="w-72"
-              :options="formatOptions"
-              validation="required"
-              :help="$t('config.format.help')"
             />
+          </FormKit>
 
-            <HelpBox v-if="value!.format === 'pdf'" important>
-              <PhLightbulbFilament weight="bold" class="inline mb-1 mr-1" />
-              {{ $t("config.format.note.pdf") }}
+          <FormKit type="group" name="description">
+            <FormKit
+              :name="locale3"
+              :label="$t('description')"
+              :value="original.description?.[locale3]"
+              :help="$t('metadata.description.help')"
+              type="textarea"
+              input-class="w-full h-20"
+            />
+          </FormKit>
+
+          <FormKit
+            :label="$t('identifier')"
+            type="text"
+            name="identifier"
+            disabled
+            :value="id"
+            :help="$t('metadata.identifier.help')"
+          >
+            <template #label>
+              <!-- Avoid orphaned <label> for better accessibility -->
+              <span class="formkit-label">{{ $t("identifier") }}</span>
+            </template>
+            <template #input>
+              <TerminalOutput class="inline leading-loose">
+                {{ id }}
+              </TerminalOutput>
+            </template>
+          </FormKit>
+        </TabsContent>
+
+        <TabsContent v-show="tabSelected == 'settings'" :title="$t('settings')">
+          <HelpBox>
+            <p>{{ $t("config.configuration.help") }}</p>
+          </HelpBox>
+
+          <FormKit
+            name="format"
+            :label="$t('fileFormat')"
+            :value="selectedFormat"
+            type="select"
+            input-class="w-72"
+            :options="formatOptions"
+            validation="required"
+            :help="$t('config.format.help')"
+          />
+
+          <HelpBox v-if="value!.format === 'pdf'" important>
+            <PhLightbulbFilament weight="bold" class="inline mb-1 mr-1" />
+            {{ $t("config.format.note.pdf") }}
+          </HelpBox>
+
+          <FormKit
+            v-if="value!.format === 'xml'"
+            name="textAnnotation"
+            :label="$t('config.text_annotation')"
+            type="text"
+            :value="original.textAnnotation"
+            validation="required:trim|matches:/^[^<>\s]*$/"
+            input-class="w-40 font-mono"
+            :help="$t('config.text_annotation.help')"
+          >
+            <template #prefix> &lt; </template>
+            <template #suffix> &gt; </template>
+          </FormKit>
+
+          <FormKit
+            v-if="isSegmentable((value as Form).format)"
+            name="sentenceSegmenter"
+            :label="$t('segmenter_sentence')"
+            :value="original.sentenceSegmenter || ''"
+            type="radio"
+            :options="segmenterOptions"
+            :help="$t('segmenter_sentence_help')"
+          />
+
+          <FormKit
+            name="datetimeFrom"
+            type="date"
+            :label="`${$t('timespan')}: ${$t('timespan_from')}`"
+            :value="original.datetime?.from"
+            :max="(value as Form).datetimeTo"
+            validation="onlyif:datetimeTo"
+            :validation-messages="{
+              onlyif: $t('config.datetime.validate_both'),
+            }"
+          />
+          <FormKit
+            name="datetimeTo"
+            type="date"
+            :label="`${$t('timespan')}: ${$t('timespan_to')}`"
+            :value="original.datetime?.to"
+            :min="(value as Form).datetimeFrom"
+            validation="onlyif:datetimeFrom"
+            :validation-messages="{
+              onlyif: $t('config.datetime.validate_both'),
+            }"
+            :help="$t('timespan_help')"
+          />
+        </TabsContent>
+
+        <PendingContent on="sparv/analyses">
+          <TabsContent
+            v-show="tabSelected == 'analyses'"
+            :title="$t('config.analyses')"
+          >
+            <HelpBox>
+              <i18n-t keypath="config.analyses.info" scope="global">
+                <template #custom_config>
+                  <router-link :to="`/library/corpus/${id}/config/custom`">
+                    {{ $t("config.custom") }}
+                  </router-link>
+                </template>
+              </i18n-t>
             </HelpBox>
 
             <FormKit
-              v-if="value!.format === 'xml'"
-              name="textAnnotation"
-              :label="$t('config.text_annotation')"
-              type="text"
-              :value="original.textAnnotation"
-              validation="required:trim|matches:/^[^<>\s]*$/"
-              input-class="w-40 font-mono"
-              :help="$t('config.text_annotation.help')"
-            >
-              <template #prefix> &lt; </template>
-              <template #suffix> &gt; </template>
-            </FormKit>
-
-            <FormKit
-              v-if="isSegmentable((value as Form).format)"
-              name="sentenceSegmenter"
-              :label="$t('segmenter_sentence')"
-              :value="original.sentenceSegmenter || ''"
-              type="radio"
-              :options="segmenterOptions"
-              :help="$t('segmenter_sentence_help')"
+              name="language"
+              :label="$t('config.language')"
+              type="select"
+              v-model="langkey"
+              input-class="w-72"
+              :options="languageOptions"
+              validation="required"
+              :help="$t('config.language.help')"
             />
 
-            <FormKit
-              name="datetimeFrom"
-              type="date"
-              :label="`${$t('timespan')}: ${$t('timespan_from')}`"
-              :value="original.datetime?.from"
-              :max="(value as Form).datetimeTo"
-              validation="onlyif:datetimeTo"
-              :validation-messages="{
-                onlyif: $t('config.datetime.validate_both'),
-              }"
-            />
-            <FormKit
-              name="datetimeTo"
-              type="date"
-              :label="`${$t('timespan')}: ${$t('timespan_to')}`"
-              :value="original.datetime?.to"
-              :min="(value as Form).datetimeFrom"
-              validation="onlyif:datetimeFrom"
-              :validation-messages="{
-                onlyif: $t('config.datetime.validate_both'),
-              }"
-              :help="$t('timespan_help')"
+            <AnalysisSelector
+              v-if="langkey"
+              :langkey
+              v-model="analysesSelected"
             />
           </TabsContent>
+        </PendingContent>
+      </FormKit>
+    </FormKitWrapper>
 
-          <PendingContent on="sparv/analyses">
-            <TabsContent
-              v-show="tabSelected == 'analyses'"
-              :title="$t('config.analyses')"
-            >
-              <HelpBox>
-                <i18n-t keypath="config.analyses.info" scope="global">
-                  <template #custom_config>
-                    <router-link :to="`/library/corpus/${id}/config/custom`">
-                      {{ $t("config.custom") }}
-                    </router-link>
-                  </template>
-                </i18n-t>
-              </HelpBox>
+    <div class="flex justify-center items-baseline gap-4">
+      <router-link :to="`/library/corpus/${id}/config/custom`">
+        {{ $t("config.custom") }}
+      </router-link>
 
-              <FormKit
-                name="language"
-                :label="$t('config.language')"
-                type="select"
-                v-model="langkey"
-                input-class="w-72"
-                :options="languageOptions"
-                validation="required"
-                :help="$t('config.language.help')"
-              />
-
-              <AnalysisSelector
-                v-if="langkey"
-                :langkey
-                v-model="analysesSelected"
-              />
-            </TabsContent>
-          </PendingContent>
-        </FormKit>
-      </FormKitWrapper>
-
-      <div class="flex justify-center items-baseline gap-4">
-        <router-link :to="`/library/corpus/${id}/config/custom`">
-          {{ $t("config.custom") }}
-        </router-link>
-
-        <RouteButton
-          :disabled="!canAdmin('corpus', id)"
-          :to="`/library/corpus/${id}/delete`"
-          class="button-danger"
-        >
-          <PhTrash weight="fill" class="inline mb-1 mr-1" />
-          {{ $t("delete") }}
-        </RouteButton>
-      </div>
-    </LayoutSection>
+      <RouteButton
+        :disabled="!canAdmin('corpus', id)"
+        :to="`/library/corpus/${id}/delete`"
+        class="button-danger"
+      >
+        <PhTrash weight="fill" class="inline mb-1 mr-1" />
+        {{ $t("delete") }}
+      </RouteButton>
+    </div>
   </PendingContent>
 </template>

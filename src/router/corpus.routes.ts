@@ -1,15 +1,18 @@
 import { type RouteRecordRaw } from "vue-router";
+const CorpusAnalyseView = () => import("@/corpus/views/CorpusAnalyseView.vue");
 const CorpusConfigCustomView = () =>
   import("@/corpus/views/CorpusConfigCustomView.vue");
 const CorpusConfigurationView = () =>
   import("@/corpus/views/CorpusConfigurationView.vue");
 const CorpusCreateView = () => import("@/corpus/views/CorpusCreateView.vue");
 const CorpusDeleteView = () => import("@/corpus/views/CorpusDeleteView.vue");
+const CorpusExploreView = () => import("@/corpus/views/CorpusExploreView.vue");
 const CorpusExportListView = () =>
   import("@/corpus/views/CorpusExportListView.vue");
 const CorpusExportView = () => import("@/corpus/views/CorpusExportView.vue");
 const CorpusOverviewView = () =>
   import("@/corpus/views/CorpusOverviewView.vue");
+const CorpusSourcesView = () => import("@/corpus/views/CorpusSourcesView.vue");
 const CorpusSourceView = () => import("@/corpus/views/CorpusSourceView.vue");
 const CorpusView = () => import("@/corpus/views/CorpusView.vue");
 
@@ -43,6 +46,11 @@ const corpusRoutes: RouteRecordRaw[] = [
         meta: { title: "config.custom" },
       },
       {
+        path: "sources",
+        component: CorpusSourcesView,
+        meta: { title: "sources" },
+      },
+      {
         // This route expects the source filename in the 'path' query param
         path: "sources/file",
         component: CorpusSourceView,
@@ -57,6 +65,11 @@ const corpusRoutes: RouteRecordRaw[] = [
             query: { path: to.params.filename },
           };
         },
+      },
+      {
+        path: "analyse",
+        component: CorpusAnalyseView,
+        meta: { title: "analysis" },
       },
       {
         path: "exports",
@@ -78,6 +91,11 @@ const corpusRoutes: RouteRecordRaw[] = [
             query: { path: to.params.path },
           };
         },
+      },
+      {
+        path: "explore",
+        component: CorpusExploreView,
+        meta: { title: "exports.tools" },
       },
       {
         path: "delete",

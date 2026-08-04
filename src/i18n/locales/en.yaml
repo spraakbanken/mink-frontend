@@ -178,6 +178,7 @@ sources: Source files
 configuration: Configuration
 settings: Settings
 analysis: Analyse
+overview: Overview
 result: Result
 resources: Resources
 files: No files | 1 file | {count} files
