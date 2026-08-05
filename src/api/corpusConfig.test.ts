@@ -6,26 +6,14 @@ import {
   type ConfigOptions,
   validateConfig,
 } from "@/api/corpusConfig";
-import type { AnalysisRegistryService } from "@/analyses/analyses.types";
-
-const analysisRegistryStub: AnalysisRegistryService = {
-  loadMetadata: async () => [],
-  getAnnotations: () => ["<text>:readability.lix"],
-  getAnalyses: () => ["sbx-swe-readability-sparv-lix"],
-  getDefaultAnalyses: async () => [],
-};
 
 describe("makeConfig", () => {
   test("sets minimal info", () => {
-    const yaml = makeConfig(
-      "mink-abc123",
-      {
-        name: { swe: "Nyheter", eng: "News" },
-        format: "txt",
-        analyses: {},
-      },
-      analysisRegistryStub,
-    );
+    const yaml = makeConfig("mink-abc123", {
+      name: { swe: "Nyheter", eng: "News" },
+      format: "txt",
+      annotations: [],
+    });
     expect(yaml).toContain("id: mink-abc123");
     expect(yaml).toContain("swe: Nyheter");
     expect(yaml).toContain("eng: News");
@@ -34,62 +22,46 @@ describe("makeConfig", () => {
   });
 
   test("sets segmenter", () => {
-    const yaml = makeConfig(
-      "mink-abc123",
-      {
-        name: { swe: "Nyheter", eng: "News" },
-        format: "txt",
-        sentenceSegmenter: "linebreaks",
-        analyses: {},
-      },
-      analysisRegistryStub,
-    );
+    const yaml = makeConfig("mink-abc123", {
+      name: { swe: "Nyheter", eng: "News" },
+      format: "txt",
+      sentenceSegmenter: "linebreaks",
+      annotations: [],
+    });
     expect(yaml).toContain("sentence_segmenter: linebreaks");
   });
 
   test("sets text_annotation", () => {
-    const yaml = makeConfig(
-      "mink-abc123",
-      {
-        name: { swe: "Nyheter", eng: "News" },
-        format: "xml",
-        textAnnotation: "article",
-        analyses: {},
-      },
-      analysisRegistryStub,
-    );
+    const yaml = makeConfig("mink-abc123", {
+      name: { swe: "Nyheter", eng: "News" },
+      format: "xml",
+      textAnnotation: "article",
+      annotations: [],
+    });
     expect(yaml).toContain("text_annotation: article");
     expect(yaml).toContain("- article as text");
   });
 
   test("sets pdf annotations", () => {
-    const yaml = makeConfig(
-      "mink-abc123",
-      {
-        name: { swe: "Nyheter", eng: "News" },
-        format: "pdf",
-        analyses: {},
-      },
-      analysisRegistryStub,
-    );
+    const yaml = makeConfig("mink-abc123", {
+      name: { swe: "Nyheter", eng: "News" },
+      format: "pdf",
+      annotations: [],
+    });
     expect(yaml).toContain("- text");
     expect(yaml).toContain("- page:number");
   });
 
   test("sets timespan info", () => {
-    const yaml = makeConfig(
-      "mink-abc123",
-      {
-        name: { swe: "Nyheter", eng: "News" },
-        format: "pdf",
-        datetime: {
-          from: "2000-01-01",
-          to: "2023-12-31",
-        },
-        analyses: {},
+    const yaml = makeConfig("mink-abc123", {
+      name: { swe: "Nyheter", eng: "News" },
+      format: "pdf",
+      datetime: {
+        from: "2000-01-01",
+        to: "2023-12-31",
       },
-      analysisRegistryStub,
-    );
+      annotations: [],
+    });
     expect(yaml).toContain("datetime_from: <text>:misc.datefrom");
     expect(yaml).toContain("datetime_to: <text>:misc.dateto");
     expect(yaml).toContain('datetime_informat: "%Y-%m-%d"');
@@ -104,7 +76,7 @@ describe("parseConfig", () => {
     const configYaml = stringify({
       import: { importer: "text_import:parse" },
     });
-    const config = parseConfig(configYaml, analysisRegistryStub);
+    const config = parseConfig(configYaml);
     expect(config.format).toBe("txt");
   });
 
@@ -112,7 +84,7 @@ describe("parseConfig", () => {
     const configYaml = stringify({
       metadata: { name: { swe: "Nyheter", eng: "News" } },
     });
-    expect(() => parseConfig(configYaml, analysisRegistryStub)).toThrowError();
+    expect(() => parseConfig(configYaml)).toThrowError();
   });
 
   test("handle full info", () => {
@@ -134,7 +106,7 @@ describe("parseConfig", () => {
         annotations: ["<text>:readability.lix"],
       },
     });
-    const config = parseConfig(configYaml, analysisRegistryStub);
+    const config = parseConfig(configYaml);
     const expected: ConfigOptions = {
       format: "xml",
       name: { swe: "Nyheter", eng: "News" },
@@ -145,9 +117,7 @@ describe("parseConfig", () => {
         from: "2000-01-01",
         to: "2023-12-31",
       },
-      analyses: {
-        "sbx-swe-readability-sparv-lix": true,
-      },
+      annotations: ["<text>:readability.lix"],
     };
     expect(config).toStrictEqual(expected);
   });
@@ -158,11 +128,11 @@ describe("validateConfig", () => {
     const options: ConfigOptions = {
       name: { swe: "Nyheter", eng: "News" },
       format: "xml",
-      analyses: {},
+      annotations: [],
     };
 
     // Config can be handled
-    makeConfig("mink-abc123", options, analysisRegistryStub);
+    makeConfig("mink-abc123", options);
 
     // But is not ready for annotation
     expect(() => validateConfig(options)).toThrow();

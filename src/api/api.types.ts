@@ -48,6 +48,26 @@ type InfoDataSection<T> = {
   data: T[];
 };
 
+export type SparvAnalysesData = {
+  analyses: SparvAnalysis[];
+};
+
+export type SparvAnalysis = {
+  analysis_unit: ByLang;
+  annotations: string[];
+  id: string;
+  languages: Language[];
+  language_varieties?: string[];
+  name: ByLang;
+  short_description?: ByLang;
+  task: ByLang;
+};
+
+export type Language = {
+  code: string;
+  name: ByLang;
+};
+
 /** Lists available exports */
 export type SparvExportsData = {
   /** List of available export formats */
