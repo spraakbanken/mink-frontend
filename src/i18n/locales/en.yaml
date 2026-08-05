@@ -265,11 +265,13 @@ metadata.description.help: |
 fileFormat: Source format
 config.analysis: Analysis
 config.analyses: Analyses
+config.analyses.available.none: No analyses available
 config.analyses.selected_count: No analysis selected | 1 analysis selected | {count} analyses selected
 config.analyses.info: Select what analyses should be done on the source text. For more detailed configuration, please use the {custom_config} page.
 config.analyses.task: Task
 config.analyses.unit: Unit
 config.analyses.unit.text: Text
+config.analyses.unit.sentence: Sentence
 config.analyses.unit.token: Token
 config.analyses.unit.other: Other
 config.analyses.url: https://spraakbanken.gu.se/en/analyses/{0}

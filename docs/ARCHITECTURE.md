@@ -105,7 +105,7 @@ Here is a sample `plugin.ts`:
 import type { Plugin } from "vue";
 import { injectionKeys } from "@/injection";
 import appConfig from "./config.yaml";
-import { MyAnalysisRegistryService } from "./services/MyAnalysisRegistryService";
+import { MyNewsService } from "./services/MyNewsService";
 import i18n, { languageNames } from "@/i18n/i18n";
 import es from "./locales/es.yaml";
 
@@ -115,10 +115,7 @@ export default function createPlugin(): Plugin {
     app.provide(injectionKeys.config, appConfig);
 
     // Provide services and components
-    app.provide(
-      injectionKeys.service.analysisRegistry,
-      new MyAnalysisRegistryService(),
-    );
+    app.provide(injectionKeys.service.news, new MyNewsService());
     app.provide(
       injectionKeys.component.MinkLogo,
       () => import("./components/MyMinkLogo.vue"),

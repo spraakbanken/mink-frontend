@@ -16,6 +16,7 @@ import type {
   BackendError,
   UserData,
   QueueHealthData,
+  SparvAnalysesData,
 } from "@/api/api.types";
 
 /** Create a `text/yaml` file object with content */
@@ -68,6 +69,14 @@ export class MinkClient {
   getInfo = once(async () => {
     const response = await this.axios.get<MinkResponse<InfoData>>("info");
     return response.data;
+  });
+
+  /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/list-sparv-analyses */
+  sparvAnalyses = once(async () => {
+    const response = await this.axios.get<MinkResponse<SparvAnalysesData>>(
+      "corpus/sparv/list-analyses",
+    );
+    return response.data.analyses;
   });
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/list-sparv-exports */

@@ -5,8 +5,8 @@ import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
 import { PhLightbulbFilament, PhTrash } from "@phosphor-icons/vue";
-import { computedAsync, watchImmediate } from "@vueuse/core";
-import { groupBy, omit } from "es-toolkit";
+import { watchImmediate } from "@vueuse/core";
+import { omit, pickBy } from "es-toolkit";
 import { useCorpus } from "../corpus.composable";
 import {
   type ConfigOptions,
@@ -28,12 +28,11 @@ import TerminalOutput from "@/components/TerminalOutput.vue";
 import useLocale from "@/i18n/locale.composable";
 import TabsBar from "@/components/TabsBar.vue";
 import TabsContent from "@/components/TabsContent.vue";
-import useSpin from "@/spin/spin.composable";
 import useSources from "@/resource/sources.composable";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
 import { useUserStore } from "@/store/user.store";
-import { useAnalysisRegistry } from "@/analyses/useAnalysisRegistry";
-import type { AnalysisId } from "@/analyses/analyses.types";
+import { useSparvAnalyses } from "@/api/useSparvAnalyses";
+import type { SparvAnalysis } from "@/api/api.types";
 
 type TabKey = "metadata" | "settings" | "analyses";
 
@@ -45,42 +44,45 @@ type Form = {
   sentenceSegmenter: ConfigSentenceSegmenter;
   datetimeFrom: string;
   datetimeTo: string;
-  analyses: Record<AnalysisId, boolean>;
+  analyses: Record<string, boolean>;
 };
 
 const router = useRouter();
 const id = useResourceIdParam();
 const { config, configOptions, saveConfigOptions } = useCorpus(id);
 const { extensions } = useSources("corpus", id);
-const analysisRegistry = useAnalysisRegistry();
+const { analyses, getAnalysesByAnnotations } = useSparvAnalyses();
 const { showAlert } = useAlert();
 const { t } = useI18n();
 const { locale3, th, thCompare } = useLocale();
-const { spin } = useSpin();
 const { canAdmin, canWrite } = useUserStore();
 
 const tabSelected = ref<TabKey>("metadata");
 
-/** List of metadata for relevant analyses */
-const analyses = computedAsync(async () => {
-  const analyses =
-    (await spin(analysisRegistry.loadMetadata(), "analysis/metadata").catch(
-      showAlert,
-    )) || [];
+/** Selectable analyses grouped by unit */
+const analysesGrouped = computed(() => {
+  // List of recognized units
+  const units = ["text", "sentence", "token", "other"];
 
-  // Skip analyses that do not have annotations
-  // Sort by most significant property last
-  const filtered = analyses
-    .filter((analysis) => analysisRegistry.getAnnotations([analysis.id]).length)
-    .sort(thCompare((x) => x.label))
-    .sort(thCompare((x) => x.unit));
+  function filter(unit: string) {
+    return analyses.value
+      .filter((analysis) => match(analysis, unit))
+      .sort(thCompare((x) => x.name));
+  }
 
-  // Group by unit: text, token or other
-  return groupBy(filtered, (analysis) => {
-    const unit = typeof analysis.unit == "object" ? analysis.unit.eng : "";
-    if (unit == "text" || unit == "token") return unit;
-    return "other";
-  });
+  function match(analysis: SparvAnalysis, requiredUnit: string) {
+    // Require attributive annotations
+    if (!analysis.annotations.some((annotation) => annotation.includes(":")))
+      return false;
+    // Recognize the analysis unit
+    const unit = units.includes(analysis.analysis_unit?.eng)
+      ? analysis.analysis_unit?.eng
+      : "other";
+    // Match the given unit
+    return unit == requiredUnit;
+  }
+
+  return Object.fromEntries(units.map((unit) => [unit, filter(unit)]));
 });
 
 const formatOptions = computed<FormKitOptionsList>(() =>
@@ -130,9 +132,15 @@ async function submit(fields: Form) {
       ? { from: fields.datetimeFrom, to: fields.datetimeTo }
       : undefined;
 
+  const analysisIds = Object.keys(pickBy(fields.analyses, Boolean));
+  const annotations = analyses.value
+    .filter((a) => analysisIds.includes(a.id))
+    .flatMap((a) => a.annotations);
+
   const configNew: ConfigOptions = {
     ...omit(fields, ["datetimeFrom", "datetimeTo"]),
     datetime,
+    annotations,
   };
 
   // Preserve hidden translations
@@ -304,7 +312,7 @@ async function submit(fields: Form) {
             />
           </TabsContent>
 
-          <PendingContent on="analysis/metadata">
+          <PendingContent on="sparv/analyses">
             <TabsContent
               v-show="tabSelected == 'analyses'"
               :title="$t('config.analyses')"
@@ -328,21 +336,30 @@ async function submit(fields: Form) {
                       <th>{{ $t("config.analyses.task") }}</th>
                     </tr>
                   </thead>
-                  <tbody v-for="(group, unit) in analyses" :key="unit">
+                  <tbody v-for="(group, unit) in analysesGrouped" :key="unit">
                     <tr>
                       <th colspan="5" class="text-lg pt-4!">
                         {{ $t("config.analyses.unit") }}:
                         {{ $t(`config.analyses.unit.${unit}`) }}
                       </th>
                     </tr>
+                    <tr v-if="!group.length">
+                      <td colspan="3" class="py-1 italic">
+                        {{ $t("config.analyses.available.none") }}
+                      </td>
+                    </tr>
                     <tr v-for="analysis in group" :key="analysis.id">
                       <td class="py-1">
                         <FormKit
                           :name="analysis.id"
-                          :label="th(analysis.label)"
-                          :value="original.analyses[analysis.id]"
+                          :label="th(analysis.name)"
+                          :value="
+                            getAnalysesByAnnotations(
+                              original.annotations,
+                            ).includes(analysis)
+                          "
                           type="checkbox"
-                          :help="th(analysis.summary)"
+                          :help="th(analysis.short_description)"
                         />
                       </td>
                       <td>
