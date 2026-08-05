@@ -1,0 +1,85 @@
+<script setup lang="ts">
+import { PhShareNetwork } from "@phosphor-icons/vue";
+import { computedAsync } from "@vueuse/core";
+import { storeToRefs } from "pinia";
+import { computed } from "vue";
+import { useAuth } from "@/api/useAuth";
+import { useResourceStore } from "@/store/resource.store";
+import TerminalOutput from "@/components/TerminalOutput.vue";
+import useAlert from "@/alert/alert.composable";
+import type { ResourceType } from "@/api/api.types";
+import { useUserStore } from "@/store/user.store";
+import HelpBox from "@/components/HelpBox.vue";
+
+const props = defineProps<{
+  type: ResourceType;
+  id: string;
+}>();
+
+const store = useResourceStore();
+const userStore = useUserStore();
+const auth = useAuth();
+const { adminMode } = storeToRefs(userStore);
+const { canAdmin, getAccessLevel } = userStore;
+const { showAlert } = useAlert();
+
+const resource = computedAsync(() =>
+  store.loadResource(props.id).catch(showAlert),
+);
+
+const authGuiUrl = computed(() => auth.getGuiUrl(props.id));
+</script>
+
+<template>
+  <div v-if="resource">
+    <HelpBox class="prose">
+      <p>
+        {{ $t("sharing.help.sbauth") }}
+        {{ $t("sharing.help.levels.before") }}
+      </p>
+      <ul>
+        <li><strong>READ</strong> – {{ $t("sharing.help.levels.read") }}</li>
+        <li><strong>WRITE</strong> – {{ $t("sharing.help.levels.write") }}</li>
+        <li><strong>ADMIN</strong> – {{ $t("sharing.help.levels.admin") }}</li>
+      </ul>
+      <p>{{ $t("sharing.help.levels.after") }}</p>
+    </HelpBox>
+
+    <table class="w-full">
+      <tbody>
+        <tr>
+          <th>{{ $t("sharing.owner") }}</th>
+          <td>
+            {{ resource.owner.name }}
+          </td>
+        </tr>
+
+        <tr>
+          <th>{{ $t("sharing.level") }}</th>
+          <td class="flex gap-3 items-baseline">
+            <div>
+              <span
+                v-if="adminMode"
+                class="bg-amber-300 text-amber-900 px-2 py-1"
+              >
+                {{ $t("sharing.level.admin_mode") }}
+              </span>
+              <TerminalOutput v-else class="inline leading-loose">
+                {{ getAccessLevel(type, id) }}
+              </TerminalOutput>
+            </div>
+            <a
+              v-if="canAdmin(type, id) && authGuiUrl"
+              :href="authGuiUrl"
+              target="_blank"
+              class="flex items-baseline"
+            >
+              <PhShareNetwork class="self-center mr-1" />
+              {{ $t("sharing.manage") }}
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>

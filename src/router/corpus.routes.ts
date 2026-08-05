@@ -12,6 +12,7 @@ const CorpusExportListView = () =>
 const CorpusExportView = () => import("@/corpus/views/CorpusExportView.vue");
 const CorpusOverviewView = () =>
   import("@/corpus/views/CorpusOverviewView.vue");
+const CorpusSharingView = () => import("@/corpus/views/CorpusSharingView.vue");
 const CorpusSourcesView = () => import("@/corpus/views/CorpusSourcesView.vue");
 const CorpusSourceView = () => import("@/corpus/views/CorpusSourceView.vue");
 const CorpusView = () => import("@/corpus/views/CorpusView.vue");
@@ -65,6 +66,11 @@ const corpusRoutes: RouteRecordRaw[] = [
             query: { path: to.params.filename },
           };
         },
+      },
+      {
+        path: "sharing",
+        component: CorpusSharingView,
+        meta: { title: "sharing" },
       },
       {
         path: "analyse",
