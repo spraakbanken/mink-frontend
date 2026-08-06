@@ -1,40 +1,39 @@
 <script setup lang="ts">
-import { computedAsync } from "@vueuse/core";
-import { defineAsyncComponent } from "vue";
+import { useDark } from "@vueuse/core";
+import { computed } from "vue";
+import type { Extension } from "@codemirror/state";
+import { EditorView } from "@codemirror/view";
+import { Codemirror } from "vue-codemirror";
+import { monokai } from "@fsegurai/codemirror-theme-monokai";
+import { xml } from "@codemirror/lang-xml";
+import { yaml } from "@codemirror/lang-yaml";
+import { json } from "@codemirror/lang-json";
 import TerminalOutput from "./TerminalOutput.vue";
 
-// Import lib dynamically for chunking
-const importPromise = import("@/highlight");
-
-const Highlightjs = defineAsyncComponent(() =>
-  importPromise.then((m) => m.plugin.component),
-);
-
-defineProps<{
+const props = defineProps<{
   code: string;
   language?: string;
 }>();
 
-const availableLanguages = computedAsync(() =>
-  importPromise.then((m) => m.languages),
-);
+const isDark = useDark();
+
+/** Reactive list of extensions */
+const extensions = computed<Extension[]>(() => [
+  syntaxExtension.value || [],
+  isDark.value ? monokai : [],
+  EditorView.lineWrapping,
+]);
+
+const syntaxExtension = computed<Extension | undefined>(() => {
+  if (props.language == "xml") return xml();
+  if (props.language == "jsonl") return json();
+  if (props.language == "yaml") return yaml();
+  return undefined;
+});
 </script>
 
 <template>
-  <Highlightjs
-    v-if="availableLanguages?.includes(language || '')"
-    :code
-    :language
-    :autodetect="false"
-    class="text-xs rounded-sm whitespace-pre-wrap wrap-anywhere"
-  />
+  <!-- Docs: https://github.com/surmon-china/vue-codemirror -->
+  <Codemirror v-if="syntaxExtension" disabled :model-value="code" :extensions />
   <TerminalOutput v-else>{{ code }}</TerminalOutput>
 </template>
-
-<style>
-@reference "@/index.css";
-
-pre code.hljs {
-  @apply p-2 bg-stone-800;
-}
-</style>
