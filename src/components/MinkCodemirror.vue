@@ -12,7 +12,7 @@ import {
   highlightSpecialChars,
   lineNumbers,
 } from "@codemirror/view";
-import { monokai } from "@fsegurai/codemirror-theme-monokai";
+import { darcula } from "@uiw/codemirror-theme-darcula";
 import { useDark } from "@vueuse/core";
 import { xml } from "@codemirror/lang-xml";
 import { json } from "@codemirror/lang-json";
@@ -54,7 +54,7 @@ const extensions = computed<Extension[]>(() => {
   if (!props.nowrap)
     out.push(props.language ? indentWrapExtension : EditorView.lineWrapping);
 
-  if (isDark.value || !props.language) out.push(monokai);
+  if (isDark.value || !props.language) out.push(darcula);
 
   return out;
 });

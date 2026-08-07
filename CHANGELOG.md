@@ -22,6 +22,8 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 - Use links and buttons consistently [#258](https://github.com/spraakbanken/mink-frontend/issues/258)
 - Remove table row striping
 - Replace highlight.js with CodeMirror
+- Change syntax highlighting theme for dark mode
+- Content of source/export files is shown in full width and height
 
 ## [2.1.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.1.1) (2026-06-12)
 
