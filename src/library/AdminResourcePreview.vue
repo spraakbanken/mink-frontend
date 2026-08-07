@@ -2,7 +2,7 @@
 import { computedAsync } from "@vueuse/core";
 import { type Resource, isCorpus } from "@/store/resource.types";
 import PendingContent from "@/spin/PendingContent.vue";
-import TextData from "@/components/TextData.vue";
+import MinkCodemirror from "@/components/MinkCodemirror.vue";
 import useAlert from "@/alert/alert.composable";
 import { useConfigStore } from "@/store/config.store";
 import HeightResizable from "@/components/HeightResizable.vue";
@@ -73,7 +73,7 @@ const config = computedAsync(() =>
     >
       <h3 class="text-base font-semibold">{{ $t("configuration") }}</h3>
       <HeightResizable>
-        <TextData :text="config" language="yaml" />
+        <MinkCodemirror :model-value="config" disabled language="yaml" />
       </HeightResizable>
     </PendingContent>
   </div>

@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from "vue";
 import { once } from "es-toolkit";
 import { PhArrowsClockwise, PhDownloadSimple } from "@phosphor-icons/vue";
-import TextData from "./TextData.vue";
+import MinkCodemirror from "./MinkCodemirror.vue";
 import { downloadFile } from "@/util";
 import ActionButton from "@/components/ActionButton.vue";
 
@@ -66,5 +66,5 @@ async function download() {
     </ActionButton>
   </div>
 
-  <TextData v-if="text" :text :language />
+  <MinkCodemirror v-if="text" :model-value="text" disabled :language />
 </template>

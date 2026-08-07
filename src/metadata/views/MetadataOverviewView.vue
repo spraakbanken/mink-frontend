@@ -6,7 +6,7 @@ import { useResourceStore } from "@/store/resource.store";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import LayoutBox from "@/components/LayoutBox.vue";
 import RouteButton from "@/components/RouteButton.vue";
-import TextData from "@/components/TextData.vue";
+import MinkCodemirror from "@/components/MinkCodemirror.vue";
 import FileUpload from "@/components/FileUpload.vue";
 import SharingPanel from "@/auth/SharingPanel.vue";
 import HelpBox from "@/components/HelpBox.vue";
@@ -53,7 +53,12 @@ async function uploadMetadata(files: File[]) {
     <div class="w-96 grow flex flex-col gap-4">
       <PendingContent :on="`resource/${id}/metadata`">
         <LayoutBox title="content" class="flex-1">
-          <TextData v-if="config" :text="config"></TextData>
+          <MinkCodemirror
+            v-if="config"
+            :model-value="config"
+            disabled
+            language="yaml"
+          />
 
           <FileUpload
             v-if="canWrite('metadata', id)"

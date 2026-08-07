@@ -4,7 +4,7 @@ import JobStatusMessage from "./JobStatusMessage.vue";
 import useLocale from "@/i18n/locale.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
-import TextData from "@/components/TextData.vue";
+import TerminalOutput from "@/components/TerminalOutput.vue";
 import useResource from "@/resource/resource.composable";
 import useAlert from "@/alert/alert.composable";
 import HeightResizable from "@/components/HeightResizable.vue";
@@ -58,7 +58,7 @@ const isNew = computed(() =>
         <tr v-if="job.errors">
           <td colspan="2">
             <HeightResizable class="mb-2">
-              <TextData :text="job.errors" />
+              <TerminalOutput>{{ job.errors }}</TerminalOutput>
             </HeightResizable>
           </td>
         </tr>
@@ -69,7 +69,7 @@ const isNew = computed(() =>
         <tr v-if="job.warnings">
           <td colspan="2">
             <HeightResizable class="mb-2">
-              <TextData :text="job.warnings" />
+              <TerminalOutput>{{ job.warnings }}</TerminalOutput>
             </HeightResizable>
           </td>
         </tr>
@@ -80,7 +80,7 @@ const isNew = computed(() =>
         <tr v-if="currentStatus == 'error' && job.output">
           <td colspan="2">
             <HeightResizable class="mb-2">
-              <TextData :text="job.output" />
+              <TerminalOutput>{{ job.output }}</TerminalOutput>
             </HeightResizable>
           </td>
         </tr>
