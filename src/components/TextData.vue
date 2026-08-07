@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import HeightResizable from "@/components/HeightResizable.vue";
 import SyntaxHighlight from "@/components/SyntaxHighlight.vue";
 
 defineProps<{
@@ -9,7 +8,5 @@ defineProps<{
 </script>
 
 <template>
-  <HeightResizable>
-    <SyntaxHighlight :code="text" :language />
-  </HeightResizable>
+  <SyntaxHighlight :code="text" :language />
 </template>

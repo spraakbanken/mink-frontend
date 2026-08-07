@@ -5,6 +5,7 @@ import PendingContent from "@/spin/PendingContent.vue";
 import TextData from "@/components/TextData.vue";
 import useAlert from "@/alert/alert.composable";
 import { useConfigStore } from "@/store/config.store";
+import HeightResizable from "@/components/HeightResizable.vue";
 
 const props = defineProps<{
   id: string;
@@ -71,7 +72,9 @@ const config = computedAsync(() =>
       class="flex-1"
     >
       <h3 class="text-base font-semibold">{{ $t("configuration") }}</h3>
-      <TextData :text="config" language="yaml" />
+      <HeightResizable>
+        <TextData :text="config" language="yaml" />
+      </HeightResizable>
     </PendingContent>
   </div>
 </template>

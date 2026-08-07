@@ -7,6 +7,7 @@ import ProgressBar from "@/components/ProgressBar.vue";
 import TextData from "@/components/TextData.vue";
 import useResource from "@/resource/resource.composable";
 import useAlert from "@/alert/alert.composable";
+import HeightResizable from "@/components/HeightResizable.vue";
 
 const props = defineProps<{
   id: string;
@@ -56,7 +57,9 @@ const isNew = computed(() =>
         </tr>
         <tr v-if="job.errors">
           <td colspan="2">
-            <TextData :text="job.errors" class="mb-2" />
+            <HeightResizable class="mb-2">
+              <TextData :text="job.errors" />
+            </HeightResizable>
           </td>
         </tr>
 
@@ -65,7 +68,9 @@ const isNew = computed(() =>
         </tr>
         <tr v-if="job.warnings">
           <td colspan="2">
-            <TextData :text="job.warnings" class="mb-2" />
+            <HeightResizable class="mb-2">
+              <TextData :text="job.warnings" />
+            </HeightResizable>
           </td>
         </tr>
 
@@ -74,7 +79,9 @@ const isNew = computed(() =>
         </tr>
         <tr v-if="currentStatus == 'error' && job.output">
           <td colspan="2">
-            <TextData :text="job.output" class="mb-2" />
+            <HeightResizable class="mb-2">
+              <TextData :text="job.output" />
+            </HeightResizable>
           </td>
         </tr>
 

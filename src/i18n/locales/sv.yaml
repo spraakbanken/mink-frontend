@@ -97,7 +97,6 @@ source.limit.total.recommended: Rekommenderad högsta totalstorlek
 source.limit.total.max: Högsta tillåtna totalstorlek
 source.notfound: Denna källfil kunde inte hittas
 source.list.loading: Listar källfiler
-source.content: Innehåll
 upload.accept: Filtyp | Filtyper
 upload.label.single: Ladda upp fil
 upload.label.multiple: Ladda upp filer
@@ -177,6 +176,7 @@ docs.label: Hjälp
 docs.url: https://spraakbanken.gu.se/verktyg/mink
 locale.switcher.label: Gränssnittsspråk
 file: Fil
+file.content: Innehåll
 sources: Källfiler
 configuration: Konfiguration
 settings: Inställningar
@@ -196,6 +196,7 @@ lastModify: Senast ändrad
 seconds_ago: "{count} s sedan"
 fileSize: Storlek
 file.operations: Operationer
+created: Skapad
 delete: Radera
 original: Original
 public_id: Publik identifierare

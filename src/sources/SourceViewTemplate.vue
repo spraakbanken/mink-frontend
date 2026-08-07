@@ -46,7 +46,7 @@ async function loadFile() {
 
 <template>
   <LayoutSection :title="filename">
-    <table v-if="metadata" class="w-full mt-4">
+    <table v-if="metadata" class="w-full my-4">
       <tbody>
         <tr>
           <th>{{ $t("fileSize") }}</th>
@@ -58,21 +58,19 @@ async function loadFile() {
             {{ formatDate(metadata.last_modified) }}
           </td>
         </tr>
-        <tr>
-          <th>{{ $t("source.content") }}</th>
-          <td>
-            <PendingContent :on="`${id}/sources/${filename}`">
-              <TextFileBox
-                :load="loadFile"
-                :filename="metadata.name"
-                :no-load="isBinary"
-                :size="metadata.size"
-                :language="getFilenameExtension(filename)"
-              />
-            </PendingContent>
-          </td>
-        </tr>
       </tbody>
     </table>
+
+    <h3 class="text-2xl">{{ $t("file.content") }}</h3>
+    <PendingContent :on="`${id}/sources/${filename}`">
+      <TextFileBox
+        v-if="metadata"
+        :load="loadFile"
+        :filename="metadata.name"
+        :no-load="isBinary"
+        :size="metadata.size"
+        :language="getFilenameExtension(filename)"
+      />
+    </PendingContent>
   </LayoutSection>
 </template>

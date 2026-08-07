@@ -97,7 +97,6 @@ source.limit.total.recommended: Recommended max total size
 source.limit.total.max: Maximum total size
 source.notfound: This source file was not found
 source.list.loading: Listing source files
-source.content: Content
 upload.accept: File type | File types
 upload.label.single: Upload file
 upload.label.multiple: Upload files
@@ -176,6 +175,7 @@ docs.label: Help
 docs.url: https://spraakbanken.gu.se/en/tools/mink
 locale.switcher.label: Interface language
 file: File
+file.content: Content
 sources: Source files
 configuration: Configuration
 settings: Settings
@@ -195,6 +195,7 @@ lastModify: Last modified
 seconds_ago: "{count}s ago"
 fileSize: Size
 file.operations: Operations
+created: Created
 delete: Delete
 original: Original
 public_id: Public identifier

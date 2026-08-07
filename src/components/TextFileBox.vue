@@ -50,8 +50,6 @@ async function download() {
 </script>
 
 <template>
-  <TextData v-if="text" :text :language />
-
   <div class="my-2 flex gap-2">
     <ActionButton
       v-if="!noLoad && text === undefined"
@@ -67,4 +65,6 @@ async function download() {
       {{ $t("download") }}
     </ActionButton>
   </div>
+
+  <TextData v-if="text" :text :language />
 </template>

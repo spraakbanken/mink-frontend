@@ -44,32 +44,30 @@ async function loadFile() {
 <template>
   <LayoutSection>
     <h2>{{ path }}</h2>
-    <table v-if="metadata" class="w-full mt-4">
+    <table v-if="metadata" class="w-full my-4">
       <tbody>
         <tr>
           <th>{{ $t("fileSize") }}</th>
           <td>{{ filesize(metadata.size) }}</td>
         </tr>
         <tr>
-          <th>{{ $t("uploaded") }}</th>
+          <th>{{ $t("created") }}</th>
           <td>
             {{ formatDate(metadata.last_modified) }}
           </td>
         </tr>
-        <tr>
-          <th>{{ $t("source.content") }}</th>
-          <td>
-            <PendingContent :on="`${id}/exports/${path}`">
-              <TextFileBox
-                :load="loadFile"
-                :filename="metadata.name"
-                :size="metadata.size"
-                :language="isXml ? 'xml' : undefined"
-              />
-            </PendingContent>
-          </td>
-        </tr>
       </tbody>
     </table>
+
+    <h3 class="text-2xl">{{ $t("file.content") }}</h3>
+    <PendingContent :on="`${id}/exports/${path}`">
+      <TextFileBox
+        v-if="metadata"
+        :load="loadFile"
+        :filename="metadata.name"
+        :size="metadata.size"
+        :language="isXml ? 'xml' : undefined"
+      />
+    </PendingContent>
   </LayoutSection>
 </template>
