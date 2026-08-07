@@ -3,20 +3,17 @@ import { Decoration } from "@codemirror/view";
 import { EditorState, StateField, type Extension } from "@codemirror/state";
 
 /**
- * Plugin that makes line wrapping in the editor respect the indentation of the line.
- * It does this by adding a line decoration that adds margin-left (as much as there is indentation),
- * and adds the same amount as negative "text-indent". The nice thing about text-indent is that it
- * applies to the initial line of a wrapped line.
+ * @file Plugin that makes line wrapping in the editor respect the indentation of the line.
+ *
+ * It measures leading space and adds hanging indentation with another 2 ch.
  *
  * Thanks to Michiel, fonsp, Mitcheljager and qbane at
  * https://discuss.codemirror.net/t/making-codemirror-6-respect-indent-for-wrapped-lines/2881/10
  */
+
 const indentWrapField = StateField.define({
   create: (state) => getDecorations(state),
-  update(deco, tr) {
-    if (!tr.docChanged) return deco;
-    return getDecorations(tr.state);
-  },
+  update: (deco, tr) => (tr.docChanged ? getDecorations(tr.state) : deco),
   provide: (f) => EditorView.decorations.from(f),
 });
 
@@ -44,11 +41,7 @@ function getDecorations(state: EditorState) {
 
 const indentWrapTheme = EditorView.theme({
   ".indentwrap-line": {
-    borderLeft: "transparent solid calc(var(--indented))",
-  },
-  ".indentwrap-line:before": {
-    content: '""',
-    marginLeft: "calc(-1 * var(--indented))",
+    textIndent: "calc(var(--indented)) hanging",
   },
 });
 
