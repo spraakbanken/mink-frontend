@@ -13,6 +13,13 @@ library.help.resources.none: Här kommer dina resurser att listas.
 corpus: Korpus
 corpus.help: En korpus är en samling av text som ofta används för statistisk analys och fjärrläsning.
 corpus.new: Ny korpus
+corpus.checklist: Checklista
+corpus.checklist.task: Steg
+corpus.checklist.sources: Ladda upp källfiler
+corpus.checklist.config: Konfigurera
+corpus.checklist.analyze: Analysera
+corpus.checklist.korp: Installera i Korp
+corpus.checklist.strix: Installera i Strix
 corpus.state.unknown: Okänt
 corpus.state.empty: Inga filer
 corpus.state.needing_config: Behöver konfigureras
@@ -59,6 +66,8 @@ resource.access_denied: Den här funktionen kräver en högre behörighetsnivå 
 config.metadata.help: Metadata är information om datan, och fungerar som underlag för potentiellt intresserade användare (om du publicerar datan) samt underlättar katalogiseringen i datarepositorier.
 config.configuration.help: Dessa inställningar blir instruktioner till den automatiska analysen.
 corpus.config.parse.error: Korpusens config kunde inte läsas. Redigera och spara konfigurationen för att åtgärda det. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
+config.is_invalid: Konfigurationen är ogiltig
+config.is_valid: Konfigurationen är giltig
 config.saving: Sparar metadata
 analysis.help: Kör automatiska språkteknologiska analyser på din textdata enligt inställningarna. Mink använder {sparv} i bakgrunden.
 job.rerun.overwrite: En ny körning skriver över tidigare resultat.

@@ -65,7 +65,7 @@ const columns = computed<SortableTableColumn<FileMeta>[]>(() => {
   ];
 
   if (canWrite(props.type, props.id))
-    cols.push({ title: t("file.operations"), thClass: "sr-only" });
+    cols.push({ title: t("file.operations"), thClassInner: "sr-only" });
 
   return cols;
 });
@@ -103,10 +103,10 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
         :rows="resource.sources"
         :get-row-key="(source) => source.path"
         :default-sort="{ title: columns[0].title, reverse: false }"
-        class="w-full"
+        class="w-full table-lined"
       >
         <template v-slot="{ row: source }">
-          <td class="py-1">
+          <td>
             <router-link
               :to="`/library/${type}/${id}/sources/file?path=${source.name}`"
               class="block"
@@ -114,7 +114,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
               {{ source.name }}
             </router-link>
           </td>
-          <td class="text-end whitespace-nowrap px-2">
+          <td class="text-end whitespace-nowrap">
             {{ filesize(source.size) }}
           </td>
           <td v-if="canWrite(type, id)">

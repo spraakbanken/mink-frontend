@@ -10,6 +10,8 @@ export type SortableTableColumn<T> = {
   comparator?: (a: T, b: T) => number;
   /** Classes to give to the `<th>` element */
   thClass?: string;
+  /** Classes to give to the `<div>` element in the `<th>` */
+  thClassInner?: string;
 };
 
 /** Holds current sort state */
@@ -61,6 +63,7 @@ function toggleSort(column: SortableTableColumn<T>) {
           <div
             v-if="column.comparator"
             class="flex items-center gap-1 cursor-pointer"
+            :class="column.thClassInner"
             @click="toggleSort(column)"
           >
             {{ column.title }}
@@ -75,7 +78,7 @@ function toggleSort(column: SortableTableColumn<T>) {
           </div>
 
           <!-- Title for non-sortable column -->
-          <template v-else>{{ column.title }}</template>
+          <div v-else :class="column.thClassInner">{{ column.title }}</div>
         </th>
       </tr>
     </thead>
