@@ -11,9 +11,9 @@ const props = defineProps<{
   id: string;
 }>();
 
-const { isConfigValid } = useCorpus(props.id);
+const { isConfigValid, exports } = useCorpus(props.id);
 const { sources, extensions } = useSources("corpus", props.id);
-const { job } = useResource<"corpus">(props.id);
+const { job, isRunning } = useResource<"corpus">(props.id);
 
 const STATUS_MAP: Record<JobState, ChecklistItemStatus> = {
   aborted: "none",
@@ -44,8 +44,18 @@ const STATUS_MAP: Record<JobState, ChecklistItemStatus> = {
               (.{{ extensions[0] }}),
               {{ $t("files", sources.length) }}
             </ChecklistItem>
+
             <ChecklistItem v-else status="error">
               {{ $t("files", 0) }}
+
+              <template #actions>
+                <router-link
+                  :to="`/library/corpus/${id}/sources`"
+                  class="link-primary"
+                >
+                  {{ $t("upload") }}
+                </router-link>
+              </template>
             </ChecklistItem>
           </td>
         </tr>
@@ -56,8 +66,18 @@ const STATUS_MAP: Record<JobState, ChecklistItemStatus> = {
             <ChecklistItem v-if="isConfigValid" status="success">
               {{ $t("config.is_valid") }}
             </ChecklistItem>
+
             <ChecklistItem v-else status="error">
               {{ $t("config.is_invalid") }}
+
+              <template #actions>
+                <router-link
+                  :to="`/library/corpus/${id}/config`"
+                  class="link-primary"
+                >
+                  {{ $t("edit") }}
+                </router-link>
+              </template>
             </ChecklistItem>
           </td>
         </tr>
@@ -67,6 +87,24 @@ const STATUS_MAP: Record<JobState, ChecklistItemStatus> = {
           <td>
             <ChecklistItem v-if="job" :status="STATUS_MAP[job.status.sparv]">
               {{ $t(`job.status.${job.status.sparv}`) }}
+
+              <template
+                v-if="
+                  sources.length &&
+                  isConfigValid &&
+                  !isRunning &&
+                  exports &&
+                  !exports?.length
+                "
+                #actions
+              >
+                <router-link
+                  :to="`/library/corpus/${id}/analyse`"
+                  class="link-primary"
+                >
+                  {{ $t("analysis") }}
+                </router-link>
+              </template>
             </ChecklistItem>
           </td>
         </tr>
