@@ -16,7 +16,7 @@ const id = useResourceIdParam();
         <CorpusChecklist :id />
       </LayoutBox>
 
-      <LayoutBox :title="$t('job.status')" class="w-96 grow">
+      <LayoutBox :title="$t('job.process')" class="w-96 grow">
         <JobStatusPanel :id />
       </LayoutBox>
     </div>

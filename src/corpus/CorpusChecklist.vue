@@ -74,18 +74,34 @@ const STATUS_MAP: Record<JobState, ChecklistItemStatus> = {
         <tr>
           <td>{{ $t("corpus.checklist.korp") }}</td>
           <td>
-            <ChecklistItem v-if="job" :status="STATUS_MAP[job.status.korp]">
-              {{ $t(`job.status.${job.status.korp}`) }}
-            </ChecklistItem>
+            <template v-if="job">
+              <ChecklistItem
+                v-if="job.status.sparv == 'done'"
+                :status="STATUS_MAP[job.status.korp]"
+              >
+                {{ $t(`job.status.${job.status.korp}`) }}
+              </ChecklistItem>
+              <ChecklistItem v-else>
+                {{ $t("corpus.checklist.analysis_required") }}
+              </ChecklistItem>
+            </template>
           </td>
         </tr>
 
         <tr>
           <td>{{ $t("corpus.checklist.strix") }}</td>
           <td>
-            <ChecklistItem v-if="job" :status="STATUS_MAP[job.status.strix]">
-              {{ $t(`job.status.${job.status.strix}`) }}
-            </ChecklistItem>
+            <template v-if="job">
+              <ChecklistItem
+                v-if="job.status.sparv == 'done'"
+                :status="STATUS_MAP[job.status.strix]"
+              >
+                {{ $t(`job.status.${job.status.strix}`) }}
+              </ChecklistItem>
+              <ChecklistItem v-else>
+                {{ $t("corpus.checklist.analysis_required") }}
+              </ChecklistItem>
+            </template>
           </td>
         </tr>
       </tbody>

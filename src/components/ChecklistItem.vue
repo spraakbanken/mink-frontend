@@ -4,7 +4,7 @@ import { PhCheckFat, PhMinus, PhWarningOctagon } from "@phosphor-icons/vue";
 export type ChecklistItemStatus = "none" | "success" | "warning" | "error";
 
 defineProps<{
-  status: ChecklistItemStatus;
+  status?: ChecklistItemStatus;
 }>();
 </script>
 
