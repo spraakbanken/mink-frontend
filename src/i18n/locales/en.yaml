@@ -15,11 +15,12 @@ corpus.help: A corpus is a collection of text, typically used with statistical a
 corpus.new: New corpus
 corpus.checklist: Checklist
 corpus.checklist.task: Task
-corpus.checklist.sources: Upload source files
-corpus.checklist.config: Configure
-corpus.checklist.analyze: Analyse
-corpus.checklist.korp: Install to Korp
-corpus.checklist.strix: Install to Strix
+corpus.checklist.sources: Sources
+corpus.checklist.config: Configuration
+corpus.checklist.analyze: Analysis
+corpus.checklist.analysis_required: Analysis required
+corpus.checklist.korp: Explore in Korp
+corpus.checklist.strix: Explore in Strix
 corpus.state.unknown: Unknown
 corpus.state.empty: No files
 corpus.state.needing_config: Configuration needed
@@ -183,7 +184,7 @@ docs.url: https://sprakbanken.se/en/platforms/mink/manual
 locale.switcher.label: Interface language
 file: File
 file.content: Content
-sources: Source files
+sources: Sources
 configuration: Configuration
 settings: Settings
 analysis: Analyse

@@ -18,7 +18,7 @@ const tabs = computed(() => {
     // TODO Notification bubble for primary action
     // TODO Fix tab isActive for subpaths ('' -> '/overview'?)
     // TODO Do this for lexicon/metadata also
-    { path: `/library/corpus/${id}`, label: t("overview") },
+    { path: `/library/corpus/${id}`, label: t("status") },
     { path: `/library/corpus/${id}/sources`, label: t("sources") },
     { path: `/library/corpus/${id}/config`, label: t("configuration") },
     appConfig.sharing

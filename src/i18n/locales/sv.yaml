@@ -15,11 +15,12 @@ corpus.help: En korpus är en samling av text som ofta används för statistisk 
 corpus.new: Ny korpus
 corpus.checklist: Checklista
 corpus.checklist.task: Steg
-corpus.checklist.sources: Ladda upp källfiler
-corpus.checklist.config: Konfigurera
-corpus.checklist.analyze: Analysera
-corpus.checklist.korp: Installera i Korp
-corpus.checklist.strix: Installera i Strix
+corpus.checklist.sources: Källfiler
+corpus.checklist.config: Konfiguration
+corpus.checklist.analyze: Analys
+corpus.checklist.analysis_required: Analysera först
+corpus.checklist.korp: Utforska i Korp
+corpus.checklist.strix: Utforska i Strix
 corpus.state.unknown: Okänt
 corpus.state.empty: Inga filer
 corpus.state.needing_config: Behöver konfigureras
@@ -184,7 +185,7 @@ docs.url: https://sprakbanken.se/plattformar/mink
 locale.switcher.label: Gränssnittsspråk
 file: Fil
 file.content: Innehåll
-sources: Källfiler
+sources: Källor
 configuration: Konfiguration
 settings: Inställningar
 analysis: Analysera
