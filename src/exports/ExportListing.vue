@@ -45,7 +45,7 @@ const { showAlert } = useAlert();
       <td class="w-full py-1">
         {{ file.path.slice(0, file.path.lastIndexOf("/") + 1)
         }}<router-link
-          :to="`/library/${type}/${id}/exports/${encodeURIComponent(file.path)}`"
+          :to="`/library/${type}/${id}/exports/file?path=${file.path}`"
         >
           {{ file.name }}
         </router-link>

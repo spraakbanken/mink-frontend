@@ -43,8 +43,20 @@ const corpusRoutes: RouteRecordRaw[] = [
         meta: { title: "config.custom" },
       },
       {
-        path: "sources/:filename",
+        // This route expects the source filename in the 'path' query param
+        path: "sources/file",
         component: CorpusSourceView,
+      },
+      {
+        // TODO Compat added 2026-08-21. Remove after 6 months?
+        path: "sources/:filename",
+        redirect: (to) => {
+          // Redirect to the 'sources/file' route with the 'path' query param
+          return {
+            path: `/library/corpus/${to.params.id}/sources/file`,
+            query: { path: to.params.filename },
+          };
+        },
       },
       {
         path: "exports",
@@ -52,9 +64,20 @@ const corpusRoutes: RouteRecordRaw[] = [
         meta: { title: "result" },
       },
       {
-        path: "exports/:path",
+        // This route expects the export file path in the 'path' query param
+        path: "exports/file",
         component: CorpusExportView,
-        props: true,
+      },
+      {
+        // TODO Compat added 2026-08-21. Remove after 6 months?
+        path: "exports/:path",
+        redirect: (to) => {
+          // Redirect to the 'exports/file' route with the 'path' query param
+          return {
+            path: `/library/corpus/${to.params.id}/exports/file`,
+            query: { path: to.params.path },
+          };
+        },
       },
       {
         path: "delete",

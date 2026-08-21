@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { watchImmediate } from "@vueuse/core";
-import { useI18n } from "vue-i18n";
 import TextFileBox from "@/components/TextFileBox.vue";
 import { getFilenameExtension } from "@/util";
 import LayoutSection from "@/components/LayoutSection.vue";
@@ -11,6 +10,7 @@ import useAlert from "@/alert/alert.composable";
 import useSources from "@/resource/sources.composable";
 import type { ResourceType } from "@/api/api.types";
 import { isReadable } from "@/file";
+import useNotFound from "@/components/notfound.composable";
 
 const props = defineProps<{
   type: ResourceType;
@@ -21,7 +21,7 @@ const props = defineProps<{
 const { sources, downloadSource } = useSources(props.type, props.id);
 const { filesize, formatDate } = useLocale();
 const { showAlert } = useAlert();
-const { t } = useI18n();
+const { showNotFoundPage } = useNotFound();
 
 const metadata = computed(() =>
   sources.value.find((source) => source.name === props.filename),
@@ -33,7 +33,7 @@ const isBinary = computed(() => {
 
 // Show error if given filename is not found
 watchImmediate([sources, metadata], () => {
-  if (sources.value.length && !metadata.value) showAlert(t("source.notfound"));
+  if (sources.value.length && !metadata.value) showNotFoundPage();
 });
 
 async function loadFile() {

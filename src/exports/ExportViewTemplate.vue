@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { computedAsync, watchImmediate } from "@vueuse/core";
-import { useI18n } from "vue-i18n";
 import TextFileBox from "@/components/TextFileBox.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -10,6 +9,7 @@ import useAlert from "@/alert/alert.composable";
 import useExports from "@/exports/exports.composable";
 import type { ResourceType } from "@/api/api.types";
 import { useExportStore } from "@/store/export.store";
+import useNotFound from "@/components/notfound.composable";
 
 const props = defineProps<{
   type: ResourceType;
@@ -21,7 +21,7 @@ const { loadExports } = useExportStore();
 const { loadResultFile } = useExports(props.type, props.id);
 const { filesize, formatDate } = useLocale();
 const { showAlert } = useAlert();
-const { t } = useI18n();
+const { showNotFoundPage } = useNotFound();
 
 const exports = computedAsync(() => loadExports(props.type, props.id));
 
@@ -33,7 +33,7 @@ const isXml = computed(() => /\/xml$/.test(metadata.value?.type || ""));
 
 // Show error if given filename is not found
 watchImmediate([exports, metadata], () => {
-  if (exports.value?.length && !metadata.value) showAlert(t("source.notfound"));
+  if (exports.value?.length && !metadata.value) showNotFoundPage();
 });
 
 async function loadFile() {

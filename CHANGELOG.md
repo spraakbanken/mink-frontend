@@ -25,6 +25,10 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 - Change syntax highlighting theme for dark mode
 - Content of source/export files is shown in full width and height
 
+### Fixed
+
+- Cannot load export file view page from URL [#296](https://github.com/spraakbanken/mink-frontend/issues/296)
+
 ## [2.1.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.1.1) (2026-06-12)
 
 ### Added

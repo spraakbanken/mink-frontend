@@ -1,12 +1,14 @@
 <script lang="ts" setup>
+import { computed } from "vue";
 import { useRoute } from "vue-router";
-import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import SourceViewTemplate from "@/sources/SourceViewTemplate.vue";
+import useResourceIdParam from "@/resource/resourceIdParam.composable";
 
 const route = useRoute();
 const id = useResourceIdParam();
 
-const filename = route.params.filename as string;
+/** The source filename as read from the 'path' query param */
+const filename = computed(() => String(route.query["path"]));
 </script>
 
 <template>
