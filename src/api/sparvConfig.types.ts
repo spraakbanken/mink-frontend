@@ -17,6 +17,7 @@ type ConfigMetadata = {
   id: string;
   name?: ByLang;
   description?: ByLang;
+  language?: string;
 };
 
 type ConfigImport = {

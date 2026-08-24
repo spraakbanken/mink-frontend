@@ -61,6 +61,18 @@ export type ExportType = {
   export_files: string[];
 };
 
+export type SparvLanguagesData = {
+  /** Languages available in Sparv */
+  languages: SparvLanguage[];
+};
+
+export type SparvLanguage = {
+  /** Three-letter ISO 639-3 code */
+  code: string;
+  /** Name in English */
+  name: string;
+};
+
 /** Data in the sparv-schema response */
 export type SparvSchemaData = {
   sparv_schema: object;

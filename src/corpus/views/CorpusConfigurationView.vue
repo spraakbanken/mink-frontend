@@ -33,7 +33,9 @@ import useSources from "@/resource/sources.composable";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
 import { useUserStore } from "@/store/user.store";
 import { useAnalysisRegistry } from "@/analyses/useAnalysisRegistry";
-import type { AnalysisId } from "@/analyses/analyses.types";
+import type { Analysis, AnalysisId } from "@/analyses/analyses.types";
+import { useApi } from "@/api/useApi";
+import { useAppConfig } from "@/app/useAppConfig";
 
 type TabKey = "metadata" | "settings" | "analyses";
 
@@ -42,17 +44,20 @@ type Form = {
   description: ByLang;
   format: CorpusSourceFormat;
   textAnnotation: string;
+  language: string;
   sentenceSegmenter: ConfigSentenceSegmenter;
   datetimeFrom: string;
   datetimeTo: string;
   analyses: Record<AnalysisId, boolean>;
 };
 
+const { appConfig } = useAppConfig();
 const router = useRouter();
 const id = useResourceIdParam();
 const { config, configOptions, saveConfigOptions } = useCorpus(id);
 const { extensions } = useSources("corpus", id);
 const analysisRegistry = useAnalysisRegistry();
+const api = useApi();
 const { showAlert } = useAlert();
 const { t } = useI18n();
 const { locale3, th, thCompare } = useLocale();
@@ -61,27 +66,49 @@ const { canAdmin, canWrite } = useUserStore();
 
 const tabSelected = ref<TabKey>("metadata");
 
+const languages = computedAsync(() => api.sparvLanguages(), []);
+
+const languageOptions = computed(() =>
+  languages.value.map(({ code, name }) => ({
+    value: code,
+    label: `${name} (${code})`,
+  })),
+);
+
 /** List of metadata for relevant analyses */
-const analyses = computedAsync(async () => {
+const analyses = computedAsync<Analysis[]>(async () => {
   const analyses =
     (await spin(analysisRegistry.loadMetadata(), "analysis/metadata").catch(
       showAlert,
     )) || [];
 
   // Skip analyses that do not have annotations
-  // Sort by most significant property last
-  const filtered = analyses
+  return analyses
     .filter((analysis) => analysisRegistry.getAnnotations([analysis.id]).length)
-    .sort(thCompare((x) => x.label))
-    .sort(thCompare((x) => x.unit));
-
-  // Group by unit: text, token or other
-  return groupBy(filtered, (analysis) => {
-    const unit = typeof analysis.unit == "object" ? analysis.unit.eng : "";
-    if (unit == "text" || unit == "token") return unit;
-    return "other";
-  });
+    .sort(thCompare((x) => x.label));
 });
+
+/** Analyses grouped by language and unit */
+const analysisGroups = computed<Record<string, Record<string, Analysis[]>>>(
+  () =>
+    Object.fromEntries(
+      languages.value.map((language) => {
+        const filtered = (analyses.value || []).filter(
+          (a) => !a.languages || a.languages?.includes(language.code),
+        );
+
+        // Group by unit: text, token or other
+        const groups = groupBy(filtered, (analysis) => {
+          const unit =
+            typeof analysis.unit == "object" ? analysis.unit.eng : "";
+          if (unit == "text" || unit == "token") return unit;
+          return "other";
+        });
+
+        return [language.code, groups];
+      }),
+    ),
+);
 
 const formatOptions = computed<FormKitOptionsList>(() =>
   CORPUS_SOURCE_FORMATS.map((ext) => ({
@@ -319,6 +346,17 @@ async function submit(fields: Form) {
                 </i18n-t>
               </HelpBox>
 
+              <FormKit
+                name="language"
+                :label="$t('config.language')"
+                type="select"
+                :value="configOptions?.language || appConfig.defaultLanguage"
+                input-class="w-72"
+                :options="languageOptions"
+                validation="required"
+                :help="$t('config.language.help')"
+              />
+
               <FormKit type="group" name="analyses">
                 <table class="my-2">
                   <thead>
@@ -328,7 +366,12 @@ async function submit(fields: Form) {
                       <th>{{ $t("config.analyses.task") }}</th>
                     </tr>
                   </thead>
-                  <tbody v-for="(group, unit) in analyses" :key="unit">
+                  <tbody
+                    v-for="(group, unit) in analysisGroups[
+                      (value as Form).language
+                    ]"
+                    :key="unit"
+                  >
                     <tr>
                       <th colspan="5" class="text-lg pt-4!">
                         {{ $t("config.analyses.unit") }}:
@@ -354,6 +397,15 @@ async function submit(fields: Form) {
                         </a>
                       </td>
                       <td>{{ th(analysis.task) }}</td>
+                    </tr>
+                  </tbody>
+                  <tbody
+                    v-if="!analysisGroups[(value as Form).language]?.length"
+                  >
+                    <tr>
+                      <td colspan="3" class="italic">
+                        {{ $t("config.analyses.none") }}
+                      </td>
                     </tr>
                   </tbody>
                 </table>

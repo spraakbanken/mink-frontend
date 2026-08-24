@@ -120,6 +120,7 @@ describe("parseConfig", () => {
       metadata: {
         name: { swe: "Nyheter", eng: "News" },
         description: { swe: "Senaste nytt", eng: "Latest news" },
+        language: "swe",
       },
       import: {
         importer: "xml_import:parse",
@@ -140,6 +141,7 @@ describe("parseConfig", () => {
       name: { swe: "Nyheter", eng: "News" },
       description: { swe: "Senaste nytt", eng: "Latest news" },
       textAnnotation: "article",
+      language: "swe",
       sentenceSegmenter: "linebreaks",
       datetime: {
         from: "2000-01-01",
