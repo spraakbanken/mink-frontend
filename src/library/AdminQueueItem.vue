@@ -47,7 +47,11 @@ const { formatDate } = useLocale();
           <td>
             {{ formatDate(item.queued) }}
             <template v-if="item.age_reference == 'queued'">
-              ({{ $t("seconds_ago", item.age_seconds) }})
+              ({{
+                $t("seconds_ago", item.age_seconds, {
+                  named: { count: $n(item.age_seconds) },
+                })
+              }})
             </template>
           </td>
         </tr>
@@ -57,7 +61,11 @@ const { formatDate } = useLocale();
           <td>
             {{ formatDate(item.started) }}
             <template v-if="item.age_reference == 'started'">
-              ({{ $t("seconds_ago", item.age_seconds) }})
+              ({{
+                $t("seconds_ago", item.age_seconds, {
+                  named: { count: $n(item.age_seconds) },
+                })
+              }})
             </template>
           </td>
         </tr>
