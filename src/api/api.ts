@@ -347,8 +347,10 @@ export class MinkClient {
   }
 
   async queueHealth() {
-    const response =
-      await this.axios.get<MinkResponse<QueueHealthData>>("queue/health");
+    const response = await this.axios.get<MinkResponse<QueueHealthData>>(
+      "queue/health",
+      { validateStatus: () => true },
+    );
     return response.data;
   }
 }
