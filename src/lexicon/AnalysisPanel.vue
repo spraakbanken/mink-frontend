@@ -54,11 +54,7 @@ async function doRunJob() {
           @click="canRun ? doRunJob() : null"
         >
           <PhGearFine weight="bold" class="inline mb-1 mr-1" />
-          {{
-            !exports?.length
-              ? $t("lexicon.karp_pipeline.run")
-              : $t("lexicon.karp_pipeline.rerun")
-          }}
+          {{ $t("lexicon.karp_pipeline.run") }}
         </ActionButton>
       </div>
 

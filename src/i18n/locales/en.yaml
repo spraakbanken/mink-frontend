@@ -34,7 +34,6 @@ corpus.state.help.done_install: Successfully installed!
 corpus.state.help.failed: An error occurred while processing your data. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.state.help.failed_install: An error occurred while installing your corpus. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.sparv.run: Analyse
-corpus.sparv.rerun: Analyse again
 lexicon: Lexicon
 lexicon.help: A lexicon is a set of items with structured data fields. It doesn't have to be about words.
 lexicon.new: New lexicon
@@ -44,7 +43,6 @@ lexicon.config.entry_word.description: Field label
 lexicon.config.entry_word.description.help: The name of the field, for displaying to human users.
 lexicon.config.entry_word.description.default: baseform
 lexicon.karp_pipeline.run: Analyse
-lexicon.karp_pipeline.rerun: Analyse again
 lexicon.karp_pipeline.help: Prepare your data for use in Karp.
 lexicon.karps: Karp's search mode
 lexicon.karps.help: Search through entries and produce statistics.

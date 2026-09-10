@@ -75,9 +75,7 @@ async function doRunJob() {
           @click="canRun ? doRunJob() : null"
         >
           <PhGearFine weight="bold" class="inline mb-1 mr-1" />
-          {{
-            !exports?.length ? $t("corpus.sparv.run") : $t("corpus.sparv.rerun")
-          }}
+          {{ $t("corpus.sparv.run") }}
         </ActionButton>
       </div>
 
