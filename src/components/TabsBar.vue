@@ -24,15 +24,21 @@ syncRef(hash, model, {
       <li
         v-for="tab in tabs"
         :key="tab.key"
-        class="p-2 -mb-0.5 border border-b-0 text-lg font-medium hover:underline underline-offset-4 decoration-2 hover:text-primary-600 cursor-pointer"
+        class="-mb-0.5 border border-b-0 text-lg font-medium"
         :class="
           tab.key == model
-            ? 'underline rounded-t-sm p-2 bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700 overflow-hidden'
+            ? 'rounded-t-sm bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700'
             : 'border-transparent'
         "
-        @click="model = tab.key"
       >
-        {{ tab.label }}
+        <a
+          href="#"
+          @click.prevent="model = tab.key"
+          class="inline-block p-2 no-underline hover:underline underline-offset-4 decoration-2"
+          :class="{ underline: tab.key == model }"
+        >
+          {{ tab.label }}
+        </a>
       </li>
     </ul>
   </nav>
