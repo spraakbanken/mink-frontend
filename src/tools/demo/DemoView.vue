@@ -15,6 +15,7 @@ import JobStatusPanelContent from "@/job/JobStatusPanelContent.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import useSpin from "@/spin/spin.composable";
 import PendingContent from "@/spin/PendingContent.vue";
+import MinkCodemirror from "@/components/MinkCodemirror.vue";
 
 type Form = {
   source: string;
@@ -48,6 +49,9 @@ const id = computed({
 /** Source text model */
 const input = ref<string>();
 
+/** Resulting exported XML */
+const output = ref<string>();
+
 /** Generated config YAML */
 const configYaml = ref<string>();
 
@@ -58,7 +62,7 @@ const { currentStatus, isRunning } = useJobStatus(job);
 /** A ticker for status polling */
 const ticker = useInterval(2000);
 
-// Get initial input and config
+// Initiate or restore state
 onMounted(async () => {
   // If a previous id is given, try to load stored input from server
   const inputData = id.value
@@ -112,12 +116,22 @@ watch(ticker, async () => {
     job.value = await api.demoCorpusStatusGet(id.value);
   }
 });
+
+// Load result when done; reset result when starting new analysis
+watch(currentStatus, async () => {
+  if (id.value && currentStatus.value == "done") {
+    output.value = await spin(api.demoCorpusOutputGet(id.value), "demo/export");
+  } else {
+    output.value = undefined;
+  }
+});
 </script>
 
 <template>
   <div>
     <PageTitle>{{ $t("demo") }}</PageTitle>
 
+    <!-- Help text -->
     <HelpBox>
       <p>
         <i18n-t keypath="demo.help" scope="global">
@@ -131,6 +145,7 @@ watch(ticker, async () => {
       </p>
     </HelpBox>
 
+    <!-- Source text form with Analyse button -->
     <FormKitWrapper :key="counter.get()">
       <FormKit
         type="form"
@@ -152,6 +167,7 @@ watch(ticker, async () => {
       </FormKit>
     </FormKitWrapper>
 
+    <!-- Job status -->
     <PendingContent on="demo/job">
       <LayoutBox
         v-if="id && job?.progress"
@@ -162,7 +178,22 @@ watch(ticker, async () => {
       </LayoutBox>
     </PendingContent>
 
-    <LayoutSection v-if="currentStatus == 'done'" :title="$t('result')">
-    </LayoutSection>
+    <!-- Result -->
+    <PendingContent on="demo/export">
+      <LayoutSection
+        v-if="currentStatus == 'done'"
+        :title="$t('result')"
+        class="my-4"
+      >
+        <div class="my-4">
+          <MinkCodemirror
+            v-if="output"
+            :model-value="output"
+            disabled
+            language="xml"
+          />
+        </div>
+      </LayoutSection>
+    </PendingContent>
   </div>
 </template>

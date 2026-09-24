@@ -19,6 +19,7 @@ import type {
   SparvAnalysesData,
   SparvLanguagesData,
   DemoCorpusInput,
+  DemoCorpusOutput,
 } from "@/api/api.types";
 
 /** Create a `text/yaml` file object with content */
@@ -370,6 +371,13 @@ export class MinkClient {
       { validateStatus: () => true },
     );
     return response.data.job;
+  }
+
+  async demoCorpusOutputGet(id: string) {
+    const response = await this.axios.get<MinkResponse<DemoCorpusOutput>>(
+      `/demo/corpus/export/get/${id}`,
+    );
+    return response.data.output;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/User-Management/operation/activate-admin-mode */

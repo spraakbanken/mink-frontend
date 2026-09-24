@@ -239,6 +239,11 @@ export type DemoCorpusInput = {
   config: string;
 };
 
+export type DemoCorpusOutput = {
+  /** Exported XML */
+  output: string;
+};
+
 /** Data in the admin-mode-status response */
 export type AdminModeStatusData = {
   admin_mode_status: boolean;
