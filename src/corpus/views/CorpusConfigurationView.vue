@@ -53,8 +53,13 @@ const router = useRouter();
 const id = useResourceIdParam();
 const { config, configOptions, saveConfigOptions } = useCorpus(id);
 const { extensions } = useSources("corpus", id);
-const { analyses, languageOptions, getAnalysesByAnnotations, getLanguageCode } =
-  useSparv();
+const {
+  analyses,
+  languageOptions,
+  getAnalysesByAnnotations,
+  getLanguageCode,
+  matchAnalysisLanguage,
+} = useSparv();
 const { showAlert } = useAlert();
 const { t } = useI18n();
 const { locale3, th, thCompare } = useLocale();
@@ -89,15 +94,7 @@ const analysisGroups = computed(() => {
     fromKeys(units, (unit) =>
       filtered.filter((analysis) => {
         // Match language
-        // Sparv handles `language_varieties` separately from `languages`,
-        // but we'll assume there is only one variety if any.
-        const variety = analysis.language_varieties?.[0];
-        const matchesLanguage =
-          !analysis.languages ||
-          analysis.languages.find(
-            (l) => getLanguageCode(l.code, variety) == code,
-          );
-        if (!matchesLanguage) return false;
+        if (!matchAnalysisLanguage(analysis, code)) return false;
         // Match unit
         const unitRaw = analysis.analysis_unit?.eng || "";
         const thisUnit = units.includes(unitRaw) ? unitRaw : "other";
@@ -157,7 +154,9 @@ async function submit(fields: Form) {
       ? { from: fields.datetimeFrom, to: fields.datetimeTo }
       : undefined;
 
+  // Convert id-to-true map to id list
   const analysisIds = Object.keys(pickBy(fields.analyses, Boolean));
+  // Get the annotation strings of each analysis
   const annotations = analyses.value
     .filter((a) => analysisIds.includes(a.id))
     .flatMap((a) => a.annotations);

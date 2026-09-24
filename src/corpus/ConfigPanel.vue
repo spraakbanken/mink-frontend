@@ -21,8 +21,9 @@ const { showAlert } = useAlert();
 
 const analyses = computed(() => {
   if (!configOptions.value) return;
+  const { annotations, language, variety } = configOptions.value;
   // Get metadata for selected analyses
-  const analyses = getAnalysesByAnnotations(configOptions.value.annotations);
+  const analyses = getAnalysesByAnnotations(annotations, language, variety);
   return analyses.sort(thCompare((x) => x.name));
 });
 
