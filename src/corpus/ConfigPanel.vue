@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { watchImmediate } from "@vueuse/core";
+import { computedAsync, watchImmediate } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
-import { computed } from "vue";
 import { useCorpus } from "./corpus.composable";
 import { useSparv } from "./sparv.composable";
 import useLocale from "@/i18n/locale.composable";
@@ -14,17 +13,16 @@ const props = defineProps<{
 }>();
 
 const { configOptions } = useCorpus(props.id);
-const { getAnalysesByAnnotations } = useSparv();
+const { findAnalyses } = useSparv();
 const { t } = useI18n();
 const { th, thCompare } = useLocale();
 const { showAlert } = useAlert();
 
-const analyses = computed(() => {
+const analyses = computedAsync(async () => {
   if (!configOptions.value) return;
-  // Get metadata for selected analyses
-  const analyses = getAnalysesByAnnotations(configOptions.value.annotations);
+  const analyses = await findAnalyses(configOptions.value);
   return analyses.sort(thCompare((x) => x.name));
-});
+}, []);
 
 watchImmediate(configOptions, () => {
   if (configOptions.value === null) showAlert(t("corpus.config.parse.error"));

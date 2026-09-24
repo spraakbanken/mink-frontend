@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { FormKit } from "@formkit/vue";
 import { PhLightbulbFilament } from "@phosphor-icons/vue";
-import { useSparv } from "../sparv.composable";
+import { toLangKey, useSparv } from "../sparv.composable";
 import PageTitle from "@/components/PageTitle.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
 import useSpin from "@/spin/spin.composable";
@@ -18,7 +18,7 @@ import { useAppConfig } from "@/app/useAppConfig";
 
 const { appConfig } = useAppConfig();
 const { createCorpus } = useCreateCorpus();
-const { languageOptions, getLanguageCode } = useSparv();
+const { languageOptions } = useSparv();
 const { t } = useI18n();
 const { spin } = useSpin();
 const { showAlert } = useAlert();
@@ -86,7 +86,7 @@ async function submit(fields: Form) {
             name="language"
             :label="$t('config.language')"
             type="select"
-            :value="getLanguageCode(appConfig.defaultLanguage || '')"
+            :value="toLangKey(appConfig.defaultLanguage || '')"
             input-class="w-72"
             :options="languageOptions"
             validation="required"

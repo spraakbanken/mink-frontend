@@ -56,16 +56,23 @@ export type SparvAnalysis = {
   analysis_unit?: ByLang;
   annotations: string[];
   id: string;
-  languages?: Language[];
+  languages?: AnalysisLanguage[];
   language_varieties?: string[];
   name: ByLang;
   short_description?: ByLang;
   task: ByLang;
 };
 
-export type Language = {
-  code: string;
+export type AnalysisLanguage = {
+  identifier: {
+    /** Code, e.g. "swe" */
+    value: string;
+    /** Code standard, e.g. "ISO 639-3" */
+    scheme: string;
+  };
   name: ByLang;
+  /** Non-standard variety code, e.g. "1800" */
+  variety?: string;
 };
 
 /** Lists available exports */

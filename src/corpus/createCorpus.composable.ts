@@ -1,19 +1,12 @@
 import { useSparv } from "./sparv.composable";
 import { getFilenameExtension } from "@/util";
-import {
-  makeConfig,
-  type CorpusSourceFormat,
-  emptyConfig,
-  type ConfigOptions,
-} from "@/api/corpusConfig";
+import { makeConfig, type CorpusSourceFormat } from "@/api/corpusConfig";
 import useCreateResource from "@/resource/createResource.composable";
 import useLocale from "@/i18n/locale.composable";
-import { useAppConfig } from "@/app/useAppConfig";
 
 export default function useCreateCorpus() {
-  const { corpusSettings } = useAppConfig();
   const { createResource } = useCreateResource();
-  const { analyses } = useSparv();
+  const { defaultConfig } = useSparv();
   const { createByLang } = useLocale();
 
   async function createCorpusFromUpload(files: File[]) {
@@ -48,20 +41,6 @@ export default function useCreateCorpus() {
     };
 
     return createResource("corpus", (id) => makeConfig(id, configOptions));
-  }
-
-  /** Config with default values */
-  async function defaultConfig(): Promise<ConfigOptions> {
-    const config = emptyConfig();
-
-    // Analyses to exclude from default selection
-    const defaultDisabled = corpusSettings.analyses?.defaultDisabled || [];
-
-    config.annotations = (analyses.value || [])
-      .filter((analysis) => !defaultDisabled.includes(analysis.id))
-      .flatMap((analysis) => analysis.annotations);
-
-    return config;
   }
 
   return {
