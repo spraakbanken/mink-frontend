@@ -349,16 +349,14 @@ export class MinkClient {
   }
 
   async demoCorpusRun(text: string, config: string) {
-    const response = await this.axios.post<MinkResponse<ResourceInfo>>(
-      "/demo/corpus/run",
-      null,
-      { params: { config, text } },
-    );
+    const response = await this.axios.post<
+      MinkResponse<ResourceInfo<"corpus">>
+    >("/demo/corpus/run", null, { params: { config, text } });
     return response.data;
   }
 
   async demoCorpusStatusGet(id: string) {
-    const response = await this.axios.get<MinkResponse<ResourceInfo>>(
+    const response = await this.axios.get<MinkResponse<ResourceInfo<"corpus">>>(
       "/demo/corpus/status/get",
       { params: { id } },
     );

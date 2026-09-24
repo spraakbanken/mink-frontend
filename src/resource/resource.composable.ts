@@ -6,6 +6,7 @@ import type { ResourceType } from "@/api/api.types";
 import type { Resource } from "@/store/resource.types";
 import useSpin from "@/spin/spin.composable";
 import { useApi } from "@/api/useApi";
+import { useJobStatus } from "@/job/jobStatus.composable";
 
 // A ticker for enabling status polling. Defined in module scope to synchronize when this composable is used in parallel.
 const ticker = useInterval(2000);
@@ -25,14 +26,7 @@ export default function useResource<T extends ResourceType = ResourceType>(
 
   const job = computed(() => resource.value?.job);
 
-  const isRunning = computed(() =>
-    ["waiting", "running"].includes(currentStatus.value || ""),
-  );
-
-  const currentStatus = computed(() => {
-    const process = job.value?.current_process;
-    return process && job.value?.status?.[process];
-  });
+  const { currentStatus, isRunning } = useJobStatus(job);
 
   async function runJob() {
     const resource = await loadResource(id);
