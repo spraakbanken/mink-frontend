@@ -365,6 +365,15 @@ export class MinkClient {
     return response.data;
   }
 
+  async demoCorpusJobAbort(id: string) {
+    const response = await this.axios.post<MinkResponse>(
+      `/demo/corpus/job/abort/${id}`,
+      null,
+      { validateStatus: () => true },
+    );
+    return response.data;
+  }
+
   async demoCorpusStatusGet(id: string) {
     const response = await this.axios.get<MinkResponse<ResourceInfo<"corpus">>>(
       `/demo/corpus/status/get/${id}`,

@@ -64,8 +64,10 @@ analysis.help: Kör automatiska språkteknologiska analyser på din textdata enl
 demo: Demoläge
 demo.summary: Testa Mink utan att logga in.
 demo.help: Provkör Mink och se hur {sparv} analyserar och berikar din text. Det du matar in sparas tillfälligt på en server. För att använda Mink i sin helhet behöver du {login}.
+demo.invalid_id: Den givna dataidentifieraren "{id}" kändes inte igen. Den kanske har gått ut?
 demo.source: Källtext
-demo.source.help: Skriv in eller klistra in en text som du vill analysera. Den kommer att sparas tillfälligt på servern.
+demo.source.help: Skriv eller klistra in en text som du vill analysera. Den kommer att sparas tillfälligt på servern.
+demo.result.empty: Inget resultat ännu. Klicka på "Analysera" för att starta.
 job.rerun.overwrite: En ny körning skriver över tidigare resultat.
 job.rerun.tools_outdated: Verktygen kommer att behålla det gamla resultatet. Glöm inte att installera om vid behov.
 job.abort: Avbryt

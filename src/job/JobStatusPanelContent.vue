@@ -1,5 +1,4 @@
 <script setup lang="ts" generic="T extends ResourceType">
-import { computed } from "vue";
 import JobStatusMessage from "./JobStatusMessage.vue";
 import { useJobStatus } from "./jobStatus.composable.ts";
 import useLocale from "@/i18n/locale.composable";
@@ -10,8 +9,7 @@ import HeightResizable from "@/components/HeightResizable.vue";
 import type { JobInfo, ResourceType } from "@/api/api.types.ts";
 
 const props = defineProps<{
-  id: string;
-  job: JobInfo<T>;
+  job?: JobInfo<T>;
 }>();
 
 defineEmits<{
@@ -20,18 +18,13 @@ defineEmits<{
 
 const { formatDate } = useLocale();
 const { currentStatus, isRunning } = useJobStatus(() => props.job);
-
-/** Whether this resource has not yet been processed at all */
-const isNew = computed(() =>
-  Object.values(props.job.status).every((status) => status == "none"),
-);
 </script>
 
 <template>
   <div>
     <div class="flex gap-4 justify-between items-baseline">
       <div class="text-lg">
-        <span v-if="job.current_process">
+        <span v-if="job?.current_process">
           {{ $t(`job.process.${job.current_process}`) }}:
         </span>
         <JobStatusMessage :status="currentStatus" />
@@ -53,7 +46,7 @@ const isNew = computed(() =>
       class="w-full my-2"
     />
 
-    <table v-if="!isNew" class="w-full table-fixed">
+    <table v-if="job" class="w-full table-fixed">
       <thead></thead>
       <tbody>
         <tr v-if="job.errors">

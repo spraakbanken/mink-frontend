@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-import { FormKit } from "@formkit/vue";
+import { FormKit, submitForm } from "@formkit/vue";
 import { computed, onMounted, ref, watch } from "vue";
 import { useCounter, useInterval, useUrlSearchParams } from "@vueuse/core";
+import { useI18n } from "vue-i18n";
+import { PhGearFine } from "@phosphor-icons/vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import PageTitle from "@/components/PageTitle.vue";
@@ -12,10 +14,11 @@ import { useSparv } from "@/corpus/sparv.composable";
 import LayoutBox from "@/components/LayoutBox.vue";
 import { useJobStatus } from "@/job/jobStatus.composable";
 import JobStatusPanelContent from "@/job/JobStatusPanelContent.vue";
-import LayoutSection from "@/components/LayoutSection.vue";
 import useSpin from "@/spin/spin.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import MinkCodemirror from "@/components/MinkCodemirror.vue";
+import useAlert from "@/alert/alert.composable";
+import ActionButton from "@/components/ActionButton.vue";
 
 type Form = {
   source: string;
@@ -24,7 +27,9 @@ type Form = {
 const { loadDefaultAnnotations } = useSparv();
 const api = useApi();
 const params = useUrlSearchParams();
+const { showAlert } = useAlert();
 const { spin } = useSpin();
+const { t } = useI18n();
 
 const sampleRaw = `
 Ikea (namnet är bildat av initialerna för Ingvar Kamprad Elmtaryd Agunnaryd) är ett multinationellt
@@ -65,17 +70,18 @@ const ticker = useInterval(2000);
 // Initiate or restore state
 onMounted(async () => {
   // If a previous id is given, try to load stored input from server
-  const inputData = id.value
+  const { input_text, config } = id.value
     ? await api.demoCorpusInputGet(id.value)
-    : undefined;
+    : {};
 
-  if (inputData) {
-    input.value = inputData.input_text;
-    configYaml.value = inputData.config;
-  } else {
-    // Otherwise load default input and config
-    input.value = sample;
-    configYaml.value = await makeDefaultConfig();
+  // Fall back to defaults
+  input.value = input_text || sample;
+  configYaml.value = config || (await makeDefaultConfig());
+
+  if (id.value && !input_text) {
+    showAlert(t("demo.invalid_id", { id: id.value }));
+    // The id is invalid, so reset it
+    id.value = undefined;
   }
 
   // FormKit elements will not react on value change from outside, so force the form to re-render
@@ -99,16 +105,24 @@ async function makeDefaultConfig() {
 
 /** Handle submitting the form */
 async function submit(fields: Form) {
+  input.value = fields.source;
+  run();
+}
+
+/** Run analysis on the input */
+async function run() {
   const configYamlValue = configYaml.value || (await makeDefaultConfig());
   const data = await spin(
-    api.demoCorpusRun(fields.source, configYamlValue),
+    api.demoCorpusRun(input.value!, configYamlValue),
     "demo/job",
   );
   id.value = data.resource.id;
   job.value = data.job;
 }
 
-async function abort() {}
+async function abort() {
+  await spin(api.demoCorpusJobAbort(id.value!), "demo/job");
+}
 
 // Check status intermittently if active
 watch(ticker, async () => {
@@ -145,55 +159,66 @@ watch(currentStatus, async () => {
       </p>
     </HelpBox>
 
-    <!-- Source text form with Analyse button -->
-    <FormKitWrapper :key="counter.get()">
-      <FormKit
-        type="form"
-        :submit-label="$t('corpus.sparv.run')"
-        :submit-attrs="{
-          inputClass: 'mink-button button-primary',
-        }"
-        @submit="submit"
-      >
-        <FormKit
-          name="source"
-          :label="$t('demo.source')"
-          :help="$t('demo.source.help')"
-          type="textarea"
-          :value="input"
-          input-class="w-full h-60"
-          @update="input = $event"
-        />
-      </FormKit>
-    </FormKitWrapper>
+    <!-- Source text form -->
+    <LayoutBox :title="$t('demo.source')">
+      <FormKitWrapper :key="counter.get()">
+        <FormKit id="demo-input" type="form" :actions="false" @submit="submit">
+          <FormKit
+            name="source"
+            :help="$t('demo.source.help')"
+            type="textarea"
+            :value="input"
+            input-class="w-full h-60"
+          >
+          </FormKit>
+        </FormKit>
+      </FormKitWrapper>
+    </LayoutBox>
 
     <!-- Job status -->
-    <PendingContent on="demo/job">
-      <LayoutBox
-        v-if="id && job?.progress"
-        :title="$t('job.status')"
-        class="max-w-2xl my-4 mx-auto bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
-      >
-        <JobStatusPanelContent :id :job @abort="abort()" />
+    <div class="grid lg:grid-cols-2 gap-4 my-4">
+      <LayoutBox :title="$t('analysis')">
+        <div class="flex gap-3 items-center">
+          <div class="grow">
+            <i18n-t keypath="analysis.help" scope="global">
+              <template #sparv>
+                <a :href="$t('sparv.url')">Sparv</a>
+              </template>
+            </i18n-t>
+          </div>
+
+          <ActionButton
+            :disabled="isRunning"
+            class="button-primary"
+            @click="submitForm('demo-input')"
+          >
+            <PhGearFine weight="bold" class="inline mb-1 mr-1" />
+            {{ $t("corpus.sparv.run") }}
+          </ActionButton>
+        </div>
       </LayoutBox>
-    </PendingContent>
+
+      <LayoutBox
+        :title="$t('job.status')"
+        class="bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
+      >
+        <PendingContent on="demo/job">
+          <JobStatusPanelContent :job @abort="abort()" />
+        </PendingContent>
+      </LayoutBox>
+    </div>
 
     <!-- Result -->
     <PendingContent on="demo/export">
-      <LayoutSection
-        v-if="currentStatus == 'done'"
-        :title="$t('result')"
-        class="my-4"
-      >
-        <div class="my-4">
-          <MinkCodemirror
-            v-if="output"
-            :model-value="output"
-            disabled
-            language="xml"
-          />
-        </div>
-      </LayoutSection>
+      <LayoutBox class="my-4" :title="$t('result')">
+        <MinkCodemirror
+          v-if="output"
+          :model-value="output"
+          disabled
+          language="xml"
+        />
+        <HelpBox v-else>{{ $t("demo.result.empty") }}</HelpBox>
+      </LayoutBox>
     </PendingContent>
   </div>
 </template>

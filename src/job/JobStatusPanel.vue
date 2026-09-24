@@ -10,5 +10,5 @@ const { job, abortJob } = useResource(props.id);
 </script>
 
 <template>
-  <JobStatusPanelContent v-if="job" :id :job @abort="abortJob(id)" />
+  <JobStatusPanelContent :job @abort="abortJob(id)" />
 </template>

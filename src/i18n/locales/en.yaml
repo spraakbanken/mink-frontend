@@ -64,8 +64,10 @@ analysis.help: Run automated language technology methods on your text data accor
 demo: Demo mode
 demo.summary: Try out Mink without signing in.
 demo.help: Test-run Mink and see how {sparv} analyses and enriches your text. Your input will be saved temporarily on a server. To use Mink in its entirety, you need to {login}.
+demo.invalid_id: The given input identifier "{id}" was not recognized. Maybe it has expired?
 demo.source: Source text
 demo.source.help: Write in or paste a text you want to analyse. It will be saved temporarily on the server.
+demo.result.empty: No results yet. Click "Analyse" to start.
 job.rerun.overwrite: Re-running will overwrite previous results.
 job.rerun.tools_outdated: Previous results will remain in other platforms if it has been installed there. Do not forget to re-install if needed.
 job.abort: Abort
