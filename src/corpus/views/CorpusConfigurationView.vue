@@ -5,10 +5,10 @@ import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
 import { PhLightbulbFilament, PhTrash } from "@phosphor-icons/vue";
-import { watchImmediate } from "@vueuse/core";
+import { computedAsync, watchImmediate, whenever } from "@vueuse/core";
 import { omit, pickBy } from "es-toolkit";
 import { useCorpus } from "../corpus.composable";
-import { useSparv } from "../sparv.composable";
+import { toLangKey, useSparv } from "../sparv.composable";
 import {
   type ConfigOptions,
   type CorpusSourceFormat,
@@ -51,59 +51,37 @@ type Form = {
 const { appConfig } = useAppConfig();
 const router = useRouter();
 const id = useResourceIdParam();
+const { languageOptions, findAnalyses } = useSparv();
 const { config, configOptions, saveConfigOptions } = useCorpus(id);
 const { extensions } = useSources("corpus", id);
-const { analyses, languageOptions, getAnalysesByAnnotations, getLanguageCode } =
-  useSparv();
 const { showAlert } = useAlert();
 const { t } = useI18n();
 const { locale3, th, thCompare } = useLocale();
 const { canAdmin, canWrite } = useUserStore();
 
 const tabSelected = ref<TabKey>("metadata");
+/** The key of the selected language and variety */
+const langKeySelected = ref<string>();
 
-const selectedLanguage = computed(() => {
-  if (!configOptions.value?.language) return appConfig.defaultLanguage;
-  return getLanguageCode(
-    configOptions.value.language,
-    configOptions.value.variety,
-  );
-});
+/** Analyses for the selected language */
+const analyses = computedAsync(async () => {
+  const [language, variety] = langKeySelected.value?.split("-") || [];
+  const analyses = await findAnalyses({ language, variety });
+  return analyses.sort(thCompare((x) => x.name));
+}, []);
 
-/** Analyses grouped by language and unit */
+/** Analyses for the selected language, grouped by unit */
 const analysisGroups = computed(() => {
-  // Require attributive annotations
-  const filtered = analyses.value
-    .filter((analysis) =>
-      analysis.annotations.some((annotation) => annotation.includes(":")),
-    )
-    .sort(thCompare((x) => x.name));
-
-  // Language codes
-  const codes = languageOptions.value.map((l) => l.value);
   // List of recognized units
   const units = ["text", "sentence", "token", "other"];
 
-  // Build two-dimensional listing of analyses by language and unit
-  return fromKeys(codes, (code) =>
-    fromKeys(units, (unit) =>
-      filtered.filter((analysis) => {
-        // Match language
-        // Sparv handles `language_varieties` separately from `languages`,
-        // but we'll assume there is only one variety if any.
-        const variety = analysis.language_varieties?.[0];
-        const matchesLanguage =
-          !analysis.languages ||
-          analysis.languages.find(
-            (l) => getLanguageCode(l.code, variety) == code,
-          );
-        if (!matchesLanguage) return false;
-        // Match unit
-        const unitRaw = analysis.analysis_unit?.eng || "";
-        const thisUnit = units.includes(unitRaw) ? unitRaw : "other";
-        return thisUnit == unit;
-      }),
-    ),
+  return fromKeys(units, (unit) =>
+    analyses.value.filter((analysis) => {
+      // Match unit
+      const unitRaw = analysis.analysis_unit?.eng || "";
+      const thisUnit = units.includes(unitRaw) ? unitRaw : "other";
+      return thisUnit == unit;
+    }),
   );
 });
 
@@ -140,9 +118,22 @@ const segmenterOptions = computed<SegmenterOptions>(() => {
 /** Original values from the current config, or defaults if not loaded or parsing failed */
 const original = computed(() => configOptions.value || emptyConfig());
 
+const originalAnalysesSelected = computedAsync(
+  () => findAnalyses(original.value),
+  [],
+);
+
 // Alert if parsing fails
 watchImmediate(configOptions, () => {
   if (configOptions.value === null) showAlert(t("corpus.config.parse.error"));
+});
+
+whenever(original, () => {
+  // Get selected language code
+  const { language, variety } = original.value;
+  langKeySelected.value = language
+    ? toLangKey(language, variety)
+    : appConfig.defaultLanguage;
 });
 
 async function submit(fields: Form) {
@@ -157,7 +148,9 @@ async function submit(fields: Form) {
       ? { from: fields.datetimeFrom, to: fields.datetimeTo }
       : undefined;
 
+  // Convert id-to-true map to id list
   const analysisIds = Object.keys(pickBy(fields.analyses, Boolean));
+  // Get the annotation strings of each analysis
   const annotations = analyses.value
     .filter((a) => analysisIds.includes(a.id))
     .flatMap((a) => a.annotations);
@@ -358,7 +351,7 @@ async function submit(fields: Form) {
                 name="language"
                 :label="$t('config.language')"
                 type="select"
-                :value="selectedLanguage"
+                v-model="langKeySelected"
                 input-class="w-72"
                 :options="languageOptions"
                 validation="required"
@@ -366,7 +359,7 @@ async function submit(fields: Form) {
               />
 
               <FormKit type="group" name="analyses">
-                <table class="my-2">
+                <table class="w-full my-2">
                   <thead>
                     <tr>
                       <th>{{ $t("description") }}</th>
@@ -374,14 +367,9 @@ async function submit(fields: Form) {
                       <th>{{ $t("config.analyses.task") }}</th>
                     </tr>
                   </thead>
-                  <tbody
-                    v-for="(group, unit) in analysisGroups[
-                      (value as Form).language
-                    ]"
-                    :key="unit"
-                  >
+                  <tbody v-for="(group, unit) in analysisGroups" :key="unit">
                     <tr>
-                      <th colspan="5" class="text-lg pt-4!">
+                      <th colspan="5" class="text-lg pt-4! font-heading">
                         {{ $t("config.analyses.unit") }}:
                         {{ $t(`config.analyses.unit.${unit}`) }}
                       </th>
@@ -396,11 +384,7 @@ async function submit(fields: Form) {
                         <FormKit
                           :name="analysis.id"
                           :label="th(analysis.name)"
-                          :value="
-                            getAnalysesByAnnotations(
-                              original.annotations,
-                            ).includes(analysis)
-                          "
+                          :value="originalAnalysesSelected.includes(analysis)"
                           type="checkbox"
                           :help="th(analysis.short_description)"
                         />
