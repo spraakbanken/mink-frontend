@@ -61,6 +61,11 @@ config.configuration.help: Dessa inställningar blir instruktioner till den auto
 corpus.config.parse.error: Korpusens config kunde inte läsas. Redigera och spara konfigurationen för att åtgärda det. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 config.saving: Sparar metadata
 analysis.help: Kör automatiska språkteknologiska analyser på din textdata enligt inställningarna. Mink använder {sparv} i bakgrunden.
+demo: Demoläge
+demo.summary: Testa Mink utan att logga in.
+demo.help: Provkör Mink och se hur {sparv} analyserar och berikar din text. Det du matar in sparas tillfälligt på en server. För att använda Mink i sin helhet behöver du {login}.
+demo.source: Källtext
+demo.source.help: Skriv in eller klistra in en text som du vill analysera. Den kommer att sparas tillfälligt på servern.
 job.rerun.overwrite: En ny körning skriver över tidigare resultat.
 job.rerun.tools_outdated: Verktygen kommer att behålla det gamla resultatet. Glöm inte att installera om vid behov.
 job.abort: Avbryt
@@ -215,6 +220,7 @@ job.status.error: Fel
 job.status.waiting: Väntar
 job.status.running: Arbetar
 login: Logga in
+login.lower: logga in
 login.required: Den här sidan kräver att du loggar in.
 login.help: De flesta med akademisk anknytning kan logga in direkt.
 login.fail: Autentiseringsfrågan misslyckades

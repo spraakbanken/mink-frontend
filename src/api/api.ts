@@ -348,6 +348,23 @@ export class MinkClient {
     return response.data;
   }
 
+  async demoCorpusRun(text: string, config: string) {
+    const response = await this.axios.post<MinkResponse<ResourceInfo>>(
+      "/demo/corpus/run",
+      null,
+      { params: { config, text } },
+    );
+    return response.data;
+  }
+
+  async demoCorpusStatusGet(id: string) {
+    const response = await this.axios.get<MinkResponse<ResourceInfo>>(
+      "/demo/corpus/status/get",
+      { params: { id } },
+    );
+    return response.data;
+  }
+
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/User-Management/operation/activate-admin-mode */
   async adminModeOn() {
     const response = await this.axios.post<MinkResponse>(

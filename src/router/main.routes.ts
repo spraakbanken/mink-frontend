@@ -14,6 +14,7 @@ import NotFoundView from "@/page/NotFoundView.vue";
 import corpusRoutes from "@/router/corpus.routes";
 import metadataRoutes from "@/router/metadata.routes";
 import lexiconRoutes from "@/router/lexicon.routes";
+const DemoView = () => import("@/tools/demo/DemoView.vue");
 
 const routes: RouteRecordRaw[] = [
   {
@@ -40,6 +41,11 @@ const routes: RouteRecordRaw[] = [
     component: RouterView,
     children: [
       { path: "", component: ToolsView, meta: { title: "tools" } },
+      {
+        path: "demo",
+        component: DemoView,
+        meta: { title: "demo" },
+      },
       {
         path: "metadata-editor",
         component: MetadataEditorView,

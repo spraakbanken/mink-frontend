@@ -3,9 +3,11 @@ import { computed } from "vue";
 import type { ExportType, SparvAnalysis } from "@/api/api.types";
 import { useApi } from "@/api/useApi";
 import useSpin from "@/spin/spin.composable";
+import { useAppConfig } from "@/app/useAppConfig";
 
 /** Get Sparv info from backend */
 export function useSparv() {
+  const { corpusSettings } = useAppConfig();
   const api = useApi();
   const { spin } = useSpin();
 
@@ -70,6 +72,20 @@ export function useSparv() {
   /** Sparv JSON schema */
   const schema = computedAsync(() => api.sparvSchema());
 
+  /** Load annotations to enable by default */
+  async function loadDefaultAnnotations(): Promise<string[]> {
+    const analyses = await api.sparvAnalyses();
+
+    // Analyses to exclude from default selection
+    const defaultDisabled = corpusSettings.analyses?.defaultDisabled || [];
+
+    const annotations = analyses
+      .filter((analysis) => !defaultDisabled.includes(analysis.id))
+      .flatMap((analysis) => analysis.annotations);
+
+    return annotations;
+  }
+
   return {
     analyses,
     exportTypes,
@@ -77,6 +93,7 @@ export function useSparv() {
     schema,
     getAnalysesByAnnotations,
     getLanguageCode,
+    loadDefaultAnnotations,
     matchAnalysisLanguage,
   };
 }

@@ -15,6 +15,21 @@ if (!tools.length) showNotFoundPage();
   <PageTitle>{{ $t("tools") }}</PageTitle>
 
   <ul class="flex flex-col gap-4">
+    <!-- Demo -->
+    <li>
+      <HelpBox v-if="tools.includes('demo')">
+        <h3 class="text-3xl">
+          <router-link to="/tools/demo">
+            {{ $t("demo") }}
+          </router-link>
+        </h3>
+        <p>
+          {{ $t("demo.summary") }}
+        </p>
+      </HelpBox>
+    </li>
+
+    <!-- Metadata editor -->
     <li>
       <HelpBox v-if="tools.includes('metadataEditor')">
         <h3 class="text-3xl">

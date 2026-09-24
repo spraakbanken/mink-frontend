@@ -61,6 +61,11 @@ config.configuration.help: These settings are information for the automatic anal
 corpus.config.parse.error: The config of this corpus could not be parsed. Edit and save the configuration to fix it. If you need help, please contact sb-info{'@'}svenska.gu.se
 config.saving: Saving metadata
 analysis.help: Run automated language technology methods on your text data according to your settings. Mink uses {sparv} under the hood.
+demo: Demo mode
+demo.summary: Try out Mink without signing in.
+demo.help: Test-run Mink and see how {sparv} analyses and enriches your text. Your input will be saved temporarily on a server. To use Mink in its entirety, you need to {login}.
+demo.source: Source text
+demo.source.help: Write in or paste a text you want to analyse. It will be saved temporarily on the server.
 job.rerun.overwrite: Re-running will overwrite previous results.
 job.rerun.tools_outdated: Previous results will remain in other platforms if it has been installed there. Do not forget to re-install if needed.
 job.abort: Abort
@@ -214,6 +219,7 @@ job.status.error: Error
 job.status.waiting: Waiting
 job.status.running: Working
 login: Sign in
+login.lower: sign in
 login.required: This page requires you to sign in.
 login.help: Most university users can sign in directly.
 login.fail: Authentication check failed
