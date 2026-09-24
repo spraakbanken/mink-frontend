@@ -42,7 +42,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       { path: "", component: ToolsView, meta: { title: "tools" } },
       {
-        path: "demo",
+        path: "demo/:id?",
         component: DemoView,
         meta: { title: "demo" },
       },

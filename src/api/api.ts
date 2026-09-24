@@ -18,6 +18,7 @@ import type {
   QueueHealthData,
   SparvAnalysesData,
   SparvLanguagesData,
+  DemoCorpusInput,
 } from "@/api/api.types";
 
 /** Create a `text/yaml` file object with content */
@@ -348,6 +349,14 @@ export class MinkClient {
     return response.data;
   }
 
+  async demoCorpusInputGet(id: string) {
+    const response = await this.axios.get<MinkResponse<DemoCorpusInput>>(
+      `/demo/corpus/input/get/${id}`,
+      { validateStatus: () => true },
+    );
+    return response.data;
+  }
+
   async demoCorpusRun(text: string, config: string) {
     const response = await this.axios.post<
       MinkResponse<ResourceInfo<"corpus">>
@@ -357,10 +366,10 @@ export class MinkClient {
 
   async demoCorpusStatusGet(id: string) {
     const response = await this.axios.get<MinkResponse<ResourceInfo<"corpus">>>(
-      "/demo/corpus/status/get",
-      { params: { id } },
+      `/demo/corpus/status/get/${id}`,
+      { validateStatus: () => true },
     );
-    return response.data;
+    return response.data.job;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/User-Management/operation/activate-admin-mode */
