@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import { computed } from "vue";
-import useResource from "@/resource/resource.composable";
+import type { JobState } from "@/api/api.types";
 
 const props = defineProps<{
-  id: string;
+  status?: JobState;
 }>();
 
 const { t } = useI18n();
-const { currentStatus } = useResource(props.id);
 
-const status = computed(() => currentStatus.value);
+const status = computed(() => props.status);
 const message = computed(() => t(`job.status.${status.value || "none"}`));
 </script>
 
