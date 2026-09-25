@@ -18,6 +18,8 @@ import type {
   QueueHealthData,
   SparvAnalysesData,
   SparvLanguagesData,
+  DemoCorpusInput,
+  DemoCorpusOutput,
 } from "@/api/api.types";
 
 /** Create a `text/yaml` file object with content */
@@ -343,6 +345,45 @@ export class MinkClient {
       `${type}/${tool}/uninstall/${id}`,
     );
     return response.data;
+  }
+
+  async demoCorpusInputGet(id: string) {
+    const response = await this.axios.get<MinkResponse<DemoCorpusInput>>(
+      `/demo/corpus/input/get/${id}`,
+      { validateStatus: () => true },
+    );
+    return response.data;
+  }
+
+  async demoCorpusRun(text: string, config: string) {
+    const response = await this.axios.post<
+      MinkResponse<ResourceInfo<"corpus">>
+    >("/demo/corpus/run", null, { params: { config, text } });
+    return response.data;
+  }
+
+  async demoCorpusJobAbort(id: string) {
+    const response = await this.axios.post<MinkResponse>(
+      `/demo/corpus/job/abort/${id}`,
+      null,
+      { validateStatus: () => true },
+    );
+    return response.data;
+  }
+
+  async demoCorpusStatusGet(id: string) {
+    const response = await this.axios.get<MinkResponse<ResourceInfo<"corpus">>>(
+      `/demo/corpus/status/get/${id}`,
+      { validateStatus: () => true },
+    );
+    return response.data.job;
+  }
+
+  async demoCorpusOutputGet(id: string) {
+    const response = await this.axios.get<MinkResponse<DemoCorpusOutput>>(
+      `/demo/corpus/export/get/${id}`,
+    );
+    return response.data.output;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/User-Management/operation/activate-admin-mode */
