@@ -69,6 +69,13 @@ job.rerun.overwrite: En ny körning skriver över {exports_link}.
 job.rerun.overwrite.exports: tidigare resultat
 job.rerun.tools_outdated: Resultat som tidigare installerats i andra plattformar kommer inte att uppdateras. Glöm inte att {reinstall_link} vid behov.
 job.rerun.tools_outdated.reinstall: installera om
+demo: Demoläge
+demo.summary: Testa Mink utan att logga in.
+demo.help: Provkör Mink och se hur {sparv} analyserar och berikar din text. Det du matar in sparas tillfälligt på en server. För att använda Mink i sin helhet behöver du {login}.
+demo.invalid_id: Den givna dataidentifieraren "{id}" kändes inte igen. Den kanske har gått ut?
+demo.source: Källtext
+demo.source.help: Skriv eller klistra in en text som du vill analysera. Den kommer att sparas tillfälligt på servern.
+demo.result.empty: Inget resultat ännu. Klicka på "Analysera" för att starta.
 job.abort: Avbryt
 job.status: Status
 job.priority: Plats i kön
@@ -222,6 +229,7 @@ job.status.error: Fel
 job.status.waiting: Väntar
 job.status.running: Arbetar
 login: Logga in
+login.lower: logga in
 login.required: Den här sidan kräver att du loggar in.
 login.help: De flesta med akademisk anknytning kan logga in direkt.
 login.fail: Autentiseringsfrågan misslyckades

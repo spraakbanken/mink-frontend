@@ -69,6 +69,13 @@ job.rerun.overwrite: Re-running will overwrite {exports_link}.
 job.rerun.overwrite.exports: previous results
 job.rerun.tools_outdated: Results previously installed in other platforms will not be affected. Do not forget to {reinstall_link} if needed.
 job.rerun.tools_outdated.reinstall: reinstall
+demo: Demo mode
+demo.summary: Try out Mink without signing in.
+demo.help: Test-run Mink and see how {sparv} analyses and enriches your text. Your input will be saved temporarily on a server. To use Mink in its entirety, you need to {login}.
+demo.invalid_id: The given input identifier "{id}" was not recognized. Maybe it has expired?
+demo.source: Source text
+demo.source.help: Write in or paste a text you want to analyse. It will be saved temporarily on the server.
+demo.result.empty: No results yet. Click "Analyse" to start.
 job.abort: Abort
 job.status: Status
 job.priority: Place in queue
@@ -221,6 +228,7 @@ job.status.error: Error
 job.status.waiting: Waiting
 job.status.running: Working
 login: Sign in
+login.lower: sign in
 login.required: This page requires you to sign in.
 login.help: Most university users can sign in directly.
 login.fail: Authentication check failed
