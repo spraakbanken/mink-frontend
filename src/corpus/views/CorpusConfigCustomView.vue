@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { computedAsync } from "@vueuse/core";
+import { useSparv } from "../sparv.composable";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import HelpBox from "@/components/HelpBox.vue";
-import { useApi } from "@/api/useApi";
 import ConfigCustomViewTemplate from "@/resource/ConfigCustomViewTemplate.vue";
 
 const id = useResourceIdParam();
-const api = useApi();
-
-const schema = computedAsync(() => api.sparvSchema());
+const { schema } = useSparv();
 </script>
 
 <template>

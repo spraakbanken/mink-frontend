@@ -1,29 +1,25 @@
+import { useSparv } from "./sparv.composable";
 import { getFilenameExtension } from "@/util";
-import {
-  makeConfig,
-  type CorpusSourceFormat,
-  defaultConfig,
-} from "@/api/corpusConfig";
+import { makeConfig, type CorpusSourceFormat } from "@/api/corpusConfig";
 import useCreateResource from "@/resource/createResource.composable";
-import { useAnalysisRegistry } from "@/analyses/useAnalysisRegistry";
 import useLocale from "@/i18n/locale.composable";
 
 export default function useCreateCorpus() {
   const { createResource } = useCreateResource();
-  const analysisRegistry = useAnalysisRegistry();
+  const { defaultConfig } = useSparv();
   const { createByLang } = useLocale();
 
   async function createCorpusFromUpload(files: File[]) {
     // Create default config.
     const configOptions = {
-      ...(await defaultConfig(analysisRegistry)),
+      ...(await defaultConfig()),
       // Get file extension of first file, assuming all are using the same extension.
       format: getFilenameExtension(files[0].name) as CorpusSourceFormat,
     };
 
     return createResource(
       "corpus",
-      (id) => makeConfig(id, configOptions, analysisRegistry),
+      (id) => makeConfig(id, configOptions),
       files,
     );
   }
@@ -32,19 +28,19 @@ export default function useCreateCorpus() {
     name: string,
     description: string,
     format: CorpusSourceFormat,
+    language: string,
     textAnnotation?: string,
   ) {
     const configOptions = {
-      ...(await defaultConfig(analysisRegistry)),
+      ...(await defaultConfig()),
       name: createByLang(name),
       description: createByLang(description),
       format,
+      language,
       textAnnotation,
     };
 
-    return createResource("corpus", (id) =>
-      makeConfig(id, configOptions, analysisRegistry),
-    );
+    return createResource("corpus", (id) => makeConfig(id, configOptions));
   }
 
   return {

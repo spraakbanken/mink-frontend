@@ -5,9 +5,10 @@ import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
 import { PhLightbulbFilament, PhTrash } from "@phosphor-icons/vue";
-import { computedAsync, watchImmediate } from "@vueuse/core";
-import { groupBy, omit } from "es-toolkit";
+import { computedAsync, watchImmediate, whenever } from "@vueuse/core";
+import { omit, pickBy } from "es-toolkit";
 import { useCorpus } from "../corpus.composable";
+import { toLangKey, useSparv } from "../sparv.composable";
 import {
   type ConfigOptions,
   type CorpusSourceFormat,
@@ -23,17 +24,15 @@ import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import RouteButton from "@/components/RouteButton.vue";
 import useAlert from "@/alert/alert.composable";
 import PendingContent from "@/spin/PendingContent.vue";
-import type { ByLang } from "@/util";
+import { fromKeys, type ByLang } from "@/util";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import useLocale from "@/i18n/locale.composable";
 import TabsBar from "@/components/TabsBar.vue";
 import TabsContent from "@/components/TabsContent.vue";
-import useSpin from "@/spin/spin.composable";
 import useSources from "@/resource/sources.composable";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
 import { useUserStore } from "@/store/user.store";
-import { useAnalysisRegistry } from "@/analyses/useAnalysisRegistry";
-import type { AnalysisId } from "@/analyses/analyses.types";
+import { useAppConfig } from "@/app/useAppConfig";
 
 type TabKey = "metadata" | "settings" | "analyses";
 
@@ -42,45 +41,48 @@ type Form = {
   description: ByLang;
   format: CorpusSourceFormat;
   textAnnotation: string;
+  language: string;
   sentenceSegmenter: ConfigSentenceSegmenter;
   datetimeFrom: string;
   datetimeTo: string;
-  analyses: Record<AnalysisId, boolean>;
+  analyses: Record<string, boolean>;
 };
 
+const { appConfig } = useAppConfig();
 const router = useRouter();
 const id = useResourceIdParam();
+const { languageOptions, findAnalyses } = useSparv();
 const { config, configOptions, saveConfigOptions } = useCorpus(id);
 const { extensions } = useSources("corpus", id);
-const analysisRegistry = useAnalysisRegistry();
 const { showAlert } = useAlert();
 const { t } = useI18n();
 const { locale3, th, thCompare } = useLocale();
-const { spin } = useSpin();
 const { canAdmin, canWrite } = useUserStore();
 
 const tabSelected = ref<TabKey>("metadata");
+/** The key of the selected language and variety */
+const langKeySelected = ref<string>();
 
-/** List of metadata for relevant analyses */
+/** Analyses for the selected language */
 const analyses = computedAsync(async () => {
-  const analyses =
-    (await spin(analysisRegistry.loadMetadata(), "analysis/metadata").catch(
-      showAlert,
-    )) || [];
+  const [language, variety] = langKeySelected.value?.split("-") || [];
+  const analyses = await findAnalyses({ language, variety });
+  return analyses.sort(thCompare((x) => x.name));
+}, []);
 
-  // Skip analyses that do not have annotations
-  // Sort by most significant property last
-  const filtered = analyses
-    .filter((analysis) => analysisRegistry.getAnnotations([analysis.id]).length)
-    .sort(thCompare((x) => x.label))
-    .sort(thCompare((x) => x.unit));
+/** Analyses for the selected language, grouped by unit */
+const analysisGroups = computed(() => {
+  // List of recognized units
+  const units = ["text", "sentence", "token", "other"];
 
-  // Group by unit: text, token or other
-  return groupBy(filtered, (analysis) => {
-    const unit = typeof analysis.unit == "object" ? analysis.unit.eng : "";
-    if (unit == "text" || unit == "token") return unit;
-    return "other";
-  });
+  return fromKeys(units, (unit) =>
+    analyses.value.filter((analysis) => {
+      // Match unit
+      const unitRaw = analysis.analysis_unit?.eng || "";
+      const thisUnit = units.includes(unitRaw) ? unitRaw : "other";
+      return thisUnit == unit;
+    }),
+  );
 });
 
 const formatOptions = computed<FormKitOptionsList>(() =>
@@ -116,13 +118,29 @@ const segmenterOptions = computed<SegmenterOptions>(() => {
 /** Original values from the current config, or defaults if not loaded or parsing failed */
 const original = computed(() => configOptions.value || emptyConfig());
 
+const originalAnalysesSelected = computedAsync(
+  () => findAnalyses(original.value),
+  [],
+);
+
 // Alert if parsing fails
 watchImmediate(configOptions, () => {
   if (configOptions.value === null) showAlert(t("corpus.config.parse.error"));
 });
 
+whenever(original, () => {
+  // Get selected language code
+  const { language, variety } = original.value;
+  langKeySelected.value = language
+    ? toLangKey(language, variety)
+    : appConfig.defaultLanguage;
+});
+
 async function submit(fields: Form) {
   const configOld = original.value;
+
+  // Split language-variety code
+  const [language, variety] = fields.language.split("-");
 
   // Use datetime if both are set
   const datetime =
@@ -130,9 +148,19 @@ async function submit(fields: Form) {
       ? { from: fields.datetimeFrom, to: fields.datetimeTo }
       : undefined;
 
+  // Convert id-to-true map to id list
+  const analysisIds = Object.keys(pickBy(fields.analyses, Boolean));
+  // Get the annotation strings of each analysis
+  const annotations = analyses.value
+    .filter((a) => analysisIds.includes(a.id))
+    .flatMap((a) => a.annotations);
+
   const configNew: ConfigOptions = {
     ...omit(fields, ["datetimeFrom", "datetimeTo"]),
+    language,
+    variety,
     datetime,
+    annotations,
   };
 
   // Preserve hidden translations
@@ -304,7 +332,7 @@ async function submit(fields: Form) {
             />
           </TabsContent>
 
-          <PendingContent on="analysis/metadata">
+          <PendingContent on="sparv/analyses">
             <TabsContent
               v-show="tabSelected == 'analyses'"
               :title="$t('config.analyses')"
@@ -319,8 +347,19 @@ async function submit(fields: Form) {
                 </i18n-t>
               </HelpBox>
 
+              <FormKit
+                name="language"
+                :label="$t('config.language')"
+                type="select"
+                v-model="langKeySelected"
+                input-class="w-72"
+                :options="languageOptions"
+                validation="required"
+                :help="$t('config.language.help')"
+              />
+
               <FormKit type="group" name="analyses">
-                <table class="my-2">
+                <table class="w-full my-2">
                   <thead>
                     <tr>
                       <th>{{ $t("description") }}</th>
@@ -328,21 +367,26 @@ async function submit(fields: Form) {
                       <th>{{ $t("config.analyses.task") }}</th>
                     </tr>
                   </thead>
-                  <tbody v-for="(group, unit) in analyses" :key="unit">
+                  <tbody v-for="(group, unit) in analysisGroups" :key="unit">
                     <tr>
-                      <th colspan="5" class="text-lg pt-4!">
+                      <th colspan="5" class="text-lg pt-4! font-heading">
                         {{ $t("config.analyses.unit") }}:
                         {{ $t(`config.analyses.unit.${unit}`) }}
                       </th>
+                    </tr>
+                    <tr v-if="!group.length">
+                      <td colspan="3" class="py-1 italic">
+                        {{ $t("config.analyses.available.none") }}
+                      </td>
                     </tr>
                     <tr v-for="analysis in group" :key="analysis.id">
                       <td class="py-1">
                         <FormKit
                           :name="analysis.id"
-                          :label="th(analysis.label)"
-                          :value="original.analyses[analysis.id]"
+                          :label="th(analysis.name)"
+                          :value="originalAnalysesSelected.includes(analysis)"
                           type="checkbox"
-                          :help="th(analysis.summary)"
+                          :help="th(analysis.short_description)"
                         />
                       </td>
                       <td>

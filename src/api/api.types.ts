@@ -48,6 +48,33 @@ type InfoDataSection<T> = {
   data: T[];
 };
 
+export type SparvAnalysesData = {
+  analyses: SparvAnalysis[];
+};
+
+export type SparvAnalysis = {
+  analysis_unit?: ByLang;
+  annotations: string[];
+  id: string;
+  languages?: AnalysisLanguage[];
+  language_varieties?: string[];
+  name: ByLang;
+  short_description?: ByLang;
+  task: ByLang;
+};
+
+export type AnalysisLanguage = {
+  identifier: {
+    /** Code, e.g. "swe" */
+    value: string;
+    /** Code standard, e.g. "ISO 639-3" */
+    scheme: string;
+  };
+  name: ByLang;
+  /** Non-standard variety code, e.g. "1800" */
+  variety?: string;
+};
+
 /** Lists available exports */
 export type SparvExportsData = {
   /** List of available export formats */
@@ -59,6 +86,20 @@ export type ExportType = {
   description: string;
   export: string;
   export_files: string[];
+};
+
+export type SparvLanguagesData = {
+  /** Languages available in Sparv */
+  languages: SparvLanguage[];
+};
+
+export type SparvLanguage = {
+  /** Three-letter ISO 639-3 code */
+  code: string;
+  /** Name in English */
+  name: string;
+  /** Optional language variety code (not ISO) */
+  variety?: string;
 };
 
 /** Data in the sparv-schema response */

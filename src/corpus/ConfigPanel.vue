@@ -2,10 +2,10 @@
 import { computedAsync, watchImmediate } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
 import { useCorpus } from "./corpus.composable";
+import { useSparv } from "./sparv.composable";
 import useLocale from "@/i18n/locale.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import TerminalOutput from "@/components/TerminalOutput.vue";
-import { useAnalysisRegistry } from "@/analyses/useAnalysisRegistry";
 import useAlert from "@/alert/alert.composable";
 
 const props = defineProps<{
@@ -13,22 +13,16 @@ const props = defineProps<{
 }>();
 
 const { configOptions } = useCorpus(props.id);
-const analysisRegistry = useAnalysisRegistry();
+const { findAnalyses } = useSparv();
 const { t } = useI18n();
 const { th, thCompare } = useLocale();
 const { showAlert } = useAlert();
 
 const analyses = computedAsync(async () => {
   if (!configOptions.value) return;
-  // Get selected ids
-  const map = configOptions.value.analyses;
-  const ids = Object.keys(map).filter((id) => map[id]);
-  // Get metadata for selected analyses
-  const metadata = await analysisRegistry.loadMetadata();
-  return metadata
-    .filter((analysis) => ids.includes(analysis.id))
-    .sort(thCompare((x) => x.label));
-});
+  const analyses = await findAnalyses(configOptions.value);
+  return analyses.sort(thCompare((x) => x.name));
+}, []);
 
 watchImmediate(configOptions, () => {
   if (configOptions.value === null) showAlert(t("corpus.config.parse.error"));
@@ -125,7 +119,7 @@ watchImmediate(configOptions, () => {
               </summary>
               <ul class="list-disc list-outside pl-5 mt-2">
                 <li v-for="analysis of analyses" :key="analysis.id">
-                  {{ th(analysis.label) }}
+                  {{ th(analysis.name) }}
                   (<a
                     :href="$t('config.analyses.url', analysis.id)"
                     target="_blank"

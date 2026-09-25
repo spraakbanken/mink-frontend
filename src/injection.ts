@@ -5,7 +5,6 @@ import {
   type InjectionKey,
 } from "vue";
 import type { AppConfig } from "./app/config.types";
-import type { AnalysisRegistryService } from "./analyses/analyses.types";
 import type { NewsService } from "./news/news.types";
 
 export const injectionKeys = {
@@ -18,7 +17,6 @@ export const injectionKeys = {
     MinkLogo: Symbol() as InjectionKey<() => Promise<Component>>,
   },
   service: {
-    analysisRegistry: Symbol() as InjectionKey<AnalysisRegistryService>,
     news: Symbol() as InjectionKey<NewsService>,
   },
 };

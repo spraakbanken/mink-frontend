@@ -14,6 +14,9 @@ export type AppConfig = {
   /** Base URL to Mink backend */
   backendUrl: string;
 
+  /** Default data language */
+  defaultLanguage?: string;
+
   /** Main instance URL */
   minkUrl?: string;
 
@@ -29,6 +32,10 @@ export type AppConfig = {
   /** Settings by resource type; omit an item to disable that type */
   types?: {
     corpus?: {
+      analyses?: {
+        /** Sparv analyses to disable by default */
+        defaultDisabled?: string[];
+      };
       /** Settings for corpus explore tools */
       explore?: {
         korp?: {

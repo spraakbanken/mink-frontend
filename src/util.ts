@@ -123,6 +123,12 @@ export function filterKeys(
   return obj;
 }
 
+/** Create an object from a list of keys and a function for creating corresponding values. */
+export const fromKeys = <K extends string, T>(
+  keys: K[],
+  getValue: (key: K) => T,
+) => Object.fromEntries(keys.map((key) => [key, getValue(key)]));
+
 /** Remove and add properties in `obj` in-place, to match names in `keys`. */
 export function setKeys<T>(
   obj: Record<string, T>,

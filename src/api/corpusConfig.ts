@@ -5,10 +5,6 @@ import type {
 } from "@/api/sparvConfig.types";
 import type { ByLang } from "@/util";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
-import type {
-  AnalysisId,
-  AnalysisRegistryService,
-} from "@/analyses/analyses.types";
 
 export type CorpusSourceFormat = (typeof CORPUS_SOURCE_FORMATS)[number];
 
@@ -18,13 +14,15 @@ export type ConfigOptions = {
   name?: ByLang;
   description?: ByLang;
   textAnnotation?: string;
+  language?: string;
+  variety?: string;
   sentenceSegmenter?: ConfigSentenceSegmenter;
   datetime?: {
     from: string;
     to: string;
   };
-  // Options to disable/enable analyses
-  analyses: Record<AnalysisId, boolean>;
+  /** Annotation strings like `<token>:stanza.ref` */
+  annotations: string[];
 };
 
 const IMPORTERS: Record<CorpusSourceFormat, string> = {
@@ -47,11 +45,7 @@ export function isSegmentable(format?: string): boolean {
 }
 
 /** Write simplified frontend-internal config model to a Sparv-compatible config YAML. */
-export function makeConfig(
-  id: string,
-  options: ConfigOptions,
-  analysisRegistry: AnalysisRegistryService,
-): string {
+export function makeConfig(id: string, options: ConfigOptions): string {
   const {
     format,
     name,
@@ -59,7 +53,9 @@ export function makeConfig(
     textAnnotation,
     sentenceSegmenter,
     datetime,
-    analyses,
+    annotations,
+    language,
+    variety,
   } = options;
 
   if (!format) {
@@ -71,6 +67,8 @@ export function makeConfig(
       id,
       name,
       description,
+      language,
+      variety,
     },
     import: {
       importer: IMPORTERS[format],
@@ -105,12 +103,8 @@ export function makeConfig(
     "<sentence>:misc.id",
     "<text>:misc.source",
     "<text>:misc.id as _id",
+    ...annotations,
   ];
-
-  // Add annotation definitions for each enabled analysis
-  const enabledAnalysisIds = Object.keys(analyses).filter((id) => analyses[id]);
-  const annotations = analysisRegistry.getAnnotations(enabledAnalysisIds);
-  config.export.annotations.push(...annotations);
 
   if (datetime) {
     // Add annotations on the text level with custom values
@@ -159,20 +153,8 @@ export function emptyConfig(): ConfigOptions {
     description: {},
     format: "txt",
     datetime: undefined,
-    analyses: {},
+    annotations: [],
   };
-}
-
-/** Default config */
-export async function defaultConfig(
-  analysisRegistry: AnalysisRegistryService,
-): Promise<ConfigOptions> {
-  const config = emptyConfig();
-
-  const analyses = await analysisRegistry.getDefaultAnalyses();
-  analyses.forEach((id) => (config.analyses[id] = true));
-
-  return config;
 }
 
 /**
@@ -183,10 +165,7 @@ export async function defaultConfig(
  *
  * May throw all kinds of errors, the sky is the limit (:
  */
-export function parseConfig(
-  configYaml: string,
-  analysisRegistry: AnalysisRegistryService,
-): ConfigOptions {
+export function parseConfig(configYaml: string): ConfigOptions {
   const config = parse(configYaml) as Partial<SparvConfig>;
 
   if (!config)
@@ -204,11 +183,15 @@ export function parseConfig(
 
   // Extract metadata
   const name = config.metadata?.name;
+  const language = config.metadata?.language;
+  const variety = config.metadata?.variety;
 
   // Build options object
   const options = {
     ...emptyConfig(),
     format,
+    language,
+    variety,
     name,
     description: config.metadata?.description,
     textAnnotation: config.import.text_annotation,
@@ -230,11 +213,7 @@ export function parseConfig(
   )
     options.datetime = { from: datetimeFrom, to: datetimeTo };
 
-  options.analyses = {};
-
-  const annotations = config.export?.annotations || [];
-  const analyses = analysisRegistry.getAnalyses(annotations);
-  analyses.forEach((analysisId) => (options.analyses[analysisId] = true));
+  options.annotations = config.export?.annotations || [];
 
   return options;
 }
