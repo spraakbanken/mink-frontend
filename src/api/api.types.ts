@@ -235,6 +235,17 @@ export type ListExportsData = {
   contents: FileMeta[];
 };
 
+export type DemoCorpusInput = {
+  input_text: string;
+  /** Corpus config YAML */
+  config: string;
+};
+
+export type DemoCorpusOutput = {
+  /** Exported XML */
+  output: string;
+};
+
 /** Data in the admin-mode-status response */
 export type AdminModeStatusData = {
   admin_mode_status: boolean;
