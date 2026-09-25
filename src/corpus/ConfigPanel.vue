@@ -127,7 +127,7 @@ watchImmediate(configOptions, () => {
                 <li v-for="analysis of analyses" :key="analysis.id">
                   {{ th(analysis.label) }}
                   (<a
-                    :href="$t('config.analyses.url', analysis.id)"
+                    :href="$t('config.analyses.url', { id: analysis.id })"
                     target="_blank"
                   >
                     {{ analysis.id }}</a
