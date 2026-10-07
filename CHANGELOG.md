@@ -13,6 +13,7 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 ### Fixed
 
 - Show errors from starting analysis [#303](https://github.com/spraakbanken/mink-frontend/issues/303)
+- Lexicon name and description may be unlocalized strings [#304](https://github.com/spraakbanken/mink-frontend/issues/304)
 
 ## [2.2.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.2.0) (2026-09-09)
 

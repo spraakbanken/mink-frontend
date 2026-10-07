@@ -9,6 +9,7 @@ import {
   formatDate,
   getBaseUrl,
   getFilenameExtension,
+  inflateByLang,
   objsToDict,
   pathJoin,
   randomString,
@@ -46,6 +47,16 @@ describe("enarray", () => {
     expect(enarray(null)).toStrictEqual([null]);
     expect(enarray(undefined)).toStrictEqual([undefined]);
     expect(enarray(new Set([1, 2, 3]))).toStrictEqual([new Set([1, 2, 3])]);
+  });
+});
+
+describe("inflateByLang", () => {
+  test("inflates string to ByLang", () => {
+    expect(inflateByLang("Hello", "en")).toStrictEqual({ en: "Hello" });
+  });
+  test("leaves ByLang unchanged", () => {
+    const byLang = { en: "Hello", sv: "Hej" };
+    expect(inflateByLang(byLang, "en")).toStrictEqual(byLang);
   });
 });
 

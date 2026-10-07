@@ -75,6 +75,13 @@ export function formatDate(date: Date | string, locale: string, time = true) {
   });
 }
 
+export function inflateByLang(
+  value: string | ByLang,
+  defaultLang: string,
+): ByLang {
+  return typeof value == "string" ? { [defaultLang]: value } : value;
+}
+
 /** Add or change a filename extension */
 export function ensureExtension(filename: string, ext: string) {
   return removeExtension(filename) + "." + ext;

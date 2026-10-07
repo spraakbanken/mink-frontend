@@ -12,12 +12,12 @@ const props = defineProps<{
 }>();
 
 const { loadConfig } = useConfigStore();
-const { th } = useLocale();
+const { th, locale3 } = useLocale();
 
 const config = computedAsync(() => loadConfig("lexicon", props.id));
 
 const configOptions = computed(() =>
-  config.value != null ? parseConfig(config.value) : undefined,
+  config.value != null ? parseConfig(config.value, locale3.value) : undefined,
 );
 </script>
 

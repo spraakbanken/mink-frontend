@@ -9,7 +9,7 @@ import {
   emptyConfig,
   makeConfig,
   parseConfig,
-  type LexiconField,
+  type LexiconConfigOptions,
 } from "../lexiconConfig";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import LayoutSection from "@/components/LayoutSection.vue";
@@ -18,7 +18,6 @@ import PendingContent from "@/spin/PendingContent.vue";
 import { useConfigStore } from "@/store/config.store";
 import { useUserStore } from "@/store/user.store";
 import TerminalOutput from "@/components/TerminalOutput.vue";
-import type { ByLang } from "@/util";
 import useMessenger from "@/alert/alert.composable";
 import RouteButton from "@/components/RouteButton.vue";
 import TabsBar from "@/components/TabsBar.vue";
@@ -28,11 +27,7 @@ import useLocale from "@/i18n/locale.composable";
 
 type TabKey = "metadata" | "settings";
 
-type Form = {
-  name: ByLang;
-  description: ByLang;
-  entryWord: LexiconField;
-};
+type Form = LexiconConfigOptions;
 
 const id = useResourceIdParam();
 const { minkUrl } = useAppConfig();
@@ -47,7 +42,7 @@ const tabSelected = ref<TabKey>("metadata");
 const config = computedAsync(() => loadConfig("lexicon", id));
 
 const configOptions = computed(
-  () => attempt(() => parseConfig(config.value || ""))[1],
+  () => attempt(() => parseConfig(config.value || "", locale3.value))[1],
 );
 
 async function submit(fields: Form) {
