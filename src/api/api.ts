@@ -244,9 +244,6 @@ export class MinkClient {
   async runJob(type: ResourceType, id: string) {
     const response = await this.axios.put<MinkResponse<ResourceInfo>>(
       `${type}/job/run/${id}`,
-      null,
-      // Errors are okay.
-      { validateStatus: () => true },
     );
     return response.data;
   }

@@ -10,6 +10,10 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v2.2.0...HEAD)
 
+### Fixed
+
+- Show errors from starting analysis [#303](https://github.com/spraakbanken/mink-frontend/issues/303)
+
 ## [2.2.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.2.0) (2026-09-09)
 
 ### Added
