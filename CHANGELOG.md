@@ -8,12 +8,16 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 - `MINOR` denotes changes that **may affect** the user experience or the development workflow
 - `PATCH` denotes changes that are **insignificant** to the user experience or the development workflow
 
-## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v2.2.0...HEAD)
+## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v2.2.1...HEAD)
+
+## [2.2.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.2.1) (2026-10-12)
 
 ### Fixed
 
 - Show errors from starting analysis [#303](https://github.com/spraakbanken/mink-frontend/issues/303)
 - Lexicon name and description may be unlocalized strings [#304](https://github.com/spraakbanken/mink-frontend/issues/304)
+- Keyboard navigation for the tab bar in config views
+- Broken links to analyses
 
 ## [2.2.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.2.0) (2026-09-09)
 
