@@ -118,9 +118,8 @@ const segmenterOptions = computed<SegmenterOptions>(() => {
 /** Original values from the current config, or defaults if not loaded or parsing failed */
 const original = computed(() => configOptions.value || emptyConfig());
 
-const originalAnalysesSelected = computedAsync(
-  () => findAnalyses(original.value),
-  [],
+const originalAnalysesSelected = computedAsync(() =>
+  findAnalyses(original.value),
 );
 
 // Alert if parsing fails
@@ -382,6 +381,7 @@ async function submit(fields: Form) {
                     <tr v-for="analysis in group" :key="analysis.id">
                       <td class="py-1">
                         <FormKit
+                          v-if="originalAnalysesSelected"
                           :name="analysis.id"
                           :label="th(analysis.name)"
                           :value="originalAnalysesSelected.includes(analysis)"
