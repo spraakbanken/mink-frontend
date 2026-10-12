@@ -8,7 +8,7 @@ import { useAppConfig } from "@/app/useAppConfig";
 
 /** Get Sparv info from backend */
 export function useSparv() {
-  const { appConfig, corpusSettings } = useAppConfig();
+  const { appConfig } = useAppConfig();
   const api = useApi();
   const { spin } = useSpin();
 
@@ -56,13 +56,10 @@ export function useSparv() {
 
   /** Config with default values */
   async function defaultConfig(): Promise<ConfigOptions> {
-    // Analyses to exclude from default selection
-    const defaultDisabled = corpusSettings.analyses?.defaultDisabled || [];
-
     const language = appConfig.defaultLanguage;
     const analyses = await findAnalyses({ language });
     const annotations = analyses
-      .filter((analysis) => !defaultDisabled.includes(analysis.id))
+      .filter((analysis) => analysis.enabled_by_default)
       .flatMap((analysis) => analysis.annotations);
 
     return {

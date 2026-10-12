@@ -55,6 +55,7 @@ export type SparvAnalysesData = {
 export type SparvAnalysis = {
   analysis_unit?: ByLang;
   annotations: string[];
+  enabled_by_default?: boolean;
   id: string;
   languages?: AnalysisLanguage[];
   language_varieties?: string[];
