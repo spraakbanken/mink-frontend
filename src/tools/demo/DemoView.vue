@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { FormKit, submitForm } from "@formkit/vue";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, defineAsyncComponent, onMounted, ref, watch } from "vue";
 import { useCounter, useInterval, useUrlSearchParams } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
 import { PhGearFine } from "@phosphor-icons/vue";
@@ -19,17 +19,23 @@ import PendingContent from "@/spin/PendingContent.vue";
 import MinkCodemirror from "@/components/MinkCodemirror.vue";
 import useAlert from "@/alert/alert.composable";
 import ActionButton from "@/components/ActionButton.vue";
+import TabsBar from "@/components/TabsBar.vue";
+import TabsContent from "@/components/TabsContent.vue";
 
 type Form = {
   source: string;
 };
 
-const { defaultConfig } = useSparv();
+const { defaultConfig, schema } = useSparv();
 const api = useApi();
 const params = useUrlSearchParams();
 const { showAlert } = useAlert();
 const { isPending, spin } = useSpin();
 const { t } = useI18n();
+
+const YamlEditor = defineAsyncComponent(
+  () => import("@/editor/YamlEditor.vue"),
+);
 
 const sampleRaw = `
 Ikea (namnet är bildat av initialerna för Ingvar Kamprad Elmtaryd Agunnaryd) är ett multinationellt
@@ -63,6 +69,9 @@ const configYaml = ref<string>();
 const job = ref<JobInfo<"corpus">>();
 
 const { currentStatus, isRunning } = useJobStatus(job);
+
+/** Key of currently selected tab in the Settings section */
+const settingsTab = ref("yaml");
 
 /** A ticker for status polling */
 const ticker = useInterval(2000);
@@ -156,20 +165,45 @@ watch(currentStatus, async () => {
     </HelpBox>
 
     <!-- Source text form -->
-    <LayoutBox :title="$t('demo.source')">
+    <div class="grid lg:grid-cols-2 gap-4 my-4">
       <FormKitWrapper :key="counter.get()">
-        <FormKit id="demo-input" type="form" :actions="false" @submit="submit">
+        <LayoutBox :title="$t('demo.source')">
           <FormKit
-            name="source"
-            :help="$t('demo.source.help')"
-            type="textarea"
-            :value="input"
-            input-class="w-full h-60"
+            id="demo-input"
+            type="form"
+            :actions="false"
+            @submit="submit"
           >
+            <FormKit
+              name="source"
+              :help="$t('demo.source.help')"
+              type="textarea"
+              :value="input"
+              input-class="w-full h-60"
+            >
+            </FormKit>
           </FormKit>
-        </FormKit>
+        </LayoutBox>
+
+        <LayoutBox :title="$t('settings')">
+          <TabsBar
+            :tabs="[
+              { key: 'form', label: $t('settings') },
+              { key: 'yaml', label: $t('config.custom') },
+            ]"
+            v-model="settingsTab"
+          />
+
+          <TabsContent v-if="settingsTab == 'yaml'" :title="$t('settings')">
+            <YamlEditor
+              v-if="configYaml != null"
+              v-model="configYaml"
+              :schema
+            />
+          </TabsContent>
+        </LayoutBox>
       </FormKitWrapper>
-    </LayoutBox>
+    </div>
 
     <!-- Job status -->
     <div class="grid lg:grid-cols-2 gap-4 my-4">
