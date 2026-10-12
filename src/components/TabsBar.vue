@@ -12,7 +12,7 @@ const hash = useRouteHash();
 
 syncRef(hash, model, {
   transform: {
-    ltr: (hash) => hash?.slice(1) || props.tabs[0].key,
+    ltr: (hash) => hash?.slice(1) || model.value || props.tabs[0].key,
     rtl: (key) => (key ? `#${key}` : undefined),
   },
 });
