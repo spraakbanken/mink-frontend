@@ -97,14 +97,7 @@ export function makeConfig(id: string, options: ConfigOptions): string {
   }
 
   // Annotations
-  config.export.annotations = [
-    "<token>:misc.tail as _tail",
-    "<token>:misc.head as _head",
-    "<sentence>:misc.id",
-    "<text>:misc.source",
-    "<text>:misc.id as _id",
-    ...annotations,
-  ];
+  config.export.annotations = [...annotations];
 
   if (datetime) {
     // Add annotations on the text level with custom values
