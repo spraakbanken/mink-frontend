@@ -1,6 +1,6 @@
 import Axios, { isAxiosError, type AxiosInstance } from "axios";
-import { once } from "es-toolkit";
-import { deduplicateRequest, ensureTrailingSlash } from "@/util";
+import { memoize, once } from "es-toolkit";
+import { deduplicateRequest, enarray, ensureTrailingSlash } from "@/util";
 import type {
   MinkResponse,
   InfoData,
@@ -58,6 +58,16 @@ export class MinkClient {
     this.axios = Axios.create({
       baseURL: ensureTrailingSlash(baseUrl),
       withCredentials: true,
+      // Serialize array params as `foo=bar&foo=baz` instead of `foo[]=bar&foo[]=baz`
+      paramsSerializer: (params) =>
+        Object.entries(params)
+          .filter(([, value]) => value != null)
+          .flatMap(([key, value]) =>
+            enarray(value).map(
+              (value) => `${key}=${encodeURIComponent(value)}`,
+            ),
+          )
+          .join("&"),
     });
   }
 
@@ -81,9 +91,10 @@ export class MinkClient {
   });
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/Documentation/operation/list-sparv-exports */
-  sparvExports = once(async () => {
+  sparvExports = memoize(async (language?: string) => {
     const response = await this.axios.get<MinkResponse<SparvExportsData>>(
       "corpus/sparv/list-exports",
+      { params: { language } },
     );
     return response.data.exports;
   });
@@ -259,9 +270,11 @@ export class MinkClient {
    * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/run-corpus-job
    * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/run-lexicon-job
    */
-  async runJob(type: ResourceType, id: string) {
+  async runJob(type: ResourceType, id: string, exports?: string[]) {
     const response = await this.axios.put<MinkResponse<ResourceInfo>>(
       `${type}/job/run/${id}`,
+      null,
+      { params: { exports } },
     );
     return response.data;
   }

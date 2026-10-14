@@ -38,6 +38,10 @@ export function useSparv() {
     [],
   );
 
+  async function loadExporters(language: string) {
+    return api.sparvExports(language);
+  }
+
   /** Languages available in Sparv */
   const languages = computedAsync(() => {
     return spin(api.sparvLanguages(), "sparv/languages");
@@ -103,6 +107,7 @@ export function useSparv() {
     schema,
     defaultConfig,
     findAnalyses,
+    loadExporters,
   };
 }
 

@@ -2,6 +2,7 @@
 import { computed, ref } from "vue";
 import { PhDownloadSimple, PhGearFine, PhInfo } from "@phosphor-icons/vue";
 import { useCorpus } from "./corpus.composable";
+import { useSparv } from "./sparv.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useAlert from "@/alert/alert.composable";
@@ -14,11 +15,14 @@ const props = defineProps<{
   id: string;
 }>();
 
-const { isConfigValid, exports, clearAnnotations } = useCorpus(props.id);
+const { configOptions, isConfigValid, exports, clearAnnotations } = useCorpus(
+  props.id,
+);
 const { job, isRunning, runJob } = useResource(props.id);
 const { sources } = useSources("corpus", props.id);
 const { downloadResult, getDownloadFilename } = useExports("corpus", props.id);
 const { canWrite } = useUserStore();
+const { loadExporters } = useSparv();
 const { showAlert } = useAlert();
 
 const isPending = ref(false);
@@ -33,8 +37,19 @@ const canRun = computed(
 
 async function doRunJob() {
   isPending.value = true;
-  await runJob().catch(showAlert);
+  const exporters = await loadExporterNames();
+  await runJob(exporters).catch(showAlert);
   isPending.value = false;
+}
+
+/** Load which Sparv exporters to use for the language of this corpus */
+async function loadExporterNames() {
+  const language = configOptions.value?.language;
+  if (!language) return undefined;
+  const exporters = await loadExporters(language);
+  return exporters
+    .filter((exporter) => exporter.enabled_by_default)
+    .map((exporter) => exporter.export);
 }
 </script>
 

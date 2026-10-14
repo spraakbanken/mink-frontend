@@ -10,6 +10,10 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v2.3.0...HEAD)
 
+### Fixed
+
+- Disable Sparv exporters that do not support given corpus language [#310](https://github.com/spraakbanken/mink-frontend/issues/310)
+
 ## [2.3.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.3.0) (2026-10-14)
 
 ### Changed

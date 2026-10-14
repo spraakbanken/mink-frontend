@@ -85,6 +85,7 @@ export type SparvExportsData = {
 /** Data in the sparv-exports response */
 export type ExportType = {
   description: string;
+  enabled_by_default?: boolean;
   export: string;
   export_files: string[];
 };

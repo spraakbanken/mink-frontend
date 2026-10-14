@@ -34,10 +34,13 @@ export default function useResource<T extends ResourceType = ResourceType>(
     return process && job.value?.status?.[process];
   });
 
-  async function runJob() {
+  async function runJob(exporters?: string[]) {
     const resource = await loadResource(id);
     matomo.value?.trackEvent("Job", "Start", resource.type);
-    const info = await spin(api.runJob(resource.type, id), `${id}/job/run`);
+    const info = await spin(
+      api.runJob(resource.type, id, exporters),
+      `${id}/job/run`,
+    );
     resource.job = info.job;
   }
 
