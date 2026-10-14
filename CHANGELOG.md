@@ -8,7 +8,9 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 - `MINOR` denotes changes that **may affect** the user experience or the development workflow
 - `PATCH` denotes changes that are **insignificant** to the user experience or the development workflow
 
-## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v2.2.1...HEAD)
+## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v2.3.0...HEAD)
+
+## [2.3.0](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.3.0) (2026-10-14)
 
 ### Changed
 
