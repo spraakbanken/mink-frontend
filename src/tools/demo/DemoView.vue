@@ -1,16 +1,26 @@
 <script lang="ts" setup>
 import { FormKit, submitForm } from "@formkit/vue";
-import { computed, defineAsyncComponent, onMounted, ref, watch } from "vue";
-import { useCounter, useInterval, useUrlSearchParams } from "@vueuse/core";
+import { computed, onMounted, ref, watch } from "vue";
+import {
+  computedAsync,
+  useCounter,
+  useInterval,
+  useUrlSearchParams,
+} from "@vueuse/core";
 import { useI18n } from "vue-i18n";
 import { PhGearFine } from "@phosphor-icons/vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import PageTitle from "@/components/PageTitle.vue";
-import { makeConfig } from "@/api/corpusConfig";
+import {
+  type ConfigOptions,
+  emptyConfig,
+  makeConfig,
+  parseConfig,
+} from "@/api/corpusConfig";
 import { useApi } from "@/api/useApi";
 import type { JobInfo } from "@/api/api.types";
-import { useSparv } from "@/corpus/sparv.composable";
+import { toLangKey, useSparv } from "@/corpus/sparv.composable";
 import LayoutBox from "@/components/LayoutBox.vue";
 import { useJobStatus } from "@/job/jobStatus.composable";
 import JobStatusPanelContent from "@/job/JobStatusPanelContent.vue";
@@ -19,23 +29,22 @@ import PendingContent from "@/spin/PendingContent.vue";
 import MinkCodemirror from "@/components/MinkCodemirror.vue";
 import useAlert from "@/alert/alert.composable";
 import ActionButton from "@/components/ActionButton.vue";
-import TabsBar from "@/components/TabsBar.vue";
-import TabsContent from "@/components/TabsContent.vue";
+import useLocale from "@/i18n/locale.composable";
+import { useAppConfig } from "@/app/useAppConfig";
 
 type Form = {
   source: string;
 };
 
-const { defaultConfig, schema } = useSparv();
+const { appConfig } = useAppConfig();
+const { defaultConfig, findAnalyses, groupAnalyses, languageOptions } =
+  useSparv();
 const api = useApi();
 const params = useUrlSearchParams();
 const { showAlert } = useAlert();
 const { isPending, spin } = useSpin();
 const { t } = useI18n();
-
-const YamlEditor = defineAsyncComponent(
-  () => import("@/editor/YamlEditor.vue"),
-);
+const { th, thCompare } = useLocale();
 
 const sampleRaw = `
 Ikea (namnet är bildat av initialerna för Ingvar Kamprad Elmtaryd Agunnaryd) är ett multinationellt
@@ -60,38 +69,63 @@ const id = computed({
 /** Source text model */
 const input = ref<string>();
 
+const analysesSelected = ref<string[]>([]);
+
 /** Resulting exported XML */
 const output = ref<string>();
 
-/** Generated config YAML */
-const configYaml = ref<string>();
+/** Corpus config */
+const configOptions = ref<ConfigOptions>(emptyConfig());
+
+/** Langkey model (a `<language>-<variety>` string) connected to the config object */
+const langkey = computed({
+  get: () => {
+    const { language, variety } = configOptions.value;
+    return language ? toLangKey(language, variety) : undefined;
+  },
+  set: (value) => {
+    const [language, variety] = value?.split("-") || [];
+    configOptions.value = { ...configOptions.value, language, variety };
+  },
+});
 
 const job = ref<JobInfo<"corpus">>();
 
 const { currentStatus, isRunning } = useJobStatus(job);
 
-/** Key of currently selected tab in the Settings section */
-const settingsTab = ref("yaml");
-
 /** A ticker for status polling */
 const ticker = useInterval(2000);
 
+/** Analyses for the selected language */
+const analyses = computedAsync(async () => {
+  const [language, variety] = langkey.value?.split("-") || [];
+  const analyses = await findAnalyses({ language, variety });
+  return analyses.sort(thCompare((x) => x.name));
+}, []);
+
+/** Analyses for the selected language, grouped by unit */
+const analysisGroups = computed(() => groupAnalyses(analyses.value));
+
 // Initiate or restore state
 onMounted(async () => {
-  // If a previous id is given, try to load stored input from server
-  const { input_text, config } = id.value
-    ? await api.demoCorpusInputGet(id.value)
-    : {};
+  const data = await loadInput();
+  input.value = data.input;
 
-  // Fall back to defaults
-  input.value = input_text || sample;
-  configYaml.value = config || (await makeDefaultConfig());
-
-  if (id.value && !input_text) {
-    showAlert(t("demo.invalid_id", { id: id.value }));
-    // The id is invalid, so reset it
-    id.value = undefined;
+  // Parse config
+  try {
+    configOptions.value = parseConfig(data.config);
+  } catch (error) {
+    console.error("Error parsing config", error);
+    configOptions.value = await defaultConfig();
   }
+
+  // Fall back to default language
+  if (!configOptions.value.language)
+    configOptions.value.language = appConfig.defaultLanguage;
+
+  // Get selected analyses
+  const analyses = await findAnalyses(configOptions.value);
+  analysesSelected.value = analyses.map((a) => a.id);
 
   // FormKit elements will not react on value change from outside, so force the form to re-render
   counter.inc();
@@ -102,10 +136,22 @@ onMounted(async () => {
   }
 });
 
-/** Build default config YAML */
-async function makeDefaultConfig() {
-  const config = await defaultConfig();
-  return makeConfig("demo", config);
+async function loadInput() {
+  // Id provided, check for input stored on server
+  if (id.value) {
+    const data = await api.demoCorpusInputGet(id.value);
+    if (data) {
+      return { input: data.input_text, config: data.config };
+    } else {
+      // No data, alert and reset id
+      showAlert(t("demo.invalid_id", { id: id.value }));
+      id.value = undefined;
+    }
+  }
+
+  // Couldn't load previous input, use defaults
+  const data = await api.demoCorpusDefaultConfigGet();
+  return { input: sample, config: data.config };
 }
 
 /** Handle submitting the form */
@@ -116,9 +162,15 @@ async function submit(fields: Form) {
 
 /** Run analysis on the input */
 async function run() {
-  const configYamlValue = configYaml.value || (await makeDefaultConfig());
+  // Get the annotation strings of each analysis
+  const annotations = analyses.value
+    .filter((a) => analysesSelected.value.includes(a.id))
+    .flatMap((a) => a.annotations);
+  configOptions.value = { ...configOptions.value, annotations };
+
+  const configYaml = makeConfig("demo", configOptions.value);
   const data = await spin(
-    api.demoCorpusRun(input.value!, configYamlValue),
+    api.demoCorpusRun(input.value!, configYaml),
     "demo/job",
   );
   id.value = data.resource.id;
@@ -217,21 +269,28 @@ watch(currentStatus, async () => {
         </LayoutBox>
 
         <LayoutBox :title="$t('settings')" class="col-span-full">
-          <TabsBar
-            :tabs="[
-              { key: 'form', label: $t('settings') },
-              { key: 'yaml', label: $t('config.custom') },
-            ]"
-            v-model="settingsTab"
+          <FormKit
+            name="language"
+            :label="$t('config.language')"
+            type="select"
+            v-model="langkey"
+            input-class="w-72"
+            :options="languageOptions"
+            validation="required"
           />
 
-          <TabsContent v-if="settingsTab == 'yaml'" :title="$t('settings')">
-            <YamlEditor
-              v-if="configYaml != null"
-              v-model="configYaml"
-              :schema
+          <div v-for="(group, unit) in analysisGroups" :key="unit">
+            <FormKit
+              v-if="group.length"
+              name="analyses"
+              :label="$t(`config.analyses.unit.${unit}`)"
+              type="checkbox"
+              v-model="analysesSelected"
+              :options="
+                group.map((x) => ({ value: x.id, label: th(x.name) || '' }))
+              "
             />
-          </TabsContent>
+          </div>
         </LayoutBox>
       </FormKitWrapper>
 

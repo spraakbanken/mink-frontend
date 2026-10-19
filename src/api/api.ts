@@ -18,8 +18,9 @@ import type {
   QueueHealthData,
   SparvAnalysesData,
   SparvLanguagesData,
-  DemoCorpusInput,
-  DemoCorpusOutput,
+  DemoCorpusInputData,
+  DemoCorpusOutputData,
+  DemoCorpusDefaultConfigData,
 } from "@/api/api.types";
 
 /** Create a `text/yaml` file object with content */
@@ -360,8 +361,15 @@ export class MinkClient {
     return response.data;
   }
 
+  async demoCorpusDefaultConfigGet() {
+    const response = await this.axios.get<
+      MinkResponse<DemoCorpusDefaultConfigData>
+    >("/demo/corpus/default-config/get");
+    return response.data;
+  }
+
   async demoCorpusInputGet(id: string) {
-    const response = await this.axios.get<MinkResponse<DemoCorpusInput>>(
+    const response = await this.axios.get<MinkResponse<DemoCorpusInputData>>(
       `/demo/corpus/input/get/${id}`,
       { validateStatus: () => true },
     );
@@ -393,7 +401,7 @@ export class MinkClient {
   }
 
   async demoCorpusOutputGet(id: string) {
-    const response = await this.axios.get<MinkResponse<DemoCorpusOutput>>(
+    const response = await this.axios.get<MinkResponse<DemoCorpusOutputData>>(
       `/demo/corpus/export/get/${id}`,
     );
     return response.data.output;
