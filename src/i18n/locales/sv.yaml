@@ -67,6 +67,7 @@ demo.help: Provkör Mink och se hur {sparv} analyserar och berikar din text. Det
 demo.invalid_id: Den givna dataidentifieraren "{id}" kändes inte igen. Den kanske har gått ut?
 demo.source: Källtext
 demo.source.help: Skriv eller klistra in en text som du vill analysera. Den kommer att sparas tillfälligt på servern.
+demo.reset: Återställ standardval
 demo.result.empty: Inget resultat ännu. Klicka på "Analysera" för att starta.
 job.rerun.overwrite: En ny körning skriver över tidigare resultat.
 job.rerun.tools_outdated: Verktygen kommer att behålla det gamla resultatet. Glöm inte att installera om vid behov.
