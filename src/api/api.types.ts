@@ -236,13 +236,18 @@ export type ListExportsData = {
   contents: FileMeta[];
 };
 
-export type DemoCorpusInput = {
+export type DemoCorpusInputData = {
   input_text: string;
   /** Corpus config YAML */
   config: string;
 };
 
-export type DemoCorpusOutput = {
+export type DemoCorpusDefaultConfigData = {
+  /** Corpus config YAML */
+  config: string;
+};
+
+export type DemoCorpusOutputData = {
   /** Exported XML */
   output: string;
 };
