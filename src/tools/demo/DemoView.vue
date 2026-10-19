@@ -31,20 +31,20 @@ import useAlert from "@/alert/alert.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import useLocale from "@/i18n/locale.composable";
 import { useAppConfig } from "@/app/useAppConfig";
+import AnalysisSelector from "@/corpus/AnalysisSelector.vue";
 
 type Form = {
   source: string;
 };
 
 const { appConfig } = useAppConfig();
-const { defaultConfig, findAnalyses, groupAnalyses, languageOptions } =
-  useSparv();
+const { defaultConfig, findAnalyses, languageOptions } = useSparv();
 const api = useApi();
 const params = useUrlSearchParams();
 const { showAlert } = useAlert();
 const { isPending, spin } = useSpin();
 const { t } = useI18n();
-const { th, thCompare } = useLocale();
+const { thCompare } = useLocale();
 
 const sampleRaw = `
 Ikea (namnet är bildat av initialerna för Ingvar Kamprad Elmtaryd Agunnaryd) är ett multinationellt
@@ -102,9 +102,6 @@ const analyses = computedAsync(async () => {
   const analyses = await findAnalyses({ language, variety });
   return analyses.sort(thCompare((x) => x.name));
 }, []);
-
-/** Analyses for the selected language, grouped by unit */
-const analysisGroups = computed(() => groupAnalyses(analyses.value));
 
 // Initiate or restore state
 onMounted(async () => {
@@ -303,24 +300,14 @@ watch(currentStatus, async () => {
           />
 
           <!-- Analyses -->
-          <details>
+          <details v-if="langkey">
             <summary>
               <h4 class="inline text-lg font-heading">
                 {{ $t("config.analyses") }}
               </h4>
             </summary>
-            <div v-for="(group, unit) in analysisGroups" :key="unit">
-              <FormKit
-                v-if="group.length"
-                name="analyses"
-                :label="$t(`config.analyses.unit.${unit}`)"
-                type="checkbox"
-                v-model="analysesSelected"
-                :options="
-                  group.map((x) => ({ value: x.id, label: th(x.name) || '' }))
-                "
-              />
-            </div>
+
+            <AnalysisSelector :langkey v-model="analysesSelected" />
           </details>
         </LayoutBox>
       </FormKitWrapper>
