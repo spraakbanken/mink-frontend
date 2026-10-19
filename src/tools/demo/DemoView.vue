@@ -167,7 +167,7 @@ watch(currentStatus, async () => {
     <!-- Source text form -->
     <div class="grid lg:grid-cols-2 gap-4 my-4">
       <FormKitWrapper :key="counter.get()">
-        <LayoutBox :title="$t('demo.source')">
+        <LayoutBox :title="$t('demo.source')" class="col-span-full">
           <FormKit
             id="demo-input"
             type="form"
@@ -185,7 +185,38 @@ watch(currentStatus, async () => {
           </FormKit>
         </LayoutBox>
 
-        <LayoutBox :title="$t('settings')">
+        <!-- Job status -->
+        <LayoutBox :title="$t('analysis')">
+          <div class="flex gap-3 items-center">
+            <div class="grow">
+              <i18n-t keypath="analysis.help" scope="global">
+                <template #sparv>
+                  <a :href="$t('sparv.url')">Sparv</a>
+                </template>
+              </i18n-t>
+            </div>
+
+            <ActionButton
+              :disabled="isPending('demo/job') || isRunning"
+              class="button-primary"
+              @click="submitForm('demo-input')"
+            >
+              <PhGearFine weight="bold" class="inline mb-1 mr-1" />
+              {{ $t("corpus.sparv.run") }}
+            </ActionButton>
+          </div>
+        </LayoutBox>
+
+        <LayoutBox
+          :title="$t('job.status')"
+          class="bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
+        >
+          <PendingContent on="demo/job">
+            <JobStatusPanelContent :job @abort="abort()" />
+          </PendingContent>
+        </LayoutBox>
+
+        <LayoutBox :title="$t('settings')" class="col-span-full">
           <TabsBar
             :tabs="[
               { key: 'form', label: $t('settings') },
@@ -203,52 +234,19 @@ watch(currentStatus, async () => {
           </TabsContent>
         </LayoutBox>
       </FormKitWrapper>
+
+      <!-- Result -->
+      <PendingContent on="demo/export" class="col-span-full">
+        <LayoutBox :title="$t('result')">
+          <MinkCodemirror
+            v-if="output"
+            :model-value="output"
+            disabled
+            language="xml"
+          />
+          <HelpBox v-else>{{ $t("demo.result.empty") }}</HelpBox>
+        </LayoutBox>
+      </PendingContent>
     </div>
-
-    <!-- Job status -->
-    <div class="grid lg:grid-cols-2 gap-4 my-4">
-      <LayoutBox :title="$t('analysis')">
-        <div class="flex gap-3 items-center">
-          <div class="grow">
-            <i18n-t keypath="analysis.help" scope="global">
-              <template #sparv>
-                <a :href="$t('sparv.url')">Sparv</a>
-              </template>
-            </i18n-t>
-          </div>
-
-          <ActionButton
-            :disabled="isPending('demo/job') || isRunning"
-            class="button-primary"
-            @click="submitForm('demo-input')"
-          >
-            <PhGearFine weight="bold" class="inline mb-1 mr-1" />
-            {{ $t("corpus.sparv.run") }}
-          </ActionButton>
-        </div>
-      </LayoutBox>
-
-      <LayoutBox
-        :title="$t('job.status')"
-        class="bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
-      >
-        <PendingContent on="demo/job">
-          <JobStatusPanelContent :job @abort="abort()" />
-        </PendingContent>
-      </LayoutBox>
-    </div>
-
-    <!-- Result -->
-    <PendingContent on="demo/export">
-      <LayoutBox class="my-4" :title="$t('result')">
-        <MinkCodemirror
-          v-if="output"
-          :model-value="output"
-          disabled
-          language="xml"
-        />
-        <HelpBox v-else>{{ $t("demo.result.empty") }}</HelpBox>
-      </LayoutBox>
-    </PendingContent>
   </div>
 </template>
