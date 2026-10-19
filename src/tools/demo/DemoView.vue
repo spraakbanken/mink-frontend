@@ -113,19 +113,13 @@ onMounted(async () => {
 
   // Parse config
   try {
-    configOptions.value = parseConfig(data.config);
+    const config = parseConfig(data.config);
+    await setConfig(config);
   } catch (error) {
     console.error("Error parsing config", error);
-    configOptions.value = await defaultConfig();
+    const config = await defaultConfig();
+    await setConfig(config);
   }
-
-  // Fall back to default language
-  if (!configOptions.value.language)
-    configOptions.value.language = appConfig.defaultLanguage;
-
-  // Get selected analyses
-  const analyses = await findAnalyses(configOptions.value);
-  analysesSelected.value = analyses.map((a) => a.id);
 
   // FormKit elements will not react on value change from outside, so force the form to re-render
   counter.inc();
@@ -136,6 +130,7 @@ onMounted(async () => {
   }
 });
 
+/** Load initial input data, if identified and found, otherwise defaults */
 async function loadInput() {
   // Id provided, check for input stored on server
   if (id.value) {
@@ -154,6 +149,23 @@ async function loadInput() {
   return { input: sample, config: data.config };
 }
 
+/** Load given config object into the component's state */
+async function setConfig(config: ConfigOptions) {
+  configOptions.value = config;
+
+  // Fall back to default language
+  configOptions.value.language ||= appConfig.defaultLanguage;
+
+  // Get selected analyses
+  const analyses = await findAnalyses(configOptions.value);
+  analysesSelected.value = analyses.map((a) => a.id);
+}
+
+async function resetConfig() {
+  const config = await defaultConfig();
+  await setConfig(config);
+}
+
 /** Handle submitting the form */
 async function submit(fields: Form) {
   input.value = fields.source;
@@ -162,12 +174,6 @@ async function submit(fields: Form) {
 
 /** Run analysis on the input */
 async function run() {
-  // Get the annotation strings of each analysis
-  const annotations = analyses.value
-    .filter((a) => analysesSelected.value.includes(a.id))
-    .flatMap((a) => a.annotations);
-  configOptions.value = { ...configOptions.value, annotations };
-
   const configYaml = makeConfig("demo", configOptions.value);
   const data = await spin(
     api.demoCorpusRun(input.value!, configYaml),
@@ -180,6 +186,15 @@ async function run() {
 async function abort() {
   await spin(api.demoCorpusJobAbort(id.value!), "demo/job");
 }
+
+// Sync selected analyses to config object
+watch(analysesSelected, () => {
+  // Get the annotation strings of each analysis
+  const annotations = analyses.value
+    .filter((a) => analysesSelected.value.includes(a.id))
+    .flatMap((a) => a.annotations);
+  configOptions.value = { ...configOptions.value, annotations };
+});
 
 // Check status intermittently if active
 watch(ticker, async () => {
@@ -237,7 +252,7 @@ watch(currentStatus, async () => {
           </FormKit>
         </LayoutBox>
 
-        <!-- Job status -->
+        <!-- Analyse button -->
         <LayoutBox :title="$t('analysis')">
           <div class="flex gap-3 items-center">
             <div class="grow">
@@ -259,6 +274,7 @@ watch(currentStatus, async () => {
           </div>
         </LayoutBox>
 
+        <!-- Job status -->
         <LayoutBox
           :title="$t('job.status')"
           class="bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
@@ -268,7 +284,14 @@ watch(currentStatus, async () => {
           </PendingContent>
         </LayoutBox>
 
+        <!-- Settings -->
         <LayoutBox :title="$t('settings')" class="col-span-full">
+          <template #controls>
+            <ActionButton @click="resetConfig()">
+              {{ $t("demo.reset") }}
+            </ActionButton>
+          </template>
+
           <FormKit
             name="language"
             :label="$t('config.language')"
@@ -279,18 +302,26 @@ watch(currentStatus, async () => {
             validation="required"
           />
 
-          <div v-for="(group, unit) in analysisGroups" :key="unit">
-            <FormKit
-              v-if="group.length"
-              name="analyses"
-              :label="$t(`config.analyses.unit.${unit}`)"
-              type="checkbox"
-              v-model="analysesSelected"
-              :options="
-                group.map((x) => ({ value: x.id, label: th(x.name) || '' }))
-              "
-            />
-          </div>
+          <!-- Analyses -->
+          <details>
+            <summary>
+              <h4 class="inline text-lg font-heading">
+                {{ $t("config.analyses") }}
+              </h4>
+            </summary>
+            <div v-for="(group, unit) in analysisGroups" :key="unit">
+              <FormKit
+                v-if="group.length"
+                name="analyses"
+                :label="$t(`config.analyses.unit.${unit}`)"
+                type="checkbox"
+                v-model="analysesSelected"
+                :options="
+                  group.map((x) => ({ value: x.id, label: th(x.name) || '' }))
+                "
+              />
+            </div>
+          </details>
         </LayoutBox>
       </FormKitWrapper>
 
