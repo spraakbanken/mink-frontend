@@ -5,6 +5,7 @@ import { useApi } from "@/api/useApi";
 import useSpin from "@/spin/spin.composable";
 import { emptyConfig, type ConfigOptions } from "@/api/corpusConfig";
 import { useAppConfig } from "@/app/useAppConfig";
+import { fromKeys } from "@/util";
 
 /** Get Sparv info from backend */
 export function useSparv() {
@@ -101,12 +102,28 @@ export function useSparv() {
     );
   }
 
+  /** Group analyses by unit */
+  function groupAnalyses(analyses: SparvAnalysis[]) {
+    // List of recognized units
+    const units = ["text", "sentence", "token", "other"];
+
+    return fromKeys(units, (unit) =>
+      analyses.filter((analysis) => {
+        // Match unit
+        const unitRaw = analysis.analysis_unit?.eng || "";
+        const thisUnit = units.includes(unitRaw) ? unitRaw : "other";
+        return thisUnit == unit;
+      }),
+    );
+  }
+
   return {
     exportTypes,
     languageOptions,
     schema,
     defaultConfig,
     findAnalyses,
+    groupAnalyses,
     loadExporters,
   };
 }

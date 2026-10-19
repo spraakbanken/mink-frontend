@@ -169,6 +169,7 @@ expand.open: Show all
 expand.close: Hide some
 show: Show
 show_more: Show more
+more_info: More information
 docs.label: Help
 docs.url: https://spraakbanken.gu.se/en/tools/mink
 locale.switcher.label: Interface language
@@ -268,8 +269,6 @@ config.analyses: Analyses
 config.analyses.available.none: No analyses available
 config.analyses.selected_count: No analysis selected | 1 analysis selected | {count} analyses selected
 config.analyses.info: Select what analyses should be done on the source text. For more detailed configuration, please use the {custom_config} page.
-config.analyses.task: Task
-config.analyses.unit: Unit
 config.analyses.unit.text: Text
 config.analyses.unit.sentence: Sentence
 config.analyses.unit.token: Token

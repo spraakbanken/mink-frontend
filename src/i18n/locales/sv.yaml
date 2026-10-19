@@ -170,6 +170,7 @@ expand.open: Visa allt
 expand.close: Göm en del
 show: Visa
 show_more: Visa mer
+more_info: Mer information
 docs.label: Hjälp
 docs.url: https://spraakbanken.gu.se/verktyg/mink
 locale.switcher.label: Gränssnittsspråk
@@ -269,8 +270,6 @@ config.analyses: Analyser
 config.analyses.available.none: Inga analyser tillgängliga
 config.analyses.selected_count: Inga analyser valda | 1 analys vald | {count} analyser valda
 config.analyses.info: Välj vilka analyser som ska göras på källtexten. Mer utförlig konfiguration kan göras på sidan {custom_config}.
-config.analyses.task: Uppgift
-config.analyses.unit: Enhet
 config.analyses.unit.text: Text
 config.analyses.unit.sentence: Mening
 config.analyses.unit.token: Token
