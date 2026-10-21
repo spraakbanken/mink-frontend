@@ -281,6 +281,49 @@ watch(currentStatus, async () => {
           </FormKit>
         </LayoutBox>
 
+        <!-- Settings -->
+        <LayoutBox :title="$t('settings')" class="col-span-full">
+          <template #controls>
+            <ActionButton @click="resetConfig()">
+              {{ $t("demo.reset") }}
+            </ActionButton>
+          </template>
+
+          <div class="md:flex gap-4 items-baseline">
+            <FormKit
+              name="language"
+              :label="$t('config.language')"
+              type="select"
+              v-model="langkey"
+              :options="languageOptions"
+              validation="required"
+            />
+
+            <div class="flex flex-wrap gap-x-4">
+              <FormKit
+                v-for="label in tasks"
+                :key="`${label}-${tasksSelected.includes(label)}`"
+                type="checkbox"
+                :label="label"
+                :value="tasksSelected.includes(label)"
+                outer-class="my-0"
+                @input="(value) => toggleTask(label, value as boolean)"
+              />
+            </div>
+          </div>
+
+          <!-- Analyses -->
+          <details v-if="langkey">
+            <summary>
+              <h4 class="inline text-lg font-heading">
+                {{ $t("config.analyses") }}
+              </h4>
+            </summary>
+
+            <AnalysisSelector :langkey v-model="analysesSelected" />
+          </details>
+        </LayoutBox>
+
         <!-- Analyse button -->
         <LayoutBox :title="$t('analysis')">
           <div class="flex gap-3 items-center">
@@ -311,50 +354,6 @@ watch(currentStatus, async () => {
           <PendingContent on="demo/job">
             <JobStatusPanelContent :job @abort="abort()" />
           </PendingContent>
-        </LayoutBox>
-
-        <!-- Settings -->
-        <LayoutBox :title="$t('settings')" class="col-span-full">
-          <template #controls>
-            <ActionButton @click="resetConfig()">
-              {{ $t("demo.reset") }}
-            </ActionButton>
-          </template>
-
-          <div class="md:flex gap-4 items-baseline">
-            <FormKit
-              name="language"
-              :label="$t('config.language')"
-              type="select"
-              v-model="langkey"
-              input-class="w-72"
-              :options="languageOptions"
-              validation="required"
-            />
-
-            <div class="flex flex-wrap gap-x-4">
-              <FormKit
-                v-for="label in tasks"
-                :key="`${label}-${tasksSelected.includes(label)}`"
-                type="checkbox"
-                :label="label"
-                :value="tasksSelected.includes(label)"
-                outer-class="my-0"
-                @input="(value) => toggleTask(label, value as boolean)"
-              />
-            </div>
-          </div>
-
-          <!-- Analyses -->
-          <details v-if="langkey">
-            <summary>
-              <h4 class="inline text-lg font-heading">
-                {{ $t("config.analyses") }}
-              </h4>
-            </summary>
-
-            <AnalysisSelector :langkey v-model="analysesSelected" />
-          </details>
         </LayoutBox>
       </FormKitWrapper>
 
