@@ -68,7 +68,7 @@ const id = computed({
 });
 
 /** Source text model */
-const input = ref<string>();
+const source = ref<string>("");
 
 const analysesSelected = ref<string[]>([]);
 
@@ -114,7 +114,7 @@ const tasks = computed(() =>
 // Initiate or restore state
 onMounted(async () => {
   const data = await loadInput();
-  input.value = data.input;
+  source.value = data.input;
 
   // Parse config
   try {
@@ -173,7 +173,7 @@ async function resetConfig() {
 
 /** Handle submitting the form */
 async function submit(fields: Form) {
-  input.value = fields.source;
+  source.value = fields.source;
   run();
 }
 
@@ -181,7 +181,7 @@ async function submit(fields: Form) {
 async function run() {
   const configYaml = makeConfig("demo", configOptions.value);
   const data = await spin(
-    api.demoCorpusRun(input.value!, configYaml),
+    api.demoCorpusRun(source.value, configYaml),
     "demo/job",
   );
   id.value = data.resource.id;
@@ -274,7 +274,7 @@ watch(currentStatus, async () => {
               name="source"
               :help="$t('demo.source.help')"
               type="textarea"
-              :value="input"
+              :value="source"
               input-class="w-full h-60"
             >
             </FormKit>
