@@ -9,6 +9,7 @@ import {
 } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
 import { PhGearFine } from "@phosphor-icons/vue";
+import { capitalize, compact, isEqual, uniq } from "es-toolkit";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import PageTitle from "@/components/PageTitle.vue";
@@ -19,7 +20,7 @@ import {
   parseConfig,
 } from "@/api/corpusConfig";
 import { useApi } from "@/api/useApi";
-import type { JobInfo } from "@/api/api.types";
+import type { JobInfo, SparvAnalysis } from "@/api/api.types";
 import { toLangKey, useSparv } from "@/corpus/sparv.composable";
 import LayoutBox from "@/components/LayoutBox.vue";
 import { useJobStatus } from "@/job/jobStatus.composable";
@@ -44,7 +45,7 @@ const params = useUrlSearchParams();
 const { showAlert } = useAlert();
 const { isPending, spin } = useSpin();
 const { t } = useI18n();
-const { thCompare } = useLocale();
+const { localeCompare, th, thCompare } = useLocale();
 
 const sampleRaw = `
 Ikea (namnet är bildat av initialerna för Ingvar Kamprad Elmtaryd Agunnaryd) är ett multinationellt
@@ -70,6 +71,8 @@ const id = computed({
 const input = ref<string>();
 
 const analysesSelected = ref<string[]>([]);
+
+const tasksSelected = ref<string[]>([]);
 
 /** Resulting exported XML */
 const output = ref<string>();
@@ -102,6 +105,11 @@ const analyses = computedAsync(async () => {
   const analyses = await findAnalyses({ language, variety });
   return analyses.sort(thCompare((x) => x.name));
 }, []);
+
+/** Translated labels of the tasks present among the available analyses */
+const tasks = computed(() =>
+  uniq(compact(analyses.value.map(getTaskLabel))).sort(localeCompare),
+);
 
 // Initiate or restore state
 onMounted(async () => {
@@ -184,6 +192,21 @@ async function abort() {
   await spin(api.demoCorpusJobAbort(id.value!), "demo/job");
 }
 
+/** Get translated label of an analysis' task */
+function getTaskLabel(analysis: SparvAnalysis) {
+  return capitalize(th(analysis.task) || "");
+}
+
+/** Handle selecting/deselecting a task checkbox */
+function toggleTask(label: string, value: boolean) {
+  const analysesToChange = analyses.value
+    .filter((a) => getTaskLabel(a) == label)
+    .map((a) => a.id);
+  analysesSelected.value = value
+    ? [...analysesSelected.value, ...analysesToChange]
+    : analysesSelected.value.filter((id) => !analysesToChange.includes(id));
+}
+
 // Sync selected analyses to config object
 watch(analysesSelected, () => {
   // Get the annotation strings of each analysis
@@ -191,6 +214,15 @@ watch(analysesSelected, () => {
     .filter((a) => analysesSelected.value.includes(a.id))
     .flatMap((a) => a.annotations);
   configOptions.value = { ...configOptions.value, annotations };
+
+  // Update task selection: enable all tasks that have all their analyses selected
+  const tasksSelectedNew = tasks.value.filter((task) =>
+    analyses.value
+      .filter((a) => getTaskLabel(a) == task)
+      .every((a) => analysesSelected.value.includes(a.id)),
+  );
+  if (!isEqual(tasksSelectedNew, tasksSelected.value))
+    tasksSelected.value = tasksSelectedNew;
 });
 
 // Check status intermittently if active
@@ -289,15 +321,29 @@ watch(currentStatus, async () => {
             </ActionButton>
           </template>
 
-          <FormKit
-            name="language"
-            :label="$t('config.language')"
-            type="select"
-            v-model="langkey"
-            input-class="w-72"
-            :options="languageOptions"
-            validation="required"
-          />
+          <div class="md:flex gap-4 items-baseline">
+            <FormKit
+              name="language"
+              :label="$t('config.language')"
+              type="select"
+              v-model="langkey"
+              input-class="w-72"
+              :options="languageOptions"
+              validation="required"
+            />
+
+            <div class="flex flex-wrap gap-x-4">
+              <FormKit
+                v-for="label in tasks"
+                :key="`${label}-${tasksSelected.includes(label)}`"
+                type="checkbox"
+                :label="label"
+                :value="tasksSelected.includes(label)"
+                outer-class="my-0"
+                @input="(value) => toggleTask(label, value as boolean)"
+              />
+            </div>
+          </div>
 
           <!-- Analyses -->
           <details v-if="langkey">

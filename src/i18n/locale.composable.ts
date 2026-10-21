@@ -57,6 +57,9 @@ export default function useLocale() {
     for (const lang of langsOrdered) if (map[lang]) return map[lang];
   }
 
+  const localeCompare = (a: string, b: string) =>
+    a.localeCompare(b, locale.value);
+
   /** Create a comparator function (for `list.sort()`) that sorts by mutilanguage labels. */
   const thCompare =
     <T>(
@@ -69,7 +72,7 @@ export default function useLocale() {
       if (!labelA) return 1;
       if (!labelB) return -1;
       // Compare alphabetically
-      return labelA.localeCompare(labelB, locale.value);
+      return localeCompare(labelA, labelB);
     };
 
   /** Wrap the filesize lib with some sane defaults and avoiding exponential notation. */
@@ -90,6 +93,7 @@ export default function useLocale() {
   return {
     locale,
     locale3,
+    localeCompare,
     th,
     thCompare,
     filesize: myFilesize,
