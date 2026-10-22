@@ -47,16 +47,8 @@ const { isPending, spin } = useSpin();
 const { t } = useI18n();
 const { thCompare } = useLocale();
 
-const sampleRaw = `
-Ikea (namnet är bildat av initialerna för Ingvar Kamprad Elmtaryd Agunnaryd) är ett multinationellt
-möbelföretag som grundades 1943 av Ingvar Kamprad. Bolaget ägs av en stiftelse i Nederländerna som
-i sin tur ägs av stiftelsen Interogo i Luxemburg, men kontrolleras alltjämt av familjen Kamprad.
-Under verksamhetsåret 2012 omsatte Ikeakoncernen 241 miljarder kronor. 2008 hade koncernen omkring
-135 000 anställda i 45 länder. Huvudkontoret för Sverige ligger i Helsingborg. I Helsingborg sitter
-idag också många av de globala ledningsfunktionerna för hela koncernen (marknadsföring, juridik,
-information med flera). Dessa kommer dock flytta ner till Malmö 1 september 2015, då ett nytt
-kontor med plats för 800 anställda står klart i Vintrie park bredvid varuhuset på Svågertorp.`;
-const sample = sampleRaw.replaceAll(/\n/g, " ").trim();
+const demoSettings = appConfig.tools!.demo!;
+const sample = (demoSettings.sample || "").trim();
 
 /** Counter to trigger form re-render */
 const counter = useCounter();
