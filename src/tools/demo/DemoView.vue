@@ -33,6 +33,7 @@ import ActionButton from "@/components/ActionButton.vue";
 import useLocale from "@/i18n/locale.composable";
 import { useAppConfig } from "@/app/useAppConfig";
 import AnalysisSelector from "@/corpus/AnalysisSelector.vue";
+import MaxHeight from "@/components/MaxHeight.vue";
 
 type Form = {
   source: string;
@@ -313,15 +314,14 @@ watch(currentStatus, async () => {
           </div>
 
           <!-- Analyses -->
-          <details v-if="langkey">
-            <summary>
-              <h4 class="inline text-lg font-heading">
-                {{ $t("config.analyses") }}
-              </h4>
-            </summary>
-
-            <AnalysisSelector :langkey v-model="analysesSelected" />
-          </details>
+          <div v-if="langkey">
+            <h4 class="inline text-lg font-heading">
+              {{ $t("config.analyses") }}
+            </h4>
+            <MaxHeight :max-height="400">
+              <AnalysisSelector :langkey v-model="analysesSelected" />
+            </MaxHeight>
+          </div>
         </LayoutBox>
 
         <!-- Analyse button -->
