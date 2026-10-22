@@ -62,6 +62,7 @@ corpus.config.parse.error: The config of this corpus could not be parsed. Edit a
 config.saving: Saving metadata
 analysis.help: Run automated language technology methods on your text data according to your settings. Mink uses {sparv} under the hood.
 demo: Demo mode
+demo.preview: Try it out
 demo.summary: Try out Mink without signing in.
 demo.help: Test-run Mink and see how {sparv} analyses and enriches your text. Your input will be saved temporarily on a server. To use Mink in its entirety, you need to {login}.
 demo.invalid_id: The given input identifier "{id}" was not recognized. Maybe it has expired?

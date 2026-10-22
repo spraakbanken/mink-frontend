@@ -62,6 +62,7 @@ corpus.config.parse.error: Korpusens config kunde inte läsas. Redigera och spar
 config.saving: Sparar metadata
 analysis.help: Kör automatiska språkteknologiska analyser på din textdata enligt inställningarna. Mink använder {sparv} i bakgrunden.
 demo: Demoläge
+demo.preview: Provkör
 demo.summary: Testa Mink utan att logga in.
 demo.help: Provkör Mink och se hur {sparv} analyserar och berikar din text. Det du matar in sparas tillfälligt på en server. För att använda Mink i sin helhet behöver du {login}.
 demo.invalid_id: Den givna dataidentifieraren "{id}" kändes inte igen. Den kanske har gått ut?
