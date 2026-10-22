@@ -26,7 +26,10 @@ export type AppConfig = {
   /** Tools */
   tools?: {
     /** Demo mode for trying out Mink without logging in */
-    demo?: true;
+    demo?: {
+      /** Default source text */
+      sample?: string;
+    };
 
     /** The Språkbanken metadata YAML editor */
     metadataEditor?: true;
