@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import HomeNews from "./HomeNews.vue";
 import HomeUserBox from "./HomeUserBox.vue";
+import HomeDemoPreview from "./HomeDemoPreview.vue";
 import HomeNewsFeatured from "@/home/HomeNewsFeatured.vue";
 import minkScreen from "@/assets/mink-screen.png";
 import minkScreenDark from "@/assets/mink-screen-dark.png";
@@ -24,6 +25,8 @@ const HomeSecondary = injectComponent(
           <HomeIntro />
 
           <HomeUserBox />
+
+          <HomeDemoPreview />
         </div>
 
         <div class="flex-1">

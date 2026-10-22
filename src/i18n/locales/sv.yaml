@@ -70,6 +70,7 @@ job.rerun.overwrite.exports: tidigare resultat
 job.rerun.tools_outdated: Resultat som tidigare installerats i andra plattformar kommer inte att uppdateras. Glöm inte att {reinstall_link} vid behov.
 job.rerun.tools_outdated.reinstall: installera om
 demo: Demoläge
+demo.preview: Provkör
 demo.summary: Testa Mink utan att logga in.
 demo.help: Provkör Mink och se hur {sparv} analyserar och berikar din text. Det du matar in sparas tillfälligt på en server. För att använda Mink i sin helhet behöver du {login}.
 demo.invalid_id: Den givna dataidentifieraren "{id}" kändes inte igen. Den kanske har gått ut?

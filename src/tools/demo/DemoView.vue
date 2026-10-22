@@ -9,6 +9,7 @@ import {
 } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
 import { PhGearFine } from "@phosphor-icons/vue";
+import { useDemoStore } from "./demo.store";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import PageTitle from "@/components/PageTitle.vue";
@@ -42,6 +43,7 @@ const { appConfig } = useAppConfig();
 const { defaultConfig, findAnalyses, languageOptions } = useSparv();
 const api = useApi();
 const params = useUrlSearchParams();
+const demoStore = useDemoStore();
 const { showAlert } = useAlert();
 const { isPending, spin } = useSpin();
 const { t } = useI18n();
@@ -60,7 +62,7 @@ const id = computed({
 });
 
 /** Source text model */
-const source = ref<string>("");
+const source = ref("");
 
 const analysesSelected = ref<string[]>([]);
 
@@ -118,6 +120,13 @@ onMounted(async () => {
   if (id.value) {
     job.value = await api.demoCorpusStatusGet(id.value);
   }
+
+  // If the store has source input, use that and run analysis immediately
+  if (demoStore.source) {
+    source.value = demoStore.source;
+    demoStore.source = "";
+    run();
+  }
 });
 
 /** Load initial input data, if identified and found, otherwise defaults */
@@ -135,8 +144,8 @@ async function loadInput() {
   }
 
   // Couldn't load previous input, use defaults
-  const data = await api.demoCorpusDefaultConfigGet();
-  return { input: sample, config: data.config };
+  const { config } = await api.demoCorpusDefaultConfigGet();
+  return { input: sample, config };
 }
 
 /** Load given config object into the component's state */
@@ -226,7 +235,7 @@ watch(currentStatus, async () => {
         <!-- Source text -->
         <LayoutBox
           :title="$t('demo.source')"
-          class="max-2xl:col-span-full flex flex-col"
+          class="max-xl:col-span-full flex flex-col"
         >
           <FormKit
             id="demo-input"
@@ -251,7 +260,7 @@ watch(currentStatus, async () => {
         </LayoutBox>
 
         <!-- Settings -->
-        <LayoutBox :title="$t('settings')" class="max-2xl:col-span-full">
+        <LayoutBox :title="$t('settings')" class="max-xl:col-span-full">
           <template #controls>
             <ActionButton @click="resetConfig()">
               {{ $t("demo.reset") }}
