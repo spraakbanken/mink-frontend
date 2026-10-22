@@ -1,17 +1,19 @@
 import { computedAsync } from "@vueuse/core";
-import { computed } from "vue";
+import { compact, uniqBy } from "es-toolkit";
 import type { ExportType, SparvAnalysis } from "@/api/api.types";
 import { useApi } from "@/api/useApi";
 import useSpin from "@/spin/spin.composable";
 import { emptyConfig, type ConfigOptions } from "@/api/corpusConfig";
 import { useAppConfig } from "@/app/useAppConfig";
 import { fromKeys } from "@/util";
+import useLocale from "@/i18n/locale.composable";
 
 /** Get Sparv info from backend */
 export function useSparv() {
   const { appConfig } = useAppConfig();
   const api = useApi();
   const { spin } = useSpin();
+  const { th, thCompare } = useLocale();
 
   /** Load available Sparv analyses */
   async function loadAnalyses() {
@@ -43,18 +45,16 @@ export function useSparv() {
     return api.sparvExports(language);
   }
 
-  /** Languages available in Sparv */
-  const languages = computedAsync(() => {
-    return spin(api.sparvLanguages(), "sparv/languages");
+  /** Languages of available analyses, formatted as options */
+  const languageOptions = computedAsync(async () => {
+    const analyses = await loadAnalyses();
+    const languages = analyses.flatMap((analysis) => analysis.languages);
+    const options = compact(languages).map((l) => ({
+      value: toLangKey(l.identifier.value, l.variety),
+      label: th(l.name) || l.identifier.value,
+    }));
+    return uniqBy(options, (o) => o.value).sort(thCompare((o) => o.label));
   }, []);
-
-  /** Languages in Sparv, formatted as options */
-  const languageOptions = computed(() =>
-    languages.value.map(({ code, name, variety }) => ({
-      value: toLangKey(code, variety),
-      label: `${name}`,
-    })),
-  );
 
   /** Sparv JSON schema */
   const schema = computedAsync(() => api.sparvSchema());
