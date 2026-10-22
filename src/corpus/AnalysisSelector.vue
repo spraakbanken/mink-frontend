@@ -56,7 +56,7 @@ const isEmpty = computed(() =>
   <FormKit type="group" name="analyses" v-model="selection">
     <template v-for="(analyses, unit) in analysesGrouped" :key="unit">
       <section v-if="analyses.length">
-        <h3 class="text-xl mt-2 font-heading">
+        <h3 class="text-lg mt-2">
           {{ $t(`config.analyses.unit.${unit}`) }}
         </h3>
 

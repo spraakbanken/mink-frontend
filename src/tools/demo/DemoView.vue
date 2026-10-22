@@ -9,7 +9,6 @@ import {
 } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
 import { PhGearFine } from "@phosphor-icons/vue";
-import { capitalize, compact, isEqual, uniq } from "es-toolkit";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import HelpBox from "@/components/HelpBox.vue";
 import PageTitle from "@/components/PageTitle.vue";
@@ -20,7 +19,7 @@ import {
   parseConfig,
 } from "@/api/corpusConfig";
 import { useApi } from "@/api/useApi";
-import type { JobInfo, SparvAnalysis } from "@/api/api.types";
+import type { JobInfo } from "@/api/api.types";
 import { toLangKey, useSparv } from "@/corpus/sparv.composable";
 import LayoutBox from "@/components/LayoutBox.vue";
 import { useJobStatus } from "@/job/jobStatus.composable";
@@ -46,7 +45,7 @@ const params = useUrlSearchParams();
 const { showAlert } = useAlert();
 const { isPending, spin } = useSpin();
 const { t } = useI18n();
-const { localeCompare, th, thCompare } = useLocale();
+const { thCompare } = useLocale();
 
 const sampleRaw = `
 Ikea (namnet är bildat av initialerna för Ingvar Kamprad Elmtaryd Agunnaryd) är ett multinationellt
@@ -72,8 +71,6 @@ const id = computed({
 const source = ref<string>("");
 
 const analysesSelected = ref<string[]>([]);
-
-const tasksSelected = ref<string[]>([]);
 
 /** Resulting exported XML */
 const output = ref<string>();
@@ -106,11 +103,6 @@ const analyses = computedAsync(async () => {
   const analyses = await findAnalyses({ language, variety });
   return analyses.sort(thCompare((x) => x.name));
 }, []);
-
-/** Translated labels of the tasks present among the available analyses */
-const tasks = computed(() =>
-  uniq(compact(analyses.value.map(getTaskLabel))).sort(localeCompare),
-);
 
 // Initiate or restore state
 onMounted(async () => {
@@ -193,21 +185,6 @@ async function abort() {
   await spin(api.demoCorpusJobAbort(id.value!), "demo/job");
 }
 
-/** Get translated label of an analysis' task */
-function getTaskLabel(analysis: SparvAnalysis) {
-  return capitalize(th(analysis.task) || "");
-}
-
-/** Handle selecting/deselecting a task checkbox */
-function toggleTask(label: string, value: boolean) {
-  const analysesToChange = analyses.value
-    .filter((a) => getTaskLabel(a) == label)
-    .map((a) => a.id);
-  analysesSelected.value = value
-    ? [...analysesSelected.value, ...analysesToChange]
-    : analysesSelected.value.filter((id) => !analysesToChange.includes(id));
-}
-
 // Sync selected analyses to config object
 watch(analysesSelected, () => {
   // Get the annotation strings of each analysis
@@ -215,15 +192,6 @@ watch(analysesSelected, () => {
     .filter((a) => analysesSelected.value.includes(a.id))
     .flatMap((a) => a.annotations);
   configOptions.value = { ...configOptions.value, annotations };
-
-  // Update task selection: enable all tasks that have all their analyses selected
-  const tasksSelectedNew = tasks.value.filter((task) =>
-    analyses.value
-      .filter((a) => getTaskLabel(a) == task)
-      .every((a) => analysesSelected.value.includes(a.id)),
-  );
-  if (!isEqual(tasksSelectedNew, tasksSelected.value))
-    tasksSelected.value = tasksSelectedNew;
 });
 
 // Check status intermittently if active
@@ -261,67 +229,63 @@ watch(currentStatus, async () => {
       </p>
     </HelpBox>
 
-    <!-- Source text form -->
     <div class="grid lg:grid-cols-2 gap-4 my-4">
       <FormKitWrapper :key="counter.get()">
-        <LayoutBox :title="$t('demo.source')" class="col-span-full">
+        <!-- Source text -->
+        <LayoutBox
+          :title="$t('demo.source')"
+          class="max-2xl:col-span-full flex flex-col"
+        >
           <FormKit
             id="demo-input"
             type="form"
             :actions="false"
             @submit="submit"
+            form-class="grow flex flex-col"
           >
             <FormKit
               name="source"
               :help="$t('demo.source.help')"
               type="textarea"
               :value="source"
-              input-class="w-full h-60"
+              rows="8"
+              outer-class="contents"
+              wrapper-class="contents"
+              inner-class="contents"
+              input-class="grow"
             >
             </FormKit>
           </FormKit>
         </LayoutBox>
 
         <!-- Settings -->
-        <LayoutBox :title="$t('settings')" class="col-span-full">
+        <LayoutBox :title="$t('settings')" class="max-2xl:col-span-full">
           <template #controls>
             <ActionButton @click="resetConfig()">
               {{ $t("demo.reset") }}
             </ActionButton>
           </template>
 
-          <div class="md:flex gap-4 items-baseline">
-            <FormKit
-              name="language"
-              :label="$t('config.language')"
-              type="select"
-              v-model="langkey"
-              :options="languageOptions"
-              validation="required"
-            />
-
-            <div class="flex flex-wrap gap-x-4">
+          <MaxHeight :max-height="400">
+            <div class="md:flex gap-4 items-baseline">
               <FormKit
-                v-for="label in tasks"
-                :key="`${label}-${tasksSelected.includes(label)}`"
-                type="checkbox"
-                :label="label"
-                :value="tasksSelected.includes(label)"
-                outer-class="my-0"
-                @input="(value) => toggleTask(label, value as boolean)"
+                name="language"
+                :label="$t('config.language')"
+                type="select"
+                v-model="langkey"
+                :options="languageOptions"
+                outer-class="mt-0"
               />
             </div>
-          </div>
 
-          <!-- Analyses -->
-          <div v-if="langkey">
-            <h4 class="inline text-lg font-heading">
-              {{ $t("config.analyses") }}
-            </h4>
-            <MaxHeight :max-height="400">
+            <!-- Analyses -->
+            <div v-if="langkey">
+              <h4 class="inline text-lg font-medium">
+                {{ $t("config.analyses") }}
+              </h4>
               <AnalysisSelector :langkey v-model="analysesSelected" />
-            </MaxHeight>
-          </div>
+            </div>
+          </MaxHeight>
         </LayoutBox>
 
         <!-- Analyse button -->
