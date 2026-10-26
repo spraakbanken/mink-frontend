@@ -63,9 +63,7 @@ function identifyType(path: string): ExportType | undefined {
       <HelpBox>
         <p>{{ $t("exports.help") }}</p>
         <aside>
-          <a
-            href="https://spraakbanken.gu.se/en/tools/mink/manual#download-results"
-          >
+          <a href="https://sprakbanken.se/en/platforms/mink/manual">
             {{ $t("exports.help.more.label") }}
           </a>
         </aside>

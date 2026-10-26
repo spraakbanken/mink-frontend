@@ -105,7 +105,7 @@ upload.format_unknown: Okänt filformat "{ext}"
 exports.tools: Utforska
 exports.tools.help: Använd den här datan i Språkbankens korpusverktyg. Din data visas bara för dig, i ett särskilt Mink-läge.
 exports.tools.help.korp: I Korp finns konkordanssökning, detaljerade sökfrågor, frekvensstatistik med mera.
-exports.tools.help.korp.manual.url: https://spraakbanken.gu.se/verktyg/korp/anvandarhandledning
+exports.tools.help.korp.manual.url: https://sprakbanken.se/plattformar/korp/manual
 exports.tools.help.korp.manual.text: Användarhandledning
 exports.tools.help.strix: I Strix kan de berikade texterna undersökas i sin helhet.
 exports.tools.help.strix.manual.url: https://spraakbanken.gu.se/strix/docs/
@@ -150,9 +150,9 @@ tools: Verktyg
 metadata_editor: Metadataredigeraren
 metadata_editor.summary: Redigera lokal resursmetadata för Språkbanken Texts resurskatalog.
 metadata_editor.help: Det här verktyget ska underlätta vid redigering av resursmetadata för Språkbanken Texts {repository}. Här kan du bara redigera lokalt, inte spara något direkt till katalogen. Läs mer under {info} på hemsidan.
-metadata_editor.help.info.url: https://spraakbanken.gu.se/om/internt/teknik/metadata
+metadata_editor.help.info.url: https://sprakbanken.se/internt/teknik/resource-metadata
 metadata_editor.help.info.label: Resource metadata
-metadata_editor.help.repository.url: https://spraakbanken.gu.se/resurser
+metadata_editor.help.repository.url: https://sprakbanken.se/resurser
 metadata_editor.help.repository.label: resurskatalog
 metadata_editor.load_template: Öppna mall
 editor.load_file: Öppna fil
@@ -172,7 +172,7 @@ show: Visa
 show_more: Visa mer
 more_info: Mer information
 docs.label: Hjälp
-docs.url: https://spraakbanken.gu.se/verktyg/mink
+docs.url: https://sprakbanken.se/plattformar/mink
 locale.switcher.label: Gränssnittsspråk
 file: Fil
 file.content: Innehåll
@@ -205,7 +205,7 @@ save: Spara
 create: Skapa
 cancel: Avbryt
 message: Meddelande
-sparv.url: https://spraakbanken.gu.se/verktyg/sparv
+sparv.url: https://sprakbanken.se/plattformar/sparv
 download: Ladda ner
 download_export: Ladda ner all utdata
 job.process_output: Processoutput
@@ -274,7 +274,7 @@ config.analyses.unit.text: Text
 config.analyses.unit.sentence: Mening
 config.analyses.unit.token: Token
 config.analyses.unit.other: Övrigt
-config.analyses.url: https://spraakbanken.gu.se/analyser/{id}
+config.analyses.url: https://sprakbanken.se/analyser/{id}
 config.custom: Egen config
 config.custom.help: Mink använder {sparv}, en modulär och konfigurerbar pipeline för textanalys, för att processa korpusen. Det vanliga formuläret visar endast en liten del av alla inställningar. På den här sidan kan du undersöka den faktiska configfilen och ladda upp en egen, i formatet YAML. Använd Sparvdokumentationens avsnitt {topic} för att tolka filens struktur.
 config.custom.upload.caution: Notera att en ogiltig configfil kan leda till oväntat beteende.

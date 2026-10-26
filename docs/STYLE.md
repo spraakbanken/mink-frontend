@@ -44,7 +44,7 @@ See [Vue docs on composables](https://vuejs.org/guide/reusability/composables).
 
 ## User documentation
 
-The _Help_ link in the header leads to extensive documentation at the Språkbanken Text website: [Mink](https://spraakbanken.gu.se/en/tools/mink).
+The _Help_ link in the header leads to extensive documentation at the Språkbanken Text website: [Mink](https://sprakbanken.se/en/platforms/mink).
 
 - The user interface should explain itself with concise descriptions
 - Use `<HelpBox>` to give context to a page or section

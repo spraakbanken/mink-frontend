@@ -1,12 +1,12 @@
 <img src="src/assets/mink.svg" width="300" alt="Mink - Språkbanken's data platform" />
 
 Mink is a web application for processing and exploring user-owned datasets of language data.
-It is specifically designed for use with the platforms of [Språkbanken Text](https://spraakbanken.gu.se/):
+It is specifically designed for use with [Språkbanken](https://sprakbanken.se/)'s platforms:
 Create your own corpus, add customizable automatic annotations and download or explore the results.
 
 [Use Mink](https://spraakbanken.gu.se/mink/)
-• [Language data](https://spraakbanken.gu.se/en/resources)
-• [Platforms](https://spraakbanken.gu.se/en/tools)
+• [Language resources](https://sprakbanken.se/en/resources)
+• [Platforms](https://sprakbanken.se/en/platforms)
 
 # Mink frontend
 
@@ -18,9 +18,9 @@ that talks to the [Mink backend](https://github.com/spraakbanken/mink-backend/).
 
 ## User documentation
 
-- [About Mink](https://spraakbanken.gu.se/en/tools/mink)
-- [User manual](https://spraakbanken.gu.se/en/tools/mink/manual)
-- [Tutorial](https://spraakbanken.gu.se/en/tools/mink/tutorial)
+- [About Mink](https://sprakbanken.se/en/platforms/mink)
+- [User manual](https://sprakbanken.se/en/platforms/mink/manual)
+- [Tutorial](https://sprakbanken.se/en/platforms/mink/tutorial)
 
 ## Developer documentation
 

@@ -24,8 +24,8 @@ The Mink system is connected to these other systems:
 - [**Språkbanken Text Metadata API**](https://github.com/spraakbanken/metadata-api) provides information about Sparv analyses
 - **SB-Auth** provides user authentication with [eduGAIN](https://edugain.org/) to Mink and a few other services of Språkbanken Text
 - Analysed results can be installed from Mink into:
-  - **[Korp](https://spraakbanken.gu.se/en/tools/korp)**, Språkbanken's word research platform
-  - **[Strix](https://spraakbanken.gu.se/strix/)**, Språkbanken's text research platform
+  - **[Korp](https://sprakbanken.se/en/platforms/korp)**, Språkbanken's word research platform
+  - **[Strix](https://sprakbanken.se/en/platforms/strix)**, Språkbanken's text research platform
 - [**Newsdesk**](https://github.com/spraakbanken/newsdesk/) is a simple news feed storage
 - [**Matomo**](https://matomo.org/) records anonymized visitor statistics
 
