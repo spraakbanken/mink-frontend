@@ -16,6 +16,11 @@ const { filesize } = useLocale();
         <td class="text-right">
           {{
             filesize(
+              info.recommendedFileSize.recommended_min_file_length.value,
+              0,
+            )
+          }}–{{
+            filesize(
               info.recommendedFileSize.recommended_max_file_length.value,
               0,
             )

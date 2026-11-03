@@ -10,6 +10,10 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v2.3.1...HEAD)
 
+### Fixed
+
+- Min recommended filesize presented as recommended max total size [#312](https://github.com/spraakbanken/mink-frontend/issues/312)
+
 ## [2.3.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.3.1) (2026-10-19)
 
 ### Fixed
