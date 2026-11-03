@@ -143,7 +143,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
       multiple
       show-progress
     >
-      <UploadSizeLimits />
+      <UploadSizeLimits :type />
     </FileUpload>
   </PendingContent>
 </template>
