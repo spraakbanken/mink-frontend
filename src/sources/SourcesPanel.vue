@@ -5,7 +5,7 @@ import { useI18n } from "vue-i18n";
 import { computedAsync } from "@vueuse/core";
 import { sumBy } from "es-toolkit";
 import UploadSizeLimits from "./UploadSizeLimits.vue";
-import { getInfo } from "@/api/apiInfo";
+import { useApiInfo } from "@/api/apiInfo.composable.ts";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
@@ -40,9 +40,9 @@ const { filesize } = useLocale();
 const { showAlert } = useAlert();
 const { t, locale } = useI18n();
 const { canWrite } = useUserStore();
+const info = useApiInfo();
 
 const resource = computedAsync(() => loadResource(props.id));
-const info = computedAsync(getInfo);
 
 const accept = computed(() => {
   return extensions.value.length
@@ -90,7 +90,7 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
       {{
         $t("source.limit.of", [
           filesize(sumBy(resource?.sources || [], (source) => source.size)),
-          filesize(info.fileSizeLimits.max_resource_length.value, 0),
+          filesize(info.max.resource, 0),
         ])
       }}
     </span>

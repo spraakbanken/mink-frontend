@@ -173,14 +173,19 @@ export const unarray = <T>(x: T[] | T): T | undefined =>
 
 /** Create dictionary by picking a key and a value from each object in a list. */
 export const objsToDict = <
-  T extends Record<K, string> & Record<VK, unknown>,
-  K extends PropertyKey,
-  VK extends PropertyKey,
+  Input extends Record<KeyName, Key> & Record<ValueName, Value>,
+  KeyName extends PropertyKey,
+  ValueName extends PropertyKey,
+  Key extends PropertyKey = Input[KeyName],
+  Value = Input[ValueName],
 >(
-  objs: T[],
-  keyName: K,
-  valueName: VK,
-) => Object.fromEntries(objs.map((item) => [item[keyName], item[valueName]]));
+  objs: Input[],
+  keyName: KeyName,
+  valueName: ValueName,
+): Record<Key, Value> =>
+  Object.fromEntries(
+    objs.map((item) => [item[keyName], item[valueName]]),
+  ) as Record<Key, Value>;
 
 /** Make an Axios request and handle timeout by retrying with a higher limit. */
 export async function progressiveTimeout<T, D = unknown>(

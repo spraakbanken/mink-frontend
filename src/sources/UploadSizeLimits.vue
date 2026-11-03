@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import { computedAsync } from "@vueuse/core";
 import { computed } from "vue";
-import { getInfo } from "@/api/apiInfo";
+import { useApiInfo } from "@/api/apiInfo.composable";
 import useLocale from "@/i18n/locale.composable";
 
-const info = computedAsync(getInfo);
+const info = useApiInfo();
 // Use filesize with precision 0 to have "1 MB" instead of "1.0 MB".
 const { filesize } = useLocale();
 
 const recommended = computed(() => {
   if (!info.value) return "";
-  const min = info.value.recommendedFileSize.recommended_min_file_length.value;
-  const max = info.value.recommendedFileSize.recommended_max_file_length.value;
+  const [min, max] = info.value.corpusRecommended;
   if (min == max) return filesize(min, 0);
   return `${filesize(min, 0)}–${filesize(max, 0)}`;
 });
@@ -29,13 +27,13 @@ const recommended = computed(() => {
       <tr>
         <th>{{ $t("source.limit.file.max") }}</th>
         <td class="text-right">
-          {{ filesize(info.fileSizeLimits.max_file_length.value, 0) }}
+          {{ filesize(info.max.file, 0) }}
         </td>
       </tr>
       <tr>
         <th>{{ $t("source.limit.upload.max") }}</th>
         <td class="text-right">
-          {{ filesize(info.fileSizeLimits.max_content_length.value, 0) }}
+          {{ filesize(info.max.upload, 0) }}
         </td>
       </tr>
     </tbody>
