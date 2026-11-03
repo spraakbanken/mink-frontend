@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { PhTrash } from "@phosphor-icons/vue";
 import { useI18n } from "vue-i18n";
 import { computedAsync } from "@vueuse/core";
-import { sum } from "es-toolkit";
+import { sumBy } from "es-toolkit";
 import UploadSizeLimits from "./UploadSizeLimits.vue";
 import { getInfo } from "@/api/apiInfo";
 import ActionButton from "@/components/ActionButton.vue";
@@ -43,9 +43,6 @@ const { canWrite } = useUserStore();
 
 const resource = computedAsync(() => loadResource(props.id));
 const info = computedAsync(getInfo);
-const totalSize = computed(() =>
-  sum((resource.value?.sources || []).map((source) => source.size)),
-);
 
 const accept = computed(() => {
   return extensions.value.length
@@ -87,12 +84,15 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
 <template>
   <div class="mb-4 flex flex-wrap gap-x-8">
     <span>
-      {{ $t("files", resource?.sources.length || 0) }},
-      {{ filesize(totalSize) }}
+      {{ $t("files", resource?.sources.length || 0) }}
     </span>
     <span v-if="info">
-      {{ $t("source.limit.total.max") }}:
-      {{ filesize(info.fileSizeLimits.max_resource_length.value, 0) }}
+      {{
+        $t("source.limit.of", [
+          filesize(sumBy(resource?.sources || [], (source) => source.size)),
+          filesize(info.fileSizeLimits.max_resource_length.value, 0),
+        ])
+      }}
     </span>
   </div>
   <MaxHeight :max-height="400">

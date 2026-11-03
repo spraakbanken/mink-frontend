@@ -88,10 +88,10 @@ sharing.help.levels.read: Användaren kan se inställningar, källor och analysr
 sharing.help.levels.write: Användaren kan dessutom redigera inställningar och källor, köra analyser och installationer
 sharing.help.levels.admin: Användaren kan även radera resursen och hantera åtkomst
 sharing.help.levels.after: Tillgången till en Mink-resurs gäller även i de verktyg där den installeras, men utan någon skillnad mellan nivåerna.
-source.limit.file.recommended: Rekommenderad filstorlek
-source.limit.file.max: Högsta tillåtna filstorlek
-source.limit.upload.max: Största tillåtna uppladdning
-source.limit.total.max: Högsta tillåtna totalstorlek
+source.limit.of: "{0} av {1}"
+source.limit.file.recommended: Optimal filstorlek
+source.limit.file.max: Max per fil
+source.limit.upload.max: Max per uppladdning
 source.notfound: Denna källfil kunde inte hittas
 source.list.loading: Listar källfiler
 upload.accept: Filtyp | Filtyper
