@@ -17,7 +17,6 @@ const tabs = computed(() => {
     // Wanted:
     // TODO Let content take more space and add HelpBoxes
     // TODO Notification bubble for primary action
-    // TODO Add no-content message to Result tab
     { path: `/library/corpus/${id}/status`, label: t("status") },
     { path: `/library/corpus/${id}/sources`, label: t("sources") },
     { path: `/library/corpus/${id}/config`, label: t("configuration") },
