@@ -14,7 +14,6 @@ const tabs = computed(() => {
   const tabs = [
     // Required:
     // TODO Do this for lexicon/metadata also
-    // TODO Move delete to Overview
     // Wanted:
     // TODO Let content take more space and add HelpBoxes
     // TODO Notification bubble for primary action

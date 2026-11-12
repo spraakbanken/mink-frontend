@@ -4,7 +4,7 @@ import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
-import { PhLightbulbFilament, PhTrash } from "@phosphor-icons/vue";
+import { PhLightbulbFilament } from "@phosphor-icons/vue";
 import { computedAsync, watchImmediate, whenever } from "@vueuse/core";
 import { omit } from "es-toolkit";
 import { useCorpus } from "../corpus.composable";
@@ -21,7 +21,6 @@ import type { ConfigSentenceSegmenter } from "@/api/sparvConfig.types";
 import HelpBox from "@/components/HelpBox.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
-import RouteButton from "@/components/RouteButton.vue";
 import useAlert from "@/alert/alert.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import { type ByLang } from "@/util";
@@ -56,7 +55,7 @@ const { extensions } = useSources("corpus", id);
 const { showAlert } = useAlert();
 const { t } = useI18n();
 const { locale3, thCompare } = useLocale();
-const { canAdmin, canWrite } = useUserStore();
+const { canWrite } = useUserStore();
 
 const tabSelected = ref<TabKey>("metadata");
 /** The key of the selected language and variety */
@@ -348,15 +347,6 @@ async function submit(fields: Form) {
       <router-link :to="`/library/corpus/${id}/config/custom`">
         {{ $t("config.custom") }}
       </router-link>
-
-      <RouteButton
-        :disabled="!canAdmin('corpus', id)"
-        :to="`/library/corpus/${id}/delete`"
-        class="button-danger"
-      >
-        <PhTrash weight="fill" class="inline mb-1 mr-1" />
-        {{ $t("delete") }}
-      </RouteButton>
     </div>
   </PendingContent>
 </template>
