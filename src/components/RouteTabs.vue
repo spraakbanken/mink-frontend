@@ -1,5 +1,18 @@
 <script setup lang="ts">
-export type Tab = { path: string; label: string };
+import {
+  PhCircleNotch,
+  PhWarning,
+  PhWarningOctagon,
+} from "@phosphor-icons/vue";
+
+export type Tab = {
+  path: string;
+  label: string;
+  loading?: boolean;
+  error?: boolean;
+  warning?: boolean;
+};
+
 defineProps<{
   routes: Tab[];
 }>();
@@ -30,6 +43,19 @@ defineProps<{
             :class="isActive ? '' : 'no-underline hover:underline'"
           >
             {{ route.label }}
+
+            <PhCircleNotch
+              v-if="route.loading"
+              class="inline ml-0.5 mb-1 animate-spin text-lime-600"
+            />
+            <PhWarningOctagon
+              v-else-if="route.error"
+              class="inline ml-0.5 mb-1 text-red-600 dark:text-red-400"
+            />
+            <PhWarning
+              v-else-if="route.warning"
+              class="inline ml-0.5 mb-1 text-yellow-500"
+            />
           </a>
         </li>
       </router-link>
