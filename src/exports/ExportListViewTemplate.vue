@@ -67,8 +67,16 @@ function identifyType(path: string): ExportType | undefined {
       </aside>
     </HelpBox>
 
-    <PendingContent :on="`${id}/exports/download`" class="my-4">
-      <LayoutBox v-if="exports && exports.length" :title="$t('file.archive')">
+    <div v-if="exports && !exports.length" class="italic">
+      {{ $t("exports.empty") }}
+    </div>
+
+    <PendingContent :on="`${id}/exports/download`">
+      <LayoutBox
+        v-if="exports && exports.length"
+        :title="$t('file.archive')"
+        class="my-2"
+      >
         {{ $t("download_export") }}:
         <ActionButton
           class="button-primary mr-2"
