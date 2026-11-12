@@ -5,12 +5,15 @@ defineProps<{
 </script>
 
 <template>
-  <header class="flex flex-wrap items-end mt-2 mb-4">
-    <h1>
+  <h1 class="flex flex-wrap items-end mt-2 mb-4">
+    <span>
       <slot />
-    </h1>
-    <h2 v-if="subtitle" class="ml-8 text-gray-600 dark:text-zinc-400">
+    </span>
+    <span
+      v-if="subtitle"
+      class="ml-8 text-3xl text-gray-600 dark:text-zinc-400"
+    >
       {{ $t(subtitle) }}
-    </h2>
-  </header>
+    </span>
+  </h1>
 </template>

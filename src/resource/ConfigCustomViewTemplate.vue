@@ -8,7 +8,6 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import useAlert from "@/alert/alert.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import ActionButton from "@/components/ActionButton.vue";
-import LayoutSection from "@/components/LayoutSection.vue";
 import { useConfigStore } from "@/store/config.store";
 import type { ResourceType } from "@/api/api.types";
 import { useUserStore } from "@/store/user.store";
@@ -51,48 +50,47 @@ async function upload() {
 </script>
 
 <template>
-  <LayoutSection :title="$t('config.custom')">
-    <slot name="head" />
+  <h2>{{ $t("config.custom") }}</h2>
+  <slot name="head" />
 
-    <HelpBox v-if="!canWrite(type, id)">
-      <PhLock class="inline mb-0.5 mr-1" />
-      {{ $t("resource.access_denied") }}
+  <HelpBox v-if="!canWrite(type, id)">
+    <PhLock class="inline mb-0.5 mr-1" />
+    {{ $t("resource.access_denied") }}
+  </HelpBox>
+
+  <template v-else>
+    <HelpBox important>
+      <PhWarning class="inline mb-1 mr-1" />
+      {{ $t("config.custom.upload.caution") }}
     </HelpBox>
 
-    <template v-else>
-      <HelpBox important>
-        <PhWarning class="inline mb-1 mr-1" />
-        {{ $t("config.custom.upload.caution") }}
-      </HelpBox>
+    <HelpBox important>
+      <PhWarning class="inline mb-1 mr-1" />
+      {{ $t("config.custom.upload.overwrite") }}
+    </HelpBox>
+  </template>
 
-      <HelpBox important>
-        <PhWarning class="inline mb-1 mr-1" />
-        {{ $t("config.custom.upload.overwrite") }}
-      </HelpBox>
-    </template>
-
-    <LayoutBox>
-      <PendingContent :on="`${id}/config`">
-        <YamlEditor
-          v-if="config"
-          v-model="input"
-          :disabled="!canWrite(type, id)"
-          :schema
-          @validated="isValid = $event"
-        >
-          <template #toolbar-right>
-            <ActionButton
-              @click="upload"
-              class="button-primary"
-              :disabled="!!saveErrorMessage"
-              :title="saveErrorMessage"
-            >
-              <PhFloppyDisk class="inline mb-0.5 mr-1" />
-              {{ $t("save") }}
-            </ActionButton>
-          </template>
-        </YamlEditor>
-      </PendingContent>
-    </LayoutBox>
-  </LayoutSection>
+  <LayoutBox>
+    <PendingContent :on="`${id}/config`">
+      <YamlEditor
+        v-if="config"
+        v-model="input"
+        :disabled="!canWrite(type, id)"
+        :schema
+        @validated="isValid = $event"
+      >
+        <template #toolbar-right>
+          <ActionButton
+            @click="upload"
+            class="button-primary"
+            :disabled="!!saveErrorMessage"
+            :title="saveErrorMessage"
+          >
+            <PhFloppyDisk class="inline mb-0.5 mr-1" />
+            {{ $t("save") }}
+          </ActionButton>
+        </template>
+      </YamlEditor>
+    </PendingContent>
+  </LayoutBox>
 </template>
