@@ -3,7 +3,6 @@ import { computed } from "vue";
 import { watchImmediate } from "@vueuse/core";
 import TextFileBox from "@/components/TextFileBox.vue";
 import { getFilenameExtension } from "@/util";
-import LayoutSection from "@/components/LayoutSection.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";
 import useAlert from "@/alert/alert.composable";
@@ -45,32 +44,31 @@ async function loadFile() {
 </script>
 
 <template>
-  <LayoutSection :title="filename">
-    <table v-if="metadata" class="w-full my-4">
-      <tbody>
-        <tr>
-          <th>{{ $t("fileSize") }}</th>
-          <td>{{ filesize(metadata.size) }}</td>
-        </tr>
-        <tr>
-          <th>{{ $t("uploaded") }}</th>
-          <td>
-            {{ formatDate(metadata.last_modified) }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <h2>{{ filename }}</h2>
+  <table v-if="metadata" class="w-full my-4">
+    <tbody>
+      <tr>
+        <th>{{ $t("fileSize") }}</th>
+        <td>{{ filesize(metadata.size) }}</td>
+      </tr>
+      <tr>
+        <th>{{ $t("uploaded") }}</th>
+        <td>
+          {{ formatDate(metadata.last_modified) }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-    <h3 class="text-2xl">{{ $t("file.content") }}</h3>
-    <PendingContent :on="`${id}/sources/${filename}`">
-      <TextFileBox
-        v-if="metadata"
-        :load="loadFile"
-        :filename="metadata.name"
-        :no-load="isBinary"
-        :size="metadata.size"
-        :language="getFilenameExtension(filename)"
-      />
-    </PendingContent>
-  </LayoutSection>
+  <h3 class="text-2xl">{{ $t("file.content") }}</h3>
+  <PendingContent :on="`${id}/sources/${filename}`">
+    <TextFileBox
+      v-if="metadata"
+      :load="loadFile"
+      :filename="metadata.name"
+      :no-load="isBinary"
+      :size="metadata.size"
+      :language="getFilenameExtension(filename)"
+    />
+  </PendingContent>
 </template>
