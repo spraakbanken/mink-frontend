@@ -13,22 +13,21 @@ defineProps<{
         :key="route.path"
         :to="route.path"
         custom
-        v-slot="{ isExactActive, href, navigate }"
+        v-slot="{ isActive, href, navigate }"
       >
         <li
           class="-mb-0.5 border border-b-0 text-lg"
           :class="
-            isExactActive
+            isActive
               ? 'rounded-t-sm bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700 overflow-hidden'
               : 'border-transparent'
           "
         >
-          <!-- TODO isExactActive misses subpages; calculate active path instead -->
           <a
             :href
             @click="navigate"
             class="inline-block p-2 px-3 font-medium underline-offset-4 decoration-2"
-            :class="isExactActive ? '' : 'no-underline hover:underline'"
+            :class="isActive ? '' : 'no-underline hover:underline'"
           >
             {{ route.label }}
           </a>
