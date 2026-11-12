@@ -1,4 +1,4 @@
-import { type RouteRecordRaw } from "vue-router";
+import { RouterView, type RouteRecordRaw } from "vue-router";
 const CorpusAnalyseView = () => import("@/corpus/views/CorpusAnalyseView.vue");
 const CorpusConfigCustomView = () =>
   import("@/corpus/views/CorpusConfigCustomView.vue");
@@ -34,38 +34,54 @@ const corpusRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: "",
+        redirect: (to) => `${to.path}/status`,
+      },
+      {
+        path: "status",
         component: CorpusOverviewView,
       },
       {
         path: "config",
-        component: CorpusConfigurationView,
-        meta: { title: "configuration" },
-      },
-      {
-        path: "config/custom",
-        component: CorpusConfigCustomView,
-        meta: { title: "config.custom" },
+        component: RouterView,
+        children: [
+          {
+            path: "",
+            component: CorpusConfigurationView,
+            meta: { title: "configuration" },
+          },
+          {
+            path: "custom",
+            component: CorpusConfigCustomView,
+            meta: { title: "config.custom" },
+          },
+        ],
       },
       {
         path: "sources",
-        component: CorpusSourcesView,
-        meta: { title: "sources" },
-      },
-      {
-        // This route expects the source filename in the 'path' query param
-        path: "sources/file",
-        component: CorpusSourceView,
-      },
-      {
-        // TODO Compat added 2026-08-21. Remove after 6 months?
-        path: "sources/:filename",
-        redirect: (to) => {
-          // Redirect to the 'sources/file' route with the 'path' query param
-          return {
-            path: `/library/corpus/${to.params.id}/sources/file`,
-            query: { path: to.params.filename },
-          };
-        },
+        component: RouterView,
+        children: [
+          {
+            path: "",
+            component: CorpusSourcesView,
+            meta: { title: "sources" },
+          },
+          {
+            // This route expects the source filename in the 'path' query param
+            path: "file",
+            component: CorpusSourceView,
+          },
+          {
+            // TODO Compat added 2026-08-21. Remove after 6 months?
+            path: ":filename",
+            redirect: (to) => {
+              // Redirect to the 'sources/file' route with the 'path' query param
+              return {
+                path: `/library/corpus/${to.params.id}/sources/file`,
+                query: { path: to.params.filename },
+              };
+            },
+          },
+        ],
       },
       {
         path: "sharing",
@@ -79,24 +95,30 @@ const corpusRoutes: RouteRecordRaw[] = [
       },
       {
         path: "exports",
-        component: CorpusExportListView,
-        meta: { title: "result" },
-      },
-      {
-        // This route expects the export file path in the 'path' query param
-        path: "exports/file",
-        component: CorpusExportView,
-      },
-      {
-        // TODO Compat added 2026-08-21. Remove after 6 months?
-        path: "exports/:path",
-        redirect: (to) => {
-          // Redirect to the 'exports/file' route with the 'path' query param
-          return {
-            path: `/library/corpus/${to.params.id}/exports/file`,
-            query: { path: to.params.path },
-          };
-        },
+        component: RouterView,
+        children: [
+          {
+            path: "",
+            component: CorpusExportListView,
+            meta: { title: "result" },
+          },
+          {
+            // This route expects the export file path in the 'path' query param
+            path: "file",
+            component: CorpusExportView,
+          },
+          {
+            // TODO Compat added 2026-08-21. Remove after 6 months?
+            path: ":path",
+            redirect: (to) => {
+              // Redirect to the 'exports/file' route with the 'path' query param
+              return {
+                path: `/library/corpus/${to.params.id}/exports/file`,
+                query: { path: to.params.path },
+              };
+            },
+          },
+        ],
       },
       {
         path: "explore",

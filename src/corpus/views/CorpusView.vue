@@ -12,13 +12,14 @@ const { t } = useI18n();
 
 const tabs = computed(() => {
   const tabs = [
-    // TODO Make ConfigCustom make sense
-    // TODO Let content take more space and add HelpBoxes
-    // TODO Move delete to Overview
-    // TODO Notification bubble for primary action
-    // TODO Fix tab isActive for subpaths ('' -> '/overview'?)
+    // Required:
     // TODO Do this for lexicon/metadata also
-    { path: `/library/corpus/${id}`, label: t("status") },
+    // TODO Move delete to Overview
+    // Wanted:
+    // TODO Let content take more space and add HelpBoxes
+    // TODO Notification bubble for primary action
+    // TODO Add no-content message to Result tab
+    { path: `/library/corpus/${id}/status`, label: t("status") },
     { path: `/library/corpus/${id}/sources`, label: t("sources") },
     { path: `/library/corpus/${id}/config`, label: t("configuration") },
     appConfig.sharing
