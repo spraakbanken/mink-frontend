@@ -4,18 +4,19 @@ import { syncRef } from "@vueuse/core";
 
 const props = defineProps<{
   tabs: { key: string; label: string }[];
+  useHash?: boolean;
 }>();
 
 const model = defineModel<string>();
 
-const hash = useRouteHash();
-
-syncRef(hash, model, {
-  transform: {
-    ltr: (hash) => hash?.slice(1) || model.value || props.tabs[0].key,
-    rtl: (key) => (key ? `#${key}` : undefined),
-  },
-});
+if (props.useHash) {
+  syncRef(useRouteHash(), model, {
+    transform: {
+      ltr: (hash) => hash?.slice(1) || model.value || props.tabs[0].key,
+      rtl: (key) => (key ? `#${key}` : undefined),
+    },
+  });
+}
 </script>
 
 <template>

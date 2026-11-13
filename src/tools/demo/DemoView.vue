@@ -326,16 +326,16 @@ watch(currentStatus, async () => {
       <!-- Result -->
       <PendingContent on="demo/export" class="col-span-full">
         <LayoutBox :title="$t('result')">
-          <template v-if="outputs">
-            <TabsBar
-              :tabs="[
-                { key: 'table', label: $t('demo.result.table') },
-                { key: 'xml', label: 'XML' },
-                { key: 'csv', label: 'CSV' },
-              ]"
-              v-model="resultTab"
-            />
+          <TabsBar
+            :tabs="[
+              { key: 'table', label: $t('demo.result.table') },
+              { key: 'xml', label: 'XML' },
+              { key: 'csv', label: 'CSV' },
+            ]"
+            v-model="resultTab"
+          />
 
+          <template v-if="outputs">
             <TabsContent
               v-if="resultTab == 'table'"
               :title="$t('demo.result.table')"

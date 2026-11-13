@@ -80,6 +80,7 @@ async function submit(fields: Form) {
           { key: 'settings', label: $t('settings') },
         ]"
         v-model="tabSelected"
+        use-hash
       />
 
       <!-- Using the key attribute to re-render whole form after fetching config -->
