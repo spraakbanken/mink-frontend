@@ -1,12 +1,7 @@
 <script lang="ts" setup>
 import { FormKit, submitForm } from "@formkit/vue";
 import { computed, onMounted, ref, watch } from "vue";
-import {
-  computedAsync,
-  useCounter,
-  useInterval,
-  useUrlSearchParams,
-} from "@vueuse/core";
+import { useCounter, useInterval, useUrlSearchParams } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
 import { PhGearFine } from "@phosphor-icons/vue";
 import { useDemoStore } from "./demo.store";
@@ -30,7 +25,6 @@ import PendingContent from "@/spin/PendingContent.vue";
 import MinkCodemirror from "@/components/MinkCodemirror.vue";
 import useAlert from "@/alert/alert.composable";
 import ActionButton from "@/components/ActionButton.vue";
-import useLocale from "@/i18n/locale.composable";
 import { useAppConfig } from "@/app/useAppConfig";
 import AnalysisSelector from "@/corpus/AnalysisSelector.vue";
 import MaxHeight from "@/components/MaxHeight.vue";
@@ -47,7 +41,6 @@ const demoStore = useDemoStore();
 const { showAlert } = useAlert();
 const { isPending, spin } = useSpin();
 const { t } = useI18n();
-const { thCompare } = useLocale();
 
 const demoSettings = appConfig.tools!.demo!;
 const sample = (demoSettings.sample || "").trim();
@@ -90,13 +83,6 @@ const { currentStatus, isRunning } = useJobStatus(job);
 
 /** A ticker for status polling */
 const ticker = useInterval(2000);
-
-/** Analyses for the selected language */
-const analyses = computedAsync(async () => {
-  const [language, variety] = langkey.value?.split("-") || [];
-  const analyses = await findAnalyses({ language, variety });
-  return analyses.sort(thCompare((x) => x.name));
-}, []);
 
 // Initiate or restore state
 onMounted(async () => {
@@ -187,10 +173,12 @@ async function abort() {
 }
 
 // Sync selected analyses to config object
-watch(analysesSelected, () => {
+watch(analysesSelected, async (ids) => {
+  // Don't use entire configOptions, skip `annotations` here
+  const { language, variety } = configOptions.value;
   // Get the annotation strings of each analysis
-  const annotations = analyses.value
-    .filter((a) => analysesSelected.value.includes(a.id))
+  const annotations = (await findAnalyses({ language, variety }))
+    .filter((a) => ids.includes(a.id))
     .flatMap((a) => a.annotations);
   configOptions.value = { ...configOptions.value, annotations };
 });
