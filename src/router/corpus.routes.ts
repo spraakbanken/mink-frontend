@@ -1,15 +1,19 @@
-import { type RouteRecordRaw } from "vue-router";
+import { RouterView, type RouteRecordRaw } from "vue-router";
+const CorpusAnalyseView = () => import("@/corpus/views/CorpusAnalyseView.vue");
 const CorpusConfigCustomView = () =>
   import("@/corpus/views/CorpusConfigCustomView.vue");
 const CorpusConfigurationView = () =>
   import("@/corpus/views/CorpusConfigurationView.vue");
 const CorpusCreateView = () => import("@/corpus/views/CorpusCreateView.vue");
 const CorpusDeleteView = () => import("@/corpus/views/CorpusDeleteView.vue");
+const CorpusExploreView = () => import("@/corpus/views/CorpusExploreView.vue");
 const CorpusExportListView = () =>
   import("@/corpus/views/CorpusExportListView.vue");
 const CorpusExportView = () => import("@/corpus/views/CorpusExportView.vue");
 const CorpusOverviewView = () =>
   import("@/corpus/views/CorpusOverviewView.vue");
+const CorpusSharingView = () => import("@/corpus/views/CorpusSharingView.vue");
+const CorpusSourcesView = () => import("@/corpus/views/CorpusSourcesView.vue");
 const CorpusSourceView = () => import("@/corpus/views/CorpusSourceView.vue");
 const CorpusView = () => import("@/corpus/views/CorpusView.vue");
 
@@ -30,54 +34,96 @@ const corpusRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: "",
+        redirect: (to) => `${to.path}/status`,
+      },
+      {
+        path: "status",
         component: CorpusOverviewView,
       },
       {
         path: "config",
-        component: CorpusConfigurationView,
-        meta: { title: "configuration" },
+        component: RouterView,
+        children: [
+          {
+            path: "",
+            component: CorpusConfigurationView,
+            meta: { title: "configuration" },
+          },
+          {
+            path: "custom",
+            component: CorpusConfigCustomView,
+            meta: { title: "config.custom" },
+          },
+        ],
       },
       {
-        path: "config/custom",
-        component: CorpusConfigCustomView,
-        meta: { title: "config.custom" },
+        path: "sources",
+        component: RouterView,
+        children: [
+          {
+            path: "",
+            component: CorpusSourcesView,
+            meta: { title: "sources" },
+          },
+          {
+            // This route expects the source filename in the 'path' query param
+            path: "file",
+            component: CorpusSourceView,
+          },
+          {
+            // TODO Compat added 2026-08-21. Remove after 6 months?
+            path: ":filename",
+            redirect: (to) => {
+              // Redirect to the 'sources/file' route with the 'path' query param
+              return {
+                path: `/library/corpus/${to.params.id}/sources/file`,
+                query: { path: to.params.filename },
+              };
+            },
+          },
+        ],
       },
       {
-        // This route expects the source filename in the 'path' query param
-        path: "sources/file",
-        component: CorpusSourceView,
+        path: "sharing",
+        component: CorpusSharingView,
+        meta: { title: "sharing" },
       },
       {
-        // TODO Compat added 2026-08-21. Remove after 6 months?
-        path: "sources/:filename",
-        redirect: (to) => {
-          // Redirect to the 'sources/file' route with the 'path' query param
-          return {
-            path: `/library/corpus/${to.params.id}/sources/file`,
-            query: { path: to.params.filename },
-          };
-        },
+        path: "analyse",
+        component: CorpusAnalyseView,
+        meta: { title: "analysis" },
       },
       {
         path: "exports",
-        component: CorpusExportListView,
-        meta: { title: "result" },
+        component: RouterView,
+        children: [
+          {
+            path: "",
+            component: CorpusExportListView,
+            meta: { title: "result" },
+          },
+          {
+            // This route expects the export file path in the 'path' query param
+            path: "file",
+            component: CorpusExportView,
+          },
+          {
+            // TODO Compat added 2026-08-21. Remove after 6 months?
+            path: ":path",
+            redirect: (to) => {
+              // Redirect to the 'exports/file' route with the 'path' query param
+              return {
+                path: `/library/corpus/${to.params.id}/exports/file`,
+                query: { path: to.params.path },
+              };
+            },
+          },
+        ],
       },
       {
-        // This route expects the export file path in the 'path' query param
-        path: "exports/file",
-        component: CorpusExportView,
-      },
-      {
-        // TODO Compat added 2026-08-21. Remove after 6 months?
-        path: "exports/:path",
-        redirect: (to) => {
-          // Redirect to the 'exports/file' route with the 'path' query param
-          return {
-            path: `/library/corpus/${to.params.id}/exports/file`,
-            query: { path: to.params.path },
-          };
-        },
+        path: "explore",
+        component: CorpusExploreView,
+        meta: { title: "exports.tools" },
       },
       {
         path: "delete",

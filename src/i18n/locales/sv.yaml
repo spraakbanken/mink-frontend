@@ -13,6 +13,14 @@ library.help.resources.none: Här kommer dina resurser att listas.
 corpus: Korpus
 corpus.help: En korpus är en samling av text som ofta används för statistisk analys och fjärrläsning.
 corpus.new: Ny korpus
+corpus.checklist: Checklista
+corpus.checklist.task: Steg
+corpus.checklist.sources: Källfiler
+corpus.checklist.config: Konfiguration
+corpus.checklist.analyze: Analys
+corpus.checklist.analysis_required: Analysera först
+corpus.checklist.korp: Utforska i Korp
+corpus.checklist.strix: Utforska i Strix
 corpus.state.unknown: Okänt
 corpus.state.empty: Inga filer
 corpus.state.needing_config: Behöver konfigureras
@@ -59,6 +67,8 @@ resource.access_denied: Den här funktionen kräver en högre behörighetsnivå 
 config.metadata.help: Metadata är information om datan, och fungerar som underlag för potentiellt intresserade användare (om du publicerar datan) samt underlättar katalogiseringen i datarepositorier.
 config.configuration.help: Dessa inställningar blir instruktioner till den automatiska analysen.
 corpus.config.parse.error: Korpusens config kunde inte läsas. Redigera och spara konfigurationen för att åtgärda det. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
+config.is_invalid: Konfigurationen är ogiltig
+config.is_valid: Konfigurationen är giltig
 config.saving: Sparar metadata
 analysis.help: Kör automatiska språkteknologiska analyser på din textdata enligt inställningarna. Mink använder {sparv} i bakgrunden.
 job.rerun.overwrite: En ny körning skriver över tidigare resultat.
@@ -115,6 +125,7 @@ exports.tools.uninstall: Avinstallera
 exports.tools.view: Öppna
 exports.download.help: Resultatet kan laddas ner som maskinläsbara filer för bearbetning i script eller speciella program.
 exports.download.placeholder: Nedladdningar finns här efter slutförd analys.
+exports.empty: Inga exportfiler. Har du kört analysen än?
 exports.help: Analysprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen. De lagras på servern tillsvidare, men ersätts med nya om du analyserar om på nytt.
 exports.help.more.label: Läs mer om exportfiler i användarhandledningen
 exports.type.unknown: Okänd
@@ -175,10 +186,11 @@ docs.url: https://sprakbanken.se/plattformar/mink
 locale.switcher.label: Gränssnittsspråk
 file: Fil
 file.content: Innehåll
-sources: Källfiler
+sources: Källor
 configuration: Konfiguration
 settings: Inställningar
 analysis: Analysera
+overview: Översikt
 result: Resultat
 resources: Resurser
 files: Inga filer | 1 fil | {count} filer

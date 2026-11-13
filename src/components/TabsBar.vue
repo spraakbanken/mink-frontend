@@ -20,7 +20,7 @@ syncRef(hash, model, {
 
 <template>
   <nav>
-    <ul class="mt-4 flex gap-4 border-b border-zinc-300 dark:border-zinc-700">
+    <ul class="flex gap-2 border-b border-zinc-300 dark:border-zinc-700">
       <li
         v-for="tab in tabs"
         :key="tab.key"
@@ -34,7 +34,7 @@ syncRef(hash, model, {
         <a
           href="#"
           @click.prevent="model = tab.key"
-          class="inline-block p-2 no-underline hover:underline underline-offset-4 decoration-2"
+          class="inline-block p-2 px-3 no-underline hover:underline underline-offset-4 decoration-2"
           :class="{ underline: tab.key == model }"
         >
           {{ tab.label }}
