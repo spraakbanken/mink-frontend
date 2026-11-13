@@ -15,19 +15,21 @@ import {
   parseConfig,
 } from "@/api/corpusConfig";
 import { useApi } from "@/api/useApi";
-import type { JobInfo } from "@/api/api.types";
+import type { DemoCorpusOutputData, JobInfo } from "@/api/api.types";
 import { toLangKey, useSparv } from "@/corpus/sparv.composable";
 import LayoutBox from "@/components/LayoutBox.vue";
 import { useJobStatus } from "@/job/jobStatus.composable";
 import JobStatusPanelContent from "@/job/JobStatusPanelContent.vue";
 import useSpin from "@/spin/spin.composable";
 import PendingContent from "@/spin/PendingContent.vue";
-import MinkCodemirror from "@/components/MinkCodemirror.vue";
 import useAlert from "@/alert/alert.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import { useAppConfig } from "@/app/useAppConfig";
 import AnalysisSelector from "@/corpus/AnalysisSelector.vue";
 import MaxHeight from "@/components/MaxHeight.vue";
+import TabsBar from "@/components/TabsBar.vue";
+import TabsContent from "@/components/TabsContent.vue";
+import TextFileBox from "@/components/TextFileBox.vue";
 
 type Form = {
   source: string;
@@ -59,8 +61,8 @@ const source = ref("");
 
 const analysesSelected = ref<string[]>([]);
 
-/** Resulting exported XML */
-const output = ref<string>();
+/** Resulting exported files */
+const outputs = ref<DemoCorpusOutputData["outputs"]>();
 
 /** Corpus config */
 const configOptions = ref<ConfigOptions>(emptyConfig());
@@ -80,6 +82,8 @@ const langkey = computed({
 const job = ref<JobInfo<"corpus">>();
 
 const { currentStatus, isRunning } = useJobStatus(job);
+
+const resultTab = ref<string>("xml");
 
 /** A ticker for status polling */
 const ticker = useInterval(2000);
@@ -195,13 +199,12 @@ watch(ticker, async () => {
 // Load result when done; reset result when starting new analysis
 watch(currentStatus, async () => {
   if (id.value && currentStatus.value == "done") {
-    const { xml } = await spin(
+    outputs.value = await spin(
       api.demoCorpusOutputGet(id.value),
       "demo/export",
     );
-    output.value = xml;
   } else {
-    output.value = undefined;
+    outputs.value = undefined;
   }
 });
 </script>
@@ -319,12 +322,31 @@ watch(currentStatus, async () => {
       <!-- Result -->
       <PendingContent on="demo/export" class="col-span-full">
         <LayoutBox :title="$t('result')">
-          <MinkCodemirror
-            v-if="output"
-            :model-value="output"
-            disabled
-            language="xml"
-          />
+          <template v-if="outputs">
+            <TabsBar
+              :tabs="[
+                { key: 'xml', label: 'XML' },
+                { key: 'csv', label: 'CSV' },
+              ]"
+              v-model="resultTab"
+            />
+
+            <TabsContent v-if="resultTab == 'xml'" title="XML">
+              <TextFileBox
+                :load="async () => outputs?.xml"
+                :filename="`${id}.xml`"
+                language="xml"
+              />
+            </TabsContent>
+
+            <TabsContent v-else-if="resultTab == 'csv'" title="CSV">
+              <TextFileBox
+                :load="async () => outputs?.csv"
+                :filename="`${id}.csv`"
+              />
+            </TabsContent>
+          </template>
+
           <HelpBox v-else>{{ $t("demo.result.empty") }}</HelpBox>
         </LayoutBox>
       </PendingContent>

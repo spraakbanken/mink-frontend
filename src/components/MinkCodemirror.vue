@@ -41,6 +41,7 @@ const extensionsBasic: Extension[] = [
   highlightActiveLine(),
   highlightActiveLineGutter(),
   highlightSelectionMatches(),
+  lineNumbers(),
 ];
 
 /** Reactive list of extensions */
@@ -48,8 +49,7 @@ const extensions = computed<Extension[]>(() => {
   const extensionsProp = toValue(props.extensions) || [];
   const out = [...extensionsBasic, ...extensionsProp];
 
-  if (props.language)
-    out.push(getSyntaxExtension(), lineNumbers(), foldGutter());
+  if (props.language) out.push(getSyntaxExtension(), foldGutter());
 
   if (!props.nowrap)
     out.push(props.language ? indentWrapExtension : EditorView.lineWrapping);
