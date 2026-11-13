@@ -404,7 +404,7 @@ export class MinkClient {
     const response = await this.axios.get<MinkResponse<DemoCorpusOutputData>>(
       `/demo/corpus/export/get/${id}`,
     );
-    return response.data.output;
+    return response.data.outputs;
   }
 
   /** @see https://ws.spraakbanken.gu.se/docs/mink#tag/User-Management/operation/activate-admin-mode */

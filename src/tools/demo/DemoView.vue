@@ -160,6 +160,8 @@ async function submit(fields: Form) {
 /** Run analysis on the input */
 async function run() {
   const configYaml = makeConfig("demo", configOptions.value);
+  // Reset job to react to response properly
+  job.value = undefined;
   const data = await spin(
     api.demoCorpusRun(source.value, configYaml),
     "demo/job",
@@ -193,7 +195,11 @@ watch(ticker, async () => {
 // Load result when done; reset result when starting new analysis
 watch(currentStatus, async () => {
   if (id.value && currentStatus.value == "done") {
-    output.value = await spin(api.demoCorpusOutputGet(id.value), "demo/export");
+    const { xml } = await spin(
+      api.demoCorpusOutputGet(id.value),
+      "demo/export",
+    );
+    output.value = xml;
   } else {
     output.value = undefined;
   }
