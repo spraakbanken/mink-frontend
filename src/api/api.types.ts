@@ -248,8 +248,11 @@ export type DemoCorpusDefaultConfigData = {
 };
 
 export type DemoCorpusOutputData = {
-  /** Exported XML */
-  output: string;
+  /** Sparv exports */
+  outputs: {
+    csv: string;
+    xml: string;
+  };
 };
 
 /** Data in the admin-mode-status response */
