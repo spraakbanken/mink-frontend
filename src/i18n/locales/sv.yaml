@@ -78,6 +78,7 @@ demo.source: Källtext
 demo.source.help: Skriv eller klistra in en text som du vill analysera. Den kommer att sparas tillfälligt på servern.
 demo.reset: Återställ standardval
 demo.result.empty: Inget resultat ännu. Klicka på "Analysera" för att starta.
+demo.result.table: Tabell
 job.abort: Avbryt
 job.status: Status
 job.priority: Plats i kön
