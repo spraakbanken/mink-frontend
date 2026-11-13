@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { FormKit, submitForm } from "@formkit/vue";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, defineAsyncComponent, onMounted, ref, watch } from "vue";
 import { useCounter, useInterval, useUrlSearchParams } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
 import { PhGearFine } from "@phosphor-icons/vue";
@@ -44,6 +44,10 @@ const { showAlert } = useAlert();
 const { isPending, spin } = useSpin();
 const { t } = useI18n();
 
+const CsvExportDisplay = defineAsyncComponent(
+  () => import("@/corpus/CsvExportDisplay.vue"),
+);
+
 const demoSettings = appConfig.tools!.demo!;
 const sample = (demoSettings.sample || "").trim();
 
@@ -83,7 +87,7 @@ const job = ref<JobInfo<"corpus">>();
 
 const { currentStatus, isRunning } = useJobStatus(job);
 
-const resultTab = ref<string>("xml");
+const resultTab = ref<string>("table");
 
 /** A ticker for status polling */
 const ticker = useInterval(2000);
@@ -227,7 +231,7 @@ watch(currentStatus, async () => {
       </p>
     </HelpBox>
 
-    <div class="grid lg:grid-cols-2 gap-4 my-4">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 my-4">
       <FormKitWrapper :key="counter.get()">
         <!-- Source text -->
         <LayoutBox
@@ -325,11 +329,19 @@ watch(currentStatus, async () => {
           <template v-if="outputs">
             <TabsBar
               :tabs="[
+                { key: 'table', label: $t('demo.result.table') },
                 { key: 'xml', label: 'XML' },
                 { key: 'csv', label: 'CSV' },
               ]"
               v-model="resultTab"
             />
+
+            <TabsContent
+              v-if="resultTab == 'table'"
+              :title="$t('demo.result.table')"
+            >
+              <CsvExportDisplay :csv="outputs.csv" />
+            </TabsContent>
 
             <TabsContent v-if="resultTab == 'xml'" title="XML">
               <TextFileBox
