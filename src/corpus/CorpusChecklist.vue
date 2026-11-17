@@ -11,9 +11,9 @@ const props = defineProps<{
   id: string;
 }>();
 
-const { isConfigValid, exports } = useCorpus(props.id);
+const { isConfigValid } = useCorpus(props.id);
 const { sources, extensions } = useSources("corpus", props.id);
-const { job, isRunning } = useResource<"corpus">(props.id);
+const { job } = useResource<"corpus">(props.id);
 
 const STATUS_MAP: Record<JobState, ChecklistItemStatus> = {
   aborted: "none",
@@ -92,9 +92,7 @@ const STATUS_MAP: Record<JobState, ChecklistItemStatus> = {
                 v-if="
                   sources.length &&
                   isConfigValid &&
-                  !isRunning &&
-                  exports &&
-                  !exports?.length
+                  STATUS_MAP[job.status.sparv] != 'success'
                 "
                 #actions
               >
