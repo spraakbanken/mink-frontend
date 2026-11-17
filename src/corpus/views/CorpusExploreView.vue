@@ -11,6 +11,7 @@ import useResource from "@/resource/resource.composable";
 import { useUserStore } from "@/store/user.store";
 import { useAppConfig } from "@/app/useAppConfig";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
+import HelpBox from "@/components/HelpBox.vue";
 
 const { exploreTools, corpusSettings } = useAppConfig();
 const id = useResourceIdParam();
@@ -39,40 +40,42 @@ const canInstall = computed(
 </script>
 
 <template>
-  <p>{{ $t("exports.tools.help") }}</p>
-  <div class="grid gap-4 mt-4">
-    <PendingContent
-      v-if="exploreTools.includes('korp')"
-      :on="`${id}/job/install/korp`"
-    >
-      <ToolPanel
-        name="Korp"
-        :info="$t('exports.tools.help.korp')"
-        :link-url="$t('exports.tools.help.korp.manual.url')"
-        :link-text="$t('exports.tools.help.korp.manual.text')"
-        :can-install
-        :is-installed="job?.status.korp == 'done' && job?.installed_korp"
-        :show-url="`${korpUrl}?mode=mink#?corpus=${id}&lang=${locale3}`"
-        @install="installKorp().catch(showAlert)"
-        @uninstall="uninstallKorp().catch(showAlert)"
-      />
-    </PendingContent>
+  <div class="flex flex-col gap-2">
+    <HelpBox>{{ $t("exports.tools.help") }}</HelpBox>
+    <div class="grid lg:grid-cols-2 gap-2">
+      <PendingContent
+        v-if="exploreTools.includes('korp')"
+        :on="`${id}/job/install/korp`"
+      >
+        <ToolPanel
+          name="Korp"
+          :info="$t('exports.tools.help.korp')"
+          :link-url="$t('exports.tools.help.korp.manual.url')"
+          :link-text="$t('exports.tools.help.korp.manual.text')"
+          :can-install
+          :is-installed="job?.status.korp == 'done' && job?.installed_korp"
+          :show-url="`${korpUrl}?mode=mink#?corpus=${id}&lang=${locale3}`"
+          @install="installKorp().catch(showAlert)"
+          @uninstall="uninstallKorp().catch(showAlert)"
+        />
+      </PendingContent>
 
-    <PendingContent
-      v-if="exploreTools.includes('strix')"
-      :on="`${id}/job/install/strix`"
-    >
-      <ToolPanel
-        name="Strix"
-        :info="$t('exports.tools.help.strix')"
-        :link-url="$t('exports.tools.help.strix.manual.url')"
-        :link-text="$t('exports.tools.help.strix.manual.text')"
-        :can-install
-        :is-installed="job?.status.strix == 'done' && job?.installed_strix"
-        :show-url="`${strixUrl}?mode=mink&corpora=${id}`"
-        @install="installStrix().catch(showAlert)"
-        @uninstall="uninstallStrix().catch(showAlert)"
-      />
-    </PendingContent>
+      <PendingContent
+        v-if="exploreTools.includes('strix')"
+        :on="`${id}/job/install/strix`"
+      >
+        <ToolPanel
+          name="Strix"
+          :info="$t('exports.tools.help.strix')"
+          :link-url="$t('exports.tools.help.strix.manual.url')"
+          :link-text="$t('exports.tools.help.strix.manual.text')"
+          :can-install
+          :is-installed="job?.status.strix == 'done' && job?.installed_strix"
+          :show-url="`${strixUrl}?mode=mink&corpora=${id}`"
+          @install="installStrix().catch(showAlert)"
+          @uninstall="uninstallStrix().catch(showAlert)"
+        />
+      </PendingContent>
+    </div>
   </div>
 </template>

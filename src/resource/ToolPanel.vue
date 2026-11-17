@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { PhArrowSquareOut, PhGearFine, PhTrash } from "@phosphor-icons/vue";
 import ActionButton from "@/components/ActionButton.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
 
 defineProps<{
   name: string;
@@ -18,7 +19,7 @@ defineEmits<{
 </script>
 
 <template>
-  <div class="flex gap-3 items-center">
+  <LayoutBox class="flex gap-3 items-center">
     <div class="flex-1 self-start">
       <h3>{{ name }}</h3>
       <div class="text-sm text-gray-500 dark:text-gray-400">
@@ -61,5 +62,5 @@ defineEmits<{
         {{ $t("exports.tools.uninstall") }}
       </ActionButton>
     </div>
-  </div>
+  </LayoutBox>
 </template>
