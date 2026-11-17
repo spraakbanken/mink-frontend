@@ -50,47 +50,49 @@ async function upload() {
 </script>
 
 <template>
-  <h2>{{ $t("config.custom") }}</h2>
-  <slot name="head" />
+  <div class="flex flex-col gap-2">
+    <h2>{{ $t("config.custom") }}</h2>
+    <slot name="head" />
 
-  <HelpBox v-if="!canWrite(type, id)">
-    <PhLock class="inline mb-0.5 mr-1" />
-    {{ $t("resource.access_denied") }}
-  </HelpBox>
-
-  <template v-else>
-    <HelpBox important>
-      <PhWarning class="inline mb-1 mr-1" />
-      {{ $t("config.custom.upload.caution") }}
+    <HelpBox v-if="!canWrite(type, id)">
+      <PhLock class="inline mb-0.5 mr-1" />
+      {{ $t("resource.access_denied") }}
     </HelpBox>
 
-    <HelpBox important>
-      <PhWarning class="inline mb-1 mr-1" />
-      {{ $t("config.custom.upload.overwrite") }}
-    </HelpBox>
-  </template>
+    <template v-else>
+      <HelpBox important>
+        <PhWarning class="inline mb-1 mr-1" />
+        {{ $t("config.custom.upload.caution") }}
+      </HelpBox>
 
-  <LayoutBox>
-    <PendingContent :on="`${id}/config`">
-      <YamlEditor
-        v-if="config"
-        v-model="input"
-        :disabled="!canWrite(type, id)"
-        :schema
-        @validated="isValid = $event"
-      >
-        <template #toolbar-right>
-          <ActionButton
-            @click="upload"
-            class="button-primary"
-            :disabled="!!saveErrorMessage"
-            :title="saveErrorMessage"
-          >
-            <PhFloppyDisk class="inline mb-0.5 mr-1" />
-            {{ $t("save") }}
-          </ActionButton>
-        </template>
-      </YamlEditor>
-    </PendingContent>
-  </LayoutBox>
+      <HelpBox important>
+        <PhWarning class="inline mb-1 mr-1" />
+        {{ $t("config.custom.upload.overwrite") }}
+      </HelpBox>
+    </template>
+
+    <LayoutBox>
+      <PendingContent :on="`${id}/config`">
+        <YamlEditor
+          v-if="config"
+          v-model="input"
+          :disabled="!canWrite(type, id)"
+          :schema
+          @validated="isValid = $event"
+        >
+          <template #toolbar-right>
+            <ActionButton
+              @click="upload"
+              class="button-primary"
+              :disabled="!!saveErrorMessage"
+              :title="saveErrorMessage"
+            >
+              <PhFloppyDisk class="inline mb-0.5 mr-1" />
+              {{ $t("save") }}
+            </ActionButton>
+          </template>
+        </YamlEditor>
+      </PendingContent>
+    </LayoutBox>
+  </div>
 </template>

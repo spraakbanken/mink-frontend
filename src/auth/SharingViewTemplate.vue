@@ -31,7 +31,7 @@ const authGuiUrl = computed(() => auth.getGuiUrl(props.id));
 </script>
 
 <template>
-  <div v-if="resource">
+  <div v-if="resource" class="flex flex-col gap-2">
     <HelpBox class="prose">
       <p>
         {{ $t("sharing.help.sbauth") }}
@@ -45,7 +45,7 @@ const authGuiUrl = computed(() => auth.getGuiUrl(props.id));
       <p>{{ $t("sharing.help.levels.after") }}</p>
     </HelpBox>
 
-    <table class="w-full">
+    <table class="self-start">
       <tbody>
         <tr>
           <th>{{ $t("sharing.owner") }}</th>

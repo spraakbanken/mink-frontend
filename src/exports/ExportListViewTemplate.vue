@@ -57,7 +57,10 @@ function identifyType(path: string): ExportType | undefined {
 </script>
 
 <template>
-  <PendingContent :on="[`${id}/exports/list`, 'exports']">
+  <PendingContent
+    :on="[`${id}/exports/list`, 'exports']"
+    class="flex flex-col gap-2"
+  >
     <HelpBox>
       <p>{{ $t("exports.help") }}</p>
       <aside>
@@ -71,12 +74,8 @@ function identifyType(path: string): ExportType | undefined {
       {{ $t("exports.empty") }}
     </div>
 
-    <PendingContent :on="`${id}/exports/download`">
-      <LayoutBox
-        v-if="exports && exports.length"
-        :title="$t('file.archive')"
-        class="my-2"
-      >
+    <LayoutBox v-if="exports && exports.length" :title="$t('file.archive')">
+      <PendingContent :on="`${id}/exports/download`">
         {{ $t("download_export") }}:
         <ActionButton
           class="button-primary mr-2"
@@ -85,8 +84,8 @@ function identifyType(path: string): ExportType | undefined {
           <PhDownloadSimple weight="bold" class="inline mb-0.5 mr-1" />
           {{ getDownloadFilename() }}
         </ActionButton>
-      </LayoutBox>
-    </PendingContent>
+      </PendingContent>
+    </LayoutBox>
 
     <LayoutBox v-if="exportGroups" :title="$t('file.singles')">
       <!-- If there are multiple types, show groups in collapsible sections -->

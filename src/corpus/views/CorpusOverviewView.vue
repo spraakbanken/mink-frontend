@@ -14,7 +14,7 @@ const { canAdmin } = useUserStore();
 
 <template>
   <div class="flex flex-col gap-2">
-    <CorpusStateHelp :id class="my-0!" />
+    <CorpusStateHelp :id />
 
     <div class="flex flex-wrap gap-2">
       <LayoutBox :title="$t('corpus.checklist')" class="w-96 grow">
