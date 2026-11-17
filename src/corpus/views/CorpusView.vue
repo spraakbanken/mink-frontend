@@ -10,7 +10,7 @@ import useSources from "@/resource/sources.composable";
 import type { Tab } from "@/components/RouteTabs.vue";
 import useResource from "@/resource/resource.composable";
 
-const { appConfig, exploreTools } = useAppConfig();
+const { exploreTools } = useAppConfig();
 const id = useResourceIdParam();
 const { sources } = useSources("corpus", id);
 const { isConfigValid } = useCorpus(id);
@@ -38,9 +38,6 @@ const tabs = computed<Tab[]>(() => {
       label: t("configuration"),
       error: !isConfigValid.value,
     },
-    appConfig.sharing
-      ? { path: `/library/corpus/${id}/sharing`, label: t("sharing") }
-      : null,
     {
       path: `/library/corpus/${id}/analyse`,
       label: t("analysis"),

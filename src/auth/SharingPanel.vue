@@ -9,6 +9,7 @@ import TerminalOutput from "@/components/TerminalOutput.vue";
 import useAlert from "@/alert/alert.composable";
 import type { ResourceType } from "@/api/api.types";
 import { useUserStore } from "@/store/user.store";
+import HelpBox from "@/components/HelpBox.vue";
 
 const props = defineProps<{
   resourceType: ResourceType;
@@ -30,7 +31,7 @@ const authGuiUrl = computed(() => auth.getGuiUrl(props.id));
 </script>
 
 <template>
-  <div v-if="resource">
+  <div v-if="resource" class="flex flex-col gap-2">
     <table class="w-full">
       <tbody>
         <tr>
@@ -68,19 +69,25 @@ const authGuiUrl = computed(() => auth.getGuiUrl(props.id));
       </tbody>
     </table>
 
-    <details class="my-2 prose">
-      <summary class="font-medium">{{ $t("sharing.help.heading") }}</summary>
+    <HelpBox>
+      <details class="prose">
+        <summary class="font-medium">{{ $t("sharing.help.heading") }}</summary>
 
-      <p>
-        {{ $t("sharing.help.sbauth") }}
-        {{ $t("sharing.help.levels.before") }}
-      </p>
-      <ul>
-        <li><strong>READ</strong> – {{ $t("sharing.help.levels.read") }}</li>
-        <li><strong>WRITE</strong> – {{ $t("sharing.help.levels.write") }}</li>
-        <li><strong>ADMIN</strong> – {{ $t("sharing.help.levels.admin") }}</li>
-      </ul>
-      <p>{{ $t("sharing.help.levels.after") }}</p>
-    </details>
+        <p>
+          {{ $t("sharing.help.sbauth") }}
+          {{ $t("sharing.help.levels.before") }}
+        </p>
+        <ul>
+          <li><strong>READ</strong> – {{ $t("sharing.help.levels.read") }}</li>
+          <li>
+            <strong>WRITE</strong> – {{ $t("sharing.help.levels.write") }}
+          </li>
+          <li>
+            <strong>ADMIN</strong> – {{ $t("sharing.help.levels.admin") }}
+          </li>
+        </ul>
+        <p>{{ $t("sharing.help.levels.after") }}</p>
+      </details>
+    </HelpBox>
   </div>
 </template>

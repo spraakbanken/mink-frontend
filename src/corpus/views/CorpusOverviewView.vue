@@ -7,7 +7,10 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import JobStatusPanel from "@/job/JobStatusPanel.vue";
 import RouteButton from "@/components/RouteButton.vue";
 import { useUserStore } from "@/store/user.store.ts";
+import { useAppConfig } from "@/app/useAppConfig.ts";
+import SharingPanel from "@/auth/SharingPanel.vue";
 
+const { appConfig } = useAppConfig();
 const id = useResourceIdParam();
 const { canAdmin } = useUserStore();
 </script>
@@ -16,13 +19,17 @@ const { canAdmin } = useUserStore();
   <div class="flex flex-col gap-2">
     <CorpusStateHelp :id />
 
-    <div class="flex flex-wrap gap-2">
-      <LayoutBox :title="$t('corpus.checklist')" class="w-96 grow">
+    <div class="grid lg:grid-cols-2 gap-2">
+      <LayoutBox :title="$t('corpus.checklist')">
         <CorpusChecklist :id />
       </LayoutBox>
 
-      <LayoutBox :title="$t('job.process')" class="w-96 grow">
+      <LayoutBox :title="$t('job.process')">
         <JobStatusPanel :id />
+      </LayoutBox>
+
+      <LayoutBox v-if="appConfig.sharing" :title="$t('sharing')">
+        <SharingPanel resource-type="corpus" :id />
       </LayoutBox>
     </div>
 
