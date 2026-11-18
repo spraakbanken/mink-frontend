@@ -64,7 +64,13 @@ async function doRunJob() {
           {{ $t("job.rerun.overwrite") }}
         </div>
 
-        <div v-if="!isRunning && job?.status.karps == 'done'" class="text-sm">
+        <div
+          v-if="
+            !isRunning &&
+            (job?.status.karpred == 'done' || job?.status.karps == 'done')
+          "
+          class="text-sm"
+        >
           <PhInfo class="inline mb-0.5 mr-1" />
           {{ $t("job.rerun.tools_outdated") }}
         </div>

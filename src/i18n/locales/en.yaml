@@ -44,6 +44,8 @@ lexicon.config.entry_word.description.help: The name of the field, for displayin
 lexicon.config.entry_word.description.default: baseform
 lexicon.karp_pipeline.run: Analyse
 lexicon.karp_pipeline.help: Prepare your data for use in Karp.
+lexicon.karpred: Karp's edit mode
+lexicon.karpred.help: Search and edit lexicons.
 lexicon.karps: Karp's search mode
 lexicon.karps.help: Search through entries and produce statistics.
 lexicon.tools.help: Use this data in Språkbanken's other platforms. Your data will be available to you only.
@@ -75,7 +77,8 @@ job.process.sparv: Analysis
 job.process.korp: Installation to Korp
 job.process.strix: Installation to Strix
 job.process.karp_pipeline: Analysis
-job.process.karps: Installation to Karp
+job.process.karpred: Installation to Karp's edit mode
+job.process.karps: Installation to Karp's search mode
 sharing: Sharing
 sharing.level: Your access level
 sharing.level.admin_mode: Admin mode enabled

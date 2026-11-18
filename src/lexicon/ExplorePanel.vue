@@ -16,11 +16,14 @@ const props = defineProps<{
 
 const { lexiconSettings } = useAppConfig();
 const { isPending } = useSpin();
-const { installKarps, uninstallKarps } = useLexicon(props.id);
+const { installKarpred, installKarps, uninstallKarpred, uninstallKarps } =
+  useLexicon(props.id);
 const { isRunning, job } = useResource<"lexicon">(props.id);
 const { canWrite } = useUserStore();
 const { showAlert } = useMessenger();
 
+const karpredUrl =
+  lexiconSettings.karpred && ensureTrailingSlash(lexiconSettings.karpred.url);
 const karpsUrl =
   lexiconSettings.karps && ensureTrailingSlash(lexiconSettings.karps.url);
 
@@ -36,7 +39,25 @@ const canInstall = computed(
 <template>
   <p>{{ $t("lexicon.tools.help") }}</p>
   <div class="grid gap-4 mt-4">
-    <PendingContent :on="`${id}/job/install/karps`">
+    <PendingContent
+      v-if="lexiconSettings.karpred"
+      :on="`${id}/job/install/karpred`"
+    >
+      <ToolPanel
+        :name="$t('lexicon.karpred')"
+        :info="$t('lexicon.karpred.help')"
+        :can-install
+        :is-installed="job?.installed_karpred"
+        :show-url="`${karpredUrl}?mode=mink&lexicon=${id}`"
+        @install="installKarpred().catch(showAlert)"
+        @uninstall="uninstallKarpred().catch(showAlert)"
+      />
+    </PendingContent>
+
+    <PendingContent
+      v-if="lexiconSettings.karps"
+      :on="`${id}/job/install/karps`"
+    >
       <ToolPanel
         :name="$t('lexicon.karps')"
         :info="$t('lexicon.karps.help')"

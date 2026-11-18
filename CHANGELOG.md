@@ -10,6 +10,10 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 
 ## [Unreleased](https://github.com/spraakbanken/mink-frontend/compare/v2.3.1...HEAD)
 
+### Added
+
+- Install lexicons to [Karp's edit mode](https://sprakbanken.se/en/platforms/karp)
+
 ### Fixed
 
 - Min recommended filesize presented as recommended max total size [#312](https://github.com/spraakbanken/mink-frontend/issues/312)

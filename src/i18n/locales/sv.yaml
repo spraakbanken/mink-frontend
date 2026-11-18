@@ -44,6 +44,8 @@ lexicon.config.entry_word.description.help: Namnet på fältet, så som det visa
 lexicon.config.entry_word.description.default: grundform
 lexicon.karp_pipeline.run: Analysera
 lexicon.karp_pipeline.help: Förbered datan för användning i Karp.
+lexicon.karpred: Karps redigeringsläge
+lexicon.karpred.help: Sök i och redigera lexikon.
 lexicon.karps: Karps sökläge
 lexicon.karps.help: Sök bland ingångarna och ta fram statistik.
 lexicon.tools.help: Använd den här datan i Språkbankens andra plattformar. Din data visas bara för dig.
@@ -75,7 +77,8 @@ job.process.sparv: Analysering
 job.process.korp: Installation i Korp
 job.process.strix: Installation i Strix
 job.process.karp_pipeline: Karp pipeline
-job.process.karps: Installation i Karp
+job.process.karpred: Installation i Karps redigeringsläge
+job.process.karps: Installation i Karps sökläge
 sharing: Delning
 sharing.level: Din behörighetsnivå
 sharing.level.admin_mode: Administratörsläge aktiverat

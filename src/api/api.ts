@@ -337,6 +337,7 @@ export class MinkClient {
   /**
    * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/install-korp
    * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/install-strix
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/install-karpred
    * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/install-karps
    */
   async install(type: ResourceType, id: string, tool: string) {
@@ -349,6 +350,7 @@ export class MinkClient {
   /**
    * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/uninstall-korp
    * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Corpora/operation/uninstall-strix
+   * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/uninstall-karpred
    * @see https://ws.spraakbanken.gu.se/docs/mink#tag/Manage-Lexicons/operation/uninstall-karps
    */
   async uninstall(type: ResourceType, id: string, tool: string) {
