@@ -1,11 +1,23 @@
 <script lang="ts" setup>
 import { PhCheckFat, PhMinus, PhWarningOctagon } from "@phosphor-icons/vue";
+import type { JobState } from "@/api/api.types";
 
 export type ChecklistItemStatus = "none" | "success" | "warning" | "error";
 
 defineProps<{
   status?: ChecklistItemStatus;
 }>();
+</script>
+
+<script lang="ts">
+export const STATUS_MAP: Record<JobState, ChecklistItemStatus> = {
+  aborted: "none",
+  done: "success",
+  error: "error",
+  none: "none",
+  running: "success",
+  waiting: "success",
+};
 </script>
 
 <template>

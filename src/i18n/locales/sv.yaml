@@ -11,16 +11,15 @@ library: Bibliotek
 library.help.resources: Här listas dina resurser. Klicka på dem för att visa mer.
 library.help.resources.none: Här kommer dina resurser att listas.
 checklist: Checklista
-checklist.task: Steg
-checklist.sources: Källfiler
-checklist.config: Konfiguration
-checklist.analyze: Analys
 checklist.analysis_required: Analysera först
+checklist.analyze: Analys
+checklist.config: Konfiguration
+checklist.explore_in: Utforska i {tool}
+checklist.sources: Källfiler
+checklist.task: Steg
 corpus: Korpus
 corpus.help: En korpus är en samling av text som ofta används för statistisk analys och fjärrläsning.
 corpus.new: Ny korpus
-corpus.checklist.korp: Utforska i Korp
-corpus.checklist.strix: Utforska i Strix
 corpus.state.unknown: Okänt
 corpus.state.empty: Inga filer
 corpus.state.needing_config: Behöver konfigureras
@@ -69,8 +68,8 @@ resource.access_denied: Den här funktionen kräver en högre behörighetsnivå 
 config.metadata.help: Metadata är information om datan, och fungerar som underlag för potentiellt intresserade användare (om du publicerar datan) samt underlättar katalogiseringen i datarepositorier.
 config.configuration.help: Dessa inställningar blir instruktioner till den automatiska analysen.
 corpus.config.parse.error: Korpusens config kunde inte läsas. Redigera och spara konfigurationen för att åtgärda det. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
-config.is_invalid: Konfigurationen är ogiltig
-config.is_valid: Konfigurationen är giltig
+config.is_invalid: Ogiltig
+config.is_valid: Giltig
 config.saving: Sparar metadata
 analysis.help: Kör automatiska språkteknologiska analyser på din textdata enligt inställningarna. Mink använder {sparv} i bakgrunden.
 job.rerun.overwrite: En ny körning skriver över tidigare resultat.
@@ -252,6 +251,7 @@ enable: Aktivera
 enabled: På
 disable: Stäng av
 disabled: Av
+jsonl: JSON Lines
 xml: XML
 txt: Ren text
 docx: Microsoft Word
