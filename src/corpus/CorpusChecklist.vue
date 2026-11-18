@@ -30,14 +30,14 @@ const STATUS_MAP: Record<JobState, ChecklistItemStatus> = {
     <table class="w-full table-lined">
       <thead>
         <tr>
-          <th>{{ $t("corpus.checklist.task") }}</th>
+          <th>{{ $t("checklist.task") }}</th>
           <th>{{ $t("status") }}</th>
         </tr>
       </thead>
 
       <tbody>
         <tr>
-          <td>{{ $t("corpus.checklist.sources") }}</td>
+          <td>{{ $t("checklist.sources") }}</td>
           <td>
             <ChecklistItem v-if="sources.length" status="success">
               {{ $t(extensions[0]) }}
@@ -61,7 +61,7 @@ const STATUS_MAP: Record<JobState, ChecklistItemStatus> = {
         </tr>
 
         <tr>
-          <td>{{ $t("corpus.checklist.config") }}</td>
+          <td>{{ $t("checklist.config") }}</td>
           <td>
             <ChecklistItem v-if="isConfigValid" status="success">
               {{ $t("config.is_valid") }}
@@ -83,7 +83,7 @@ const STATUS_MAP: Record<JobState, ChecklistItemStatus> = {
         </tr>
 
         <tr>
-          <td>{{ $t("corpus.checklist.analyze") }}</td>
+          <td>{{ $t("checklist.analyze") }}</td>
           <td>
             <ChecklistItem v-if="job" :status="STATUS_MAP[job.status.sparv]">
               {{ $t(`job.status.${job.status.sparv}`) }}
@@ -118,7 +118,7 @@ const STATUS_MAP: Record<JobState, ChecklistItemStatus> = {
                 {{ $t(`job.status.${job.status.korp}`) }}
               </ChecklistItem>
               <ChecklistItem v-else>
-                {{ $t("corpus.checklist.analysis_required") }}
+                {{ $t("checklist.analysis_required") }}
               </ChecklistItem>
             </template>
           </td>
@@ -135,7 +135,7 @@ const STATUS_MAP: Record<JobState, ChecklistItemStatus> = {
                 {{ $t(`job.status.${job.status.strix}`) }}
               </ChecklistItem>
               <ChecklistItem v-else>
-                {{ $t("corpus.checklist.analysis_required") }}
+                {{ $t("checklist.analysis_required") }}
               </ChecklistItem>
             </template>
           </td>

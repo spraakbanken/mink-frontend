@@ -10,15 +10,15 @@ lab.goto_mink: Go to normal Mink
 library: Library
 library.help.resources: These are your resources. Click them to view more details.
 library.help.resources.none: Your resources will be listed here.
+checklist: Checklist
+checklist.task: Task
+checklist.sources: Sources
+checklist.config: Configuration
+checklist.analyze: Analysis
+checklist.analysis_required: Analysis required
 corpus: Corpus
 corpus.help: A corpus is a collection of text, typically used with statistical analysis and distant reading.
 corpus.new: New corpus
-corpus.checklist: Checklist
-corpus.checklist.task: Task
-corpus.checklist.sources: Sources
-corpus.checklist.config: Configuration
-corpus.checklist.analyze: Analysis
-corpus.checklist.analysis_required: Analysis required
 corpus.checklist.korp: Explore in Korp
 corpus.checklist.strix: Explore in Strix
 corpus.state.unknown: Unknown
@@ -126,8 +126,6 @@ exports.tools.install: Install
 exports.tools.reinstall: Reinstall
 exports.tools.uninstall: Uninstall
 exports.tools.view: Open
-exports.download.help: Results can be downloaded as machine-readable files for processing in scripts or other specialized software.
-exports.download.placeholder: Downloads will be available here after successful analysis.
 exports.empty: No export files. Have you run analysis yet?
 exports.help: The analysis process yields export files for each input file. You can download each single export file or all of them in a bundle. The exact structure of the files depends on the input files as well as the configuration. They are stored on the server indefinitely, but re-analysing will replace them with new ones.
 exports.help.more.label: Read more about export files in the user manual

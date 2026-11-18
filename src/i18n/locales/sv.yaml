@@ -10,15 +10,15 @@ lab.goto_mink: Gå till vanliga Mink
 library: Bibliotek
 library.help.resources: Här listas dina resurser. Klicka på dem för att visa mer.
 library.help.resources.none: Här kommer dina resurser att listas.
+checklist: Checklista
+checklist.task: Steg
+checklist.sources: Källfiler
+checklist.config: Konfiguration
+checklist.analyze: Analys
+checklist.analysis_required: Analysera först
 corpus: Korpus
 corpus.help: En korpus är en samling av text som ofta används för statistisk analys och fjärrläsning.
 corpus.new: Ny korpus
-corpus.checklist: Checklista
-corpus.checklist.task: Steg
-corpus.checklist.sources: Källfiler
-corpus.checklist.config: Konfiguration
-corpus.checklist.analyze: Analys
-corpus.checklist.analysis_required: Analysera först
 corpus.checklist.korp: Utforska i Korp
 corpus.checklist.strix: Utforska i Strix
 corpus.state.unknown: Okänt
@@ -126,8 +126,6 @@ exports.tools.install: Installera
 exports.tools.reinstall: Installera om
 exports.tools.uninstall: Avinstallera
 exports.tools.view: Öppna
-exports.download.help: Resultatet kan laddas ner som maskinläsbara filer för bearbetning i script eller speciella program.
-exports.download.placeholder: Nedladdningar finns här efter slutförd analys.
 exports.empty: Inga exportfiler. Har du kört analysen än?
 exports.help: Analysprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen. De lagras på servern tillsvidare, men ersätts med nya om du analyserar om på nytt.
 exports.help.more.label: Läs mer om exportfiler i användarhandledningen
