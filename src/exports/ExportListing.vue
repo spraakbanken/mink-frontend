@@ -33,16 +33,16 @@ const { showAlert } = useAlert();
         thClass: 'text-end',
         comparator: (a, b) => a.size - b.size,
       },
-      { title: $t('file.operations'), thClass: 'sr-only' },
+      { title: $t('file.operations'), thClassInner: 'sr-only' },
     ]"
     :rows="files"
     :get-row-key="(file) => file.name"
     :default-sort="{ title: $t('filename'), reverse: false }"
-    class="w-full mt-2"
+    class="w-full mt-2 table-lined"
   >
     <template v-slot="{ row: file }">
       <!-- Filename link -->
-      <td class="w-full py-1">
+      <td class="w-full">
         {{ file.path.slice(0, file.path.lastIndexOf("/") + 1)
         }}<router-link
           :to="`/library/${type}/${id}/exports/file?path=${file.path}`"
@@ -52,7 +52,7 @@ const { showAlert } = useAlert();
       </td>
 
       <!-- File size -->
-      <td class="text-end whitespace-nowrap px-2">
+      <td class="text-end whitespace-nowrap">
         {{ filesize(file.size) }}
       </td>
 

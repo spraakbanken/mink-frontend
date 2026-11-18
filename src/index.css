@@ -196,3 +196,15 @@
 @utility link-primary {
   @apply text-sky-700 dark:text-sky-300 font-medium;
 }
+
+@utility table-lined {
+  & th,
+  & td {
+    @apply px-2 py-2;
+  }
+
+  & th,
+  & tr:not(:last-child) td {
+    @apply border-b border-zinc-300 dark:border-zinc-700;
+  }
+}

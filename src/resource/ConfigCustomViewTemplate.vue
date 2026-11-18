@@ -8,7 +8,6 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import useAlert from "@/alert/alert.composable";
 import PendingContent from "@/spin/PendingContent.vue";
 import ActionButton from "@/components/ActionButton.vue";
-import LayoutSection from "@/components/LayoutSection.vue";
 import { useConfigStore } from "@/store/config.store";
 import type { ResourceType } from "@/api/api.types";
 import { useUserStore } from "@/store/user.store";
@@ -51,7 +50,7 @@ async function upload() {
 </script>
 
 <template>
-  <LayoutSection :title="$t('config.custom')">
+  <div class="flex flex-col gap-2">
     <slot name="head" />
 
     <HelpBox v-if="!canWrite(type, id)">
@@ -94,5 +93,5 @@ async function upload() {
         </YamlEditor>
       </PendingContent>
     </LayoutBox>
-  </LayoutSection>
+  </div>
 </template>

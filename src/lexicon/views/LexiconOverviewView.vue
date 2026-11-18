@@ -1,64 +1,44 @@
 <script setup lang="ts">
-import { PhPencilSimple } from "@phosphor-icons/vue";
-import ConfigPanel from "../ConfigPanel.vue";
-import AnalysisPanel from "../AnalysisPanel.vue";
-import ExplorePanel from "../ExplorePanel.vue";
+import { PhTrash } from "@phosphor-icons/vue";
+import LexiconChecklist from "../LexiconChecklist.vue";
 import { useUserStore } from "@/store/user.store";
 import LayoutBox from "@/components/LayoutBox.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import SharingPanel from "@/auth/SharingPanel.vue";
-import SourcesPanel from "@/sources/SourcesPanel.vue";
 import JobStatusPanel from "@/job/JobStatusPanel.vue";
+import RouteButton from "@/components/RouteButton.vue";
+import { useAppConfig } from "@/app/useAppConfig.ts";
 
+const { appConfig } = useAppConfig();
 const id = useResourceIdParam();
-const { canWrite } = useUserStore();
+const { canAdmin } = useUserStore();
 </script>
 
 <template>
-  <div class="flex flex-wrap gap-4">
-    <div class="w-96 grow flex flex-col gap-4">
-      <LayoutBox :title="$t('configuration')">
-        <ConfigPanel :id />
-        <template #controls>
-          <router-link
-            :to="`/library/lexicon/${id}/config`"
-            class="flex items-baseline"
-          >
-            <template v-if="canWrite('lexicon', id)">
-              <PhPencilSimple weight="bold" class="self-center mr-1" />
-              {{ $t("edit") }}
-            </template>
-            <template v-else>
-              {{ $t("show_more") }}
-            </template>
-          </router-link>
-        </template>
+  <div class="flex flex-col gap-2">
+    <div class="grid lg:grid-cols-2 gap-2">
+      <LayoutBox :title="$t('checklist')">
+        <LexiconChecklist :id />
       </LayoutBox>
 
-      <LayoutBox :title="$t('sharing')">
-        <SharingPanel resource-type="lexicon" :id />
-      </LayoutBox>
-
-      <LayoutBox :title="$t('sources')">
-        <SourcesPanel type="lexicon" :id />
-      </LayoutBox>
-    </div>
-
-    <div class="w-96 grow flex flex-col gap-4">
-      <LayoutBox
-        :title="$t('job.status')"
-        class="bg-zinc-700 text-zinc-300 dark:bg-zinc-600"
-      >
+      <LayoutBox :title="$t('job.process')">
         <JobStatusPanel :id />
       </LayoutBox>
 
-      <LayoutBox :title="$t('analysis')">
-        <AnalysisPanel :id />
+      <LayoutBox v-if="appConfig.sharing" :title="$t('sharing')">
+        <SharingPanel resource-type="lexicon" :id />
       </LayoutBox>
+    </div>
 
-      <LayoutBox :title="$t('exports.tools')">
-        <ExplorePanel :id />
-      </LayoutBox>
+    <div class="flex justify-center items-baseline gap-4">
+      <RouteButton
+        :disabled="!canAdmin('lexicon', id)"
+        :to="`/library/lexicon/${id}/delete`"
+        class="button-danger"
+      >
+        <PhTrash weight="fill" class="inline mb-1 mr-1" />
+        {{ $t("delete") }}
+      </RouteButton>
     </div>
   </div>
 </template>

@@ -26,11 +26,11 @@ watchImmediate(adminMode, () => {
   <div v-if="adminMode">
     <PageTitle subtitle="admin.page.subtitle">{{ $t("resources") }}</PageTitle>
 
-    <HelpBox>
-      {{ $t("admin.resources.help") }}
-    </HelpBox>
+    <div class="flex flex-col gap-2">
+      <HelpBox>
+        {{ $t("admin.resources.help") }}
+      </HelpBox>
 
-    <div class="flex flex-col gap-4">
       <AdminQueue />
 
       <AdminResourceList />

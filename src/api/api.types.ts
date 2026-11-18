@@ -189,6 +189,7 @@ type JobInfoExtra = {
     installed_strix: boolean;
   };
   lexicon: {
+    installed_karpred: boolean;
     installed_karps: boolean;
   };
   // Metadata has no extra job info, `object` means `{}`
@@ -219,7 +220,7 @@ export type JobType<T extends ResourceType> = T extends "corpus"
     : never;
 
 export type CorpusJobType = "sparv" | "korp" | "strix" | "sync2storage";
-export type LexiconJobType = "karp_pipeline" | "karps";
+export type LexiconJobType = "karp_pipeline" | "karpred" | "karps";
 
 /** The states a job can have */
 export type JobState =

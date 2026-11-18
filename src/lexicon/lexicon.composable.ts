@@ -23,6 +23,16 @@ export function useLexicon(id: string) {
     () => lexicon.value?.job?.status.karp_pipeline,
   );
 
+  async function installKarpred() {
+    matomo.value?.trackEvent("Job", "Install", "lexicon karpred");
+    const resource = await loadResource(id);
+    const info = await spin(
+      api.install("lexicon", id, "karpred"),
+      `${id}/job/install/karpred`,
+    );
+    resource.job = info.job;
+  }
+
   async function installKarps() {
     matomo.value?.trackEvent("Job", "Install", "lexicon karps");
     const resource = await loadResource(id);
@@ -31,6 +41,16 @@ export function useLexicon(id: string) {
       `${id}/job/install/karps`,
     );
     resource.job = info.job;
+  }
+
+  async function uninstallKarpred() {
+    matomo.value?.trackEvent("Job", "Uninstall", "lexicon karpred");
+    await spin(
+      api.uninstall("lexicon", id, "karpred"),
+      `${id}/job/install/karpred`,
+    );
+    // Get updated job info
+    await loadResource(id, true, `${id}/job/install/karpred`);
   }
 
   async function uninstallKarps() {
@@ -42,7 +62,6 @@ export function useLexicon(id: string) {
     // Get updated job info
     await loadResource(id, true, `${id}/job/install/karps`);
   }
-
   // Refresh exports when analysis is done
   watch(analysisStatus, (current, old) => {
     if (current == "done" && old && old != "done")
@@ -52,7 +71,9 @@ export function useLexicon(id: string) {
   return {
     lexicon,
     exports,
+    installKarpred,
     installKarps,
+    uninstallKarpred,
     uninstallKarps,
   };
 }

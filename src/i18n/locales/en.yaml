@@ -10,9 +10,17 @@ lab.goto_mink: Go to normal Mink
 library: Library
 library.help.resources: These are your resources. Click them to view more details.
 library.help.resources.none: Your resources will be listed here.
+checklist: Checklist
+checklist.analysis_required: Analysis required
+checklist.analyze: Analysis
+checklist.config: Configuration
+checklist.sources: Sources
+checklist.task: Task
 corpus: Corpus
 corpus.help: A corpus is a collection of text, typically used with statistical analysis and distant reading.
 corpus.new: New corpus
+corpus.checklist.korp: Explore in Korp
+corpus.checklist.strix: Explore in Strix
 corpus.state.unknown: Unknown
 corpus.state.empty: No files
 corpus.state.needing_config: Configuration needed
@@ -37,6 +45,7 @@ corpus.sparv.run: Analyse
 lexicon: Lexicon
 lexicon.help: A lexicon is a set of items with structured data fields. It doesn't have to be about words.
 lexicon.new: New lexicon
+lexicon.checklist.karps: Explore in @:lexicon.karps
 lexicon.config.entry_word.field: Entry field
 lexicon.config.entry_word.field.help: Choose a field from the source file that should work as a main entry to each row.
 lexicon.config.entry_word.description: Field label
@@ -44,6 +53,8 @@ lexicon.config.entry_word.description.help: The name of the field, for displayin
 lexicon.config.entry_word.description.default: baseform
 lexicon.karp_pipeline.run: Analyse
 lexicon.karp_pipeline.help: Prepare your data for use in Karp.
+lexicon.karpred: Karp's edit mode
+lexicon.karpred.help: Search and edit lexicons.
 lexicon.karps: Karp's search mode
 lexicon.karps.help: Search through entries and produce statistics.
 lexicon.tools.help: Use this data in Språkbanken's other platforms. Your data will be available to you only.
@@ -59,6 +70,8 @@ resource.access_denied: This requires a higher access level to the resource
 config.metadata.help: Metadata is information about the data, meant for assessment by interested users (if you release the data), and for categorization in data repositories.
 config.configuration.help: These settings are information for the automatic analysis; they will affect the parsing or annotation.
 corpus.config.parse.error: The config of this corpus could not be parsed. Edit and save the configuration to fix it. If you need help, please contact sb-info{'@'}svenska.gu.se
+config.is_invalid: Invalid
+config.is_valid: Valid
 config.saving: Saving metadata
 analysis.help: Run automated language technology methods on your text data according to your settings. Mink uses {sparv} under the hood.
 job.rerun.overwrite: Re-running will overwrite previous results.
@@ -75,7 +88,8 @@ job.process.sparv: Analysis
 job.process.korp: Installation to Korp
 job.process.strix: Installation to Strix
 job.process.karp_pipeline: Analysis
-job.process.karps: Installation to Karp
+job.process.karpred: Installation to Karp's edit mode
+job.process.karps: Installation to Karp's search mode
 sharing: Sharing
 sharing.level: Your access level
 sharing.level.admin_mode: Admin mode enabled
@@ -113,8 +127,7 @@ exports.tools.install: Install
 exports.tools.reinstall: Reinstall
 exports.tools.uninstall: Uninstall
 exports.tools.view: Open
-exports.download.help: Results can be downloaded as machine-readable files for processing in scripts or other specialized software.
-exports.download.placeholder: Downloads will be available here after successful analysis.
+exports.empty: No export files. Have you run analysis yet?
 exports.help: The analysis process yields export files for each input file. You can download each single export file or all of them in a bundle. The exact structure of the files depends on the input files as well as the configuration. They are stored on the server indefinitely, but re-analysing will replace them with new ones.
 exports.help.more.label: Read more about export files in the user manual
 exports.type.unknown: Unknown
@@ -174,10 +187,11 @@ docs.url: https://sprakbanken.se/en/platforms/mink/manual
 locale.switcher.label: Interface language
 file: File
 file.content: Content
-sources: Source files
+sources: Sources
 configuration: Configuration
 settings: Settings
 analysis: Analyse
+overview: Overview
 result: Result
 resources: Resources
 files: No files | 1 file | {count} files
@@ -238,6 +252,7 @@ enable: Enable
 enabled: Enabled
 disable: Disable
 disabled: Disabled
+jsonl: JSON Lines
 xml: XML
 txt: Plain text
 docx: Microsoft Word
@@ -278,6 +293,7 @@ config.custom.help: Mink uses {sparv}, a modular and configurable pipeline for t
 config.custom.upload.caution: Please note that submitting an invalid config file may cause unexpected behaviour.
 config.custom.upload.overwrite: Saving the standard configuration form may overwrite your custom config.
 config.datetime.validate_both: Both or none of these dates must be set.
+config.form: Form
 config.format.help: Select the file format of the source files. All files must be of the selected format.
 config.format.note.pdf: The PDF file format is primarily designed for display. Please note that extracting text from them can sometimes give unsatisfactory results. Performing OCR on scanned documents is (currently) outside the scope of Mink.
 config.language: Language

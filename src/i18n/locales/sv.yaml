@@ -10,9 +10,17 @@ lab.goto_mink: Gå till vanliga Mink
 library: Bibliotek
 library.help.resources: Här listas dina resurser. Klicka på dem för att visa mer.
 library.help.resources.none: Här kommer dina resurser att listas.
+checklist: Checklista
+checklist.analysis_required: Analysera först
+checklist.analyze: Analys
+checklist.config: Konfiguration
+checklist.sources: Källfiler
+checklist.task: Steg
 corpus: Korpus
 corpus.help: En korpus är en samling av text som ofta används för statistisk analys och fjärrläsning.
 corpus.new: Ny korpus
+corpus.checklist.korp: Utforska i Korp
+corpus.checklist.strix: Utforska i Strix
 corpus.state.unknown: Okänt
 corpus.state.empty: Inga filer
 corpus.state.needing_config: Behöver konfigureras
@@ -37,6 +45,7 @@ corpus.sparv.run: Analysera
 lexicon: Lexikon
 lexicon.help: Ett lexikon listar en mängd element med olika strukturerade fält. Det behöver inte handla om ord.
 lexicon.new: Nytt lexikon
+lexicon.checklist.karps: Utforska i @:lexicon.karps
 lexicon.config.entry_word.field: Ingångsfält
 lexicon.config.entry_word.field.help: Välj ett fält i källdatan som skall fungera som huvudingång till varje rad.
 lexicon.config.entry_word.description: Fältnamn
@@ -44,6 +53,8 @@ lexicon.config.entry_word.description.help: Namnet på fältet, så som det visa
 lexicon.config.entry_word.description.default: grundform
 lexicon.karp_pipeline.run: Analysera
 lexicon.karp_pipeline.help: Förbered datan för användning i Karp.
+lexicon.karpred: Karps redigeringsläge
+lexicon.karpred.help: Sök i och redigera lexikon.
 lexicon.karps: Karps sökläge
 lexicon.karps.help: Sök bland ingångarna och ta fram statistik.
 lexicon.tools.help: Använd den här datan i Språkbankens andra plattformar. Din data visas bara för dig.
@@ -59,6 +70,8 @@ resource.access_denied: Den här funktionen kräver en högre behörighetsnivå 
 config.metadata.help: Metadata är information om datan, och fungerar som underlag för potentiellt intresserade användare (om du publicerar datan) samt underlättar katalogiseringen i datarepositorier.
 config.configuration.help: Dessa inställningar blir instruktioner till den automatiska analysen.
 corpus.config.parse.error: Korpusens config kunde inte läsas. Redigera och spara konfigurationen för att åtgärda det. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
+config.is_invalid: Ogiltig
+config.is_valid: Giltig
 config.saving: Sparar metadata
 analysis.help: Kör automatiska språkteknologiska analyser på din textdata enligt inställningarna. Mink använder {sparv} i bakgrunden.
 job.rerun.overwrite: En ny körning skriver över tidigare resultat.
@@ -75,7 +88,8 @@ job.process.sparv: Analysering
 job.process.korp: Installation i Korp
 job.process.strix: Installation i Strix
 job.process.karp_pipeline: Karp pipeline
-job.process.karps: Installation i Karp
+job.process.karpred: Installation i Karps redigeringsläge
+job.process.karps: Installation i Karps sökläge
 sharing: Delning
 sharing.level: Din behörighetsnivå
 sharing.level.admin_mode: Administratörsläge aktiverat
@@ -113,8 +127,7 @@ exports.tools.install: Installera
 exports.tools.reinstall: Installera om
 exports.tools.uninstall: Avinstallera
 exports.tools.view: Öppna
-exports.download.help: Resultatet kan laddas ner som maskinläsbara filer för bearbetning i script eller speciella program.
-exports.download.placeholder: Nedladdningar finns här efter slutförd analys.
+exports.empty: Inga exportfiler. Har du kört analysen än?
 exports.help: Analysprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen. De lagras på servern tillsvidare, men ersätts med nya om du analyserar om på nytt.
 exports.help.more.label: Läs mer om exportfiler i användarhandledningen
 exports.type.unknown: Okänd
@@ -175,10 +188,11 @@ docs.url: https://sprakbanken.se/plattformar/mink
 locale.switcher.label: Gränssnittsspråk
 file: Fil
 file.content: Innehåll
-sources: Källfiler
+sources: Källor
 configuration: Konfiguration
 settings: Inställningar
 analysis: Analysera
+overview: Översikt
 result: Resultat
 resources: Resurser
 files: Inga filer | 1 fil | {count} filer
@@ -239,6 +253,7 @@ enable: Aktivera
 enabled: På
 disable: Stäng av
 disabled: Av
+jsonl: JSON Lines
 xml: XML
 txt: Ren text
 docx: Microsoft Word
@@ -279,6 +294,7 @@ config.custom.help: Mink använder {sparv}, en modulär och konfigurerbar pipeli
 config.custom.upload.caution: Notera att en ogiltig configfil kan leda till oväntat beteende.
 config.custom.upload.overwrite: Om du sparar i det vanliga formuläret igen kan den egna configen skrivas över.
 config.datetime.validate_both: Båda eller inget av dessa datum måste anges.
+config.form: Formulär
 config.format.help: Ange vilket filformat källfilerna har. Alla filer måste ha det valda formatet.
 config.format.note.pdf: PDF-formatet är byggt främst för visuell presentation. Text som extraheras från PDF-filer kan ibland ge bristfälliga resultat. OCR-behandling av scannade dokument är (för närvarande) inget som Mink stödjer.
 config.language: Språk

@@ -46,6 +46,10 @@ export type AppConfig = {
     };
 
     lexicon?: {
+      karpred?: {
+        /** URL to Karp search frontend */
+        url: string;
+      };
       karps?: {
         /** URL to Karp search frontend */
         url: string;
