@@ -10,7 +10,7 @@ import type { ResourceType } from "@/api/api.types";
 import type { Resource } from "@/store/resource.types";
 import type { Tab } from "@/components/RouteTabs.vue";
 import RouteTabs from "@/components/RouteTabs.vue";
-import TabsContent from "@/components/TabsContent.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
 import usePageTitle from "@/page/title.composable";
 
 const props = defineProps<{
@@ -50,9 +50,9 @@ loadTypedResource(props.type, props.id)
   <template v-if="resource && tabs">
     <RouteTabs :routes="tabs" />
 
-    <TabsContent :title>
+    <LayoutBox :aria-label="title">
       <router-view />
-    </TabsContent>
+    </LayoutBox>
   </template>
 
   <router-view v-else-if="resource" />

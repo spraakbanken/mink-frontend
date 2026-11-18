@@ -20,7 +20,7 @@ defineProps<{
 
 <template>
   <nav>
-    <ul class="flex flex-wrap border-b border-zinc-300 dark:border-zinc-700">
+    <ul class="flex flex-wrap">
       <router-link
         v-for="route in routes"
         :key="route.path"
@@ -28,19 +28,12 @@ defineProps<{
         custom
         v-slot="{ isActive, href, navigate }"
       >
-        <li
-          class="-mb-0.5 border border-b-0 text-lg"
-          :class="
-            isActive
-              ? 'rounded-t-sm bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700 overflow-hidden'
-              : 'border-transparent'
-          "
-        >
+        <li>
           <a
             :href
             @click="navigate"
-            class="inline-block p-2 px-3 font-medium underline-offset-4 decoration-2"
-            :class="isActive ? '' : 'no-underline hover:underline'"
+            class="inline-block p-2 text-lg font-medium no-underline border-primary-600"
+            :class="{ 'text-primary-600 border-b-2': isActive }"
           >
             {{ route.label }}
 

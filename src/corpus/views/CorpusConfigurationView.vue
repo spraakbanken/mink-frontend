@@ -27,7 +27,7 @@ import { type ByLang } from "@/util";
 import TerminalOutput from "@/components/TerminalOutput.vue";
 import useLocale from "@/i18n/locale.composable";
 import TabsBar from "@/components/TabsBar.vue";
-import TabsContent from "@/components/TabsContent.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
 import useSources from "@/resource/sources.composable";
 import { CORPUS_SOURCE_FORMATS } from "@/file";
 import { useUserStore } from "@/store/user.store";
@@ -188,7 +188,10 @@ async function submit(fields: Form) {
         }"
         @submit="submit"
       >
-        <TabsContent v-show="tabSelected == 'metadata'" :title="$t('metadata')">
+        <LayoutBox
+          v-show="tabSelected == 'metadata'"
+          :aria-label="$t('metadata')"
+        >
           <HelpBox>
             <p>{{ $t("config.metadata.help") }}</p>
           </HelpBox>
@@ -235,9 +238,12 @@ async function submit(fields: Form) {
               </TerminalOutput>
             </template>
           </FormKit>
-        </TabsContent>
+        </LayoutBox>
 
-        <TabsContent v-show="tabSelected == 'settings'" :title="$t('settings')">
+        <LayoutBox
+          v-show="tabSelected == 'settings'"
+          :aria-label="$t('settings')"
+        >
           <HelpBox>
             <p>{{ $t("config.configuration.help") }}</p>
           </HelpBox>
@@ -305,12 +311,12 @@ async function submit(fields: Form) {
             }"
             :help="$t('timespan_help')"
           />
-        </TabsContent>
+        </LayoutBox>
 
         <PendingContent on="sparv/analyses">
-          <TabsContent
+          <LayoutBox
             v-show="tabSelected == 'analyses'"
-            :title="$t('config.analyses')"
+            :aria-label="$t('config.analyses')"
           >
             <HelpBox>
               <i18n-t keypath="config.analyses.info" scope="global">
@@ -338,7 +344,7 @@ async function submit(fields: Form) {
               :langkey
               v-model="analysesSelected"
             />
-          </TabsContent>
+          </LayoutBox>
         </PendingContent>
       </FormKit>
     </FormKitWrapper>

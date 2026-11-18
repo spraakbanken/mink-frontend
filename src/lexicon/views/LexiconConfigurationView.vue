@@ -21,7 +21,7 @@ import TerminalOutput from "@/components/TerminalOutput.vue";
 import useMessenger from "@/alert/alert.composable";
 import RouteButton from "@/components/RouteButton.vue";
 import TabsBar from "@/components/TabsBar.vue";
-import TabsContent from "@/components/TabsContent.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
 import { useAppConfig } from "@/app/useAppConfig";
 import useLocale from "@/i18n/locale.composable";
 
@@ -94,8 +94,8 @@ async function submit(fields: Form) {
           }"
           @submit="submit"
         >
-          <TabsContent
-            :title="$t('metadata')"
+          <LayoutBox
+            :aria-label="$t('metadata')"
             v-show="tabSelected == 'metadata'"
           >
             <!-- Use current UI language, so if it's "swe", show input for `name.swe` etc -->
@@ -140,10 +140,10 @@ async function submit(fields: Form) {
                 </TerminalOutput>
               </template>
             </FormKit>
-          </TabsContent>
+          </LayoutBox>
 
-          <TabsContent
-            :title="$t('settings')"
+          <LayoutBox
+            :aria-label="$t('settings')"
             v-show="tabSelected == 'settings'"
           >
             <FormKit type="group" name="entryWord">
@@ -167,7 +167,7 @@ async function submit(fields: Form) {
                 />
               </FormKit>
             </FormKit>
-          </TabsContent>
+          </LayoutBox>
         </FormKit>
       </FormKitWrapper>
 

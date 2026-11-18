@@ -20,22 +20,13 @@ syncRef(hash, model, {
 
 <template>
   <nav>
-    <ul class="flex gap-2 border-b border-zinc-300 dark:border-zinc-700">
-      <li
-        v-for="tab in tabs"
-        :key="tab.key"
-        class="-mb-0.5 border border-b-0 text-lg font-medium"
-        :class="
-          tab.key == model
-            ? 'rounded-t-sm bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700'
-            : 'border-transparent'
-        "
-      >
+    <ul class="flex flex-wrap">
+      <li v-for="tab in tabs" :key="tab.key">
         <a
           href="#"
           @click.prevent="model = tab.key"
-          class="inline-block p-2 px-3 no-underline hover:underline underline-offset-4 decoration-2"
-          :class="{ underline: tab.key == model }"
+          class="inline-block p-2 text-lg font-medium no-underline border-primary-600"
+          :class="{ 'text-primary-600 border-b-2': model === tab.key }"
         >
           {{ tab.label }}
         </a>
