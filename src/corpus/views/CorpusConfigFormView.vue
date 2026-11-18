@@ -179,6 +179,7 @@ async function submit(fields: Form) {
     <FormKitWrapper v-if="configOptions !== undefined" :key="config">
       <FormKit
         id="corpus-config"
+        :value="configOptions"
         v-slot="{ value }"
         type="form"
         :disabled="!canWrite('corpus', id)"
@@ -197,25 +198,26 @@ async function submit(fields: Form) {
           </HelpBox>
 
           <!-- Use current UI language, so if it's "swe", show input for `name.swe` etc -->
-          <!-- TODO Manage current input if user switches locale while editing -->
           <FormKit type="group" name="name">
             <FormKit
+              :key="locale3"
               :name="locale3"
               :label="$t('name')"
-              :value="original.name?.[locale3]"
               :help="$t('metadata.name.help')"
               type="text"
+              preserve
               input-class="w-72"
             />
           </FormKit>
 
           <FormKit type="group" name="description">
             <FormKit
+              :key="locale3"
               :name="locale3"
               :label="$t('description')"
-              :value="original.description?.[locale3]"
               :help="$t('metadata.description.help')"
               type="textarea"
+              preserve
               input-class="w-full h-20"
             />
           </FormKit>
