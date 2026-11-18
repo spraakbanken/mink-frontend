@@ -5,7 +5,7 @@ import { useI18n } from "vue-i18n";
 import { computedAsync } from "@vueuse/core";
 import { sumBy } from "es-toolkit";
 import UploadSizeLimits from "./UploadSizeLimits.vue";
-import { useApiInfo } from "@/api/apiInfo.composable.ts";
+import { useApiInfo } from "@/api/apiInfo.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
 import useLocale from "@/i18n/locale.composable";

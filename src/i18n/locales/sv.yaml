@@ -294,6 +294,7 @@ config.custom.help: Mink använder {sparv}, en modulär och konfigurerbar pipeli
 config.custom.upload.caution: Notera att en ogiltig configfil kan leda till oväntat beteende.
 config.custom.upload.overwrite: Om du sparar i det vanliga formuläret igen kan den egna configen skrivas över.
 config.datetime.validate_both: Båda eller inget av dessa datum måste anges.
+config.form: Formulär
 config.format.help: Ange vilket filformat källfilerna har. Alla filer måste ha det valda formatet.
 config.format.note.pdf: PDF-formatet är byggt främst för visuell presentation. Text som extraheras från PDF-filer kan ibland ge bristfälliga resultat. OCR-behandling av scannade dokument är (för närvarande) inget som Mink stödjer.
 config.language: Språk

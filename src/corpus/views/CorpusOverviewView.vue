@@ -6,8 +6,8 @@ import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import LayoutBox from "@/components/LayoutBox.vue";
 import JobStatusPanel from "@/job/JobStatusPanel.vue";
 import RouteButton from "@/components/RouteButton.vue";
-import { useUserStore } from "@/store/user.store.ts";
-import { useAppConfig } from "@/app/useAppConfig.ts";
+import { useUserStore } from "@/store/user.store";
+import { useAppConfig } from "@/app/useAppConfig";
 import SharingPanel from "@/auth/SharingPanel.vue";
 
 const { appConfig } = useAppConfig();

@@ -348,11 +348,5 @@ async function submit(fields: Form) {
         </PendingContent>
       </FormKit>
     </FormKitWrapper>
-
-    <div class="flex justify-center items-baseline gap-4">
-      <router-link :to="`/library/corpus/${id}/config/custom`">
-        {{ $t("config.custom") }}
-      </router-link>
-    </div>
   </PendingContent>
 </template>

@@ -293,6 +293,7 @@ config.custom.help: Mink uses {sparv}, a modular and configurable pipeline for t
 config.custom.upload.caution: Please note that submitting an invalid config file may cause unexpected behaviour.
 config.custom.upload.overwrite: Saving the standard configuration form may overwrite your custom config.
 config.datetime.validate_both: Both or none of these dates must be set.
+config.form: Form
 config.format.help: Select the file format of the source files. All files must be of the selected format.
 config.format.note.pdf: The PDF file format is primarily designed for display. Please note that extracting text from them can sometimes give unsatisfactory results. Performing OCR on scanned documents is (currently) outside the scope of Mink.
 config.language: Language

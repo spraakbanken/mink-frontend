@@ -51,7 +51,6 @@ async function upload() {
 
 <template>
   <div class="flex flex-col gap-2">
-    <h2>{{ $t("config.custom") }}</h2>
     <slot name="head" />
 
     <HelpBox v-if="!canWrite(type, id)">

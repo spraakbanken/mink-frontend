@@ -2,8 +2,8 @@ import { RouterView, type RouteRecordRaw } from "vue-router";
 const CorpusAnalyseView = () => import("@/corpus/views/CorpusAnalyseView.vue");
 const CorpusConfigCustomView = () =>
   import("@/corpus/views/CorpusConfigCustomView.vue");
-const CorpusConfigurationView = () =>
-  import("@/corpus/views/CorpusConfigurationView.vue");
+const CorpusConfigFormView = () =>
+  import("@/corpus/views/CorpusConfigFormView.vue");
 const CorpusCreateView = () => import("@/corpus/views/CorpusCreateView.vue");
 const CorpusDeleteView = () => import("@/corpus/views/CorpusDeleteView.vue");
 const CorpusExploreView = () => import("@/corpus/views/CorpusExploreView.vue");
@@ -15,6 +15,7 @@ const CorpusOverviewView = () =>
 const CorpusSourcesView = () => import("@/corpus/views/CorpusSourcesView.vue");
 const CorpusSourceView = () => import("@/corpus/views/CorpusSourceView.vue");
 const CorpusView = () => import("@/corpus/views/CorpusView.vue");
+const ResourceConfigView = () => import("@/resource/ResourceConfigView.vue");
 
 const corpusRoutes: RouteRecordRaw[] = [
   {
@@ -41,11 +42,15 @@ const corpusRoutes: RouteRecordRaw[] = [
       },
       {
         path: "config",
-        component: RouterView,
+        component: ResourceConfigView,
         children: [
           {
             path: "",
-            component: CorpusConfigurationView,
+            redirect: (to) => `${to.path}/form`,
+          },
+          {
+            path: "form",
+            component: CorpusConfigFormView,
             meta: { title: "configuration" },
           },
           {
