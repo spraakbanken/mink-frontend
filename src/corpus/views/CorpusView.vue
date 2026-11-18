@@ -19,10 +19,6 @@ const { t } = useI18n();
 
 const tabs = computed<Tab[]>(() => {
   const tabs = [
-    // Required:
-    // TODO Do this for lexicon/metadata also
-    // Wanted:
-    // TODO Let content take more space and add HelpBoxes
     {
       path: `/library/corpus/${id}/status`,
       label: t("status"),

@@ -20,7 +20,7 @@ const { canAdmin } = useUserStore();
     <CorpusStateHelp :id />
 
     <div class="grid lg:grid-cols-2 gap-2">
-      <LayoutBox :title="$t('corpus.checklist')">
+      <LayoutBox :title="$t('checklist')">
         <CorpusChecklist :id />
       </LayoutBox>
 
