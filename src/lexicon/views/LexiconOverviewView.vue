@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { PhTrash } from "@phosphor-icons/vue";
+import LexiconChecklist from "../LexiconChecklist.vue";
 import { useUserStore } from "@/store/user.store";
 import LayoutBox from "@/components/LayoutBox.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
