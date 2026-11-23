@@ -13,7 +13,7 @@ const props = defineProps<{
   id: string;
 }>();
 
-const { corpusSettings } = useAppConfig();
+const { corpusSettings, exploreTools } = useAppConfig();
 const { configOptions, isConfigValid } = useCorpus(props.id);
 const { sources, extensions } = useSources("corpus", props.id);
 const { job } = useResource<"corpus">(props.id);
@@ -116,7 +116,7 @@ const strixUrl =
       </td>
     </tr>
 
-    <tr>
+    <tr v-if="exploreTools.includes('korp')">
       <td>{{ $t("checklist.explore_in", { tool: "Korp" }) }}</td>
       <td>
         <template v-if="job">
@@ -153,7 +153,7 @@ const strixUrl =
       </td>
     </tr>
 
-    <tr>
+    <tr v-if="exploreTools.includes('strix')">
       <td>{{ $t("checklist.explore_in", { tool: "Strix" }) }}</td>
       <td>
         <template v-if="job">

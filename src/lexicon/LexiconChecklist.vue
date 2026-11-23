@@ -146,7 +146,7 @@ const karpredUrl =
       </td>
     </tr>
 
-    <tr>
+    <tr v-if="lexiconSettings.karps">
       <td>{{ $t("checklist.explore_in", { tool: $t("lexicon.karps") }) }}</td>
       <td>
         <template v-if="job">

@@ -80,12 +80,12 @@ job.rerun.tools_outdated.reinstall: installera om
 job.abort: Avbryt
 job.status: Status
 job.priority: Plats i kön
-job.process: Pågående process
+job.process: Aktuell process
 job.started: Startad
 job.ended: Avslutad
 job.queued: Ställd i kön
 job.time_taken: Tidsåtgång
-job.process.sparv: Analysering
+job.process.sparv: Analys
 job.process.korp: Installation i Korp
 job.process.strix: Installation i Strix
 job.process.karp_pipeline: Karp pipeline

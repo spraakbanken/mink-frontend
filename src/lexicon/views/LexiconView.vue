@@ -17,11 +17,13 @@ import ResourceViewTemplate from "@/resource/ResourceViewTemplate.vue";
 import useSources from "@/resource/sources.composable";
 import { useAppConfig } from "@/app/useAppConfig";
 
-const { exploreTools } = useAppConfig();
+const { lexiconSettings } = useAppConfig();
 const id = useResourceIdParam();
 const { sources } = useSources("lexicon", id);
 const { job, isRunning } = useResource<"lexicon">(id);
 const { t } = useI18n();
+
+const exploreTools = compact(Object.values(lexiconSettings));
 
 const tabs = computed<Tab[]>(() => {
   const tabs = [
@@ -53,7 +55,7 @@ const tabs = computed<Tab[]>(() => {
       icon: PhDownloadSimple,
       label: t("result"),
     },
-    exploreTools
+    exploreTools.length
       ? {
           path: `/library/lexicon/${id}/explore`,
           label: t("exports.tools"),

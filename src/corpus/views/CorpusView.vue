@@ -56,7 +56,7 @@ const tabs = computed<Tab[]>(() => {
       icon: PhDownloadSimple,
       label: t("result"),
     },
-    exploreTools
+    exploreTools.length
       ? {
           path: `/library/corpus/${id}/explore`,
           label: t("exports.tools"),
