@@ -36,8 +36,8 @@ const { adminMode, userInfo } = storeToRefs(userStore);
 const { isCurrentUser } = userStore;
 const { createCorpusFromUpload } = useCreateCorpus();
 const { showAlert } = useAlert();
-const { t, locale } = useI18n();
-const { th } = useLocale();
+const { t } = useI18n();
+const { th, thCompare } = useLocale();
 
 const { loadResources } = resourceStore;
 const { hasResources, resources } = storeToRefs(resourceStore);
@@ -96,16 +96,11 @@ const getType = (resource: Resource) =>
             :columns="[
               {
                 title: $t('name'),
-                comparator: (a, b) =>
-                  (th(a.name) || a.id).localeCompare(
-                    th(b.name) || b.id,
-                    locale,
-                  ),
+                comparator: thCompare((r) => th(r.name) || r.id),
               },
               {
                 title: $t('type'),
-                comparator: (a, b) =>
-                  t(getType(a)).localeCompare(t(getType(b)), locale),
+                comparator: thCompare((r) => getType(r)),
               },
               { title: $t('status') },
             ]"
