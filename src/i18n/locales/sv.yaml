@@ -10,6 +10,13 @@ lab.goto_mink: Gå till vanliga Mink
 library: Bibliotek
 library.help.resources: Här listas dina resurser. Klicka på dem för att visa mer.
 library.help.resources.none: Här kommer dina resurser att listas.
+checklist: Checklista
+checklist.analysis_required: Analysera först
+checklist.analyze: Analys
+checklist.config: Konfiguration
+checklist.explore_in: Utforska i {tool}
+checklist.sources: Källfiler
+checklist.task: Steg
 corpus: Korpus
 corpus.help: En korpus är en samling av text som ofta används för statistisk analys och fjärrläsning.
 corpus.new: Ny korpus
@@ -23,16 +30,6 @@ corpus.state.running_install: Installerar
 corpus.state.done_install: Installation färdig
 corpus.state.failed: Fel
 corpus.state.failed_install: Fel
-corpus.state.help.unknown: Den här korpusen är i ett okänt tillstånd. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
-corpus.state.help.empty: Den här korpusen har inga källfiler. Ladda upp filer nedan.
-corpus.state.help.needing_config: Den här korpusen behöver några inställningar innan den kan analyseras.
-corpus.state.help.ready: Redo att analysera. Du kan också lägga till fler källfiler eller redigera konfigurationen.
-corpus.state.help.running: Korpusen analyseras i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
-corpus.state.help.done: Analysen är klar! Du kan ladda ner resultaten eller installera datan i Korp eller Strix.
-corpus.state.help.running_install: Installationen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
-corpus.state.help.done_install: Nu är datan installerad!
-corpus.state.help.failed: Ett fel uppstod under analyseringen. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
-corpus.state.help.failed_install: Ett fel uppstod under installation. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 corpus.sparv.run: Analysera
 lexicon: Lexikon
 lexicon.help: Ett lexikon listar en mängd element med olika strukturerade fält. Det behöver inte handla om ord.
@@ -61,19 +58,24 @@ resource.access_denied: Den här funktionen kräver en högre behörighetsnivå 
 config.metadata.help: Metadata är information om datan, och fungerar som underlag för potentiellt intresserade användare (om du publicerar datan) samt underlättar katalogiseringen i datarepositorier.
 config.configuration.help: Dessa inställningar blir instruktioner till den automatiska analysen.
 corpus.config.parse.error: Korpusens config kunde inte läsas. Redigera och spara konfigurationen för att åtgärda det. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
+config.is_invalid: Ogiltig
+config.is_valid: Giltig
 config.saving: Sparar metadata
+config.set_name: Ange namn
 analysis.help: Kör automatiska språkteknologiska analyser på din textdata enligt inställningarna. Mink använder {sparv} i bakgrunden.
-job.rerun.overwrite: En ny körning skriver över tidigare resultat.
-job.rerun.tools_outdated: Verktygen kommer att behålla det gamla resultatet. Glöm inte att installera om vid behov.
+job.rerun.overwrite: En ny körning skriver över {exports_link}.
+job.rerun.overwrite.exports: tidigare resultat
+job.rerun.tools_outdated: Resultat som tidigare installerats i andra plattformar kommer inte att uppdateras. Glöm inte att {reinstall_link} vid behov.
+job.rerun.tools_outdated.reinstall: installera om
 job.abort: Avbryt
 job.status: Status
 job.priority: Plats i kön
-job.process: Pågående process
+job.process: Aktuell process
 job.started: Startad
 job.ended: Avslutad
 job.queued: Ställd i kön
 job.time_taken: Tidsåtgång
-job.process.sparv: Analysering
+job.process.sparv: Analys
 job.process.korp: Installation i Korp
 job.process.strix: Installation i Strix
 job.process.karp_pipeline: Karp pipeline
@@ -116,8 +118,7 @@ exports.tools.install: Installera
 exports.tools.reinstall: Installera om
 exports.tools.uninstall: Avinstallera
 exports.tools.view: Öppna
-exports.download.help: Resultatet kan laddas ner som maskinläsbara filer för bearbetning i script eller speciella program.
-exports.download.placeholder: Nedladdningar finns här efter slutförd analys.
+exports.empty: Inga exportfiler. Har du kört analysen än?
 exports.help: Analysprocessen skapar exportfiler för varje källfil, och de kan laddas ner enskilt eller som arkiv. Filernas struktur beror både på källfilerna och konfigurationen. De lagras på servern tillsvidare, men ersätts med nya om du analyserar om på nytt.
 exports.help.more.label: Läs mer om exportfiler i användarhandledningen
 exports.type.unknown: Okänd
@@ -178,10 +179,11 @@ docs.url: https://sprakbanken.se/plattformar/mink
 locale.switcher.label: Gränssnittsspråk
 file: Fil
 file.content: Innehåll
-sources: Källfiler
+sources: Källor
 configuration: Konfiguration
 settings: Inställningar
 analysis: Analysera
+overview: Översikt
 result: Resultat
 resources: Resurser
 files: Inga filer | 1 fil | {count} filer
@@ -242,6 +244,7 @@ enable: Aktivera
 enabled: På
 disable: Stäng av
 disabled: Av
+jsonl: JSON Lines
 xml: XML
 txt: Ren text
 docx: Microsoft Word
@@ -282,6 +285,7 @@ config.custom.help: Mink använder {sparv}, en modulär och konfigurerbar pipeli
 config.custom.upload.caution: Notera att en ogiltig configfil kan leda till oväntat beteende.
 config.custom.upload.overwrite: Om du sparar i det vanliga formuläret igen kan den egna configen skrivas över.
 config.datetime.validate_both: Båda eller inget av dessa datum måste anges.
+config.form: Formulär
 config.format.help: Ange vilket filformat källfilerna har. Alla filer måste ha det valda formatet.
 config.format.note.pdf: PDF-formatet är byggt främst för visuell presentation. Text som extraheras från PDF-filer kan ibland ge bristfälliga resultat. OCR-behandling av scannade dokument är (för närvarande) inget som Mink stödjer.
 config.language: Språk
@@ -298,7 +302,7 @@ timespan_from: Från
 timespan_to: Till
 edit: Redigera
 annotations.clear: Rensa annotationer
-annotations.clear.help: Gör detta för att kunna analysera om en korpus med nya inställningar.
+annotations.clear.help: Delar av resultatet cachas så att det går fortare att analysera om. Om du får oväntade resultat kan du rensa annotationscachen och resultatfilerna för att tvinga fram en fullständig omanalys.
 admin.page.subtitle: Administration
 admin.goto: Genvägar
 admin.resources.help: I denna administrativa resurslista behöver du ladda in detaljerad resursinformation manuellt, eftersom det tar lång tid att ladda allt.

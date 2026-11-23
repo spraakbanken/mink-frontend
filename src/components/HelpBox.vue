@@ -6,7 +6,7 @@ defineProps<{
 
 <template>
   <div
-    class="my-2 rounded-sm p-2 px-3 max-w-(--breakpoint-sm)"
+    class="rounded-sm p-2 px-3 max-w-2xl"
     :class="
       important
         ? 'bg-blue-100 border-2 border-blue-300 dark:bg-sky-900 dark:border-0 dark:text-sky-200'

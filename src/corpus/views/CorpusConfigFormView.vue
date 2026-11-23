@@ -1,0 +1,354 @@
+<script setup lang="ts">
+import type { FormKitOptionsList } from "@formkit/inputs";
+import { computed, ref } from "vue";
+import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
+import { FormKit } from "@formkit/vue";
+import { PhLightbulbFilament } from "@phosphor-icons/vue";
+import { computedAsync, watchImmediate, whenever } from "@vueuse/core";
+import { omit } from "es-toolkit";
+import { useCorpus } from "../corpus.composable";
+import { toLangKey, useSparv } from "../sparv.composable";
+import AnalysisSelector from "../AnalysisSelector.vue";
+import {
+  type ConfigOptions,
+  type CorpusSourceFormat,
+  SEGMENTERS,
+  emptyConfig,
+  isSegmentable,
+} from "@/api/corpusConfig";
+import type { ConfigSentenceSegmenter } from "@/api/sparvConfig.types";
+import HelpBox from "@/components/HelpBox.vue";
+import FormKitWrapper from "@/components/FormKitWrapper.vue";
+import useResourceIdParam from "@/resource/resourceIdParam.composable";
+import useAlert from "@/alert/alert.composable";
+import PendingContent from "@/spin/PendingContent.vue";
+import { type ByLang } from "@/util";
+import TerminalOutput from "@/components/TerminalOutput.vue";
+import useLocale from "@/i18n/locale.composable";
+import TabsBar from "@/components/TabsBar.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
+import useSources from "@/resource/sources.composable";
+import { CORPUS_SOURCE_FORMATS } from "@/file";
+import { useUserStore } from "@/store/user.store";
+import { useAppConfig } from "@/app/useAppConfig";
+
+type TabKey = "metadata" | "settings" | "analyses";
+
+type Form = {
+  name: ByLang;
+  description: ByLang;
+  format: CorpusSourceFormat;
+  textAnnotation: string;
+  language: string;
+  sentenceSegmenter: ConfigSentenceSegmenter;
+  datetimeFrom: string;
+  datetimeTo: string;
+};
+
+const { appConfig } = useAppConfig();
+const router = useRouter();
+const id = useResourceIdParam();
+const { languageOptions, findAnalyses } = useSparv();
+const { config, configOptions, saveConfigOptions } = useCorpus(id);
+const { extensions } = useSources("corpus", id);
+const { showAlert } = useAlert();
+const { t } = useI18n();
+const { locale3, thCompare } = useLocale();
+const { canWrite } = useUserStore();
+
+const tabSelected = ref<TabKey>("metadata");
+/** The key of the selected language and variety */
+const langkey = ref<string>();
+
+/** Analyses for the selected language */
+const analyses = computedAsync(async () => {
+  const [language, variety] = langkey.value?.split("-") || [];
+  const analyses = await findAnalyses({ language, variety });
+  return analyses.sort(thCompare((x) => x.name));
+}, []);
+
+const formatOptions = computed<FormKitOptionsList>(() =>
+  CORPUS_SOURCE_FORMATS.map((ext) => ({
+    value: ext,
+    label: `${t(ext)} (.${ext})`,
+    // If there are source files, disable all formats not present there.
+    attrs: {
+      disabled: extensions.value.length > 0 && !extensions.value.includes(ext),
+    },
+  })),
+);
+
+// Auto-select the file format present among source files, if any.
+const selectedFormat = computed<CorpusSourceFormat | undefined>(() =>
+  configOptions.value?.format &&
+  (!extensions.value.length ||
+    extensions.value.includes(configOptions.value?.format))
+    ? configOptions.value?.format
+    : undefined,
+);
+
+type SegmenterOptions = Record<ConfigSentenceSegmenter | "", string>;
+
+const segmenterOptions = computed<SegmenterOptions>(() => {
+  const options: Partial<SegmenterOptions> = { "": t("none") };
+  for (const segmenter of SEGMENTERS) {
+    options[segmenter] = t(`segmenter_${segmenter}`);
+  }
+  return options as SegmenterOptions;
+});
+
+/** Original values from the current config, or defaults if not loaded or parsing failed */
+const original = computed(() => configOptions.value || emptyConfig());
+
+const analysesSelected = ref<string[]>([]);
+
+// Alert if parsing fails
+watchImmediate(configOptions, () => {
+  if (configOptions.value === null) showAlert(t("corpus.config.parse.error"));
+});
+
+whenever(original, async () => {
+  // Get selected language code
+  const { language, variety } = original.value;
+  langkey.value = language
+    ? toLangKey(language, variety)
+    : appConfig.defaultLanguage;
+
+  // Identify selected analyses
+  const analyses = await findAnalyses(original.value);
+  analysesSelected.value = analyses.map((a) => a.id);
+});
+
+async function submit(fields: Form) {
+  const configOld = original.value;
+
+  // Split language-variety code
+  const [language, variety] = fields.language.split("-");
+
+  // Use datetime if both are set
+  const datetime =
+    fields.datetimeFrom && fields.datetimeTo
+      ? { from: fields.datetimeFrom, to: fields.datetimeTo }
+      : undefined;
+
+  // Get the annotation strings of each analysis
+  const annotations = analyses.value
+    .filter((a) => analysesSelected.value.includes(a.id))
+    .flatMap((a) => a.annotations);
+
+  const configNew: ConfigOptions = {
+    ...omit(fields, ["datetimeFrom", "datetimeTo"]),
+    language,
+    variety,
+    datetime,
+    annotations,
+  };
+
+  // Preserve hidden translations
+  configNew.name = { ...configOld.name, ...configNew.name };
+  configNew.description = {
+    ...configOld.description,
+    ...configNew.description,
+  };
+
+  // Merge new form values with existing config.
+  const config = { ...configOld, ...configNew };
+
+  try {
+    await saveConfigOptions(config);
+    router.push(`/library/corpus/${id}`);
+  } catch (e) {
+    showAlert(e);
+  }
+}
+</script>
+
+<template>
+  <PendingContent :on="`${id}/config`">
+    <TabsBar
+      :tabs="[
+        { key: 'metadata', label: $t('config.metadata') },
+        { key: 'settings', label: $t('settings') },
+        { key: 'analyses', label: $t('config.analyses') },
+      ]"
+      v-model="tabSelected"
+    />
+
+    <!-- Using the key attribute to re-render whole form after fetching config -->
+    <FormKitWrapper v-if="configOptions !== undefined" :key="config">
+      <FormKit
+        id="corpus-config"
+        :value="configOptions"
+        v-slot="{ value }"
+        type="form"
+        :disabled="!canWrite('corpus', id)"
+        :submit-label="$t('save')"
+        :submit-attrs="{
+          inputClass: 'mink-button button-primary',
+        }"
+        @submit="submit"
+      >
+        <LayoutBox
+          v-show="tabSelected == 'metadata'"
+          :aria-label="$t('metadata')"
+        >
+          <HelpBox>
+            <p>{{ $t("config.metadata.help") }}</p>
+          </HelpBox>
+
+          <!-- Use current UI language, so if it's "swe", show input for `name.swe` etc -->
+          <FormKit type="group" name="name">
+            <FormKit
+              :key="locale3"
+              :name="locale3"
+              :label="$t('name')"
+              :help="$t('metadata.name.help')"
+              type="text"
+              preserve
+              input-class="w-72"
+            />
+          </FormKit>
+
+          <FormKit type="group" name="description">
+            <FormKit
+              :key="locale3"
+              :name="locale3"
+              :label="$t('description')"
+              :help="$t('metadata.description.help')"
+              type="textarea"
+              preserve
+              input-class="w-full h-20"
+            />
+          </FormKit>
+
+          <FormKit
+            :label="$t('identifier')"
+            type="text"
+            name="identifier"
+            disabled
+            :value="id"
+            :help="$t('metadata.identifier.help')"
+          >
+            <template #label>
+              <!-- Avoid orphaned <label> for better accessibility -->
+              <span class="formkit-label">{{ $t("identifier") }}</span>
+            </template>
+            <template #input>
+              <TerminalOutput class="inline leading-loose">
+                {{ id }}
+              </TerminalOutput>
+            </template>
+          </FormKit>
+        </LayoutBox>
+
+        <LayoutBox
+          v-show="tabSelected == 'settings'"
+          :aria-label="$t('settings')"
+        >
+          <HelpBox>
+            <p>{{ $t("config.configuration.help") }}</p>
+          </HelpBox>
+
+          <FormKit
+            name="format"
+            :label="$t('fileFormat')"
+            :value="selectedFormat"
+            type="select"
+            input-class="w-72"
+            :options="formatOptions"
+            validation="required"
+            :help="$t('config.format.help')"
+          />
+
+          <HelpBox v-if="value!.format === 'pdf'" important>
+            <PhLightbulbFilament weight="bold" class="inline mb-1 mr-1" />
+            {{ $t("config.format.note.pdf") }}
+          </HelpBox>
+
+          <FormKit
+            v-if="value!.format === 'xml'"
+            name="textAnnotation"
+            :label="$t('config.text_annotation')"
+            type="text"
+            :value="original.textAnnotation"
+            validation="required:trim|matches:/^[^<>\s]*$/"
+            input-class="w-40 font-mono"
+            :help="$t('config.text_annotation.help')"
+          >
+            <template #prefix> &lt; </template>
+            <template #suffix> &gt; </template>
+          </FormKit>
+
+          <FormKit
+            v-if="isSegmentable((value as Form).format)"
+            name="sentenceSegmenter"
+            :label="$t('segmenter_sentence')"
+            :value="original.sentenceSegmenter || ''"
+            type="radio"
+            :options="segmenterOptions"
+            :help="$t('segmenter_sentence_help')"
+          />
+
+          <FormKit
+            name="datetimeFrom"
+            type="date"
+            :label="`${$t('timespan')}: ${$t('timespan_from')}`"
+            :value="original.datetime?.from"
+            :max="(value as Form).datetimeTo"
+            validation="onlyif:datetimeTo"
+            :validation-messages="{
+              onlyif: $t('config.datetime.validate_both'),
+            }"
+          />
+          <FormKit
+            name="datetimeTo"
+            type="date"
+            :label="`${$t('timespan')}: ${$t('timespan_to')}`"
+            :value="original.datetime?.to"
+            :min="(value as Form).datetimeFrom"
+            validation="onlyif:datetimeFrom"
+            :validation-messages="{
+              onlyif: $t('config.datetime.validate_both'),
+            }"
+            :help="$t('timespan_help')"
+          />
+        </LayoutBox>
+
+        <PendingContent on="sparv/analyses">
+          <LayoutBox
+            v-show="tabSelected == 'analyses'"
+            :aria-label="$t('config.analyses')"
+          >
+            <HelpBox>
+              <i18n-t keypath="config.analyses.info" scope="global">
+                <template #custom_config>
+                  <router-link :to="`/library/corpus/${id}/config/custom`">
+                    {{ $t("config.custom") }}
+                  </router-link>
+                </template>
+              </i18n-t>
+            </HelpBox>
+
+            <FormKit
+              name="language"
+              :label="$t('config.language')"
+              type="select"
+              v-model="langkey"
+              input-class="w-72"
+              :options="languageOptions"
+              validation="required"
+              :help="$t('config.language.help')"
+            />
+
+            <AnalysisSelector
+              v-if="langkey"
+              :langkey
+              v-model="analysesSelected"
+            />
+          </LayoutBox>
+        </PendingContent>
+      </FormKit>
+    </FormKitWrapper>
+  </PendingContent>
+</template>

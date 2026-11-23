@@ -10,6 +10,13 @@ lab.goto_mink: Go to normal Mink
 library: Library
 library.help.resources: These are your resources. Click them to view more details.
 library.help.resources.none: Your resources will be listed here.
+checklist: Checklist
+checklist.analysis_required: Analysis required
+checklist.analyze: Analysis
+checklist.config: Configuration
+checklist.explore_in: Explore in {tool}
+checklist.sources: Sources
+checklist.task: Task
 corpus: Corpus
 corpus.help: A corpus is a collection of text, typically used with statistical analysis and distant reading.
 corpus.new: New corpus
@@ -23,16 +30,6 @@ corpus.state.running_install: Installing
 corpus.state.done_install: Done installing
 corpus.state.failed: Failed
 corpus.state.failed_install: Failed
-corpus.state.help.unknown: The state of this corpus is unknown. If you need help, please contact sb-info{'@'}svenska.gu.se
-corpus.state.help.empty: There are no source files in this corpus. Upload some files below.
-corpus.state.help.needing_config: This corpus needs you to change some settings before it can be analysed.
-corpus.state.help.ready: Ready for analysis. You can also supply more source files or edit the configuration.
-corpus.state.help.running: Analysis is running in the background. Feel free to close the website, have some coffee and check back later!
-corpus.state.help.done: Analysis done! You can download the results or install it to Korp or Strix.
-corpus.state.help.running_install: Installation is running in the background. Feel free to close the website, have some coffee and check back later!
-corpus.state.help.done_install: Successfully installed!
-corpus.state.help.failed: An error occurred while processing your data. If you need help, please contact sb-info{'@'}svenska.gu.se
-corpus.state.help.failed_install: An error occurred while installing your corpus. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.sparv.run: Analyse
 lexicon: Lexicon
 lexicon.help: A lexicon is a set of items with structured data fields. It doesn't have to be about words.
@@ -61,10 +58,15 @@ resource.access_denied: This requires a higher access level to the resource
 config.metadata.help: Metadata is information about the data, meant for assessment by interested users (if you release the data), and for categorization in data repositories.
 config.configuration.help: These settings are information for the automatic analysis; they will affect the parsing or annotation.
 corpus.config.parse.error: The config of this corpus could not be parsed. Edit and save the configuration to fix it. If you need help, please contact sb-info{'@'}svenska.gu.se
+config.is_invalid: Invalid
+config.is_valid: Valid
 config.saving: Saving metadata
+config.set_name: Set name
 analysis.help: Run automated language technology methods on your text data according to your settings. Mink uses {sparv} under the hood.
-job.rerun.overwrite: Re-running will overwrite previous results.
-job.rerun.tools_outdated: Previous results will remain in other platforms if it has been installed there. Do not forget to re-install if needed.
+job.rerun.overwrite: Re-running will overwrite {exports_link}.
+job.rerun.overwrite.exports: previous results
+job.rerun.tools_outdated: Results previously installed in other platforms will not be affected. Do not forget to {reinstall_link} if needed.
+job.rerun.tools_outdated.reinstall: reinstall
 job.abort: Abort
 job.status: Status
 job.priority: Place in queue
@@ -116,8 +118,7 @@ exports.tools.install: Install
 exports.tools.reinstall: Reinstall
 exports.tools.uninstall: Uninstall
 exports.tools.view: Open
-exports.download.help: Results can be downloaded as machine-readable files for processing in scripts or other specialized software.
-exports.download.placeholder: Downloads will be available here after successful analysis.
+exports.empty: No export files. Have you run analysis yet?
 exports.help: The analysis process yields export files for each input file. You can download each single export file or all of them in a bundle. The exact structure of the files depends on the input files as well as the configuration. They are stored on the server indefinitely, but re-analysing will replace them with new ones.
 exports.help.more.label: Read more about export files in the user manual
 exports.type.unknown: Unknown
@@ -177,10 +178,11 @@ docs.url: https://sprakbanken.se/en/platforms/mink/manual
 locale.switcher.label: Interface language
 file: File
 file.content: Content
-sources: Source files
+sources: Sources
 configuration: Configuration
 settings: Settings
 analysis: Analyse
+overview: Overview
 result: Result
 resources: Resources
 files: No files | 1 file | {count} files
@@ -241,6 +243,7 @@ enable: Enable
 enabled: Enabled
 disable: Disable
 disabled: Disabled
+jsonl: JSON Lines
 xml: XML
 txt: Plain text
 docx: Microsoft Word
@@ -281,6 +284,7 @@ config.custom.help: Mink uses {sparv}, a modular and configurable pipeline for t
 config.custom.upload.caution: Please note that submitting an invalid config file may cause unexpected behaviour.
 config.custom.upload.overwrite: Saving the standard configuration form may overwrite your custom config.
 config.datetime.validate_both: Both or none of these dates must be set.
+config.form: Form
 config.format.help: Select the file format of the source files. All files must be of the selected format.
 config.format.note.pdf: The PDF file format is primarily designed for display. Please note that extracting text from them can sometimes give unsatisfactory results. Performing OCR on scanned documents is (currently) outside the scope of Mink.
 config.language: Language
@@ -297,7 +301,7 @@ timespan_from: From
 timespan_to: To
 edit: Edit
 annotations.clear: Clear annotations
-annotations.clear.help: Use this before processing a previously analysed corpus with new annotation settings.
+annotations.clear.help: Partial results are cached to make subsequent analysis faster. If you are seeing unexpected results, you can clear the annotation cache and result files to force a full reanalysis.
 admin.page.subtitle: Administration
 admin.goto: Shortcuts
 admin.resources.help: In this administrative listing, you need to load detailed information manually, because loading everything takes a long time.
