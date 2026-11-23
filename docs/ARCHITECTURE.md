@@ -26,6 +26,7 @@ The Mink system is connected to these other systems:
 - Analysed results can be installed from Mink into:
   - **[Korp](https://sprakbanken.se/en/platforms/korp)**, Språkbanken's word research platform
   - **[Strix](https://sprakbanken.se/en/platforms/strix)**, Språkbanken's text research platform
+  - **[Karp](https://sprakbanken.se/en/platforms/karp)**, Språkbanken's lexicon platform
 - [**Newsdesk**](https://github.com/spraakbanken/newsdesk/) is a simple news feed storage
 - [**Matomo**](https://matomo.org/) records anonymized visitor statistics
 
