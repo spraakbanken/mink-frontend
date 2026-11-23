@@ -4,10 +4,12 @@ import {
   PhWarning,
   PhWarningOctagon,
 } from "@phosphor-icons/vue";
+import type { Component } from "vue";
 
 export type Tab = {
   path: string;
   label: string;
+  icon?: Component;
   loading?: boolean;
   error?: boolean;
   warning?: boolean;
@@ -35,6 +37,12 @@ defineProps<{
             class="inline-block p-2 text-lg font-medium no-underline border-primary-600"
             :class="{ 'text-primary-600 border-b-2': isActive }"
           >
+            <component
+              v-if="route.icon"
+              :is="route.icon"
+              class="inline mb-1 mr-1"
+            />
+
             {{ route.label }}
 
             <PhCircleNotch
