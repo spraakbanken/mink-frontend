@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends ResourceType">
 /** Template for the parent view of routes for a given resource */
-import { ref } from "vue";
+import { computed } from "vue";
 import PageTitle from "@/components/PageTitle.vue";
 import useLocale from "@/i18n/locale.composable";
 import { useResourceStore } from "@/store/resource.store";
@@ -19,18 +19,16 @@ const props = defineProps<{
   tabs?: Tab[];
 }>();
 
-const { loadTypedResource } = useResourceStore();
+const { resources, loadResource } = useResourceStore();
 const { th } = useLocale();
 const { showAlert } = useAlert();
 const { handle404 } = useNotFound();
 const { title } = usePageTitle();
 
-const resource = ref<Resource<T>>();
+const resource = computed(() => resources[props.id] as Resource<T> | undefined);
 
-loadTypedResource(props.type, props.id)
-  .then((data) => (resource.value = data))
-  .catch(handle404)
-  .catch(showAlert);
+// Load resource if needed
+if (!resource.value) loadResource(props.id).catch(handle404).catch(showAlert);
 </script>
 
 <template>

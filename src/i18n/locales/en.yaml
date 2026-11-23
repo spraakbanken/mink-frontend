@@ -71,6 +71,7 @@ corpus.config.parse.error: The config of this corpus could not be parsed. Edit a
 config.is_invalid: Invalid
 config.is_valid: Valid
 config.saving: Saving metadata
+config.set_name: Set name
 analysis.help: Run automated language technology methods on your text data according to your settings. Mink uses {sparv} under the hood.
 job.rerun.overwrite: Re-running will overwrite {exports_link}.
 job.rerun.overwrite.exports: previous results

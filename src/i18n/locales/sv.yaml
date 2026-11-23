@@ -71,6 +71,7 @@ corpus.config.parse.error: Korpusens config kunde inte läsas. Redigera och spar
 config.is_invalid: Ogiltig
 config.is_valid: Giltig
 config.saving: Sparar metadata
+config.set_name: Ange namn
 analysis.help: Kör automatiska språkteknologiska analyser på din textdata enligt inställningarna. Mink använder {sparv} i bakgrunden.
 job.rerun.overwrite: En ny körning skriver över {exports_link}.
 job.rerun.overwrite.exports: tidigare resultat

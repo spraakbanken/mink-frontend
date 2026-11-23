@@ -1,29 +1,28 @@
 <script lang="ts" setup>
-import { computedAsync } from "@vueuse/core";
 import { PhArrowSquareOut } from "@phosphor-icons/vue";
+import { useLexicon } from "./lexicon.composable";
 import useSources from "@/resource/sources.composable";
 import useResource from "@/resource/resource.composable";
 import ChecklistTable from "@/components/ChecklistTable.vue";
 import ChecklistItem, { STATUS_MAP } from "@/components/ChecklistItem.vue";
-import { useConfigStore } from "@/store/config.store";
 import { useAppConfig } from "@/app/useAppConfig";
 import { ensureTrailingSlash } from "@/util";
+import useLocale from "@/i18n/locale.composable";
 
 const props = defineProps<{
   id: string;
 }>();
 
 const { lexiconSettings } = useAppConfig();
-const { loadConfig } = useConfigStore();
 const { sources, extensions } = useSources("lexicon", props.id);
 const { job } = useResource<"lexicon">(props.id);
+const { configOptions } = useLexicon(props.id);
+const { th } = useLocale();
 
 const karpsUrl =
   lexiconSettings.karps && ensureTrailingSlash(lexiconSettings.karps.url);
 const karpredUrl =
   lexiconSettings.karpred && ensureTrailingSlash(lexiconSettings.karpred.url);
-
-const config = computedAsync(() => loadConfig("lexicon", props.id));
 </script>
 
 <template>
@@ -55,8 +54,18 @@ const config = computedAsync(() => loadConfig("lexicon", props.id));
     <tr>
       <td>{{ $t("checklist.config") }}</td>
       <td>
-        <ChecklistItem v-if="config" status="success">
+        <ChecklistItem v-if="configOptions" status="success">
           {{ $t("config.is_valid") }}
+
+          <template #actions>
+            <router-link
+              v-if="!th(configOptions?.name)"
+              :to="`/library/lexicon/${id}/config`"
+              class="link-primary"
+            >
+              {{ $t("config.set_name") }}
+            </router-link>
+          </template>
         </ChecklistItem>
 
         <ChecklistItem v-else status="error">
@@ -87,7 +96,7 @@ const config = computedAsync(() => loadConfig("lexicon", props.id));
             <router-link
               v-if="
                 sources.length &&
-                config &&
+                configOptions &&
                 STATUS_MAP[job.status.karp_pipeline] != 'success'
               "
               :to="`/library/lexicon/${id}/analyse`"

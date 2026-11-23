@@ -14,10 +14,10 @@ const props = defineProps<{
 }>();
 
 const { corpusSettings } = useAppConfig();
-const { isConfigValid } = useCorpus(props.id);
+const { configOptions, isConfigValid } = useCorpus(props.id);
 const { sources, extensions } = useSources("corpus", props.id);
 const { job } = useResource<"corpus">(props.id);
-const { locale3 } = useLocale();
+const { locale3, th } = useLocale();
 
 const korpUrl =
   corpusSettings.explore?.korp &&
@@ -58,6 +58,16 @@ const strixUrl =
       <td>
         <ChecklistItem v-if="isConfigValid" status="success">
           {{ $t("config.is_valid") }}
+
+          <template #actions>
+            <router-link
+              v-if="!th(configOptions?.name)"
+              :to="`/library/corpus/${id}/config`"
+              class="link-primary"
+            >
+              {{ $t("config.set_name") }}
+            </router-link>
+          </template>
         </ChecklistItem>
 
         <ChecklistItem v-else status="error">

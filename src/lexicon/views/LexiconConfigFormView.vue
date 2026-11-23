@@ -1,15 +1,13 @@
 <script lang="ts" setup>
-import { computedAsync } from "@vueuse/core";
-import { attempt } from "es-toolkit";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
 import {
   emptyConfig,
   makeConfig,
-  parseConfig,
   type LexiconConfigOptions,
 } from "../lexiconConfig";
+import { useLexicon } from "../lexicon.composable";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -28,19 +26,14 @@ type Form = LexiconConfigOptions;
 
 const id = useResourceIdParam();
 const { minkUrl } = useAppConfig();
-const { loadConfig, uploadConfig } = useConfigStore();
+const { config, configOptions } = useLexicon(id);
+const { uploadConfig } = useConfigStore();
 const { canWrite } = useUserStore();
 const router = useRouter();
 const { showAlert } = useMessenger();
 const { locale3 } = useLocale();
 
 const tabSelected = ref<TabKey>("metadata");
-
-const config = computedAsync(() => loadConfig("lexicon", id));
-
-const configOptions = computed(
-  () => attempt(() => parseConfig(config.value || "", locale3.value))[1],
-);
 
 async function submit(fields: Form) {
   const original = configOptions.value || emptyConfig();
