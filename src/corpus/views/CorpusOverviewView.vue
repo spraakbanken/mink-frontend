@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { PhTrash } from "@phosphor-icons/vue";
-import CorpusStateHelp from "../CorpusStateHelp.vue";
 import CorpusChecklist from "../CorpusChecklist.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import LayoutBox from "@/components/LayoutBox.vue";
@@ -17,8 +16,6 @@ const { canAdmin } = useUserStore();
 
 <template>
   <div class="flex flex-col gap-2">
-    <CorpusStateHelp :id />
-
     <div class="grid lg:grid-cols-2 gap-2">
       <LayoutBox :title="$t('checklist')">
         <CorpusChecklist :id />

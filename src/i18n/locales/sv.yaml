@@ -30,16 +30,6 @@ corpus.state.running_install: Installerar
 corpus.state.done_install: Installation färdig
 corpus.state.failed: Fel
 corpus.state.failed_install: Fel
-corpus.state.help.unknown: Den här korpusen är i ett okänt tillstånd. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
-corpus.state.help.empty: Den här korpusen har inga källfiler. Ladda upp filer nedan.
-corpus.state.help.needing_config: Den här korpusen behöver några inställningar innan den kan analyseras.
-corpus.state.help.ready: Redo att analysera. Du kan också lägga till fler källfiler eller redigera konfigurationen.
-corpus.state.help.running: Korpusen analyseras i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
-corpus.state.help.done: Analysen är klar! Du kan ladda ner resultaten eller installera datan i Korp eller Strix.
-corpus.state.help.running_install: Installationen körs i bakgrunden. Det går bra att stänga webbsidan, ta en kaffe och kolla läget igen senare!
-corpus.state.help.done_install: Nu är datan installerad!
-corpus.state.help.failed: Ett fel uppstod under analyseringen. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
-corpus.state.help.failed_install: Ett fel uppstod under installation. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 corpus.sparv.run: Analysera
 lexicon: Lexikon
 lexicon.help: Ett lexikon listar en mängd element med olika strukturerade fält. Det behöver inte handla om ord.

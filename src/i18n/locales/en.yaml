@@ -30,16 +30,6 @@ corpus.state.running_install: Installing
 corpus.state.done_install: Done installing
 corpus.state.failed: Failed
 corpus.state.failed_install: Failed
-corpus.state.help.unknown: The state of this corpus is unknown. If you need help, please contact sb-info{'@'}svenska.gu.se
-corpus.state.help.empty: There are no source files in this corpus. Upload some files below.
-corpus.state.help.needing_config: This corpus needs you to change some settings before it can be analysed.
-corpus.state.help.ready: Ready for analysis. You can also supply more source files or edit the configuration.
-corpus.state.help.running: Analysis is running in the background. Feel free to close the website, have some coffee and check back later!
-corpus.state.help.done: Analysis done! You can download the results or install it to Korp or Strix.
-corpus.state.help.running_install: Installation is running in the background. Feel free to close the website, have some coffee and check back later!
-corpus.state.help.done_install: Successfully installed!
-corpus.state.help.failed: An error occurred while processing your data. If you need help, please contact sb-info{'@'}svenska.gu.se
-corpus.state.help.failed_install: An error occurred while installing your corpus. If you need help, please contact sb-info{'@'}svenska.gu.se
 corpus.sparv.run: Analyse
 lexicon: Lexicon
 lexicon.help: A lexicon is a set of items with structured data fields. It doesn't have to be about words.
