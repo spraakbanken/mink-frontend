@@ -72,8 +72,10 @@ config.is_invalid: Ogiltig
 config.is_valid: Giltig
 config.saving: Sparar metadata
 analysis.help: Kör automatiska språkteknologiska analyser på din textdata enligt inställningarna. Mink använder {sparv} i bakgrunden.
-job.rerun.overwrite: En ny körning skriver över tidigare resultat.
-job.rerun.tools_outdated: Verktygen kommer att behålla det gamla resultatet. Glöm inte att installera om vid behov.
+job.rerun.overwrite: En ny körning skriver över {exports_link}.
+job.rerun.overwrite.exports: tidigare resultat
+job.rerun.tools_outdated: Resultat som tidigare installerats i andra plattformar kommer inte att uppdateras. Glöm inte att {reinstall_link} vid behov.
+job.rerun.tools_outdated.reinstall: installera om
 job.abort: Avbryt
 job.status: Status
 job.priority: Plats i kön
@@ -309,7 +311,7 @@ timespan_from: Från
 timespan_to: Till
 edit: Redigera
 annotations.clear: Rensa annotationer
-annotations.clear.help: Gör detta för att kunna analysera om en korpus med nya inställningar.
+annotations.clear.help: Delar av resultatet cachas så att det går fortare att analysera om. Om du får oväntade resultat kan du rensa annotationscachen och resultatfilerna för att tvinga fram en fullständig omanalys.
 admin.page.subtitle: Administration
 admin.goto: Genvägar
 admin.resources.help: I denna administrativa resurslista behöver du ladda in detaljerad resursinformation manuellt, eftersom det tar lång tid att ladda allt.

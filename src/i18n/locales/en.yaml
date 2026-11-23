@@ -72,8 +72,10 @@ config.is_invalid: Invalid
 config.is_valid: Valid
 config.saving: Saving metadata
 analysis.help: Run automated language technology methods on your text data according to your settings. Mink uses {sparv} under the hood.
-job.rerun.overwrite: Re-running will overwrite previous results.
-job.rerun.tools_outdated: Previous results will remain in other platforms if it has been installed there. Do not forget to re-install if needed.
+job.rerun.overwrite: Re-running will overwrite {exports_link}.
+job.rerun.overwrite.exports: previous results
+job.rerun.tools_outdated: Results previously installed in other platforms will not be affected. Do not forget to {reinstall_link} if needed.
+job.rerun.tools_outdated.reinstall: reinstall
 job.abort: Abort
 job.status: Status
 job.priority: Place in queue
@@ -308,7 +310,7 @@ timespan_from: From
 timespan_to: To
 edit: Edit
 annotations.clear: Clear annotations
-annotations.clear.help: Use this before processing a previously analysed corpus with new annotation settings.
+annotations.clear.help: Partial results are cached to make subsequent analysis faster. If you are seeing unexpected results, you can clear the annotation cache and result files to force a full reanalysis.
 admin.page.subtitle: Administration
 admin.goto: Shortcuts
 admin.resources.help: In this administrative listing, you need to load detailed information manually, because loading everything takes a long time.

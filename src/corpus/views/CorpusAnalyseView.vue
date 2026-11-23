@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { PhGearFine, PhInfo } from "@phosphor-icons/vue";
+import { PhGearFine } from "@phosphor-icons/vue";
 import { useCorpus } from "../corpus.composable";
 import { useSparv } from "../sparv.composable";
 import ActionButton from "@/components/ActionButton.vue";
@@ -10,6 +10,8 @@ import useSources from "@/resource/sources.composable";
 import useResource from "@/resource/resource.composable";
 import { useUserStore } from "@/store/user.store";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
+import LayoutBox from "@/components/LayoutBox.vue";
+import HelpBox from "@/components/HelpBox.vue";
 
 const id = useResourceIdParam();
 const { configOptions, isConfigValid, exports, clearAnnotations } =
@@ -49,63 +51,75 @@ async function loadExporterNames() {
 </script>
 
 <template>
-  <div>
-    <PendingContent :on="`${id}/job/run`" class="flex flex-col gap-3">
-      <PendingContent
-        :on="`${id}/exports/list`"
-        v-if="!isRunning && exports?.length"
-        class="flex gap-3 items-center"
-      >
-        <div class="grow">
-          <div class="font-semibold">{{ $t("annotations.clear") }}</div>
-          {{ $t("annotations.clear.help") }}
+  <div class="grid lg:grid-cols-2 gap-2">
+    <!-- Analyze -->
+    <PendingContent :on="`${id}/job/run`">
+      <LayoutBox :title="$t('corpus.sparv.run')">
+        <div class="flex gap-3 items-center">
+          <div class="grow grid gap-2">
+            <i18n-t tag="div" keypath="analysis.help" scope="global">
+              <template #sparv>
+                <a :href="$t('sparv.url')">Sparv</a>
+              </template>
+            </i18n-t>
+
+            <!-- Warnings -->
+            <HelpBox v-if="exports?.length">
+              <i18n-t keypath="job.rerun.overwrite" scope="global">
+                <template #exports_link>
+                  <router-link :to="`/library/corpus/${id}/exports`">
+                    {{ $t("job.rerun.overwrite.exports") }}
+                  </router-link>
+                </template>
+              </i18n-t>
+            </HelpBox>
+
+            <HelpBox
+              v-if="job?.status.korp == 'done' || job?.status.strix == 'done'"
+              important
+            >
+              <i18n-t keypath="job.rerun.tools_outdated" scope="global">
+                <template #reinstall_link>
+                  <router-link :to="`/library/corpus/${id}/explore`">
+                    {{ $t("job.rerun.tools_outdated.reinstall") }}
+                  </router-link>
+                </template>
+              </i18n-t>
+            </HelpBox>
+          </div>
+
+          <ActionButton
+            :disabled="!canRun"
+            :class="{ 'button-primary': canRun && job?.status.sparv != 'done' }"
+            @click="canRun ? doRunJob() : null"
+          >
+            <PhGearFine weight="bold" class="inline mb-1 mr-1" />
+            {{ $t("corpus.sparv.run") }}
+          </ActionButton>
         </div>
+      </LayoutBox>
+    </PendingContent>
 
-        <ActionButton
-          :disabled="!canWrite('corpus', id)"
-          @click="clearAnnotations().catch(showAlert)"
-        >
-          {{ $t("annotations.clear") }}
-        </ActionButton>
-      </PendingContent>
+    <!-- Clear annotations -->
+    <PendingContent :on="`${id}/exports/list`">
+      <LayoutBox :title="$t('annotations.clear')">
+        <div class="flex gap-3 items-center">
+          <div class="grow">
+            {{ $t("annotations.clear.help") }}
+          </div>
 
-      <div class="flex gap-3 items-center">
-        <div class="grow">
-          <div class="font-semibold">{{ $t("corpus.sparv.run") }}</div>
-          <i18n-t keypath="analysis.help" scope="global">
-            <template #sparv>
-              <a :href="$t('sparv.url')">Sparv</a>
-            </template>
-          </i18n-t>
+          <ActionButton
+            :disabled="
+              !canWrite('corpus', id) ||
+              isRunning ||
+              job?.status.sparv != 'done'
+            "
+            @click="clearAnnotations().catch(showAlert)"
+          >
+            {{ $t("annotations.clear") }}
+          </ActionButton>
         </div>
-
-        <ActionButton
-          :disabled="!canRun"
-          :class="{ 'button-primary': canRun && !exports?.length }"
-          @click="canRun ? doRunJob() : null"
-        >
-          <PhGearFine weight="bold" class="inline mb-1 mr-1" />
-          {{ $t("corpus.sparv.run") }}
-        </ActionButton>
-      </div>
-
-      <div>
-        <div v-if="!isRunning && exports?.length" class="text-sm">
-          <PhInfo class="inline mb-0.5 mr-1" />
-          {{ $t("job.rerun.overwrite") }}
-        </div>
-
-        <div
-          v-if="
-            !isRunning &&
-            (job?.status.korp == 'done' || job?.status.strix == 'done')
-          "
-          class="text-sm"
-        >
-          <PhInfo class="inline mb-0.5 mr-1" />
-          {{ $t("job.rerun.tools_outdated") }}
-        </div>
-      </div>
+      </LayoutBox>
     </PendingContent>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { PhGearFine, PhInfo } from "@phosphor-icons/vue";
+import { PhGearFine } from "@phosphor-icons/vue";
 import { useLexicon } from "../lexicon.composable";
 import ActionButton from "@/components/ActionButton.vue";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -9,6 +9,8 @@ import useMessenger from "@/alert/alert.composable";
 import useSources from "@/resource/sources.composable";
 import useResource from "@/resource/resource.composable";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
+import LayoutBox from "@/components/LayoutBox.vue";
+import HelpBox from "@/components/HelpBox.vue";
 
 const id = useResourceIdParam();
 const { job, isRunning, runJob } = useResource(id);
@@ -35,42 +37,53 @@ async function doRunJob() {
 </script>
 
 <template>
-  <div>
-    <PendingContent :on="`${id}/job/run`" class="flex flex-col gap-3">
-      <div class="flex gap-3 items-center">
-        <div class="grow">
-          <div class="font-semibold">{{ $t("lexicon.karp_pipeline.run") }}</div>
-          {{ $t("lexicon.karp_pipeline.help") }}
-        </div>
+  <div class="grid lg:grid-cols-2 gap-2">
+    <PendingContent :on="`${id}/job/run`">
+      <LayoutBox :title="$t('lexicon.karp_pipeline.run')">
+        <div class="flex gap-3 items-center">
+          <div class="grow grid gap-2">
+            {{ $t("lexicon.karp_pipeline.help") }}
 
-        <ActionButton
-          :disabled="!canRun"
-          class="ms-auto"
-          :class="{ 'button-primary': canRun && !exports?.length }"
-          @click="canRun ? doRunJob() : null"
-        >
-          <PhGearFine weight="bold" class="inline mb-1 mr-1" />
-          {{ $t("lexicon.karp_pipeline.run") }}
-        </ActionButton>
-      </div>
+            <!-- Warnings -->
+            <HelpBox v-if="exports?.length">
+              <i18n-t keypath="job.rerun.overwrite" scope="global">
+                <template #exports_link>
+                  <router-link :to="`/library/lexicon/${id}/exports`">
+                    {{ $t("job.rerun.overwrite.exports") }}
+                  </router-link>
+                </template>
+              </i18n-t>
+            </HelpBox>
 
-      <div>
-        <div v-if="!isRunning && exports?.length" class="text-sm">
-          <PhInfo class="inline mb-0.5 mr-1" />
-          {{ $t("job.rerun.overwrite") }}
-        </div>
+            <HelpBox
+              v-if="
+                job?.status.karpred == 'done' || job?.status.karps == 'done'
+              "
+              important
+            >
+              <i18n-t keypath="job.rerun.tools_outdated" scope="global">
+                <template #reinstall_link>
+                  <router-link :to="`/library/lexicon/${id}/explore`">
+                    {{ $t("job.rerun.tools_outdated.reinstall") }}
+                  </router-link>
+                </template>
+              </i18n-t>
+            </HelpBox>
+          </div>
 
-        <div
-          v-if="
-            !isRunning &&
-            (job?.status.karpred == 'done' || job?.status.karps == 'done')
-          "
-          class="text-sm"
-        >
-          <PhInfo class="inline mb-0.5 mr-1" />
-          {{ $t("job.rerun.tools_outdated") }}
+          <ActionButton
+            :disabled="!canRun"
+            class="ms-auto"
+            :class="{
+              'button-primary': canRun && job?.status.karp_pipeline != 'done',
+            }"
+            @click="canRun ? doRunJob() : null"
+          >
+            <PhGearFine weight="bold" class="inline mb-1 mr-1" />
+            {{ $t("lexicon.karp_pipeline.run") }}
+          </ActionButton>
         </div>
-      </div>
+      </LayoutBox>
     </PendingContent>
   </div>
 </template>
