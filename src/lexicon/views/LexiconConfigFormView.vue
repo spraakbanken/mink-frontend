@@ -72,9 +72,10 @@ async function submit(fields: Form) {
     />
 
     <!-- Using the key attribute to re-render whole form after fetching config -->
-    <FormKitWrapper :key="config">
+    <FormKitWrapper v-if="configOptions !== undefined" :key="config">
       <FormKit
         id="lexicon-config"
+        :value="configOptions"
         type="form"
         :disabled="!canWrite('lexicon', id)"
         :submit-label="$t('save')"
@@ -91,22 +92,24 @@ async function submit(fields: Form) {
           <!-- TODO Manage current input if user switches locale while editing -->
           <FormKit type="group" name="name">
             <FormKit
+              :key="locale3"
               :name="locale3"
               :label="$t('name')"
-              :value="configOptions?.name?.[locale3]"
               :help="$t('metadata.name.help')"
               type="text"
+              preserve
               input-class="w-72"
             />
           </FormKit>
 
           <FormKit type="group" name="description">
             <FormKit
+              :key="locale3"
               :name="locale3"
               :label="$t('description')"
-              :value="configOptions?.description?.[locale3]"
               :help="$t('metadata.description.help')"
               type="textarea"
+              preserve
               input-class="w-full h-20"
             />
           </FormKit>
@@ -141,17 +144,17 @@ async function submit(fields: Form) {
               type="text"
               name="field"
               validation="required"
-              :value="configOptions?.entryWord?.field"
               :help="$t('lexicon.config.entry_word.field.help')"
             />
 
             <FormKit type="group" name="description">
               <FormKit
+                :key="locale3"
                 :name="locale3"
                 :label="$t('lexicon.config.entry_word.description')"
-                :value="configOptions?.entryWord?.description?.[locale3]"
                 :help="$t('lexicon.config.entry_word.description.help')"
                 type="text"
+                preserve
                 input-class="w-72"
               />
             </FormKit>
