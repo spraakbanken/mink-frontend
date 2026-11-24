@@ -170,13 +170,15 @@ Show loading animation on top of related UI elements with:
 
 ### Alert (`src/alert/`)
 
+Alert messages appear in the `<AlertList>` component above page content.
+
 Show an alert:
 
 ```js
-showAlert("There is no coffee");
+pushAlert("Coffee is ready", "success");
 ```
 
-It handles Mink backend errors specially:
+Specific handling of Mink backend errors and other errors:
 
 ```js
 api.runJob("corpus", id).catch(showAlert);
