@@ -20,7 +20,7 @@ import { useAppConfig } from "@/app/useAppConfig";
 const { lexiconSettings } = useAppConfig();
 const id = useResourceIdParam();
 const { sources } = useSources("lexicon", id);
-const { job, isRunning } = useResource<"lexicon">(id);
+const { currentStatus, isRunning } = useResource<"lexicon">(id);
 const { t } = useI18n();
 
 const exploreTools = compact(Object.values(lexiconSettings));
@@ -32,6 +32,7 @@ const tabs = computed<Tab[]>(() => {
       label: t("status"),
       icon: PhChecks,
       loading: isRunning.value,
+      error: currentStatus.value == "error",
     },
     {
       path: `/library/lexicon/${id}/sources`,
@@ -48,7 +49,6 @@ const tabs = computed<Tab[]>(() => {
       path: `/library/lexicon/${id}/analyse`,
       label: t("analysis"),
       icon: PhGearFine,
-      error: job.value?.status.karp_pipeline == "error",
     },
     {
       path: `/library/lexicon/${id}/exports`,

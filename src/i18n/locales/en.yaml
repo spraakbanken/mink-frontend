@@ -63,6 +63,8 @@ config.is_valid: Valid
 config.saved: Configuration saved
 config.set_name: Set name
 analysis.help: Run automated language technology methods on your text data according to your settings. Mink uses {sparv} under the hood.
+job.completed.done: "{process} done"
+job.completed.error: "{process} failed"
 job.rerun.overwrite: Re-running will overwrite {exports_link}.
 job.rerun.overwrite.exports: previous results
 job.rerun.tools_outdated: Results previously installed in other platforms will not be affected. Do not forget to {reinstall_link} if needed.
@@ -98,7 +100,7 @@ source.limit.file.recommended: Optimal file size
 source.limit.file.max: Max per file
 source.limit.upload.max: Max per upload
 source.notfound: This source file was not found
-source.list.loading: Listing source files
+source.uploaded: Source file uploaded | Source files uploaded
 upload.accept: File type | File types
 upload.label.single: Upload file
 upload.label.multiple: Upload files

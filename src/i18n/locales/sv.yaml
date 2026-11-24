@@ -63,6 +63,8 @@ config.is_valid: Giltig
 config.saved: Konfiguration sparad
 config.set_name: Ange namn
 analysis.help: Kör automatiska språkteknologiska analyser på din textdata enligt inställningarna. Mink använder {sparv} i bakgrunden.
+job.completed.done: "{process} färdig"
+job.completed.error: "{process} misslyckades"
 job.rerun.overwrite: En ny körning skriver över {exports_link}.
 job.rerun.overwrite.exports: tidigare resultat
 job.rerun.tools_outdated: Resultat som tidigare installerats i andra plattformar kommer inte att uppdateras. Glöm inte att {reinstall_link} vid behov.
@@ -98,7 +100,7 @@ source.limit.file.recommended: Optimal filstorlek
 source.limit.file.max: Max per fil
 source.limit.upload.max: Max per uppladdning
 source.notfound: Denna källfil kunde inte hittas
-source.list.loading: Listar källfiler
+source.uploaded: Källfil uppladdad | Källfiler uppladdade
 upload.accept: Filtyp | Filtyper
 upload.label.single: Ladda upp fil
 upload.label.multiple: Ladda upp filer

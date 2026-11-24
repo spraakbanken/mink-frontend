@@ -22,7 +22,7 @@ const { exploreTools } = useAppConfig();
 const id = useResourceIdParam();
 const { sources } = useSources("corpus", id);
 const { isConfigValid } = useCorpus(id);
-const { job, isRunning } = useResource<"corpus">(id);
+const { currentStatus, isRunning } = useResource<"corpus">(id);
 const { t } = useI18n();
 
 const tabs = computed<Tab[]>(() => {
@@ -32,6 +32,7 @@ const tabs = computed<Tab[]>(() => {
       label: t("status"),
       icon: PhChecks,
       loading: isRunning.value,
+      error: currentStatus.value == "error",
     },
     {
       path: `/library/corpus/${id}/sources`,
@@ -49,7 +50,6 @@ const tabs = computed<Tab[]>(() => {
       path: `/library/corpus/${id}/analyse`,
       label: t("analysis"),
       icon: PhGearFine,
-      error: job.value?.status.sparv == "error",
     },
     {
       path: `/library/corpus/${id}/exports`,

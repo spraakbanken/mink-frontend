@@ -1,18 +1,22 @@
 import { computed, reactive, ref, watch } from "vue";
 import { defineStore, storeToRefs } from "pinia";
 import { pick } from "es-toolkit";
+import { useI18n } from "vue-i18n";
 import { type Resource } from "./resource.types";
 import { useUserStore } from "./user.store";
 import { filterKeys } from "@/util";
 import { useApi } from "@/api/useApi";
-import type { ResourceInfo, ResourceType } from "@/api/api.types";
+import type { JobState, ResourceInfo, ResourceType } from "@/api/api.types";
 import useSpin from "@/spin/spin.composable";
+import useAlert from "@/alert/alert.composable";
 
 export const useResourceStore = defineStore("resource", () => {
   const api = useApi();
   const { spin } = useSpin();
   const userStore = useUserStore();
   const { adminMode } = storeToRefs(userStore);
+  const { pushAlert } = useAlert();
+  const { t } = useI18n();
 
   const ids = ref<string[]>([]);
   const resources = reactive<Record<string, Resource>>({});
@@ -94,9 +98,34 @@ export const useResourceStore = defineStore("resource", () => {
     const id = info.resource.id;
     if (!ids.value.includes(id)) ids.value.push(id);
 
+    if (resources[id]) onUpdateResource(resource, resources[id]);
+
     resources[id] = resource;
     freshResources.add(id);
     return resource;
+  }
+
+  /** Called when a previously loaded resource is updated. */
+  function onUpdateResource<T extends ResourceType>(
+    resource: Resource<T>,
+    old: Resource<T>,
+  ) {
+    const status = getStatus(resource);
+    const statusOld = getStatus(old);
+
+    // Alert when a job is completed
+    if (statusOld && statusOld != status) {
+      if (status == "done") {
+        const process = resource.job.current_process;
+        const params = { process: t(`job.process.${process}`) };
+        pushAlert(t("job.completed.done", params), "success");
+      }
+      if (status == "error") {
+        const process = resource.job.current_process;
+        const params = { process: t(`job.process.${process}`) };
+        pushAlert(t("job.completed.error", params), "error");
+      }
+    }
   }
 
   // Invalidate resource list when switching admin mode on/off
@@ -112,3 +141,8 @@ export const useResourceStore = defineStore("resource", () => {
     resources,
   };
 });
+
+const getStatus = (resource: Resource): JobState | undefined =>
+  resource.job.current_process
+    ? resource.job.status[resource.job.current_process]
+    : undefined;

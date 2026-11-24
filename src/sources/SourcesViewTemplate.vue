@@ -37,7 +37,7 @@ const { deleteSource, uploadSources, extensions } = useSources(
 );
 const { loadResource } = useResourceStore();
 const { filesize } = useLocale();
-const { showAlert } = useAlert();
+const { pushAlert, showAlert } = useAlert();
 const { t, locale } = useI18n();
 const { canWrite } = useUserStore();
 const info = useApiInfo();
@@ -77,7 +77,12 @@ async function fileHandler(files: File[], onProgress: ProgressHandler) {
   const extension = getFilenameExtension(files[0].name);
   emit("upload", extension.toLowerCase());
 
-  await uploadSources(files, onProgress).catch(showAlert);
+  try {
+    await uploadSources(files, onProgress);
+    pushAlert(t("source.uploaded", files.length), "success");
+  } catch (error) {
+    showAlert(error);
+  }
 }
 </script>
 
