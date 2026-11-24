@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { FormKit } from "@formkit/vue";
+import { useI18n } from "vue-i18n";
 import {
   emptyConfig,
   makeConfig,
@@ -28,7 +29,8 @@ const { minkUrl } = useAppConfig();
 const { config, configOptions } = useLexicon(id);
 const { uploadConfig } = useConfigStore();
 const { canWrite } = useUserStore();
-const { showAlert } = useMessenger();
+const { pushAlert, showAlert } = useMessenger();
+const { t } = useI18n();
 const { locale3 } = useLocale();
 
 const tabSelected = ref<TabKey>("metadata");
@@ -46,14 +48,12 @@ async function submit(fields: Form) {
   };
 
   const config = { ...original, ...configNew };
-  const yaml = makeConfig(id, config, minkUrl);
   try {
+    const yaml = makeConfig(id, config, minkUrl);
     await uploadConfig("lexicon", id, yaml);
+    pushAlert(t("config.saved"), "success");
   } catch (e) {
-    if (e instanceof TypeError) {
-      // Error from config serialization
-      showAlert(e.message);
-    } else showAlert(e);
+    showAlert(e);
   }
 }
 </script>

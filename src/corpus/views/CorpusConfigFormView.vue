@@ -50,7 +50,7 @@ const id = useResourceIdParam();
 const { languageOptions, findAnalyses } = useSparv();
 const { config, configOptions, saveConfigOptions } = useCorpus(id);
 const { extensions } = useSources("corpus", id);
-const { showAlert } = useAlert();
+const { pushAlert, showAlert } = useAlert();
 const { t } = useI18n();
 const { locale3, thCompare } = useLocale();
 const { canWrite } = useUserStore();
@@ -155,6 +155,7 @@ async function submit(fields: Form) {
 
   try {
     await saveConfigOptions(config);
+    pushAlert(t("config.saved"), "success");
   } catch (e) {
     showAlert(e);
   }

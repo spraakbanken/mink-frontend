@@ -60,7 +60,7 @@ config.configuration.help: Dessa inställningar blir instruktioner till den auto
 corpus.config.parse.error: Korpusens config kunde inte läsas. Redigera och spara konfigurationen för att åtgärda det. Om du behöver hjälp kan du kontakta sb-info{'@'}svenska.gu.se
 config.is_invalid: Ogiltig
 config.is_valid: Giltig
-config.saving: Sparar metadata
+config.saved: Konfiguration sparad
 config.set_name: Ange namn
 analysis.help: Kör automatiska språkteknologiska analyser på din textdata enligt inställningarna. Mink använder {sparv} i bakgrunden.
 job.rerun.overwrite: En ny körning skriver över {exports_link}.

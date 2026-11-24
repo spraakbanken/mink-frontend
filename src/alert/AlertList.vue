@@ -17,14 +17,18 @@ watch(
 <template>
   <aside
     v-if="alerts.length"
-    class="container max-w-3xl my-4 sticky top-2 z-50"
+    class="container max-w-3xl mt-2 sticky top-2 z-50"
   >
     <div
-      v-for="{ key, message } in alerts"
+      v-for="{ key, message, severity } in alerts"
       :key="message"
-      class="opacity-80 rounded-lg my-2 bg-red-500 text-white p-2 shadow-lg flex items-start"
+      class="opacity-80 rounded-lg my-2 font-medium text-white p-2 shadow-lg flex items-start"
+      :class="{
+        'bg-red-600 dark:bg-red-900': severity === 'error',
+        'bg-green-700 dark:bg-green-900': severity === 'success',
+      }"
     >
-      <div class="flex-1 px-2">
+      <div class="flex-1 px-1">
         {{ message }}
       </div>
       <div

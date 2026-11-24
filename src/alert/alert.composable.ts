@@ -9,8 +9,11 @@ import { isBackendError } from "@/api/api";
 export type Alert = {
   key: string;
   message: string;
+  severity: AlertSeverity;
   time: Date;
 };
+
+type AlertSeverity = "error" | "success";
 
 const alerts = ref<Alert[]>([]);
 
@@ -19,11 +22,12 @@ export default function useAlert() {
   const matomo = useMatomo();
   const route = useRoute();
 
-  function push(message: string) {
+  function pushAlert(message: string, severity: AlertSeverity = "error") {
     // Add message to list
     alerts.value.push({
       key: randomString(),
       message,
+      severity,
       time: new Date(),
     });
 
@@ -52,10 +56,10 @@ export default function useAlert() {
   function showAlert(error: unknown): undefined {
     if (isBackendError(error)) {
       const message = getBackendErrorMessage(error);
-      push(message);
+      pushAlert(message);
     } else {
       const message = error instanceof Error ? error.message : String(error);
-      push(message);
+      pushAlert(message);
       // Log to console with trace for debugging
       console.warn(error);
     }
@@ -80,6 +84,7 @@ export default function useAlert() {
   }
 
   return {
+    pushAlert,
     showAlert,
     dismiss,
     clear,

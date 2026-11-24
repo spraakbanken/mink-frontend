@@ -19,7 +19,7 @@ const props = defineProps<{
 }>();
 
 const { loadConfig, uploadConfig } = useConfigStore();
-const { showAlert } = useAlert();
+const { pushAlert, showAlert } = useAlert();
 const { canWrite } = useUserStore();
 const { t } = useI18n();
 
@@ -46,6 +46,7 @@ watchEffect(() => (input.value = config.value || ""));
 /** Save current input as config by uploading it */
 async function upload() {
   await uploadConfig(props.type, props.id, input.value, true).catch(showAlert);
+  pushAlert(t("config.saved"), "success");
 }
 </script>
 

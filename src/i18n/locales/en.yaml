@@ -60,7 +60,7 @@ config.configuration.help: These settings are information for the automatic anal
 corpus.config.parse.error: The config of this corpus could not be parsed. Edit and save the configuration to fix it. If you need help, please contact sb-info{'@'}svenska.gu.se
 config.is_invalid: Invalid
 config.is_valid: Valid
-config.saving: Saving metadata
+config.saved: Configuration saved
 config.set_name: Set name
 analysis.help: Run automated language technology methods on your text data according to your settings. Mink uses {sparv} under the hood.
 job.rerun.overwrite: Re-running will overwrite {exports_link}.
