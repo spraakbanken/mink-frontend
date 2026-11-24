@@ -39,13 +39,6 @@ async function submit(fields: Form) {
   const original = configOptions.value || emptyConfig();
 
   const configNew = { ...fields };
-  // Preserve hidden translations
-  configNew.name = { ...original.name, ...fields.name };
-  configNew.description = { ...original.description, ...fields.description };
-  configNew.entryWord.description = {
-    ...original.entryWord.description,
-    ...fields.entryWord.description,
-  };
 
   const config = { ...original, ...configNew };
   try {

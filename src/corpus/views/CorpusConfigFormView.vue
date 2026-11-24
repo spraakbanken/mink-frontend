@@ -119,8 +119,6 @@ whenever(original, async () => {
 });
 
 async function submit(fields: Form) {
-  const configOld = original.value;
-
   // Split language-variety code
   const [language, variety] = fields.language.split("-");
 
@@ -143,15 +141,8 @@ async function submit(fields: Form) {
     annotations,
   };
 
-  // Preserve hidden translations
-  configNew.name = { ...configOld.name, ...configNew.name };
-  configNew.description = {
-    ...configOld.description,
-    ...configNew.description,
-  };
-
   // Merge new form values with existing config.
-  const config = { ...configOld, ...configNew };
+  const config = { ...original.value, ...configNew };
 
   try {
     await saveConfigOptions(config);
