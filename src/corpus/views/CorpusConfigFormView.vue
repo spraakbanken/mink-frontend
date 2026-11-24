@@ -2,7 +2,6 @@
 import type { FormKitOptionsList } from "@formkit/inputs";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
 import { PhLightbulbFilament } from "@phosphor-icons/vue";
 import { computedAsync, watchImmediate, whenever } from "@vueuse/core";
@@ -47,7 +46,6 @@ type Form = {
 };
 
 const { appConfig } = useAppConfig();
-const router = useRouter();
 const id = useResourceIdParam();
 const { languageOptions, findAnalyses } = useSparv();
 const { config, configOptions, saveConfigOptions } = useCorpus(id);
@@ -157,7 +155,6 @@ async function submit(fields: Form) {
 
   try {
     await saveConfigOptions(config);
-    router.push(`/library/corpus/${id}`);
   } catch (e) {
     showAlert(e);
   }

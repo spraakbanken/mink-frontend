@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 import { FormKit } from "@formkit/vue";
 import {
   emptyConfig,
@@ -29,7 +28,6 @@ const { minkUrl } = useAppConfig();
 const { config, configOptions } = useLexicon(id);
 const { uploadConfig } = useConfigStore();
 const { canWrite } = useUserStore();
-const router = useRouter();
 const { showAlert } = useMessenger();
 const { locale3 } = useLocale();
 
@@ -51,7 +49,6 @@ async function submit(fields: Form) {
   const yaml = makeConfig(id, config, minkUrl);
   try {
     await uploadConfig("lexicon", id, yaml);
-    router.push(`/library/lexicon/${id}`);
   } catch (e) {
     if (e instanceof TypeError) {
       // Error from config serialization
