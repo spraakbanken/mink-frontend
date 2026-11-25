@@ -40,7 +40,7 @@ const { isPending, spin } = useSpin();
 const { t } = useI18n();
 
 const CsvExportDisplay = defineAsyncComponent(
-  () => import("@/corpus/CsvExportDisplay.vue"),
+  () => import("@/corpus/exports/CsvExportDisplay.vue"),
 );
 
 const demoSettings = appConfig.tools!.demo!;
