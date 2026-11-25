@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { parseCsv, type Model } from "./csvExport";
+import SparvValue from "./SparvValue.vue";
 import { enarray } from "@/util";
 
 const props = defineProps<{
@@ -57,7 +58,12 @@ const model = computed<Model | null>(() => {
                         }}
                       </th>
                       <td class="whitespace-pre-wrap">
-                        {{ enarray(attr.value).join("\n") }}
+                        <SparvValue
+                          v-for="(value, i) in enarray(attr.value)"
+                          :key="i"
+                          :type="attr.name"
+                          :value
+                        />
                       </td>
                     </tr>
                   </template>
@@ -67,14 +73,19 @@ const model = computed<Model | null>(() => {
           </tr>
           <tr v-for="(token, i) in sentence.tokens" :key="i">
             <td
-              v-for="(value, j) in token"
+              v-for="(values, j) in token"
               :key="j"
               class="p-1 border border-zinc-300 dark:border-zinc-700 whitespace-pre-wrap"
               :class="{
                 'bg-zinc-50 dark:bg-zinc-800': j == 0,
               }"
             >
-              {{ enarray(value).join("\n") }}
+              <SparvValue
+                v-for="(value, k) in enarray(values)"
+                :key="k"
+                :type="model.header[j].name"
+                :value
+              />
             </td>
           </tr>
         </template>
