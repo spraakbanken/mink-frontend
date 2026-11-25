@@ -1,9 +1,11 @@
 export type Model = {
   /** List of token attribute names (including "token" as the first one) */
-  header: string[];
+  header: TokenAttribute[];
   /** List of "sentences" (structural attributes and a list of tokens) (not necessarily a full sentence) */
   sentences: Sentence[];
 };
+
+type TokenAttribute = { name: string; analysis?: string };
 
 type Sentence = {
   /** A list of structural attribute values */
@@ -13,13 +15,19 @@ type Sentence = {
 };
 
 type Struct = { struct: string; attrs: Attribute[] };
+
 type Attribute = { name: string; value: Value };
 
 type Value = string | string[];
 
 export function parseCsv(csv: string): Model {
   const lines = csv.split("\n");
-  const header = lines.shift()?.split("\t") || [];
+
+  // Read header line as token attribute names, optionally with an analysis prefix (e.g. "stanza.pos")
+  const header = (lines.shift()?.split("\t") || []).map((full) => {
+    const [, , analysis, name] = full.match(/^((\S+)\.)?(\S+)$/) || [];
+    return { analysis, name };
+  });
 
   let sentence: Sentence = { structs: [], tokens: [] };
   const sentences: Sentence[] = [sentence];

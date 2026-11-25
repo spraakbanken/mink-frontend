@@ -22,8 +22,12 @@ const model = computed<Model | null>(() => {
     <table v-if="model">
       <thead class="sticky top-0 bg-white dark:bg-zinc-900">
         <tr>
-          <th v-for="attr in model.header" :key="attr">
-            {{ $t(`corpus.csv.attr.${attr}`, attr) }}
+          <th
+            v-for="{ analysis, name } in model.header"
+            :key="`${analysis}.${name}`"
+          >
+            {{ $t(`corpus.csv.attr.${name}`, name) }}
+            <template v-if="analysis"> ({{ analysis }}) </template>
           </th>
         </tr>
       </thead>
