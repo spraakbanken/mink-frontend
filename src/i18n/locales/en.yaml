@@ -20,6 +20,7 @@ checklist.task: Task
 corpus: Corpus
 corpus.help: A corpus is a collection of text, typically used with statistical analysis and distant reading.
 corpus.new: New corpus
+corpus.csv.parse_error: The CSV file could not be parsed.
 corpus.state.unknown: Unknown
 corpus.state.empty: No files
 corpus.state.needing_config: Configuration needed

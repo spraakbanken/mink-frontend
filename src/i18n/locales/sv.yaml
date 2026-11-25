@@ -20,6 +20,7 @@ checklist.task: Steg
 corpus: Korpus
 corpus.help: En korpus är en samling av text som ofta används för statistisk analys och fjärrläsning.
 corpus.new: Ny korpus
+corpus.csv.parse_error: CSV-filen kunde inte tolkas.
 corpus.state.unknown: Okänt
 corpus.state.empty: Inga filer
 corpus.state.needing_config: Behöver konfigureras
