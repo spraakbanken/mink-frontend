@@ -26,9 +26,6 @@ export const useJwtStore = defineStore("jwt", () => {
   /** JWT payload object with permissions etc. */
   const payload = ref<Payload>();
 
-  /** Timeout slot for refreshing on expiration. */
-  let refreshTimer: number | undefined = undefined;
-
   const isAuthenticated = computed<boolean>(() => !!payload.value);
 
   const userName = computed(
@@ -41,7 +38,7 @@ export const useJwtStore = defineStore("jwt", () => {
 
   /** Loads JWT, caches it in the ref and registers it with the Mink API client. */
   const loadJwt = deduplicateRequest(async (skipCache = false) => {
-    // Unset current JWT is it is outdated
+    // Unset current JWT if it is outdated
     if (getTimeout() < 0 || skipCache) jwt.value = undefined;
 
     // Fetch JWT if needed.
@@ -57,12 +54,6 @@ export const useJwtStore = defineStore("jwt", () => {
         // before storing it in ref, which may trigger API calls
         api.setJwt(jwtValue);
         jwt.value = jwtValue;
-
-        if (payload.value) {
-          // Schedule next request shortly before expiration time.
-          clearTimeout(refreshTimer);
-          refreshTimer = setTimeout(() => loadJwt(true), getTimeout() - 5000);
-        }
       } catch (error) {
         // On error, show message and treat as not authenticated
         showAlert(`${t("login.fail")}: ${error}`);
@@ -71,6 +62,11 @@ export const useJwtStore = defineStore("jwt", () => {
 
     return jwt.value;
   });
+
+  // If the JWT is about to expire, refresh it.
+  setInterval(() => {
+    if (getTimeout() < 10000) loadJwt(true);
+  }, 5000);
 
   return {
     isAuthenticated,
