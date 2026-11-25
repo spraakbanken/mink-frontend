@@ -75,7 +75,9 @@ export function parseCsv(csv: string): CsvModel {
 
 const parseValue = (value: string): SparvValues =>
   value.startsWith("|") && value.endsWith("|")
-    ? value.slice(1, -1).split("|").map(parseValueEach)
+    ? value == "|"
+      ? []
+      : value.slice(1, -1).split("|").map(parseValueEach)
     : parseValueEach(value);
 
 function parseValueEach(value: string): SparvValue {

@@ -37,7 +37,7 @@ const model = computed<CsvModel | null>(() => {
           <tr v-if="sentence.structs.length">
             <td
               :colspan="model.header.length"
-              class="p-1 border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800"
+              class="p-2 border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800"
             >
               <table>
                 <tbody>
@@ -46,10 +46,18 @@ const model = computed<CsvModel | null>(() => {
                     :key="struct"
                   >
                     <tr v-for="(attr, i) in attrs" :key="attr.name">
-                      <th v-if="i == 0" scope="row" :rowspan="attrs.length">
+                      <th
+                        v-if="i == 0"
+                        scope="row"
+                        :rowspan="attrs.length"
+                        class="pe-2 border-e border-zinc-300 dark:border-zinc-700"
+                      >
                         {{ $t(`corpus.csv.struct.${struct}`, struct) }}
                       </th>
-                      <th scope="row">
+                      <th
+                        scope="row"
+                        class="px-2 border-e border-zinc-300 dark:border-zinc-700"
+                      >
                         {{
                           $t(
                             `corpus.csv.struct.${struct}.${attr.name}`,
@@ -57,7 +65,7 @@ const model = computed<CsvModel | null>(() => {
                           )
                         }}
                       </th>
-                      <td class="whitespace-pre-wrap">
+                      <td class="ps-2">
                         <SparvValueDisplay
                           v-for="(value, i) in enarray(attr.value)"
                           :key="i"
@@ -75,7 +83,7 @@ const model = computed<CsvModel | null>(() => {
             <td
               v-for="(values, j) in token"
               :key="j"
-              class="p-1 border border-zinc-300 dark:border-zinc-700 whitespace-pre-wrap"
+              class="p-1 border border-zinc-300 dark:border-zinc-700"
               :class="{
                 'bg-zinc-50 dark:bg-zinc-800': j == 0,
               }"
