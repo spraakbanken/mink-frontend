@@ -22,24 +22,41 @@ const model = computed<Model | null>(() => {
     <table v-if="model">
       <thead class="sticky top-0 bg-white dark:bg-zinc-900">
         <tr>
-          <th v-for="(col, i) in model.header" :key="i">{{ col }}</th>
+          <th v-for="attr in model.header" :key="attr">
+            {{ $t(`corpus.csv.attr.${attr}`, attr) }}
+          </th>
         </tr>
       </thead>
       <tbody>
         <template v-for="(sentence, i) in model.sentences" :key="i">
-          <tr v-if="sentence.struct.length">
+          <tr v-if="sentence.structs.length">
             <td
               :colspan="model.header.length"
-              class="p-1 border border-zinc-300 dark:border-zinc-700"
+              class="p-1 border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800"
             >
               <table>
                 <tbody>
-                  <tr v-for="attr in sentence.struct" :key="attr.name">
-                    <th scope="row">{{ attr.name }}</th>
-                    <td class="whitespace-pre-wrap">
-                      {{ enarray(attr.value).join("\n") }}
-                    </td>
-                  </tr>
+                  <template
+                    v-for="{ struct, attrs } in sentence.structs"
+                    :key="struct"
+                  >
+                    <tr v-for="(attr, i) in attrs" :key="attr.name">
+                      <th v-if="i == 0" scope="row" :rowspan="attrs.length">
+                        {{ $t(`corpus.csv.struct.${struct}`, struct) }}
+                      </th>
+                      <th scope="row">
+                        {{
+                          $t(
+                            `corpus.csv.struct.${struct}.${attr.name}`,
+                            attr.name,
+                          )
+                        }}
+                      </th>
+                      <td class="whitespace-pre-wrap">
+                        {{ enarray(attr.value).join("\n") }}
+                      </td>
+                    </tr>
+                  </template>
                 </tbody>
               </table>
             </td>
@@ -49,6 +66,9 @@ const model = computed<Model | null>(() => {
               v-for="(value, j) in token"
               :key="j"
               class="p-1 border border-zinc-300 dark:border-zinc-700 whitespace-pre-wrap"
+              :class="{
+                'bg-zinc-50 dark:bg-zinc-800': j == 0,
+              }"
             >
               {{ enarray(value).join("\n") }}
             </td>

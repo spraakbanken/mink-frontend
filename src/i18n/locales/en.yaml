@@ -32,6 +32,36 @@ corpus.state.done_install: Done installing
 corpus.state.failed: Failed
 corpus.state.failed_install: Failed
 corpus.sparv.run: Analyse
+corpus.csv.attr.complemgram: Compound
+corpus.csv.attr.compwf: Compound word forms
+corpus.csv.attr.dephead: Syntactic head
+corpus.csv.attr.deprel: Syntactic relation
+corpus.csv.attr.lemma: Lemma
+corpus.csv.attr.lex: Lemgram
+corpus.csv.attr.msd: Morphosyntactic descriptor
+corpus.csv.attr.pos: Part of speech
+corpus.csv.attr.ref: Token index
+corpus.csv.attr.sense: Sense
+corpus.csv.attr.sentiment_label: Sentiment
+corpus.csv.attr.sentiment_score: Sentiment score
+corpus.csv.attr.swefn: Thematic keyword (SweFN)
+corpus.csv.attr.token: Token
+corpus.csv.attr.ufeats: UD features
+corpus.csv.struct.ne: Named entity
+corpus.csv.struct.ne.ex: Entity type
+corpus.csv.struct.ne.name: Name
+corpus.csv.struct.ne.subtype: Subtype
+corpus.csv.struct.ne.type: Type
+corpus.csv.struct.paragraph: Paragraph
+corpus.csv.struct.paragraph.geo_context: Geographic location
+corpus.csv.struct.sentence: Sentence
+corpus.csv.struct.sentence.geocontext: Geographic location
+corpus.csv.struct.text: Text
+corpus.csv.struct.text.geo_context: Geographic location
+corpus.csv.struct.text.lix: Readability index
+corpus.csv.struct.text.nk: Nominal ratio
+corpus.csv.struct.text.ovix: Word variation index
+corpus.csv.struct.text.swefn: Thematic keywords (SweFN)
 lexicon: Lexicon
 lexicon.help: A lexicon is a set of items with structured data fields. It doesn't have to be about words.
 lexicon.new: New lexicon

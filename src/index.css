@@ -46,7 +46,7 @@
   h5,
   h6,
   legend,
-  thead {
+  th {
     @apply font-heading;
   }
 
@@ -67,10 +67,6 @@
   img {
     /* Keep intrinsic aspect ratio when images are resized by width xor height */
     aspect-ratio: auto;
-  }
-
-  thead {
-    @apply uppercase text-sm;
   }
 
   tr {

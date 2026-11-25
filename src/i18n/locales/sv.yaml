@@ -32,6 +32,36 @@ corpus.state.done_install: Installation färdig
 corpus.state.failed: Fel
 corpus.state.failed_install: Fel
 corpus.sparv.run: Analysera
+corpus.csv.attr.complemgram: Sammansättning
+corpus.csv.attr.compwf: Sammansatta ordformer
+corpus.csv.attr.dephead: Syntaktiskt huvud
+corpus.csv.attr.deprel: Syntaktisk relation
+corpus.csv.attr.lemma: Grundform
+corpus.csv.attr.lex: Lemgram
+corpus.csv.attr.msd: Morfosyntaktisk deskriptor
+corpus.csv.attr.pos: Ordklass
+corpus.csv.attr.ref: Tokenindex
+corpus.csv.attr.sense: Betydelse
+corpus.csv.attr.sentiment_label: Attityd
+corpus.csv.attr.sentiment_score: Attitydpoäng
+corpus.csv.attr.swefn: Tematiskt nyckelord (SweFN)
+corpus.csv.attr.token: Token
+corpus.csv.attr.ufeats: UD-features
+corpus.csv.struct.ne: Namngiven entitet
+corpus.csv.struct.ne.ex: Uttryckstyp
+corpus.csv.struct.ne.name: Namn
+corpus.csv.struct.ne.subtype: Undertyp
+corpus.csv.struct.ne.type: Typ
+corpus.csv.struct.paragraph: Stycke
+corpus.csv.struct.paragraph.geo_context: Geografisk plats
+corpus.csv.struct.sentence: Mening
+corpus.csv.struct.sentence.geocontext: Geografisk plats
+corpus.csv.struct.text: Text
+corpus.csv.struct.text.geo_context: Geografisk plats
+corpus.csv.struct.text.lix: Läsbarhetsindex
+corpus.csv.struct.text.nk: Nominalkvot
+corpus.csv.struct.text.ovix: Ordvariationsindex
+corpus.csv.struct.text.swefn: Tematiska nyckelord (SweFN)
 lexicon: Lexikon
 lexicon.help: Ett lexikon listar en mängd element med olika strukturerade fält. Det behöver inte handla om ord.
 lexicon.new: Nytt lexikon
