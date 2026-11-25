@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { computed } from "vue";
-import { parseCsv, type Model } from "./csvExport";
-import SparvValue from "./SparvValue.vue";
+import { parseCsv, type CsvModel } from "./sparv";
+import SparvValueDisplay from "./SparvValueDisplay.vue";
 import { enarray } from "@/util";
 
 const props = defineProps<{
   csv: string;
 }>();
 
-const model = computed<Model | null>(() => {
+const model = computed<CsvModel | null>(() => {
   try {
     return parseCsv(props.csv);
   } catch (error) {
@@ -58,7 +58,7 @@ const model = computed<Model | null>(() => {
                         }}
                       </th>
                       <td class="whitespace-pre-wrap">
-                        <SparvValue
+                        <SparvValueDisplay
                           v-for="(value, i) in enarray(attr.value)"
                           :key="i"
                           :type="attr.name"
@@ -80,7 +80,7 @@ const model = computed<Model | null>(() => {
                 'bg-zinc-50 dark:bg-zinc-800': j == 0,
               }"
             >
-              <SparvValue
+              <SparvValueDisplay
                 v-for="(value, k) in enarray(values)"
                 :key="k"
                 :type="model.header[j].name"

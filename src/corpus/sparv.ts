@@ -1,26 +1,32 @@
-export type Model = {
+export type CsvModel = {
   /** List of token attribute names (including "token" as the first one) */
-  header: TokenAttribute[];
+  header: SparvTokenAttr[];
   /** List of "sentences" (structural attributes and a list of tokens) (not necessarily a full sentence) */
-  sentences: Sentence[];
+  sentences: CsvSentence[];
 };
 
-type TokenAttribute = { name: string; analysis?: string };
+type SparvTokenAttr = { name: string; analysis?: string };
 
-type Sentence = {
+type CsvSentence = {
   /** A list of structural attribute values */
-  structs: Struct[];
+  structs: CsvStruct[];
   /** Positional attributes */
-  tokens: Value[][];
+  tokens: SparvValues[][];
 };
 
-type Struct = { struct: string; attrs: Attribute[] };
+type CsvStruct = { struct: string; attrs: SparvAttr[] };
 
-type Attribute = { name: string; value: Value };
+type SparvAttr = { name: string; value: SparvValues };
 
-type Value = string | string[];
+type SparvValues = SparvValue | SparvValue[];
 
-export function parseCsv(csv: string): Model {
+export type SparvValue = {
+  main: string;
+  parts?: string[];
+  score?: string;
+};
+
+export function parseCsv(csv: string): CsvModel {
   const lines = csv.split("\n");
 
   // Read header line as token attribute names, optionally with an analysis prefix (e.g. "stanza.pos")
@@ -29,8 +35,8 @@ export function parseCsv(csv: string): Model {
     return { analysis, name };
   });
 
-  let sentence: Sentence = { structs: [], tokens: [] };
-  const sentences: Sentence[] = [sentence];
+  let sentence: CsvSentence = { structs: [], tokens: [] };
+  const sentences: CsvSentence[] = [sentence];
 
   for (const line of lines) {
     // Comment line: parse a structural attribute and add to current sentence
@@ -67,7 +73,22 @@ export function parseCsv(csv: string): Model {
   return { header, sentences: sentences };
 }
 
-const parseValue = (value: string): Value =>
+const parseValue = (value: string): SparvValues =>
   value.startsWith("|") && value.endsWith("|")
-    ? value.slice(1, -1).split("|")
-    : value;
+    ? value.slice(1, -1).split("|").map(parseValueEach)
+    : parseValueEach(value);
+
+function parseValueEach(value: string): SparvValue {
+  let main = value;
+
+  const [, mainNew, score] = value.match("(.*):([-0-9.e]+)$") || [];
+  if (score) main = mainNew;
+
+  const parts = main.split("+");
+
+  return {
+    main,
+    parts: parts.length > 1 ? parts : undefined,
+    score: score || undefined,
+  };
+}
