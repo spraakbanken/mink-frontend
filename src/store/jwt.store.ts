@@ -45,7 +45,7 @@ export const useJwtStore = defineStore("jwt", () => {
 
   /** How many ms remain until current JWT expires */
   const getTimeout = () =>
-    payload.value ? payload.value.exp * 1000 - Date.now() : -1;
+    payload.value ? payload.value.exp * 1000 - Date.now() : 10000;
 
   /** Loads JWT, caches it in the ref and registers it with the Mink API client. */
   const loadJwt = deduplicateRequest(async (skipCache = false) => {
