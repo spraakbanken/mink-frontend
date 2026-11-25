@@ -30,10 +30,6 @@ import MaxHeight from "@/components/MaxHeight.vue";
 import TabsBar from "@/components/TabsBar.vue";
 import TextFileBox from "@/components/TextFileBox.vue";
 
-type Form = {
-  source: string;
-};
-
 const { appConfig } = useAppConfig();
 const { defaultConfig, findAnalyses, languageOptions } = useSparv();
 const api = useApi();
@@ -63,6 +59,14 @@ const id = computed({
 const source = ref("");
 
 const analysesSelected = ref<string[]>([]);
+
+/** The input (source and config) used in the current process/result */
+const analyzedInputString = ref("");
+
+/** Serialized input (source and config) for comparison */
+const inputString = computed(
+  () => source.value + JSON.stringify(configOptions.value),
+);
 
 /** Resulting exported files */
 const outputs = ref<DemoCorpusOutputData["outputs"]>();
@@ -158,12 +162,6 @@ async function resetConfig() {
   await setConfig(config);
 }
 
-/** Handle submitting the form */
-async function submit(fields: Form) {
-  source.value = fields.source;
-  run();
-}
-
 /** Run analysis on the input */
 async function run() {
   const configYaml = makeConfig("demo", configOptions.value);
@@ -210,6 +208,8 @@ watch(currentStatus, async () => {
     outputs.value = undefined;
   }
 });
+
+watch(outputs, () => (analyzedInputString.value = inputString.value));
 </script>
 
 <template>
@@ -241,14 +241,14 @@ watch(currentStatus, async () => {
             id="demo-input"
             type="form"
             :actions="false"
-            @submit="submit"
+            @submit="run()"
             form-class="grow flex flex-col"
           >
             <FormKit
               name="source"
               :help="$t('demo.source.help')"
               type="textarea"
-              :value="source"
+              v-model="source"
               rows="8"
               outer-class="contents"
               wrapper-class="contents"
@@ -301,7 +301,7 @@ watch(currentStatus, async () => {
 
             <ActionButton
               :disabled="isPending('demo/job') || isRunning"
-              class="button-primary"
+              :class="{ 'button-primary': inputString != analyzedInputString }"
               @click="submitForm('demo-input')"
             >
               <PhGearFine weight="bold" class="inline mb-1 mr-1" />
