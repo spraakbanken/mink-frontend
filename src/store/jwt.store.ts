@@ -23,19 +23,11 @@ export const useJwtStore = defineStore("jwt", () => {
    */
   const jwt = ref<string>();
 
+  /** JWT payload object with permissions etc. */
+  const payload = ref<Payload>();
+
   /** Timeout slot for refreshing on expiration. */
   let refreshTimer: number | undefined = undefined;
-
-  /** JWT payload object with permissions etc. */
-  const payload = computed<Payload | undefined>(() => {
-    if (!jwt.value) return;
-    try {
-      return auth.decodeJwt(jwt.value);
-    } catch (error) {
-      console.error("JWT payload not valid:", jwt.value, error);
-    }
-    return undefined;
-  });
 
   const isAuthenticated = computed<boolean>(() => !!payload.value);
 
@@ -57,11 +49,16 @@ export const useJwtStore = defineStore("jwt", () => {
       try {
         const jwtValue = await spin(auth.fetchJwt(), "jwt");
 
-        // Register new JWT with API client before storing it in ref, which may trigger API calls
+        // Decoding throws if the token is invalid,
+        // so after this we know it's either valid or empty.
+        payload.value = jwtValue ? auth.decodeJwt(jwtValue) : undefined;
+
+        // Register new JWT with API client (or clear if empty)
+        // before storing it in ref, which may trigger API calls
         api.setJwt(jwtValue);
         jwt.value = jwtValue;
 
-        if (jwtValue) {
+        if (payload.value) {
           // Schedule next request shortly before expiration time.
           clearTimeout(refreshTimer);
           refreshTimer = setTimeout(() => loadJwt(true), getTimeout() - 5000);
