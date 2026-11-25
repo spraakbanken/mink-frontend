@@ -27,7 +27,7 @@ const model = computed<Model | null>(() => {
       </thead>
       <tbody>
         <template v-for="(sentence, i) in model.sentences" :key="i">
-          <tr>
+          <tr v-if="sentence.struct.length">
             <td
               :colspan="model.header.length"
               class="p-1 border border-zinc-300 dark:border-zinc-700"

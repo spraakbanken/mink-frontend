@@ -31,7 +31,7 @@ export function parseCsv(csv: string): Model {
       }
       const match = line.match(/^# (\S+) = (.*)$/);
       const [, name, value] = match || [];
-      sentence.struct.push({ name, value: parseValue(value) });
+      if (value) sentence.struct.push({ name, value: parseValue(value) });
       continue;
     }
 
