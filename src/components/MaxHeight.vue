@@ -18,8 +18,9 @@ const [expanded, toggleExpanded] = useToggle();
   <div>
     <!-- Outer wrapper, whose height gets limited -->
     <div
-      class="overflow-auto"
-      :class="{ mask: !expanded && height > maxHeight }"
+      :class="{
+        'max-height-mask overflow-auto': !expanded && height > maxHeight,
+      }"
       :style="{
         // Set max height to slightly less than requested, to avoid ridiculously small differences between closed and expanded heights.
         maxHeight: !expanded ? maxHeight - 50 + 'px' : undefined,
@@ -42,7 +43,7 @@ const [expanded, toggleExpanded] = useToggle();
 </template>
 
 <style scoped>
-.mask {
+.max-height-mask {
   mask-image: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 4em);
 }
 </style>

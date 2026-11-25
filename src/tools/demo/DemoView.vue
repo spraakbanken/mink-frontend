@@ -280,12 +280,11 @@ watch(currentStatus, async () => {
             </div>
 
             <!-- Analyses -->
-            <div v-if="langkey">
-              <h4 class="inline text-lg font-medium">
-                {{ $t("config.analyses") }}
-              </h4>
-              <AnalysisSelector :langkey v-model="analysesSelected" />
-            </div>
+            <AnalysisSelector
+              v-if="langkey"
+              :langkey
+              v-model="analysesSelected"
+            />
           </MaxHeight>
         </LayoutBox>
 

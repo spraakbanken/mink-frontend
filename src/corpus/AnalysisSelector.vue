@@ -6,6 +6,7 @@ import { FormKit } from "@formkit/vue";
 import { useSparv } from "./sparv.composable";
 import useLocale from "@/i18n/locale.composable";
 import { fromKeys } from "@/util";
+import ActionButton from "@/components/ActionButton.vue";
 
 const props = defineProps<{
   langkey: string;
@@ -50,15 +51,29 @@ const isEmpty = computed(() =>
     (analyses) => !analyses.length,
   ),
 );
+
+function clear() {
+  selection.value = {};
+}
 </script>
 
 <template>
   <FormKit type="group" name="analyses" v-model="selection">
+    <div class="flex items-baseline gap-2">
+      <h4 class="inline me-auto text-lg font-medium">
+        {{ $t("config.analyses") }}
+      </h4>
+
+      <ActionButton @click="clear()" class="text-sm in-[.max-height-mask]:me-1">
+        {{ $t("config.analyses.clear") }}
+      </ActionButton>
+    </div>
+
     <template v-for="(analyses, unit) in analysesGrouped" :key="unit">
       <section v-if="analyses.length">
-        <h3 class="text-lg mt-2">
+        <h5 class="text-lg mt-2">
           {{ $t(`config.analyses.unit.${unit}`) }}
-        </h3>
+        </h5>
 
         <FormKit
           v-for="analysis in analyses"
