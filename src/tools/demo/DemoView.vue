@@ -141,7 +141,7 @@ async function loadInput() {
   }
 
   // Couldn't load previous input, use defaults
-  const { config } = await api.demoCorpusDefaultConfigGet();
+  const config = await api.demoCorpusDefaultConfigGet();
   return { input: sample, config };
 }
 
@@ -155,6 +155,8 @@ async function setConfig(config: ConfigOptions) {
   // Get selected analyses
   const analyses = await findAnalyses(configOptions.value);
   analysesSelected.value = analyses.map((a) => a.id);
+  // Skip annotations not covered by selectable analyses (from remote default config)
+  configOptions.value.annotations = analyses.flatMap((a) => a.annotations);
 }
 
 async function resetConfig() {

@@ -367,7 +367,7 @@ export class MinkClient {
     const response = await this.axios.get<
       MinkResponse<DemoCorpusDefaultConfigData>
     >("/demo/corpus/default-config/get");
-    return response.data;
+    return response.data.config;
   }
 
   async demoCorpusInputGet(id: string) {
