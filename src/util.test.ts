@@ -18,6 +18,8 @@ import {
   retry,
   setKeys,
   unarray,
+  withId,
+  withoutId,
 } from "@/util";
 
 describe("getBaseUrl", () => {
@@ -264,6 +266,17 @@ describe("objsToDict", () => {
     // @ts-expect-error The key "v" is missing in the object
     const dict = objsToDict([{ k: "a" }], "k", "v");
     expect(dict).toEqual({ a: undefined });
+  });
+});
+
+describe("withId and withoutId", () => {
+  test("adds and removes _id", () => {
+    const item = { a: 1, b: 2 };
+    const itemWithId = withId(item);
+    expect(itemWithId).toHaveProperty("_id");
+    const itemWithoutId = withoutId(itemWithId);
+    expect(itemWithoutId).not.toHaveProperty("_id");
+    expect(itemWithoutId).toEqual(item);
   });
 });
 

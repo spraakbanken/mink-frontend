@@ -17,6 +17,10 @@ checklist.config: Konfiguration
 checklist.explore_in: Utforska i {tool}
 checklist.sources: Källfiler
 checklist.task: Steg
+list.add: Lägg till
+list.remove: Ta bort
+list.down: Flytta ner
+list.up: Flytta upp
 corpus: Korpus
 corpus.help: En korpus är en samling av text som ofta används för statistisk analys och fjärrläsning.
 corpus.new: Ny korpus
@@ -34,10 +38,21 @@ corpus.sparv.run: Analysera
 lexicon: Lexikon
 lexicon.help: Ett lexikon listar en mängd element med olika strukturerade fält. Det behöver inte handla om ord.
 lexicon.new: Nytt lexikon
+lexicon.config.field_settings: Fält
+lexicon.config.field.collection: Samling
+lexicon.config.field.label: Etikett
+lexicon.config.field.name: Maskinnamn
+lexicon.config.field.required: Obligatorisk
+lexicon.config.field.type: Typ
+lexicon.config.field.type.text: Text
+lexicon.config.field.type.integer: Heltal
+lexicon.config.field.type.float: Flyttal
+lexicon.config.field.type.bool: Bool
+lexicon.config.field.type.object: Objekt
 lexicon.config.entry_word.field: Ingångsfält
-lexicon.config.entry_word.field.help: Välj ett fält i källdatan som skall fungera som huvudingång till varje rad.
-lexicon.config.entry_word.description: Fältnamn
-lexicon.config.entry_word.description.help: Namnet på fältet, så som det visas för mänskliga användare.
+lexicon.config.entry_word.field.help: Välj ett fält som skall fungera som huvudingång till varje rad.
+lexicon.config.entry_word.description: Beskrivning
+lexicon.config.entry_word.description.help: Mer detaljer om ingångsfältet.
 lexicon.config.entry_word.description.default: grundform
 lexicon.karp_pipeline.run: Analysera
 lexicon.karp_pipeline.help: Förbered datan för användning i Karp.

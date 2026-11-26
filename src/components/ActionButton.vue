@@ -5,7 +5,11 @@ defineProps<{
 </script>
 
 <template>
-  <button class="inline-block mink-button whitespace-nowrap" :disabled>
+  <button
+    type="button"
+    :disabled
+    class="inline-block mink-button whitespace-nowrap"
+  >
     <slot />
   </button>
 </template>

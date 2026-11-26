@@ -1,11 +1,13 @@
 <script setup lang="ts">
 defineProps<{
+  tag?: string;
   title?: string;
 }>();
 </script>
 
 <template>
-  <section
+  <component
+    :is="tag || 'section'"
     class="relative rounded-sm p-2 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 overflow-hidden"
   >
     <div v-if="title || $slots.controls" class="flex justify-between mb-2">
@@ -16,5 +18,5 @@ defineProps<{
     </div>
 
     <slot />
-  </section>
+  </component>
 </template>

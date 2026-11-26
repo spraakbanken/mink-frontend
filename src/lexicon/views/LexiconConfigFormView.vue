@@ -1,13 +1,17 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { FormKit } from "@formkit/vue";
 import { useI18n } from "vue-i18n";
+import { PhArrowDown, PhArrowUp, PhPlus, PhTrash } from "@phosphor-icons/vue";
 import {
+  createField,
   emptyConfig,
+  LEXICON_FIELD_TYPES,
   makeConfig,
   type LexiconConfigOptions,
 } from "../lexiconConfig";
 import { useLexicon } from "../lexicon.composable";
+import ActionButton from "@/components/ActionButton.vue";
 import FormKitWrapper from "@/components/FormKitWrapper.vue";
 import useResourceIdParam from "@/resource/resourceIdParam.composable";
 import PendingContent from "@/spin/PendingContent.vue";
@@ -20,7 +24,7 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import { useAppConfig } from "@/app/useAppConfig";
 import useLocale from "@/i18n/locale.composable";
 
-type TabKey = "metadata" | "settings";
+type TabKey = "metadata" | "fields";
 
 type Form = LexiconConfigOptions;
 
@@ -35,10 +39,39 @@ const { locale3 } = useLocale();
 
 const tabSelected = ref<TabKey>("metadata");
 
-async function submit(fields: Form) {
+const fields = ref<LexiconConfigOptions["fields"]>([createField()]);
+
+/** Model for the local ID of the entry word field selection. */
+const entryFieldId = ref("");
+
+watchEffect(() => {
+  const value = configOptions.value;
+  if (!value) return;
+  fields.value = value.fields || [];
+  const entryField = fields.value.find((f) => f.name == value.entryWord.field);
+  entryFieldId.value = entryField?._id || "";
+});
+
+function moveUp(field: LexiconConfigOptions["fields"][0]) {
+  const index = fields.value.indexOf(field);
+  if (index > 0) {
+    fields.value.splice(index, 1);
+    fields.value.splice(index - 1, 0, field);
+  }
+}
+
+function moveDown(field: LexiconConfigOptions["fields"][0]) {
+  const index = fields.value.indexOf(field);
+  if (index < fields.value.length - 1) {
+    fields.value.splice(index, 1);
+    fields.value.splice(index + 1, 0, field);
+  }
+}
+
+async function submit(form: Form) {
   const original = configOptions.value || emptyConfig();
 
-  const configNew = { ...fields };
+  const configNew: LexiconConfigOptions = { ...form };
 
   const config = { ...original, ...configNew };
   try {
@@ -56,7 +89,7 @@ async function submit(fields: Form) {
     <TabsBar
       :tabs="[
         { key: 'metadata', label: $t('config.metadata') },
-        { key: 'settings', label: $t('settings') },
+        { key: 'fields', label: $t('lexicon.config.field_settings') },
       ]"
       v-model="tabSelected"
     />
@@ -125,27 +158,120 @@ async function submit(fields: Form) {
         </LayoutBox>
 
         <LayoutBox
-          :aria-label="$t('settings')"
-          v-show="tabSelected == 'settings'"
+          :title="$t('lexicon.config.field_settings')"
+          v-show="tabSelected == 'fields'"
         >
-          <FormKit type="group" name="entryWord">
+          <FormKit type="list" name="fields">
+            <ol class="grid gap-1">
+              <LayoutBox
+                tag="li"
+                v-for="field in fields"
+                :key="field._id"
+                class="flex flex-wrap gap-4 items-baseline"
+              >
+                <FormKit type="group" :name="field.name" :value="field">
+                  <FormKit
+                    :label="$t('lexicon.config.field.name')"
+                    type="text"
+                    name="name"
+                    v-model="field.name"
+                    validation="required:trim|matches:/^[^<>\s]*$/"
+                    input-class="font-mono"
+                  />
+                  <FormKit type="group" name="label">
+                    <FormKit
+                      :label="$t('lexicon.config.field.label')"
+                      type="text"
+                      :name="locale3"
+                    />
+                  </FormKit>
+                  <FormKit
+                    type="select"
+                    name="type"
+                    :label="$t('lexicon.config.field.type')"
+                    :options="
+                      LEXICON_FIELD_TYPES.map((value) => ({
+                        value,
+                        label: $t(`lexicon.config.field.type.${value}`),
+                      }))
+                    "
+                  />
+                  <FormKit
+                    type="checkbox"
+                    name="collection"
+                    :label="$t('lexicon.config.field.collection')"
+                  />
+                  <FormKit
+                    type="checkbox"
+                    name="required"
+                    :label="$t('lexicon.config.field.required')"
+                  />
+                  <div class="ms-auto flex gap-2">
+                    <ActionButton
+                      @click="moveUp(field)"
+                      class="text-start"
+                      :disabled="fields.indexOf(field) == 0"
+                      :title="$t('list.up')"
+                    >
+                      <PhArrowUp weight="bold" class="inline" />
+                    </ActionButton>
+                    <ActionButton
+                      @click="moveDown(field)"
+                      class="text-start"
+                      :disabled="fields.indexOf(field) == fields.length - 1"
+                      :title="$t('list.down')"
+                    >
+                      <PhArrowDown weight="bold" class="inline" />
+                    </ActionButton>
+                    <ActionButton
+                      @click="fields.splice(fields.indexOf(field), 1)"
+                      class="button-danger"
+                      :title="$t('list.remove')"
+                    >
+                      <PhTrash weight="fill" class="inline" />
+                    </ActionButton>
+                  </div>
+                </FormKit>
+              </LayoutBox>
+            </ol>
+
+            <div class="mt-2">
+              <ActionButton @click="fields.push(createField())">
+                <PhPlus weight="bold" class="inline mb-0.5 mr-1" />
+                {{ $t("list.add") }}
+              </ActionButton>
+            </div>
+          </FormKit>
+
+          <FormKit
+            type="group"
+            name="entryWord"
+            :value="configOptions?.entryWord"
+          >
+            <!-- Use local IDs to track options, not names, as they can be changed above -->
             <FormKit
+              type="select"
               :label="$t('lexicon.config.entry_word.field')"
-              type="text"
-              name="field"
-              validation="required"
+              :options="[
+                // Add an empty first option so that an invalid value triggers a validation error
+                { value: '', label: '', attrs: { disabled: true } },
+                ...fields.map((f) => ({ value: f._id, label: f.name })),
+              ]"
+              v-model="entryFieldId"
               :help="$t('lexicon.config.entry_word.field.help')"
+              validation="required"
+              input-class="font-mono"
             />
 
             <FormKit type="group" name="description">
               <FormKit
                 :key="locale3"
+                type="textarea"
                 :name="locale3"
                 :label="$t('lexicon.config.entry_word.description')"
                 :help="$t('lexicon.config.entry_word.description.help')"
-                type="text"
                 preserve
-                input-class="w-72"
+                input-class="w-full"
               />
             </FormKit>
           </FormKit>

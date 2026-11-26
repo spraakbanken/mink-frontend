@@ -17,6 +17,10 @@ checklist.config: Configuration
 checklist.explore_in: Explore in {tool}
 checklist.sources: Sources
 checklist.task: Task
+list.add: Add
+list.remove: Remove
+list.down: Move down
+list.up: Move up
 corpus: Corpus
 corpus.help: A corpus is a collection of text, typically used with statistical analysis and distant reading.
 corpus.new: New corpus
@@ -34,10 +38,21 @@ corpus.sparv.run: Analyse
 lexicon: Lexicon
 lexicon.help: A lexicon is a set of items with structured data fields. It doesn't have to be about words.
 lexicon.new: New lexicon
+lexicon.config.field_settings: Fields
+lexicon.config.field.collection: Collection
+lexicon.config.field.label: Label
+lexicon.config.field.name: Machine name
+lexicon.config.field.required: Required
+lexicon.config.field.type: Type
+lexicon.config.field.type.text: Text
+lexicon.config.field.type.integer: Integer
+lexicon.config.field.type.float: Float
+lexicon.config.field.type.bool: Bool
+lexicon.config.field.type.object: Object
 lexicon.config.entry_word.field: Entry field
-lexicon.config.entry_word.field.help: Choose a field from the source file that should work as a main entry to each row.
-lexicon.config.entry_word.description: Field label
-lexicon.config.entry_word.description.help: The name of the field, for displaying to human users.
+lexicon.config.entry_word.field.help: Choose a field that should work as a main entry to each row.
+lexicon.config.entry_word.description: Description
+lexicon.config.entry_word.description.help: Details about the entry field.
 lexicon.config.entry_word.description.default: baseform
 lexicon.karp_pipeline.run: Analyse
 lexicon.karp_pipeline.help: Prepare your data for use in Karp.

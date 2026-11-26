@@ -11,6 +11,8 @@ export type ByLang = Record<string, string>;
 /** Make the given keys required in the given type. */
 export type RequiredKeys<T, K extends keyof T> = T & Required<Pick<T, K>>;
 
+export type WithId<T> = T & { _id: string };
+
 /** The number of milliseconds in a full day. */
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -186,6 +188,17 @@ export const objsToDict = <
   Object.fromEntries(
     objs.map((item) => [item[keyName], item[valueName]]),
   ) as Record<Key, Value>;
+
+export const withId = <T>(item: T): WithId<T> => ({
+  ...item,
+  _id: randomString(),
+});
+
+export const withoutId = <T>(item: WithId<T>): T => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { _id, ...rest } = item;
+  return rest as T;
+};
 
 /** Make an Axios request and handle timeout by retrying with a higher limit. */
 export async function progressiveTimeout<T, D = unknown>(

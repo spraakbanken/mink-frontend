@@ -12,6 +12,7 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 
 ### Added
 
+- Configure lexicon fields [#314](https://github.com/spraakbanken/mink-frontend/issues/314)
 - Install lexicons to [Karp's edit mode](https://sprakbanken.se/en/platforms/karp)
 
 ### Changed

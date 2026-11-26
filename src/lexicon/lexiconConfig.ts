@@ -1,11 +1,25 @@
 import { parse, stringify } from "yaml";
-import { inflateByLang, pathJoin, type ByLang } from "@/util";
+import {
+  inflateByLang,
+  pathJoin,
+  withId,
+  withoutId,
+  type ByLang,
+  type WithId,
+} from "@/util";
 
 /** Structure of lexicon config YAML */
 export type LexiconConfig = {
   resource_id: string;
   name?: ByLang | string;
   description?: ByLang | string;
+  fields: {
+    collection: boolean;
+    label: ByLang | string;
+    name: string;
+    required: boolean;
+    type: LexiconFieldType;
+  }[];
   karps: {
     /** Identifies a field in the lexicon data and assigns a human-readable label */
     entry_word: {
@@ -20,14 +34,32 @@ export type LexiconConfig = {
 export type LexiconConfigOptions = {
   name?: ByLang;
   description?: ByLang;
+  fields: WithId<{
+    collection: boolean;
+    label: ByLang;
+    name: string;
+    required: boolean;
+    type: LexiconFieldType;
+  }>[];
   entryWord: {
     field: string;
     description: ByLang;
   };
 };
 
+export type LexiconFieldType = "text" | "integer" | "float" | "bool" | "object";
+
+export const LEXICON_FIELD_TYPES: LexiconFieldType[] = [
+  "text",
+  "integer",
+  "float",
+  "bool",
+  "object",
+];
+
 export function emptyConfig(): LexiconConfigOptions {
   return {
+    fields: [createField("baseform")],
     entryWord: {
       field: "baseform",
       description: {},
@@ -35,18 +67,25 @@ export function emptyConfig(): LexiconConfigOptions {
   };
 }
 
+export const createField = (name = ""): LexiconConfigOptions["fields"][0] =>
+  withId({ name, label: {}, type: "text", collection: false, required: false });
+
 /** Parse a lexicon config YAML string */
 export function parseConfig(
   yaml: string,
   defaultLanguage: string,
 ): LexiconConfigOptions {
   const config = parse(yaml) as LexiconConfig;
-  const { name, description, karps } = config;
+  const { name, description, fields, karps } = config;
   return {
     name: name ? inflateByLang(name, defaultLanguage) : undefined,
     description: description
       ? inflateByLang(description, defaultLanguage)
       : undefined,
+    fields: (fields || []).map((field) => ({
+      ...withId(field),
+      label: inflateByLang(field.label, defaultLanguage),
+    })),
     entryWord: {
       ...karps.entry_word,
       description: inflateByLang(karps.entry_word.description, defaultLanguage),
@@ -67,6 +106,7 @@ export function makeConfig(
     resource_id: id,
     name: options.name,
     description: options.description,
+    fields: options.fields.map(withoutId),
     karps: {
       entry_word: options.entryWord,
       link,
