@@ -2,6 +2,7 @@
 /** @file Wraps vue-codemirror with our base settings */
 import { computed, toValue, type MaybeRefOrGetter } from "vue";
 import { Codemirror, type Props as VueCodemirrorProps } from "vue-codemirror";
+import { minimalSetup } from "codemirror";
 import type { Extension } from "@codemirror/state";
 import { foldGutter } from "@codemirror/language";
 import { highlightSelectionMatches } from "@codemirror/search";
@@ -37,6 +38,7 @@ const isDark = useDark();
 
 /** Subset of basicSetup, see https://codemirror.net/docs/ref/#basic-setup */
 const extensionsBasic: Extension[] = [
+  minimalSetup,
   highlightSpecialChars(),
   highlightActiveLine(),
   highlightActiveLineGutter(),
@@ -69,5 +71,5 @@ function getSyntaxExtension(): Extension {
 
 <template>
   <!-- Docs: https://github.com/surmon-china/vue-codemirror -->
-  <Codemirror v-model="code" :disabled :extensions="extensions" />
+  <Codemirror v-model="code" :disabled :extensions />
 </template>

@@ -112,7 +112,6 @@ async function submit(form: Form) {
           v-show="tabSelected == 'metadata'"
         >
           <!-- Use current UI language, so if it's "swe", show input for `name.swe` etc -->
-          <!-- TODO Manage current input if user switches locale while editing -->
           <FormKit type="group" name="name">
             <FormKit
               :key="locale3"

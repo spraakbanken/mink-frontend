@@ -25,6 +25,7 @@ Versioning follows a `MAJOR`.`MINOR`.`PATCH` pattern, where:
 - Corpus optimal filesizes showing regardless of resource type
 - Preserve input of localized fields when switching UI language
 - Prevent immediate request loop if JWT service is down
+- Fix large main bundle size due to CodeMirror import
 
 ## [2.3.1](https://github.com/spraakbanken/mink-frontend/releases/tag/v2.3.1) (2026-10-19)
 
